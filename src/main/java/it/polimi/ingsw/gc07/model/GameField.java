@@ -26,9 +26,8 @@ public class GameField {
         }
     }
 
-    public int numTimesConditionMet(Condition){}
-    public Set<int> placeCard(PlaceableCard, x, y, way);
-    // public boolean placeCard(PlaceableCard, x, y, way); -- capire se scegliere Set<int> o boolean
-    private Set<int> checkValidPosition(int, int);
-    // private boolean checkValidPosition(int, int); -- capire se scegliere Set<int> o boolean
+    public void setCard(PlaceableCard card, int x, int y, boolean way){}
+    public boolean isCardPresent(int x, int y);
+    public PlaceableCard getPlaceableCard(int x, int y);
+    public boolean getCardWay(int x, int y);
 }
