@@ -14,5 +14,6 @@ public class ScoreTrackBoard {
     }
     public void updateScore(Player player, PlaceableCard pCard){}
     public int computeFinalScore(Player player){}
-    public int getCurrentScore(Player player){}
+    public int getCurrentScore(Player player){
+    }
 }
