@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import java.util.List
+import java.util.List;
 import java.util.ArrayList;
 
 public class Player {

@@ -21,7 +21,7 @@ public class GoldCard extends NonStarterCard{
     public GoldCard(Card existingCard, boolean[] frontCorners, GameItem[] frontCornersContent,
                     int placementScore, GameResource permanentResource,
                     Condition placementCondition, Condition scoringCondition) {
-        super(existingCard, frontCorners, frontCornersContent, placementScore, placementScore, permanentResource);
+        super(existingCard, frontCorners, frontCornersContent, placementScore, permanentResource);
         this.placementCondition = placementCondition;
         this.scoringCondition = scoringCondition;
     }

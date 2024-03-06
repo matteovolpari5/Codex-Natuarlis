@@ -14,7 +14,7 @@ public class LayoutCondition extends Condition{
                 cardsColorCopy[i][j] = cardsColor[i][j];
             }
         }
-        this.cardPosition = cardPositionCopy;
+        this.cardsPosition = cardsPositionCopy;
         this.cardsColor = cardsColorCopy;
     }
     public boolean[][] getCardsPosition() {

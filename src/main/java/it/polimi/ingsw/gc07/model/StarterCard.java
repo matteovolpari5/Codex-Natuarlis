@@ -27,7 +27,8 @@ public class StarterCard extends PlaceableCard{
         for(int i =0; i <4;i++)
         {
             this.backCorners[i]=backCorners[i];
-            this.backCornersContent[i]=new GameItem(backCornersContent[i]);
+            // TODO: SBAGLIATO, serve istanziare in base a GameResource o GameObject
+            // this.backCornersContent[i]=new GameItem(backCornersContent[i]);
         }
     }
     // TODO: sfugge riferimento List!

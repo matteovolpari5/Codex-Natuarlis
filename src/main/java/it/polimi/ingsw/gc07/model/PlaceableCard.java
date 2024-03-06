@@ -21,8 +21,8 @@ public class PlaceableCard extends Card{
         for(int i = 0; i < 4; i++)
         {
             this.frontCorners[i] = frontCorners[i];
-            // TODO: abbiamo questo costruttore?
-            this.frontCornersContent[i] = new GameItem(frontCornersContent[i]);
+            // TODO: SBAGLIATO, serve istanziare in base a GameResource o GameObject
+            // this.frontCornersContent[i] = new GameItem(frontCornersContent[i]);
         }
     }
     // TODO: sta facendo sfuggire riferimenti, potrebbe essere un problema!!!

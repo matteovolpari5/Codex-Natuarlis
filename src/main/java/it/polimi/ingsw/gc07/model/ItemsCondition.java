@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07;
+package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.model.Condition;
 import it.polimi.ingsw.gc07.model.GameField;
