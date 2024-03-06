@@ -9,7 +9,7 @@ public class GoldCard extends NonStarterCard{
     // regular constructor
     public GoldCard(int cardID, CardType cardType, boolean[] frontCorners,
                     GameItem[] frontCornersContent, int placementScore,
-                    Resource permanentResource, Condition placementCondition,
+                    GameResource permanentResource, Condition placementCondition,
                     Condition scoringCondition) {
         super(cardID, cardType, frontCorners, frontCornersContent, placementScore, permanentResource);
         this.placementCondition = placementCondition;
@@ -19,7 +19,7 @@ public class GoldCard extends NonStarterCard{
     // TODO: forse da eliminare, se rendiamo immutabile
     // TODO: attenzione, prendo riferimento dall'esterno
     public GoldCard(Card existingCard, boolean[] frontCorners, GameItem[] frontCornersContent,
-                    int placementScore, Resource permanentResource,
+                    int placementScore, GameResource permanentResource,
                     Condition placementCondition, Condition scoringCondition) {
         super(existingCard, frontCorners, frontCornersContent, placementScore, placementScore, permanentResource);
         this.placementCondition = placementCondition;

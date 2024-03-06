@@ -2,16 +2,16 @@ package it.polimi.ingsw.gc07.model;
 
 public class LayoutCondition extends Condition{
     private boolean[][] cardsPosition;
-    private Resource[][] cardsColor;
+    private GameResource[][] cardsColor;
     // TODO: Resource avrà quel costruttore?
-    public LayoutCondition(ConditionType conditionType, boolean[][] cardsPosition, Resource[][] cardsColor) {
+    public LayoutCondition(ConditionType conditionType, boolean[][] cardsPosition, GameResource[][] cardsColor) {
         super(conditionType);
         boolean[][] cardsPositionCopy = new boolean[3][3];
-        Resource[][] cardsColorCopy = new Resource[3][3];
+        GameResource[][] cardsColorCopy = new GameResource[3][3];
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
                 cardsPositionCopy[i][j] = cardsPosition[i][j];
-                cardsColorCopy[i][j] = new Resource(CardsColor[i][j]);
+                cardsColorCopy[i][j] = cardsColor[i][j];
             }
         }
         this.cardPosition = cardPositionCopy;
@@ -27,11 +27,11 @@ public class LayoutCondition extends Condition{
         return cardsPositionCopy;
     }
     // TODO: Resource avrà quel costruttore?
-    public Resource[][] getCardsColor() {
-        Resource[][] cardsColorCopy = new Resource[3][3];
+    public GameResource[][] getCardsColor() {
+        GameResource[][] cardsColorCopy = new GameResource[3][3];
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                cardsColorCopy[i][j] = new Resource(CardsColor[i][j]);
+                cardsColorCopy[i][j] = cardsColor[i][j];
             }
         }
         return cardsColorCopy;

@@ -23,5 +23,5 @@ public class Deck {
     public PlaceableCard drawDeckCard(){}
     public PlaceableCard drawFaceUpCard(int faceUpCardPos){}
     public Card revealFaceUpCard(int faceUpCardPos){}
-    public Resource revealBackDeckCard(){}
+    public GameResource revealBackDeckCard(){}
 }

@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class StarterCard extends PlaceableCard{
-    private List<Resource> permanentResources;
+    private List<GameResource> permanentResources;
     private boolean[] backCorners;
     private GameItem[] backCornersContent;
 
     public StarterCard(int cardID, CardType cardType, boolean[] frontCorners,
-                       GameItem[] frontCornersContent, List<Resource> permanentResources,
+                       GameItem[] frontCornersContent, List<GameResource> permanentResources,
                        boolean[] backCorners, GameItem[] backCornersContent) {
         super(cardID, cardType, frontCorners, frontCornersContent);
         this.permanentResources = permanentResources;
@@ -18,10 +18,10 @@ public class StarterCard extends PlaceableCard{
     }
 
     public StarterCard(Card existingCard, boolean[] frontCorners, GameItem[] frontCornersContent,
-                       List<Resource> permanentResources,boolean[] backCorners,
+                       List<GameResource> permanentResources,boolean[] backCorners,
                        GameItem[] backCornersContent) {
         super(existingCard, frontCorners, frontCornersContent);
-        this.permanentResources = new ArrayList<Resource>(permanentResources);
+        this.permanentResources = new ArrayList<GameResource>(permanentResources);
         this.backCorners = new boolean[4];
         this.backCornersContent = new GameItem[4];
         for(int i =0; i <4;i++)
@@ -31,7 +31,7 @@ public class StarterCard extends PlaceableCard{
         }
     }
     // TODO: sfugge riferimento List!
-    public  List<Resource> getPermanentResources(){
+    public  List<GameResource> getPermanentResources(){
         return this.permanentResources;
     }
     public boolean[] getBackCorners()
