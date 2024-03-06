@@ -1,24 +1,36 @@
 package it.polimi.ingsw.gc07.model;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class StarterCard extends PlaceableCard{
     private List<Resource> permanentResources;
     private boolean[] backCorners;
     private GameItem[] backCornersContent;
-    public StarterCard(List<Resource> permanent_res,boolean[] back_corners,GameItem[] back_corners_content,boolean[] front_corners,GameItem[] front_corners_content,Card newcard)
-    {
-        super(front_corners,front_corners_content,newcard);
-        this.permanentResources = new List<Resource>();
-        this.permanentResources.addAll(permanent_res);
+
+    public StarterCard(int cardID, CardType cardType, boolean[] frontCorners,
+                       GameItem[] frontCornersContent, List<Resource> permanentResources,
+                       boolean[] backCorners, GameItem[] backCornersContent) {
+        super(cardID, cardType, frontCorners, frontCornersContent);
+        this.permanentResources = permanentResources;
+        this.backCorners = backCorners;
+        this.backCornersContent = backCornersContent;
+    }
+
+    public StarterCard(Card existingCard, boolean[] frontCorners, GameItem[] frontCornersContent,
+                       List<Resource> permanentResources,boolean[] backCorners,
+                       GameItem[] backCornersContent) {
+        super(existingCard, frontCorners, frontCornersContent);
+        this.permanentResources = new ArrayList<Resource>(permanentResources);
         this.backCorners = new boolean[4];
         this.backCornersContent = new GameItem[4];
         for(int i =0; i <4;i++)
         {
-            backCorners[i]=back_corners[i];
-            backCornersContent[i]=new GameItem(back_corners_content[i]);
+            this.backCorners[i]=backCorners[i];
+            this.backCornersContent[i]=new GameItem(backCornersContent[i]);
         }
     }
+    // TODO: sfugge riferimento List!
     public  List<Resource> getPermanentResources(){
         return this.permanentResources;
     }
