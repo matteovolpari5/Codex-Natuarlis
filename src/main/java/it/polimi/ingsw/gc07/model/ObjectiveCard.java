@@ -7,18 +7,22 @@ public class ObjectiveCard extends Card{
     private int objectiveScore;
 
     // regular constructor
+    // TODO: riferimento a scoringCondition dall'esterno! Immutabile?
     public ObjectiveCard(int cardID, CardType cardType, Condition scoringCondition, int objectiveScore) {
         super(cardID, cardType);
         this.scoringCondition = scoringCondition;
         this.objectiveScore = objectiveScore;
     }
     // TODO: da eliminare se rendiamo Card e sottoclassi immutabili
+    // TODO: riferimento a scoringCondition dall'esterno! Immutabile?
     public ObjectiveCard(Card existingCard, Condition scoringCondition,int objectiveScore)
     {
         super(existingCard);
         this.scoringCondition = scoringCondition;
         this.objectiveScore = objectiveScore;
     }
+
+    // TODO: restituisco riferimento a scoringCondition! Immutabile?
     private Condition getScoringCondition(){
         return this.scoringCondition;
     };
