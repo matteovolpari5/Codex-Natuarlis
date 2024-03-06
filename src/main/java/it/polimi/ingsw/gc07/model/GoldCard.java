@@ -1,18 +1,36 @@
 package it.polimi.ingsw.gc07.model;
 
+import java.util.concurrent.locks.Condition;
+
 public class GoldCard extends NonStarterCard{
     private Condition placementCondition;
     private Condition scoringCondition;
-    public NonStarterCard(Condition placement_condition, Condition scoring_condition,int score,Resource resource,boolean[] front_corners,GameItem[] front_corners_content,Card newcard)
-    {
-        super(front_corners,front_corners_content,newcard);
-        this.placementCondition=placement_condition;
-        this.scoringCondition=scoring_condition;
+
+    // regular constructor
+    public GoldCard(int cardID, CardType cardType, boolean[] frontCorners,
+                    GameItem[] frontCornersContent, int placementScore,
+                    Resource permanentResource, Condition placementCondition,
+                    Condition scoringCondition) {
+        super(cardID, cardType, frontCorners, frontCornersContent, placementScore, permanentResource);
+        this.placementCondition = placementCondition;
+        this.scoringCondition = scoringCondition;
     }
-    private Condition getPlacementCondition(){
+
+    // TODO: forse da eliminare, se rendiamo immutabile
+    // TODO: attenzione, prendo riferimento dall'esterno
+    public GoldCard(Card existingCard, boolean[] frontCorners, GameItem[] frontCornersContent,
+                    int placementScore, Resource permanentResource,
+                    Condition placementCondition, Condition scoringCondition) {
+        super(existingCard, frontCorners, frontCornersContent, placementScore, placementScore, permanentResource);
+        this.placementCondition = placementCondition;
+        this.scoringCondition = scoringCondition;
+    }
+    // TODO: attenzione, sfugge riferimento a Condition
+    private Condition getPlacementCondition() {
         return this.placementCondition;
     };
-    private Condition getScoringCondition(){
+    // TODO: attenzione, sfugge riferimento a Condition
+    private Condition getScoringCondition() {
         return this.scoringCondition;
     };
 }
