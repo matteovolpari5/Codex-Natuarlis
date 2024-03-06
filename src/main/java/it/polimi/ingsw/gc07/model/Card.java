@@ -4,11 +4,16 @@ public abstract class Card {
     private int cardID;
     private CardType cardType;
 
-    public Card(Card newCard) {
-        this.cardID= newCard.cardID;
-        this.cardType=newCard.cardType;
+    // regular constructor
+    public Card(int cardID, CardType cardType) {
+        this.cardID = cardID;
+        this.cardType = cardType;
     }
-
+    // TODO: Se rendiamo la classe immutabile non serve
+    public Card(Card existingCard) {
+        this.cardID = existingCard.cardID;
+        this.cardType = existingCard.cardType;
+    }
     public int getCardID(){
         return this.cardID;
     }

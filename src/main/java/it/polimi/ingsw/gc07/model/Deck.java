@@ -21,7 +21,7 @@ public class Deck {
     // Nota: per tutti i metodi che restituiscono una carta
     // se non immutabile, restituire una copia
     public PlaceableCard drawDeckCard(){}
-    public PlaceableCard drawFaceUpCard(int){}
-    public Card revealFaceUpCard(int){}
+    public PlaceableCard drawFaceUpCard(int faceUpCardPos){}
+    public Card revealFaceUpCard(int faceUpCardPos){}
     public Resource revealBackDeckCard(){}
 }

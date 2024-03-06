@@ -3,28 +3,26 @@ package it.polimi.ingsw.gc07.model;
 import java.util.concurrent.locks.Condition;
 
 public class ObjectiveCard extends Card{
-
-
     private Condition scoringCondition;
     private int objectiveScore;
-    public ObjectiveCard(Condition scoring_condition,int objective_score, Card newcard)
-    {
-        super(newcard);
-        this.scoringCondition=scoring_condition;
-        this.objectiveScore=objective_score;
+
+    // regular constructor
+    public ObjectiveCard(int cardID, CardType cardType, Condition scoringCondition, int objectiveScore) {
+        super(cardID, cardType);
+        this.scoringCondition = scoringCondition;
+        this.objectiveScore = objectiveScore;
     }
-    private void setScoringCondition(Condition condition){
-        this.scoringCondition=condition;
-    };
+    // TODO: da eliminare se rendiamo Card e sottoclassi immutabili
+    public ObjectiveCard(Card existingCard, Condition scoringCondition,int objectiveScore)
+    {
+        super(existingCard);
+        this.scoringCondition = scoringCondition;
+        this.objectiveScore = objectiveScore;
+    }
     private Condition getScoringCondition(){
         return this.scoringCondition;
-    };
-    private void setObjectiveScore(int score){
-        this.objectiveScore=score;
     };
     private int getObjectiveScore(){
         return this.objectiveScore;
     };
-
-
 }
