@@ -1,12 +1,13 @@
 package it.polimi.ingsw.gc07.model;
 
+import java.util.Map;
 import java.util.HashMap;
 
 public class ScoreTrackBoard {
-    private Map<Player, int> playersScore;
+    private Map<Player, Integer> playersScore;
 
     public ScoreTrackBoard() {
-        playersScore = new HashMap<>();
+        playersScore = new HashMap<Player, Integer>();
         // TODO: devo popolarla con i Player che non sappiamo ancora dove siano memorizzati
     }
     public void setScore(Player player, int newScore){

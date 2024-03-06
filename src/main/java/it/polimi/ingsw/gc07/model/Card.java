@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-abstract class Card {
+public abstract class Card {
     private int cardID;
     private CardType cardType;
 
