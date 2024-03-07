@@ -1,20 +1,20 @@
 package it.polimi.ingsw.gc07.model;
 
 /**
- * abstract class that represents the generic cards of the game
+ * Abstract class that represents the generic cards of the game
  */
 public abstract class Card {
     /**
-     * attribute that shows the id of the card
+     * Attribute that shows the id of the card
      */
     private final int cardID;
     /**
-     * attribute that shows the type of the card
+     * Attribute that shows the type of the card
      */
     private final CardType cardType;
 
     /**
-     * constructor of the class Card
+     * Constructor of the class Card
      * @param cardID : id of the card
      * @param cardType : type of the card
      */
@@ -25,7 +25,7 @@ public abstract class Card {
     }
 
     /**
-     * getter method of the attribute cardID
+     * Getter method of the attribute cardID
      * @return this.cardID
      */
     public int getCardID(){
@@ -33,7 +33,7 @@ public abstract class Card {
     }
 
     /**
-     * getter method of the attribute cardType
+     * Getter method of the attribute cardType
      * @return this.cardType
      */
     public CardType getCardType() {
