@@ -1,6 +1,17 @@
 package it.polimi.ingsw.gc07.model;
 
+/**
+ * Class representing the game field of a single player,
+ * it contains all the cards the player has placed,
+ * including both their position and the way cards are placed.
+ */
 public class GameField {
+    /**
+     * Matrix of dimension 80x80, the biggest possible dimension
+     * for a player's game field, containing boolean values.
+     * The cell contains true if the game field contains a card in
+     * that position, false otherwise.
+     */
     private boolean[][] gameFieldCardsPosition;
     private PlaceableCard[][] gameFieldCardsContent;
     private boolean[][] gameFieldCardsFace;

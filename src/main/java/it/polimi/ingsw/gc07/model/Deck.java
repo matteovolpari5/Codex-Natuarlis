@@ -26,7 +26,7 @@ public class Deck {
 
     /**
      * Constructor of the deck.
-     * @param deckType: type of the deck
+     * @param deckType type of the deck
      * @param deckContent List containing deck cards
      * @param faceUpCards Array containing the two revealed cards
      */
@@ -40,8 +40,32 @@ public class Deck {
         // this.faceUpCards[1] = new
     }
 
+    /**
+     * Method that allows a player to draw the first card from the deck
+     * @return first card of the deck
+     */
     public PlaceableCard drawDeckCard(){}
+
+    /**
+     * Method that allows a player to draw the card in position cardPos
+     * from the two revealed cards.
+     * @param cardPos position of the card the player wants to draw
+     * @return face up card in position cardPos
+     */
     public PlaceableCard drawFaceUpCard(int cardPos){}
+
+    /**
+     * Method that allows a player to see the card in position cardPos
+     * without necessarily having to draw it.
+     * @param cardPos position of the card the player wants to see
+     * @return face up card in position cardPos
+     */
     public Card revealFaceUpCard(int cardPos){}
+
+    /**
+     * Method that allows the player to see the color (i.e. the permanent resource)
+     * present on the back of the first covered card of the deck.
+     * @return permanent resource on the back of the first covered card of the deck
+     */
     public GameResource revealBackDeckCard(){}
 }
