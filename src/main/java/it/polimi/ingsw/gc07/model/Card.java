@@ -18,7 +18,6 @@ public abstract class Card {
      * @param cardID : id of the card
      * @param cardType : type of the card
      */
-    // regular constructor
     public Card(int cardID, CardType cardType) {
         this.cardID = cardID;
         this.cardType = cardType;
