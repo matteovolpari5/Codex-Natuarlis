@@ -26,9 +26,16 @@ public class GameField {
         }
     }
 
-    public int numTimesConditionMet(Condition){}
-    public Set<int> placeCard(PlaceableCard, x, y, way);
-    // public boolean placeCard(PlaceableCard, x, y, way); -- capire se scegliere Set<int> o boolean
-    private Set<int> checkValidPosition(int, int);
-    // private boolean checkValidPosition(int, int); -- capire se scegliere Set<int> o boolean
+    public void setCard(PlaceableCard card, int x, int y, boolean way){
+        // Nota: se Card e tutte le sue sottoclassi sono immutabili,
+        // posso non creare una copia di card
+        // Altrimenti inserire una copia
+    }
+    public boolean isCardPresent(int x, int y){}
+    public PlaceableCard getPlaceableCard(int x, int y){
+        // Nota: se Card e tutte le sue sottoclassi sono immutabili,
+        // posso restituire direttamente la carta
+        // Altrimenti restituire una copia
+    }
+    public boolean getCardWay(int x, int y){}
 }

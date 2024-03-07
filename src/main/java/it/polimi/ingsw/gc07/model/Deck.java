@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc07.model;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class Deck {
     private CardType deckType;
     private List<Card> deckContent;
@@ -7,14 +10,18 @@ public class Deck {
 
     public Deck(CardType deckType, List<Card> deckContent, Card[] faceUpCard) {
         this.deckType = deckType;
-        this.deckContent = new List<Card>(deckContent);
-        this.faceUpCard = new faceUpCard[2];
-        this.faceUpCard[0] = new Card(faceUpCard[0]);
-        this.faceUpCard[1] = new Card(faceUpCard[1]);
+        // Per crearere i deck, devono tenere conto di deckType!
+        // TODO: modificare il costruttore!
+        this.deckContent = new ArrayList<Card>(deckContent);
+        this.faceUpCard = new Card[2];
+        // this.faceUpCard[0] = new
+        // this.faceUpCard[1] = new
     }
 
-    public PlaceableCard drawDeckCard();
-    public PlaceableCard drawFaceUpCard(int);
-    public Card revealFaceUpCard(int);
-    public Resource revealBackDeckCard();
+    // Nota: per tutti i metodi che restituiscono una carta
+    // se non immutabile, restituire una copia
+    public PlaceableCard drawDeckCard(){}
+    public PlaceableCard drawFaceUpCard(int faceUpCardPos){}
+    public Card revealFaceUpCard(int faceUpCardPos){}
+    public GameResource revealBackDeckCard(){}
 }

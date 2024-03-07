@@ -1,18 +1,35 @@
 package it.polimi.ingsw.gc07.model;
 
-public class ScoreTrackBoard {
-    private int scorePlayer1;
-    private int scorePlayer2;
-    private int scorePlayer3;
-    private int scorePlayer4;
+import java.util.Map;
+import java.util.HashMap;
 
+/**
+ * Class representing the ScoreTrackBoard
+ */
+public class ScoreTrackBoard {
+    private Map<Player, Integer> playersScore;
+
+    /**
+     * Constructor method for ScoreTrackBoard
+     */
     public ScoreTrackBoard() {
-        this.scorePlayer1 = 0;
-        this.scorePlayer2 = 0;
-        this.scorePlayer3 = 0;
-        this.scorePlayer4 = 0;
+        playersScore = new HashMap<Player, Integer>();
+        // TODO: devo popolarla con i Player che non sappiamo ancora dove siano memorizzati
     }
-    public void updateScore(Player player, PlaceableCard pCard){}
-    public int computeFinalScore(Player player){}
-    public int getCurrentScore(Player player){}
+    public void setScore(Player player, int newScore){
+        // check that the Player belongs to the map
+        // if it does, change the score
+        // TODO: exception try-catch/trhows, sostituire if
+        if(playersScore.containsKey(player)){
+            playersScore.put(player, newScore);
+        }
+    }
+    public int getScore(Player player){
+        // check that the Player belongs to the map
+        // return the score
+        // TODO: exception try-catch/trhows, sostituire if
+        if(playersScore.containsKey(player)){
+            return playersScore.get(player);
+        }
+    }
 }
