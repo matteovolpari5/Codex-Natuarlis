@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ItemsCondition extends Condition {
-    private List<GameItem> neededItems;
+    private final List<GameItem> neededItems;
+
     public ItemsCondition(ConditionType conditionType, List<GameItem> neededItems) {
         super(conditionType);
-        this.neededItems = new ArrayList<GameItem>(neededItems);
+        this.neededItems = new ArrayList<>(neededItems);
     }
     public List<GameItem> getNeededItems() {
-        return new ArrayList<GameItem>(this.neededItems);
+        return new ArrayList<>(this.neededItems);
     }
 }

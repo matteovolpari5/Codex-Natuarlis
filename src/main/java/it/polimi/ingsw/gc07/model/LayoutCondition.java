@@ -1,8 +1,9 @@
 package it.polimi.ingsw.gc07.model;
 
 public class LayoutCondition extends Condition{
-    private boolean[][] cardsPosition;
-    private GameResource[][] cardsColor;
+    private final boolean[][] cardsPosition;
+    private final GameResource[][] cardsColor;
+
     // TODO: con le enumerazioni ho problemi di riferimenti?
     public LayoutCondition(ConditionType conditionType, boolean[][] cardsPosition, GameResource[][] cardsColor) {
         super(conditionType);
@@ -26,6 +27,7 @@ public class LayoutCondition extends Condition{
         }
         return cardsPositionCopy;
     }
+
     // TODO: con le enumerazioni ho problemi di riferimenti?
     public GameResource[][] getCardsColor() {
         GameResource[][] cardsColorCopy = new GameResource[3][3];
