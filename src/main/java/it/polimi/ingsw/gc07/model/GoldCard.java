@@ -16,10 +16,10 @@ public class GoldCard extends NonStarterCard{
         this.scoringCondition = scoringCondition;
     }
 
-    private Condition getPlacementCondition() {
+    public Condition getPlacementCondition() {
         return this.placementCondition;
     };
-    private Condition getScoringCondition() {
+    public Condition getScoringCondition() {
         return this.scoringCondition;
     };
 }

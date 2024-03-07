@@ -12,7 +12,7 @@ public class Player {
     private ObjectiveCard secretObjective;
     private boolean connectionType;
 
-    // TODO: prendo riferimento a GameField e secretObjective
+    // TODO: prendo riferimento a GameField
     public Player(String nickname, TokenColor tokenColor, boolean isFirst,
                   List<NonStarterCard> currentHand, GameField gameField,
                   ObjectiveCard secretObjective, boolean connectionType) {
@@ -42,7 +42,6 @@ public class Player {
     public GameField getMyGameField() {
         return gameField;
     }
-    // TODO: sfugge riferimento a secretObjective
     public ObjectiveCard getSecretObjective() {
         return secretObjective;
     }

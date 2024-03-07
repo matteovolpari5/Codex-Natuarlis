@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Deck {
-    private CardType deckType;
+    private final CardType deckType;
     private List<Card> deckContent;
     private Card[] faceUpCard;
 
@@ -18,10 +18,8 @@ public class Deck {
         // this.faceUpCard[1] = new
     }
 
-    // Nota: per tutti i metodi che restituiscono una carta
-    // se non immutabile, restituire una copia
     public PlaceableCard drawDeckCard(){}
     public PlaceableCard drawFaceUpCard(int cardPos){}
-    public Card revealFaceUpCard(int faceUpCardPos){}
+    public Card revealFaceUpCard(int cardPos){}
     public GameResource revealBackDeckCard(){}
 }
