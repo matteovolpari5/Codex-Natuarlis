@@ -3,7 +3,7 @@ package it.polimi.ingsw.gc07.model;
 public class LayoutCondition extends Condition{
     private boolean[][] cardsPosition;
     private GameResource[][] cardsColor;
-    // TODO: Resource avrà quel costruttore?
+    // TODO: con le enumerazioni ho problemi di riferimenti?
     public LayoutCondition(ConditionType conditionType, boolean[][] cardsPosition, GameResource[][] cardsColor) {
         super(conditionType);
         boolean[][] cardsPositionCopy = new boolean[3][3];
@@ -26,7 +26,7 @@ public class LayoutCondition extends Condition{
         }
         return cardsPositionCopy;
     }
-    // TODO: Resource avrà quel costruttore?
+    // TODO: con le enumerazioni ho problemi di riferimenti?
     public GameResource[][] getCardsColor() {
         GameResource[][] cardsColorCopy = new GameResource[3][3];
         for(int i = 0; i < 3; i++){

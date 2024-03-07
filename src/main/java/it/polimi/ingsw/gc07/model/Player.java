@@ -10,17 +10,19 @@ public class Player {
     private List<NonStarterCard> currentHand;
     private GameField gameField;
     private ObjectiveCard secretObjective;
+    private boolean connectionType;
 
     // TODO: prendo riferimento a GameField e secretObjective
     public Player(String nickname, TokenColor tokenColor, boolean isFirst,
                   List<NonStarterCard> currentHand, GameField gameField,
-                  ObjectiveCard secretObjective) {
+                  ObjectiveCard secretObjective, boolean connectionType) {
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.isFirst = isFirst;
         this.currentHand = new ArrayList<>(currentHand);
         this.gameField = gameField;
         this.secretObjective = secretObjective;
+        this.connectionType = connectionType;
     }
 
     public String getNickname() {
@@ -32,6 +34,7 @@ public class Player {
     public boolean isFirst() {
         return isFirst;
     }
+    public void setCurrentHand(List<NonStarterCard> currentHand){}
     public List<NonStarterCard> getCurrentHand() {
         return new ArrayList<>(currentHand);
     }
@@ -43,4 +46,5 @@ public class Player {
     public ObjectiveCard getSecretObjective() {
         return secretObjective;
     }
+    public boolean getConnectionType(){}
 }
