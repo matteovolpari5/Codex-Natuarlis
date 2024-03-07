@@ -39,7 +39,7 @@ public class Player {
         return new ArrayList<>(currentHand);
     }
     // TODO: sfugge riferimento a GameField
-    public GameField getMyGameField() {
+    public GameField getGameField() {
         return gameField;
     }
     public ObjectiveCard getSecretObjective() {
