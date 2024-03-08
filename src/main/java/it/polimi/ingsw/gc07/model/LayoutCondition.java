@@ -1,9 +1,31 @@
 package it.polimi.ingsw.gc07.model;
 
+/**
+ * Condition regarding cards placement on the game field and their color,
+ * i.e. the permanent resource on the back of GoldCards and ResourceCards.
+ */
 public class LayoutCondition extends Condition{
+    /**
+     * Matrix of dimension 3x3, the biggest dimension for a layout condition
+     * that can be found on playing cards.
+     * Each cell contains true if a card needs to be found in that position,
+     * false otherwise.
+     */
     private final boolean[][] cardsPosition;
+    /**
+     * Matrix of dimension 3x3, the biggest dimension for a layout condition
+     * that can be found on playing cards.
+     * Each cell contains the GameResource (corresponding to a color) that needs
+     * to be found in that cell, null if the cell needs to be empty.
+     */
     private final GameResource[][] cardsColor;
 
+    /**
+     * Constructor for layout conditions.
+     * @param conditionType condition type, must be LAYOUT_CONDITION
+     * @param cardsPosition position of the card
+     * @param cardsColor resource (= color) of the card
+     */
     // TODO: con le enumerazioni ho problemi di riferimenti?
     public LayoutCondition(ConditionType conditionType, boolean[][] cardsPosition, GameResource[][] cardsColor) {
         super(conditionType);
@@ -18,6 +40,12 @@ public class LayoutCondition extends Condition{
         this.cardsPosition = cardsPositionCopy;
         this.cardsColor = cardsColorCopy;
     }
+
+    /**
+     * Getter returning a copy of the matrix cardsPosition, showing
+     * cards' position in the layout condition.
+     * @return copy of the matrix cardsPosition
+     */
     public boolean[][] getCardsPosition() {
         boolean[][] cardsPositionCopy = new boolean[3][3];
         for(int i = 0; i < 3; i++){
@@ -28,6 +56,11 @@ public class LayoutCondition extends Condition{
         return cardsPositionCopy;
     }
 
+    /**
+     * Getter method returning a copy of cardColor, the matrix showing
+     * the color / resource that needs to be found in every position.
+     * @return copy of matrix cardsColor
+     */
     // TODO: con le enumerazioni ho problemi di riferimenti?
     public GameResource[][] getCardsColor() {
         GameResource[][] cardsColorCopy = new GameResource[3][3];
