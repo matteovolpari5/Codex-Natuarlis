@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc07.model;
 
+import it.polimi.ingsw.gc07.exception.CardNotPresentException;
+
 /**
  * Class representing the game field of a single player,
  * it contains all the cards the player has placed,
@@ -62,8 +64,11 @@ public class GameField {
      * @param way false: the card is placed face up, true: the
      *            card is placed face down
      */
-    // TODO: controlli su posizione e card ??
-    public void placeCard(PlaceableCard card, int x, int y, boolean way) {
+    // TODO: controllo su card ?? Ad esempio deve essere del giusto type
+    public void placeCard(PlaceableCard card, int x, int y, boolean way) throws IndexOutOfBoundsException {
+        if(x < 0 || x >= 80 || y <0 || y >= 80){
+            throw new IndexOutOfBoundsException();
+        }
         gameFieldCardsPosition[x][y] = true;
         // PlaceableCard is immutable, I can insert the card I receive
         gameFieldCardsContent[x][y] = card;
@@ -76,8 +81,10 @@ public class GameField {
      * @param y y index of the matrix
      * @return true: there is a card in position (x,y), false: otherwise
      */
-    // TODO: controlli su posizione ??
-    public boolean isCardPresent(int x, int y){
+    public boolean isCardPresent(int x, int y) throws IndexOutOfBoundsException{
+        if(x < 0 || x >= 80 || y <0 || y >= 80){
+            throw new IndexOutOfBoundsException();
+        }
         return gameFieldCardsPosition[x][y];
     }
 
@@ -87,8 +94,13 @@ public class GameField {
      * @param y y index of the matrix
      * @return card in position (x,y)
      */
-    // TODO: controlli su posizione? se non c'è una carta, null o exception?
-    public PlaceableCard getPlacedCard(int x, int y){
+    public PlaceableCard getPlacedCard(int x, int y) throws IndexOutOfBoundsException, CardNotPresentException {
+        if(x < 0 || x >= 80 || y <0 || y >= 80){
+            throw new IndexOutOfBoundsException();
+        }
+        if(!gameFieldCardsPosition[x][y]){
+            throw new CardNotPresentException();
+        }
         // PlaceableCard is immutable, I can return the card without copy
         return gameFieldCardsContent[x][y];
     }
@@ -101,7 +113,10 @@ public class GameField {
      *          true: the card has been placed face down
      */
     // TODO: controllo posizione
-    public boolean getCardWay(int x, int y){
+    public boolean getCardWay(int x, int y) throws IndexOutOfBoundsException {
+        if(x < 0 || x >= 80 || y <0 || y >= 80){
+            throw new IndexOutOfBoundsException();
+        }
         return gameFieldCardsFace[x][y];
     }
 }
