@@ -8,21 +8,21 @@ public class Condition {
     /**
      * Attribute representing the ConditionType of the Condition
      */
-    private final ConditionType conditionType;
+    private final ConditionType type;
 
     /**
      * Constructor of the class
-     * @param conditionType: type of condition
+     * @param type: type of condition
      */
-    public Condition(ConditionType conditionType) {
-        this.conditionType = conditionType;
+    public Condition(ConditionType type) {
+        this.type = type;
     }
 
     /**
      * Getter method for the condition type
      * @return condition type
      */
-    public ConditionType getConditionType() {
-        return conditionType;
+    public ConditionType getType() {
+        return type;
     }
 }
