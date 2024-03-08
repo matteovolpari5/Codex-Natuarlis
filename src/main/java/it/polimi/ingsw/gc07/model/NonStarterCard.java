@@ -1,27 +1,35 @@
 package it.polimi.ingsw.gc07.model;
 
 /**
- * class that represents the no starter cards.
- * the no starter cards are: gold cards and resource cards.
+ * Class that represents non-starter cards.
+ * Non-starter cards are: GoldCards and ResourceCards.
  */
 public class NonStarterCard extends PlaceableCard{
     /**
-     * attribute that shows how many points the player will score if he places this card
+     * Attribute that shows how many points the player will score if he places
+     * this card.
+     * For resource cards, the placementScore is obtained just by placing the
+     * card and can be 0.
+     * Gold cards can have a scoring condition.
+     * If a gold card hasn't got a scoring, the placementScore just by placing the card.
+     * If it has got a scoring condition, the placementScore is obtained if
+     * the condition is met at the time of placement and the score gained is:
+     * (placementScore) x (number of times the condition is met during the placement).
      */
     private final int placementScore;
     /**
-     * attribute that shows the permanent game items that the back of the card has
+     * Attribute that shows the permanent GameResource present on the back of the card.
      */
     private final GameResource permanentResource;
 
     /**
-     * constructor of the class NonStarterCard
+     * Constructor of the class NonStarterCard.
      * @param cardID : id of the card
      * @param cardType : type of the card
      * @param frontCorners : corners that the front of the card has
      * @param frontCornersContent : game items that the front of the card has
-     * @param placementScore : points scoreables
-     * @param permanentResource : permanent game items that the back of the card has
+     * @param placementScore : points obtained placing the card
+     * @param permanentResource : permanent game resource on the back of the card
      */
     // Regular constructor
     public NonStarterCard(int cardID, CardType cardType, boolean[] frontCorners,
@@ -33,7 +41,7 @@ public class NonStarterCard extends PlaceableCard{
     }
 
     /**
-     * getter method of the attribute placementScore
+     * Getter method of the attribute placementScore.
      * @return this.placementScore
      */
     private int getPlacementScore() {
@@ -41,7 +49,7 @@ public class NonStarterCard extends PlaceableCard{
     };
 
     /**
-     * getter method of the attribute permanentResource
+     * Getter method of the attribute permanentResource.
      * @return this.permanentResource
      */
     private GameResource getPermanentResource() {
