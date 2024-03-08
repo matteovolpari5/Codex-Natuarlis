@@ -50,7 +50,6 @@ public class Player {
      * @param secretObjective player's secret objective card
      * @param connectionType player's connection type
      */
-    // TODO: prendo riferimento a GameField
     public Player(String nickname, TokenColor tokenColor, boolean isFirst,
                   List<NonStarterCard> currentHand, GameField gameField,
                   ObjectiveCard secretObjective, boolean connectionType) {
@@ -105,9 +104,8 @@ public class Player {
      * Getter for game field.
      * @return game field
      */
-    // TODO: sfugge riferimento a GameField
     public GameField getGameField() {
-        return gameField;
+        return new GameField(gameField);
     }
 
     /**
