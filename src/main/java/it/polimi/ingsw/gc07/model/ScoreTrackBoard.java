@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc07.model;
 
+import it.polimi.ingsw.gc07.exception.NonValidScoreExcpetion;
+import it.polimi.ingsw.gc07.exception.PlayerNotPresentExcpetion;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -22,13 +25,14 @@ public class ScoreTrackBoard {
      * @param player player
      * @param newScore new score to set
      */
-    public void setScore(Player player, int newScore){
-        // check that the Player belongs to the map
-        // if it does, change the score
-        // TODO: exception try-catch/trhows, sostituire if
-        if(playersScore.containsKey(player)){
-            playersScore.put(player, newScore);
+    public void setScore(Player player, int newScore) throws PlayerNotPresentExcpetion, NonValidScoreExcpetion {
+        if(newScore < 0 || newScore > 29){
+            throw new NonValidScoreExcpetion();
         }
+        if(!playersScore.containsKey(player)){
+            throw new PlayerNotPresentExcpetion();
+        }
+        this.playersScore.put(player, newScore);
     }
 
     /**
@@ -36,12 +40,10 @@ public class ScoreTrackBoard {
      * @param player player
      * @return current for the player
      */
-    public int getScore(Player player){
-        // check that the Player belongs to the map
-        // return the score
-        // TODO: exception try-catch/trhows, sostituire if
-        if(playersScore.containsKey(player)){
-            return playersScore.get(player);
+    public int getScore(Player player) throws PlayerNotPresentExcpetion{
+        if(!playersScore.containsKey(player)){
+            throw new PlayerNotPresentExcpetion();
         }
+        return playersScore.get(player);
     }
 }
