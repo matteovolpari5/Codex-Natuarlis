@@ -1,27 +1,26 @@
 package it.polimi.ingsw.gc07.model;
 
 /**
- * class that represents the placeable cards of the game.
- * the placeable cards are: starter cards, gold cards and the resource cards.
+ * Class that represents placeable cards of the game.
+ * Placeable cards are: starter cards, gold cards and resource cards.
  */
 public abstract class PlaceableCard extends Card{
     /**
-     *  attribute that shows which corners the front of the card has
+     *  Attribute that shows which corners the front of the card has.
      */
     private final boolean[] frontCorners;
     /**
-     * attribute that shows which game items the front of the card has
+     * Attribute that shows which game items the front of the card has.
      */
     private final GameItem[] frontCornersContent;
 
     /**
-     * contructor of the class PlaceableCard
+     * Constructor of the class PlaceableCard.
      * @param cardID : id of the card
      * @param cardType: type of the card
      * @param frontCorners : corners that the front of the card has
      * @param frontCornersContent : game items that the front of the card has
      */
-    // regular constructor
     public PlaceableCard(int cardID, CardType cardType, boolean[] frontCorners, GameItem[] frontCornersContent) {
         super(cardID, cardType);
         boolean[] frontCornersCopy = new boolean[4];
@@ -37,7 +36,7 @@ public abstract class PlaceableCard extends Card{
     }
 
     /**
-     * getter method of the attribute frontCorners
+     * Getter method of the attribute frontCorners.
      * @return this.frontCorners
      */
     public boolean[] getFrontCorners(){
@@ -49,7 +48,7 @@ public abstract class PlaceableCard extends Card{
     }
 
     /**
-     * getter method of the attribute frontCornersContent
+     * Getter method of the attribute frontCornersContent.
      * @return this.frontCornersContent
      */
     public GameItem[] getFrontCornersContent(){
