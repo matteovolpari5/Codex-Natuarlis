@@ -70,7 +70,7 @@ public class Deck {
      * @return face up card in position cardPos
      */
     // TODO
-    public PlaceableCard drawFaceUpCard(int cardPos){}
+    public Card drawFaceUpCard(int cardPos){}
 
     /**
      * Method that allows a player to see the card in position cardPos
