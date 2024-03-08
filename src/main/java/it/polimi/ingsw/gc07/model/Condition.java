@@ -20,7 +20,7 @@ public class Condition {
 
     /**
      * Getter method for the condition type
-     * @return: condition type
+     * @return condition type
      */
     public ConditionType getConditionType() {
         return conditionType;

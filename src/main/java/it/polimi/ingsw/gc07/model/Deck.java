@@ -17,6 +17,7 @@ public class Deck {
      * List containing the cards currently present in the deck.
      * Cards drawn by player are removed from the deck.
      */
+    // TODO: scegliere un verso delle carte, la prima è quella in alto o in basso al mazzo?
     private List<Card> deckContent;
     /**
      * Array containing the two face up cards that players can draw.
@@ -41,9 +42,18 @@ public class Deck {
     }
 
     /**
+     * Return the card type of all cards in the deck.
+     * @return card type of the deck
+     */
+    public CardType getDeckType() {
+        return this.deckType;
+    }
+
+    /**
      * Method that allows a player to draw the first card from the deck
      * @return first card of the deck
      */
+    // TODO
     public PlaceableCard drawDeckCard(){}
 
     /**
@@ -52,6 +62,7 @@ public class Deck {
      * @param cardPos position of the card the player wants to draw
      * @return face up card in position cardPos
      */
+    // TODO
     public PlaceableCard drawFaceUpCard(int cardPos){}
 
     /**
@@ -60,6 +71,7 @@ public class Deck {
      * @param cardPos position of the card the player wants to see
      * @return face up card in position cardPos
      */
+    // TODO
     public Card revealFaceUpCard(int cardPos){}
 
     /**
@@ -67,5 +79,6 @@ public class Deck {
      * present on the back of the first covered card of the deck.
      * @return permanent resource on the back of the first covered card of the deck
      */
+    // TODO
     public GameResource revealBackDeckCard(){}
 }
