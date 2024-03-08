@@ -23,23 +23,29 @@ public class Deck {
      * Array containing the two face up cards that players can draw.
      */
     private Card[] faceUpCards;
-    // TODO: aggiungere array di boolean per evitare di avere null?
+    /**
+     * Array containing true if the face up card is present, false otherwise.
+     */
+    private boolean[] faceUpCardsPresent;
 
     /**
      * Constructor of the deck.
      * @param deckType type of the deck
      * @param deckContent List containing deck cards
      * @param faceUpCards Array containing the two revealed cards
+     * @param faceUpCardsPresent Array containing true if a face up card is present
      */
-    public Deck(CardType deckType, Stack<Card> deckContent, Card[] faceUpCards) {
+    public Deck(CardType deckType, Stack<Card> deckContent, Card[] faceUpCards, boolean[] faceUpCardsPresent) {
         this.deckType = deckType;
         this.deckContent = new Stack<>();
         this.deckContent.addAll(deckContent);
-        // Per crearere i deck, devono tenere conto di deckType!
-        // TODO: modificare il costruttore!
+        this.faceUpCardsPresent = new boolean[2];
+        this.faceUpCardsPresent[0] = faceUpCardsPresent[0];
+        this.faceUpCardsPresent[1] = faceUpCardsPresent[1];
+        // Cards are immutable, I can insert the card I receive
         this.faceUpCards = new Card[2];
-        // this.faceUpCards[0] = new
-        // this.faceUpCards[1] = new
+        this.faceUpCards[0] = faceUpCards[0];
+        this.faceUpCards[1] = faceUpCards[1];
     }
 
     /**
@@ -66,27 +72,59 @@ public class Deck {
     /**
      * Method that allows a player to draw the card in position cardPos
      * from the two revealed cards.
+     * This method also draws a card from the top of the deck and places it face up.
      * @param cardPos position of the card the player wants to draw
      * @return face up card in position cardPos
      */
-    // TODO
-    public PlaceableCard drawFaceUpCard(int cardPos){}
+    public Card drawFaceUpCard(int cardPos) throws IndexOutOfBoundsException, CardNotPresentException {
+        if(cardPos < 0 || cardPos > 1){
+            throw new IndexOutOfBoundsException();
+        }
+        if(!faceUpCardsPresent[cardPos]){
+            throw new CardNotPresentException();
+        }
+        // Save the card to return
+        Card resultCard = faceUpCards[cardPos];
+        // Substitute the face up card
+        try{
+            faceUpCards[cardPos] = this.drawDeckCard();
+            // faceUpCardsPresent[cardPos] remains true
+        }
+        catch(CardNotPresentException e){
+            // Deck is empty, face up card cannot be replaced
+            faceUpCardsPresent[cardPos] = false;
+            faceUpCards[cardPos] = null;
+        }
+        // Card is immutable, I can return it
+        return resultCard;
+    }
 
     /**
      * Method that allows a player to see the card in position cardPos
-     * without necessarily having to draw it.
+     * without drawing it.
      * @param cardPos position of the card the player wants to see
      * @return face up card in position cardPos
      */
-    // TODO
-    public Card revealFaceUpCard(int cardPos){}
+    public Card revealFaceUpCard(int cardPos)throws IndexOutOfBoundsException, CardNotPresentException {
+        if(cardPos < 0 || cardPos > 1){
+            throw new IndexOutOfBoundsException();
+        }
+        if(!faceUpCardsPresent[cardPos]){
+            throw new CardNotPresentException();
+        }
+        return faceUpCards[cardPos];
+    }
 
     /**
      * Method that allows the player to see the color (i.e. the permanent resource)
      * present on the back of the first covered card of the deck.
      * @return permanent resource on the back of the first covered card of the deck
      */
-    // TODO
-    public GameResource revealBackDeckCard(){
+    public GameResource revealBackDeckCard() throws CardNotPresentException {
+        if(deckContent.empty()){
+            throw new CardNotPresentException();
+        }
+        // TODO:cambia!
+        return GameResource.ANIMAL;
     }
 }
