@@ -112,7 +112,6 @@ public class GameField {
      * @return  false: the card has been placed face up
      *          true: the card has been placed face down
      */
-    // TODO: controllo posizione
     public boolean getCardWay(int x, int y) throws IndexOutOfBoundsException {
         if(x < 0 || x >= 80 || y <0 || y >= 80){
             throw new IndexOutOfBoundsException();
