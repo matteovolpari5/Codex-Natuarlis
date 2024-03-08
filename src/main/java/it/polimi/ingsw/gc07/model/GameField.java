@@ -14,14 +14,14 @@ public class GameField {
      * The cell contains true if the game field contains a card in
      * that position, false otherwise.
      */
-    private boolean[][] gameFieldCardsPosition;
+    private boolean[][] cardsPosition;
 
     /**
      * Matrix of dimension 80x80, the biggest possible dimension
      * for a player's game field. Each cell contains a placeable card,
      * or null if the place is empty.
      */
-    private PlaceableCard[][] gameFieldCardsContent;
+    private PlaceableCard[][] cardsContent;
 
     /**
      * Matrix of dimension 80x80, the biggest possible dimension
@@ -29,28 +29,28 @@ public class GameField {
      * false: the card has been placed face up
      * true: the card has been placed face down
      */
-    private boolean[][] gameFieldCardsFace;
+    private boolean[][] cardsFace;
 
     /**
      * Constructor of the game field: builds an empty game field.
      */
     public GameField() {
-        this.gameFieldCardsPosition = new boolean[80][80];
+        this.cardsPosition = new boolean[80][80];
         for(int i=0; i <80; i++){
             for(int j=0; j<80; j++){
-                this.gameFieldCardsPosition[i][j] = false;
+                this.cardsPosition[i][j] = false;
             }
         }
-        this.gameFieldCardsContent = new PlaceableCard[80][80];
+        this.cardsContent = new PlaceableCard[80][80];
         for(int i=0; i <80; i++){
             for(int j=0; j<80; j++){
-                this.gameFieldCardsContent[i][j] = null;
+                this.cardsContent[i][j] = null;
             }
         }
-        this.gameFieldCardsFace = new boolean[80][80];
+        this.cardsFace = new boolean[80][80];
         for(int i=0; i <80; i++){
             for(int j=0; j<80; j++){
-                this.gameFieldCardsFace[i][j] = false;
+                this.cardsFace[i][j] = false;
             }
         }
     }
@@ -59,22 +59,22 @@ public class GameField {
      * Constructor of the game field: builds a copy of an existing game field.
      */
     public GameField(GameField existingGameField) {
-        this.gameFieldCardsPosition = new boolean[80][80];
+        this.cardsPosition = new boolean[80][80];
         for(int i=0; i <80; i++){
             for(int j=0; j<80; j++){
-                this.gameFieldCardsPosition[i][j] = existingGameField.gameFieldCardsPosition[i][j];
+                this.cardsPosition[i][j] = existingGameField.cardsPosition[i][j];
             }
         }
-        this.gameFieldCardsContent = new PlaceableCard[80][80];
+        this.cardsContent = new PlaceableCard[80][80];
         for(int i=0; i <80; i++){
             for(int j=0; j<80; j++){
-                this.gameFieldCardsContent[i][j] = existingGameField.gameFieldCardsContent[i][j];
+                this.cardsContent[i][j] = existingGameField.cardsContent[i][j];
             }
         }
-        this.gameFieldCardsFace = new boolean[80][80];
+        this.cardsFace = new boolean[80][80];
         for(int i=0; i <80; i++){
             for(int j=0; j<80; j++){
-                this.gameFieldCardsFace[i][j] = existingGameField.gameFieldCardsFace[i][j];
+                this.cardsFace[i][j] = existingGameField.cardsFace[i][j];
             }
         }
     }
@@ -93,10 +93,10 @@ public class GameField {
         if(x < 0 || x >= 80 || y <0 || y >= 80){
             throw new IndexOutOfBoundsException();
         }
-        gameFieldCardsPosition[x][y] = true;
+        cardsPosition[x][y] = true;
         // PlaceableCard is immutable, I can insert the card I receive
-        gameFieldCardsContent[x][y] = card;
-        gameFieldCardsFace[x][y] = way;
+        cardsContent[x][y] = card;
+        cardsFace[x][y] = way;
     }
 
     /**
@@ -109,7 +109,7 @@ public class GameField {
         if(x < 0 || x >= 80 || y <0 || y >= 80){
             throw new IndexOutOfBoundsException();
         }
-        return gameFieldCardsPosition[x][y];
+        return cardsPosition[x][y];
     }
 
     /**
@@ -122,11 +122,11 @@ public class GameField {
         if(x < 0 || x >= 80 || y <0 || y >= 80){
             throw new IndexOutOfBoundsException();
         }
-        if(!gameFieldCardsPosition[x][y]){
+        if(!cardsPosition[x][y]){
             throw new CardNotPresentException();
         }
         // PlaceableCard is immutable, I can return the card without copy
-        return gameFieldCardsContent[x][y];
+        return cardsContent[x][y];
     }
 
     /**
@@ -140,6 +140,6 @@ public class GameField {
         if(x < 0 || x >= 80 || y <0 || y >= 80){
             throw new IndexOutOfBoundsException();
         }
-        return gameFieldCardsFace[x][y];
+        return cardsFace[x][y];
     }
 }

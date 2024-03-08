@@ -7,35 +7,35 @@ public abstract class Card {
     /**
      * Attribute that shows the id of the card
      */
-    private final int cardID;
+    private final int id;
     /**
      * Attribute that shows the type of the card
      */
-    private final CardType cardType;
+    private final CardType type;
 
     /**
      * Constructor of the class Card
-     * @param cardID : id of the card
-     * @param cardType : type of the card
+     * @param id : id of the card
+     * @param type : type of the card
      */
-    public Card(int cardID, CardType cardType) {
-        this.cardID = cardID;
-        this.cardType = cardType;
+    public Card(int id, CardType type) {
+        this.id = id;
+        this.type = type;
     }
 
     /**
-     * Getter method of the attribute cardID
-     * @return this.cardID
+     * Getter method of the attribute id
+     * @return this.id
      */
-    public int getCardID(){
-        return this.cardID;
+    public int getId(){
+        return this.id;
     }
 
     /**
-     * Getter method of the attribute cardType
-     * @return this.cardType
+     * Getter method of the attribute type
+     * @return this.type
      */
-    public CardType getCardType() {
-        return this.cardType;
+    public CardType getType() {
+        return this.type;
     }
 }
