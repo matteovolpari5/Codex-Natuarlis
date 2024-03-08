@@ -58,7 +58,7 @@ public class Player {
         this.tokenColor = tokenColor;
         this.isFirst = isFirst;
         this.currentHand = new ArrayList<>(currentHand);
-        this.gameField = gameField;
+        this.gameField = new GameField(gameField);
         this.secretObjective = secretObjective;
         this.connectionType = connectionType;
     }

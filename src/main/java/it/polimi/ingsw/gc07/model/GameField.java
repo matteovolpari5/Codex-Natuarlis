@@ -56,6 +56,30 @@ public class GameField {
     }
 
     /**
+     * Constructor of the game field: builds a copy of an existing game field.
+     */
+    public GameField(GameField existingGameField) {
+        this.gameFieldCardsPosition = new boolean[80][80];
+        for(int i=0; i <80; i++){
+            for(int j=0; j<80; j++){
+                this.gameFieldCardsPosition[i][j] = existingGameField.gameFieldCardsPosition[i][j];
+            }
+        }
+        this.gameFieldCardsContent = new PlaceableCard[80][80];
+        for(int i=0; i <80; i++){
+            for(int j=0; j<80; j++){
+                this.gameFieldCardsContent[i][j] = existingGameField.gameFieldCardsContent[i][j];
+            }
+        }
+        this.gameFieldCardsFace = new boolean[80][80];
+        for(int i=0; i <80; i++){
+            for(int j=0; j<80; j++){
+                this.gameFieldCardsFace[i][j] = existingGameField.gameFieldCardsFace[i][j];
+            }
+        }
+    }
+
+    /**
      * Allows the player to place a card at index (x,y) and
      * in a certain way, face up or face down.
      * @param card card the player wants to place
