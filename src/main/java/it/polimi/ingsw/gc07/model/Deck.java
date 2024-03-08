@@ -13,12 +13,12 @@ public class Deck {
      * Attribute representing the deck type, which
      * corresponds to the card type of all cards contained in the deck.
      */
-    private final CardType deckType;
+    private final CardType type;
     /**
      * List containing the cards currently present in the deck.
      * Cards drawn by player are removed from the deck.
      */
-    private Stack<Card> deckContent;
+    private Stack<Card> content;
     /**
      * Array containing the two face up cards that players can draw.
      */
@@ -30,15 +30,15 @@ public class Deck {
 
     /**
      * Constructor of the deck.
-     * @param deckType type of the deck
-     * @param deckContent List containing deck cards
+     * @param type type of the deck
+     * @param content List containing deck cards
      * @param faceUpCards Array containing the two revealed cards
      * @param faceUpCardsPresent Array containing true if a face up card is present
      */
-    public Deck(CardType deckType, Stack<Card> deckContent, Card[] faceUpCards, boolean[] faceUpCardsPresent) {
-        this.deckType = deckType;
-        this.deckContent = new Stack<>();
-        this.deckContent.addAll(deckContent);
+    public Deck(CardType type, Stack<Card> content, Card[] faceUpCards, boolean[] faceUpCardsPresent) {
+        this.type = type;
+        this.content = new Stack<>();
+        this.content.addAll(content);
         this.faceUpCardsPresent = new boolean[2];
         this.faceUpCardsPresent[0] = faceUpCardsPresent[0];
         this.faceUpCardsPresent[1] = faceUpCardsPresent[1];
@@ -53,7 +53,7 @@ public class Deck {
      * @return card type of the deck
      */
     public CardType getDeckType() {
-        return this.deckType;
+        return this.type;
     }
 
     /**
@@ -62,7 +62,7 @@ public class Deck {
      */
     public Card drawDeckCard() throws CardNotPresentException {
         try {
-            return this.deckContent.pop();
+            return this.content.pop();
         }
         catch(EmptyStackException e){
             throw new CardNotPresentException();
@@ -121,7 +121,7 @@ public class Deck {
      * @return permanent resource on the back of the first covered card of the deck
      */
     public GameResource revealBackDeckCard() throws CardNotPresentException {
-        if(deckContent.empty()){
+        if(content.empty()){
             throw new CardNotPresentException();
         }
         // TODO:cambia!
