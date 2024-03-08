@@ -4,24 +4,24 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * class that represents the starter cards of the game
+ * Class that represents starter cards of the game.
  */
 public class StarterCard extends PlaceableCard{
     /**
-     * attribute that shows which permanent game items the card has (on the back)
+     * Attribute that shows which permanent game items the card has (on the back)
      */
     private final List<GameResource> permanentResources;
     /**
-     * attribute that shows which corners the back of the card has
+     * Attribute that shows which corners the back of the card has.
      */
     private final boolean[] backCorners;
     /**
-     * attribute that shows which game items the back of the card has
+     * Attribute that shows which game items the back of the card has in its corners.
      */
     private final GameItem[] backCornersContent;
 
     /**
-     * constructor of the class StarterCard
+     * Constructor of the class StarterCard.
      * @param cardID : id of the card
      * @param cardType : type of the card
      * @param frontCorners : corners that the front of the card has
@@ -48,7 +48,7 @@ public class StarterCard extends PlaceableCard{
     }
 
     /**
-     * getter method of the attribute permanentResources
+     * Getter method of the attribute permanentResources
      * @return an arrayList of GameResources
      */
     public  List<GameResource> getPermanentResources(){
@@ -56,7 +56,7 @@ public class StarterCard extends PlaceableCard{
     }
 
     /**
-     * getter method of the attribute backCorners
+     * Getter method of the attribute backCorners
      * @return an array of booleans
      */
     public boolean[] getBackCorners()
@@ -69,7 +69,7 @@ public class StarterCard extends PlaceableCard{
     }
 
     /**
-     * getter method of the attribute backCornersContent
+     * Getter method of the attribute backCornersContent
      * @return an array of GameItems
      */
     public GameItem[] getBackCornersContent()
