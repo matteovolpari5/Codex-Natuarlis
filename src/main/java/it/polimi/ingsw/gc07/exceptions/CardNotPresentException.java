@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.exception;
+package it.polimi.ingsw.gc07.exceptions;
 
 /**
  * Exception meaning that there is not the required card.

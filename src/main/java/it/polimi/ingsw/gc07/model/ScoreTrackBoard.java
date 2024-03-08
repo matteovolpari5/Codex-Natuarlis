@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.exception.NonValidScoreExcpetion;
-import it.polimi.ingsw.gc07.exception.PlayerNotPresentExcpetion;
+import it.polimi.ingsw.gc07.exceptions.NonValidScoreExcpetion;
+import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentExcpetion;
 
 import java.util.Map;
 import java.util.HashMap;

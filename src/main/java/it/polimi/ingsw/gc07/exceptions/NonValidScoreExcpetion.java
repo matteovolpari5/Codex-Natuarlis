@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.exception;
+package it.polimi.ingsw.gc07.exceptions;
 
 public class NonValidScoreExcpetion extends Exception {
     public NonValidScoreExcpetion() {

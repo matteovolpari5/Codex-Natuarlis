@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.exception.*;
+import it.polimi.ingsw.gc07.exceptions.*;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
