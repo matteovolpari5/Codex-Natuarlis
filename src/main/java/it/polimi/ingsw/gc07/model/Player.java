@@ -119,5 +119,7 @@ public class Player {
      * Getter for the connection type
      * @return connection type
      */
-    public boolean getConnectionType(){}
+    public boolean getConnectionType(){
+        return this.connectionType;
+    }
 }
