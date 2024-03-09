@@ -89,10 +89,12 @@ public class GameField {
      * @param way false: the card is placed face up, true: the
      *            card is placed face down
      */
-    // TODO: controllo su card ?? Ad esempio deve essere del giusto type
-    public void placeCard(PlaceableCard card, int x, int y, boolean way) throws IndexOutOfBoundsException {
+    public void placeCard(PlaceableCard card, int x, int y, boolean way) throws IndexOutOfBoundsException, NullPointerException {
         if(x < 0 || x >= 80 || y <0 || y >= 80){
             throw new IndexOutOfBoundsException();
+        }
+        if(card == null){
+            throw new NullPointerException();
         }
         cardsPosition[x][y] = true;
         // PlaceableCard is immutable, I can insert the card I receive
