@@ -7,4 +7,6 @@ module it.polimi.ingsw.gc07 {
     exports it.polimi.ingsw.gc07;
     exports it.polimi.ingsw.gc07.model;
     opens it.polimi.ingsw.gc07.model to javafx.fxml;
+    exports it.polimi.ingsw.gc07.model.decks;
+    opens it.polimi.ingsw.gc07.model.decks to javafx.fxml;
 }

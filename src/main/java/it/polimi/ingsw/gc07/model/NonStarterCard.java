@@ -44,7 +44,7 @@ public class NonStarterCard extends PlaceableCard{
      * Getter method of the attribute placementScore.
      * @return this.placementScore
      */
-    private int getPlacementScore() {
+    public int getPlacementScore() {
         return this.placementScore;
     };
 
@@ -52,7 +52,7 @@ public class NonStarterCard extends PlaceableCard{
      * Getter method of the attribute permanentResource.
      * @return this.permanentResource
      */
-    private GameResource getPermanentResource() {
+    public GameResource getPermanentResource() {
         return this.permanentResource;
     };
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc07.model;
 
+import it.polimi.ingsw.gc07.model.decks.Deck;
+
 import java.util.List;
 
 public class Game {
