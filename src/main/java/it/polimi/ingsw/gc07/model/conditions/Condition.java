@@ -1,4 +1,6 @@
-package it.polimi.ingsw.gc07.model;
+package it.polimi.ingsw.gc07.model.conditions;
+
+import it.polimi.ingsw.gc07.model.ConditionType;
 
 /**
  * Class representing conditions found on game cards: these conditions can

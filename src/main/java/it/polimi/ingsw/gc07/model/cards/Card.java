@@ -1,4 +1,6 @@
-package it.polimi.ingsw.gc07.model;
+package it.polimi.ingsw.gc07.model.cards;
+
+import it.polimi.ingsw.gc07.model.CardType;
 
 /**
  * Abstract class that represents the generic cards of the game

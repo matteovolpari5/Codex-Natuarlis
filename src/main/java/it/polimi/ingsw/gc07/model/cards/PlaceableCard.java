@@ -1,10 +1,14 @@
-package it.polimi.ingsw.gc07.model;
+package it.polimi.ingsw.gc07.model.cards;
+
+import it.polimi.ingsw.gc07.model.CardType;
+import it.polimi.ingsw.gc07.model.GameItem;
+import it.polimi.ingsw.gc07.model.cards.Card;
 
 /**
  * Class that represents placeable cards of the game.
  * Placeable cards are: starter cards, gold cards and resource cards.
  */
-public abstract class PlaceableCard extends Card{
+public abstract class PlaceableCard extends Card {
     /**
      *  Attribute that shows which corners the front of the card has.
      */

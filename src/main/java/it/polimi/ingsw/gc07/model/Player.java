@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc07.model;
 
+import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
+import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+
 import java.util.List;
 import java.util.ArrayList;
 

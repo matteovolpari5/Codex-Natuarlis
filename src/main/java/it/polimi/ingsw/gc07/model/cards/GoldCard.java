@@ -1,11 +1,16 @@
-package it.polimi.ingsw.gc07.model;
+package it.polimi.ingsw.gc07.model.cards;
+
+import it.polimi.ingsw.gc07.model.CardType;
+import it.polimi.ingsw.gc07.model.GameItem;
+import it.polimi.ingsw.gc07.model.GameResource;
+import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
 
 import java.util.concurrent.locks.Condition;
 
 /**
  * Class that represents gold cards.
  */
-public class GoldCard extends NonStarterCard{
+public class GoldCard extends NonStarterCard {
     /**
      * Attribute that shows the placement condition of the gold card
      */

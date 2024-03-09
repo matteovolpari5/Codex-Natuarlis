@@ -1,4 +1,7 @@
-package it.polimi.ingsw.gc07.model;
+package it.polimi.ingsw.gc07.model.conditions;
+
+import it.polimi.ingsw.gc07.model.ConditionType;
+import it.polimi.ingsw.gc07.model.GameResource;
 
 /**
  * Condition regarding cards placement on the game field and their color,

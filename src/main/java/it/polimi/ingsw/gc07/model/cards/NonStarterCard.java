@@ -1,10 +1,14 @@
-package it.polimi.ingsw.gc07.model;
+package it.polimi.ingsw.gc07.model.cards;
+
+import it.polimi.ingsw.gc07.model.CardType;
+import it.polimi.ingsw.gc07.model.GameItem;
+import it.polimi.ingsw.gc07.model.GameResource;
 
 /**
  * Class that represents non-starter cards.
  * Non-starter cards are: GoldCards and ResourceCards.
  */
-public class NonStarterCard extends PlaceableCard{
+public class NonStarterCard extends PlaceableCard {
     /**
      * Attribute that shows how many points the player will score if he places
      * this card.

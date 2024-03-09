@@ -1,4 +1,9 @@
-package it.polimi.ingsw.gc07.model;
+package it.polimi.ingsw.gc07.model.cards;
+
+import it.polimi.ingsw.gc07.model.CardType;
+import it.polimi.ingsw.gc07.model.GameItem;
+import it.polimi.ingsw.gc07.model.GameResource;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -6,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Class that represents starter cards of the game.
  */
-public class StarterCard extends PlaceableCard{
+public class StarterCard extends PlaceableCard {
     /**
      * Attribute that shows which permanent game items the card has (on the back)
      */

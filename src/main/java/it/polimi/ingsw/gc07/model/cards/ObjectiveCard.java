@@ -1,11 +1,14 @@
-package it.polimi.ingsw.gc07.model;
+package it.polimi.ingsw.gc07.model.cards;
+
+import it.polimi.ingsw.gc07.model.CardType;
+import it.polimi.ingsw.gc07.model.cards.Card;
 
 import java.util.concurrent.locks.Condition;
 
 /**
  * Class that represents objective cards of the game.
  */
-public class ObjectiveCard extends Card{
+public class ObjectiveCard extends Card {
     /**
      * Attribute that shows the condition of the objectiveCard.
      */
