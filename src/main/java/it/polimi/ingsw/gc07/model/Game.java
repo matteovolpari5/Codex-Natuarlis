@@ -1,10 +1,13 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.model.decks.Deck;
-
 import java.util.List;
 
 public class Game {
+    /**
+     * Number of players in the game, chose by the first player.
+     */
+    private int playersNumber;
     /**
      * List of players in the game.
      */
@@ -29,8 +32,12 @@ public class Game {
      * Deck of starter cards.
      */
     private Deck starterCardsDeck;
+
     // TODO
     public Game(){
+        // quando lo costruisco? ad es, quando si connette il primo giocatore
         // come costrusisco tutte le condition, le carte, i deck?
     }
+
+    // addPlayer ? -> dipende da come costruisco il Game
 }
