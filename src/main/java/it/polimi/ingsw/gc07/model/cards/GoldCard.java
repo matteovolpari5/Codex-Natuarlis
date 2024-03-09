@@ -1,9 +1,8 @@
 package it.polimi.ingsw.gc07.model.cards;
 
-import it.polimi.ingsw.gc07.model.CardType;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
-import it.polimi.ingsw.gc07.model.GameResource;
-import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
+import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 
 import java.util.concurrent.locks.Condition;
 

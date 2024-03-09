@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.model.decks;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.Card;
-import it.polimi.ingsw.gc07.model.CardType;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import java.util.EmptyStackException;
 import java.util.Stack;
 

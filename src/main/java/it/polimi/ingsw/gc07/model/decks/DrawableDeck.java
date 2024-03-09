@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gc07.model.decks;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.cards.Card;
-import it.polimi.ingsw.gc07.model.CardType;
-import it.polimi.ingsw.gc07.model.GameResource;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
+import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
 
 import java.util.Stack;

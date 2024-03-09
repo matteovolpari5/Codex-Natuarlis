@@ -1,8 +1,7 @@
 package it.polimi.ingsw.gc07.model.cards;
 
-import it.polimi.ingsw.gc07.model.CardType;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
-import it.polimi.ingsw.gc07.model.cards.Card;
 
 /**
  * Class that represents placeable cards of the game.

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.model;
+package it.polimi.ingsw.gc07.model.enumerations;
 
 /**
  * Enum class for condition types.

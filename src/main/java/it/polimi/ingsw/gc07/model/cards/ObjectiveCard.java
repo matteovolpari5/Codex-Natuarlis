@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
-import it.polimi.ingsw.gc07.model.CardType;
-import it.polimi.ingsw.gc07.model.cards.Card;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 import java.util.concurrent.locks.Condition;
 
