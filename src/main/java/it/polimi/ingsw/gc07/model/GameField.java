@@ -121,12 +121,15 @@ public class GameField {
      * @param y y index of the matrix
      * @return card in position (x,y)
      */
-    public PlaceableCard getPlacedCard(int x, int y) throws IndexOutOfBoundsException, CardNotPresentException {
+    public PlaceableCard getPlacedCard(int x, int y) throws IndexOutOfBoundsException, CardNotPresentException, NullPointerException {
         if(x < 0 || x >= 80 || y <0 || y >= 80){
             throw new IndexOutOfBoundsException();
         }
         if(!cardsPosition[x][y]){
             throw new CardNotPresentException();
+        }
+        if(cardsContent[x][y] == null){
+            throw new NullPointerException();
         }
         // PlaceableCard is immutable, I can return the card without copy
         return cardsContent[x][y];
