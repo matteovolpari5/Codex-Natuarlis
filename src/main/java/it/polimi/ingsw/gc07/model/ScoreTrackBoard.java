@@ -18,6 +18,7 @@ public class ScoreTrackBoard {
     public ScoreTrackBoard() {
         playersScore = new HashMap<Player, Integer>();
         // TODO: devo popolarla con i Player che non sappiamo ancora dove siano memorizzati
+        // Per ora in Game
     }
 
     /**
