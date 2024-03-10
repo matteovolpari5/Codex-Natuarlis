@@ -1,4 +1,62 @@
 classDiagram
+    %% --------------------------------
+    %% Cards
+    %% --------------------------------
+    class Card {
+        <<abstract>>
+        - id: int
+        - type: CardType
+        + getId() int
+        + getType() CardType
+        + Card (id: int, type: CardType)
+    }
+    class ObjectiveCard {
+        - SCORINGCONDITION: Condition
+        - OBJECTIVESCORE: int
+        + getScoringCondition(): Condition
+        + getObjectiveScore(): int
+        + ObjectiveCard(cardID: int, cardType: CardType,\n scoringCondition: Condition, objectiveScore: int)
+    }
+    Card <|-- ObjectiveCard
+    class PlaceableCard {
+        <<abstract>>
+        - FRONTCORNER: boolean [4]
+        - FRONTCORNERSCONTENT: GameItem [4]
+        + getFrontCorners(): boolean [4]
+        + getFrontCornersContent(): GameItem[4]
+        + PlaceableCard (cardID: int, cardType: CardType,\n frontCorners: boolean [4], \n frontCornersContent: GameItem [4])
+    }
+    Card <|-- PlaceableCard
+    class StarterCard {
+        - PERMANENTRESOURCES: List<GameResource>
+        - BACKCORNERS: boolean [4]
+        - BACKCORNERSCONTENT: GameItem [4]
+        + getPermanentResources(): GameResource[3]
+        + getBackCorners(): boolean [4]
+        + getBackCornersContent(): GameItem [4]
+        + StarterCard(cardID: int, cardType: CardType, \n frontCorners: boolean [4], \nfrontCornersContent: GameItem [4],\n permanentCorners: List<GameResource>, \nbackCorners: boolean[4], \nbackCornersContent: GameItem[4])
+    }
+    PlaceableCard <|-- StarterCard
+    class NonStarterCard {
+        - PLACEMENTSCORE: int
+        - PERMANENTRESOURCE: GameResource
+        + getPermanentResource(): GameResource
+        + getPlacementScore: int
+        + NonStarterCard(cardID: int, \ncardType: CardType, frontCorners: boolean [4],\n frontCornersContent: GameItem [4],\n placementScore: int,\n permanentResource: GameResource)
+    }
+    PlaceableCard <|-- NonStarterCard
+    class GoldCard {
+        - PLACEMENTCONDITION: Condition
+        - SCORINGCONDITION: Condition
+        + getPlacementCondition(): Condition
+        + getScoringCondition(): Condition
+        + GoldCard(cardID: int, cardType: CardType,\n frontCorners: boolean[4], \nfrontCornersContent: GameItem[4], placementScore: int, \npermanentResource: GameResource, \nplacementCondition: Condition, scoringCondition: Condition)
+    }
+    NonStarterCard <|-- GoldCard
+
+    %% --------------------------------
+    %% Decks
+    %% --------------------------------
     Deck <|-- PlayingDeck
     PlayingDeck <|-- DrawableDeck
     class Deck{
@@ -19,6 +77,10 @@ classDiagram
         + revealBackDeckCard() GameResource
         + DrawableDeck(type: CardType, content: Stack<Card>, \n faceUpCard: Card[2], faceUpCardsPresent: boolean[2])
     }
+
+    %% --------------------------------
+    %% Conditions
+    %% --------------------------------
     class Condition {
         - type: ConditionType
         + getType() ConditionType
@@ -36,6 +98,8 @@ classDiagram
         + getNeededItems() List<GameItem>
         + ItemsCondition(conditionType: ConditionType, \n neededItems: List<GameItem>)
     }
+
+
     class GameField {
         - cardsContent: PlaceableCard[80][80]
         - cardsFace: boolean [80][80]
@@ -81,12 +145,4 @@ classDiagram
         + getSecretObjetive() ObjectiveCard
         + getConnectionType() boolean
         + Player(nickname: String, tokenColor: TokenColor, \n isFirst: boolean, currentHand: List<NonStarterCard>, \n gameField: GameField, secretObjective: ObjectiveCard, \n  connectionType: boolean)
-    }
-    class Card {
-        <<abstract>>
-        - id: int
-        - type: CardType
-        + getId() int
-        + getType() CardType
-        + Card (id: int, type: CardType)
     }
