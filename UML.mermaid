@@ -1,4 +1,48 @@
 classDiagram
+
+    %% --------------------------------
+    %% Enumerations
+    %% --------------------------------
+
+    class ConditionType {
+        <<enumeration>>
+        LAYOUT_CONDITION
+        ITEM_CONDITION
+        CORNER_COVERAGE_CONDITION
+    }
+    class CardType {
+        <<enumeration>>
+        RESOURCE_CARD
+        GOLD_CARD
+        STARTER_CARD
+        OBJECTIVE_CARD
+    }
+    class TokenColor {
+        <<enumeration>>
+        BLUE
+        GREEN
+        RED
+        YELLOW
+    }
+    class GameItem {
+        <<interface>>
+    }
+    class GameObject {
+        <<enumeration>>
+        QUILL
+        INKWELL
+        MANUSCRIPT
+    }
+    class GameResource {
+        <<enumeration>>
+        PLANT
+        ANIMAL
+        FUNGI
+        INSECT
+    }
+    GameItem <|.. GameResource
+    GameItem <|.. GameObject
+
     %% --------------------------------
     %% Cards
     %% --------------------------------
