@@ -178,6 +178,10 @@ classDiagram
         - goldCardsDeck: Deck
         - objectiveCardsDeck: Deck
         - starterCardsDeck: Deck
+        + addplayer(player: Player)
+        + isFull(): boolean
+        + disconnectPlayer(player: Player)
+        + reconnectPlayer(player: Player)
     }
     Condition <|-- LayoutCondition
     Condition <|-- ItemsCondition
@@ -185,6 +189,7 @@ classDiagram
         - nickname: String
         - tokenColor: TokenColor
         - isFirst: boolean
+        - isConnected boolean
         - currentHand: List ~NonStarterCard~
         - gameField: GameField
         - secretObjectve: ObjectiveCard
@@ -197,5 +202,9 @@ classDiagram
         + getGameField() GameField
         + getSecretObjetive() ObjectiveCard
         + getConnectionType() boolean
+        + setFirst()
+        + setConnected(isConnected: boolean)
+        + isConnected(): boolean
         + Player(nickname: String, tokenColor: TokenColor, \n isFirst: boolean, currentHand: List~NonStarterCard~, \n gameField: GameField, secretObjective: ObjectiveCard, \n  connectionType: boolean)
+        + Player(existingPlayer: Player)
     }
