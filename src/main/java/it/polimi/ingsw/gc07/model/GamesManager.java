@@ -43,5 +43,18 @@ public class GamesManager {
         // 2
         // Sul game creato / sul game trovato:
         // game.addPlayer(nickname, tokenColor, connectionType)
+
+        // eventualmente creare dei metodi privati (/statici) per spezzettare
     }
+
+    private boolean checkNickname(String nickname) {
+        // TODO
+        // Controllare che sia unico
+        // ritorna true se il nickname è unico
+        // basta controllare che sia unico tra i nickname dei player
+        // di tutti i game ??
+    }
+
+    // TODO
+    // se un Game finisce, lo elimino dalla lista e li faccio scalare?
 }

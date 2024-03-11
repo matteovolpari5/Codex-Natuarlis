@@ -4,7 +4,10 @@ import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.cards.Card;
 import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
+import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.*;
@@ -38,19 +41,21 @@ public class Game {
     /**
      * Deck of resource cards.
      */
-    private Deck resourceCardsDeck;
+    private DrawableDeck resourceCardsDeck;
     /**
      * Deck of gold cards.
      */
-    private Deck goldCardsDeck;
+    private DrawableDeck goldCardsDeck;
     /**
      * Deck of objective cards.
      */
-    private Deck objectiveCardsDeck;
+    private PlayingDeck objectiveCardsDeck;
     /**
      * Deck of starter cards.
      */
     private Deck starterCardsDeck;
+
+    private boolean lastTurn;
 
     /**
      * Constructor of a Game with only the first player.
@@ -78,6 +83,7 @@ public class Game {
         this.objectiveCardsDeck = objectiveCardsDeck;
         this.starterCardsDeck = starterCardsDeck;
         this.currPlayer = 0;
+        this.lastTurn = false;
         addPlayer(nickname, tokenColor, connectionType);
     }
 
@@ -143,4 +149,47 @@ public class Game {
     public void reconnectPlayer(Player player){
         // TODO: reconnect the player
     }
+
+    public void changeCurrPlayer() {
+        // TODO
+        // Cambia currPlayer al prossimo
+        // Se lastTurn = false, rotazione normale
+        // Se lastTurn = true, controlla di non andare oltre all'ultimo giro
+        // Se lastTurn = true e ha completato l'ultimo giro,
+        // chiama computeWinner()
+        // Comunica al player che è il suo turno (?)
+    }
+
+    public void placeCard(PlaceableCard card, int x, int y, boolean way) {
+        // TODO
+        // posso aggiungerla solo al currentPlayer
+        // qualcuno deve assicurarsi che solo il current player giochi
+        // chiama placeCard sul gamefield del current player
+        // chiama il metodo addPoints che aggiunge i punti al giocatore
+    }
+
+    private void addPoints(int x, int y) {
+        // TODO
+        // il player è ancora il current player, devo passarglielo?
+        // la card è già stata piazzata
+        // conoscendo x e y posso verificare quanti punti ha fatto e
+        // aggiornare il punteggio su scoreTrackBoard
+        // se il punteggio è >= 20 (?) lastTurn = true
+    }
+
+    private Player computeWinner() {
+        // TODO
+        // Considerando le carte obiettivo finale comuni e le
+        // carte obiettivo segrete, calcola il punteggio finale
+        // per tutti i giocatori
+        // se parità, ... (vedi regole)
+        // restituisce il player vincitore,
+        // in caso di parità ??
+    }
+
+    // TODO
+    // metodi per pescare una carta
+    // metodi per rivelare le carte scoperte
+    // uno per ogni tipo di carta oppure prendono un tipo di carta?
+    // Nel metodo per pescare una carta, alla fine si chiama changeCurrPlayer
 }
