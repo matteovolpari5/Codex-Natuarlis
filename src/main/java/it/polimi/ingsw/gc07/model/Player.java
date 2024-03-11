@@ -26,6 +26,10 @@ public class Player {
      */
     private boolean isFirst;
     /**
+     * Boolean value representing if the player is connected.
+     */
+    private boolean isConnected;
+    /**
      * List of cards the player currently has.
      */
     private List<NonStarterCard> currentHand;
@@ -48,17 +52,20 @@ public class Player {
      * Constructor of class player
      * @param nickname player's nickname
      * @param tokenColor player's token color
-     * @param isFirst true for first player
+     * @param isConnected true if the player is connected
      * @param currentHand current hand
      * @param secretObjective player's secret objective card
      * @param connectionType player's connection type
      */
-    public Player(String nickname, TokenColor tokenColor, boolean isFirst,
+    public Player(String nickname, TokenColor tokenColor, boolean isConnected,
                   List<NonStarterCard> currentHand, ObjectiveCard secretObjective,
                   boolean connectionType) {
         this.nickname = nickname;
         this.tokenColor = tokenColor;
-        this.isFirst = isFirst;
+        this.isFirst = false;
+        // TODO is connected inizialmente è per forza true?
+        // Se sì, rimuovere dai parametri
+        this.isConnected = isConnected;
         this.currentHand = new ArrayList<>(currentHand);
         this.gameField = new GameField();
         this.secretObjective = secretObjective;
@@ -79,6 +86,10 @@ public class Player {
      */
     public TokenColor getTokenColor() {
         return tokenColor;
+    }
+
+    public void setFirst(){
+        this.isFirst = true;
     }
 
     /**
