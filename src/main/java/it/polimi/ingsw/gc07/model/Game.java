@@ -49,15 +49,23 @@ public class Game {
      * @param gameId id of the game
      * @param playersNumber number of players
      * @param firstPlayer player who creates the game
+     * @param resourceCardsDeck
+     * @param goldCardsDeck
+     * @param objectiveCardsDeck
+     * @param starterCardsDeck
      */
-    public Game(int gameId, int playersNumber, Player firstPlayer) {
+    public Game(int gameId, int playersNumber, Player firstPlayer, Deck resourceCardsDeck,
+                Deck goldCardsDeck, Deck objectiveCardsDeck, Deck starterCardsDeck) {
         this.gameId = gameId;
         // TODO: mettiamo un'eccezione per playersNumber?
         this.playersNumber = playersNumber;
         this.players = new ArrayList<>();
         this.players.add(new Player(firstPlayer));
         this.scoreTrackBoard = new ScoreTrackBoard();
-        // TODO: chi costruisce i deck, le carte, le condizioni?
+        this.resourceCardsDeck = resourceCardsDeck;
+        this.goldCardsDeck = goldCardsDeck;
+        this.objectiveCardsDeck = objectiveCardsDeck;
+        this.starterCardsDeck = starterCardsDeck;
     }
 
     /**
@@ -69,5 +77,21 @@ public class Game {
         // Inserisce un giocatore
         // Controlla se è ultimo, se sì, scegliere il primo giocatore a caso e
         // modifica il suo attributo isFirst e lo mette come currPlayer
+    }
+
+    /**
+     * Method telling if there are available places in the game.
+     * @return true if no other player can connect to the game
+     */
+    public boolean isFull(){
+        return players.size() == playersNumber;
+    }
+
+    public void disconnectPlayer(Player player){
+        //TODO: disconnect the player
+    }
+
+    public void reconnectPlayer(Player player){
+        // TODO: reconnect the player
     }
 }
