@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc07.model.decks.Deck;
 import java.util.List;
 
 public class Game {
+    private int gameId;
     /**
      * Number of players in the game, chose by the first player.
      */
