@@ -26,8 +26,10 @@ public class ScoreTrackBoard {
      * @param player player to add
      */
     public void addPlayer(Player player) throws PlayerAlreadyPresentException {
-        if (playersScore.containsKey(player)) {
-            throw new PlayerAlreadyPresentException();
+        for(Player p : playersScore.keySet()){
+            if(p.getNickname().equals(player.getNickname())){
+                throw new PlayerAlreadyPresentException();
+            }
         }
         playersScore.put(player, 0);
     }

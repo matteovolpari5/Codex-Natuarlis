@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
+import it.polimi.ingsw.gc07.exceptions.PlayerAlreadyPresentException;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 
 import java.util.ArrayList;
@@ -55,13 +56,16 @@ public class Game {
      * @param starterCardsDeck
      */
     public Game(int gameId, int playersNumber, Player firstPlayer, Deck resourceCardsDeck,
-                Deck goldCardsDeck, Deck objectiveCardsDeck, Deck starterCardsDeck) {
+                Deck goldCardsDeck, Deck objectiveCardsDeck, Deck starterCardsDeck)
+                throws PlayerAlreadyPresentException {
         this.gameId = gameId;
         // TODO: mettiamo un'eccezione per playersNumber?
         this.playersNumber = playersNumber;
         this.players = new ArrayList<>();
-        this.players.add(new Player(firstPlayer));
+        Player firstPlayerCopy = new Player(firstPlayer);
+        this.players.add(firstPlayerCopy);
         this.scoreTrackBoard = new ScoreTrackBoard();
+        this.scoreTrackBoard.addPlayer(firstPlayerCopy);
         this.resourceCardsDeck = resourceCardsDeck;
         this.goldCardsDeck = goldCardsDeck;
         this.objectiveCardsDeck = objectiveCardsDeck;
