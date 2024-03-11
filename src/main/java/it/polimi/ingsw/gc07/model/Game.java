@@ -13,6 +13,10 @@ public class Game {
      */
     private List<Player> players;
     /**
+     * Integer value representing the index of the current player in the List
+     */
+    private int currPlayer;
+    /**
      * Score track board of the game.
      */
     private ScoreTrackBoard scoreTrackBoard;
@@ -38,6 +42,7 @@ public class Game {
         // quando lo costruisco? ad es, quando si connette il primo giocatore
         // come costrusisco tutte le condition, le carte, i deck?
     }
-
     // addPlayer ? -> dipende da come costruisco il Game
+
+    // solo getter o anche setter -> attento a non fare sfuggire riferimenti
 }
