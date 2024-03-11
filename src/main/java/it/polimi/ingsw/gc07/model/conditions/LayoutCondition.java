@@ -29,7 +29,6 @@ public class LayoutCondition extends Condition{
      * @param cardsPosition position of the card
      * @param cardsColor resource (= color) of the card
      */
-    // TODO: con le enumerazioni ho problemi di riferimenti?
     public LayoutCondition(ConditionType conditionType, boolean[][] cardsPosition, GameResource[][] cardsColor) {
         super(conditionType);
         boolean[][] cardsPositionCopy = new boolean[3][3];
@@ -64,7 +63,6 @@ public class LayoutCondition extends Condition{
      * the color / resource that needs to be found in every position.
      * @return copy of matrix cardsColor
      */
-    // TODO: con le enumerazioni ho problemi di riferimenti?
     public GameResource[][] getCardsColor() {
         GameResource[][] cardsColorCopy = new GameResource[3][3];
         for(int i = 0; i < 3; i++){
