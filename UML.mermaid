@@ -103,6 +103,7 @@ classDiagram
     %% --------------------------------
     Deck <|-- PlayingDeck
     PlayingDeck <|-- DrawableDeck
+    Deck --> Card
     class Deck{
         ~ type: CardType
         ~ content: Stack~Card~
@@ -130,6 +131,7 @@ classDiagram
         + getType() ConditionType
         + Condition(type: ConditionType)
     }
+    LayoutCondition --> GameResource
     class LayoutCondition {
         - CARDSPOSITION: boolean [3][3]
         - CARDSCOLOR: GameResource[3][3]
@@ -137,6 +139,7 @@ classDiagram
         + getCardsPosition() boolean[3][3]
         + LayoutCondition(conditionType: ConditionType, \n cardsPosition: boolean[3][3], \n cardsColor: GameResource[3][3])
     }
+    ItemsCondition --> GameItem
     class ItemsCondition {
         - NEEDEDITEMS: List~GameItem~
         + getNeededItems() List~GameItem~
@@ -155,6 +158,7 @@ classDiagram
         + GameField()
         + GameField(GameField existingGameField)
     }
+    ScoreTrackBoard --> Player
     class ScoreTrackBoard {
         - playersScore: Map~Player, Integer~
         + addPlayer(player: Player)
@@ -162,6 +166,9 @@ classDiagram
         + getScore(player: Player) int
         + ScoreTrackBoard()
     }
+    Game --> Deck
+    Game --> ScoreTrackBoard
+    Game --> Player
     class Game {
         - gameId: int;
         - playersNumber: int
