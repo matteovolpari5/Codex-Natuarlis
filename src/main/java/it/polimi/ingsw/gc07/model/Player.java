@@ -26,6 +26,10 @@ public class Player {
      */
     private boolean isFirst;
     /**
+     * Boolean value representing if the player is connected.
+     */
+    private boolean isConnected;
+    /**
      * List of cards the player currently has.
      */
     private List<NonStarterCard> currentHand;
@@ -48,22 +52,31 @@ public class Player {
      * Constructor of class player
      * @param nickname player's nickname
      * @param tokenColor player's token color
-     * @param isFirst true for first player
      * @param currentHand current hand
-     * @param gameField player's game field
      * @param secretObjective player's secret objective card
      * @param connectionType player's connection type
      */
-    public Player(String nickname, TokenColor tokenColor, boolean isFirst,
-                  List<NonStarterCard> currentHand, GameField gameField,
+    public Player(String nickname, TokenColor tokenColor, List<NonStarterCard> currentHand,
                   ObjectiveCard secretObjective, boolean connectionType) {
         this.nickname = nickname;
         this.tokenColor = tokenColor;
-        this.isFirst = isFirst;
+        this.isFirst = false;
+        this.isConnected = true;
         this.currentHand = new ArrayList<>(currentHand);
-        this.gameField = new GameField(gameField);
+        this.gameField = new GameField();
         this.secretObjective = secretObjective;
         this.connectionType = connectionType;
+    }
+
+    public Player(Player existingPlayer) {
+        this.nickname = existingPlayer.nickname;
+        this.tokenColor = existingPlayer.tokenColor;
+        this.isFirst = existingPlayer.isFirst;
+        this.isConnected = existingPlayer.isConnected;
+        this.currentHand = new ArrayList<>(existingPlayer.currentHand);
+        this.gameField = new GameField(existingPlayer.gameField);
+        this.secretObjective = existingPlayer.secretObjective;
+        this.connectionType = existingPlayer.connectionType;
     }
 
     /**
@@ -82,12 +95,32 @@ public class Player {
         return tokenColor;
     }
 
+    public void setFirst(){
+        this.isFirst = true;
+    }
+
     /**
      * Getter for attribute isFirst
      * @return true if the player is first
      */
     public boolean isFirst() {
         return isFirst;
+    }
+
+    /**
+     * Setter for the connection state of the player
+     * @param isConnected if true the player is connected
+     */
+    public void setConnected(boolean isConnected){
+        this.isConnected = isConnected;
+    }
+
+    /**
+     * Getter method for the player's connection state.
+     * @return
+     */
+    public boolean isConnected(){
+        return this.isConnected;
     }
 
     /**
