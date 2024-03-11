@@ -68,6 +68,17 @@ public class Player {
         this.connectionType = connectionType;
     }
 
+    public Player(Player existingPlayer) {
+        this.nickname = existingPlayer.nickname;
+        this.tokenColor = existingPlayer.tokenColor;
+        this.isFirst = existingPlayer.isFirst;
+        this.isConnected = existingPlayer.isConnected;
+        this.currentHand = new ArrayList<>(existingPlayer.currentHand);
+        this.gameField = new GameField(existingPlayer.gameField);
+        this.secretObjective = existingPlayer.secretObjective;
+        this.connectionType = existingPlayer.connectionType;
+    }
+
     /**
      * Getter for nickname.
      * @return this.nickname

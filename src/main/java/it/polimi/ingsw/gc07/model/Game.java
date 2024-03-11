@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.model.decks.Deck;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
@@ -42,12 +44,30 @@ public class Game {
      */
     private Deck starterCardsDeck;
 
-    // TODO
-    public Game(){
-        // quando lo costruisco? ad es, quando si connette il primo giocatore
-        // come costrusisco tutte le condition, le carte, i deck?
+    /**
+     * Constructor of a Game with only the first player.
+     * @param gameId id of the game
+     * @param playersNumber number of players
+     * @param firstPlayer player who creates the game
+     */
+    public Game(int gameId, int playersNumber, Player firstPlayer) {
+        this.gameId = gameId;
+        // TODO: mettiamo un'eccezione per playersNumber?
+        this.playersNumber = playersNumber;
+        this.players = new ArrayList<>();
+        this.players.add(new Player(firstPlayer));
+        this.scoreTrackBoard = new ScoreTrackBoard();
+        // TODO: chi costruisce i deck, le carte, le condizioni?
     }
-    // addPlayer ? -> dipende da come costruisco il Game
 
-    // solo getter o anche setter -> attento a non fare sfuggire riferimenti
+    /**
+     * Method to add a new player.
+     * @param player player to add to the game
+     */
+    public void addPlayer(Player player){
+        // TODO
+        // Inserisce un giocatore
+        // Controlla se è ultimo, se sì, scegliere il primo giocatore a caso e
+        // modifica il suo attributo isFirst e lo mette come currPlayer
+    }
 }
