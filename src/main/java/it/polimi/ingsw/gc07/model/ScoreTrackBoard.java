@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.NonValidScoreExcpetion;
+import it.polimi.ingsw.gc07.exceptions.PlayerAlreadyPresentException;
 import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentExcpetion;
 
 import java.util.Map;
@@ -19,6 +20,18 @@ public class ScoreTrackBoard {
         playersScore = new HashMap<Player, Integer>();
         // TODO: devo popolarla con i Player che non sappiamo ancora dove siano memorizzati
         // Per ora in Game
+    }
+
+    /**
+     * Method that allows to insert a new Player to the ScoreTrackBoard,
+     * initializing it's score to 0.
+     * @param player player to add
+     */
+    public void addPlayer(Player player) throws PlayerAlreadyPresentException {
+        if (playersScore.containsKey(player)) {
+            throw new PlayerAlreadyPresentException();
+        }
+        playersScore.put(player, 0);
     }
 
     /**
