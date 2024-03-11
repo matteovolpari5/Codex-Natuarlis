@@ -127,6 +127,7 @@ classDiagram
     %% Conditions
     %% --------------------------------
     class Condition {
+        <<abstract>>
         - type: ConditionType
         + getType() ConditionType
         + Condition(type: ConditionType)
@@ -138,12 +139,19 @@ classDiagram
         + getCardsColor() GameResource[3][3]
         + getCardsPosition() boolean[3][3]
         + LayoutCondition(conditionType: ConditionType, \n cardsPosition: boolean[3][3], \n cardsColor: GameResource[3][3])
+        + numTimesMet(gameField: GameField): int
     }
     ItemsCondition --> GameItem
     class ItemsCondition {
         - NEEDEDITEMS: List~GameItem~
         + getNeededItems() List~GameItem~
         + ItemsCondition(conditionType: ConditionType, \n neededItems: List~GameItem~)
+        + numTimesMet(gameField: GameField): int
+    }
+    class CornerCoverageCondition {
+        + CornerCoverageCondition(type: ConditionType)
+        +numTimesMet(gameField: GameField, x: int, y: int)
+
     }
 
 
@@ -178,13 +186,15 @@ classDiagram
         - goldCardsDeck: Deck
         - objectiveCardsDeck: Deck
         - starterCardsDeck: Deck
-        + addplayer(player: Player)
+        + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean)
         + isFull(): boolean
         + disconnectPlayer(player: Player)
         + reconnectPlayer(player: Player)
+        + Game(...)
     }
     Condition <|-- LayoutCondition
     Condition <|-- ItemsCondition
+    Condition <|-- CornerCoverageCondition
     class Player {
         - nickname: String
         - tokenColor: TokenColor
@@ -207,4 +217,9 @@ classDiagram
         + isConnected(): boolean
         + Player(nickname: String, tokenColor: TokenColor, \n isFirst: boolean, currentHand: List~NonStarterCard~, \n gameField: GameField, secretObjective: ObjectiveCard, \n  connectionType: boolean)
         + Player(existingPlayer: Player)
+    }
+    class GamesManager {
+        - games: List<Games>
+        + GamesManager()
+        + addPlayer()
     }
