@@ -80,7 +80,8 @@ public class LayoutCondition extends Condition{
      * @return number of times the layout is found
      */
     public int numTimesMet(GameField gameField) {
-        //TODO implementare
+        // TODO implementare
+        // starter card non può essere usata (?)
         return 0;
     }
 }

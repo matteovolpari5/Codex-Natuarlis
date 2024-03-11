@@ -14,6 +14,8 @@ public class GoldCard extends NonStarterCard {
      * Attribute that shows the placement condition of the gold card
      */
     private final Condition placementCondition;
+
+    private final boolean hasScoringCondition;
     /**
      * Attribute that shows the scoring condition of the gold card
      */
@@ -33,9 +35,10 @@ public class GoldCard extends NonStarterCard {
     public GoldCard(int cardID, CardType cardType, boolean[] frontCorners,
                     GameItem[] frontCornersContent, int placementScore,
                     GameResource permanentResource, Condition placementCondition,
-                    Condition scoringCondition) {
+                    boolean hasScoringCondition, Condition scoringCondition) {
         super(cardID, cardType, frontCorners, frontCornersContent, placementScore, permanentResource);
         this.placementCondition = placementCondition;
+        this.hasScoringCondition = hasScoringCondition;
         this.scoringCondition = scoringCondition;
     }
 
@@ -46,6 +49,10 @@ public class GoldCard extends NonStarterCard {
     public Condition getPlacementCondition() {
         return this.placementCondition;
     };
+
+    public boolean hasScoringCondition(){
+        return this.hasScoringCondition;
+    }
 
     /**
      * Getter method of the attribute scoringCondition
