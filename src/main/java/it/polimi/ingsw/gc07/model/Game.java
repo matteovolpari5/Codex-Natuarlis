@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
+import it.polimi.ingsw.gc07.model.cards.Card;
 import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
@@ -106,8 +107,25 @@ public class Game {
         }
     }
 
+    private void setup() {
+        // TODO
+        // sceglie il primo giocatore a caso e modifica il suo
+        // attributo isFirst e lo mette come currPlayer
+        // scopre 2 carte per ogni deck
+        // distribuisce casualmente le starter card e le piazza
+        // sul game field (chiedendo al player il verso)
+    }
+
     public Set<Player> getPlayers() {
-        return playersGameField.keySet();
+        Set<Player> playersSet = new HashSet<>();
+        for(Player p: playersGameField.keySet()){
+            playersSet.add(new Player(p));
+        }
+        return playersSet;
+    }
+
+    public Player getCurrentPlayer(){
+        return new Player(playersPosition.get(currPlayer));
     }
 
     /**
@@ -124,14 +142,5 @@ public class Game {
 
     public void reconnectPlayer(Player player){
         // TODO: reconnect the player
-    }
-
-    private void setup() {
-        // TODO
-        // sceglie il primo giocatore a caso e modifica il suo
-        // attributo isFirst e lo mette come currPlayer
-        // scopre 2 carte per ogni deck
-        // distribuisce casualmente le starter card e le piazza
-        // sul game field (chiedendo al player il verso)
     }
 }
