@@ -6,10 +6,7 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
     /**
@@ -22,11 +19,15 @@ public class Game {
      */
     private int playersNumber;
     /**
-     * List of players in the game.
+     * Map of players and their game field.
      */
-    private Map<Player, GameField> players;
+    private Map<Player, GameField> playersGameField;
     /**
-     * Integer value representing the index of the current player in the List
+     * Map of players and an integer for their order.
+     */
+    private Map<Integer, Player> playersPosition;
+    /**
+     * Integer value representing the position of the current player
      */
     private int currPlayer;
     /**
@@ -68,12 +69,14 @@ public class Game {
         this.gameId = gameId;
         // TODO: mettiamo un'eccezione per playersNumber?
         this.playersNumber = playersNumber;
-        this.players = new HashMap<>();
+        this.playersPosition = new HashMap<>();
+        this.playersGameField = new HashMap<>();
         this.scoreTrackBoard = new ScoreTrackBoard();
         this.resourceCardsDeck = resourceCardsDeck;
         this.goldCardsDeck = goldCardsDeck;
         this.objectiveCardsDeck = objectiveCardsDeck;
         this.starterCardsDeck = starterCardsDeck;
+        this.currPlayer = 0;
         addPlayer(nickname, tokenColor, connectionType);
     }
 
@@ -91,6 +94,9 @@ public class Game {
             Player newPlayer = new Player(nickname, tokenColor, currentHand, secretObjective, connectionType);
             // TODO
             // Creare il GameField vuoto
+            // currPlayer è inizializzato a 0 dal costruttore
+            // Aggiungere posizione (currPlayer) e Player alla mappa
+            // Incrementare currPlayer (per pos del prossimo Player)
             // Aggiunge Player e GameField alla mappa
             // Aggiungere Player allo ScoreTrackBoard
             // Controlla se è ultimo, se sì, chiama un metodo setup()
@@ -100,12 +106,16 @@ public class Game {
         }
     }
 
+    public Set<Player> getPlayers() {
+        return playersGameField.keySet();
+    }
+
     /**
      * Method telling if there are available places in the game.
      * @return true if no other player can connect to the game
      */
     public boolean isFull(){
-        return players.size() == playersNumber;
+        return playersPosition.size() == playersNumber;
     }
 
     public void disconnectPlayer(Player player){

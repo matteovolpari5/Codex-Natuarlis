@@ -23,6 +23,8 @@ public class GamesManager {
      * Places in games are filled in order.
      */
     public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType) {
+        // probabilmente controllo qua che il nickname sia unico
+
         // TODO
         // 1
         // Controlla se esiste un game con posti disponibili, ovvero
