@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
+import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 
@@ -71,5 +72,15 @@ public class LayoutCondition extends Condition{
             }
         }
         return cardsColorCopy;
+    }
+
+    /**
+     * Implementation of numTimesMet.
+     * Counts how many times the layout is found in the gameField.
+     * @return number of times the layout is found
+     */
+    public int numTimesMet(GameField gameField) {
+        //TODO implementare
+        return 0;
     }
 }

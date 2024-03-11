@@ -34,10 +34,6 @@ public class Player {
      */
     private List<NonStarterCard> currentHand;
     /**
-     * Player's game field.
-     */
-    private GameField gameField;
-    /**
      * Player's secret objective, it is an objective card.
      */
     private ObjectiveCard secretObjective;
@@ -63,7 +59,6 @@ public class Player {
         this.isFirst = false;
         this.isConnected = true;
         this.currentHand = new ArrayList<>(currentHand);
-        this.gameField = new GameField();
         this.secretObjective = secretObjective;
         this.connectionType = connectionType;
     }
@@ -74,7 +69,6 @@ public class Player {
         this.isFirst = existingPlayer.isFirst;
         this.isConnected = existingPlayer.isConnected;
         this.currentHand = new ArrayList<>(existingPlayer.currentHand);
-        this.gameField = new GameField(existingPlayer.gameField);
         this.secretObjective = existingPlayer.secretObjective;
         this.connectionType = existingPlayer.connectionType;
     }
@@ -127,7 +121,9 @@ public class Player {
      * Setter for cards in player's hand.
      * @param currentHand current card in player's hand
      */
-    public void setCurrentHand(List<NonStarterCard> currentHand){}
+    public void setCurrentHand(List<NonStarterCard> currentHand){
+        // TODO
+    }
 
     /**
      * Getter for cards in player's hand.
@@ -138,20 +134,13 @@ public class Player {
     }
 
     /**
-     * Getter for game field.
-     * @return game field
-     */
-    public GameField getGameField() {
-        return new GameField(gameField);
-    }
-
-    /**
      * Getter for the secret objective card.
      * @return secret objective card
      */
     public ObjectiveCard getSecretObjective() {
         return secretObjective;
     }
+
     /**
      * Getter for the connection type
      * @return connection type
@@ -159,4 +148,6 @@ public class Player {
     public boolean getConnectionType(){
         return this.connectionType;
     }
+
+
 }
