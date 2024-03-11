@@ -1,8 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
-import it.polimi.ingsw.gc07.exceptions.PlayerAlreadyPresentException;
-import it.polimi.ingsw.gc07.model.cards.Card;
 import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
@@ -10,6 +8,8 @@ import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Game {
     /**
@@ -24,7 +24,7 @@ public class Game {
     /**
      * List of players in the game.
      */
-    private List<Player> players;
+    private Map<Player, GameField> players;
     /**
      * Integer value representing the index of the current player in the List
      */
@@ -68,7 +68,7 @@ public class Game {
         this.gameId = gameId;
         // TODO: mettiamo un'eccezione per playersNumber?
         this.playersNumber = playersNumber;
-        this.players = new ArrayList<>();
+        this.players = new HashMap<>();
         this.scoreTrackBoard = new ScoreTrackBoard();
         this.resourceCardsDeck = resourceCardsDeck;
         this.goldCardsDeck = goldCardsDeck;
@@ -90,9 +90,10 @@ public class Game {
             ObjectiveCard secretObjective = (ObjectiveCard) objectiveCardsDeck.drawDeckCard();
             Player newPlayer = new Player(nickname, tokenColor, currentHand, secretObjective, connectionType);
             // TODO
-            // Aggiunge Player alla lista e allo ScoreTrackBoard
-            // Controlla se è ultimo, se sì, scegliere il primo giocatore a caso e
-            // modifica il suo attributo isFirst e lo mette come currPlayer
+            // Creare il GameField vuoto
+            // Aggiunge Player e GameField alla mappa
+            // Aggiungere Player allo ScoreTrackBoard
+            // Controlla se è ultimo, se sì, chiama un metodo setup()
         }
         catch(CardNotPresentException e){
             e.printStackTrace();
@@ -113,5 +114,14 @@ public class Game {
 
     public void reconnectPlayer(Player player){
         // TODO: reconnect the player
+    }
+
+    private void setup() {
+        // TODO
+        // sceglie il primo giocatore a caso e modifica il suo
+        // attributo isFirst e lo mette come currPlayer
+        // scopre 2 carte per ogni deck
+        // distribuisce casualmente le starter card e le piazza
+        // sul game field (chiedendo al player il verso)
     }
 }
