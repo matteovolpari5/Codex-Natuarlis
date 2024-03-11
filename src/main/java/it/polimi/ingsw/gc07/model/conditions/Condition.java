@@ -1,12 +1,14 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
+import it.polimi.ingsw.gc07.model.Game;
+import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 
 /**
  * Class representing conditions found on game cards: these conditions can
  * be placing conditions or scoring conditions
  */
-public class Condition {
+public abstract class Condition {
     /**
      * Attribute representing the ConditionType of the Condition
      */

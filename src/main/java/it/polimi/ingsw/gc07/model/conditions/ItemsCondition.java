@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
+import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 import it.polimi.ingsw.gc07.model.GameItem;
 
@@ -32,5 +33,15 @@ public class ItemsCondition extends Condition {
      */
     public List<GameItem> getNeededItems() {
         return new ArrayList<>(this.neededItems);
+    }
+
+    /**
+     * Implementation of numTimesMet.
+     * Counts how many times neededItems is found in the gameField.
+     * @return number of times the list of items is found
+     */
+    public int numTimesMet(GameField gameField) {
+        //TODO implementare
+        return 0;
     }
 }
