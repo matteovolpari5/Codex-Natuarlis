@@ -50,18 +50,17 @@ public class Player {
      * @param tokenColor player's token color
      * @param isFirst true for first player
      * @param currentHand current hand
-     * @param gameField player's game field
      * @param secretObjective player's secret objective card
      * @param connectionType player's connection type
      */
     public Player(String nickname, TokenColor tokenColor, boolean isFirst,
-                  List<NonStarterCard> currentHand, GameField gameField,
-                  ObjectiveCard secretObjective, boolean connectionType) {
+                  List<NonStarterCard> currentHand, ObjectiveCard secretObjective,
+                  boolean connectionType) {
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.isFirst = isFirst;
         this.currentHand = new ArrayList<>(currentHand);
-        this.gameField = new GameField(gameField);
+        this.gameField = new GameField();
         this.secretObjective = secretObjective;
         this.connectionType = connectionType;
     }
