@@ -1,15 +1,122 @@
 classDiagram
+    %% --------------------------------
+    %% Cards
+    %% --------------------------------
+    class Card {
+        <<abstract>>
+        - id: int
+        - type: CardType
+        + Card (id: int, type: CardType)
+        + getId() int
+        + getType() CardType
+    }
+    class GoldCard {
+        - PLACEMENTCONDITION: Condition
+        - SCORINGCONDITION: Condition
+        - HASSCORINGCONDITION: boolean
+        + GoldCard(cardID: int, cardType: CardType,\n frontCorners: boolean[4], \nfrontCornersContent: GameItem[4], placementScore: int, \npermanentResource: GameResource, \nplacementCondition: Condition, hasScoringCondition: boolean, \nscoringCondition: Condition)
+        + getPlacementCondition() Condition
+        + getScoringCondition() Condition
+        + hasScoringCondition() boolean
+    }
+    class NonStarterCard {
+        - PLACEMENTSCORE: int
+        - PERMANENTRESOURCE: GameResource
+        + NonStarterCard(cardID: int, \ncardType: CardType, frontCorners: boolean [4],\n frontCornersContent: GameItem [4],\n placementScore: int,\n permanentResource: GameResource)
+        + getPlacementScore int
+        + getPermanentResource() GameResource
+    }
+    class ObjectiveCard {
+        - SCORINGCONDITION: Condition
+        - OBJECTIVESCORE: int
+        + ObjectiveCard(cardID int, cardType: CardType,\n scoringCondition: Condition, objectiveScore: int)
+        + getScoringCondition() Condition
+        + getObjectiveScore() int
+    }
+    class PlaceableCard {
+        <<abstract>>
+        - FRONTCORNERS: boolean [4]
+        - FRONTCORNERSCONTENT: GameItem [4]
+        + PlaceableCard (cardID: int, cardType: CardType,\n frontCorners: boolean [4], \n frontCornersContent: GameItem [4])
+        + getFrontCorners() boolean [4]
+        + getFrontCornersContent() GameItem[4]
+    }
+    class StarterCard {
+        - PERMANENTRESOURCES: List~GameResource~
+        - BACKCORNERS: boolean [4]
+        - BACKCORNERSCONTENT: GameItem [4]
+        + StarterCard(cardID: int, cardType: CardType, \n frontCorners: boolean [4], \nfrontCornersContent: GameItem [4],\n permanentResources: List~GameResource~, \nbackCorners: boolean[4], \nbackCornersContent: GameItem[4])
+        + getPermanentResources() GameResource[3]
+        + getBackCorners() boolean [4]
+        + getBackCornersContent() GameItem [4]
+    }
+    Card <|-- ObjectiveCard
+    Card <|-- PlaceableCard
+    PlaceableCard <|-- StarterCard
+    PlaceableCard <|-- NonStarterCard
+    NonStarterCard <|-- GoldCard
+
+    %% --------------------------------
+    %% Conditions
+    %% --------------------------------
+    class Condition {
+        <<abstract>>
+        - TYPE: ConditionType
+        + Condition(type: ConditionType)
+        + getType() ConditionType
+    }
+    class CornerCoverageCondition {
+        + CornerCoverageCondition(type: ConditionType)
+        + numTimesMet(gameField: GameField, x: int, y: int) int
+    }
+    class ItemsCondition {
+        - NEEDEDITEMS: List~GameItem~
+        + ItemsCondition(conditionType: ConditionType, \n neededItems: List~GameItem~)
+        + getNeededItems() List~GameItem~
+        + numTimesMet(gameField: GameField) int
+    }
+    class LayoutCondition {
+        - CARDSPOSITION: boolean [3][3]
+        - CARDSCOLOR: GameResource[3][3]
+        + LayoutCondition(conditionType: ConditionType, \n cardsPosition: boolean[3][3], \n cardsColor: GameResource[3][3])
+        + getCardsColor() GameResource[3][3]
+        + getCardsPosition() boolean[3][3]
+        + numTimesMet(gameField: GameField) int
+    }
+    LayoutCondition --> GameResource
+    ItemsCondition --> GameItem
+    Condition <|-- LayoutCondition
+    Condition <|-- ItemsCondition
+    Condition <|-- CornerCoverageCondition
+
+    %% --------------------------------
+    %% Decks
+    %% --------------------------------
+    class Deck{
+        ~ TYPE: CardType
+        ~ content: Stack~Card~
+        + Deck(type: CardType, content: Stack~Card~)
+        + getType() CardType
+        + drawCard() Card
+    }
+    class DrawableDeck{
+        + DrawableDeck(type: CardType, content: Stack~Card~, \n faceUpCard: Card[2], faceUpCardsPresent: boolean[2])
+        + drawFaceUpCard(cardPos: int) Card
+        + revealBackDeckCard() GameResource
+    }
+    class PlayingDeck{
+        ~ faceUpCard: Card[2]
+        ~ faceUpCardsPresent: boolean[2]
+        + PlayingDeck(type: CardType, content: Stack~Card~, \n faceUpCards: Card[2], faceUpCardsPresent: boolean[2])
+        + revealFaceUpCard(cardPos: int) Card
+    }
+    Deck <|-- PlayingDeck
+    PlayingDeck <|-- DrawableDeck
+    Deck --> Card
 
     %% --------------------------------
     %% Enumerations
     %% --------------------------------
-
-    class ConditionType {
-        <<enumeration>>
-        LAYOUT_CONDITION
-        ITEM_CONDITION
-        CORNER_COVERAGE_CONDITION
-    }
     class CardType {
         <<enumeration>>
         RESOURCE_CARD
@@ -17,15 +124,11 @@ classDiagram
         STARTER_CARD
         OBJECTIVE_CARD
     }
-    class TokenColor {
+    class ConditionType {
         <<enumeration>>
-        BLUE
-        GREEN
-        RED
-        YELLOW
-    }
-    class GameItem {
-        <<interface>>
+        LAYOUT_CONDITION
+        ITEM_CONDITION
+        CORNER_COVERAGE_CONDITION
     }
     class GameObject {
         <<enumeration>>
@@ -40,215 +143,124 @@ classDiagram
         FUNGI
         INSECT
     }
+    class TokenColor {
+        <<enumeration>>
+        BLUE
+        GREEN
+        RED
+        YELLOW
+    }
+    class GameItem {
+        <<interface>>
+    }
     GameItem <|.. GameResource
     GameItem <|.. GameObject
 
-    %% --------------------------------
-    %% Cards
-    %% --------------------------------
-    class Card {
-        <<abstract>>
-        - id: int
-        - type: CardType
-        + getId() int
-        + getType() CardType
-        + Card (id: int, type: CardType)
-    }
-    class ObjectiveCard {
-        - SCORINGCONDITION: Condition
-        - OBJECTIVESCORE: int
-        + getScoringCondition() Condition
-        + getObjectiveScore() int
-        + ObjectiveCard(cardID int, cardType: CardType,\n scoringCondition: Condition, objectiveScore: int)
-    }
-    Card <|-- ObjectiveCard
-    class PlaceableCard {
-        <<abstract>>
-        - FRONTCORNER: boolean [4]
-        - FRONTCORNERSCONTENT: GameItem [4]
-        + getFrontCorners() boolean [4]
-        + getFrontCornersContent() GameItem[4]
-        + PlaceableCard (cardID: int, cardType: CardType,\n frontCorners: boolean [4], \n frontCornersContent: GameItem [4])
-    }
-    Card <|-- PlaceableCard
-    class StarterCard {
-        - PERMANENTRESOURCES: List~GameResource~
-        - BACKCORNERS: boolean [4]
-        - BACKCORNERSCONTENT: GameItem [4]
-        + getPermanentResources() GameResource[3]
-        + getBackCorners() boolean [4]
-        + getBackCornersContent() GameItem [4]
-        + StarterCard(cardID: int, cardType: CardType, \n frontCorners: boolean [4], \nfrontCornersContent: GameItem [4],\n permanentCorners: List~GameResource~, \nbackCorners: boolean[4], \nbackCornersContent: GameItem[4])
-    }
-    PlaceableCard <|-- StarterCard
-    class NonStarterCard {
-        - PLACEMENTSCORE: int
-        - PERMANENTRESOURCE: GameResource
-        + getPermanentResource() GameResource
-        + getPlacementScore int
-        + NonStarterCard(cardID: int, \ncardType: CardType, frontCorners: boolean [4],\n frontCornersContent: GameItem [4],\n placementScore: int,\n permanentResource: GameResource)
-    }
-    PlaceableCard <|-- NonStarterCard
-    class GoldCard {
-        - PLACEMENTCONDITION: Condition
-        - SCORINGCONDITION: Condition
-        + getPlacementCondition() Condition
-        + getScoringCondition() Condition
-        + GoldCard(cardID: int, cardType: CardType,\n frontCorners: boolean[4], \nfrontCornersContent: GameItem[4], placementScore: int, \npermanentResource: GameResource, \nplacementCondition: Condition, scoringCondition: Condition)
-    }
-    NonStarterCard <|-- GoldCard
-
-    %% --------------------------------
-    %% Decks
-    %% --------------------------------
-    Deck <|-- PlayingDeck
-    PlayingDeck <|-- DrawableDeck
-    Deck --> Card
-    class Deck{
-        ~ type: CardType
-        ~ content: Stack~Card~
-        + getType() CardType
-        + drawDeckCard() Card
-        + Deck(type: CardType, content: Stack~Card~)
-    }
-    class PlayingDeck{
-        ~ faceUpCard: Card[2]
-        ~ faceUpCardsPresent: boolean[2]
-        + revealFaceUpCard(cardPos: int) Card
-        + PlayingDeck(type: CardType, content: Stack~Card~, \n faceUpCard: Card[2], faceUpCardsPresent: boolean[2])
-    }
-    class DrawableDeck{
-        + drawFaceUpCard(cardPos: int) Card
-        + revealBackDeckCard() GameResource
-        + DrawableDeck(type: CardType, content: Stack~Card~, \n faceUpCard: Card[2], faceUpCardsPresent: boolean[2])
+    class Chat {
+        - content: List<String>
+        + Chat()
+        + addMessage(newMessage: String)
+        + getContent() List~String~
+        + getLastMessage() String
     }
 
-    %% --------------------------------
-    %% Conditions
-    %% --------------------------------
-    class Condition {
-        <<abstract>>
-        - type: ConditionType
-        + getType() ConditionType
-        + Condition(type: ConditionType)
-    }
-    LayoutCondition --> GameResource
-    class LayoutCondition {
-        - CARDSPOSITION: boolean [3][3]
-        - CARDSCOLOR: GameResource[3][3]
-        + getCardsColor() GameResource[3][3]
-        + getCardsPosition() boolean[3][3]
-        + LayoutCondition(conditionType: ConditionType, \n cardsPosition: boolean[3][3], \n cardsColor: GameResource[3][3])
-        + numTimesMet(gameField: GameField) int
-    }
-    ItemsCondition --> GameItem
-    class ItemsCondition {
-        - NEEDEDITEMS: List~GameItem~
-        + getNeededItems() List~GameItem~
-        + ItemsCondition(conditionType: ConditionType, \n neededItems: List~GameItem~)
-        + numTimesMet(gameField: GameField): int
-    }
-    class CornerCoverageCondition {
-        + CornerCoverageCondition(type: ConditionType)
-        + numTimesMet(gameField: GameField, x: int, y: int)
-
-    }
-
-
-    class GameField {
-        - cardsContent: PlaceableCard[80][80]
-        - cardsFace: boolean [80][80]
-        - cardsPosition: boolean [80][80]
-        + placeCard(card: PlaceableCard, x: int, y: int, way: boolean)
-        + isCardPresent(x: int, y: int) boolean
-        + getPlacedCard(x: int, y: int) PlaceableCard
-        + getCardWay(x: int, y: int) boolean
-        + GameField()
-        + GameField(GameField existingGameField)
-    }
-    ScoreTrackBoard --> Player
-    class ScoreTrackBoard {
-        - playersScore: Map~Player, Integer~
-        + addPlayer(player: Player)
-        + setScore(player: Player, newScore: int)
-        + getScore(player: Player) int
-        + ScoreTrackBoard()
-    }
-    Game --> Deck
-    Game --> ScoreTrackBoard
-    Game --> Player
-    Game --> Chat
     class Game {
         - gameId: int;
         - playersNumber: int
         - playersGameField: Map<Player, GameField>
         - playersPosition: Map<Integer, Player>
-        - currplayer: int
-        - chat: Chat
+        - currPlayer: int
         - scoreTrackBoard: ScoreTrackBoard
-        - resourceCardsDeck: Deck
-        - goldCardsDeck: Deck
-        - objectiveCardsDeck: Deck
+        - resourceCardsDeck: DrawableDeck
+        - goldCardsDeck: DrawableDeck
+        - objectiveCardsDeck: PlayingDeck
         - starterCardsDeck: Deck
-        - lastTurn:
-        + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean)
-        + isFull() boolean
-        + setup()
-        + getPlayers() Set<Player>
+        - lastTurn: boolean
+        - chat: Chat
+        + Game(gameId: int, playersNumber: int, resourceCardsDeck: DrawableDeck,\n goldCardsDeck: DrawableDeck, objectiveCardsDeck: PlayingDeck, starterCardsDeck : Deck, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean)
+        + getPlayers() Set~Player~
         + getCurrentPlayer() Player
+        + getGameField(player: Player) GameField
+        + getScore(player: Player) int
+        + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType boolean)
+        + setup()
+        + isFull() boolean
+        + disconnectPlayer(player: Player)
+        + reconnectPlayer(player: Player)
         + changeCurrPlayer()
         + placeCard(card: PlaceableCard, x:int, y:int, way:boolean)
         + addPoints(x: int, y:int)
         + computeWinner() Player
-        + disconnectPlayer(player: Player)
-        + reconnectPlayer(player: Player)
-        + Game(gameId: int, playersNumber: int, resourceCardsDeck: DrawableDeck, goldCardsDeck: DrawableDeck, objectiveCardsDeck: PlayingDeck, starterCardsDeck : Deck, nickname: String, tokenColor: TokenColor, connectionType: boolean)
-        + addChatMessage(newMessage : String)
-        + getLastChatMessage() String
-        + getChatContent() List<String>
-        + drawDeckCard(type: CardType) Card
-        + drawFaceUpCard(type : CardType, pos:int) Card
+        + drawDeckCard(type: CardType)
+        + drawFaceUpCard(type : CardType, pos:int)
         + revealFaceUpCard(type : CardType, pos:int) Card
         + revealBackDeckCard(type: CardType) GameResource
-        + getGameField(player: Player) GameField
-        + getScore(nickname: String) int
+        + addChatMessage(newMessage : String)
+        + getLastChatMessage() String
+        + getChatContent() List~String~
     }
-    Condition <|-- LayoutCondition
-    Condition <|-- ItemsCondition
-    Condition <|-- CornerCoverageCondition
+    Game --> DrawableDeck
+    Game --> Deck
+    Game --> PlayingDeck
+    Game --> ScoreTrackBoard
+    Game --> Player
+    Game --> Chat
+    Game --> GameField
+
+    class GameField {
+        - cardsContent: PlaceableCard[80][80]
+        - cardsFace: boolean [80][80]
+        - cardsPosition: boolean [80][80]
+        + GameField()
+        + GameField(GameField existingGameField)
+        + placeCard(card: PlaceableCard, x: int, y: int, way: boolean)
+        + isCardPresent(x: int, y: int) boolean
+        + getPlacedCard(x: int, y: int) PlaceableCard
+        + getCardWay(x: int, y: int) boolean
+    }
+    GameField --> PlaceableCard
+    class GamesManager {
+        - games: List~Game~
+        + GamesManager()
+        + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean,interfaceType: boolean)
+        + checkNickname(nickname: String) boolean
+    }
+    GamesManager --> Game
     class Player {
         - nickname: String
         - tokenColor: TokenColor
         - isFirst: boolean
+        - connectionType: boolean
+        - interfaceType: boolean
         - isConnected: boolean
         - currentHand: List ~NonStarterCard~
-        - gameField: GameField
         - secretObjectve: ObjectiveCard
-        - connectionType: boolean
+        + Player(nickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType: boolean, currentHand: List~NonStarterCard~, \nsecretObjective: ObjectiveCard)
+        + Player(existingPlayer: Player)
         + getNickname() String
         + getTokenColor() TokenColor
+        + setFirst()
         + isFirst() boolean
+        + isConnected() boolean
+        + setIsConnected(isConnected: boolean) boolean
         + setCurrentHand(currentHand: List~NonStarterCard~)
         + getCurrentHand() List~NonStarterCard~
-        + getGameField() GameField
         + getSecretObjetive() ObjectiveCard
         + getConnectionType() boolean
-        + setFirst()
-        + setConnected(isConnected: boolean)
-        + isConnected() boolean
-        + Player(nickname: String, tokenColor: TokenColor, \n isFirst: boolean, currentHand: List~NonStarterCard~, \n gameField: GameField, secretObjective: ObjectiveCard, \n  connectionType: boolean)
-        + Player(existingPlayer: Player)
+        + getInterfaceType() boolean
+        }
+    Player --> NonStarterCard
+    Player --> TokenColor
+    Player --> ObjectiveCard
+    class ScoreTrackBoard {
+        - playersScore: Map~Player, Integer~
+        + ScoreTrackBoard()
+        + addPlayer(player: Player)
+        + setScore(player: Player, newScore: int)
+        + getScore(player: Player) int
     }
-    class GamesManager {
-        - games: List<Games>
-        + GamesManager()
-        + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean )
-        + checkNickname(nickname: String) boolean
-    }
-    class Chat {
-        - content: List<String>
-        + Chat()
-        + addMessage(newMessage: String)
-        + getContent() List<String>
-        + getLastMessage() String
-    }
+    ScoreTrackBoard --> Player
+
+
+
+
