@@ -58,6 +58,8 @@ public class GamesManager {
         // ritorna true se il nickname è unico
         // basta controllare che sia unico tra i nickname dei player
         // di tutti i game ??
+        // TODO return
+        return true;
     }
 
     // TODO
