@@ -52,7 +52,7 @@ public class ScoreTrackBoard {
     /**
      * Getter method for the score, allows to know the current score of a player.
      * @param player player
-     * @return current for the player
+     * @return current score for the player
      */
     public int getScore(Player player) throws PlayerNotPresentExcpetion{
         if(!playersScore.containsKey(player)){

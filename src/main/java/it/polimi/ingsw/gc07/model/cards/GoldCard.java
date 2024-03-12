@@ -27,7 +27,7 @@ public class GoldCard extends NonStarterCard {
      * @param cardType : type of the card
      * @param frontCorners : corners that the front of the card has
      * @param frontCornersContent : game items that the front of the card has
-     * @param placementScore : scoreable points
+     * @param placementScore : scorable points
      * @param permanentResource : permanent game items that the back of the card has
      * @param placementCondition : placement condition
      * @param scoringCondition : scoring condition
