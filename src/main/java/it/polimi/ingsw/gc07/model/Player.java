@@ -24,6 +24,19 @@ public class Player {
      */
     private boolean isFirst;
     /**
+     * Player's connection type.
+     * true: RMI
+     * false: socket
+     */
+    private boolean connectionType;
+
+    /**
+     * Player's connection type.
+     * true: GUI
+     * false: TUI
+     */
+    private boolean interfaceType;
+    /**
      * Boolean value representing if the player is connected.
      */
     private boolean isConnected;
@@ -35,12 +48,6 @@ public class Player {
      * Player's secret objective, it is an objective card.
      */
     private ObjectiveCard secretObjective;
-    /**
-     * Player's connection type.
-     * true: RMI
-     * false: socket
-     */
-    private boolean connectionType;
 
     /**
      * Constructor of class player
@@ -50,15 +57,17 @@ public class Player {
      * @param secretObjective player's secret objective card
      * @param connectionType player's connection type
      */
-    public Player(String nickname, TokenColor tokenColor, List<NonStarterCard> currentHand,
-                  ObjectiveCard secretObjective, boolean connectionType) {
+    public Player(String nickname, TokenColor tokenColor,
+                  boolean connectionType, boolean interfaceType,
+                  List<NonStarterCard> currentHand, ObjectiveCard secretObjective) {
         this.nickname = nickname;
         this.tokenColor = tokenColor;
+        this.isFirst = false;   // will be set true only for the first player
         this.isConnected = true;
+        this.connectionType = connectionType;
+        this.interfaceType = interfaceType;
         this.currentHand = new ArrayList<>(currentHand);
         this.secretObjective = secretObjective;
-        this.connectionType = connectionType;
-        this.isFirst = false;
     }
 
     public Player(Player existingPlayer) {
@@ -66,9 +75,10 @@ public class Player {
         this.tokenColor = existingPlayer.tokenColor;
         this.isFirst = existingPlayer.isFirst;
         this.isConnected = existingPlayer.isConnected;
+        this.connectionType = existingPlayer.connectionType;
+        this.interfaceType = existingPlayer.interfaceType;
         this.currentHand = new ArrayList<>(existingPlayer.currentHand);
         this.secretObjective = existingPlayer.secretObjective;
-        this.connectionType = existingPlayer.connectionType;
     }
 
     /**
@@ -152,6 +162,8 @@ public class Player {
         if (!(o instanceof Player)) {
             return false;
         }
+        Player p = (Player)o;
+        return this.nickname.equals(p.nickname);
     }
 
     @Override

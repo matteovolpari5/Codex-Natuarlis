@@ -125,12 +125,12 @@ public class Game {
      * @param tokenColor color of player's token
      * @param connectionType type of connection
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType) {
+    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) {
         try{
             List<NonStarterCard> currentHand = new ArrayList<>();
             // TODO: aggiungere le carte alla currentHand
             ObjectiveCard secretObjective = (ObjectiveCard) objectiveCardsDeck.drawCard();
-            Player newPlayer = new Player(nickname, tokenColor, currentHand, secretObjective, connectionType);
+            Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType, currentHand, secretObjective);
             // TODO
             // Creare il GameField vuoto
             // currPlayer è inizializzato a 0 dal costruttore
