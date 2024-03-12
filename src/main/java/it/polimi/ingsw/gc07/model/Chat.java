@@ -8,7 +8,6 @@ import java.util.EmptyStackException;
 import java.util.List;
 
 public class Chat {
-
     // TODO qualcuno deve concatenare in testa il nome del Player
     private List<String> content;
 
@@ -31,6 +30,6 @@ public class Chat {
         return new ArrayList<>(content);
     }
 
-    // Poi dovremo capire come
+    // Poi dovremo capire come visualizzare la chat sulla view
 }
 

@@ -64,4 +64,5 @@ public class GamesManager {
 
     // TODO
     // se un Game finisce, lo elimino dalla lista e li faccio scalare?
+    // potrebbe essere chiamato e scorrere ed eliminare quelli finiti (stato)
 }
