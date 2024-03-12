@@ -81,7 +81,7 @@ public class LayoutCondition extends Condition{
      */
     public int numTimesMet(GameField gameField) {
         // TODO implementare
-        // starter card non può essere usata (?)
+        // Attenzione! starter card non può essere usata (?)
         return 0;
     }
 }

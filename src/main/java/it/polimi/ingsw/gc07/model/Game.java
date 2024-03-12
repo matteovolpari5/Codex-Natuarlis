@@ -75,8 +75,8 @@ public class Game {
      * @param tokenColor color of player's token
      * @param connectionType type of connection
      */
-    public Game(int gameId, int playersNumber, Deck resourceCardsDeck,
-                Deck goldCardsDeck, Deck objectiveCardsDeck, Deck starterCardsDeck,
+    public Game(int gameId, int playersNumber, DrawableDeck resourceCardsDeck,
+                DrawableDeck goldCardsDeck, PlayingDeck objectiveCardsDeck, Deck starterCardsDeck,
                 String nickname, TokenColor tokenColor, boolean connectionType) {
         this.gameId = gameId;
         // TODO: mettiamo un'eccezione per playersNumber?
@@ -91,6 +91,26 @@ public class Game {
         this.currPlayer = 0;
         this.lastTurn = false;
         addPlayer(nickname, tokenColor, connectionType);
+    }
+
+    public Set<Player> getPlayers() {
+        Set<Player> playersSet = new HashSet<>();
+        for(Player p: playersGameField.keySet()){
+            playersSet.add(new Player(p));
+        }
+        return playersSet;
+    }
+
+    public Player getCurrentPlayer(){
+        return new Player(playersPosition.get(currPlayer));
+    }
+
+    public GameField getGameField(Player player) {
+        return new GameField(playersGameField.get(player));
+    }
+
+    public int getScore(String nickname) {
+        // TODO
     }
 
     /**
@@ -126,18 +146,6 @@ public class Game {
         // scopre 2 carte per ogni deck
         // distribuisce casualmente le starter card e le piazza
         // sul game field (chiedendo al player il verso)
-    }
-
-    public Set<Player> getPlayers() {
-        Set<Player> playersSet = new HashSet<>();
-        for(Player p: playersGameField.keySet()){
-            playersSet.add(new Player(p));
-        }
-        return playersSet;
-    }
-
-    public Player getCurrentPlayer(){
-        return new Player(playersPosition.get(currPlayer));
     }
 
     /**
