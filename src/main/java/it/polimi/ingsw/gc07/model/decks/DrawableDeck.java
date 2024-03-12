@@ -17,10 +17,9 @@ public class DrawableDeck extends PlayingDeck {
      * @param type type of deck, i.e. type of cards contained
      * @param content Stack containing deck cards
      * @param faceUpCards Array containing the two revealed cards
-     * @param faceUpCardsPresent Array containing true if a face up card is present
      */
-    public DrawableDeck(CardType type, Stack<Card> content, Card[] faceUpCards, boolean[] faceUpCardsPresent) {
-        super(type, content, faceUpCards, faceUpCardsPresent);
+    public DrawableDeck(CardType type, Stack<Card> content, Card[] faceUpCards) {
+        super(type, content, faceUpCards);
     }
 
     /**
@@ -34,7 +33,7 @@ public class DrawableDeck extends PlayingDeck {
         if(cardPos < 0 || cardPos > 1){
             throw new IndexOutOfBoundsException();
         }
-        if(!faceUpCardsPresent[cardPos]){
+        if(faceUpCards[cardPos] == null){
             throw new CardNotPresentException();
         }
         // Save the card to return
@@ -46,7 +45,6 @@ public class DrawableDeck extends PlayingDeck {
         }
         catch(CardNotPresentException e){
             // Deck is empty, face up card cannot be replaced
-            faceUpCardsPresent[cardPos] = false;
             faceUpCards[cardPos] = null;
         }
         // Card is immutable, I can return it

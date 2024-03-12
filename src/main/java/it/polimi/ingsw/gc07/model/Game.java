@@ -35,11 +35,11 @@ public class Game {
     /**
      * Map of players and their game field.
      */
-    private Map<Player, GameField> playersGameField;
+    private Map<String, GameField> playersGameField;
     /**
-     * Map of players and an integer for their order.
+     * List of players and an integer for their order.
      */
-    private Map<Integer, Player> playersPosition;
+    private List<Player> players;
     /**
      * Integer value representing the position of the current player.
      */
@@ -88,7 +88,7 @@ public class Game {
         this.state = GameState.WAITING_PLAYERS;
         // TODO: mettiamo un'eccezione per playersNumber?
         this.playersNumber = playersNumber;
-        this.playersPosition = new HashMap<>();
+        this.players = new ArrayList<>();
         this.playersGameField = new HashMap<>();
         this.scoreTrackBoard = new ScoreTrackBoard();
         this.resourceCardsDeck = resourceCardsDeck;
@@ -100,27 +100,23 @@ public class Game {
         addPlayer(nickname, tokenColor, connectionType, interfaceType);
     }
 
-    public Set<Player> getPlayers() {
-        Set<Player> playersSet = new HashSet<>();
-        for(Player p: playersGameField.keySet()){
-            playersSet.add(new Player(p));
-        }
-        return playersSet;
+    public List<Player> getPlayers() {
+        return new ArrayList<>(players);
     }
 
     public Player getCurrentPlayer(){
-        return new Player(playersPosition.get(currPlayer));
+        return new Player(players.get(currPlayer));
     }
 
-    public GameField getGameField(Player player) throws PlayerNotPresentExcpetion {
-        if(!playersGameField.containsKey(player)) {
+    public GameField getGameField(String nickname) throws PlayerNotPresentExcpetion {
+        if(!playersGameField.containsKey(nickname)) {
             throw new PlayerNotPresentExcpetion();
         }
-        return new GameField(playersGameField.get(player));
+        return new GameField(playersGameField.get(nickname));
     }
 
-    public int getScore(Player player) throws PlayerNotPresentExcpetion {
-        return scoreTrackBoard.getScore(player);
+    public int getScore(String nickname) throws PlayerNotPresentExcpetion {
+        return scoreTrackBoard.getScore(nickname);
     }
 
     // l'esterno può chimare player.getCurrentHand, non serve il metodo
@@ -140,10 +136,10 @@ public class Game {
             // TODO
             // Creare il GameField vuoto
             // currPlayer è inizializzato a 0 dal costruttore
-            // Aggiungere posizione (currPlayer) e Player alla mappa
+            // Aggiunge Player alla lista
+            // Aggiunge Player.nickame e gameField alla mappa
             // Incrementare currPlayer (per pos del prossimo Player)
-            // Aggiunge Player e GameField alla mappa
-            // Aggiungere Player allo ScoreTrackBoard
+            // Aggiungere Player.nickname allo ScoreTrackBoard
             // Controlla se è ultimo, se sì, chiama un metodo setup()
         }
         catch(CardNotPresentException e){
@@ -165,14 +161,14 @@ public class Game {
      * @return true if no other player can connect to the game
      */
     public boolean isFull(){
-        return playersPosition.size() == playersNumber;
+        return players.size() == playersNumber;
     }
 
-    public void disconnectPlayer(Player player){
+    public void disconnectPlayer(String nickname){
         //TODO: disconnect the player
     }
 
-    public void reconnectPlayer(Player player){
+    public void reconnectPlayer(String nickname){
         // TODO: reconnect the player
     }
 
@@ -186,7 +182,7 @@ public class Game {
         // Comunica al player che è il suo turno (?)
     }
 
-    public void placeCard(Player player, PlaceableCard card, int x, int y, boolean way) {
+    public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) {
         // TODO
         // posso aggiungerla solo al currentPlayer, controllo e lancio eccezion
         // chiama placeCard sul gamefield del current player
@@ -196,7 +192,7 @@ public class Game {
         // prima il suo e poi ci ...
     }
 
-    private void addPoints(Player player, int x, int y) {
+    private void addPoints(String nickname, int x, int y) {
         // TODO
         // controllo sia currentPlayer
         // la card è già stata piazzata
@@ -215,6 +211,7 @@ public class Game {
         // se parità, ... (vedi regole)
         // restituisce il player vincitore,
         // in caso di parità ??
+        // restituisce una copia del player!
     }
 
     // TODO
@@ -223,7 +220,7 @@ public class Game {
     // uno per ogni tipo di carta oppure prendono un tipo di carta?
     // Nel metodo per pescare una carta, alla fine si chiama changeCurrPlayer
 
-    public void drawDeckCard(Player player, CardType type) throws WrongCardTypeException, CardNotPresentException {
+    public void drawDeckCard(String nickname, CardType type) throws WrongCardTypeException, CardNotPresentException {
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
             throw new WrongCardTypeException();
         }
@@ -237,7 +234,7 @@ public class Game {
         // prima il suo e poi ci chiama setCurrentHand
     }
 
-    public void drawFaceUpCard(Player player, CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
+    public void drawFaceUpCard(String nickname, CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
         // TODO
         // se starter o objective, eccezione
         // altrimenti chiamo drawFaceUpCard sul giusto deck
