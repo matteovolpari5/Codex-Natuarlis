@@ -50,11 +50,11 @@ classDiagram
         + getBackCorners() boolean [4]
         + getBackCornersContent() GameItem [4]
     }
-%%  Card <|-- ObjectiveCard
-%%  Card <|-- PlaceableCard
-%%  PlaceableCard <|-- StarterCard
-%%  PlaceableCard <|-- NonStarterCard
-%%   NonStarterCard <|-- GoldCard
+  Card <|-- ObjectiveCard
+  Card <|-- PlaceableCard
+  PlaceableCard <|-- StarterCard
+  PlaceableCard <|-- NonStarterCard
+   NonStarterCard <|-- GoldCard
 
     %% --------------------------------
     %% Conditions
@@ -85,9 +85,9 @@ classDiagram
     }
 %% LayoutCondition --> GameResource
 %%   ItemsCondition --> GameItem
-%%  Condition <|-- LayoutCondition
-%%  Condition <|-- ItemsCondition
-%%  Condition <|-- CornerCoverageCondition
+Condition <|-- LayoutCondition
+  Condition <|-- ItemsCondition
+  Condition <|-- CornerCoverageCondition
 
     %% --------------------------------
     %% Decks
@@ -112,7 +112,7 @@ classDiagram
     }
    Deck <|-- PlayingDeck
    PlayingDeck <|-- DrawableDeck
-   Deck --> Card
+   %%Deck --> Card
     %% --------------------------------
     %% Enumerations
     %% --------------------------------
@@ -152,8 +152,8 @@ classDiagram
     class GameItem {
         <<interface>>
     }
-%% GameItem <|.. GameResource
-%%  GameItem <|.. GameObject
+    GameItem <|.. GameResource
+    GameItem <|.. GameObject
 
     class Chat {
         - content: List<String>
