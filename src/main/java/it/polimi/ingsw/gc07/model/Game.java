@@ -78,7 +78,7 @@ public class Game {
      */
     public Game(int gameId, int playersNumber, DrawableDeck resourceCardsDeck,
                 DrawableDeck goldCardsDeck, PlayingDeck objectiveCardsDeck, Deck starterCardsDeck,
-                String nickname, TokenColor tokenColor, boolean connectionType) {
+                String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) {
         this.gameId = gameId;
         // TODO: mettiamo un'eccezione per playersNumber?
         this.playersNumber = playersNumber;
@@ -91,7 +91,7 @@ public class Game {
         this.starterCardsDeck = starterCardsDeck;
         this.currPlayer = 0;
         this.lastTurn = false;
-        addPlayer(nickname, tokenColor, connectionType);
+        addPlayer(nickname, tokenColor, connectionType, interfaceType);
     }
 
     public Set<Player> getPlayers() {
