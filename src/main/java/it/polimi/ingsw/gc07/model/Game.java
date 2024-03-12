@@ -20,11 +20,6 @@ import java.util.*;
 
 public class Game {
     /**
-     * Id of the game.
-     */
-    //TODO Serve?
-    private int gameId;
-    /**
      * State of the game.
      */
     private GameState state;
@@ -71,7 +66,6 @@ public class Game {
 
     /**
      * Constructor of a Game with only the first player.
-     * @param gameId id of the game
      * @param playersNumber number of players
      * @param resourceCardsDeck deck of resource cards
      * @param goldCardsDeck deck of gold cards
@@ -81,10 +75,9 @@ public class Game {
      * @param tokenColor color of player's token
      * @param connectionType type of connection
      */
-    public Game(int gameId, int playersNumber, DrawableDeck resourceCardsDeck,
+    public Game(int playersNumber, DrawableDeck resourceCardsDeck,
                 DrawableDeck goldCardsDeck, PlayingDeck objectiveCardsDeck, Deck starterCardsDeck,
                 String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) {
-        this.gameId = gameId;
         this.state = GameState.WAITING_PLAYERS;
         // TODO: mettiamo un'eccezione per playersNumber?
         this.playersNumber = playersNumber;
@@ -98,6 +91,10 @@ public class Game {
         this.currPlayer = 0;
         this.lastTurn = false;
         addPlayer(nickname, tokenColor, connectionType, interfaceType);
+    }
+
+    public GameState getState() {
+        return this.state;
     }
 
     public List<Player> getPlayers() {
