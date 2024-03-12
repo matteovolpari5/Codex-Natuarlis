@@ -2,7 +2,7 @@ classDiagram
     %% --------------------------------
     %% Cards
     %% --------------------------------
-    Deck o-- Card
+    Deck~T~ o-- Card
     class Card {
         <<abstract>>
         - id: int
@@ -89,25 +89,30 @@ classDiagram
     %% --------------------------------
     %% Decks
     %% --------------------------------
-    class Deck{
+    class Deck~T~{
         <<abstract>>
         ~ TYPE: CardType
         + Deck(type: CardType, content: Stack~Card~)
         + getType() CardType
         + drawCard() Card
     }
-    class DrawableDeck{
-        + DrawableDeck(type: CardType, content: Stack~Card~, \n faceUpCard: Card[2])
-        + drawFaceUpCard(cardPos: int) Card
+    class DrawableDeck~T~{
+        + DrawableDeck(type: CardType, content: Stack~T~, \n faceUpCard: List~T~)
+        + drawFaceUpCard(cardPos: int) T
         + revealBackDeckCard() GameResource
     }
-    class PlayingDeck{
-        ~ faceUpCard: Card[2]
-        + PlayingDeck(type: CardType, content: Stack~Card~, \n faceUpCards: Card[2])
-        + revealFaceUpCard(cardPos: int) Card
+    class PlayingDeck~T~{
+        ~ faceUpCard: List~T~
+        + PlayingDeck(type: CardType, content: Stack~T~, \nfaceUpCards: List~T~)
+        + revealFaceUpCard(cardPos: int) T
     }
-    Deck <|-- PlayingDeck
+    class StarterCardDeck{
+
+    }
+    Deck~T~ <|-- PlayingDeck
     PlayingDeck <|-- DrawableDeck
+    Deck~T~ <|-- StarterCardDeck
+
     %%Deck --> Card
     %% --------------------------------
     %% Enumerations
