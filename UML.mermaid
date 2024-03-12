@@ -139,7 +139,7 @@ classDiagram
         + getCardsColor() GameResource[3][3]
         + getCardsPosition() boolean[3][3]
         + LayoutCondition(conditionType: ConditionType, \n cardsPosition: boolean[3][3], \n cardsColor: GameResource[3][3])
-        + numTimesMet(gameField: GameField): int
+        + numTimesMet(gameField: GameField) int
     }
     ItemsCondition --> GameItem
     class ItemsCondition {
@@ -150,7 +150,7 @@ classDiagram
     }
     class CornerCoverageCondition {
         + CornerCoverageCondition(type: ConditionType)
-        +numTimesMet(gameField: GameField, x: int, y: int)
+        + numTimesMet(gameField: GameField, x: int, y: int)
 
     }
 
@@ -177,20 +177,39 @@ classDiagram
     Game --> Deck
     Game --> ScoreTrackBoard
     Game --> Player
+    Game --> Chat
     class Game {
         - gameId: int;
         - playersNumber: int
-        - players: List~Player~
+        - playersGameField: Map<Player, GameField>
+        - playersPosition: Map<Integer, Player>
+        - currplayer: int
+        - chat: Chat
         - scoreTrackBoard: ScoreTrackBoard
         - resourceCardsDeck: Deck
         - goldCardsDeck: Deck
         - objectiveCardsDeck: Deck
         - starterCardsDeck: Deck
+        - lastTurn:
         + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean)
-        + isFull(): boolean
+        + isFull() boolean
+        + setup()
+        + getPlayers() Set<Player>
+        + getCurrentPlayer() Player
+        + changeCurrPlayer()
+        + placeCard(card: PlaceableCard, x:int, y:int, way:boolean)
+        + addPoints(x: int, y:int)
+        + computeWinner() Player
         + disconnectPlayer(player: Player)
         + reconnectPlayer(player: Player)
-        + Game(...)
+        + Game(gameId: int, playersNumber: int, resourceCardsDeck: DrawableDeck, goldCardsDeck: DrawableDeck, objectiveCardsDeck: PlayingDeck, starterCardsDeck : Deck, nickname: String, tokenColor: TokenColor, connectionType: boolean)
+        + addChatMessage(newMessage : String)
+        + getLastChatMessage() String
+        + getChatContent() List<String>
+        + drawDeckCard(type: CardType) Card
+        + drawFaceUpCard(type : CardType, pos:int) Card
+        + revealFaceUpCard(type : CardType, pos:int) Card
+        + revealBackDeckCard(type: CardType) GameResource
     }
     Condition <|-- LayoutCondition
     Condition <|-- ItemsCondition
@@ -199,7 +218,7 @@ classDiagram
         - nickname: String
         - tokenColor: TokenColor
         - isFirst: boolean
-        - isConnected boolean
+        - isConnected: boolean
         - currentHand: List ~NonStarterCard~
         - gameField: GameField
         - secretObjectve: ObjectiveCard
@@ -214,12 +233,20 @@ classDiagram
         + getConnectionType() boolean
         + setFirst()
         + setConnected(isConnected: boolean)
-        + isConnected(): boolean
+        + isConnected() boolean
         + Player(nickname: String, tokenColor: TokenColor, \n isFirst: boolean, currentHand: List~NonStarterCard~, \n gameField: GameField, secretObjective: ObjectiveCard, \n  connectionType: boolean)
         + Player(existingPlayer: Player)
     }
     class GamesManager {
         - games: List<Games>
         + GamesManager()
-        + addPlayer()
+        + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean )
+        + checkNickname(nickname: String) boolean
+    }
+    class Chat {
+        - content: List<String>
+        + Chat()
+        + addMessage(newMessage: String)
+        + getContent() List<String>
+        + getLastMessage() String
     }
