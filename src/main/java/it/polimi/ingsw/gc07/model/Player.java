@@ -153,6 +153,10 @@ public class Player {
         return this.connectionType;
     }
 
+    public boolean getInterfaceType(){
+        return this.interfaceType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

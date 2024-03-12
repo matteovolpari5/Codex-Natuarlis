@@ -13,6 +13,7 @@ import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
+import it.polimi.ingsw.gc07.model.enumerations.GameState;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.*;
@@ -23,6 +24,10 @@ public class Game {
      */
     //TODO Serve?
     private int gameId;
+    /**
+     * State of the game.
+     */
+    private GameState state;
     /**
      * Number of players in the game, chose by the first player.
      */
@@ -80,6 +85,7 @@ public class Game {
                 DrawableDeck goldCardsDeck, PlayingDeck objectiveCardsDeck, Deck starterCardsDeck,
                 String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) {
         this.gameId = gameId;
+        this.state = GameState.WAITING_PLAYERS;
         // TODO: mettiamo un'eccezione per playersNumber?
         this.playersNumber = playersNumber;
         this.playersPosition = new HashMap<>();
