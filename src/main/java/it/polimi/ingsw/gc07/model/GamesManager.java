@@ -10,7 +10,6 @@ public class GamesManager {
      * List of games.
      */
     private List<Game> games;
-
     /**
      * Created once the server is started.
      */

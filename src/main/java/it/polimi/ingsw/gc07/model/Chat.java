@@ -4,7 +4,6 @@ package it.polimi.ingsw.gc07.model;
 import it.polimi.ingsw.gc07.exceptions.EmptyChatException;
 
 import java.util.ArrayList;
-import java.util.EmptyStackException;
 import java.util.List;
 
 public class Chat {

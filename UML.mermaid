@@ -14,11 +14,11 @@ classDiagram
     class GoldCard {
         - PLACEMENTCONDITION: Condition
         - SCORINGCONDITION: Condition
-        - HASSCORINGCONDITION: boolean
-        + GoldCard(cardID: int, cardType: CardType,\n frontCorners: boolean[4], \nfrontCornersContent: GameItem[4], placementScore: int, \npermanentResource: GameResource, \nplacementCondition: Condition, hasScoringCondition: boolean, \nscoringCondition: Condition)
+        + GoldCard(cardID: int, cardType: CardType,\n frontCorners: boolean[4], \nfrontCornersContent: GameItem[4], placementScore: int, \npermanentResource: GameResource, \nplacementCondition: Condition, \nscoringCondition: Condition)
         + getPlacementCondition() Condition
         + getScoringCondition() Condition
         + hasScoringCondition() boolean
+        %%crepi l'avarizia
     }
     class NonStarterCard {
         - PLACEMENTSCORE: int
@@ -90,8 +90,8 @@ classDiagram
     %% Decks
     %% --------------------------------
     class Deck{
+        <<abstract>>
         ~ TYPE: CardType
-        ~ content: Stack~Card~
         + Deck(type: CardType, content: Stack~Card~)
         + getType() CardType
         + drawCard() Card
@@ -165,7 +165,6 @@ classDiagram
     }
 
     class Game {
-        - gameId: int
         - state: GameState
         - playersNumber: int
         - playersGameField: Map~String, GameField~
@@ -179,6 +178,7 @@ classDiagram
         - lastTurn: boolean
         - chat: Chat
         + Game(gameId: int, playersNumber: int, resourceCardsDeck: DrawableDeck,\n goldCardsDeck: DrawableDeck, objectiveCardsDeck: PlayingDeck, starterCardsDeck : Deck, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean)
+        + getState() GameStae
         + getPlayers() List~Player~
         + getCurrentPlayer() Player
         + getGameField(nickname: String) GameField
