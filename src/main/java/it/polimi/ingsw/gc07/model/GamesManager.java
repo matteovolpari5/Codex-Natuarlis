@@ -22,7 +22,7 @@ public class GamesManager {
      * Accepts new player's data and adds him to a game.
      * Places in games are filled in order.
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType) {
+    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) {
 
         // attenzione, quanto scritto sotto è sbagliato
         // per la FA, il player può scegliere se creare una partita oppure
