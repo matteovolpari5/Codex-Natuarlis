@@ -12,13 +12,6 @@ public class LayoutCondition extends Condition{
     /**
      * Matrix of dimension 3x3, the biggest dimension for a layout condition
      * that can be found on playing cards.
-     * Each cell contains true if a card needs to be found in that position,
-     * false otherwise.
-     */
-    private final boolean[][] cardsPosition;
-    /**
-     * Matrix of dimension 3x3, the biggest dimension for a layout condition
-     * that can be found on playing cards.
      * Each cell contains the GameResource (corresponding to a color) that needs
      * to be found in that cell, null if the cell needs to be empty.
      */
@@ -27,36 +20,17 @@ public class LayoutCondition extends Condition{
     /**
      * Constructor for layout conditions.
      * @param conditionType condition type, must be LAYOUT_CONDITION
-     * @param cardsPosition position of the card
      * @param cardsColor resource (= color) of the card
      */
-    public LayoutCondition(ConditionType conditionType, boolean[][] cardsPosition, GameResource[][] cardsColor) {
+    public LayoutCondition(ConditionType conditionType, GameResource[][] cardsColor) {
         super(conditionType);
-        boolean[][] cardsPositionCopy = new boolean[3][3];
         GameResource[][] cardsColorCopy = new GameResource[3][3];
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                cardsPositionCopy[i][j] = cardsPosition[i][j];
                 cardsColorCopy[i][j] = cardsColor[i][j];
             }
         }
-        this.cardsPosition = cardsPositionCopy;
         this.cardsColor = cardsColorCopy;
-    }
-
-    /**
-     * Getter returning a copy of the matrix cardsPosition, showing
-     * cards' position in the layout condition.
-     * @return copy of the matrix cardsPosition
-     */
-    public boolean[][] getCardsPosition() {
-        boolean[][] cardsPositionCopy = new boolean[3][3];
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-                cardsPositionCopy[i][j] = this.cardsPosition[i][j];
-            }
-        }
-        return cardsPositionCopy;
     }
 
     /**
