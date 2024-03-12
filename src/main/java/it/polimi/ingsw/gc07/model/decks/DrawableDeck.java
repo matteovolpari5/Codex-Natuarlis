@@ -5,20 +5,21 @@ import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
  * Class representing decks used during the game from which a player can draw.
  * Resource cards deck and gold cards deck are a DrawableDeck object.
  */
-public class DrawableDeck extends PlayingDeck {
+public class DrawableDeck<T> extends PlayingDeck<T> {
     /**
      * Constructor of DrawableDeck
      * @param type type of deck, i.e. type of cards contained
      * @param content Stack containing deck cards
      * @param faceUpCards Array containing the two revealed cards
      */
-    public DrawableDeck(CardType type, Stack<Card> content, Card[] faceUpCards) {
+    public DrawableDeck(CardType type, Stack<T> content, List<T> faceUpCards) {
         super(type, content, faceUpCards);
     }
 
@@ -29,23 +30,22 @@ public class DrawableDeck extends PlayingDeck {
      * @param cardPos position of the card the player wants to draw
      * @return face up card in position cardPos
      */
-    public Card drawFaceUpCard(int cardPos) throws IndexOutOfBoundsException, CardNotPresentException {
+    public T drawFaceUpCard(int cardPos) throws IndexOutOfBoundsException, CardNotPresentException {
         if(cardPos < 0 || cardPos > 1){
             throw new IndexOutOfBoundsException();
         }
-        if(faceUpCards[cardPos] == null){
+        if(faceUpCards.get(cardPos) == null){
             throw new CardNotPresentException();
         }
         // Save the card to return
-        Card resultCard = faceUpCards[cardPos];
+        T resultCard = faceUpCards.remove(cardPos);
         // Substitute the face up card
         try{
-            faceUpCards[cardPos] = this.drawCard();
-            // faceUpCardsPresent[cardPos] remains true
+            faceUpCards.add(this.drawCard());
         }
         catch(CardNotPresentException e){
             // Deck is empty, face up card cannot be replaced
-            faceUpCards[cardPos] = null;
+            e.printStackTrace();
         }
         // Card is immutable, I can return it
         return resultCard;

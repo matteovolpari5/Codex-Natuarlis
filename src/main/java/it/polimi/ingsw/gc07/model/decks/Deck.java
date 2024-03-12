@@ -9,7 +9,7 @@ import java.util.Stack;
  * Class representing a collection of cards.
  * Starter cards deck is a Deck object.
  */
-public class Deck {
+public abstract class Deck<T> {
     /**
      * Attribute representing the deck type, which
      * corresponds to the card type of all cards contained in the deck.
@@ -20,14 +20,14 @@ public class Deck {
      *  Stack containing cards currently present in the deck.
      *  Cards drawn by the player are removed from the deck.
      */
-    Stack<Card> content;
+    Stack<T> content;
 
     /**
      * Constructor class Deck.
      * @param type type of the deck
      * @param content Stack containing deck cards
      */
-    public Deck(CardType type, Stack<Card> content) {
+    public Deck(CardType type, Stack<T> content) {
         this.type = type;
         this.content = new Stack<>();
         this.content.addAll(content);
@@ -47,7 +47,7 @@ public class Deck {
      * objective cards and starter cards deck.
      * @return first card of the deck
      */
-    public Card drawCard() throws CardNotPresentException {
+    public T drawCard() throws CardNotPresentException {
         try {
             return this.content.pop();
         }
