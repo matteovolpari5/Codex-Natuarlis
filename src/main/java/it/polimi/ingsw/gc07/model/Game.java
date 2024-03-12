@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
+import it.polimi.ingsw.gc07.exceptions.EmptyChatException;
+import it.polimi.ingsw.gc07.exceptions.WrongCardTypeException;
 import it.polimi.ingsw.gc07.model.cards.Card;
 import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -8,6 +10,8 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
+import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.*;
@@ -56,6 +60,8 @@ public class Game {
     private Deck starterCardsDeck;
 
     private boolean lastTurn;
+
+    private Chat chat;
 
     /**
      * Constructor of a Game with only the first player.
@@ -192,4 +198,46 @@ public class Game {
     // metodi per rivelare le carte scoperte
     // uno per ogni tipo di carta oppure prendono un tipo di carta?
     // Nel metodo per pescare una carta, alla fine si chiama changeCurrPlayer
+
+    public Card drawDeckCard(CardType type) throws WrongCardTypeException, CardNotPresentException {
+        if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
+            throw new WrongCardTypeException();
+        }
+        if(type.equals(CardType.RESOURCE_CARD)){
+            return resourceCardsDeck.drawDeckCard();
+        }
+        return goldCardsDeck.drawDeckCard();
+    }
+
+    public Card drawFaceUpCard(CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
+        // TODO
+        // se starter o objective, eccezione
+        // altrimenti chiamo drawFaceUpCard sul giusto deck
+    }
+
+    public Card revealFaceUpCard(CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
+        // TODO
+        // se starter, eccezione
+        // altrimenti chiamo revealFaceUpCard sul giusto deck
+    }
+
+    public GameResource revealBackDeckCard(CardType type) throws WrongCardTypeException, CardNotPresentException {
+        // TODO
+        // se starter o objective, eccezione
+        // altrimenti chiamo revealBackDeckCard sul giusto deck
+    }
+
+    // metodi chat
+    public void addChatMessage(String newMessage) {
+        chat.addMessage(newMessage);
+    }
+
+    public String getLastChatMessage() throws EmptyChatException {
+        return chat.getLastMessage();
+    }
+
+    public List<String> getChatContent() {
+        return chat.getContent();
+    }
+
 }

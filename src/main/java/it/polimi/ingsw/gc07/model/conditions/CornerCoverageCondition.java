@@ -3,12 +3,12 @@ package it.polimi.ingsw.gc07.model.conditions;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 
-public class ConerCoverageCondition extends Condition {
+public class CornerCoverageCondition extends Condition {
     /**
      * Constructor of class CornerCoverageCondtion.
      * @param type type of the condition
      */
-    public ConerCoverageCondition(ConditionType type) {
+    public CornerCoverageCondition(ConditionType type) {
         super(type);
     }
     /**
