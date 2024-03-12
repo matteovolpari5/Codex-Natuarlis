@@ -36,7 +36,7 @@ public class Deck {
      * Return the card type of all cards in the deck.
      * @return card type of the deck
      */
-    public CardType getDeckType() {
+    public CardType getType() {
         return this.type;
     }
 
@@ -46,7 +46,7 @@ public class Deck {
      * objective cards and starter cards deck.
      * @return first card of the deck
      */
-    public Card drawDeckCard() throws CardNotPresentException {
+    public Card drawCard() throws CardNotPresentException {
         try {
             return this.content.pop();
         }

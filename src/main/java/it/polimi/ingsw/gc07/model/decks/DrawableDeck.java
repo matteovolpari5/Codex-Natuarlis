@@ -41,7 +41,7 @@ public class DrawableDeck extends PlayingDeck {
         Card resultCard = faceUpCards[cardPos];
         // Substitute the face up card
         try{
-            faceUpCards[cardPos] = this.drawDeckCard();
+            faceUpCards[cardPos] = this.drawCard();
             // faceUpCardsPresent[cardPos] remains true
         }
         catch(CardNotPresentException e){

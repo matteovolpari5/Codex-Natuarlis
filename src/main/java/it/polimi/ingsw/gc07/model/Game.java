@@ -117,6 +117,8 @@ public class Game {
         return scoreTrackBoard.getScore(player);
     }
 
+    // l'esterno può chimare player.getCurrentHand, non serve il metodo
+
     /**
      * Method to add a new player.
      * @param nickname player to add to the game
@@ -127,7 +129,7 @@ public class Game {
         try{
             List<NonStarterCard> currentHand = new ArrayList<>();
             // TODO: aggiungere le carte alla currentHand
-            ObjectiveCard secretObjective = (ObjectiveCard) objectiveCardsDeck.drawDeckCard();
+            ObjectiveCard secretObjective = (ObjectiveCard) objectiveCardsDeck.drawCard();
             Player newPlayer = new Player(nickname, tokenColor, currentHand, secretObjective, connectionType);
             // TODO
             // Creare il GameField vuoto
@@ -217,9 +219,9 @@ public class Game {
             throw new WrongCardTypeException();
         }
         if(type.equals(CardType.RESOURCE_CARD)){
-            return resourceCardsDeck.drawDeckCard();
+            // return resourceCardsDeck.drawCard();
         }
-        return goldCardsDeck.drawDeckCard();
+        // return goldCardsDeck.drawCard();
         // TODO
         // modifica currentHand, aggiungendo la carta pescata (setCurrenHand di Player)
     }
