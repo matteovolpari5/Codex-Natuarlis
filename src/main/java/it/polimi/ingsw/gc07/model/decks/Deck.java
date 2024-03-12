@@ -15,9 +15,10 @@ public class Deck {
      * corresponds to the card type of all cards contained in the deck.
      */
     final CardType type;
+
     /**
-     * Stack containing the cards currently present in the deck.
-     * Cards drawn by player are removed from the deck.
+     *  Stack containing cards currently present in the deck.
+     *  Cards drawn by the player are removed from the deck.
      */
     Stack<Card> content;
 
