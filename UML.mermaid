@@ -210,6 +210,8 @@ classDiagram
         + drawFaceUpCard(type : CardType, pos:int) Card
         + revealFaceUpCard(type : CardType, pos:int) Card
         + revealBackDeckCard(type: CardType) GameResource
+        + getGameField(player: Player) GameField
+        + getScore(nickname: String) int
     }
     Condition <|-- LayoutCondition
     Condition <|-- ItemsCondition
