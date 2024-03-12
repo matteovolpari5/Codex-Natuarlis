@@ -99,14 +99,13 @@ classDiagram
         + drawCard() Card
     }
     class DrawableDeck{
-        + DrawableDeck(type: CardType, content: Stack~Card~, \n faceUpCard: Card[2], faceUpCardsPresent: boolean[2])
+        + DrawableDeck(type: CardType, content: Stack~Card~, \n faceUpCard: Card[2])
         + drawFaceUpCard(cardPos: int) Card
         + revealBackDeckCard() GameResource
     }
     class PlayingDeck{
         ~ faceUpCard: Card[2]
-        ~ faceUpCardsPresent: boolean[2]
-        + PlayingDeck(type: CardType, content: Stack~Card~, \n faceUpCards: Card[2], faceUpCardsPresent: boolean[2])
+        + PlayingDeck(type: CardType, content: Stack~Card~, \n faceUpCards: Card[2])
         + revealFaceUpCard(cardPos: int) Card
     }
     Deck <|-- PlayingDeck
@@ -171,8 +170,8 @@ classDiagram
         - gameId: int
         - state: GameState
         - playersNumber: int
-        - playersGameField: Map~Player, GameField~
-        - playersPosition: Map~Integer, Player~
+        - playersGameField: Map~String, GameField~
+        - players: List~Player~
         - currPlayer: int
         - scoreTrackBoard: ScoreTrackBoard
         - resourceCardsDeck: DrawableDeck
@@ -182,20 +181,20 @@ classDiagram
         - lastTurn: boolean
         - chat: Chat
         + Game(gameId: int, playersNumber: int, resourceCardsDeck: DrawableDeck,\n goldCardsDeck: DrawableDeck, objectiveCardsDeck: PlayingDeck, starterCardsDeck : Deck, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean)
-        + getPlayers() Set~Player~
+        + getPlayers() List~Player~
         + getCurrentPlayer() Player
-        + getGameField(player: Player) GameField
-        + getScore(player: Player) int
+        + getGameField(nickname: String) GameField
+        + getScore(nickname: String) int
         + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType boolean)
         + setup()
         + isFull() boolean
-        + disconnectPlayer(player: Player)
-        + reconnectPlayer(player: Player)
+        + disconnectPlayer(nickname : String)
+        + reconnectPlayer(nickname : String)
         + changeCurrPlayer()
-        + placeCard(card: PlaceableCard, x:int, y:int, way:boolean)
-        + addPoints(x: int, y:int)
+        + placeCard(nickname: String, card: PlaceableCard, x:int, y:int, way:boolean)
+        + addPoints(nickname: String, x: int, y:int)
         + computeWinner() Player
-        + drawDeckCard(type: CardType)
+        + drawDeckCard(nickname: String, type: CardType)
         + drawFaceUpCard(type : CardType, pos:int)
         + revealFaceUpCard(type : CardType, pos:int) Card
         + revealBackDeckCard(type: CardType) GameResource
@@ -213,7 +212,6 @@ classDiagram
     class GameField {
         - cardsContent: PlaceableCard[80][80]
         - cardsFace: boolean [80][80]
-        - cardsPosition: boolean [80][80]
         + GameField()
         + GameField(GameField existingGameField)
         + placeCard(card: PlaceableCard, x: int, y: int, way: boolean)
@@ -256,11 +254,11 @@ classDiagram
     %%Player --> TokenColor
     %%Player --> ObjectiveCard
     class ScoreTrackBoard {
-        - playersScore: Map~Player, Integer~
+        - playersScore: Map~String, Integer~
         + ScoreTrackBoard()
-        + addPlayer(player: Player)
-        + setScore(player: Player, newScore: int)
-        + getScore(player: Player) int
+        + addPlayer(nickname: String)
+        + setScore(nickname: String, newScore: int)
+        + getScore(nickname: String) int
     }
     %%ScoreTrackBoard --> Player
 
