@@ -23,6 +23,11 @@ public class GamesManager {
      * Places in games are filled in order.
      */
     public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType) {
+
+        // attenzione, quanto scritto sotto è sbagliato
+        // per la FA, il player può scegliere se creare una partita oppure
+        // se partecipare ad una esiste
+
         // probabilmente controllo qua che il nickname sia unico
 
         // TODO

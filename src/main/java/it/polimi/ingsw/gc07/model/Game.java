@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
-import it.polimi.ingsw.gc07.model.cards.Card;
 import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -56,6 +55,8 @@ public class Game {
     private Deck starterCardsDeck;
 
     private boolean lastTurn;
+
+    private Chat chat;
 
     /**
      * Constructor of a Game with only the first player.
