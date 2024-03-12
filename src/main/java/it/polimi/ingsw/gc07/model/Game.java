@@ -180,22 +180,25 @@ public class Game {
         // Comunica al player che è il suo turno (?)
     }
 
-    public void placeCard(PlaceableCard card, int x, int y, boolean way) {
+    public void placeCard(Player player, PlaceableCard card, int x, int y, boolean way) {
         // TODO
-        // posso aggiungerla solo al currentPlayer
-        // qualcuno deve assicurarsi che solo il current player giochi
+        // posso aggiungerla solo al currentPlayer, controllo e lancio eccezion
         // chiama placeCard sul gamefield del current player
         // rimuove la carta dalla currentHand
         // chiama il metodo addPoints che aggiunge i punti al giocatore
+        // riceve un player equals (ma non ==) a uno dei suoi
+        // prima il suo e poi ci ...
     }
 
-    private void addPoints(int x, int y) {
+    private void addPoints(Player player, int x, int y) {
         // TODO
-        // il player è ancora il current player, devo passarglielo?
+        // controllo sia currentPlayer
         // la card è già stata piazzata
         // conoscendo x e y posso verificare quanti punti ha fatto e
         // aggiornare il punteggio su scoreTrackBoard
         // se il punteggio è >= 20 (?) lastTurn = true
+        // riceve un player equals (ma non ==) a uno dei suoi
+        // prima il suo e poi
     }
 
     private Player computeWinner() {
@@ -214,7 +217,7 @@ public class Game {
     // uno per ogni tipo di carta oppure prendono un tipo di carta?
     // Nel metodo per pescare una carta, alla fine si chiama changeCurrPlayer
 
-    public void drawDeckCard(CardType type) throws WrongCardTypeException, CardNotPresentException {
+    public void drawDeckCard(Player player, CardType type) throws WrongCardTypeException, CardNotPresentException {
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
             throw new WrongCardTypeException();
         }
@@ -224,14 +227,18 @@ public class Game {
         // return goldCardsDeck.drawCard();
         // TODO
         // modifica currentHand, aggiungendo la carta pescata (setCurrenHand di Player)
+        // riceve un player equals (ma non ==) a uno dei suoi
+        // prima il suo e poi ci chiama setCurrentHand
     }
 
-    public void drawFaceUpCard(CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
+    public void drawFaceUpCard(Player player, CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
         // TODO
         // se starter o objective, eccezione
         // altrimenti chiamo drawFaceUpCard sul giusto deck
         // TODO
         // modifica currentHand, aggiungendo la carta pescata (setCurrenHand di Player)
+        // riceve un player equals (ma non ==) a uno dei suoi
+        // prima il suo e poi ci chiama setCurrentHand
     }
 
     public Card revealFaceUpCard(CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
