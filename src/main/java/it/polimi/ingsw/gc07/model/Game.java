@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.exceptions.EmptyChatException;
+import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentExcpetion;
 import it.polimi.ingsw.gc07.exceptions.WrongCardTypeException;
 import it.polimi.ingsw.gc07.model.cards.Card;
 import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
@@ -35,7 +36,7 @@ public class Game {
      */
     private Map<Integer, Player> playersPosition;
     /**
-     * Integer value representing the position of the current player
+     * Integer value representing the position of the current player.
      */
     private int currPlayer;
     /**
@@ -105,12 +106,15 @@ public class Game {
         return new Player(playersPosition.get(currPlayer));
     }
 
-    public GameField getGameField(Player player) {
+    public GameField getGameField(Player player) throws PlayerNotPresentExcpetion {
+        if(!playersGameField.containsKey(player)) {
+            throw new PlayerNotPresentExcpetion();
+        }
         return new GameField(playersGameField.get(player));
     }
 
-    public int getScore(String nickname) {
-        // TODO
+    public int getScore(Player player) throws PlayerNotPresentExcpetion {
+        return scoreTrackBoard.getScore(player);
     }
 
     /**
@@ -179,6 +183,7 @@ public class Game {
         // posso aggiungerla solo al currentPlayer
         // qualcuno deve assicurarsi che solo il current player giochi
         // chiama placeCard sul gamefield del current player
+        // rimuove la carta dalla currentHand
         // chiama il metodo addPoints che aggiunge i punti al giocatore
     }
 
@@ -207,7 +212,7 @@ public class Game {
     // uno per ogni tipo di carta oppure prendono un tipo di carta?
     // Nel metodo per pescare una carta, alla fine si chiama changeCurrPlayer
 
-    public Card drawDeckCard(CardType type) throws WrongCardTypeException, CardNotPresentException {
+    public void drawDeckCard(CardType type) throws WrongCardTypeException, CardNotPresentException {
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
             throw new WrongCardTypeException();
         }
@@ -215,12 +220,16 @@ public class Game {
             return resourceCardsDeck.drawDeckCard();
         }
         return goldCardsDeck.drawDeckCard();
+        // TODO
+        // modifica currentHand, aggiungendo la carta pescata (setCurrenHand di Player)
     }
 
-    public Card drawFaceUpCard(CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
+    public void drawFaceUpCard(CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
         // TODO
         // se starter o objective, eccezione
         // altrimenti chiamo drawFaceUpCard sul giusto deck
+        // TODO
+        // modifica currentHand, aggiungendo la carta pescata (setCurrenHand di Player)
     }
 
     public Card revealFaceUpCard(CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {

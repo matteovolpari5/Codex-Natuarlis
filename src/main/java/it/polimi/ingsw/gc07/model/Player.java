@@ -20,9 +20,7 @@ public class Player {
      */
     private TokenColor tokenColor;
     /**
-     * Boolean value representing if the player is the first one.
-     * true: the player is first
-     * false: the player is not first
+     * Boolean value representing if the player is first.
      */
     private boolean isFirst;
     /**
@@ -56,11 +54,11 @@ public class Player {
                   ObjectiveCard secretObjective, boolean connectionType) {
         this.nickname = nickname;
         this.tokenColor = tokenColor;
-        this.isFirst = false;
         this.isConnected = true;
         this.currentHand = new ArrayList<>(currentHand);
         this.secretObjective = secretObjective;
         this.connectionType = connectionType;
+        this.isFirst = false;
     }
 
     public Player(Player existingPlayer) {
@@ -102,19 +100,15 @@ public class Player {
     }
 
     /**
-     * Setter for the connection state of the player
-     * @param isConnected if true the player is connected
-     */
-    public void setConnected(boolean isConnected){
-        this.isConnected = isConnected;
-    }
-
-    /**
      * Getter method for the player's connection state.
      * @return
      */
     public boolean isConnected(){
         return this.isConnected;
+    }
+
+    public void setIsConnected(boolean isConnected){
+        this.isConnected = isConnected;
     }
 
     /**
@@ -148,6 +142,4 @@ public class Player {
     public boolean getConnectionType(){
         return this.connectionType;
     }
-
-
 }
