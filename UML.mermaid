@@ -76,11 +76,9 @@ classDiagram
         + numTimesMet(gameField: GameField) int
     }
     class LayoutCondition {
-        - CARDSPOSITION: boolean [3][3]
         - CARDSCOLOR: GameResource[3][3]
-        + LayoutCondition(conditionType: ConditionType, \n cardsPosition: boolean[3][3], \n cardsColor: GameResource[3][3])
+        + LayoutCondition(conditionType: ConditionType, cardsColor: GameResource[3][3])
         + getCardsColor() GameResource[3][3]
-        + getCardsPosition() boolean[3][3]
         + numTimesMet(gameField: GameField) int
     }
     %%LayoutCondition --> GameResource
