@@ -50,11 +50,11 @@ classDiagram
         + getBackCorners() boolean [4]
         + getBackCornersContent() GameItem [4]
     }
-    Card <|-- ObjectiveCard
-    Card <|-- PlaceableCard
-    PlaceableCard <|-- StarterCard
-    PlaceableCard <|-- NonStarterCard
-    NonStarterCard <|-- GoldCard
+%%  Card <|-- ObjectiveCard
+%%  Card <|-- PlaceableCard
+%%  PlaceableCard <|-- StarterCard
+%%  PlaceableCard <|-- NonStarterCard
+%%   NonStarterCard <|-- GoldCard
 
     %% --------------------------------
     %% Conditions
@@ -83,11 +83,11 @@ classDiagram
         + getCardsPosition() boolean[3][3]
         + numTimesMet(gameField: GameField) int
     }
-    LayoutCondition --> GameResource
-    ItemsCondition --> GameItem
-    Condition <|-- LayoutCondition
-    Condition <|-- ItemsCondition
-    Condition <|-- CornerCoverageCondition
+%% LayoutCondition --> GameResource
+%%   ItemsCondition --> GameItem
+%%  Condition <|-- LayoutCondition
+%%  Condition <|-- ItemsCondition
+%%  Condition <|-- CornerCoverageCondition
 
     %% --------------------------------
     %% Decks
@@ -110,9 +110,9 @@ classDiagram
         + PlayingDeck(type: CardType, content: Stack~Card~, \n faceUpCards: Card[2], faceUpCardsPresent: boolean[2])
         + revealFaceUpCard(cardPos: int) Card
     }
-    Deck <|-- PlayingDeck
-    PlayingDeck <|-- DrawableDeck
-    Deck --> Card
+%%  Deck <|-- PlayingDeck
+%%  PlayingDeck <|-- DrawableDeck
+%%  Deck --> Card
 
     %% --------------------------------
     %% Enumerations
@@ -153,8 +153,8 @@ classDiagram
     class GameItem {
         <<interface>>
     }
-    GameItem <|.. GameResource
-    GameItem <|.. GameObject
+%% GameItem <|.. GameResource
+%%  GameItem <|.. GameObject
 
     class Chat {
         - content: List<String>
@@ -199,13 +199,14 @@ classDiagram
         + getLastChatMessage() String
         + getChatContent() List~String~
     }
-    Game --> DrawableDeck
-    Game --> Deck
-    Game --> PlayingDeck
-    Game --> ScoreTrackBoard
-    Game --> Player
-    Game --> Chat
-    Game --> GameField
+
+    %%  Game --> DrawableDeck
+%%  Game --> Deck
+%%  Game --> PlayingDeck
+%%  Game --> ScoreTrackBoard
+%%  Game --> Player
+%%  Game --> Chat
+%%  Game --> GameField
 
     class GameField {
         - cardsContent: PlaceableCard[80][80]
@@ -218,14 +219,14 @@ classDiagram
         + getPlacedCard(x: int, y: int) PlaceableCard
         + getCardWay(x: int, y: int) boolean
     }
-    GameField --> PlaceableCard
+    %%GameField --> PlaceableCard
     class GamesManager {
         - games: List~Game~
         + GamesManager()
         + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean,interfaceType: boolean)
         + checkNickname(nickname: String) boolean
     }
-    GamesManager --> Game
+%%GamesManager --> Game
     class Player {
         - nickname: String
         - tokenColor: TokenColor
@@ -249,9 +250,9 @@ classDiagram
         + getConnectionType() boolean
         + getInterfaceType() boolean
         }
-    Player --> NonStarterCard
-    Player --> TokenColor
-    Player --> ObjectiveCard
+%%Player --> NonStarterCard
+%%   Player --> TokenColor
+%%  Player --> ObjectiveCard
     class ScoreTrackBoard {
         - playersScore: Map~Player, Integer~
         + ScoreTrackBoard()
@@ -259,7 +260,7 @@ classDiagram
         + setScore(player: Player, newScore: int)
         + getScore(player: Player) int
     }
-    ScoreTrackBoard --> Player
+%%   ScoreTrackBoard --> Player
 
 
 
