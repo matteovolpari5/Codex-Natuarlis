@@ -11,53 +11,51 @@ import java.util.HashMap;
  * Class representing the ScoreTrackBoard
  */
 public class ScoreTrackBoard {
-    private Map<Player, Integer> playersScore;
+    private Map<String, Integer> playersScore;
 
     /**
      * Constructor method for an empty ScoreTrackBoard.
      */
     public ScoreTrackBoard() {
-        playersScore = new HashMap<Player, Integer>();
+        playersScore = new HashMap<>();
     }
 
     /**
      * Method that allows to insert a new Player to the ScoreTrackBoard,
      * initializing it's score to 0.
-     * @param player player to add
+     * @param nickname player to add
      */
-    public void addPlayer(Player player) throws PlayerAlreadyPresentException {
-        for(Player p : playersScore.keySet()){
-            if(p.getNickname().equals(player.getNickname())){
-                throw new PlayerAlreadyPresentException();
-            }
-        }
-        playersScore.put(player, 0);
+    public void addPlayer(String nickname) throws PlayerAlreadyPresentException {
+       if(playersScore.containsKey(nickname)){
+           throw new PlayerAlreadyPresentException();
+       }
+        playersScore.put(nickname, 0);
     }
 
     /**
      * Setter method, allows to set a certain score for a player.
-     * @param player player
+     * @param nickname player
      * @param newScore new score to set
      */
-    public void setScore(Player player, int newScore) throws PlayerNotPresentExcpetion, NonValidScoreExcpetion {
+    public void setScore(String nickname, int newScore) throws PlayerNotPresentExcpetion, NonValidScoreExcpetion {
         if(newScore < 0 || newScore > 29){
             throw new NonValidScoreExcpetion();
         }
-        if(!playersScore.containsKey(player)){
+        if(!playersScore.containsKey(nickname)){
             throw new PlayerNotPresentExcpetion();
         }
-        this.playersScore.put(player, newScore);
+        this.playersScore.put(nickname, newScore);
     }
 
     /**
      * Getter method for the score, allows to know the current score of a player.
-     * @param player player
+     * @param nickname player
      * @return current score for the player
      */
-    public int getScore(Player player) throws PlayerNotPresentExcpetion{
-        if(!playersScore.containsKey(player)){
+    public int getScore(String nickname) throws PlayerNotPresentExcpetion{
+        if(!playersScore.containsKey(nickname)){
             throw new PlayerNotPresentExcpetion();
         }
-        return playersScore.get(player);
+        return playersScore.get(nickname);
     }
 }

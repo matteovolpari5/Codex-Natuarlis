@@ -11,14 +11,6 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 public class GameField {
     /**
      * Matrix of dimension 80x80, the biggest possible dimension
-     * for a player's game field, containing boolean values.
-     * The cell contains true if the game field contains a card in
-     * that position, false otherwise.
-     */
-    private boolean[][] cardsPosition;
-
-    /**
-     * Matrix of dimension 80x80, the biggest possible dimension
      * for a player's game field. Each cell contains a placeable card,
      * or null if the place is empty.
      */
@@ -36,12 +28,6 @@ public class GameField {
      * Constructor of the game field: builds an empty game field.
      */
     public GameField() {
-        this.cardsPosition = new boolean[80][80];
-        for(int i=0; i <80; i++){
-            for(int j=0; j<80; j++){
-                this.cardsPosition[i][j] = false;
-            }
-        }
         this.cardsContent = new PlaceableCard[80][80];
         for(int i=0; i <80; i++){
             for(int j=0; j<80; j++){
@@ -60,12 +46,6 @@ public class GameField {
      * Constructor of the game field: builds a copy of an existing game field.
      */
     public GameField(GameField existingGameField) {
-        this.cardsPosition = new boolean[80][80];
-        for(int i=0; i <80; i++){
-            for(int j=0; j<80; j++){
-                this.cardsPosition[i][j] = existingGameField.cardsPosition[i][j];
-            }
-        }
         this.cardsContent = new PlaceableCard[80][80];
         for(int i=0; i <80; i++){
             for(int j=0; j<80; j++){
@@ -96,7 +76,6 @@ public class GameField {
         if(card == null){
             throw new NullPointerException();
         }
-        cardsPosition[x][y] = true;
         // PlaceableCard is immutable, I can insert the card I receive
         cardsContent[x][y] = card;
         cardsFace[x][y] = way;
@@ -112,7 +91,10 @@ public class GameField {
         if(x < 0 || x >= 80 || y <0 || y >= 80){
             throw new IndexOutOfBoundsException();
         }
-        return cardsPosition[x][y];
+        if(cardsContent[x][y] == null){
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -121,15 +103,12 @@ public class GameField {
      * @param y y index of the matrix
      * @return card in position (x,y)
      */
-    public PlaceableCard getPlacedCard(int x, int y) throws IndexOutOfBoundsException, CardNotPresentException, NullPointerException {
+    public PlaceableCard getPlacedCard(int x, int y) throws IndexOutOfBoundsException, CardNotPresentException {
         if(x < 0 || x >= 80 || y <0 || y >= 80){
             throw new IndexOutOfBoundsException();
         }
-        if(!cardsPosition[x][y]){
-            throw new CardNotPresentException();
-        }
         if(cardsContent[x][y] == null){
-            throw new NullPointerException();
+            throw new CardNotPresentException();
         }
         // PlaceableCard is immutable, I can return the card without copy
         return cardsContent[x][y];
@@ -142,9 +121,12 @@ public class GameField {
      * @return  false: the card has been placed face up
      *          true: the card has been placed face down
      */
-    public boolean getCardWay(int x, int y) throws IndexOutOfBoundsException {
+    public boolean getCardWay(int x, int y) throws IndexOutOfBoundsException, CardNotPresentException {
         if(x < 0 || x >= 80 || y <0 || y >= 80){
             throw new IndexOutOfBoundsException();
+        }
+        if(cardsContent[x][y] == null){
+            throw new CardNotPresentException();
         }
         return cardsFace[x][y];
     }

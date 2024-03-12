@@ -156,22 +156,4 @@ public class Player {
     public boolean getInterfaceType(){
         return this.interfaceType;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null)
-            return false;
-        if (!(o instanceof Player)) {
-            return false;
-        }
-        Player p = (Player)o;
-        return this.nickname.equals(p.nickname);
-    }
-
-    @Override
-    public int hashCode(){
-
-    }
 }

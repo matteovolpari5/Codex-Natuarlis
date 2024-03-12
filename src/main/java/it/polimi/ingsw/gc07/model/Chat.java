@@ -8,6 +8,8 @@ import java.util.EmptyStackException;
 import java.util.List;
 
 public class Chat {
+
+    // TODO qualcuno deve concatenare in testa il nome del Player
     private List<String> content;
 
     public Chat() {
