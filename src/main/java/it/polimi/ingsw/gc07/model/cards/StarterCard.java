@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Class that represents starter cards of the game.
  */
-public class StarterCard extends PlaceableCard {
+public final class StarterCard extends PlaceableCard {
     /**
      * Attribute that shows which permanent game items the card has (on the back)
      */

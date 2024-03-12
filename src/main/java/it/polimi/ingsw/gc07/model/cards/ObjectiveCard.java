@@ -7,7 +7,7 @@ import java.util.concurrent.locks.Condition;
 /**
  * Class that represents objective cards of the game.
  */
-public class ObjectiveCard extends Card {
+public final class ObjectiveCard extends Card {
     /**
      * Attribute that shows the condition of the objectiveCard.
      */

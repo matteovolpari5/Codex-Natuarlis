@@ -9,7 +9,7 @@ import java.util.concurrent.locks.Condition;
 /**
  * Class that represents gold cards.
  */
-public class GoldCard extends NonStarterCard {
+public final class GoldCard extends NonStarterCard {
     /**
      * Attribute that shows the placement condition of the gold card
      */
