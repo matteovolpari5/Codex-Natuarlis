@@ -212,7 +212,9 @@ public class Game {
         // restituisce il player vincitore,
         // in caso di parità ??
         // restituisce una copia del player!
+        return null; // TODO
     }
+
 
     // TODO
     // metodi per pescare una carta
@@ -248,12 +250,14 @@ public class Game {
         // TODO
         // se starter, eccezione
         // altrimenti chiamo revealFaceUpCard sul giusto deck
+        return null; // TODO
     }
 
     public GameResource revealBackDeckCard(CardType type) throws WrongCardTypeException, CardNotPresentException {
         // TODO
         // se starter o objective, eccezione
         // altrimenti chiamo revealBackDeckCard sul giusto deck
+        return null; // TODO
     }
 
     // metodi chat
