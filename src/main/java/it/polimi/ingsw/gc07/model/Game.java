@@ -158,7 +158,7 @@ public class Game {
     }
 
     /**
-     * method to set up the game: the first player is chosen and the 4 card are revealed
+     * method to set up the game: the first player is chosen and the 4 cards are revealed
      */
     private void setup() {
         Random random= new Random();
