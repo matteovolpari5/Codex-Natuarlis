@@ -41,7 +41,9 @@ public class ItemsCondition extends Condition {
      * @return number of times the list of items is found
      */
     public int numTimesMet(GameField gameField) {
-        //TODO implementare
-        return 0;
+        // TODO implementare
+        // ricorda di guardare non solo le risorse/oggetti negli angoli, ma
+        // anche le risoser permanenti
+        return 0; // cambiare
     }
 }
