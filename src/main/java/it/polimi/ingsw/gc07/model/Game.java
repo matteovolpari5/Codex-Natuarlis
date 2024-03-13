@@ -218,24 +218,16 @@ public class Game {
     public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException {
         if(this.players.get(this.currPlayer).getNickname().equals(nickname))
         {
-            // TODO: devo farli qui i controlli di piazzamento
-
-            //se tutto ok--->   playersGameField.get(nickname).placeCard(card,x,y,way);
-
-            // rimuove la carta giocata dalla currentHand
+            playersGameField.get(nickname).placeCard(card,x,y,way);
             List<NonStarterCard> newHand = new ArrayList<>(players.get(this.currPlayer).getCurrentHand());
             newHand.remove(card);
             players.get(this.currPlayer).setCurrentHand(newHand);
-
-            // chiama il metodo addPoints che aggiunge i punti al giocatore
             addPoints(nickname,x,y);
         }
         else {
             throw new WrongPlayerException();
         }
-        // TODO: fare i controlli di piazzamento
         // TODO: vanno lanciate altre eccezioni??
-
     }
 
     private void addPoints(String nickname, int x, int y) throws WrongPlayerException{
