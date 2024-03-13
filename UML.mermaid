@@ -182,13 +182,13 @@ classDiagram
         - starterCardsDeck: Deck
         - lastTurn: boolean
         - chat: Chat
-        + Game(gameId: int, playersNumber: int, resourceCardsDeck: DrawableDeck,\n goldCardsDeck: DrawableDeck, objectiveCardsDeck: PlayingDeck, starterCardsDeck : Deck, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean)
+        + Game(gameId: int, playersNumber: int, resourceCardsDeck: DrawableDeck,\n goldCardsDeck: DrawableDeck, objectiveCardsDeck: PlayingDeck, starterCardsDeck : Deck, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean, starterCardWay: boolean)
         + getState() GameStae
         + getPlayers() List~Player~
         + getCurrentPlayer() Player
         + getGameField(nickname: String) GameField
         + getScore(nickname: String) int
-        + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType boolean)
+        + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType:  boolean, starterCardWay : boolean<)
         + setup()
         + isFull() boolean
         + disconnectPlayer(nickname : String)
@@ -227,7 +227,7 @@ classDiagram
     class GamesManager {
         - games: List~Game~
         + GamesManager()
-        + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType: boolean)
+        + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType: boolean, starterCardWay: boolean)
         + checkNickname(nickname: String) boolean
     }
     %%GamesManager --> Game
