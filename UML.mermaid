@@ -89,28 +89,36 @@ classDiagram
     %% Decks
     %% --------------------------------
     class Deck~T~{
-        <<abstract>>
         ~ TYPE: CardType
-        + Deck(type: CardType, content: Stack~Card~)
+        ~ Stack~T~ content
+        + Deck()
+        + setType(type: CardType)
         + getType() CardType
-        + drawCard() Card
-    }
-    class DrawableDeck~T~{
-        + DrawableDeck(type: CardType, content: Stack~T~, \n faceUpCard: List~T~)
-        + drawFaceUpCard(cardPos: int) T
-        + revealBackDeckCard() GameResource
+        + drawCard() T
     }
     class PlayingDeck~T~{
         ~ faceUpCard: List~T~
-        + PlayingDeck(type: CardType, content: Stack~T~, \nfaceUpCards: List~T~)
+        + PlayingDeck()
+        + setFaceUpCards(faceUpCards: List~T~)
         + revealFaceUpCard(cardPos: int) T
     }
-    class StarterCardDeck{
-
+    class DrawableDeck~T~{
+        + DrawableDeck()
+        + drawFaceUpCard(cardPos: int) T
+        ~ revealDeckCard() T
     }
-    Deck~T~ <|-- PlayingDeck
-    PlayingDeck <|-- DrawableDeck
-    Deck~T~ <|-- StarterCardDeck
+    class GoldCardsDeck{
+        + GoldCardsDeck()
+        + revealBackDeckCard() GameResource
+    }
+    class ResourceCardsDeck{
+        + ResourceCardsDeck()
+        + revealBackDeckCard() GameResource
+    }
+    Deck~T~ <|-- PlayingDeck~T~
+    PlayingDeck~T~ <|-- DrawableDeck~T~
+    DrawableDeck~T~ <|-- ResourceCardsDeck
+    DrawableDeck~T~ <|-- GoldCardsDeck
 
     %%Deck --> Card
     %% --------------------------------
