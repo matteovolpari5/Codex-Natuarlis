@@ -95,6 +95,7 @@ public class GameField {
             throw new CardAlreadyPresentException();
         }
         // PlaceableCard is immutable, I can insert the card I receive
+        // TODO: manca un macello di roba, prima di inserire la carta
         cardsContent[x][y] = card;
         cardsFace[x][y] = way;
     }
