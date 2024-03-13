@@ -8,12 +8,12 @@ import java.util.Stack;
  * Class representing a collection of cards.
  * Starter cards deck is a Deck object.
  */
-public abstract class Deck<T> {
+public class Deck<T> {
     /**
      * Attribute representing the deck type, which
      * corresponds to the card type of all cards contained in the deck.
      */
-    final CardType type;
+    CardType type;
 
     /**
      *  Stack containing cards currently present in the deck.
@@ -23,13 +23,14 @@ public abstract class Deck<T> {
 
     /**
      * Constructor class Deck.
-     * @param type type of the deck
-     * @param content Stack containing deck cards
      */
-    public Deck(CardType type, Stack<T> content) {
+    public Deck() {
+        this.type = null;
+        this.content = null;
+    }
+
+    public void setType(CardType type) {
         this.type = type;
-        this.content = new Stack<>();
-        this.content.addAll(content);
     }
 
     /**
@@ -38,6 +39,11 @@ public abstract class Deck<T> {
      */
     public CardType getType() {
         return this.type;
+    }
+
+    public void setContent(Stack<T> content) {
+        this.content = new Stack<>();
+        this.content.addAll(content);
     }
 
     /**
