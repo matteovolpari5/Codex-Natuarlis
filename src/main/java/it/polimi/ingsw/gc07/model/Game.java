@@ -244,8 +244,13 @@ public class Game {
         // prima il suo e poi
     }
 
-    private Player computeWinner() {
+    private Player computeWinner() throws CardNotPresentException {
         // TODO
+        for (int i=0; i>=0 && i< players.size(); i++){
+            /*objectiveCardsDeck.revealFaceUpCard(0).getScoringCondition()
+                    numTimesMet(playersGameField.get(players.get(i).getNickname()));*/
+
+        }
         // Considerando le carte obiettivo finale comuni e le
         // carte obiettivo segrete, calcola il punteggio finale
         // per tutti i giocatori
