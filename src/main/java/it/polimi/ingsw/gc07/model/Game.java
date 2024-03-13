@@ -1,9 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
-import it.polimi.ingsw.gc07.exceptions.EmptyChatException;
-import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentExcpetion;
-import it.polimi.ingsw.gc07.exceptions.WrongCardTypeException;
+import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.Card;
 import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -17,7 +14,7 @@ import it.polimi.ingsw.gc07.model.enumerations.GameState;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.*;
-
+import java.util.Random;
 public class Game {
     /**
      * State of the game.
@@ -77,10 +74,15 @@ public class Game {
      */
     public Game(int playersNumber, DrawableDeck resourceCardsDeck,
                 DrawableDeck goldCardsDeck, PlayingDeck objectiveCardsDeck, Deck starterCardsDeck,
-                String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) {
+                String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongNumberOfPlayersException
+    {
         this.state = GameState.WAITING_PLAYERS;
-        // TODO: mettiamo un'eccezione per playersNumber?
-        this.playersNumber = playersNumber;
+        if (playersNumber<2 || playersNumber>4)  {
+            throw new WrongNumberOfPlayersException();
+        }
+        else{
+            this.playersNumber = playersNumber;
+        }
         this.players = new ArrayList<>();
         this.playersGameField = new HashMap<>();
         this.scoreTrackBoard = new ScoreTrackBoard();
@@ -90,7 +92,7 @@ public class Game {
         this.starterCardsDeck = starterCardsDeck;
         this.currPlayer = 0;
         this.lastTurn = false;
-        addPlayer(nickname, tokenColor, connectionType, interfaceType);
+        addPlayer(nickname, tokenColor, connectionType, interfaceType,starterCardWay);
     }
 
     public GameState getState() {
@@ -124,33 +126,44 @@ public class Game {
      * @param tokenColor color of player's token
      * @param connectionType type of connection
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) {
+    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) {
         try{
             List<NonStarterCard> currentHand = new ArrayList<>();
-            // TODO: aggiungere le carte alla currentHand
+            /* TODO: aggiungere le carte alla currentHand, dipende da come implementiamo i deck
+            currentHand.add(//NonStarterCard);
+            currentHand.add(//NonStarterCard);
+            currentHand.add(//GoldCard);
+            */
+            //controllare dopo Deck class
             ObjectiveCard secretObjective = (ObjectiveCard) objectiveCardsDeck.drawCard();
+
             Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType, currentHand, secretObjective);
-            // TODO
-            // Creare il GameField vuoto
-            // currPlayer è inizializzato a 0 dal costruttore
-            // Aggiunge Player alla lista
-            // Aggiunge Player.nickame e gameField alla mappa
-            // Incrementare currPlayer (per pos del prossimo Player)
-            // Aggiungere Player.nickname allo ScoreTrackBoard
-            // Controlla se è ultimo, se sì, chiama un metodo setup()
+            GameField gameField = new GameField();
+            this.players.add(newPlayer);
+            this.playersGameField.put(newPlayer.getNickname(),gameField);
+            playersGameField.get(nickname).placeCard(); // TODO: StarterCard,40,40,starterCardWay
+            this.scoreTrackBoard.addPlayer(newPlayer.getNickname());
+            if(players.size()==playersNumber)
+            {
+                setup();
+            }
         }
         catch(CardNotPresentException e){
+            e.printStackTrace();
+        }
+        catch (PlayerAlreadyPresentException e)
+        {
             e.printStackTrace();
         }
     }
 
     private void setup() {
+        Random random= new Random();
+        this.currPlayer=random.nextInt(4);
+        players.get(this.currPlayer).setFirst();
         // TODO
-        // sceglie il primo giocatore a caso e modifica il suo
-        // attributo isFirst e lo mette come currPlayer
-        // scopre 2 carte per ogni deck
-        // distribuisce casualmente le starter card e le piazza
-        // sul game field (chiedendo al player il verso)
+        // scopre 2 carte per ogni deck ---> Dipende da come implementiamo Deck
+
     }
 
     /**

@@ -21,7 +21,7 @@ public class GamesManager {
      * Accepts new player's data and adds him to a game.
      * Places in games are filled in order.
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) {
+    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) {
 
         // attenzione, quanto scritto sotto è sbagliato
         // per la FA, il player può scegliere se creare una partita oppure
@@ -46,7 +46,7 @@ public class GamesManager {
 
         // 2
         // Sul game creato / sul game trovato:
-        // game.addPlayer(nickname, tokenColor, connectionType)
+        // game.addPlayer(nickname, tokenColor, connectionType,way)
 
         // eventualmente creare dei metodi privati (/statici) per spezzettare
     }
