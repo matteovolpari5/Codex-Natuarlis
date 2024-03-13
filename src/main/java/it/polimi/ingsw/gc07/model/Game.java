@@ -141,9 +141,9 @@ public class Game {
             GameField gameField = new GameField();
             this.players.add(newPlayer);
             this.playersGameField.put(newPlayer.getNickname(),gameField);
-            playersGameField.get(nickname).placeCard(); // TODO: StarterCard,40,40,starterCardWay
+            this.playersGameField.get(nickname).placeCard(); // TODO: StarterCard,40,40,starterCardWay
             this.scoreTrackBoard.addPlayer(newPlayer.getNickname());
-            if(players.size()==playersNumber)
+            if(isFull())
             {
                 setup();
             }
@@ -157,12 +157,14 @@ public class Game {
         }
     }
 
+    /**
+     * method to set up the game: the first player is chosen and the 4 card are revealed
+     */
     private void setup() {
         Random random= new Random();
         this.currPlayer=random.nextInt(4);
-        players.get(this.currPlayer).setFirst();
-        // TODO
-        // scopre 2 carte per ogni deck ---> Dipende da come implementiamo Deck
+        this.players.get(this.currPlayer).setFirst();
+        // TODO  scopre 2 carte per ogni deck ---> Dipende da come implementiamo Deck
 
     }
 
@@ -174,7 +176,8 @@ public class Game {
         return players.size() == playersNumber;
     }
 
-    public void disconnectPlayer(String nickname){
+    public void disconnectPlayer(String nickname)
+    {
         //TODO: disconnect the player
     }
 
@@ -182,27 +185,68 @@ public class Game {
         // TODO: reconnect the player
     }
 
-    public void changeCurrPlayer() {
-        // TODO
-        // Cambia currPlayer al prossimo
-        // Se lastTurn = false, rotazione normale
-        // Se lastTurn = true, controlla di non andare oltre all'ultimo giro
-        // Se lastTurn = true e ha completato l'ultimo giro,
-        // chiama computeWinner()
-        // Comunica al player che è il suo turno (?)
+    /**
+     * method that change the current player, if it's the last turn and all the players
+     * played the same amount of turn it computes the winner
+     */
+    public void changeCurrPlayer()
+    {
+        if(this.currPlayer==this.playersNumber-1)
+            this.currPlayer=0;
+        else
+            this.currPlayer++;
+        if(this.lastTurn==true)
+        {
+            if(this.players.get(this.currPlayer).isFirst())
+            {
+                Player winner = computeWinner();        //  TODO: a cosa serve tornare il winner in computeWinner?
+            }
+        }
     }
 
-    public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) {
-        // TODO
-        // posso aggiungerla solo al currentPlayer, controllo e lancio eccezion
-        // chiama placeCard sul gamefield del current player
-        // rimuove la carta dalla currentHand
-        // chiama il metodo addPoints che aggiunge i punti al giocatore
-        // riceve un player equals (ma non ==) a uno dei suoi
-        // prima il suo e poi ci ...
+    /**
+     * method that place a card in the gamefield of the current player
+     * this method also remove the card placed from the hand of the current player and calls the method that compute the points scored by placing the card
+     * @param nickname : nickname of the player
+     * @param card : card that the player wants to play
+     * @param x : row of the matrix (gameField)
+     * @param y: column of the matrix (gameField)
+     * @param way : face of the card
+     * @throws WrongPlayerException : if a player that is not the current player try to place a card
+     * @throws CardAlreadyPresentException : if a player play a card that is already present in the gameField
+     */
+    public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException {
+        if(this.players.get(this.currPlayer).getNickname().equals(nickname))
+        {
+            // TODO: devo farli qui i controlli di piazzamento
+
+            //se tutto ok--->   playersGameField.get(nickname).placeCard(card,x,y,way);
+
+            // rimuove la carta giocata dalla currentHand
+            List<NonStarterCard> newHand = new ArrayList<>(players.get(this.currPlayer).getCurrentHand());
+            newHand.remove(card);
+            players.get(this.currPlayer).setCurrentHand(newHand);
+
+            // chiama il metodo addPoints che aggiunge i punti al giocatore
+            addPoints(nickname,x,y);
+        }
+        else {
+            throw new WrongPlayerException();
+        }
+        // TODO: fare i controlli di piazzamento
+        // TODO: vanno lanciate altre eccezioni??
+
     }
 
-    private void addPoints(String nickname, int x, int y) {
+    private void addPoints(String nickname, int x, int y) throws WrongPlayerException{
+        if(this.players.get(this.currPlayer).getNickname().equals(nickname))
+        {
+            //TODO
+            //
+        }
+        else {
+            throw new WrongPlayerException();
+        }
         // TODO
         // controllo sia currentPlayer
         // la card è già stata piazzata
