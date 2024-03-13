@@ -199,7 +199,7 @@ public class Game {
         {
             if(this.players.get(this.currPlayer).isFirst())
             {
-                Player winner = computeWinner();        //  TODO: a cosa serve tornare il winner in computeWinner?
+                Player winner = computeWinner();
             }
         }
     }
