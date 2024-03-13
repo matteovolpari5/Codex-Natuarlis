@@ -1,13 +1,8 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.*;
-import it.polimi.ingsw.gc07.model.cards.Card;
-import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
-import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
-import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
-import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
-import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
+import it.polimi.ingsw.gc07.model.cards.*;
+import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.GameState;
@@ -43,19 +38,19 @@ public class Game {
     /**
      * Deck of resource cards.
      */
-    private DrawableDeck resourceCardsDeck;
+    private ResourceCardsDeck resourceCardsDeck;
     /**
      * Deck of gold cards.
      */
-    private DrawableDeck goldCardsDeck;
+    private GoldCardsDeck goldCardsDeck;
     /**
      * Deck of objective cards.
      */
-    private PlayingDeck objectiveCardsDeck;
+    private PlayingDeck<ObjectiveCard> objectiveCardsDeck;
     /**
      * Deck of starter cards.
      */
-    private Deck starterCardsDeck;
+    private Deck<StarterCard> starterCardsDeck;
 
     private boolean lastTurn;
 
