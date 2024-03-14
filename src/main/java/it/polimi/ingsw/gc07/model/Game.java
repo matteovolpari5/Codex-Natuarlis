@@ -67,8 +67,8 @@ public class Game {
      * @param tokenColor color of player's token
      * @param connectionType type of connection
      */
-    public Game(int playersNumber, DrawableDeck resourceCardsDeck,
-                DrawableDeck goldCardsDeck, PlayingDeck objectiveCardsDeck, Deck starterCardsDeck,
+    public Game(int playersNumber, ResourceCardsDeck resourceCardsDeck,
+                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck, Deck<StarterCard> starterCardsDeck,
                 String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongNumberOfPlayersException
     {
         this.state = GameState.WAITING_PLAYERS;
@@ -124,19 +124,15 @@ public class Game {
     public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) {
         try{
             List<NonStarterCard> currentHand = new ArrayList<>();
-            /* TODO: aggiungere le carte alla currentHand, dipende da come implementiamo i deck
-            currentHand.add(//NonStarterCard);
-            currentHand.add(//NonStarterCard);
-            currentHand.add(//GoldCard);
-            */
-            //controllare dopo Deck class
-            ObjectiveCard secretObjective = (ObjectiveCard) objectiveCardsDeck.drawCard();
-
+            currentHand.add(resourceCardsDeck.drawCard());
+            currentHand.add(resourceCardsDeck.drawCard());
+            currentHand.add(goldCardsDeck.drawCard());
+            ObjectiveCard secretObjective = objectiveCardsDeck.drawCard();
             Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType, currentHand, secretObjective);
             GameField gameField = new GameField();
             this.players.add(newPlayer);
             this.playersGameField.put(newPlayer.getNickname(),gameField);
-            this.playersGameField.get(nickname).placeCard(); // TODO: StarterCard,40,40,starterCardWay
+            this.playersGameField.get(nickname).placeCard(starterCardsDeck.drawCard(), 40,40,starterCardWay);
             this.scoreTrackBoard.addPlayer(newPlayer.getNickname());
             if(isFull())
             {
@@ -150,6 +146,10 @@ public class Game {
         {
             e.printStackTrace();
         }
+        catch (CardAlreadyPresentException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -160,6 +160,10 @@ public class Game {
         this.currPlayer=random.nextInt(4);
         this.players.get(this.currPlayer).setFirst();
         // TODO  scopre 2 carte per ogni deck ---> Dipende da come implementiamo Deck
+        // goldCardsDeck.drawCard();
+        // goldCardsDeck.drawCard();
+        // resourceCardsDeck.drawCard();
+        // resourceCardsDeck.drawCard();
 
     }
 
@@ -184,13 +188,12 @@ public class Game {
      * method that change the current player, if it's the last turn and all the players
      * played the same amount of turn it computes the winner
      */
-    public void changeCurrPlayer()
-    {
-        if(this.currPlayer==this.playersNumber-1)
+    public void changeCurrPlayer () {
+        if(this.currPlayer==players.size()-1)
             this.currPlayer=0;
         else
             this.currPlayer++;
-        if(this.lastTurn==true)
+        if(this.lastTurn)
         {
             if(this.players.get(this.currPlayer).isFirst())
             {
@@ -221,7 +224,6 @@ public class Game {
         newHand.remove(card);
         players.get(this.currPlayer).setCurrentHand(newHand);
         addPoints(nickname,x,y);
-        // TODO: vanno lanciate altre eccezioni??
     }
 
     private void addPoints(String nickname, int x, int y) throws WrongPlayerException{
@@ -243,8 +245,8 @@ public class Game {
         // prima il suo e poi
     }
 
-    private Player computeWinner() throws CardNotPresentException {
-        // TODO
+    private Player computeWinner()  {
+        // TODO: fare catch di CardNotPresentException
         for (int i=0; i>=0 && i< players.size(); i++){
             /*objectiveCardsDeck.revealFaceUpCard(0).getScoringCondition()
                     numTimesMet(playersGameField.get(players.get(i).getNickname()));*/

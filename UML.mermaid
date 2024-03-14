@@ -189,7 +189,7 @@ classDiagram
         - starterCardsDeck: Deck
         - lastTurn: boolean
         - chat: Chat
-        + Game(gameId: int, playersNumber: int, resourceCardsDeck: DrawableDeck,\n goldCardsDeck: DrawableDeck, objectiveCardsDeck: PlayingDeck, starterCardsDeck : Deck, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean, starterCardWay: boolean)
+        + Game(gameId: int, playersNumber: int, resourceCardsDeck: ResourceCardsDeck,\n goldCardsDeck: GoldCardsDeck, objectiveCardsDeck: PlayingDeck<ObjectiveCard>, starterCardsDeck : Deck<StarterCard>, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean, starterCardWay: boolean)
         + getState() GameStae
         + getPlayers() List~Player~
         + getCurrentPlayer() Player
