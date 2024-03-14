@@ -2,6 +2,8 @@ package it.polimi.ingsw.gc07.model.conditions;
 
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 import it.polimi.ingsw.gc07.model.GameItem;
 
@@ -67,19 +69,34 @@ public class ItemsCondition extends Condition {
                 // for every possible position on the game field
                 if(gameField.isCardPresent(i,j)){
                     try{
+                        PlaceableCard placedCard = gameField.getPlacedCard(i,j);
                         if (!gameField.getCardWay(i,j)) {
                             // card placed face up (no permanent resources)
-                            boolean frontCorners[] = gameField.getPlacedCard(i,j).getFrontCorners();
-                            GameItem frontCornersContent[] = gameField.getPlacedCard(i,j).getFrontCornersContent();
-                            // TODO: se null ? per la costruzione non può esserlo!
-
-                            // (x+1, y+1)
-                            // if(gameField.getCardsOrder()[i][j] > game)
+                            boolean[] frontCorners = placedCard.getFrontCorners(); // TODO: se null ? per la costruzione non può esserlo!
+                            GameItem[] frontCornersContent = placedCard.getFrontCornersContent(); // TODO: se null ? per la costruzione non può esserlo!
+                            // all placeable cards can have temporary resources on the front
+                            // TODO
+                            // controllo se ci sono carte nei quattro angoli
+                            // se c'è controllo se è sopra o sotto, se sopra basta
+                            // se è sotto, controllo se la carta ha un angolo e
+                            // se sì, se ha una risorsa nell'angolo
                         }
                         else {
                             // card placed face down
                             // add permanent resources to foundItems
                             foundItems.addAll(gameField.getPlacedCard(i,j).getPermanentResources());
+                            // only starter cards can have temporary resources on the back
+                            boolean[] backCorners = placedCard.getBackCorners(); // TODO: se null ? per la costruzione non può esserlo!
+                            GameItem[] backCornersContent = placedCard.getBackCornersContent(); // TODO: se null ? per la costruzione non può esserlo!
+                            if(backCorners != null){
+                                // starter card
+                                // TODO
+                                // controllo se c'è una carta in (1,1) poi (1,-1), (-1,-1) e (-1,1)
+                                // se c'è una carta, sicuramente copre la starter card, quindi copre
+                                // un'eventuale risorsa nell'angolo
+                                // se non c'è una carta, vedo se c'è l'angolo e se c'è, se c'è una
+                                // risorsa nell'angolo
+                            }
                         }
                     } catch (CardNotPresentException e) {
                         // I have checked before!
