@@ -65,14 +65,21 @@ public class ItemsCondition extends Condition {
         for(int i = 0; i < dim; i++){
             for(int j = 0; j < dim; j++){
                 // for every possible position on the game field
-                if(gameField.isCardPresent(i, j)){
+                if(gameField.isCardPresent(i,j)){
                     try{
-                        if (!gameField.getCardWay(i, j)) {
-                            // card placed face up
+                        if (!gameField.getCardWay(i,j)) {
+                            // card placed face up (no permanent resources)
+                            boolean frontCorners[] = gameField.getPlacedCard(i,j).getFrontCorners();
+                            GameItem frontCornersContent[] = gameField.getPlacedCard(i,j).getFrontCornersContent();
+                            // TODO: se null ? per la costruzione non può esserlo!
 
+                            // (x+1, y+1)
+                            // if(gameField.getCardsOrder()[i][j] > game)
                         }
                         else {
                             // card placed face down
+                            // add permanent resources to foundItems
+                            foundItems.addAll(gameField.getPlacedCard(i,j).getPermanentResources());
                         }
                     } catch (CardNotPresentException e) {
                         // I have checked before!
