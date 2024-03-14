@@ -200,6 +200,7 @@ public class Game {
             if(this.players.get(this.currPlayer).isFirst())
             {
                 Player winner = computeWinner();
+                //TODO: fare qualcosa con questo winner
             }
         }
     }
@@ -216,17 +217,15 @@ public class Game {
      * @throws CardAlreadyPresentException : if a player play a card that is already present in the gameField
      */
     public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException {
-        if(this.players.get(this.currPlayer).getNickname().equals(nickname))
+        if(!this.players.get(this.currPlayer).getNickname().equals(nickname))
         {
-            playersGameField.get(nickname).placeCard(card,x,y,way);
-            List<NonStarterCard> newHand = new ArrayList<>(players.get(this.currPlayer).getCurrentHand());
-            newHand.remove(card);
-            players.get(this.currPlayer).setCurrentHand(newHand);
-            addPoints(nickname,x,y);
-        }
-        else {
             throw new WrongPlayerException();
         }
+        playersGameField.get(nickname).placeCard(card,x,y,way);
+        List<NonStarterCard> newHand = new ArrayList<>(players.get(this.currPlayer).getCurrentHand());
+        newHand.remove(card);
+        players.get(this.currPlayer).setCurrentHand(newHand);
+        addPoints(nickname,x,y);
         // TODO: vanno lanciate altre eccezioni??
     }
 
