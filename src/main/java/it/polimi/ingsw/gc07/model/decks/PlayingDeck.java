@@ -1,11 +1,6 @@
 package it.polimi.ingsw.gc07.model.decks;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
-import it.polimi.ingsw.gc07.model.cards.Card;
-import it.polimi.ingsw.gc07.model.enumerations.CardType;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * Class representing decks used during the whole game.
@@ -19,16 +14,14 @@ public class PlayingDeck<T> extends Deck<T> {
 
     /**
      * Constructor class PlayingDeck.
-     * @param type type of the deck
-     * @param content Stack containing deck cards
-     * @param faceUpCards Array containing the two revealed cards
      */
-    public PlayingDeck(CardType type, Stack<T> content, List<T> faceUpCards) {
-        super(type, content);
-        // Cards are immutable, I can insert the card I receive
-        this.faceUpCards = new ArrayList<>();
-        this.faceUpCards.add(faceUpCards.get(0));
-        this.faceUpCards.add(faceUpCards.get(1));
+    public PlayingDeck() {
+        super();
+        this.faceUpCards = null;
+    }
+
+    public void setFaceUpCards(List<T> faceUpCards){
+        this.faceUpCards = faceUpCards;
     }
 
     /**

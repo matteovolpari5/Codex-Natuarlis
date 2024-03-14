@@ -35,6 +35,16 @@ public class GameField {
     private static final int dim = 81;
 
     /**
+     * Matrix of dimension 81x81, biggest possible dimension for a player's
+     * game field. Represent the placement's order of the cards.
+     */
+    private int [][] cardsOrder;
+
+    /**
+     * Integer attribute that show the number of cards played in the game field
+     */
+    private int numPlayedCards;
+    /**
      * Constructor of the game field: builds an empty game field.
      */
     public GameField() {
@@ -50,6 +60,13 @@ public class GameField {
                 this.cardsFace[i][j] = false;
             }
         }
+        this.cardsOrder = new int [dim][dim];
+        for(int i=0; i < dim; i++){
+            for(int j=0; j < dim; j++){
+                this.cardsOrder[i][j] = 0;
+            }
+        }
+        this.numPlayedCards = 0;
     }
 
     /**
@@ -68,6 +85,13 @@ public class GameField {
                 this.cardsFace[i][j] = existingGameField.cardsFace[i][j];
             }
         }
+        this.cardsOrder = new int [dim][dim];
+        for(int i=0; i < dim; i++){
+            for(int j=0; j < dim; j++){
+                this.cardsOrder[i][j] = existingGameField.cardsOrder[i][j];
+            }
+        }
+        this.numPlayedCards = existingGameField.numPlayedCards;
     }
 
     public int getDim(){
@@ -98,6 +122,8 @@ public class GameField {
         // TODO: manca un macello di roba, prima di inserire la carta
         cardsContent[x][y] = card;
         cardsFace[x][y] = way;
+        numPlayedCards++;
+        cardsOrder[x][y] = numPlayedCards;
     }
 
     /**

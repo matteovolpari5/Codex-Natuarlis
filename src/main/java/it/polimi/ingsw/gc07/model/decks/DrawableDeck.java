@@ -1,26 +1,16 @@
 package it.polimi.ingsw.gc07.model.decks;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
-import it.polimi.ingsw.gc07.model.cards.Card;
-import it.polimi.ingsw.gc07.model.enumerations.CardType;
-import it.polimi.ingsw.gc07.model.enumerations.GameResource;
-import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
-
-import java.util.List;
-import java.util.Stack;
 
 /**
  * Class representing decks used during the game from which a player can draw.
  * Resource cards deck and gold cards deck are a DrawableDeck object.
  */
-public class DrawableDeck<T> extends PlayingDeck<T> {
+public abstract class DrawableDeck<T> extends PlayingDeck<T> {
     /**
      * Constructor of DrawableDeck
-     * @param type type of deck, i.e. type of cards contained
-     * @param content Stack containing deck cards
-     * @param faceUpCards Array containing the two revealed cards
      */
-    public DrawableDeck(CardType type, Stack<T> content, List<T> faceUpCards) {
-        super(type, content, faceUpCards);
+    public DrawableDeck() {
+        super();
     }
 
     /**
@@ -50,15 +40,15 @@ public class DrawableDeck<T> extends PlayingDeck<T> {
         // Card is immutable, I can return it
         return resultCard;
     }
+
     /**
-     * Method that allows the player to see the color (i.e. the permanent resource)
-     * present on the back of the first covered card of the deck.
-     * @return permanent resource on the back of the first covered card of the deck
+     * Returns the first covered card of the deck, without removing it.
+     * @return first covered card of the deck
      */
-    public GameResource revealBackDeckCard() throws CardNotPresentException {
+    T revealDeckCard() throws CardNotPresentException {
         if(content.empty()){
             throw new CardNotPresentException();
         }
-        return ((NonStarterCard)(content.peek())).getPermanentResource();
+        return content.peek();
     }
 }
