@@ -4,7 +4,7 @@ import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 
-import java.util.concurrent.locks.Condition;
+import it.polimi.ingsw.gc07.model.conditions.*;
 
 /**
  * Class that represents gold cards.
@@ -48,12 +48,6 @@ public final class GoldCard extends NonStarterCard {
         return this.placementCondition;
     };
 
-    public boolean hasScoringCondition(){
-        if(this.scoringCondition != null)
-            return true;
-        return false;
-    }
-
     /**
      * Getter method of the attribute scoringCondition
      * @return this.scoringCondition
@@ -61,4 +55,8 @@ public final class GoldCard extends NonStarterCard {
     public Condition getScoringCondition() {
         return this.scoringCondition;
     };
+
+    public int getScore() {
+        return super.getScore();
+    }
 }

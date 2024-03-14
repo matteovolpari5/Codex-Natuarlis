@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
+import it.polimi.ingsw.gc07.model.conditions.Condition;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
@@ -83,5 +84,17 @@ public final class StarterCard extends PlaceableCard {
             backCornersContentCopy[i] = backCornersContent[i];
         }
         return backCornersContentCopy;
+    }
+
+    public Condition getScoringCondition(){
+        return null;
+    }
+
+    public Condition getPlacementCondition(){
+        return null;
+    }
+
+    public int getScore(){
+        return 0;
     }
 }

@@ -73,9 +73,12 @@ classDiagram
         - TYPE: ConditionType
         + Condition(type: ConditionType)
         + getType() ConditionType
+        + numTimesMet(gameField: GameField) int
+        + numTimesMet(gameField: GameField, x: int, y: int) int
     }
     class CornerCoverageCondition {
         + CornerCoverageCondition(type: ConditionType)
+        + numTimesMet(gameField: GameField) int
         + numTimesMet(gameField: GameField, x: int, y: int) int
     }
     class ItemsCondition {
@@ -83,12 +86,14 @@ classDiagram
         + ItemsCondition(conditionType: ConditionType, \n neededItems: List~GameItem~)
         + getNeededItems() List~GameItem~
         + numTimesMet(gameField: GameField) int
+        + numTimesMet(gameField: GameField, x: int, y: int) int
     }
     class LayoutCondition {
         - CARDSCOLOR: GameResource[3][3]
         + LayoutCondition(conditionType: ConditionType, cardsColor: GameResource[3][3])
         + getCardsColor() GameResource[3][3]
         + numTimesMet(gameField: GameField) int
+        + numTimesMet(gameField: GameField, x: int, y: int) int
     }
     %%LayoutCondition --> GameResource
     %%ItemsCondition --> GameItem
