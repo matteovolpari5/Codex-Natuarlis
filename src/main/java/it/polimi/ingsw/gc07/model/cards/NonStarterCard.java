@@ -72,4 +72,12 @@ public class NonStarterCard extends PlaceableCard {
     public int getScore(){
         return placementScore;
     }
+
+    public boolean[] getBackCorners(){
+        return null;
+    }
+
+    public GameItem[] getBackCornersContent(){
+        return null;
+    }
 }

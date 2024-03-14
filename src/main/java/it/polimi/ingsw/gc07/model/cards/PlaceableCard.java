@@ -62,4 +62,8 @@ public abstract class PlaceableCard extends Card {
         }
         return frontCornersContentCopy;
     }
+
+    public abstract boolean[] getBackCorners();
+
+    public abstract GameItem[] getBackCornersContent();
 }
