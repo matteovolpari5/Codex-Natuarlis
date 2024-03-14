@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.GameState;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
+
 import java.util.*;
 import java.util.Random;
 public class Game {
@@ -316,7 +317,7 @@ public class Game {
         return chat.getLastMessage();
     }
 
-    public List<String> getChatContent() throws EmptyChatException {
+    public List<String> getChatContent() {
         return chat.getContent();
     }
 

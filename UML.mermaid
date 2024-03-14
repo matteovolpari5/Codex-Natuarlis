@@ -10,6 +10,9 @@ classDiagram
         + Card (id: int, type: CardType)
         + getId() int
         + getType() CardType
+        + getScoringCondition() Condition
+        + getPlacementCondition() Condition
+        + getScore() int
     }
     class GoldCard {
         - PLACEMENTCONDITION: Condition
@@ -17,7 +20,7 @@ classDiagram
         + GoldCard(cardID: int, cardType: CardType,\n frontCorners: boolean[4], \nfrontCornersContent: GameItem[4], placementScore: int, \npermanentResource: GameResource, \nplacementCondition: Condition, \nscoringCondition: Condition)
         + getPlacementCondition() Condition
         + getScoringCondition() Condition
-        + hasScoringCondition() boolean
+        + getScore() int
     }
     class NonStarterCard {
         - PLACEMENTSCORE: int
@@ -25,13 +28,17 @@ classDiagram
         + NonStarterCard(cardID: int, \ncardType: CardType, frontCorners: boolean [4],\n frontCornersContent: GameItem [4],\n placementScore: int,\n permanentResource: GameResource)
         + getPlacementScore int
         + getPermanentResource() GameResource
+        + getScoringCondition() Condition
+        + getScore() int
+        + getPlacementCondition() Condition
     }
     class ObjectiveCard {
         - SCORINGCONDITION: Condition
         - OBJECTIVESCORE: int
         + ObjectiveCard(cardID int, cardType: CardType,\n scoringCondition: Condition, objectiveScore: int)
         + getScoringCondition() Condition
-        + getObjectiveScore() int
+        + getScore() int
+        + getPlacementCondition() Condition
     }
     class PlaceableCard {
         <<abstract>>
@@ -49,6 +56,9 @@ classDiagram
         + getPermanentResources() GameResource[3]
         + getBackCorners() boolean [4]
         + getBackCornersContent() GameItem [4]
+        + getScoringCondition() Condition
+        + getScore() int
+        + getPlacementCondition() Condition
     }
     Card <|-- ObjectiveCard
     Card <|-- PlaceableCard
