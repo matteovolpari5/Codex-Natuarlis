@@ -51,17 +51,21 @@ public class CornerCoverageCondition extends Condition {
         // check position (x+1, y+1)
         if(x < dim-1 && y < dim-1) {
             if(gameField.isCardPresent(x+1, y+1)) {
-                try{
-                    // TODO: sbagliato
-                    // se è sul front, uso getFrontCorners
-                    // se è sul back no!
-                    if(gameField.getPlacedCard(x+1, y+1).getFrontCorners()[3]){
-                        numTimes++;
+                if(!gameField.getCardWay(x+1, y+1)){
+                    // card placed face up
+                    try{
+                        if(gameField.getPlacedCard(x+1, y+1).getFrontCorners()[3]){
+                            numTimes++;
+                        }
+                    }
+                    catch(CardNotPresentException e){
+                        // I have checked before!
+                        e.printStackTrace();
                     }
                 }
-                catch(CardNotPresentException e){
-                    // I should have checked before!
-                    e.printStackTrace();
+                else{
+                    // card placed face down
+
                 }
             }
         }
