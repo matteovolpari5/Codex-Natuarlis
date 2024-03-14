@@ -316,7 +316,7 @@ public class Game {
         return chat.getLastMessage();
     }
 
-    public List<String> getChatContent() {
+    public List<String> getChatContent() throws EmptyChatException {
         return chat.getContent();
     }
 
