@@ -5,6 +5,9 @@ import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 
+/**
+ * Condition of corner coverage.
+ */
 public class CornerCoverageCondition extends Condition {
     /**
      * Constructor of class CornerCoverageCondtion.
@@ -15,6 +18,7 @@ public class CornerCoverageCondition extends Condition {
     }
 
     /**
+     * This method must be called after placement of the card!
      * Counts the number of corners covered by the card in position
      * (x,y) at the moment of placement.
      * Combinations to check (if not on a border):
@@ -60,6 +64,16 @@ public class CornerCoverageCondition extends Condition {
                     }
                     else {
                         // card placed face down
+                        if(gameField.getPlacedCard(x + 1, y + 1).getBackCorners() == null){
+                            // NonStarterCard
+                            numTimes++;
+                        }
+                        else {
+                            // StarterCard
+                            if (gameField.getPlacedCard(x + 1, y + 1).getBackCorners()[3]) {
+                                numTimes++;
+                            }
+                        }
                     }
                 } catch (CardNotPresentException e) {
                     // I have checked before!
@@ -70,17 +84,29 @@ public class CornerCoverageCondition extends Condition {
 
         // check position (x+1, y-1)
         if(x < dim-1 && y > 0) {
-            if(gameField.isCardPresent(x+1, y-1)) {
-                try{
-                    // TODO: sbagliato
-                    // se è sul front, uso getFrontCorners
-                    // se è sul back no!
-                    if(gameField.getPlacedCard(x+1, y-1).getFrontCorners()[0]){
-                        numTimes++;
+            if (gameField.isCardPresent(x+1, y-1)) {
+                try {
+                    if (!gameField.getCardWay(x + 1, y - 1)) {
+                        // card placed face up
+                        if(gameField.getPlacedCard(x+1, y-1).getFrontCorners()[0]){
+                            numTimes++;
+                        }
                     }
-                }
-                catch(CardNotPresentException e){
-                    // I should have checked before!
+                    else {
+                        // card placed face down
+                        if(gameField.getPlacedCard(x + 1, y - 1).getBackCorners() == null){
+                            // NonStarterCard
+                            numTimes++;
+                        }
+                        else {
+                            // StarterCard
+                            if (gameField.getPlacedCard(x + 1, y - 1).getBackCorners()[0]) {
+                                numTimes++;
+                            }
+                        }
+                    }
+                } catch (CardNotPresentException e) {
+                    // I have checked before!
                     e.printStackTrace();
                 }
             }
@@ -88,17 +114,29 @@ public class CornerCoverageCondition extends Condition {
 
         // check position (x-1, y+1)
         if(x > 0 && y < dim-1) {
-            if(gameField.isCardPresent(x-1, y+1)) {
-                try{
-                    // TODO: sbagliato
-                    // se è sul front, uso getFrontCorners
-                    // se è sul back no!
-                    if(gameField.getPlacedCard(x-1, y+1).getFrontCorners()[2]){
-                        numTimes++;
+            if (gameField.isCardPresent(x - 1, y + 1)) {
+                try {
+                    if (!gameField.getCardWay(x - 1, y + 1)) {
+                        // card placed face up
+                        if (gameField.getPlacedCard(x - 1, y + 1).getFrontCorners()[2]) {
+                            numTimes++;
+                        }
                     }
-                }
-                catch(CardNotPresentException e){
-                    // I should have checked before!
+                    else {
+                        // card placed face down
+                        if(gameField.getPlacedCard(x - 1, y + 1).getBackCorners() == null){
+                            // NonStarterCard
+                            numTimes++;
+                        }
+                        else {
+                            // StarterCard
+                            if (gameField.getPlacedCard(x - 1, y + 1).getBackCorners()[2]) {
+                                numTimes++;
+                            }
+                        }
+                    }
+                } catch (CardNotPresentException e) {
+                    // I have checked before!
                     e.printStackTrace();
                 }
             }
@@ -106,17 +144,29 @@ public class CornerCoverageCondition extends Condition {
 
         // check position (x-1, y-1)
         if(x > 0 && y > 0) {
-            if(gameField.isCardPresent(x-1, y-1)) {
-                try{
-                    // TODO: sbagliato
-                    // se è sul front, uso getFrontCorners
-                    // se è sul back no!
-                    if(gameField.getPlacedCard(x-1, y-1).getFrontCorners()[1]){
-                        numTimes++;
+            if (gameField.isCardPresent(x - 1, y - 1)) {
+                try {
+                    if (!gameField.getCardWay(x - 1, y - 1)) {
+                        // card placed face up
+                        if (gameField.getPlacedCard(x - 1, y - 1).getFrontCorners()[1]) {
+                            numTimes++;
+                        }
                     }
-                }
-                catch(CardNotPresentException e){
-                    // I should have checked before!
+                    else {
+                        // card placed face down
+                        if(gameField.getPlacedCard(x - 1, y - 1).getBackCorners() == null){
+                            // NonStarterCard
+                            numTimes++;
+                        }
+                        else {
+                            // StarterCard
+                            if (gameField.getPlacedCard(x - 1, y - 1).getBackCorners()[1]) {
+                                numTimes++;
+                            }
+                        }
+                    }
+                } catch (CardNotPresentException e) {
+                    // I have checked before!
                     e.printStackTrace();
                 }
             }
