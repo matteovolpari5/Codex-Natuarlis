@@ -53,7 +53,7 @@ public class LayoutCondition extends Condition{
      * Counts how many times the layout is found in the gameField.
      * @return number of times the layout is found
      */
-    public int numTimesMet(GameField gameField) {
+    public int numTimesMet(GameField gameField) throws NullPointerException {
         // TODO implementare
         // Attenzione! starter card non può essere usata (?)
         return 0;

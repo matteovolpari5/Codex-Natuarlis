@@ -40,7 +40,7 @@ public class ItemsCondition extends Condition {
      * Counts how many times neededItems is found in the gameField.
      * @return number of times the list of items is found
      */
-    public int numTimesMet(GameField gameField) {
+    public int numTimesMet(GameField gameField) throws NullPointerException {
         // TODO implementare
         // ricorda di guardare non solo le risorse/oggetti negli angoli, ma
         // anche le risoser permanenti

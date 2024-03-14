@@ -175,4 +175,18 @@ public class GameField {
         }
         return cardsFace[x][y];
     }
+
+    public int[][] getCardsOrder() {
+        int[][] cardsOrderCopy = new int[dim][dim];
+        for(int i = 0; i < dim; i++){
+            for(int j = 0; j < dim; j++){
+                cardsOrderCopy[i][j] = cardsOrder[i][j];
+            }
+        }
+        return cardsOrderCopy;
+    }
+
+    public int getNumPlayedCards() {
+        return this.numPlayedCards;
+    }
 }

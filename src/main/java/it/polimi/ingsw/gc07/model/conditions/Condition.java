@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
+import it.polimi.ingsw.gc07.exceptions.CardAlreadyPresentException;
 import it.polimi.ingsw.gc07.model.Game;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
@@ -29,4 +30,6 @@ public abstract class Condition {
     public ConditionType getType() {
         return type;
     }
+
+    public abstract int numTimesMet(GameField gameField) throws NullPointerException;
 }
