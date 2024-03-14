@@ -246,13 +246,39 @@ public class Game {
         // prima il suo e poi
     }
 
-    private Player computeWinner()  {
+    /**
+     *
+     * @return the player that is the winner of the game.
+     */
+    private List<Player> computeWinner() throws CardNotPresentException, PlayerNotPresentExcpetion {
         // TODO: fare catch di CardNotPresentException
+        List<Player> winners = new ArrayList<>();
+        int deltapoints;
+        int max = 0;
+        int realizedObjectives;
+        int maxrealizedObjective = 0;
         for (int i=0; i>=0 && i< players.size(); i++){
-            /*objectiveCardsDeck.revealFaceUpCard(0).getScoringCondition()
-                    numTimesMet(playersGameField.get(players.get(i).getNickname()));*/
+            realizedObjectives = objectiveCardsDeck.revealFaceUpCard(0).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname()));
+            //conto dei punti fatti per il primo obiettivo comune
+            deltapoints = objectiveCardsDeck.revealFaceUpCard(0).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname())) * objectiveCardsDeck.revealFaceUpCard(0).getScore();
+            realizedObjectives += objectiveCardsDeck.revealFaceUpCard(1).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname()));
+            //conto dei punti fatti per il secondo obiettivo comune
+            deltapoints += objectiveCardsDeck.revealFaceUpCard(1).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname())) * objectiveCardsDeck.revealFaceUpCard(1).getScore();
+            realizedObjectives += players.get(i).getSecretObjective().getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname()));
+            //conto punti per l'obiettivo personale
+            deltapoints += players.get(i).getSecretObjective().getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname())) * players.get(i).getSecretObjective().getScore();
+            scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltapoints);
+            //TODO rivedere sta parte, sicuramente sbagliata
+            if (max <= scoreTrackBoard.getScore(players.get(i).getNickname())){
+                max = scoreTrackBoard.getScore(players.get(i).getNickname());
+                if (realizedObjectives > maxrealizedObjective){
+                    winners.add(players.get(i));
+                    maxrealizedObjective = realizedObjectives;
+                }
+            }
 
         }
+
         // Considerando le carte obiettivo finale comuni e le
         // carte obiettivo segrete, calcola il punteggio finale
         // per tutti i giocatori

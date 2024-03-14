@@ -11,6 +11,9 @@ import java.util.HashMap;
  * Class representing the ScoreTrackBoard
  */
 public class ScoreTrackBoard {
+    /**
+     * Map that link each player with his personal score.
+     */
     private Map<String, Integer> playersScore;
 
     /**
@@ -38,9 +41,11 @@ public class ScoreTrackBoard {
      * @param newScore new score to set
      */
     public void setScore(String nickname, int newScore) throws PlayerNotPresentExcpetion, NonValidScoreExcpetion {
-        if(newScore < 0 || newScore > 29){
+        //TODO con la nuova struttura il punteggio può andare oltre ai 29
+        // durante l'ultimo turno dovrò fermare l'incremento al massimo a 29.
+        /*if(newScore < 0 || newScore > 29){
             throw new NonValidScoreExcpetion();
-        }
+        }*/
         if(!playersScore.containsKey(nickname)){
             throw new PlayerNotPresentExcpetion();
         }
@@ -57,5 +62,12 @@ public class ScoreTrackBoard {
             throw new PlayerNotPresentExcpetion();
         }
         return playersScore.get(nickname);
+    }
+    public void incrementScore(String nickname, int deltaScore) throws PlayerNotPresentExcpetion{
+        if(!playersScore.containsKey(nickname)){
+            throw new PlayerNotPresentExcpetion();
+        }
+        int newScore = this.getScore(nickname) + deltaScore;
+        this.playersScore.put(nickname, newScore);
     }
 }
