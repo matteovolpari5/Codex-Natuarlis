@@ -5,6 +5,8 @@ import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 
+import java.util.List;
+
 /**
  * Class that represents non-starter cards.
  * Non-starter cards are: GoldCards and ResourceCards.
@@ -22,10 +24,6 @@ public class NonStarterCard extends PlaceableCard {
      * (placementScore) x (number of times the condition is met during the placement).
      */
     private final int placementScore;
-    /**
-     * Attribute that shows the permanent GameResource present on the back of the card.
-     */
-    private final GameResource permanentResource;
 
     /**
      * Constructor of the class NonStarterCard.
@@ -34,32 +32,15 @@ public class NonStarterCard extends PlaceableCard {
      * @param frontCorners : corners that the front of the card has
      * @param frontCornersContent : game items that the front of the card has
      * @param placementScore : points obtained placing the card
-     * @param permanentResource : permanent game resource on the back of the card
+     * @param permanentResources :  list of permanent game resources on the back of the card
      */
     // Regular constructor
     public NonStarterCard(int cardID, CardType cardType, boolean[] frontCorners,
                           GameItem[] frontCornersContent, int placementScore,
-                          GameResource permanentResource) {
-        super(cardID, cardType, frontCorners, frontCornersContent);
+                          List<GameResource> permanentResources) {
+        super(cardID, cardType, frontCorners, frontCornersContent, permanentResources);
         this.placementScore = placementScore;
-        this.permanentResource = permanentResource;
     }
-
-    /**
-     * Getter method of the attribute placementScore.
-     * @return this.placementScore
-     */
-    public int getPlacementScore() {
-        return this.placementScore;
-    };
-
-    /**
-     * Getter method of the attribute permanentResource.
-     * @return this.permanentResource
-     */
-    public GameResource getPermanentResource() {
-        return this.permanentResource;
-    };
 
     public Condition getScoringCondition(){
         return null;

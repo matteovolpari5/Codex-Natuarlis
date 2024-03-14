@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
+import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 import it.polimi.ingsw.gc07.model.GameItem;
@@ -36,14 +37,52 @@ public class ItemsCondition extends Condition {
     }
 
     /**
-     * Implementation of numTimesMet.
-     * Counts how many times neededItems is found in the gameField.
+     * Method returning the number of times an item condition is met.
+     * Counts how many times the list neededItems is found in the gameField.
+     * @param gameField game field on which the condition has to be verified
      * @return number of times the list of items is found
      */
     public int numTimesMet(GameField gameField) throws NullPointerException {
         // TODO implementare
-        // ricorda di guardare non solo le risorse/oggetti negli angoli, ma
-        // anche le risoser permanenti
-        return 0; // cambiare
+        // creo una lista di elementi che trovo
+        // scorro tutte le posizioni:
+        // - controllo se è presente una carta
+        // - aggiungo le risorse permanenti
+        // - guardo se è fronte o retro
+        // - per ogni angolo se ha angoli scoperti (sia la carta, sia se sono coperti da altre carte),
+        //   se li ha, cosa contengono
+        //   possono contenere un gameitem che aggiungo alla lista
+        // alla fine conto quante volte la lista di needed items sta nella lista di item
+
+        // check valid game field
+        if(gameField == null){
+            throw new NullPointerException();
+        }
+        int dim = gameField.getDim();
+
+        // create list of items found on the game field
+        List<GameItem> foundItems = new ArrayList<>();
+        for(int i = 0; i < dim; i++){
+            for(int j = 0; j < dim; j++){
+                // for every possible position on the game field
+                if(gameField.isCardPresent(i, j)){
+                    try{
+                        if (!gameField.getCardWay(i, j)) {
+                            // card placed face up
+
+                        }
+                        else {
+                            // card placed face down
+                        }
+                    } catch (CardNotPresentException e) {
+                        // I have checked before!
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+
+        return 0; // TODO cambiare
     }
 }

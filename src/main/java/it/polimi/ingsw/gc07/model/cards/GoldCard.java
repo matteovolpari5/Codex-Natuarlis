@@ -6,6 +6,8 @@ import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 
 import it.polimi.ingsw.gc07.model.conditions.*;
 
+import java.util.List;
+
 /**
  * Class that represents gold cards.
  */
@@ -27,15 +29,15 @@ public final class GoldCard extends NonStarterCard {
      * @param frontCorners : corners that the front of the card has
      * @param frontCornersContent : game items that the front of the card has
      * @param placementScore : scorable points
-     * @param permanentResource : permanent game items that the back of the card has
+     * @param permanentResources : list of permanent game resources that the back of the card has
      * @param placementCondition : placement condition
      * @param scoringCondition : scoring condition
      */
     public GoldCard(int cardID, CardType cardType, boolean[] frontCorners,
                     GameItem[] frontCornersContent, int placementScore,
-                    GameResource permanentResource, Condition placementCondition,
+                    List<GameResource> permanentResources, Condition placementCondition,
                     Condition scoringCondition) {
-        super(cardID, cardType, frontCorners, frontCornersContent, placementScore, permanentResource);
+        super(cardID, cardType, frontCorners, frontCornersContent, placementScore, permanentResources);
         this.placementCondition = placementCondition;
         this.scoringCondition = scoringCondition;
     }

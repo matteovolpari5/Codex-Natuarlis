@@ -13,10 +13,6 @@ import java.util.ArrayList;
  */
 public final class StarterCard extends PlaceableCard {
     /**
-     * Attribute that shows which permanent game items the card has (on the back)
-     */
-    private final List<GameResource> permanentResources;
-    /**
      * Attribute that shows which corners the back of the card has.
      */
     private final boolean[] backCorners;
@@ -38,8 +34,7 @@ public final class StarterCard extends PlaceableCard {
     public StarterCard(int cardID, CardType cardType, boolean[] frontCorners,
                        GameItem[] frontCornersContent, List<GameResource> permanentResources,
                        boolean[] backCorners, GameItem[] backCornersContent) {
-        super(cardID, cardType, frontCorners, frontCornersContent);
-        this.permanentResources = new ArrayList<>(permanentResources);
+        super(cardID, cardType, frontCorners, frontCornersContent, permanentResources);
         boolean[] backCornersCopy = new boolean[4];
         for(int i = 0; i < 4; i++){
             backCornersCopy[i] = backCorners[i];
@@ -50,14 +45,6 @@ public final class StarterCard extends PlaceableCard {
             backCornersContentCopy[i] = backCornersContent[i];
         }
         this.backCornersContent = backCornersContentCopy;
-    }
-
-    /**
-     * Getter method of the attribute permanentResources
-     * @return an arrayList of GameResources
-     */
-    public  List<GameResource> getPermanentResources(){
-        return new ArrayList<>(permanentResources);
     }
 
     /**
