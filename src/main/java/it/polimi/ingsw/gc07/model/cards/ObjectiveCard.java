@@ -2,7 +2,7 @@ package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
-import java.util.concurrent.locks.Condition;
+import it.polimi.ingsw.gc07.model.conditions.*;
 
 /**
  * Class that represents objective cards of the game.
@@ -34,6 +34,14 @@ public final class ObjectiveCard extends Card {
     }
 
     /**
+     * An ObjectiveCard does not have a placement condition.
+     * @return null
+     */
+    public Condition getPlacementCondition(){
+        return null;
+    }
+
+    /**
      * Getter method of the attribute scoringCondition
      * @return this.scoringCondition
      */
@@ -45,7 +53,7 @@ public final class ObjectiveCard extends Card {
      * Getter method of the attribute objectiveScore
      * @return this.objectiveScore
      */
-    public int getObjectiveScore(){
+    public int getScore(){
         return this.objectiveScore;
     };
 }
