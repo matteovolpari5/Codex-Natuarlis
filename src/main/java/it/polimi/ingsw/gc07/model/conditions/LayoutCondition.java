@@ -1,6 +1,9 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
+import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 
@@ -56,18 +59,6 @@ public class LayoutCondition extends Condition{
      * @return number of times the layout is found
      */
     public int numTimesMet(GameField gameField) throws NullPointerException {
-        // TODO implementare
-        // Attenzione! starter card non può essere usata, non ha colore!
-
-        // Vedo se la colonna di destra e se la riga sopra hanno delle carte
-        // trovo le giuste layoutRows e layoutColumns
-        // Scorro tutte le celle in basso a sx possibili
-        // Scorro la matrice del layout, se ci trovo un valore != null
-        // verifico di averlo anche nel game field uguale,
-        // nelle altre posizioni non mi interessa se ho qualcosa
-        // Quando devo controllare una carta, controllo che sia di tipo risorsa
-        // o di tipo oro (non starter) e che abbia la giusta permanent resource
-
         // check valid game field
         if(gameField == null){
             throw new NullPointerException();
@@ -97,11 +88,19 @@ public class LayoutCondition extends Condition{
                 for(int h = 0; h < layoutRows; h++){
                     for(int k = 0; k < layoutColumns; k++){
                         if(cardsColor[h][k] != null){
-                            // se il gamefield non ha una carta, oppure ce l'ha, ma è starter card
-                            // oppure ce l'ha non startercard, ma di colore sbagliato
-                            if(){       // TODO
-                                // mismatch
-                                flag = false;
+                            // specific card needed
+                            try{
+                                if(!(gameField.isCardPresent(i+h,j+k)
+                                        && !gameField.getPlacedCard(i+h,j+k).getType().equals(CardType.STARTER_CARD)
+                                        && gameField.getPlacedCard(i+h,j+k).getPermanentResources().getFirst().equals(cardsColor[h][k])
+                                )) {
+                                    // mismatch
+                                    flag = false;
+                                }
+                            }
+                            catch (CardNotPresentException e){
+                                // I already checked
+                                e.printStackTrace();
                             }
                         }
                     }
@@ -109,7 +108,13 @@ public class LayoutCondition extends Condition{
                 if(flag){
                     // layout found
                     numTimes++;
-                    // TODO: eliminare dal game field le carte usate! non posso riusarle!
+                    for(int h = 0; h < layoutRows; h++) {
+                        for (int k = 0; k < layoutColumns; k++) {
+                            if(cardsColor[h][k] != null){
+                                gameField.
+                            }
+                        }
+                    }
                 }
             }
         }
