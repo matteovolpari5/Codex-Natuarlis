@@ -52,13 +52,17 @@ public class Game {
      * Deck of starter cards.
      */
     private Deck<StarterCard> starterCardsDeck;
-
+    /**
+     * indicate if is the last turn of the game
+     */
     private boolean lastTurn;
-
+    /**
+     * chat of the game
+     */
     private Chat chat;
 
-    /**
-     * Constructor of a Game with only the first player.
+    /** Constructor of a Game with only the first player.
+     *
      * @param playersNumber number of players
      * @param resourceCardsDeck deck of resource cards
      * @param goldCardsDeck deck of gold cards
@@ -67,6 +71,9 @@ public class Game {
      * @param nickname player to add to the game
      * @param tokenColor color of player's token
      * @param connectionType type of connection
+     * @param interfaceType type of the interface
+     * @param starterCardWay way of the starter card
+     * @throws WrongNumberOfPlayersException exception thrown when the number of players is wrong
      */
     public Game(int playersNumber, ResourceCardsDeck resourceCardsDeck,
                 GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck, Deck<StarterCard> starterCardsDeck,
@@ -91,36 +98,60 @@ public class Game {
         addPlayer(nickname, tokenColor, connectionType, interfaceType,starterCardWay);
     }
 
+    /**
+     * get the state of the game
+     * @return the state of the game
+     */
     public GameState getState() {
         return this.state;
     }
 
+    /**
+     * get the list of players
+     * @return the players in the game
+     */
     public List<Player> getPlayers() {
-        return new ArrayList<>(players);
+        return new ArrayList<>(this.players);
     }
 
+    /**
+     * get the current player
+     * @return the current player
+     */
     public Player getCurrentPlayer(){
-        return new Player(players.get(currPlayer));
+        return new Player(this.players.get(this.currPlayer));
     }
 
+    /**
+     * get the game field of the player
+     * @param nickname : nickname of the player
+     * @return the game field of the player
+     * @throws PlayerNotPresentExcpetion exception thrown when a player is not present in the game
+     */
     public GameField getGameField(String nickname) throws PlayerNotPresentExcpetion {
-        if(!playersGameField.containsKey(nickname)) {
+        if(!this.playersGameField.containsKey(nickname)) {
             throw new PlayerNotPresentExcpetion();
         }
-        return new GameField(playersGameField.get(nickname));
+        return new GameField(this.playersGameField.get(nickname));
     }
 
+    /**
+     * get the players' score
+     * @param nickname : nickname of the player
+     * @return the players' score
+     * @throws PlayerNotPresentExcpetion exception thrown when a player is not present in the game
+     */
     public int getScore(String nickname) throws PlayerNotPresentExcpetion {
-        return scoreTrackBoard.getScore(nickname);
+        return this.scoreTrackBoard.getScore(nickname);
     }
-
-    // l'esterno può chimare player.getCurrentHand, non serve il metodo
 
     /**
      * Method to add a new player.
      * @param nickname player to add to the game
      * @param tokenColor color of player's token
      * @param connectionType type of connection
+     * @param interfaceType type of the interface
+     * @param starterCardWay way of the starter card
      */
     public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) {
         try{
@@ -154,18 +185,35 @@ public class Game {
     }
 
     /**
-     * method to set up the game: the first player is chosen and the 4 cards are revealed
+     * method to set up the game: the first player is chosen and 4 cards(2 gold and 2 resource) are revealed
      */
-    private void setup() {
+    private void setup(){
+        // chose randomly the first player
         Random random= new Random();
         this.currPlayer=random.nextInt(4);
         this.players.get(this.currPlayer).setFirst();
-        // TODO  scopre 2 carte per ogni deck ---> Dipende da come implementiamo Deck
-        // goldCardsDeck.drawCard();
-        // goldCardsDeck.drawCard();
-        // resourceCardsDeck.drawCard();
-        // resourceCardsDeck.drawCard();
-
+        try {
+            //place 2 gold cards
+            List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
+            setUpGoldCardsFaceUp.add(this.goldCardsDeck.drawCard());
+            setUpGoldCardsFaceUp.add(this.goldCardsDeck.drawCard());
+            this.goldCardsDeck.setFaceUpCards(setUpGoldCardsFaceUp);
+        }
+        catch (CardNotPresentException e)
+        {
+            e.printStackTrace();
+        }
+        try {
+            //place 2 resource card
+            List<NonStarterCard> setUpResourceCardsFaceUp = new ArrayList<>();
+            setUpResourceCardsFaceUp.add(this.resourceCardsDeck.drawCard());
+            setUpResourceCardsFaceUp.add(this.resourceCardsDeck.drawCard());
+            this.resourceCardsDeck.setFaceUpCards(setUpResourceCardsFaceUp);
+        }
+        catch (CardNotPresentException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -176,11 +224,18 @@ public class Game {
         return players.size() == playersNumber;
     }
 
+    /**
+     * method that disconnect a player from the game
+     * @param nickname : nickname of the player
+     */
     public void disconnectPlayer(String nickname)
     {
         //TODO: disconnect the player
     }
-
+    /**
+     * method that reconnect a player from the game
+     * @param nickname : nickname of the player
+     */
     public void reconnectPlayer(String nickname){
         // TODO: reconnect the player
     }
@@ -198,7 +253,7 @@ public class Game {
         {
             if(this.players.get(this.currPlayer).isFirst())
             {
-                Player winner = computeWinner();
+                //Player winner = computeWinner();
                 //TODO: fare qualcosa con questo winner
             }
         }
@@ -214,19 +269,30 @@ public class Game {
      * @param way : face of the card
      * @throws WrongPlayerException : if a player that is not the current player try to place a card
      * @throws CardAlreadyPresentException : if a player play a card that is already present in the gameField
+     * @throws CardNotPresentException : if the card that the player wants to play is not in his hands
      */
-    public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException {
+    public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException {
         if(!this.players.get(this.currPlayer).getNickname().equals(nickname))
         {
             throw new WrongPlayerException();
         }
-        playersGameField.get(nickname).placeCard(card,x,y,way);
-        List<NonStarterCard> newHand = new ArrayList<>(players.get(this.currPlayer).getCurrentHand());
-        newHand.remove(card);
-        players.get(this.currPlayer).setCurrentHand(newHand);
+        this.playersGameField.get(nickname).placeCard(card,x,y,way);
+        List<NonStarterCard> newHand = new ArrayList<>(this.players.get(this.currPlayer).getCurrentHand());
+        if(!this.players.get(this.currPlayer).getCurrentHand().contains(card))
+            throw new CardNotPresentException();
+        else
+            newHand.remove(card);
+        this.players.get(this.currPlayer).setCurrentHand(newHand);
         addPoints(nickname,x,y);
     }
 
+    /**
+     * method that add points to a player
+     * @param nickname: nickname of the player
+     * @param x: where the card is placed in the matrix
+     * @param y: where the card is placed in the matrix
+     * @throws WrongPlayerException : if the player is not the current player
+     */
     private void addPoints(String nickname, int x, int y) throws WrongPlayerException{
         if(this.players.get(this.currPlayer).getNickname().equals(nickname))
         {
@@ -335,16 +401,29 @@ public class Game {
     }
 
     // metodi chat
+    /**
+     * add the message at the chat
+     * @param newMessage message added at the chat
+     */
     public void addChatMessage(String newMessage) {
-        chat.addMessage(newMessage);
+        this.chat.addMessage(newMessage);
     }
 
+    /**
+     * get the last message of the chat
+     * @return the last message of the chat
+     * @throws EmptyChatException if the chat is empty
+     */
     public String getLastChatMessage() throws EmptyChatException {
-        return chat.getLastMessage();
+        return this.chat.getLastMessage();
     }
 
+    /**
+     * get the content of the chat
+     * @return the list of the message in the chat
+     */
     public List<String> getChatContent() {
-        return chat.getContent();
+        return this.chat.getContent();
     }
 
 }
