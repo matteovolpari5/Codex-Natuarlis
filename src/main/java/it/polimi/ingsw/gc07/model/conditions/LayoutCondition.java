@@ -10,12 +10,15 @@ import it.polimi.ingsw.gc07.model.enumerations.GameResource;
  */
 public class LayoutCondition extends Condition{
     /**
-     * Matrix of dimension 3x3, the biggest dimension for a layout condition
+     * Matrix of dimension 4x3, the biggest dimension for a layout condition
      * that can be found on playing cards.
      * Each cell contains the GameResource (corresponding to a color) that needs
-     * to be found in that cell, null if the cell needs to be empty.
+     * to be found in that cell, null if the cell can contain anything.
      */
     private final GameResource[][] cardsColor;
+
+    private static final int maxLayoutRows = 4;
+    private static final int maxLayoutColumns = 3;
 
     /**
      * Constructor for layout conditions.
@@ -24,9 +27,9 @@ public class LayoutCondition extends Condition{
      */
     public LayoutCondition(ConditionType conditionType, GameResource[][] cardsColor) {
         super(conditionType);
-        GameResource[][] cardsColorCopy = new GameResource[3][3];
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
+        GameResource[][] cardsColorCopy = new GameResource[maxLayoutRows][maxLayoutColumns];
+        for(int i = 0; i < maxLayoutRows; i++){
+            for(int j = 0; j < maxLayoutColumns; j++){
                 cardsColorCopy[i][j] = cardsColor[i][j];
             }
         }
@@ -40,8 +43,8 @@ public class LayoutCondition extends Condition{
      */
     public GameResource[][] getCardsColor() {
         GameResource[][] cardsColorCopy = new GameResource[3][3];
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
+        for(int i = 0; i < maxLayoutRows; i++){
+            for(int j = 0; j < maxLayoutColumns; j++){
                 cardsColorCopy[i][j] = cardsColor[i][j];
             }
         }
@@ -49,13 +52,68 @@ public class LayoutCondition extends Condition{
     }
 
     /**
-     * Implementation of numTimesMet.
      * Counts how many times the layout is found in the gameField.
      * @return number of times the layout is found
      */
     public int numTimesMet(GameField gameField) throws NullPointerException {
         // TODO implementare
-        // Attenzione! starter card non può essere usata (?)
-        return 0;
+        // Attenzione! starter card non può essere usata, non ha colore!
+
+        // Vedo se la colonna di destra e se la riga sopra hanno delle carte
+        // trovo le giuste layoutRows e layoutColumns
+        // Scorro tutte le celle in basso a sx possibili
+        // Scorro la matrice del layout, se ci trovo un valore != null
+        // verifico di averlo anche nel game field uguale,
+        // nelle altre posizioni non mi interessa se ho qualcosa
+        // Quando devo controllare una carta, controllo che sia di tipo risorsa
+        // o di tipo oro (non starter) e che abbia la giusta permanent resource
+
+        // check valid game field
+        if(gameField == null){
+            throw new NullPointerException();
+        }
+        int dim = gameField.getDim();
+
+        // find actual layoutRows number
+        int layoutRows = maxLayoutRows - 1;
+        for(int j = 0; j < maxLayoutColumns; j++){
+            if(cardsColor[maxLayoutRows-1][j] != null){
+                layoutRows = maxLayoutRows;
+            }
+        }
+        // find actual layoutColumns number
+        int layoutColumns = maxLayoutColumns - 1;
+        for(int i = 0; i < maxLayoutRows; i++){
+            if(cardsColor[i][maxLayoutColumns - 1] != null){
+                layoutColumns = maxLayoutColumns;
+            }
+        }
+
+        int numTimes = 0;
+        for(int i = 0; i < dim-layoutColumns+1; i++){
+            for(int j = 0; j < dim-layoutRows+1; j++){
+                // for every top left cell of the layout
+                boolean flag = true;
+                for(int h = 0; h < layoutRows; h++){
+                    for(int k = 0; k < layoutColumns; k++){
+                        if(cardsColor[h][k] != null){
+                            // se il gamefield non ha una carta, oppure ce l'ha, ma è starter card
+                            // oppure ce l'ha non startercard, ma di colore sbagliato
+                            if(){       // TODO
+                                // mismatch
+                                flag = false;
+                            }
+                        }
+                    }
+                }
+                if(flag){
+                    // layout found
+                    numTimes++;
+                    // TODO: eliminare dal game field le carte usate! non posso riusarle!
+                }
+            }
+        }
+
+        return numTimes;
     }
 }
