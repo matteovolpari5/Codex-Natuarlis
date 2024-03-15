@@ -150,9 +150,22 @@ public class ItemsCondition extends Condition {
             }
         }
 
-        // TODO
-        // conto quante volte foundItems "sta" in neededItems
+        // check how many times neededItems is in foundItems
+        int numTimes = 0;
+        boolean flag = true;
+        while(flag) {
+            for(GameItem g: neededItems) {
+                if(foundItems.contains(g)){
+                    foundItems.remove(g);
+                }
+                else{
+                    flag = false;
+                }
+            }
+            if(flag)
+                numTimes++;
+        }
 
-        return 0; // TODO cambiare
+        return numTimes;
     }
 }
