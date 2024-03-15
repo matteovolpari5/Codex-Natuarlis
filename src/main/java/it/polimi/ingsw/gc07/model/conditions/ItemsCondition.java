@@ -3,7 +3,6 @@ package it.polimi.ingsw.gc07.model.conditions;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
-import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 import it.polimi.ingsw.gc07.model.GameItem;
 
@@ -41,21 +40,12 @@ public class ItemsCondition extends Condition {
     /**
      * Method returning the number of times an item condition is met.
      * Counts how many times the list neededItems is found in the gameField.
+     * It checks for every position containing a card if it has permanent
+     * or temporary resources. Then computes the result.
      * @param gameField game field on which the condition has to be verified
      * @return number of times the list of items is found
      */
     public int numTimesMet(GameField gameField) throws NullPointerException {
-        // TODO implementare
-        // creo una lista di elementi che trovo
-        // scorro tutte le posizioni:
-        // - controllo se è presente una carta
-        // - aggiungo le risorse permanenti
-        // - guardo se è fronte o retro
-        // - per ogni angolo se ha angoli scoperti (sia la carta, sia se sono coperti da altre carte),
-        //   se li ha, cosa contengono
-        //   possono contenere un gameitem che aggiungo alla lista
-        // alla fine conto quante volte la lista di needed items sta nella lista di item
-
         // check valid game field
         if(gameField == null){
             throw new NullPointerException();
@@ -75,27 +65,81 @@ public class ItemsCondition extends Condition {
                             boolean[] frontCorners = placedCard.getFrontCorners(); // TODO: se null ? per la costruzione non può esserlo!
                             GameItem[] frontCornersContent = placedCard.getFrontCornersContent(); // TODO: se null ? per la costruzione non può esserlo!
                             // all placeable cards can have temporary resources on the front
-                            // TODO
-                            // controllo se ci sono carte nei quattro angoli
-                            // se c'è controllo se è sopra o sotto, se sopra basta
-                            // se è sotto, controllo se la carta ha un angolo e
-                            // se sì, se ha una risorsa nell'angolo
+
+                            // check position (i-1,j+1)
+                            if((i == 0 || j == dim-1) ||
+                                    (i>0 && j<dim-1 && !gameField.isCardPresent(i-1,j+1)) ||
+                                    (i>0 && j<dim-1 && gameField.isCardPresent(i-1,j+1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i-1][j+1])) {
+                                // uncovered top left corner
+                                if(frontCorners[0] && frontCornersContent[0] != null)
+                                    foundItems.add(frontCornersContent[0]);
+                            }
+                            // check position (i+1,j+1)
+                            if((i == dim-1 || j == dim-1) ||
+                                    (i<dim-1 && j<dim-1 && !gameField.isCardPresent(i+1,j+1)) ||
+                                    (i<dim-1 && j<dim-1 && gameField.isCardPresent(i+1,j+1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i+1][j+1])) {
+                                // uncovered top right corner
+                                if(frontCorners[1] && frontCornersContent[1] != null)
+                                    foundItems.add(frontCornersContent[1]);
+                            }
+                            // check position (i+1,j-1)
+                            if((i == dim-1 || j == 0) ||
+                                    (i<dim-1 && j>0 && !gameField.isCardPresent(i+1,j-1)) ||
+                                    (i<dim-1 && j>0 && gameField.isCardPresent(i+1,j-1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i+1][j-1])) {
+                                // uncovered bottom right corner
+                                if(frontCorners[2] && frontCornersContent[2] != null)
+                                    foundItems.add(frontCornersContent[2]);
+                            }
+                            // check position (i-1,j-1)
+                            if((i == 0 || j == 0) ||
+                                    (i>0 && j>0 && !gameField.isCardPresent(i-1,j-1)) ||
+                                    (i>0 && j>0 && gameField.isCardPresent(i-1,j-1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i-1][j-1])) {
+                                // uncovered bottom left corner
+                                if(frontCorners[3] && frontCornersContent[3] != null)
+                                    foundItems.add(frontCornersContent[3]);
+                            }
                         }
                         else {
                             // card placed face down
                             // add permanent resources to foundItems
                             foundItems.addAll(gameField.getPlacedCard(i,j).getPermanentResources());
                             // only starter cards can have temporary resources on the back
-                            boolean[] backCorners = placedCard.getBackCorners(); // TODO: se null ? per la costruzione non può esserlo!
-                            GameItem[] backCornersContent = placedCard.getBackCornersContent(); // TODO: se null ? per la costruzione non può esserlo!
-                            if(backCorners != null){
+                            boolean[] backCorners = placedCard.getBackCorners();
+                            GameItem[] backCornersContent = placedCard.getBackCornersContent();
+                            if(backCorners != null && backCornersContent != null) {
                                 // starter card
-                                // TODO
-                                // controllo se c'è una carta in (1,1) poi (1,-1), (-1,-1) e (-1,1)
-                                // se c'è una carta, sicuramente copre la starter card, quindi copre
-                                // un'eventuale risorsa nell'angolo
-                                // se non c'è una carta, vedo se c'è l'angolo e se c'è, se c'è una
-                                // risorsa nell'angolo
+                                // checks if a card is present in the 4 corners
+                                // if yes, it covers the starter card
+                                // it not, checks if the starter card has a resource in that corner
+
+                                // check position (39,41)
+                                if(!gameField.isCardPresent(39,41)){
+                                    // uncovered top left corner
+                                    if(backCorners[0] && backCornersContent[0] != null) {
+                                        foundItems.add(backCornersContent[0]);
+                                    }
+                                }
+                                // check position (41,41)
+                                if(!gameField.isCardPresent(41,41)){
+                                    // uncovered top right corner
+                                    if(backCorners[1] && backCornersContent[1] != null) {
+                                        foundItems.add(backCornersContent[1]);
+                                    }
+                                }
+                                // check position (41,39)
+                                if(!gameField.isCardPresent(41,39)){
+                                    // uncovered bottom right corner
+                                    if(backCorners[2] && backCornersContent[2] != null) {
+                                        foundItems.add(backCornersContent[2]);
+                                    }
+                                }
+                                // check position (39,39)
+                                if(!gameField.isCardPresent(39,39)){
+                                    // uncovered bottom left corner
+                                    if(backCorners[3] && backCornersContent[3] != null) {
+                                        foundItems.add(backCornersContent[3]);
+                                    }
+                                }
                             }
                         }
                     } catch (CardNotPresentException e) {
@@ -106,6 +150,8 @@ public class ItemsCondition extends Condition {
             }
         }
 
+        // TODO
+        // conto quante volte foundItems "sta" in neededItems
 
         return 0; // TODO cambiare
     }
