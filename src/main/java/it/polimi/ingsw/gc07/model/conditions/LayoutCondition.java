@@ -90,6 +90,9 @@ public class LayoutCondition extends Condition{
                         if(cardsColor[h][k] != null){
                             // specific card needed
                             try{
+                                // a card must be present
+                                // it mustn't be a starter card, it can be a resource or gold card
+                                // it must have the correct color (i.e. GameResource)
                                 if(!(gameField.isCardPresent(i+h,j+k)
                                         && !gameField.getPlacedCard(i+h,j+k).getType().equals(CardType.STARTER_CARD)
                                         && gameField.getPlacedCard(i+h,j+k).getPermanentResources().getFirst().equals(cardsColor[h][k])
@@ -108,10 +111,17 @@ public class LayoutCondition extends Condition{
                 if(flag){
                     // layout found
                     numTimes++;
+                    // remove cards used for the objective (a card can be used once)
                     for(int h = 0; h < layoutRows; h++) {
                         for (int k = 0; k < layoutColumns; k++) {
                             if(cardsColor[h][k] != null){
-                                gameField.
+                                try{
+                                    gameField.removePlacedCard(i+h,j+k);
+                                }
+                                catch(CardNotPresentException e){
+                                    // I already checked
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
