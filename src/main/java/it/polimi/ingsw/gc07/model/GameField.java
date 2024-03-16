@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.CardAlreadyPresentException;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
-import it.polimi.ingsw.gc07.model.cards.Card;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
 /**
@@ -108,7 +107,8 @@ public class GameField {
      *            card is placed face down
      */
     public void placeCard(PlaceableCard card, int x, int y, boolean way) throws IndexOutOfBoundsException,
-            NullPointerException, CardAlreadyPresentException {
+            NullPointerException, CardAlreadyPresentException { //aggiungere CardNotPlaceableException
+        //int found = 0;
         if(x < 0 || x >= dim || y <0 || y >= dim) {
             throw new IndexOutOfBoundsException();
         }
@@ -117,6 +117,94 @@ public class GameField {
         }
         if(cardsContent[x][y] != null){
             throw new CardAlreadyPresentException();
+        }
+        if(numPlayedCards == 0){
+            //the first card must be a StarterCard, if so no further condition must be checked
+            if(card.getBackCorners() == null){
+                //throw new CardNotPlaceableException();
+            }
+        }else{
+            //this is not the first placement, this card cannot be a StarterCard
+            if(card.getBackCorners() != null){
+                //throw new CardNotPlaceableException();
+            }
+            //checking if there is at least one available corner near (x,y)
+            if(x-1 >= 0){
+                if(cardsContent[x-1][y] != null){
+                    //the card would cover two corners of the card above it
+                    //throw new CardNotPlaceableException();
+                }
+                if(y-1 >= 0){
+                    if(cardsContent[x][y-1] != null){
+                        //the card would cover two corners of the card on its left
+                        //throw new CardNotPlaceableException();
+                    }
+                    if(cardsContent[x-1][y-1] != null){
+                        if(cardsFace[x-1][y-1] == true){
+                            //the placed card is face down so the corner is available for sure
+                            //found = 1;
+                        }else{
+                            if(cardsContent[x-1][y-1].getFrontCorners()[2] == true){
+                                //the placed card is face up and the bottom right corner is available
+                                //found = 1;
+                            }
+                        }
+                    }//card in position x-1 y-1 is not present
+                }
+                if(y+1 <= 80){
+                    if(cardsContent[x][y+1] != null){
+                        //the card would cover two corners of the card on its right
+                        //throw new CardNotPlaceableException();
+                    }
+                    if(cardsContent[x-1][y+1] != null){
+                        if(cardsFace[x-1][y+1] == true){
+                            //the placed card is face down so the corner is available for sure
+                            //found = 1;
+                        }else{
+                            if(cardsContent[x-1][y-1].getFrontCorners()[3] == true){
+                                //the placed card is face up and the bottom left corner is available
+                                //found = 1;
+                            }
+                        }
+                    }//card in position x-1 y+1 is not present
+                }
+            }
+            if(x+1 <= 80){
+                if(cardsContent[x+1][y] != null){
+                    //the card would cover two corners of the card below it
+                    //throw new CardNotPlaceableException();
+                }
+                if(y-1 >= 0){
+                    if(cardsContent[x+1][y-1] != null){
+                        if(cardsFace[x+1][y-1] == true){
+                            //the placed card is face down so the corner is available for sure
+                            //found = 1;
+                        }else{
+                            if(cardsContent[x+1][y-1].getFrontCorners()[1] == true){
+                                //the placed card is face up and the top right corner is available
+                                //found = 1;
+                            }
+                        }
+                    }//card in position x+1 y-1 is not present
+                }
+                if(y+1 <= 80){
+                    if(cardsContent[x+1][y+1] != null){
+                        if(cardsFace[x+1][y+1] == true){
+                            //the placed card is face down so the corner is available for sure
+                            //found = 1;
+                        }else{
+                            if(cardsContent[x+1][y+1].getFrontCorners()[0] == true){
+                                //the placed card is face up and the top left corner is available
+                                //found = 1;
+                            }
+                        }
+                    }//card in position x+1 y+1 is not present
+                }
+            }
+            if(card.getPlacementCondition().numTimesMet(this) <= 0){
+                //the card is a GoldCard and the placement condition is not met
+                //throw new CardNotPlaceableException();
+            }
         }
         // PlaceableCard is immutable, I can insert the card I receive
         // TODO: manca un macello di roba, prima di inserire la carta
