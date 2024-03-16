@@ -407,18 +407,44 @@ public class Game {
         // prima il suo e poi ci chiama setCurrentHand
     }
 
+    /**
+     * method that reveal the face up card in position pos
+     * @param type type of the card
+     * @param pos position of the card
+     * @return the card that we want to reveal
+     * @throws WrongCardTypeException if the card is a starter card
+     * @throws CardNotPresentException if there aren't face up cards
+     */
     public Card revealFaceUpCard(CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
-        // TODO
-        // se starter, eccezione
-        // altrimenti chiamo revealFaceUpCard sul giusto deck
-        return null; // TODO
+        if(type.equals(CardType.STARTER_CARD))
+        {
+            throw new WrongCardTypeException();
+        }
+        if(type.equals(CardType.GOLD_CARD))
+            return this.goldCardsDeck.revealFaceUpCard(pos);
+        else if(type.equals(CardType.RESOURCE_CARD))
+            return this.resourceCardsDeck.revealFaceUpCard(pos);
+        else
+            return this.objectiveCardsDeck.revealFaceUpCard(pos);
     }
 
-    public GameResource revealBackDeckCard(CardType type) throws WrongCardTypeException, CardNotPresentException {
-        // TODO
-        // se starter o objective, eccezione
-        // altrimenti chiamo revealBackDeckCard sul giusto deck
-        return null; // TODO
+    /**
+     * method that reveal the back of the card on top of the deck
+     * @param type : type of the card
+     * @return the GameResource that represent the back of the card
+     * @throws WrongCardTypeException   if we reveal the back of a starter card or the back of an objective card
+     * @throws CardNotPresentException if the deck is empty
+     */
+    public GameResource revealBackDeckCard(CardType type) throws WrongCardTypeException, CardNotPresentException
+    {
+        if(type.equals(CardType.STARTER_CARD) || type.equals(CardType.OBJECTIVE_CARD))
+        {
+          throw new WrongCardTypeException();
+        }
+        if(type.equals(CardType.GOLD_CARD))
+            return this.goldCardsDeck.revealBackDeckCard();
+        else
+            return this.resourceCardsDeck.revealBackDeckCard();
     }
 
     // metodi chat
