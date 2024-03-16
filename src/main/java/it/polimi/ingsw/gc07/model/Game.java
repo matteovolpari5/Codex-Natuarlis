@@ -266,6 +266,7 @@ public class Game {
             {
                 //Player winner = computeWinner();
                 //TODO: fare qualcosa con questo winner
+                // i vincitori possono essere più di uno
             }
             else if(getCurrentPlayer().isFirst())
             {
@@ -308,29 +309,50 @@ public class Game {
     }
 
     /**
-     * method that add points to a player
+     * method that add points to a player and check if a player is reaching 20 points.
      * @param nickname: nickname of the player
      * @param x: where the card is placed in the matrix
      * @param y: where the card is placed in the matrix
      * @throws WrongPlayerException : if the player is not the current player
      */
-    private void addPoints(String nickname, int x, int y) throws WrongPlayerException{
-        if(getCurrentPlayer().getNickname().equals(nickname))
+    private void addPoints(String nickname, int x, int y) throws WrongPlayerException, CardNotPresentException, PlayerNotPresentExcpetion {
+        int deltaPoints;
+        if(!getCurrentPlayer().getNickname().equals(nickname))
         {
-            //TODO
-            //
-        }
-        else {
             throw new WrongPlayerException();
         }
-        // TODO
-        // controllo sia currentPlayer
-        // la card è già stata piazzata
-        // conoscendo x e y posso verificare quanti punti ha fatto e
-        // aggiornare il punteggio su scoreTrackBoard
-        // se il punteggio è >= 20 (?) lastTurn = true
-        // riceve un player equals (ma non ==) a uno dei suoi
-        // prima il suo e poi
+        if (!playersGameField.get(nickname).isCardPresent(x, y)){
+            throw new CardNotPresentException();
+        }
+        if(playersGameField.get(nickname).getCardWay(x, y)){
+            return;
+        }
+        if(playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition() == null){
+            deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getScore();
+            if(deltaPoints + scoreTrackBoard.getScore(nickname) >= 20){
+                lastTurn = true;
+                if((deltaPoints + scoreTrackBoard.getScore(nickname)) > 29){
+                    scoreTrackBoard.setScore(nickname, 29);
+                }
+                else{
+                    scoreTrackBoard.incrementScore(nickname, deltaPoints);
+                }
+            }
+            return;
+        }
+        else{
+            deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition().numTimesMet(playersGameField.get(nickname)) * playersGameField.get(nickname).getPlacedCard(x, y).getScore();
+            if(deltaPoints + scoreTrackBoard.getScore(nickname) >= 20){
+                lastTurn = true;
+                if((deltaPoints + scoreTrackBoard.getScore(nickname)) > 29){
+                    scoreTrackBoard.setScore(nickname, 29);
+                }
+                else{
+                    scoreTrackBoard.incrementScore(nickname, deltaPoints);
+                }
+            }
+            return;
+        }
     }
 
     /**
