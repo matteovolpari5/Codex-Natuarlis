@@ -199,6 +199,7 @@ classDiagram
         - objectiveCardsDeck: PlayingDeck
         - starterCardsDeck: Deck
         - lastTurn: boolean
+        - additionalRound : boolean
         - chat: Chat
         + Game(gameId: int, playersNumber: int, resourceCardsDeck: ResourceCardsDeck,\n goldCardsDeck: GoldCardsDeck, objectiveCardsDeck: PlayingDeck<ObjectiveCard>, starterCardsDeck : Deck<StarterCard>, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean, starterCardWay: boolean)
         + getState() GameStae

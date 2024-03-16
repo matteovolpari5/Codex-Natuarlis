@@ -57,6 +57,10 @@ public class Game {
      */
     private boolean lastTurn;
     /**
+     * indicate if is the additional round of the game
+     */
+    private boolean additionalRound;
+    /**
      * chat of the game
      */
     private Chat chat;
@@ -95,6 +99,7 @@ public class Game {
         this.starterCardsDeck = starterCardsDeck;
         this.currPlayer = 0;
         this.lastTurn = false;
+        this.additionalRound = false;
         addPlayer(nickname, tokenColor, connectionType, interfaceType,starterCardWay);
     }
 
@@ -251,11 +256,16 @@ public class Game {
             this.currPlayer++;
         if(this.lastTurn)
         {
-            if(this.players.get(this.currPlayer).isFirst())
+            if(this.players.get(this.currPlayer).isFirst()&&this.additionalRound)
             {
                 //Player winner = computeWinner();
                 //TODO: fare qualcosa con questo winner
             }
+            else if(this.players.get(this.currPlayer).isFirst())
+            {
+                this.additionalRound=true;
+            }
+
         }
     }
 
