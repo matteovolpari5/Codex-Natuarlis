@@ -161,15 +161,21 @@ public class Game {
     public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) {
         try{
             List<NonStarterCard> currentHand = new ArrayList<>();
-            currentHand.add(resourceCardsDeck.drawCard());
-            currentHand.add(resourceCardsDeck.drawCard());
-            currentHand.add(goldCardsDeck.drawCard());
-            ObjectiveCard secretObjective = objectiveCardsDeck.drawCard();
+            currentHand.add(this.resourceCardsDeck.drawCard());
+            currentHand.add(this.resourceCardsDeck.drawCard());
+            currentHand.add(this.goldCardsDeck.drawCard());
+            ObjectiveCard secretObjective = this.objectiveCardsDeck.drawCard();
             Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType, currentHand, secretObjective);
             GameField gameField = new GameField();
-            this.players.add(newPlayer);
+            getPlayers().add(newPlayer);
             this.playersGameField.put(newPlayer.getNickname(),gameField);
-            this.playersGameField.get(nickname).placeCard(starterCardsDeck.drawCard(), 40,40,starterCardWay);
+            try
+            {
+                getGameField(nickname).placeCard(this.starterCardsDeck.drawCard(), 40,40,starterCardWay);
+            }catch (PlayerNotPresentExcpetion e)
+            {
+                e.printStackTrace();
+            }
             this.scoreTrackBoard.addPlayer(newPlayer.getNickname());
             if(isFull())
             {
@@ -196,7 +202,7 @@ public class Game {
         // chose randomly the first player
         Random random= new Random();
         this.currPlayer=random.nextInt(4);
-        this.players.get(this.currPlayer).setFirst();
+        getCurrentPlayer().setFirst();
         try {
             //place 2 gold cards
             List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
@@ -250,18 +256,18 @@ public class Game {
      * played the same amount of turn it computes the winner
      */
     public void changeCurrPlayer () {
-        if(this.currPlayer==players.size()-1)
+        if(this.currPlayer==this.players.size()-1)
             this.currPlayer=0;
         else
             this.currPlayer++;
         if(this.lastTurn)
         {
-            if(this.players.get(this.currPlayer).isFirst()&&this.additionalRound)
+            if(getCurrentPlayer().isFirst()&&this.additionalRound)
             {
                 //Player winner = computeWinner();
                 //TODO: fare qualcosa con questo winner
             }
-            else if(this.players.get(this.currPlayer).isFirst())
+            else if(getCurrentPlayer().isFirst())
             {
                 this.additionalRound=true;
             }
@@ -282,17 +288,22 @@ public class Game {
      * @throws CardNotPresentException : if the card that the player wants to play is not in his hands
      */
     public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException {
-        if(!this.players.get(this.currPlayer).getNickname().equals(nickname))
+        if(!getCurrentPlayer().getNickname().equals(nickname))
         {
             throw new WrongPlayerException();
         }
-        this.playersGameField.get(nickname).placeCard(card,x,y,way);
-        List<NonStarterCard> newHand = new ArrayList<>(this.players.get(this.currPlayer).getCurrentHand());
-        if(!this.players.get(this.currPlayer).getCurrentHand().contains(card))
+        try {
+            getGameField(nickname).placeCard(card,x,y,way);
+        }catch (PlayerNotPresentExcpetion e)
+        {
+            e.printStackTrace();
+        }
+        List<NonStarterCard> newHand = new ArrayList<>(getCurrentPlayer().getCurrentHand());
+        if(!getCurrentPlayer().getCurrentHand().contains(card))
             throw new CardNotPresentException();
         else
             newHand.remove(card);
-        this.players.get(this.currPlayer).setCurrentHand(newHand);
+        getCurrentPlayer().setCurrentHand(newHand);
         addPoints(nickname,x,y);
     }
 
@@ -304,7 +315,7 @@ public class Game {
      * @throws WrongPlayerException : if the player is not the current player
      */
     private void addPoints(String nickname, int x, int y) throws WrongPlayerException{
-        if(this.players.get(this.currPlayer).getNickname().equals(nickname))
+        if(getCurrentPlayer().getNickname().equals(nickname))
         {
             //TODO
             //
