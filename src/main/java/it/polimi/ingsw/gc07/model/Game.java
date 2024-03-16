@@ -343,37 +343,34 @@ public class Game {
         int deltapoints;
         int max = 0;
         int realizedObjectives;
-        int maxrealizedObjective = 0;
+        int maxRealizedObjective = 0;
         for (int i=0; i>=0 && i< players.size(); i++){
             realizedObjectives = objectiveCardsDeck.revealFaceUpCard(0).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname()));
-            //conto dei punti fatti per il primo obiettivo comune
+            //points counter for the 1st common objective
             deltapoints = objectiveCardsDeck.revealFaceUpCard(0).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname())) * objectiveCardsDeck.revealFaceUpCard(0).getScore();
             realizedObjectives += objectiveCardsDeck.revealFaceUpCard(1).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname()));
-            //conto dei punti fatti per il secondo obiettivo comune
+            //points counter for the 2nd common objective
             deltapoints += objectiveCardsDeck.revealFaceUpCard(1).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname())) * objectiveCardsDeck.revealFaceUpCard(1).getScore();
             realizedObjectives += players.get(i).getSecretObjective().getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname()));
-            //conto punti per l'obiettivo personale
+            //points counter for the secret objective
             deltapoints += players.get(i).getSecretObjective().getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname())) * players.get(i).getSecretObjective().getScore();
             scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltapoints);
-            //TODO rivedere sta parte, sicuramente sbagliata
-            if (max <= scoreTrackBoard.getScore(players.get(i).getNickname())){
-                max = scoreTrackBoard.getScore(players.get(i).getNickname());
-                if (realizedObjectives > maxrealizedObjective){
-                    winners.add(players.get(i));
-                    maxrealizedObjective = realizedObjectives;
+            List<Player> playersCopy = new ArrayList<>(players);
+            if (max <= scoreTrackBoard.getScore(playersCopy.get(i).getNickname())){
+                max = scoreTrackBoard.getScore(playersCopy.get(i).getNickname());
+                if (realizedObjectives >= maxRealizedObjective){
+                    if (realizedObjectives == maxRealizedObjective){
+                        winners.add(playersCopy.get(i));
+                    }
+                    else{
+                        winners.clear();
+                        winners.add(playersCopy.get(i));
+                        maxRealizedObjective = realizedObjectives;
+                    }
                 }
             }
-
         }
-
-        // Considerando le carte obiettivo finale comuni e le
-        // carte obiettivo segrete, calcola il punteggio finale
-        // per tutti i giocatori
-        // se parità, ... (vedi regole)
-        // restituisce il player vincitore,
-        // in caso di parità ??
-        // restituisce una copia del player!
-        return null; // TODO
+        return winners;
     }
 
 
