@@ -40,12 +40,7 @@ public class ScoreTrackBoard {
      * @param nickname player
      * @param newScore new score to set
      */
-    public void setScore(String nickname, int newScore) throws PlayerNotPresentExcpetion, NonValidScoreExcpetion {
-        //TODO con la nuova struttura il punteggio può andare oltre ai 29
-        // durante l'ultimo turno dovrò fermare l'incremento al massimo a 29.
-        /*if(newScore < 0 || newScore > 29){
-            throw new NonValidScoreExcpetion();
-        }*/
+    public void setScore(String nickname, int newScore) throws PlayerNotPresentExcpetion {
         if(!playersScore.containsKey(nickname)){
             throw new PlayerNotPresentExcpetion();
         }
