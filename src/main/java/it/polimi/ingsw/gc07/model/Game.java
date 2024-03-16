@@ -8,7 +8,6 @@ import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.GameState;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
-
 import java.util.*;
 import java.util.Random;
 public class Game {
@@ -131,11 +130,11 @@ public class Game {
      * get the game field of the player
      * @param nickname : nickname of the player
      * @return the game field of the player
-     * @throws PlayerNotPresentExcpetion exception thrown when a player is not present in the game
+     * @throws PlayerNotPresentException exception thrown when a player is not present in the game
      */
-    public GameField getGameField(String nickname) throws PlayerNotPresentExcpetion {
+    public GameField getGameField(String nickname) throws PlayerNotPresentException {
         if(!this.playersGameField.containsKey(nickname)) {
-            throw new PlayerNotPresentExcpetion();
+            throw new PlayerNotPresentException();
         }
         return new GameField(this.playersGameField.get(nickname));
     }
@@ -144,9 +143,9 @@ public class Game {
      * get the players' score
      * @param nickname : nickname of the player
      * @return the players' score
-     * @throws PlayerNotPresentExcpetion exception thrown when a player is not present in the game
+     * @throws PlayerNotPresentException exception thrown when a player is not present in the game
      */
-    public int getScore(String nickname) throws PlayerNotPresentExcpetion {
+    public int getScore(String nickname) throws PlayerNotPresentException {
         return this.scoreTrackBoard.getScore(nickname);
     }
 
@@ -172,7 +171,7 @@ public class Game {
             try
             {
                 getGameField(nickname).placeCard(this.starterCardsDeck.drawCard(), 40,40,starterCardWay);
-            }catch (PlayerNotPresentExcpetion e)
+            }catch (PlayerNotPresentException e)
             {
                 e.printStackTrace();
             }
@@ -277,7 +276,7 @@ public class Game {
     }
 
     /**
-     * method that place a card in the gamefield of the current player
+     * method that place a card in the game field of the current player
      * this method also remove the card placed from the hand of the current player and calls the method that compute the points scored by placing the card
      * @param nickname : nickname of the player
      * @param card : card that the player wants to play
@@ -295,7 +294,7 @@ public class Game {
         }
         try {
             getGameField(nickname).placeCard(card,x,y,way);
-        }catch (PlayerNotPresentExcpetion e)
+        }catch (PlayerNotPresentException e)
         {
             e.printStackTrace();
         }
@@ -313,9 +312,11 @@ public class Game {
      * @param nickname: nickname of the player
      * @param x: where the card is placed in the matrix
      * @param y: where the card is placed in the matrix
-     * @throws WrongPlayerException : if the player is not the current player
+     * @throws WrongPlayerException : if the player is not the current player.
+     * @throws PlayerNotPresentException : if the player is not present in the List players.
+     * @throws CardNotPresentException: if there isn't a card in the specified position of the game field.
      */
-    private void addPoints(String nickname, int x, int y) throws WrongPlayerException, CardNotPresentException, PlayerNotPresentExcpetion {
+    private void addPoints(String nickname, int x, int y) throws WrongPlayerException, CardNotPresentException, PlayerNotPresentException {
         int deltaPoints;
         if(!getCurrentPlayer().getNickname().equals(nickname))
         {
@@ -329,9 +330,9 @@ public class Game {
         }
         if(playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition() == null){
             deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getScore();
-            if(deltaPoints + scoreTrackBoard.getScore(nickname) >= 20){
+            if(deltaPoints + getScore(nickname) >= 20){
                 lastTurn = true;
-                if((deltaPoints + scoreTrackBoard.getScore(nickname)) > 29){
+                if((deltaPoints + getScore(nickname)) > 29){
                     scoreTrackBoard.setScore(nickname, 29);
                 }
                 else{
@@ -342,9 +343,9 @@ public class Game {
         }
         else{
             deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition().numTimesMet(playersGameField.get(nickname)) * playersGameField.get(nickname).getPlacedCard(x, y).getScore();
-            if(deltaPoints + scoreTrackBoard.getScore(nickname) >= 20){
+            if(deltaPoints + getScore(nickname) >= 20){
                 lastTurn = true;
-                if((deltaPoints + scoreTrackBoard.getScore(nickname)) > 29){
+                if((deltaPoints + getScore(nickname)) > 29){
                     scoreTrackBoard.setScore(nickname, 29);
                 }
                 else{
@@ -356,10 +357,12 @@ public class Game {
     }
 
     /**
-     *
-     * @return the player that is the winner of the game.
+     * method that compute the winner/s of the game.
+     * @return the list of players who won the game.
+     * @throws CardNotPresentException: if there isn't an objective faceUpCard on the board.
+     * @throws PlayerNotPresentException: if the player is not present in the List players.
      */
-    private List<Player> computeWinner() throws CardNotPresentException, PlayerNotPresentExcpetion {
+    private List<Player> computeWinner() throws CardNotPresentException, PlayerNotPresentException {
         // TODO: fare catch di CardNotPresentException
         List<Player> winners = new ArrayList<>();
         int deltapoints;
@@ -378,8 +381,8 @@ public class Game {
             deltapoints += players.get(i).getSecretObjective().getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname())) * players.get(i).getSecretObjective().getScore();
             scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltapoints);
             List<Player> playersCopy = new ArrayList<>(players);
-            if (max <= scoreTrackBoard.getScore(playersCopy.get(i).getNickname())){
-                max = scoreTrackBoard.getScore(playersCopy.get(i).getNickname());
+            if (max <= getScore(playersCopy.get(i).getNickname())){
+                max = getScore(playersCopy.get(i).getNickname());
                 if (realizedObjectives >= maxRealizedObjective){
                     if (realizedObjectives == maxRealizedObjective){
                         winners.add(playersCopy.get(i));
@@ -395,35 +398,59 @@ public class Game {
         return winners;
     }
 
-
-    // TODO
-    // metodi per pescare una carta
-    // metodi per rivelare le carte scoperte
-    // uno per ogni tipo di carta oppure prendono un tipo di carta?
-    // Nel metodo per pescare una carta, alla fine si chiama changeCurrPlayer
-
-    public void drawDeckCard(String nickname, CardType type) throws WrongCardTypeException, CardNotPresentException {
+    /**
+     * method that allows a player to draw one card from a GoldCardDeck or a ResourceCardDeck.
+     * @param nickname: nickname of a player.
+     * @param type: type of the card a user wants to draw.
+     * @throws WrongCardTypeException: if the Type given is not correct
+     * @throws CardNotPresentException: if the List of faceUpCards doesn't have a card in the given position
+     * @throws WrongPlayerException: if the player is not the current player
+     */
+    public void drawDeckCard(String nickname, CardType type) throws WrongCardTypeException, CardNotPresentException, WrongPlayerException {
+        if(!getCurrentPlayer().getNickname().equals(nickname)){
+            throw new WrongPlayerException();
+        }
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
             throw new WrongCardTypeException();
         }
+        List<NonStarterCard> newHand = new ArrayList<>();
+        newHand.addAll(players.get(currPlayer).getCurrentHand());
         if(type.equals(CardType.RESOURCE_CARD)){
-            // return resourceCardsDeck.drawCard();
+            newHand.add(resourceCardsDeck.drawCard());
         }
-        // return goldCardsDeck.drawCard();
-        // TODO
-        // modifica currentHand, aggiungendo la carta pescata (setCurrenHand di Player)
-        // riceve un player equals (ma non ==) a uno dei suoi
-        // prima il suo e poi ci chiama setCurrentHand
+        if(type.equals(CardType.RESOURCE_CARD)){
+            newHand.add(goldCardsDeck.drawCard());
+        }
+        players.get(currPlayer).setCurrentHand(newHand);
+        changeCurrPlayer();
     }
 
-    public void drawFaceUpCard(String nickname, CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
-        // TODO
-        // se starter o objective, eccezione
-        // altrimenti chiamo drawFaceUpCard sul giusto deck
-        // TODO
-        // modifica currentHand, aggiungendo la carta pescata (setCurrenHand di Player)
-        // riceve un player equals (ma non ==) a uno dei suoi
-        // prima il suo e poi ci chiama setCurrentHand
+    /**
+     * method that allows a player to draw one of two faceUp cards of a given type.
+     * @param nickname: nickname of a player.
+     * @param type: type of the card a user wants to draw.
+     * @param pos: position in the List of faceUpCards
+     * @throws WrongCardTypeException: if the Type given is not correct
+     * @throws CardNotPresentException: if the List of faceUpCards doesn't have a card in the given position
+     * @throws WrongPlayerException: if the player is not the current player
+     */
+    public void drawFaceUpCard(String nickname, CardType type, int pos) throws WrongCardTypeException, CardNotPresentException, WrongPlayerException {
+        if(!getCurrentPlayer().getNickname().equals(nickname)){
+            throw new WrongPlayerException();
+        }
+        if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
+            throw new WrongCardTypeException();
+        }
+        List<NonStarterCard> newHand = new ArrayList<>();
+        newHand.addAll(players.get(currPlayer).getCurrentHand());
+        if(type.equals(CardType.RESOURCE_CARD)){
+            newHand.add(resourceCardsDeck.drawFaceUpCard(pos));
+        }
+        if(type.equals(CardType.GOLD_CARD)){
+            newHand.add(goldCardsDeck.drawFaceUpCard(pos));
+        }
+        players.get(currPlayer).setCurrentHand(newHand);
+        changeCurrPlayer();
     }
 
     /**
