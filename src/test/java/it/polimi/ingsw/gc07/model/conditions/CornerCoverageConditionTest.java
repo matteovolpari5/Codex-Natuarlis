@@ -4,7 +4,7 @@ import it.polimi.ingsw.gc07.model.GameField;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ItemsConditionTest {
+class CornerCoverageConditionTest {
     GameField gameField;
     Condition condition;
 
