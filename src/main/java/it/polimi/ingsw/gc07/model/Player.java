@@ -126,7 +126,9 @@ public class Player {
      * @param currentHand current card in player's hand
      */
     public void setCurrentHand(List<NonStarterCard> currentHand){
-        // TODO
+        // create a copy of the list
+        // cards are immutable, I can use them
+        this.currentHand = new ArrayList<>(currentHand);
     }
 
     /**
@@ -142,6 +144,7 @@ public class Player {
      * @return secret objective card
      */
     public ObjectiveCard getSecretObjective() {
+        // card is immutable, I can return it
         return secretObjective;
     }
 

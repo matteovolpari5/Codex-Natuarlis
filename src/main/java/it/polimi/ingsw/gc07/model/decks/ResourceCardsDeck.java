@@ -8,6 +8,6 @@ public class ResourceCardsDeck extends DrawableDeck<NonStarterCard> {
         super();
     }
     public GameResource revealBackDeckCard() throws CardNotPresentException {
-        return revealDeckCard().getPermanentResource();
+        return revealDeckCard().getPermanentResources().getFirst();
     }
 }

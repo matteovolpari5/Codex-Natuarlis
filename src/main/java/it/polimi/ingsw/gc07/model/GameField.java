@@ -160,6 +160,25 @@ public class GameField {
     }
 
     /**
+     * Method that allows to remove a placed card from the game field.
+     * It is used on copies of the game field for verifying conditions,
+     * so it does not change the cards' placement order.
+     * @param x x index of the matrix
+     * @param y y index of the matrix
+     * @throws IndexOutOfBoundsException
+     * @throws CardNotPresentException
+     */
+    public void removePlacedCard(int x, int y) throws IndexOutOfBoundsException, CardNotPresentException {
+        if(x < 0 || x >= dim || y <0 || y >= dim){
+            throw new IndexOutOfBoundsException();
+        }
+        if(cardsContent[x][y] == null){
+            throw new CardNotPresentException();
+        }
+        cardsContent[x][y] = null;
+    }
+
+    /**
      * Returns a boolean representing the way a card is placed.
      * @param x x index of the matrix
      * @param y y index of the matrix
