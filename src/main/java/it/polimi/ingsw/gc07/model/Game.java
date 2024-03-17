@@ -289,22 +289,22 @@ public class Game {
      */
     public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException {
         if(!getCurrentPlayer().getNickname().equals(nickname))
-        {
             throw new WrongPlayerException();
-        }
-        try {
-            getGameField(nickname).placeCard(card,x,y,way);
-        }catch (PlayerNotPresentException e)
-        {
-            e.printStackTrace();
-        }
-        List<NonStarterCard> newHand = new ArrayList<>(getCurrentPlayer().getCurrentHand());
         if(!getCurrentPlayer().getCurrentHand().contains(card))
             throw new CardNotPresentException();
         else
-            newHand.remove(card);
-        getCurrentPlayer().setCurrentHand(newHand);
-        addPoints(nickname,x,y);
+        {
+            try {
+                getGameField(nickname).placeCard(card,x,y,way);
+                List<NonStarterCard> newHand = new ArrayList<>(getCurrentPlayer().getCurrentHand());
+                newHand.remove(card);
+                getCurrentPlayer().setCurrentHand(newHand);
+                addPoints(nickname,x,y);
+            }catch (PlayerNotPresentException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
