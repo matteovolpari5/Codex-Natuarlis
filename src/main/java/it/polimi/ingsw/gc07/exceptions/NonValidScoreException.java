@@ -1,22 +1,22 @@
 package it.polimi.ingsw.gc07.exceptions;
 
-public class NonValidScoreException extends Exception {
-    public NonValidScoreException() {
+public class NonValidScoreExcpetion extends Exception {
+    public NonValidScoreExcpetion() {
     }
 
-    public NonValidScoreException(String message) {
+    public NonValidScoreExcpetion(String message) {
         super(message);
     }
 
-    public NonValidScoreException(String message, Throwable cause) {
+    public NonValidScoreExcpetion(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public NonValidScoreException(Throwable cause) {
+    public NonValidScoreExcpetion(Throwable cause) {
         super(cause);
     }
 
-    public NonValidScoreException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public NonValidScoreExcpetion(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

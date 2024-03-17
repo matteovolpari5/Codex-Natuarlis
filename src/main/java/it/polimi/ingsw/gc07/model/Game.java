@@ -238,16 +238,40 @@ public class Game {
      * method that disconnect a player from the game
      * @param nickname : nickname of the player
      */
-    public void disconnectPlayer(String nickname)
-    {
-        //TODO: disconnect the player
+    public void disconnectPlayer(String nickname){
+        try{
+            int pos = getPlayerByNickname(nickname);
+            players.get(pos).setIsConnected(false);
+        } catch (PlayerNotPresentException e) {
+            //TODO gestione eccezione
+        }
     }
     /**
      * method that reconnect a player from the game
      * @param nickname : nickname of the player
      */
     public void reconnectPlayer(String nickname){
-        // TODO: reconnect the player
+        try{
+            int pos = getPlayerByNickname(nickname);
+            players.get(pos).setIsConnected(true);
+        } catch (PlayerNotPresentException e) {
+            //TODO gestione eccezione
+        }
+    }
+
+    /**
+     * method that returns the position of the player in the List players.
+     * @param nickname: is the nickname of the player whose position is being searched.
+     * @return the position of the player searched in the List players.
+     * @throws PlayerNotPresentException: if the nickname is not present in the list players.
+     */
+    public int getPlayerByNickname(String nickname) throws PlayerNotPresentException {
+        for (int i = 0; i < this.playersNumber; i++){
+            if(this.players.get(i).getNickname().equals(nickname)){
+                return i;
+            }
+        }
+        throw new PlayerNotPresentException();
     }
 
     /**
@@ -322,34 +346,34 @@ public class Game {
         {
             throw new WrongPlayerException();
         }
-        if (!playersGameField.get(nickname).isCardPresent(x, y)){
+        if (!this.playersGameField.get(nickname).isCardPresent(x, y)){
             throw new CardNotPresentException();
         }
-        if(playersGameField.get(nickname).getCardWay(x, y)){
+        if(this.playersGameField.get(nickname).getCardWay(x, y)){
             return;
         }
-        if(playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition() == null){
-            deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getScore();
+        if(this.playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition() == null){
+            deltaPoints = this.playersGameField.get(nickname).getPlacedCard(x, y).getScore();
             if(deltaPoints + getScore(nickname) >= 20){
-                lastTurn = true;
+                this.lastTurn = true;
                 if((deltaPoints + getScore(nickname)) > 29){
-                    scoreTrackBoard.setScore(nickname, 29);
+                    this.scoreTrackBoard.setScore(nickname, 29);
                 }
                 else{
-                    scoreTrackBoard.incrementScore(nickname, deltaPoints);
+                    this.scoreTrackBoard.incrementScore(nickname, deltaPoints);
                 }
             }
             return;
         }
         else{
-            deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition().numTimesMet(playersGameField.get(nickname)) * playersGameField.get(nickname).getPlacedCard(x, y).getScore();
+            deltaPoints = this.playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition().numTimesMet(this.playersGameField.get(nickname)) * this.playersGameField.get(nickname).getPlacedCard(x, y).getScore();
             if(deltaPoints + getScore(nickname) >= 20){
                 lastTurn = true;
                 if((deltaPoints + getScore(nickname)) > 29){
-                    scoreTrackBoard.setScore(nickname, 29);
+                    this.scoreTrackBoard.setScore(nickname, 29);
                 }
                 else{
-                    scoreTrackBoard.incrementScore(nickname, deltaPoints);
+                    this.scoreTrackBoard.incrementScore(nickname, deltaPoints);
                 }
             }
             return;
@@ -369,18 +393,18 @@ public class Game {
         int max = 0;
         int realizedObjectives;
         int maxRealizedObjective = 0;
-        for (int i=0; i>=0 && i< players.size(); i++){
-            realizedObjectives = objectiveCardsDeck.revealFaceUpCard(0).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname()));
+        for (int i=0; i>=0 && i< this.players.size(); i++){
+            realizedObjectives = this.objectiveCardsDeck.revealFaceUpCard(0).getScoringCondition().numTimesMet(this.playersGameField.get(this.players.get(i).getNickname()));
             //points counter for the 1st common objective
-            deltapoints = objectiveCardsDeck.revealFaceUpCard(0).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname())) * objectiveCardsDeck.revealFaceUpCard(0).getScore();
-            realizedObjectives += objectiveCardsDeck.revealFaceUpCard(1).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname()));
+            deltapoints = this.objectiveCardsDeck.revealFaceUpCard(0).getScoringCondition().numTimesMet(this.playersGameField.get(this.players.get(i).getNickname())) * this.objectiveCardsDeck.revealFaceUpCard(0).getScore();
+            realizedObjectives += this.objectiveCardsDeck.revealFaceUpCard(1).getScoringCondition().numTimesMet(this.playersGameField.get(this.players.get(i).getNickname()));
             //points counter for the 2nd common objective
-            deltapoints += objectiveCardsDeck.revealFaceUpCard(1).getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname())) * objectiveCardsDeck.revealFaceUpCard(1).getScore();
-            realizedObjectives += players.get(i).getSecretObjective().getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname()));
+            deltapoints += this.objectiveCardsDeck.revealFaceUpCard(1).getScoringCondition().numTimesMet(this.playersGameField.get(this.players.get(i).getNickname())) * this.objectiveCardsDeck.revealFaceUpCard(1).getScore();
+            realizedObjectives += this.players.get(i).getSecretObjective().getScoringCondition().numTimesMet(this.playersGameField.get(this.players.get(i).getNickname()));
             //points counter for the secret objective
-            deltapoints += players.get(i).getSecretObjective().getScoringCondition().numTimesMet(playersGameField.get(players.get(i).getNickname())) * players.get(i).getSecretObjective().getScore();
-            scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltapoints);
-            List<Player> playersCopy = new ArrayList<>(players);
+            deltapoints += this.players.get(i).getSecretObjective().getScoringCondition().numTimesMet(this.playersGameField.get(this.players.get(i).getNickname())) * this.players.get(i).getSecretObjective().getScore();
+            this.scoreTrackBoard.incrementScore(this.players.get(i).getNickname(), deltapoints);
+            List<Player> playersCopy = getPlayers();
             if (max <= getScore(playersCopy.get(i).getNickname())){
                 max = getScore(playersCopy.get(i).getNickname());
                 if (realizedObjectives >= maxRealizedObjective){
@@ -414,14 +438,14 @@ public class Game {
             throw new WrongCardTypeException();
         }
         List<NonStarterCard> newHand = new ArrayList<>();
-        newHand.addAll(players.get(currPlayer).getCurrentHand());
+        newHand.addAll(this.players.get(this.currPlayer).getCurrentHand());
         if(type.equals(CardType.RESOURCE_CARD)){
-            newHand.add(resourceCardsDeck.drawCard());
+            newHand.add(this.resourceCardsDeck.drawCard());
         }
         if(type.equals(CardType.RESOURCE_CARD)){
-            newHand.add(goldCardsDeck.drawCard());
+            newHand.add(this.goldCardsDeck.drawCard());
         }
-        players.get(currPlayer).setCurrentHand(newHand);
+        this.players.get(this.currPlayer).setCurrentHand(newHand);
         changeCurrPlayer();
     }
 
@@ -442,14 +466,14 @@ public class Game {
             throw new WrongCardTypeException();
         }
         List<NonStarterCard> newHand = new ArrayList<>();
-        newHand.addAll(players.get(currPlayer).getCurrentHand());
+        newHand.addAll(this.players.get(this.currPlayer).getCurrentHand());
         if(type.equals(CardType.RESOURCE_CARD)){
-            newHand.add(resourceCardsDeck.drawFaceUpCard(pos));
+            newHand.add(this.resourceCardsDeck.drawFaceUpCard(pos));
         }
         if(type.equals(CardType.GOLD_CARD)){
-            newHand.add(goldCardsDeck.drawFaceUpCard(pos));
+            newHand.add(this.goldCardsDeck.drawFaceUpCard(pos));
         }
-        players.get(currPlayer).setCurrentHand(newHand);
+        this.players.get(this.currPlayer).setCurrentHand(newHand);
         changeCurrPlayer();
     }
 
