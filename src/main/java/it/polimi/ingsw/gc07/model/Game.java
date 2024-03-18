@@ -263,8 +263,18 @@ public class Game {
         try{
             int pos = getPlayerByNickname(nickname);
             players.get(pos).setIsConnected(false);
+            int numPlayersConnected = 0;
+            for (Player p : players){
+                if (p.isConnected()){
+                    numPlayersConnected++;
+                }
+            }
+            if (numPlayersConnected <= 1){
+                state = GameState.WAITING_RECONNECTION;
+                //TODO gestire attesa riconnessione/timeout
+            }
         } catch (PlayerNotPresentException e) {
-            //TODO gestione eccezione
+            e.printStackTrace();
         }
     }
     /**
@@ -276,7 +286,7 @@ public class Game {
             int pos = getPlayerByNickname(nickname);
             players.get(pos).setIsConnected(true);
         } catch (PlayerNotPresentException e) {
-            //TODO gestione eccezione
+            e.printStackTrace();
         }
     }
 
