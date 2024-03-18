@@ -473,7 +473,13 @@ public class Game {
             newHand.add(this.goldCardsDeck.drawCard());
         }
         this.players.get(this.currPlayer).setCurrentHand(newHand);
-        changeCurrPlayer();
+        try {
+            changeCurrPlayer();
+        }
+        catch (WrongStateException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -501,7 +507,13 @@ public class Game {
             newHand.add(this.goldCardsDeck.drawFaceUpCard(pos));
         }
         this.players.get(this.currPlayer).setCurrentHand(newHand);
-        changeCurrPlayer();
+        try {
+            changeCurrPlayer();
+        }
+        catch (WrongStateException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
