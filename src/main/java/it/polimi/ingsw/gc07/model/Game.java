@@ -99,7 +99,13 @@ public class Game {
         this.currPlayer = 0;
         this.lastTurn = false;
         this.additionalRound = false;
-        addPlayer(nickname, tokenColor, connectionType, interfaceType,starterCardWay);
+        try {
+            addPlayer(nickname, tokenColor, connectionType, interfaceType,starterCardWay);
+        }
+        catch (WrongStateException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -156,9 +162,14 @@ public class Game {
      * @param connectionType type of connection
      * @param interfaceType type of the interface
      * @param starterCardWay way of the starter card
+     * @throws WrongStateException if the state of the game is wrong
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) {
+    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongStateException{
         try{
+            if(getState().equals(GameState.PLAYING)||getState().equals(GameState.GAME_ENDED))
+            {
+                throw new WrongStateException();
+            }
             List<NonStarterCard> currentHand = new ArrayList<>();
             currentHand.add(this.resourceCardsDeck.drawCard());
             currentHand.add(this.resourceCardsDeck.drawCard());
@@ -179,6 +190,7 @@ public class Game {
             if(isFull())
             {
                 setup();
+                this.state=GameState.PLAYING;
             }
         }
         catch(CardNotPresentException e){
@@ -196,8 +208,13 @@ public class Game {
 
     /**
      * method to set up the game: the first player is chosen and 4 cards(2 gold and 2 resource) are revealed
+     * @throws WrongStateException if the state of the game is wrong
      */
-    private void setup(){
+    private void setup() throws WrongStateException{
+        if(getState().equals(GameState.PLAYING)||getState().equals(GameState.GAME_ENDED))
+        {
+            throw new WrongStateException();
+        }
         // chose randomly the first player
         Random random= new Random();
         this.currPlayer=random.nextInt(4);
@@ -224,6 +241,7 @@ public class Game {
         {
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -277,8 +295,13 @@ public class Game {
     /**
      * method that change the current player, if it's the last turn and all the players
      * played the same amount of turn it computes the winner
+     * @throws WrongStateException if the state of the game is wrong
      */
-    public void changeCurrPlayer () {
+    public void changeCurrPlayer () throws WrongStateException{
+        if(getState().equals(GameState.WAITING_PLAYERS)||getState().equals(GameState.GAME_ENDED))
+        {
+            throw new WrongStateException();
+        }
         if(this.currPlayer==this.players.size()-1)
             this.currPlayer=0;
         else
@@ -288,6 +311,7 @@ public class Game {
             if(getCurrentPlayer().isFirst()&&this.additionalRound)
             {
                 //Player winner = computeWinner();
+                this.state=GameState.GAME_ENDED;
                 //TODO: fare qualcosa con questo winner
                 // i vincitori possono essere più di uno
             }
@@ -295,7 +319,10 @@ public class Game {
             {
                 this.additionalRound=true;
             }
-
+        }
+        if(!getCurrentPlayer().isConnected())
+        {
+            changeCurrPlayer();
         }
     }
 
