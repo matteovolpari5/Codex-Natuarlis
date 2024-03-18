@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.model;
+package it.polimi.ingsw.gc07.model.chat;
 
 import it.polimi.ingsw.gc07.exceptions.EmptyChatException;
 import it.polimi.ingsw.gc07.exceptions.InvalidReceiverException;

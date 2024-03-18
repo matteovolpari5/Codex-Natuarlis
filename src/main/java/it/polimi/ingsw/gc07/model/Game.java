@@ -2,6 +2,8 @@ package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.*;
+import it.polimi.ingsw.gc07.model.chat.Chat;
+import it.polimi.ingsw.gc07.model.chat.Message;
 import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
@@ -10,7 +12,6 @@ import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.*;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class Game {
     /**
