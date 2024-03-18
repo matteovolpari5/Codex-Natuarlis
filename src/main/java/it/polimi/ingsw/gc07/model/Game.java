@@ -410,8 +410,8 @@ public class Game {
     /**
      * method that compute the winner/s of the game.
      * @return the list of players who won the game.
-     * @throws CardNotPresentException: if there isn't an objective faceUpCard on the board.
-     * @throws PlayerNotPresentException: if the player is not present in the List players.
+     * @throws CardNotPresentException : if there isn't an objective faceUpCard on the board.
+     * @throws PlayerNotPresentException : if the player is not present in the List players.
      */
     private List<Player> computeWinner() throws CardNotPresentException, PlayerNotPresentException {
         // TODO: fare catch di CardNotPresentException
