@@ -9,9 +9,13 @@ import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.GameState;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
-
+import it.polimi.ingsw.gc07.model.chat.*;
 import java.util.*;
 import java.util.Random;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import com.google.gson.Gson;
 
 public class Game {
     /**
@@ -55,15 +59,15 @@ public class Game {
      */
     private Deck<StarterCard> starterCardsDeck;
     /**
-     * indicate if is the last turn of the game
+     * Boolean attribute, true if it is the last turn of the game.
      */
     private boolean lastTurn;
     /**
-     * indicate if is the additional round of the game
+     * Boolean attribute, if it is the additional round of the game.
      */
     private boolean additionalRound;
     /**
-     * chat of the game
+     * Chat of the game.
      */
     private Chat chat;
 
@@ -103,10 +107,8 @@ public class Game {
         this.lastTurn = false;
         this.additionalRound = false;
         try {
-            addPlayer(nickname, tokenColor, connectionType, interfaceType,starterCardWay);
-        }
-        catch (WrongStateException e)
-        {
+            addPlayer(nickname, tokenColor, connectionType, interfaceType, starterCardWay);
+        } catch (WrongStateException e) {
             e.printStackTrace();
         }
     }
@@ -131,7 +133,7 @@ public class Game {
      * get the current player
      * @return the current player
      */
-    public Player getCurrentPlayer(){
+    public Player getCurrentPlayer() {
         return new Player(this.players.get(this.currPlayer));
     }
 
@@ -169,8 +171,7 @@ public class Game {
      */
     public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongStateException{
         try{
-            if(getState().equals(GameState.PLAYING)||getState().equals(GameState.GAME_ENDED))
-            {
+            if(!state.equals(GameState.WAITING_PLAYERS)) {
                 throw new WrongStateException();
             }
             List<NonStarterCard> currentHand = new ArrayList<>();
@@ -181,30 +182,22 @@ public class Game {
             Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType, currentHand, secretObjective);
             GameField gameField = new GameField();
             getPlayers().add(newPlayer);
-            this.playersGameField.put(newPlayer.getNickname(),gameField);
-            try
-            {
-                getGameField(nickname).placeCard(this.starterCardsDeck.drawCard(), 40,40,starterCardWay);
-            }catch (PlayerNotPresentException e)
-            {
+            this.playersGameField.put(newPlayer.getNickname(), gameField);
+            try {
+                getGameField(nickname).placeCard(this.starterCardsDeck.drawCard(), 40, 40, starterCardWay);
+            } catch (PlayerNotPresentException e) {
                 e.printStackTrace();
             }
             this.scoreTrackBoard.addPlayer(newPlayer.getNickname());
-            if(isFull())
-            {
+            if (isFull()) {
                 setup();
-                this.state=GameState.PLAYING;
+                this.state = GameState.PLAYING;
             }
-        }
-        catch(CardNotPresentException e){
+        } catch (CardNotPresentException e) {
             e.printStackTrace();
-        }
-        catch (PlayerAlreadyPresentException e)
-        {
+        } catch (PlayerAlreadyPresentException e) {
             e.printStackTrace();
-        }
-        catch (CardAlreadyPresentException e)
-        {
+        } catch (CardAlreadyPresentException e) {
             e.printStackTrace();
         }
     }
@@ -213,9 +206,8 @@ public class Game {
      * method to set up the game: the first player is chosen and 4 cards(2 gold and 2 resource) are revealed
      * @throws WrongStateException if the state of the game is wrong
      */
-    private void setup() throws WrongStateException{
-        if(getState().equals(GameState.PLAYING)||getState().equals(GameState.GAME_ENDED))
-        {
+    private void setup() throws WrongStateException {
+        if (getState().equals(GameState.PLAYING) || getState().equals(GameState.GAME_ENDED)) {
             throw new WrongStateException();
         }
         // chose randomly the first player
@@ -228,9 +220,7 @@ public class Game {
             setUpGoldCardsFaceUp.add(this.goldCardsDeck.drawCard());
             setUpGoldCardsFaceUp.add(this.goldCardsDeck.drawCard());
             this.goldCardsDeck.setFaceUpCards(setUpGoldCardsFaceUp);
-        }
-        catch (CardNotPresentException e)
-        {
+        } catch (CardNotPresentException e) {
             e.printStackTrace();
         }
         try {
@@ -263,8 +253,18 @@ public class Game {
         try{
             int pos = getPlayerByNickname(nickname);
             players.get(pos).setIsConnected(false);
+            int numPlayersConnected = 0;
+            for (Player p : players){
+                if (p.isConnected()){
+                    numPlayersConnected++;
+                }
+            }
+            if (numPlayersConnected <= 1){
+                state = GameState.WAITING_RECONNECTION;
+                //TODO gestire attesa riconnessione/timeout
+            }
         } catch (PlayerNotPresentException e) {
-            //TODO gestione eccezione
+            e.printStackTrace();
         }
     }
     /**
@@ -276,7 +276,7 @@ public class Game {
             int pos = getPlayerByNickname(nickname);
             players.get(pos).setIsConnected(true);
         } catch (PlayerNotPresentException e) {
-            //TODO gestione eccezione
+            e.printStackTrace();
         }
     }
 
