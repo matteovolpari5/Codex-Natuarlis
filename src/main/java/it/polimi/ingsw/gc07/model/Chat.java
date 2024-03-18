@@ -1,34 +1,70 @@
 package it.polimi.ingsw.gc07.model;
 
-
 import it.polimi.ingsw.gc07.exceptions.EmptyChatException;
+import it.polimi.ingsw.gc07.exceptions.InvalidReceiverException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Chat {
-    // TODO qualcuno deve concatenare in testa il nome del Player
-    private List<String> content;
+    /**
+     * List containing the messages sent to players in the game.
+     * It contains bought public and private messages.
+     */
+    private List<Message> messages;
 
+    /**
+     * Constructor method for Chat.
+     */
     public Chat() {
-        this.content = new ArrayList<>();
+        this.messages = new ArrayList<>();
     }
 
-    public void addMessage(String newMessage) {
-        this.content.add(newMessage);
+    /**
+     * Method to add a new message to the chat.
+     * @param content Content
+     * @param sender Sender nickname
+     * @param isPublic Boolean value, tells if the message is public (true) or not (false)
+     * @param receiver Receiver nickname
+     * @param players List of players in the game
+     * @throws InvalidReceiverException
+     */
+    public void addMessage(String content, String sender, boolean isPublic, String receiver, List<String> players) throws InvalidReceiverException {
+        if(isPublic){
+            // create new public message
+            messages.add(new Message(content, sender, isPublic));
+        }
+        else{
+            // create new private message
+            if(receiver == null || players == null || !players.contains(receiver)){
+                throw new InvalidReceiverException();
+            }
+            messages.add(new PrivateMessage(content, sender, isPublic, receiver));
+        }
     }
 
-    public String getLastMessage() throws EmptyChatException {
-        if(content.size() < 1){
+    public Message getLastMessage(String receiver) throws EmptyChatException {
+        if(messages.size() < 1){
             throw new EmptyChatException();
         }
-        return content.get(content.size() - 1);
+        return getContent(receiver).getLast();
     }
 
-    public List<String> getContent() {
-        return new ArrayList<>(content);
+    /**
+     * Method that return the whole chat for a given receiver,
+     * containing public messages and private messages for the receiver.
+     * @param receiver
+     * @return
+     */
+    public List<Message> getContent(String receiver) {
+        List<Message> receiverMessages = new ArrayList<>();
+        for(Message m: messages){
+            if(m.isPublic() || (m.getReceiver()!=null && m.getReceiver().equals(receiver))){
+                receiverMessages.add(m);
+            }
+        }
+        return receiverMessages;
     }
 
-    // Poi dovremo capire come visualizzare la chat sulla view
 }
 

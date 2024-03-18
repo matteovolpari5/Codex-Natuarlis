@@ -10,6 +10,8 @@ import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.*;
 import java.util.Random;
+import java.util.stream.Collectors;
+
 public class Game {
     /**
      * State of the game.
@@ -558,28 +560,34 @@ public class Game {
 
     // metodi chat
     /**
-     * add the message at the chat
-     * @param newMessage message added at the chat
+     * Method that adds the message to the chat.
+     * @param content
+     * @param sender
+     * @param isPublic
+     * @param receiver
+     * @throws InvalidReceiverException
      */
-    public void addChatMessage(String newMessage) {
-        this.chat.addMessage(newMessage);
+    public void addChatMessage(String content, String sender, boolean isPublic, String receiver) throws InvalidReceiverException {
+        // list of players' nicknames
+        List<String> playersNicknames = players.stream().map(p -> p.getNickname()).toList();
+        // adds message to the chat
+        chat.addMessage(content, sender, isPublic, receiver, playersNicknames);
     }
 
     /**
-     * get the last message of the chat
+     * Returns the last message of the chat for a certain player.
      * @return the last message of the chat
      * @throws EmptyChatException if the chat is empty
      */
-    public String getLastChatMessage() throws EmptyChatException {
-        return this.chat.getLastMessage();
+    public Message getLastChatMessage(String receiver) throws EmptyChatException {
+        return chat.getLastMessage(receiver);
     }
 
     /**
-     * get the content of the chat
+     * Returns the content of the chat for a certain player.
      * @return the list of the message in the chat
      */
-    public List<String> getChatContent() {
-        return this.chat.getContent();
+    public List<Message> getChatContent(String receiver) {
+        return chat.getContent(receiver);
     }
-
 }
