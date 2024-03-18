@@ -55,15 +55,15 @@ public class Game {
      */
     private Deck<StarterCard> starterCardsDeck;
     /**
-     * indicate if is the last turn of the game
+     * Boolean attribute, true if it is the last turn of the game.
      */
     private boolean lastTurn;
     /**
-     * indicate if is the additional round of the game
+     * Boolean attribute, if it is the additional round of the game.
      */
     private boolean additionalRound;
     /**
-     * chat of the game
+     * Chat of the game.
      */
     private Chat chat;
 
@@ -169,8 +169,7 @@ public class Game {
      */
     public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongStateException{
         try{
-            if(getState().equals(GameState.PLAYING)||getState().equals(GameState.GAME_ENDED))
-            {
+            if(!state.equals(GameState.WAITING_PLAYERS)) {
                 throw new WrongStateException();
             }
             List<NonStarterCard> currentHand = new ArrayList<>();
