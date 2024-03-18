@@ -1,11 +1,5 @@
 package it.polimi.ingsw.gc07.model;
 
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import com.google.gson.Gson;
-
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.*;
 import it.polimi.ingsw.gc07.model.decks.*;
@@ -16,8 +10,6 @@ import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.*;
 import java.util.Random;
-
-
 public class Game {
     /**
      * State of the game.
@@ -97,8 +89,6 @@ public class Game {
         else{
             this.playersNumber = playersNumber;
         }
-        JSONParser parser = new JSONParser();
-        Gson prova;
         this.players = new ArrayList<>();
         this.playersGameField = new HashMap<>();
         this.scoreTrackBoard = new ScoreTrackBoard();
