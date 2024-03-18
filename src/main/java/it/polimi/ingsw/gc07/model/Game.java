@@ -9,13 +9,8 @@ import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.GameState;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.model.chat.*;
 import java.util.*;
 import java.util.Random;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import com.google.gson.Gson;
 
 public class Game {
     /**
