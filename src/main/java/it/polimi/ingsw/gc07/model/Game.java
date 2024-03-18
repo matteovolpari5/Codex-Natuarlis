@@ -600,4 +600,6 @@ public class Game {
     public List<Message> getChatContent(String receiver) {
         return chat.getContent(receiver);
     }
+
+
 }
