@@ -8,8 +8,14 @@ import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.GameState;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import com.google.gson.Gson;
+
 import java.util.*;
 import java.util.Random;
+
 public class Game {
     /**
      * State of the game.
@@ -548,7 +554,7 @@ public class Game {
     {
         if(type.equals(CardType.STARTER_CARD) || type.equals(CardType.OBJECTIVE_CARD))
         {
-          throw new WrongCardTypeException();
+            throw new WrongCardTypeException();
         }
         if(type.equals(CardType.GOLD_CARD))
             return this.goldCardsDeck.revealBackDeckCard();
