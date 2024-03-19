@@ -48,6 +48,10 @@ public class Player {
      * Player's secret objective, it is an objective card.
      */
     private ObjectiveCard secretObjective;
+    /**
+     * Attribute telling if the player is stalled.
+     */
+    private boolean isStalled;
 
     /**
      * Constructor of class player
@@ -68,6 +72,7 @@ public class Player {
         this.interfaceType = interfaceType;
         this.currentHand = new ArrayList<>(currentHand);
         this.secretObjective = secretObjective;
+        this.isStalled = false;
     }
 
     public Player(Player existingPlayer) {
