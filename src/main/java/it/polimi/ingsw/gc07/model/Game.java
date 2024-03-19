@@ -94,10 +94,10 @@ public class Game {
         this.players = new ArrayList<>();
         this.playersGameField = new HashMap<>();
         this.scoreTrackBoard = new ScoreTrackBoard();
-        this.resourceCardsDeck = resourceCardsDeck;
-        this.goldCardsDeck = goldCardsDeck;
-        this.objectiveCardsDeck = objectiveCardsDeck;
-        this.starterCardsDeck = starterCardsDeck;
+        this.resourceCardsDeck = new ResourceCardsDeck(resourceCardsDeck);
+        this.goldCardsDeck = new GoldCardsDeck(goldCardsDeck);
+        this.objectiveCardsDeck = new PlayingDeck<>(objectiveCardsDeck);
+        this.starterCardsDeck = new Deck<>(starterCardsDeck);
         this.currPlayer = 0;
         this.twentyPointsReached = false;
         this.additionalRound = false;

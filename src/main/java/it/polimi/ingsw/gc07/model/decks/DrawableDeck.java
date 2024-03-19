@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc07.model.decks;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
+
+import java.util.Stack;
 
 /**
  * Class representing decks used during the game from which a player can draw.
@@ -9,8 +12,12 @@ public abstract class DrawableDeck<T> extends PlayingDeck<T> {
     /**
      * Constructor of DrawableDeck
      */
-    public DrawableDeck() {
-        super();
+    public DrawableDeck(CardType type, Stack<T> content) {
+        super(type, content);
+    }
+
+    public DrawableDeck(DrawableDeck<T> existingDeck){
+        super(existingDeck);
     }
 
     /**

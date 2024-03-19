@@ -24,9 +24,16 @@ public class Deck<T> {
     /**
      * Constructor class Deck.
      */
-    public Deck() {
-        this.type = null;
-        this.content = null;
+    public Deck(CardType type, Stack<T> content) {
+        this.type = type;
+        this.content = new Stack<>();
+        this.content.addAll(content);
+    }
+
+    public Deck(Deck<T> existingDeck){
+        this.type = existingDeck.getType();
+        this.content = new Stack<T>();
+        this.content.addAll(existingDeck.getContent());
     }
 
     public void setType(CardType type) {
@@ -44,6 +51,12 @@ public class Deck<T> {
     public void setContent(Stack<T> content) {
         this.content = new Stack<>();
         this.content.addAll(content);
+    }
+
+    private Stack<T> getContent(){
+        Stack<T> contentCopy = new Stack<>();
+        contentCopy.addAll(content);
+        return contentCopy;
     }
 
     /**
