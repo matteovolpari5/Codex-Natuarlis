@@ -1,8 +1,9 @@
 package it.polimi.ingsw.gc07.model.decks;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
-import java.util.EmptyStackException;
-import java.util.Stack;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Class representing a collection of cards.
@@ -71,6 +72,15 @@ public class Deck<T> {
         }
         catch(EmptyStackException e){
             throw new CardNotPresentException();
+        }
+    }
+
+    public void shuffle(){
+        List<T> contentList = new ArrayList<>(content);
+        Collections.shuffle(contentList);
+        content.clear();
+        for(T card: contentList){
+            content.push(card);
         }
     }
 }
