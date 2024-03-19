@@ -4,7 +4,6 @@ module it.polimi.ingsw.gc07 {
     requires json.simple;
     requires com.google.gson;
 
-
     opens it.polimi.ingsw.gc07 to javafx.fxml;
     exports it.polimi.ingsw.gc07;
     exports it.polimi.ingsw.gc07.model;
@@ -19,4 +18,6 @@ module it.polimi.ingsw.gc07 {
     opens it.polimi.ingsw.gc07.model.enumerations to javafx.fxml;
     exports it.polimi.ingsw.gc07.model.chat;
     opens it.polimi.ingsw.gc07.model.chat to javafx.fxml;
+
+    exports it.polimi.ingsw.gc07.exceptions;
 }
