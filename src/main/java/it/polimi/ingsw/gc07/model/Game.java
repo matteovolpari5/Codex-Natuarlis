@@ -295,7 +295,7 @@ public class Game {
      * played the same amount of turn it computes the winner
      * @throws WrongStateException if the state of the game is wrong
      */
-    public void changeCurrPlayer () throws WrongStateException{
+    public void changeCurrPlayer () throws WrongStateException, CardNotPresentException, PlayerNotPresentException {
         if(getState().equals(GameState.WAITING_PLAYERS)||getState().equals(GameState.GAME_ENDED))
         {
             throw new WrongStateException();
@@ -308,8 +308,8 @@ public class Game {
         {
             if(getCurrentPlayer().isFirst()&&this.additionalRound)
             {
-                //Player winner = computeWinner();
                 this.state=GameState.GAME_ENDED;
+                List<Player> winners = new ArrayList<>(computeWinner());
                 //TODO: fare qualcosa con questo winner
                 // i vincitori possono essere più di uno
             }
@@ -365,7 +365,10 @@ public class Game {
      * @throws PlayerNotPresentException : if the player is not present in the List players.
      * @throws CardNotPresentException: if there isn't a card in the specified position of the game field.
      */
-    private void addPoints(String nickname, int x, int y) throws WrongPlayerException, CardNotPresentException, PlayerNotPresentException {
+    private void addPoints(String nickname, int x, int y) throws WrongPlayerException, CardNotPresentException, PlayerNotPresentException, WrongStateException {
+        if (!state.equals(GameState.PLAYING)){
+            throw new WrongStateException();
+        }
         int deltaPoints;
         if(!getCurrentPlayer().getNickname().equals(nickname))
         {
@@ -388,7 +391,6 @@ public class Game {
                     this.scoreTrackBoard.incrementScore(nickname, deltaPoints);
                 }
             }
-            return;
         }
         else{
             deltaPoints = this.playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition().numTimesMet(this.playersGameField.get(nickname)) * this.playersGameField.get(nickname).getPlacedCard(x, y).getScore();
@@ -401,7 +403,6 @@ public class Game {
                     this.scoreTrackBoard.incrementScore(nickname, deltaPoints);
                 }
             }
-            return;
         }
     }
 
@@ -411,8 +412,10 @@ public class Game {
      * @throws CardNotPresentException : if there isn't an objective faceUpCard on the board.
      * @throws PlayerNotPresentException : if the player is not present in the List players.
      */
-    private List<Player> computeWinner() throws CardNotPresentException, PlayerNotPresentException {
-        // TODO: fare catch di CardNotPresentException
+    private List<Player> computeWinner() throws CardNotPresentException, PlayerNotPresentException, WrongStateException {
+        if(!state.equals(GameState.GAME_ENDED)){
+            throw new WrongStateException();
+        }
         List<Player> winners = new ArrayList<>();
         int deltapoints;
         int max = 0;
