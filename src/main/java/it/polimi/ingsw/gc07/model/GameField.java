@@ -271,6 +271,8 @@ public class GameField {
                     throw new NotLegitCornerException();
                 case PlacementResult.INDEXES_OUT_OF_GAME_FIELD:
                     throw new IndexesOutOfGameFieldException();
+                default:
+                    //caso base
             }
         }
         // PlaceableCard is immutable, I can insert the card I receive
