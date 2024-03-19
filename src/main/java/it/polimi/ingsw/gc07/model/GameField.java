@@ -263,19 +263,14 @@ public class GameField {
             switch (result){
                 case PlacementResult.NO_COVERED_CORNER:
                     throw new NoCoveredCornerException();
-                    break;
                 case PlacementResult.CARD_ALREADY_PRESENT:
                     throw new CardAlreadyPresentException();
-                    break;
                 case PlacementResult.MULTIPLE_CORNERS_COVERED:
                     throw new MultipleCornersCoveredException();
-                    break;
                 case PlacementResult.NOT_LEGIT_CORNER:
                     throw new NotLegitCornerException();
-                    break;
                 case PlacementResult.INDEXES_OUT_OF_GAME_FIELD:
                     throw new IndexesOutOfGameFieldException();
-                    break;
             }
         }
         // PlaceableCard is immutable, I can insert the card I receive
