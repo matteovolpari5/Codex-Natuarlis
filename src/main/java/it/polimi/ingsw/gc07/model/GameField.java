@@ -2,6 +2,8 @@ package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.CardAlreadyPresentException;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
+import it.polimi.ingsw.gc07.exceptions.PlacementResult;
+import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
 /**
@@ -100,145 +102,175 @@ public class GameField {
     /**
      * Allows the player to place a card at index (x,y) and
      * in a certain way, face up or face down.
-     * @param card card the player wants to place
+     /* @param card card the player wants to place
      * @param x x index of the matrix
      * @param y y index of the matrix
-     * @param way false: the card is placed face up, true: the
+     /* @param way false: the card is placed face up, true: the
      *            card is placed face down
      */
-    public void placeCard(PlaceableCard card, int x, int y, boolean way) throws IndexOutOfBoundsException,
-            NullPointerException, CardAlreadyPresentException, CardNotPlaceableException {
+    public PlacementResult checkAvailability(int x, int y){
+        boolean found = false;
         if(x < 0 || x >= dim || y <0 || y >= dim) {
-            throw new IndexOutOfBoundsException();
-        }
-        if(card == null){
-            throw new NullPointerException();
+            return PlacementResult.INDEXES_OUT_OF_GAME_FIELD;
         }
         if(cardsContent[x][y] != null){
-            throw new CardAlreadyPresentException();
+            return PlacementResult.CARD_ALREADY_PRESENT;
+        }
+        //checking if there is at least one available corner near (x,y)
+        if(x-1 >= 0){
+            if(cardsContent[x-1][y] != null){
+                //the card would cover two corners of the card above it
+                return PlacementResult.MULTIPLE_CORNERS_COVERED;
+            }
+            if(y-1 >= 0){
+                if(cardsContent[x][y-1] != null){
+                    //the card would cover two corners of the card on its left
+                    return PlacementResult.MULTIPLE_CORNERS_COVERED;
+                }
+                if(cardsContent[x-1][y-1] != null){
+                    //a placed card is present
+                    found = true;
+                    if(cardsFace[x-1][y-1] == false){
+                        //the placed card is face up
+                        if(cardsContent[x-1][y-1].getFrontCorners()[2] == false){
+                            //the needed corner is not available
+                            return PlacementResult.NOT_LEGIT_CORNER;
+                        }
+                    }//the placed card is face down, the corner needed is available for sure
+                }//the placed card is not present
+                if(x+1 <= 80){
+                    if(cardsContent[x+1][y-1] != null){
+                        if(cardsFace[x+1][y-1] == false){
+                            if(cardsContent[x+1][y-1].getFrontCorners()[1] == false){
+                                //the card to be placed covers an unavailable corner of another card
+                                return PlacementResult.NOT_LEGIT_CORNER;
+                            }
+                        }
+                    }
+                }
+            }
+            if(y+1 <= 80){
+                if(cardsContent[x][y+1] != null){
+                    //the card would cover two corners of the card on its right
+                    return PlacementResult.MULTIPLE_CORNERS_COVERED;
+                }
+                if(cardsContent[x-1][y+1] != null){
+                    //a placed card is present
+                    found = true;
+                    if(cardsFace[x-1][y+1] == false){
+                        //the placed card is face up
+                        if(cardsContent[x-1][y+1].getFrontCorners()[3] == false){
+                            //the needed corner is not available
+                            return PlacementResult.NOT_LEGIT_CORNER;
+                        }
+                    }//the placed card is face down, the corner needed is available for sure
+                }//card in position x-1 y+1 is not present
+                if(x+1 <= 80){
+                    if(cardsContent[x+1][y+1] != null){
+                        if(cardsFace[x+1][y+1] == false){
+                            if(cardsContent[x+1][y+1].getFrontCorners()[0] == false){
+                                //the card to be placed covers an unavailable corner of another card
+                                return PlacementResult.NOT_LEGIT_CORNER;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if(x+1 <= 80){
+            if(cardsContent[x+1][y] != null){
+                //the card would cover two corners of the card below it
+                return PlacementResult.MULTIPLE_CORNERS_COVERED;
+            }
+            if(y-1 >= 0){
+                if(cardsContent[x+1][y-1] != null){
+                    //a placed card is present
+                    found = true;
+                    if(cardsFace[x+1][y-1] == false){
+                        //the placed card is face up
+                        if(cardsContent[x+1][y-1].getFrontCorners()[1] == false){
+                            //the needed corner is not available
+                            return PlacementResult.NOT_LEGIT_CORNER;
+                        }
+                    }//the placed card is face down, the corner needed is available for sure
+                }//card in position x+1 y-1 is not present
+                if(x-1 >= 0){
+                    if(cardsContent[x-1][y-1] != null){
+                        if(cardsFace[x-1][y-1] == false){
+                            if(cardsContent[x-1][y-1].getFrontCorners()[2] == false){
+                                //the card to be placed covers an unavailable corner of another card
+                                return PlacementResult.NOT_LEGIT_CORNER;
+                            }
+                        }
+                    }
+                }
+            }
+            if(y+1 <= 80){
+                if(cardsContent[x+1][y+1] != null){
+                    //a placed card is present
+                    found = true;
+                    if(cardsFace[x+1][y+1] == false){
+                        //the placed card is face up
+                        if(cardsContent[x+1][y-1].getFrontCorners()[0] == false){
+                            //the needed corner is not available
+                            return PlacementResult.NOT_LEGIT_CORNER;
+                        }
+                    }//the placed card is face down, the corner needed is available for sure
+                }//card in position x+1 y+1 is not present
+                if(x-1 >= 0){
+                    if(cardsContent[x-1][y+1] != null){
+                        if(cardsFace[x-1][y+1] == false){
+                            if(cardsContent[x-1][y+1].getFrontCorners()[3] == false){
+                                //the card to be placed covers an unavailable corner of another card
+                                return PlacementResult.NOT_LEGIT_CORNER;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if(found == false){
+            return PlacementResult.NO_COVERED_CORNER;
+        }else{
+            return PlacementResult.SUCCESS;
+        }
+    }
+
+    public void placeCard(PlaceableCard card, int x, int y, boolean way) throws NoCoveredCornerException, NotLegitCornerException,
+            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
+            NullPointerException, IndexesOutOfGameFieldException{
+        if(card == null){
+            throw new NullPointerException();
         }
         if(numPlayedCards == 0){
             //the first card must be a StarterCard, if so no further condition must be checked
             if(card.getBackCorners() == null){
-                throw new CardNotPlaceableException();
+                //throw new CardNotPlaceableException(); //non c'è eccezione relativa
             }
-        }else{
+        }else {
             //this is not the first placement, this card cannot be a StarterCard
-            if(card.getBackCorners() != null){
-                throw new CardNotPlaceableException();
+            if (card.getBackCorners() != null) {
+                //throw new CardNotPlaceableException(); //non c'è eccezione relativa
             }
-            //checking if there is at least one available corner near (x,y)
-            if(x-1 >= 0){
-                if(cardsContent[x-1][y] != null){
-                    //the card would cover two corners of the card above it
-                    throw new CardNotPlaceableException();
-                }
-                if(y-1 >= 0){
-                    if(cardsContent[x][y-1] != null){
-                        //the card would cover two corners of the card on its left
-                        throw new CardNotPlaceableException();
-                    }
-                    if(cardsContent[x-1][y-1] != null){
-                        //a placed card is present
-                        if(cardsFace[x-1][y-1] == false){
-                            //the placed card is face up
-                            if(cardsContent[x-1][y-1].getFrontCorners()[2] == false){
-                                //the needed corner is not available
-                                throw new CardNotPlaceableException();
-                            }
-                        }//the placed card is face down, the corner needed is available for sure
-                    }//the placed card is not present
-                    if(x+1 <= 80){
-                        if(cardsContent[x+1][y-1] != null){
-                            if(cardsFace[x+1][y-1] == false){
-                                if(cardsContent[x+1][y-1].getFrontCorners()[1] == false){
-                                    //the card to be placed covers an unavailable corner of another card
-                                    throw new CardNotPlaceableException();
-                                }
-                            }
-                        }
-                    }
-                }
-                if(y+1 <= 80){
-                    if(cardsContent[x][y+1] != null){
-                        //the card would cover two corners of the card on its right
-                        throw new CardNotPlaceableException();
-                    }
-                    if(cardsContent[x-1][y+1] != null){
-                        //a placed card is present
-                        if(cardsFace[x-1][y+1] == false){
-                            //the placed card is face up
-                            if(cardsContent[x-1][y+1].getFrontCorners()[3] == false){
-                                //the needed corner is not available
-                                throw new CardNotPlaceableException();
-                            }
-                        }//the placed card is face down, the corner needed is available for sure
-                    }//card in position x-1 y+1 is not present
-                    if(x+1 <= 80){
-                        if(cardsContent[x+1][y+1] != null){
-                            if(cardsFace[x+1][y+1] == false){
-                                if(cardsContent[x+1][y+1].getFrontCorners()[0] == false){
-                                    //the card to be placed covers an unavailable corner of another card
-                                    throw new CardNotPlaceableException();
-                                }
-                            }
-                        }
-                    }
+            if(way == false){
+                //the card to be placed is face up
+                if(card.getPlacementCondition().numTimesMet(this) <= 0){
+                    //the card is a GoldCard and the placement condition is not met
+                    throw new PlacingConditionNotMetException();
                 }
             }
-            if(x+1 <= 80){
-                if(cardsContent[x+1][y] != null){
-                    //the card would cover two corners of the card below it
-                    throw new CardNotPlaceableException();
-                }
-                if(y-1 >= 0){
-                    if(cardsContent[x+1][y-1] != null){
-                        //a placed card is present
-                        if(cardsFace[x+1][y-1] == false){
-                            //the placed card is face up
-                            if(cardsContent[x+1][y-1].getFrontCorners()[1] == false){
-                                //the needed corner is not available
-                                throw new CardNotPlaceableException();
-                            }
-                        }//the placed card is face down, the corner needed is available for sure
-                    }//card in position x+1 y-1 is not present
-                    if(x-1 >= 0){
-                        if(cardsContent[x-1][y-1] != null){
-                            if(cardsFace[x-1][y-1] == false){
-                                if(cardsContent[x-1][y-1].getFrontCorners()[2] == false){
-                                    //the card to be placed covers an unavailable corner of another card
-                                    throw new CardNotPlaceableException();
-                                }
-                            }
-                        }
-                    }
-                }
-                if(y+1 <= 80){
-                    if(cardsContent[x+1][y+1] != null){
-                        //a placed card is present
-                        if(cardsFace[x+1][y+1] == false){
-                            //the placed card is face up
-                            if(cardsContent[x+1][y-1].getFrontCorners()[0] == false){
-                                //the needed corner is not available
-                                throw new CardNotPlaceableException();
-                            }
-                        }//the placed card is face down, the corner needed is available for sure
-                    }//card in position x+1 y+1 is not present
-                    if(x-1 >= 0){
-                        if(cardsContent[x-1][y+1] != null){
-                            if(cardsFace[x-1][y+1] == false){
-                                if(cardsContent[x-1][y+1].getFrontCorners()[3] == false){
-                                    //the card to be placed covers an unavailable corner of another card
-                                    throw new CardNotPlaceableException();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if(card.getPlacementCondition().numTimesMet(this) <= 0){
-                //the card is a GoldCard and the placement condition is not met
-                throw new CardNotPlaceableException();
+            PlacementResult result = checkAvailability(x, y);
+            switch (result){
+                case PlacementResult.NO_COVERED_CORNER:
+                    throw new NoCoveredCornerException();
+                case PlacementResult.CARD_ALREADY_PRESENT:
+                    throw new CardAlreadyPresentException();
+                case PlacementResult.MULTIPLE_CORNERS_COVERED:
+                    throw new MultipleCornersCoveredException();
+                case PlacementResult.NOT_LEGIT_CORNER:
+                    throw new NotLegitCornerException();
+                case PlacementResult.INDEXES_OUT_OF_GAME_FIELD:
+                    throw new IndexesOutOfGameFieldException();
             }
         }
         // PlaceableCard is immutable, I can insert the card I receive
