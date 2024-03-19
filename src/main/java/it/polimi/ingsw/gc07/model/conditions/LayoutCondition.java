@@ -45,7 +45,7 @@ public class LayoutCondition extends Condition{
      * @return copy of matrix cardsColor
      */
     public GameResource[][] getCardsColor() {
-        GameResource[][] cardsColorCopy = new GameResource[3][3];
+        GameResource[][] cardsColorCopy = new GameResource[maxLayoutRows][maxLayoutColumns];
         for(int i = 0; i < maxLayoutRows; i++){
             for(int j = 0; j < maxLayoutColumns; j++){
                 cardsColorCopy[i][j] = cardsColor[i][j];
