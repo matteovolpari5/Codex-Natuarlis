@@ -1,14 +1,189 @@
 {
   "cards": [
     {
+      "id": 87,
+      "scoringcondition": [
+        {
+          "conditiontype": "LAYOUT_CONDITION",
+          "cardscolor":  [null,null,"fungi",
+                          null,"fungi",null,
+                          "fungi",null,null,
+                          null,null,null]
+        }
+      ],
+      "objectivescore": 2
+    },
+    {
       "id": 88,
       "scoringcondition": [
         {
           "conditiontype": "LAYOUT_CONDITION",
-          "cardscolor":  [null,null,"fungi",null,"fungi",null,"fungi",null,null,null,null,null]
+          "cardscolor":  ["plant",null,null,
+                          null,"plant",null,
+                          null,null,"plant",
+                          null,null,null]
+        }
+      ],
+      "objectivescore": 2
+    },
+    {
+      "id": 89,
+      "scoringcondition": [
+        {
+          "conditiontype": "LAYOUT_CONDITION",
+          "cardscolor":  [null,null,"animal",
+                          null,"animal",null,
+                          "animal",null,null,
+                          null,null,null]
+        }
+      ],
+      "objectivescore": 2
+    },
+    {
+      "id": 90,
+      "scoringcondition": [
+        {
+          "conditiontype": "LAYOUT_CONDITION",
+          "cardscolor":  ["insect",null,null,
+                            null,"insect",null,
+                            null,null,"insect",
+                            null,null,null]
+        }
+      ],
+      "objectivescore": 2
+    },
+    {
+      "id": 91,
+      "scoringcondition": [
+        {
+          "conditiontype": "LAYOUT_CONDITION",
+          "cardscolor":  ["fungi",null,null,
+                          null,null,null,
+                          "fungi",null,null,
+                          null,"plant",null]
+        }
+      ],
+      "objectivescore": 3
+    },
+    {
+      "id": 92,
+      "scoringcondition": [
+        {
+          "conditiontype": "LAYOUT_CONDITION",
+          "cardscolor":  [null,"plant",null,
+                          null,null,null,
+                          null,"plant",null,
+                          "insect",null,null]
+        }
+      ],
+      "objectivescore": 3
+    },
+    {
+      "id": 93,
+      "scoringcondition": [
+        {
+          "conditiontype": "LAYOUT_CONDITION",
+          "cardscolor":  [null,"fungi",null,
+                          "animal",null,null,
+                          null,null,null,
+                          "animal",null,null]
+        }
+      ],
+      "objectivescore": 3
+    },
+    {
+      "id": 94,
+      "scoringcondition": [
+        {
+          "conditiontype": "LAYOUT_CONDITION",
+          "cardscolor":  ["animal",null,null,
+                          null,"insect",null,
+                          null,null,null,
+                          null,"insect",null]
+        }
+      ],
+      "objectivescore": 3
+    },
+    {
+      "id": 95,
+      "scoringcondition": [
+        {
+          "conditiontype": "ITEMS_CONDITION",
+          "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "fungi"}]
+        }
+      ],
+      "objectivescore": 2
+    },
+    {
+      "id": 96,
+      "scoringcondition": [
+        {
+          "conditiontype": "ITEMS_CONDITION",
+          "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "plant"}]
+        }
+      ],
+      "objectivescore": 2
+    },
+    {
+      "id": 97,
+      "scoringcondition": [
+        {
+          "conditiontype": "ITEMS_CONDITION",
+          "neededItems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "animal"}]
+        }
+      ],
+      "objectivescore": 2
+    },
+    {
+      "id": 98,
+      "scoringcondition": [
+        {
+          "conditiontype": "ITEMS_CONDITION",
+          "neededItems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "insect"}]
+        }
+      ],
+      "objectivescore": 2
+    },
+    {
+      "id": 99,
+      "scoringcondition": [
+        {
+          "conditiontype": "ITEMS_CONDITION",
+          "neededItems":  [{"resource": "quill"},{"resource": "inkwell"},{"resource": "manuscript"}]
+        }
+      ],
+      "objectivescore": 3
+    },
+    {
+      "id": 100,
+      "scoringcondition": [
+        {
+          "conditiontype": "ITEMS_CONDITION",
+          "neededItems":  [{"resource": "manuscript"},{"resource": "manuscript"}]
+        }
+      ],
+      "objectivescore": 2
+    },
+    {
+      "id": 101,
+      "scoringcondition": [
+        {
+          "conditiontype": "ITEMS_CONDITION",
+          "neededItems":  [{"resource": "inkwell"},{"resource": "inkwell"}]
+        }
+      ],
+      "objectivescore": 2
+    },
+    {
+      "id": 102,
+      "scoringcondition": [
+        {
+          "conditiontype": "ITEMS_CONDITION",
+          "neededItems":  [{"resource": "quill"},{"resource": "quill"}]
         }
       ],
       "objectivescore": 2
     }
+
   ]
 }
