@@ -202,7 +202,7 @@ public class Game {
      * @throws WrongStateException if the state of the game is wrong
      */
     private void setup() throws WrongStateException {
-        if (getState().equals(GameState.PLAYING) || getState().equals(GameState.GAME_ENDED)) {
+        if (!state.equals(GameState.WAITING_PLAYERS)) {
             throw new WrongStateException();
         }
         // chose randomly the first player
@@ -296,8 +296,7 @@ public class Game {
      * @throws WrongStateException if the state of the game is wrong
      */
     public void changeCurrPlayer () throws WrongStateException{
-        if(getState().equals(GameState.WAITING_PLAYERS)||getState().equals(GameState.GAME_ENDED))
-        {
+        if(!state.equals(GameState.PLAYING)) {
             throw new WrongStateException();
         }
         if(this.currPlayer==this.players.size()-1)
@@ -336,11 +335,16 @@ public class Game {
      * @throws CardAlreadyPresentException : if a player play a card that is already present in the gameField
      * @throws CardNotPresentException : if the card that the player wants to play is not in his hands
      */
-    public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException {
-        if(!getCurrentPlayer().getNickname().equals(nickname))
+    public void placeCard(String nickname, NonStarterCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
+        if(!getCurrentPlayer().getNickname().equals(nickname)) {
             throw new WrongPlayerException();
-        if(!getCurrentPlayer().getCurrentHand().contains(card))
-            throw new CardNotPresentException();
+        }
+        if(!(getCurrentPlayer().getCurrentHand()).contains(card)){
+            throw new WrongPlayerException();
+        }
+        if(!state.equals(GameState.PLAYING)){
+            throw new WrongStateException();
+        }
         else
         {
             try {
