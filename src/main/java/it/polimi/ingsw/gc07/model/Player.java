@@ -102,8 +102,27 @@ public class Player {
         return tokenColor;
     }
 
+    /**
+     * setter for attribute isFirst
+     */
     public void setFirst(){
         this.isFirst = true;
+    }
+
+    /**
+     *  getter for attribute isStalled
+     */
+    public boolean getIsStalled()
+    {
+        return this.isStalled;
+    }
+
+    /**
+     *  setter for attribute isStalled
+     */
+    public void setIsStalled(boolean isStalled)
+    {
+        this.isStalled=isStalled;
     }
 
     /**
