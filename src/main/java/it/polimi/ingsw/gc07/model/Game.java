@@ -207,7 +207,7 @@ public class Game {
         }
         // chose randomly the first player
         Random random= new Random();
-        this.currPlayer=random.nextInt(4);
+        this.currPlayer=random.nextInt(playersNumber);
         getCurrentPlayer().setFirst();
         try {
             //place 2 gold cards
