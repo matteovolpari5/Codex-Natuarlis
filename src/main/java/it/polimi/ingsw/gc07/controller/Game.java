@@ -296,6 +296,8 @@ public class Game {
     /**
      * method that change the current player, if it's the last turn and all the players
      * played the same amount of turn it computes the winner
+     * if a player is disconnect from the game he loose the turn
+     * if a player is stalled he will be skipped
      * @throws WrongStateException if the state of the game is wrong
      */
     public void changeCurrPlayer () throws WrongStateException, CardNotPresentException, PlayerNotPresentException {
@@ -320,6 +322,10 @@ public class Game {
             }
         }
         if(!getCurrentPlayer().isConnected())
+        {
+            changeCurrPlayer();
+        }
+        if(getCurrentPlayer().getIsStalled())
         {
             changeCurrPlayer();
         }
@@ -353,7 +359,18 @@ public class Game {
             newHand.remove(card);
             getCurrentPlayer().setCurrentHand(newHand);
             addPoints(nickname,x,y);
-        }catch (PlayerNotPresentException | CardNotPlaceableException e)
+            boolean isStalled=true;
+            for(int a=0;a<81&&isStalled;a++)
+                for(int b=0;b<81&&isStalled;b++)
+                {
+                    PlacementResult result = getGameField(nickname).checkAvailability(a,b);
+                    if(result.equals(PlacementResult.SUCCESS))
+                    {
+                        isStalled=false;
+                    }
+                }
+            getCurrentPlayer().setIsStalled(isStalled);
+        }catch (PlayerNotPresentException e)
         {
             e.printStackTrace();
         }
