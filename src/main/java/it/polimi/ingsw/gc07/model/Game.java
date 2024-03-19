@@ -54,9 +54,9 @@ public class Game {
      */
     private Deck<StarterCard> starterCardsDeck;
     /**
-     * Boolean attribute, true if it is the last turn of the game.
+     * Boolean attribute, true if a player has reached 20 points.
      */
-    private boolean lastTurn;
+    private boolean twentyPointsReached;
     /**
      * Boolean attribute, if it is the additional round of the game.
      */
@@ -99,7 +99,7 @@ public class Game {
         this.objectiveCardsDeck = objectiveCardsDeck;
         this.starterCardsDeck = starterCardsDeck;
         this.currPlayer = 0;
-        this.lastTurn = false;
+        this.twentyPointsReached = false;
         this.additionalRound = false;
         try {
             addPlayer(nickname, tokenColor, connectionType, interfaceType, starterCardWay);
@@ -303,7 +303,7 @@ public class Game {
             this.currPlayer=0;
         else
             this.currPlayer++;
-        if(this.lastTurn)
+        if(this.twentyPointsReached)
         {
             if(getCurrentPlayer().isFirst()&&this.additionalRound)
             {
@@ -384,7 +384,7 @@ public class Game {
         if(this.playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition() == null){
             deltaPoints = this.playersGameField.get(nickname).getPlacedCard(x, y).getScore();
             if(deltaPoints + getScore(nickname) >= 20){
-                this.lastTurn = true;
+                this.twentyPointsReached = true;
                 if((deltaPoints + getScore(nickname)) > 29){
                     this.scoreTrackBoard.setScore(nickname, 29);
                 }
@@ -397,7 +397,7 @@ public class Game {
         else{
             deltaPoints = this.playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition().numTimesMet(this.playersGameField.get(nickname)) * this.playersGameField.get(nickname).getPlacedCard(x, y).getScore();
             if(deltaPoints + getScore(nickname) >= 20){
-                lastTurn = true;
+                twentyPointsReached = true;
                 if((deltaPoints + getScore(nickname)) > 29){
                     this.scoreTrackBoard.setScore(nickname, 29);
                 }
