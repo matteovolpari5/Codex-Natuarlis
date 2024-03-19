@@ -1,0 +1,16 @@
+{
+  "cards": [
+    {
+      "id": 81,
+      "type":"starter",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": null,
+      "backcontent1": "plant",
+      "backcontent2": null,
+      "backcontent3": "insect"
+    }
+  ]
+}
