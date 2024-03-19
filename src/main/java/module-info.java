@@ -1,7 +1,6 @@
 module it.polimi.ingsw.gc07 {
     requires javafx.controls;
     requires javafx.fxml;
-    requires json.simple;
     requires com.google.gson;
 
     opens it.polimi.ingsw.gc07 to javafx.fxml;

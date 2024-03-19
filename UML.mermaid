@@ -187,7 +187,7 @@ classDiagram
         - RECEIVERNICKNAME: String
         + PrivateMessage(content: String, senderNickname: String, isPublic: boolean, receiverNickname: String)
     }
-
+    Chat o-- Message
     Message <|-- PrivateMessage
 
     class Game {
