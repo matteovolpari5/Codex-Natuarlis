@@ -360,6 +360,6 @@ public class DecksBuilder {
             StarterCard card = new StarterCard(id, type, frontCorners, frontCornersContent, permanentResources, backCorners, backCornersContent);
             deckContent.add(card);
         }
-        return new Deck<StarterCard>(CardType.STARTER_CARD, deckContent);
+        return new Deck<>(CardType.STARTER_CARD, deckContent);
     }
 }
