@@ -344,18 +344,15 @@ public class Game {
         if(!state.equals(GameState.PLAYING)){
             throw new WrongStateException();
         }
-        else
+        try {
+            getGameField(nickname).placeCard(card,x,y,way);
+            List<NonStarterCard> newHand = new ArrayList<>(getCurrentPlayer().getCurrentHand());
+            newHand.remove(card);
+            getCurrentPlayer().setCurrentHand(newHand);
+            addPoints(nickname,x,y);
+        }catch (PlayerNotPresentException | CardNotPlaceableException e)
         {
-            try {
-                getGameField(nickname).placeCard(card,x,y,way);
-                List<NonStarterCard> newHand = new ArrayList<>(getCurrentPlayer().getCurrentHand());
-                newHand.remove(card);
-                getCurrentPlayer().setCurrentHand(newHand);
-                addPoints(nickname,x,y);
-            }catch (PlayerNotPresentException | CardNotPlaceableException e)
-            {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
         }
     }
 
