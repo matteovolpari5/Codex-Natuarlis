@@ -1,0 +1,14 @@
+{
+  "cards": [
+    {
+      "id": 88,
+      "scoringcondition": [
+        {
+          "conditiontype": "LAYOUT_CONDITION",
+          "cardscolor":  [null,null,"fungi",null,"fungi",null,"fungi",null,null,null,null,null]
+        }
+      ],
+      "objectivescore": 2
+    }
+  ]
+}
