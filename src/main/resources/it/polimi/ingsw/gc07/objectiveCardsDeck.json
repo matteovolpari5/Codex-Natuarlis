@@ -5,10 +5,11 @@
       "scoringcondition": [
         {
           "conditiontype": "LAYOUT_CONDITION",
-          "cardscolor":  [null,null,"fungi",
-                          null,"fungi",null,
-                          "fungi",null,null,
-                          null,null,null]
+          "cardscolor":  [{"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "fungi"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "fungi"},{"cardscolor" : "null"},
+                          {"cardscolor" : "fungi"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
+          ]
         }
       ],
       "objectivescore": 2
@@ -18,10 +19,11 @@
       "scoringcondition": [
         {
           "conditiontype": "LAYOUT_CONDITION",
-          "cardscolor":  ["plant",null,null,
-                          null,"plant",null,
-                          null,null,"plant",
-                          null,null,null]
+          "cardscolor":  [{"cardscolor" : "plant"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "plant"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "plant"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
+          ]
         }
       ],
       "objectivescore": 2
@@ -31,10 +33,11 @@
       "scoringcondition": [
         {
           "conditiontype": "LAYOUT_CONDITION",
-          "cardscolor":  [null,null,"animal",
-                          null,"animal",null,
-                          "animal",null,null,
-                          null,null,null]
+          "cardscolor":  [{"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "animal"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "animal"},{"cardscolor" : "null"},
+                          {"cardscolor" : "animal"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
+          ]
         }
       ],
       "objectivescore": 2
@@ -44,10 +47,11 @@
       "scoringcondition": [
         {
           "conditiontype": "LAYOUT_CONDITION",
-          "cardscolor":  ["insect",null,null,
-                            null,"insect",null,
-                            null,null,"insect",
-                            null,null,null]
+          "cardscolor":  [{"cardscolor" : "insect"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "insect"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "insect"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
+          ]
         }
       ],
       "objectivescore": 2
@@ -57,10 +61,11 @@
       "scoringcondition": [
         {
           "conditiontype": "LAYOUT_CONDITION",
-          "cardscolor":  ["fungi",null,null,
-                          null,null,null,
-                          "fungi",null,null,
-                          null,"plant",null]
+          "cardscolor":  [{"cardscolor" : "fungi"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "fungi"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "plant"},{"cardscolor" : "null"}
+          ]
         }
       ],
       "objectivescore": 3
@@ -70,10 +75,11 @@
       "scoringcondition": [
         {
           "conditiontype": "LAYOUT_CONDITION",
-          "cardscolor":  [null,"plant",null,
-                          null,null,null,
-                          null,"plant",null,
-                          "insect",null,null]
+          "cardscolor":  [{"cardscolor" : "null"} ,{"cardscolor" : "plant"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "plant"},{"cardscolor" : "null"},
+                          {"cardscolor" : "insect"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
+          ]
         }
       ],
       "objectivescore": 3
@@ -83,10 +89,11 @@
       "scoringcondition": [
         {
           "conditiontype": "LAYOUT_CONDITION",
-          "cardscolor":  [null,"fungi",null,
-                          "animal",null,null,
-                          null,null,null,
-                          "animal",null,null]
+          "cardscolor":  [{"cardscolor" : "null"} ,{"cardscolor" : "fungi"},{"cardscolor" : "null"},
+                          {"cardscolor" : "animal"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "animal"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
+          ]
         }
       ],
       "objectivescore": 3
@@ -96,10 +103,11 @@
       "scoringcondition": [
         {
           "conditiontype": "LAYOUT_CONDITION",
-          "cardscolor":  ["animal",null,null,
-                          null,"insect",null,
-                          null,null,null,
-                          null,"insect",null]
+          "cardscolor":  [{"cardscolor" : "animal"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "insect"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
+                          {"cardscolor" : "null"} ,{"cardscolor" : "insect"},{"cardscolor" : "null"}
+          ]
         }
       ],
       "objectivescore": 3
@@ -184,6 +192,5 @@
       ],
       "objectivescore": 2
     }
-
   ]
 }
