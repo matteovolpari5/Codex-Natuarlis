@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.CardAlreadyPresentException;
+import it.polimi.ingsw.gc07.exceptions.CardNotPlaceableException;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
@@ -107,7 +108,7 @@ public class GameField {
      *            card is placed face down
      */
     public void placeCard(PlaceableCard card, int x, int y, boolean way) throws IndexOutOfBoundsException,
-            NullPointerException, CardAlreadyPresentException { //aggiungere CardNotPlaceableException
+            NullPointerException, CardAlreadyPresentException, CardNotPlaceableException {
         if(x < 0 || x >= dim || y <0 || y >= dim) {
             throw new IndexOutOfBoundsException();
         }
@@ -120,23 +121,23 @@ public class GameField {
         if(numPlayedCards == 0){
             //the first card must be a StarterCard, if so no further condition must be checked
             if(card.getBackCorners() == null){
-                //throw new CardNotPlaceableException();
+                throw new CardNotPlaceableException();
             }
         }else{
             //this is not the first placement, this card cannot be a StarterCard
             if(card.getBackCorners() != null){
-                //throw new CardNotPlaceableException();
+                throw new CardNotPlaceableException();
             }
             //checking if there is at least one available corner near (x,y)
             if(x-1 >= 0){
                 if(cardsContent[x-1][y] != null){
                     //the card would cover two corners of the card above it
-                    //throw new CardNotPlaceableException();
+                    throw new CardNotPlaceableException();
                 }
                 if(y-1 >= 0){
                     if(cardsContent[x][y-1] != null){
                         //the card would cover two corners of the card on its left
-                        //throw new CardNotPlaceableException();
+                        throw new CardNotPlaceableException();
                     }
                     if(cardsContent[x-1][y-1] != null){
                         //a placed card is present
@@ -144,7 +145,7 @@ public class GameField {
                             //the placed card is face up
                             if(cardsContent[x-1][y-1].getFrontCorners()[2] == false){
                                 //the needed corner is not available
-                                //throw new CardNotPlaceableException();
+                                throw new CardNotPlaceableException();
                             }
                         }//the placed card is face down, the corner needed is available for sure
                     }//the placed card is not present
@@ -153,7 +154,7 @@ public class GameField {
                             if(cardsFace[x+1][y-1] == false){
                                 if(cardsContent[x+1][y-1].getFrontCorners()[1] == false){
                                     //the card to be placed covers an unavailable corner of another card
-                                    //throw new CardNotPlaceableException();
+                                    throw new CardNotPlaceableException();
                                 }
                             }
                         }
@@ -162,7 +163,7 @@ public class GameField {
                 if(y+1 <= 80){
                     if(cardsContent[x][y+1] != null){
                         //the card would cover two corners of the card on its right
-                        //throw new CardNotPlaceableException();
+                        throw new CardNotPlaceableException();
                     }
                     if(cardsContent[x-1][y+1] != null){
                         //a placed card is present
@@ -170,7 +171,7 @@ public class GameField {
                             //the placed card is face up
                             if(cardsContent[x-1][y+1].getFrontCorners()[3] == false){
                                 //the needed corner is not available
-                                //throw new CardNotPlaceableException();
+                                throw new CardNotPlaceableException();
                             }
                         }//the placed card is face down, the corner needed is available for sure
                     }//card in position x-1 y+1 is not present
@@ -179,7 +180,7 @@ public class GameField {
                             if(cardsFace[x+1][y+1] == false){
                                 if(cardsContent[x+1][y+1].getFrontCorners()[0] == false){
                                     //the card to be placed covers an unavailable corner of another card
-                                    //throw new CardNotPlaceableException();
+                                    throw new CardNotPlaceableException();
                                 }
                             }
                         }
@@ -189,7 +190,7 @@ public class GameField {
             if(x+1 <= 80){
                 if(cardsContent[x+1][y] != null){
                     //the card would cover two corners of the card below it
-                    //throw new CardNotPlaceableException();
+                    throw new CardNotPlaceableException();
                 }
                 if(y-1 >= 0){
                     if(cardsContent[x+1][y-1] != null){
@@ -198,7 +199,7 @@ public class GameField {
                             //the placed card is face up
                             if(cardsContent[x+1][y-1].getFrontCorners()[1] == false){
                                 //the needed corner is not available
-                                //throw new CardNotPlaceableException();
+                                throw new CardNotPlaceableException();
                             }
                         }//the placed card is face down, the corner needed is available for sure
                     }//card in position x+1 y-1 is not present
@@ -207,7 +208,7 @@ public class GameField {
                             if(cardsFace[x-1][y-1] == false){
                                 if(cardsContent[x-1][y-1].getFrontCorners()[2] == false){
                                     //the card to be placed covers an unavailable corner of another card
-                                    //throw new CardNotPlaceableException();
+                                    throw new CardNotPlaceableException();
                                 }
                             }
                         }
@@ -220,7 +221,7 @@ public class GameField {
                             //the placed card is face up
                             if(cardsContent[x+1][y-1].getFrontCorners()[0] == false){
                                 //the needed corner is not available
-                                //throw new CardNotPlaceableException();
+                                throw new CardNotPlaceableException();
                             }
                         }//the placed card is face down, the corner needed is available for sure
                     }//card in position x+1 y+1 is not present
@@ -229,7 +230,7 @@ public class GameField {
                             if(cardsFace[x-1][y+1] == false){
                                 if(cardsContent[x-1][y+1].getFrontCorners()[3] == false){
                                     //the card to be placed covers an unavailable corner of another card
-                                    //throw new CardNotPlaceableException();
+                                    throw new CardNotPlaceableException();
                                 }
                             }
                         }
@@ -238,11 +239,10 @@ public class GameField {
             }
             if(card.getPlacementCondition().numTimesMet(this) <= 0){
                 //the card is a GoldCard and the placement condition is not met
-                //throw new CardNotPlaceableException();
+                throw new CardNotPlaceableException();
             }
         }
         // PlaceableCard is immutable, I can insert the card I receive
-        // TODO: manca un macello di roba, prima di inserire la carta
         cardsContent[x][y] = card;
         cardsFace[x][y] = way;
         numPlayedCards++;

@@ -180,7 +180,7 @@ public class Game {
             this.playersGameField.put(newPlayer.getNickname(), gameField);
             try {
                 getGameField(nickname).placeCard(this.starterCardsDeck.drawCard(), 40, 40, starterCardWay);
-            } catch (PlayerNotPresentException e) {
+            } catch (PlayerNotPresentException | CardNotPlaceableException e) {
                 e.printStackTrace();
             }
             this.scoreTrackBoard.addPlayer(newPlayer.getNickname());
@@ -349,7 +349,7 @@ public class Game {
                 newHand.remove(card);
                 getCurrentPlayer().setCurrentHand(newHand);
                 addPoints(nickname,x,y);
-            }catch (PlayerNotPresentException e)
+            }catch (PlayerNotPresentException | CardNotPlaceableException e)
             {
                 e.printStackTrace();
             }
