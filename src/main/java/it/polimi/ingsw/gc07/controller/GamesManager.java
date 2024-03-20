@@ -37,7 +37,7 @@ public class GamesManager {
         // Altrimenti crea un nuovo game:
         // gameId è uguale all'indice nella lista
         // players number è scelto dal giocatore
-        // crea i deck (json) e li mescola (forse)
+        // crea i deck (json) e li mescola col metodo shuffle di Deck
 
         // Se deve poter scegliere il colore, getter dei giocatori in Game
         // per sapere i colori già usati

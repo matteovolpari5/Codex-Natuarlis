@@ -5,9 +5,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.gc07.model.GameItem;
+import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.StarterCard;
+import it.polimi.ingsw.gc07.model.conditions.Condition;
+import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
+import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
 import it.polimi.ingsw.gc07.model.decks.Deck;
+import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
+import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 import it.polimi.ingsw.gc07.model.enumerations.GameObject;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 
@@ -361,5 +367,114 @@ public class DecksBuilder {
             deckContent.add(card);
         }
         return new Deck<>(CardType.STARTER_CARD, deckContent);
+    }
+
+    /**
+     * Method that builds an objective card deck from the json file objectiveCardDeck.json
+     * @return objective card deck
+     */
+    public static PlayingDeck<ObjectiveCard> buildObjectiveCardsDeck() throws FileNotFoundException{
+        Stack<ObjectiveCard> deckContent = new Stack<>();
+        File input = new File("src/main/resources/it/polimi/ingsw/gc07/objectiveCardsDeck.json");
+        JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+        JsonObject fileObject = fileElement.getAsJsonObject();
+        // get the JsonArray of all the cards
+        JsonArray jsonArrayStarterCards = fileObject.get("cards").getAsJsonArray();
+        for(JsonElement c: jsonArrayStarterCards){
+            // for every card, extract attributes
+            JsonObject cardJsonObject = c.getAsJsonObject();
+
+            // id
+            int id = cardJsonObject.get("id").getAsInt();
+            // the card type is CardType.OBJECTIVE_CARD for all cards in the deck
+            CardType type = CardType.OBJECTIVE_CARD;
+
+            // extract and create the condition
+            Condition scoringCondition = null;
+            JsonObject conditionObject = cardJsonObject.get("scoringcondition").getAsJsonObject();
+            String conditionType = conditionObject.get("conditiontype").getAsString();
+            if(conditionType.equals("LAYOUT_CONDITION")){
+                // extract layoutCondition
+                GameResource[][] cardsColor = new GameResource[4][3];
+                int row = 0;
+                int col = 0;
+                JsonArray cardsColorArray = conditionObject.get("cardscolor").getAsJsonArray();
+                for(JsonElement color: cardsColorArray){
+                    // for every element of the array
+                    JsonObject colorObject = color.getAsJsonObject();
+                    // extract the color
+                    String colorString = colorObject.get("cardscolor").getAsString();
+                    switch(colorString){
+                        case "fungi":
+                            cardsColor[row][col] = GameResource.FUNGI;
+                            break;
+                        case "plant":
+                            cardsColor[row][col] = GameResource.PLANT;
+                            break;
+                        case "insect":
+                            cardsColor[row][col] = GameResource.INSECT;
+                            break;
+                        case "animal":
+                            cardsColor[row][col] = GameResource.ANIMAL;
+                            break;
+                        case "null":
+                            cardsColor[row][col] = null;
+                            break;
+                    }
+                    if(col < 2){
+                        // not last column, go to next column, same row
+                        col ++;
+                    }
+                    else{
+                        // last column, go to next row, first column
+                        row ++;
+                        col = 0;
+                    }
+                }
+                scoringCondition = new LayoutCondition(ConditionType.LAYOUT_CONDITION, cardsColor);
+            }
+            else {
+                // extract itemsCondition
+                List<GameItem> neededItems = new ArrayList<>();
+                JsonArray neededItemsArray = cardJsonObject.get("neededItems").getAsJsonArray();
+                for(JsonElement itemElement: neededItemsArray){
+                    // get json object
+                    JsonObject itemObject = itemElement.getAsJsonObject();
+                    String itemString = itemObject.get("resource").getAsString();
+                    switch(itemString){
+                        case "plant":
+                            neededItems.add(GameResource.PLANT);
+                            break;
+                        case "animal":
+                            neededItems.add(GameResource.ANIMAL);
+                            break;
+                        case "fungi":
+                            neededItems.add(GameResource.FUNGI);
+                            break;
+                        case "insect":
+                            neededItems.add(GameResource.INSECT);
+                            break;
+                        case "quill":
+                            neededItems.add(GameObject.QUILL);
+                            break;
+                        case "inkwell":
+                            neededItems.add(GameObject.INKWELL);
+                            break;
+                        case "manuscript":
+                            neededItems.add(GameObject.MANUSCRIPT);
+                            break;
+                    }
+                }
+                scoringCondition = new ItemsCondition(ConditionType.ITEM_CONDITION, neededItems);
+            }
+
+            // objectiveScore
+            int objectiveScore = cardJsonObject.get("objectivescore").getAsInt();
+
+            // create Objective card it add it to deck content
+            ObjectiveCard card = new ObjectiveCard(id, type, scoringCondition, objectiveScore);
+            deckContent.add(card);
+        }
+        return new PlayingDeck<>(CardType.OBJECTIVE_CARD, deckContent);
     }
 }
