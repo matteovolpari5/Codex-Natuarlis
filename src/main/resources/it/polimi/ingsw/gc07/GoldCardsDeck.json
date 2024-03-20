@@ -1,0 +1,814 @@
+{
+  "cards": [
+    {
+      "id": 41,
+      "frontcorner0": "false",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "quill",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "fungi"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "animal"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "quill"}]
+      }
+    },
+    {
+      "id": 42,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "inkwell",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "fungi"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "plant"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "inkwell"}]
+      }
+    },
+    {
+      "id": 43,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "manuscript",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "fungi"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "insect"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "manuscript"}]
+      }
+    },
+    {
+      "id": 44,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "fungi"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "fungi"},{"resource": "animal"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 45,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "fungi"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "fungi"},{"resource": "plant"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 46,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "fungi"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "fungi"},{"resource": "insect"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 47,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "inkwell",
+      "permanentresource": [{"resource": "fungi"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "fungi"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 48,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "false",
+      "frontcontent0": "quill",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "fungi"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "fungi"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 49,
+      "frontcorner0": "false",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "manuscript",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "fungi"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "fungi"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 50,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "fungi"}],
+      "placementscore": 5,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "fungi"},{"resource": "fungi"},{"resource": "fungi"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 51,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "quill",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "plant"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "insect"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "quill"}]
+      }
+    },
+    {
+      "id": 52,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "manuscript",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "plant"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "fungi"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "manuscript"}]
+      }
+    },
+    {
+      "id": 53,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "inkwell",
+      "permanentresource": [{"resource": "plant"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "animal"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "inkwell"}]
+      }
+    },
+    {
+      "id": 54,
+      "frontcorner0": "false",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "plant"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "plant"},{"resource": "insect"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 55,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "plant"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "plant"},{"resource": "animal"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 56,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "plant"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "plant"},{"resource": "insect"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 57,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "quill",
+      "permanentresource": [{"resource": "plant"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "plant"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 58,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "false",
+      "frontcontent0": "manuscript",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "plant"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "plant"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 59,
+      "frontcorner0": "false",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "inkwell",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "plant"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "plant"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 60,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "fungi"}],
+      "placementscore": 5,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "plant"},{"resource": "plant"},{"resource": "plant"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },{
+      "id": 61,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "inkwell",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "animal"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "insect"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "inkwell"}]
+      }
+    },
+    {
+      "id": 62,
+      "frontcorner0": "false",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "manuscript",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "animal"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "plant"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "manuscript"}]
+      }
+    },
+    {
+      "id": 63,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "quill",
+      "permanentresource": [{"resource": "animal"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "fungi"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "quill"}]
+      }
+    },
+    {
+      "id": 64,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "animal"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "animal"},{"resource": "animal "},{"resource": "animal"},{"resource": "insect"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 65,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "animal"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "animal"},{"resource": "fungi"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 66,
+      "frontcorner0": "false",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "animal"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "animal"},{"resource": "plant"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 67,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "manuscript",
+      "permanentresource": [{"resource": "animal"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "animal"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 68,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "inkwell",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "animal"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "animal"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 69,
+      "frontcorner0": "false",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "quill",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "animal"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "animal"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 70,
+      "frontcorner0": "false",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "animal"}],
+      "placementscore": 5,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "animal"},{"resource": "animal"},{"resource": "animal"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },{
+      "id": 71,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "quill",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "insect"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "plant"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "quill"}]
+      }
+    },
+    {
+      "id": 72,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "manuscript",
+      "permanentresource": [{"resource": "insect"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "animal"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "manuscript"}]
+      }
+    },
+    {
+      "id": 73,
+      "frontcorner0": "false",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "inkwell",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "insect"}],
+      "placementscore": 1,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "fungi"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededitems":  [{"resource": "inkwell"}]
+      }
+    },
+    {
+      "id": 74,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "insect"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "insect"},{"resource": "insect "},{"resource": "insect"},{"resource": "animal"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 75,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "insect"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "insect"},{"resource": "plant"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 76,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "insect"}],
+      "placementscore": 2,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "insect"},{"resource": "fungi"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "CORNER_COVERAGE_CONDITION"
+      }
+    },
+    {
+      "id": 77,
+      "frontcorner0": "true",
+      "frontcorner1": "false",
+      "frontcorner2": "false",
+      "frontcorner3": "true",
+      "frontcontent0": "inkwell",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "insect"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "insect"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 78,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "manuscript",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "insect"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "insect"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 79,
+      "frontcorner0": "false",
+      "frontcorner1": "false",
+      "frontcorner2": "true",
+      "frontcorner3": "true",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "quill",
+      "permanentresource": [{"resource": "insect"}],
+      "placementscore": 3,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "insect"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    },
+    {
+      "id": 80,
+      "frontcorner0": "true",
+      "frontcorner1": "true",
+      "frontcorner2": "false",
+      "frontcorner3": "false",
+      "frontcontent0": "null",
+      "frontcontent1": "null",
+      "frontcontent2": "null",
+      "frontcontent3": "null",
+      "permanentresource": [{"resource": "insect"}],
+      "placementscore": 5,
+      "placementcondition": {
+        "conditiontype": "ITEMS_CONDITION",
+        "neededItems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "insect"},{"resource": "insect"},{"resource": "insect"}]
+      },
+      "scoringcondition": {
+        "conditiontype": "null"
+      }
+    }
+  ]
+}

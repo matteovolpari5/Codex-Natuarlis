@@ -2,7 +2,7 @@
   "cards": [
     {
       "id": 87,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "LAYOUT_CONDITION",
           "cardscolor":  [{"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "fungi"},
@@ -10,13 +10,12 @@
                           {"cardscolor" : "fungi"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
                           {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
           ]
-        }
-      ],
+        },
       "objectivescore": 2
     },
     {
       "id": 88,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "LAYOUT_CONDITION",
           "cardscolor":  [{"cardscolor" : "plant"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
@@ -24,13 +23,12 @@
                           {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "plant"},
                           {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
           ]
-        }
-      ],
+        },
       "objectivescore": 2
     },
     {
       "id": 89,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "LAYOUT_CONDITION",
           "cardscolor":  [{"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "animal"},
@@ -38,13 +36,12 @@
                           {"cardscolor" : "animal"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
                           {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
           ]
-        }
-      ],
+        },
       "objectivescore": 2
     },
     {
       "id": 90,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "LAYOUT_CONDITION",
           "cardscolor":  [{"cardscolor" : "insect"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
@@ -52,13 +49,12 @@
                           {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "insect"},
                           {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
           ]
-        }
-      ],
+        },
       "objectivescore": 2
     },
     {
       "id": 91,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "LAYOUT_CONDITION",
           "cardscolor":  [{"cardscolor" : "fungi"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
@@ -66,13 +62,12 @@
                           {"cardscolor" : "fungi"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
                           {"cardscolor" : "null"} ,{"cardscolor" : "plant"},{"cardscolor" : "null"}
           ]
-        }
-      ],
+        },
       "objectivescore": 3
     },
     {
       "id": 92,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "LAYOUT_CONDITION",
           "cardscolor":  [{"cardscolor" : "null"} ,{"cardscolor" : "plant"},{"cardscolor" : "null"},
@@ -80,13 +75,12 @@
                           {"cardscolor" : "null"} ,{"cardscolor" : "plant"},{"cardscolor" : "null"},
                           {"cardscolor" : "insect"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
           ]
-        }
-      ],
+        },
       "objectivescore": 3
     },
     {
       "id": 93,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "LAYOUT_CONDITION",
           "cardscolor":  [{"cardscolor" : "null"} ,{"cardscolor" : "fungi"},{"cardscolor" : "null"},
@@ -94,13 +88,12 @@
                           {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
                           {"cardscolor" : "animal"} ,{"cardscolor" : "null"},{"cardscolor" : "null"}
           ]
-        }
-      ],
+        },
       "objectivescore": 3
     },
     {
       "id": 94,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "LAYOUT_CONDITION",
           "cardscolor":  [{"cardscolor" : "animal"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
@@ -108,88 +101,79 @@
                           {"cardscolor" : "null"} ,{"cardscolor" : "null"},{"cardscolor" : "null"},
                           {"cardscolor" : "null"} ,{"cardscolor" : "insect"},{"cardscolor" : "null"}
           ]
-        }
-      ],
+        },
       "objectivescore": 3
     },
     {
       "id": 95,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "ITEMS_CONDITION",
           "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "fungi"}]
-        }
-      ],
+        },
       "objectivescore": 2
     },
     {
       "id": 96,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "ITEMS_CONDITION",
           "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "plant"}]
-        }
-      ],
+        },
       "objectivescore": 2
     },
     {
       "id": 97,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "ITEMS_CONDITION",
           "neededItems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "animal"}]
-        }
-      ],
+        },
       "objectivescore": 2
     },
     {
       "id": 98,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "ITEMS_CONDITION",
           "neededItems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "insect"}]
-        }
-      ],
+        },
       "objectivescore": 2
     },
     {
       "id": 99,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "ITEMS_CONDITION",
           "neededItems":  [{"resource": "quill"},{"resource": "inkwell"},{"resource": "manuscript"}]
-        }
-      ],
+        },
       "objectivescore": 3
     },
     {
       "id": 100,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "ITEMS_CONDITION",
           "neededItems":  [{"resource": "manuscript"},{"resource": "manuscript"}]
-        }
-      ],
+        },
       "objectivescore": 2
     },
     {
       "id": 101,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "ITEMS_CONDITION",
           "neededItems":  [{"resource": "inkwell"},{"resource": "inkwell"}]
-        }
-      ],
+        },
       "objectivescore": 2
     },
     {
       "id": 102,
-      "scoringcondition": [
+      "scoringcondition":
         {
           "conditiontype": "ITEMS_CONDITION",
           "neededItems":  [{"resource": "quill"},{"resource": "quill"}]
-        }
-      ],
+        },
       "objectivescore": 2
     }
   ]
