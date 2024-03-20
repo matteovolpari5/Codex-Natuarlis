@@ -54,10 +54,7 @@ classDiagram
     %% Conditions
     %% --------------------------------
     class Condition {
-        <<abstract>>
-        - TYPE: ConditionType
-        + Condition(type: ConditionType)
-        + getType() ConditionType
+        <<interface>>
         + numTimesMet(gameField: GameField) int
     }
     class CornerCoverageCondition {
