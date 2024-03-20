@@ -3,7 +3,6 @@ package it.polimi.ingsw.gc07.model.conditions;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
-import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 import it.polimi.ingsw.gc07.model.GameItem;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Condition regarding the presence of some given items on the game field.
  */
-public class ItemsCondition extends Condition {
+public class ItemsCondition implements Condition {
     /**
      * List of GameItems that need to be found on the game field in order satisfy the condition.
      */
@@ -20,12 +19,10 @@ public class ItemsCondition extends Condition {
 
     /**
      * Constructor for the class ItemsCondition.
-     * @param conditionType type of the condition, must be ITEM_CONDITION
      * @param neededItems List of items that need to be on the game field in
      *                    order satisfy the condition
      */
-    public ItemsCondition(ConditionType conditionType, List<GameItem> neededItems) {
-        super(conditionType);
+    public ItemsCondition(List<GameItem> neededItems) {
         this.neededItems = new ArrayList<>(neededItems);
     }
 

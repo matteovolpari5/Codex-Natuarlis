@@ -1,21 +1,16 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
-import it.polimi.ingsw.gc07.exceptions.CardAlreadyPresentException;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
-import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 
 /**
  * Condition of corner coverage.
  */
-public class CornerCoverageCondition extends Condition {
+public class CornerCoverageCondition implements Condition {
     /**
      * Constructor of class CornerCoverageCondtion.
-     * @param type type of the condition
      */
-    public CornerCoverageCondition(ConditionType type) {
-        super(type);
-    }
+    public CornerCoverageCondition() {}
 
     /**
      * This method must be called after placement of the card!

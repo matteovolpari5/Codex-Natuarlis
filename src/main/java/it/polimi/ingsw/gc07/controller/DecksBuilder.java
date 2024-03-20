@@ -13,7 +13,6 @@ import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
-import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 import it.polimi.ingsw.gc07.model.enumerations.GameObject;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 
@@ -431,7 +430,7 @@ public class DecksBuilder {
                         col = 0;
                     }
                 }
-                scoringCondition = new LayoutCondition(ConditionType.LAYOUT_CONDITION, cardsColor);
+                scoringCondition = new LayoutCondition(cardsColor);
             }
             else {
                 // extract itemsCondition
@@ -465,7 +464,7 @@ public class DecksBuilder {
                             break;
                     }
                 }
-                scoringCondition = new ItemsCondition(ConditionType.ITEM_CONDITION, neededItems);
+                scoringCondition = new ItemsCondition(neededItems);
             }
 
             // objectiveScore

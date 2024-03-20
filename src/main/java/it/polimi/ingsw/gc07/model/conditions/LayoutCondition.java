@@ -2,16 +2,14 @@ package it.polimi.ingsw.gc07.model.conditions;
 
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
-import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
-import it.polimi.ingsw.gc07.model.enumerations.ConditionType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 
 /**
  * Condition regarding cards placement on the game field and their color,
  * i.e. the permanent resource on the back of GoldCards and ResourceCards.
  */
-public class LayoutCondition extends Condition{
+public class LayoutCondition implements Condition{
     /**
      * Matrix of dimension 4x3, the biggest dimension for a layout condition
      * that can be found on playing cards.
@@ -25,11 +23,9 @@ public class LayoutCondition extends Condition{
 
     /**
      * Constructor for layout conditions.
-     * @param conditionType condition type, must be LAYOUT_CONDITION
      * @param cardsColor resource (= color) of the card
      */
-    public LayoutCondition(ConditionType conditionType, GameResource[][] cardsColor) {
-        super(conditionType);
+    public LayoutCondition(GameResource[][] cardsColor) {
         GameResource[][] cardsColorCopy = new GameResource[maxLayoutRows][maxLayoutColumns];
         for(int i = 0; i < maxLayoutRows; i++){
             for(int j = 0; j < maxLayoutColumns; j++){
