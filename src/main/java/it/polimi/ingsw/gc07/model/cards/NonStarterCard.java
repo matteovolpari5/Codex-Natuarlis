@@ -41,24 +41,8 @@ public class NonStarterCard extends PlaceableCard {
         super(cardID, cardType, frontCorners, frontCornersContent, permanentResources);
         this.placementScore = placementScore;
     }
-
-    public Condition getScoringCondition(){
-        return null;
-    }
-
-    public Condition getPlacementCondition(){
-        return null;
-    }
-
     public int getScore(){
         return placementScore;
     }
 
-    public boolean[] getBackCorners(){
-        return null;
-    }
-
-    public GameItem[] getBackCornersContent(){
-        return null;
-    }
 }

@@ -73,15 +73,4 @@ public final class StarterCard extends PlaceableCard {
         return backCornersContentCopy;
     }
 
-    public Condition getScoringCondition(){
-        return null;
-    }
-
-    public Condition getPlacementCondition(){
-        return null;
-    }
-
-    public int getScore(){
-        return 0;
-    }
 }

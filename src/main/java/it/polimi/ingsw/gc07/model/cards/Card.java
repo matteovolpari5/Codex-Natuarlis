@@ -42,10 +42,4 @@ public abstract class Card {
     public CardType getType() {
         return this.type;
     }
-
-    public abstract Condition getScoringCondition();
-
-    public abstract Condition getPlacementCondition();
-
-    public abstract int getScore();
 }

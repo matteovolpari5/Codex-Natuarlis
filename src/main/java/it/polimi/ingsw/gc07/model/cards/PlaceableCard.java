@@ -80,7 +80,4 @@ public abstract class PlaceableCard extends Card {
     public  List<GameResource> getPermanentResources(){
         return new ArrayList<>(permanentResources);
     }
-    public abstract boolean[] getBackCorners();
-
-    public abstract GameItem[] getBackCornersContent();
 }

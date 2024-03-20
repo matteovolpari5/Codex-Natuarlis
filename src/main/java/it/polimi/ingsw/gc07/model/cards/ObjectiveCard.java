@@ -34,14 +34,6 @@ public final class ObjectiveCard extends Card {
     }
 
     /**
-     * An ObjectiveCard does not have a placement condition.
-     * @return null
-     */
-    public Condition getPlacementCondition(){
-        return null;
-    }
-
-    /**
      * Getter method of the attribute scoringCondition
      * @return this.scoringCondition
      */
