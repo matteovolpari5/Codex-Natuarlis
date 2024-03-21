@@ -200,10 +200,15 @@ public class DrawableCard extends PlaceableCard {
     @Override
     public int computePoints(GameField gameField, int x, int y) {
         //TODO modificare gestione assert/eccezioni
-        if (!gameField.getCardWay(x, y)) {
-            return placementScore;
+        try{
+            if (!gameField.getCardWay(x, y)) {
+                return placementScore;
+            }
+            else{
+                return 0;
+            }
         }
-        else{
+        catch(CardNotPresentException e){
             return 0;
         }
     }
