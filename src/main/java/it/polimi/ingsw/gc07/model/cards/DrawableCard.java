@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.exceptions.PlacementResult;
+import it.polimi.ingsw.gc07.exceptions.WrongPlayerException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
@@ -51,6 +52,7 @@ public class DrawableCard extends PlaceableCard {
     // TODO
     // usare i getter anzichè accedere direttamente ai campi
     // aggiungere il controllore fronte / retro
+
     @Override
     public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way) {
         boolean found = false;
@@ -177,6 +179,25 @@ public class DrawableCard extends PlaceableCard {
             return PlacementResult.NO_COVERED_CORNER;
         }else{
             return PlacementResult.SUCCESS;
+        }
+    }
+
+    /**
+     * Method that calculates the number of points scored by a card
+     * @param gameField
+     * @param x
+     * @param y
+     * @return
+     * @throws CardNotPresentException
+     */
+    @Override
+    public int computePoints(GameField gameField, int x, int y) {
+        //TODO modificare gestione assert/eccezioni
+        if (!gameField.getCardWay(x, y)) {
+            return placementScore;
+        }
+        else{
+            return 0;
         }
     }
 }
