@@ -131,4 +131,8 @@ public class PlaceableCard extends Card {
         assert(gameField.getNumPlayedCards() == 0): "A card was placed before the starter card";
         return PlacementResult.SUCCESS;
     }
+    public int computePoints(GameField gameField, int x, int y){
+        assert (gameField.isCardPresent(x, y)) : "there isn't a Card in the x,y position";
+        return 0;
+    }
 }

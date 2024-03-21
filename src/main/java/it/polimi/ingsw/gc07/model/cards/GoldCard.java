@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
+import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.exceptions.PlacementResult;
 import it.polimi.ingsw.gc07.exceptions.PlacingConditionNotMetException;
 import it.polimi.ingsw.gc07.model.GameField;
@@ -78,5 +79,24 @@ public final class GoldCard extends DrawableCard {
             }
         }
         return isPlaceableResult;
+    }
+
+    /**
+     * Method that calculates the number of points made by a card.
+     * @param gameField
+     * @param x
+     * @param y
+     * @return
+     * @throws CardNotPresentException
+     */
+    @Override
+    public int computePoints(GameField gameField, int x, int y) {
+        if (scoringCondition == null){
+            return super.computePoints(gameField, x, y);
+        }
+        else{
+            int cardScore = super.computePoints(gameField, x, y);
+            return cardScore * scoringCondition.numTimesMet(gameField);
+        }
     }
 }
