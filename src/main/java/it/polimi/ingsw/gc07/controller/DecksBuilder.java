@@ -504,7 +504,7 @@ public class DecksBuilder {
             // objectiveScore
             int objectiveScore = cardJsonObject.get("objectivescore").getAsInt();
 
-            // create Objective card it add it to deck content
+            // create Objective card and add it to deck content
             ObjectiveCard card = new ObjectiveCard(id, type, scoringCondition, objectiveScore);
             deckContent.add(card);
         }
@@ -517,7 +517,7 @@ public class DecksBuilder {
      * @throws FileNotFoundException
      */
     public static ResourceCardsDeck buildResourceCardsDeck() throws FileNotFoundException {
-        Stack<NonStarterCard> content = new Stack<>();
+        Stack<NonStarterCard> deckContent = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/resourceCardsDeck.json");
         JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
         JsonObject fileObject = fileElement.getAsJsonObject();
@@ -538,9 +538,11 @@ public class DecksBuilder {
             GameItem[] frontCornersContent = DecksBuilder.extractFrontCornersContent(cardJsonObject);
             List<GameResource> permanentResources = DecksBuilder.extractPermanentResources(cardJsonObject);
 
-            // TODO continuare
-
+            // create resource card and add it to deck content
+            NonStarterCard card = new NonStarterCard(id, type, frontCorners, frontCornersContent, placementScore, permanentResources);
+            deckContent.add(card);
         }
+        return new ResourceCardsDeck(CardType.RESOURCE_CARD, deckContent);
     }
 
     /**
