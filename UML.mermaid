@@ -1,6 +1,6 @@
 classDiagram
     %% --------------------------------
-    %% Cards
+    %% cards
     %% --------------------------------
     Deck~T~ o-- Card
     class Card {
@@ -10,46 +10,74 @@ classDiagram
         + Card (id: int, type: CardType)
         + getId() int
         + getType() CardType
-        + getScoringCondition() Condition
-        + getPlacementCondition() Condition
+    }
+    class PlaceableCard {
+        - PERMANENTRESOURCES: List~GameResource~
+        - FRONTCORNERS: boolean [4]
+        - FRONTCORNERSCONTENT: GameItem [4]
+        - BACKCORNERS: boolean [4]
+        - BACKCORNERSCONTENT: GameItem [4]
+        + PlaceableCard (cardID: int, cardType: CardType,\n frontCorners: boolean [4], \n frontCornersContent: GameItem [4],\n backCorners: boolean [4], \n backCornersContent: GameItem [4],\n permanentResources: List~GameResource~)
+        + getFrontCorners() boolean [4]
+        + getFrontCornersContent() GameItem[4]
+        + getBackCorners() boolean [4]
+        + getBackCornersContent() GameItem [4]
+        + getPermanentResources() GameResource[3]
+    }
+    class DrawableCard {
+        - PLACEMENTSCORE: int
+        + DrawableCard(cardID: int, \ncardType: CardType, frontCorners: boolean [4],\n frontCornersContent: GameItem [4],\nbackCorners: boolean [4],\n backCornersContent: GameItem [4],\n placementScore: int,\n permanentResources: List~GameResource~)
+        + isPlaceable(gameField: Gamefield, x : int, y: int, way : boolean) PlacementResult
         + getScore() int
     }
     class GoldCard {
         - PLACEMENTCONDITION: Condition
         - SCORINGCONDITION: Condition
-        + GoldCard(cardID: int, cardType: CardType,\n frontCorners: boolean[4], \nfrontCornersContent: GameItem[4], placementScore: int, \n permanentResources: List~GameResource~, \nplacementCondition: Condition, \nscoringCondition: Condition)
-    }
-    class NonStarterCard {
-        - PLACEMENTSCORE: int
-        + NonStarterCard(cardID: int, \ncardType: CardType, frontCorners: boolean [4],\n frontCornersContent: GameItem [4],\n placementScore: int,\n permanentResources: List~GameResource~)
+        + GoldCard(cardID: int, cardType: CardType,\n frontCorners: boolean[4], \nfrontCornersContent: GameItem[4],\n backCorners: boolean[4], \nbackCornersContent: GameItem[4], placementScore: int, \n permanentResources: List~GameResource~, \nplacementCondition: Condition, \nscoringCondition: Condition)
+        + getScoringCondition() Condition
+        + getPlacementCondition() Condition
     }
     class ObjectiveCard {
         - SCORINGCONDITION: Condition
         - OBJECTIVESCORE: int
         + ObjectiveCard(cardID int, cardType: CardType,\n scoringCondition: Condition, objectiveScore: int)
-    }
-    class PlaceableCard {
-        <<abstract>>
-        - PERMANENTRESOURCES: List~GameResource~
-        - FRONTCORNERS: boolean [4]
-        - FRONTCORNERSCONTENT: GameItem [4]
-        + PlaceableCard (cardID: int, cardType: CardType,\n frontCorners: boolean [4], \n frontCornersContent: GameItem [4], \n permanentResources: List~GameResource~)
-        + getFrontCorners() boolean [4]
-        + getFrontCornersContent() GameItem[4]
-        + getPermanentResources() GameResource[3]
-        + getBackCorners() boolean [4]
-        + getBackCornersContent() GameItem [4]
-    }
-    class StarterCard {
-        - BACKCORNERS: boolean [4]
-        - BACKCORNERSCONTENT: GameItem [4]
-        + StarterCard(cardID: int, cardType: CardType, \n frontCorners: boolean [4], \nfrontCornersContent: GameItem [4],\n permanentResources: List~GameResource~, \nbackCorners: boolean[4], \nbackCornersContent: GameItem[4])
+        + getScoringCondition: Condition
+        + getScore: int
     }
     Card <|-- ObjectiveCard
     Card <|-- PlaceableCard
-    PlaceableCard <|-- StarterCard
-    PlaceableCard <|-- NonStarterCard
-    NonStarterCard <|-- GoldCard
+    PlaceableCard <|-- DrawableCard
+    DrawableCard <|-- GoldCard
+
+    %% --------------------------------
+    %% chat
+    %% --------------------------------
+    class Chat {
+        - messages: List~Message~
+        + Chat()
+        + addMessage(content: String, sender: String, isPublic: boolean,\n receiver: String, players: List~String~)
+        + getLastMessage(receiver: String) Message
+        + getContent(receiver: String) List~Message~
+    }
+
+    class Message{
+        - CONTENT: String
+        - SENDERNICKNAME: String
+        - ISPUBLIC: boolean
+        + Message(content: String, senderNickname: String, isPublic: boolean)
+        + getContent() String
+        + getSender() String
+        + isPublic() boolean
+        + getReceiver() String
+    }
+
+    class PrivateMessage{
+        - RECEIVERNICKNAME: String
+        + PrivateMessage(content: String, senderNickname: String, isPublic: boolean, receiverNickname: String)
+    }
+    Chat o-- Message
+    Message <|-- PrivateMessage
+
     %% --------------------------------
     %% Conditions
     %% --------------------------------
@@ -58,18 +86,18 @@ classDiagram
         + numTimesMet(gameField: GameField) int
     }
     class CornerCoverageCondition {
-        + CornerCoverageCondition(type: ConditionType)
+        + CornerCoverageCondition()
     }
     class ItemsCondition {
         - NEEDEDITEMS: List~GameItem~
-        + ItemsCondition(conditionType: ConditionType, \n neededItems: List~GameItem~)
+        + ItemsCondition(neededItems: List~GameItem~)
         + getNeededItems() List~GameItem~
     }
     class LayoutCondition {
         - CARDSCOLOR: GameResource[3][3]
         - MAXLAYOUTROWS: int$
         - MAXLAYOUTCOLUMNS: int$
-        + LayoutCondition(conditionType: ConditionType, cardsColor: GameResource[3][3])
+        + LayoutCondition(cardsColor: GameResource[3][3])
         + getCardsColor() GameResource[3][3]
     }
     %%LayoutCondition --> GameResource
@@ -77,34 +105,44 @@ classDiagram
     Condition <|-- LayoutCondition
     Condition <|-- ItemsCondition
     Condition <|-- CornerCoverageCondition
+
     %% --------------------------------
     %% Decks
     %% --------------------------------
     class Deck~T~{
         ~ TYPE: CardType
         ~ Stack~T~ content
-        + Deck()
+        + Deck(type : CardType, content : Stack~T~ )
+        + Deck(existingDeck : Deck~T~)
         + setType(type: CardType)
         + getType() CardType
+        + getContent() Stack~T~
+        + setContent(content : ~T~)
         + drawCard() T
+        + shuffle()
     }
     class PlayingDeck~T~{
         ~ faceUpCard: List~T~
-        + PlayingDeck()
+        + PlayingDeck(type : CardType, content : Stack~T~)
+        + PlayingDeck(existingDeck : PlayingDeck~T~)
         + setFaceUpCards(faceUpCards: List~T~)
-        + revealFaceUpCard(cardPos: int) T
+        + revealFaceUpCard(cardPos: int) ~T~
     }
     class DrawableDeck~T~{
-        + DrawableDeck()
-        + drawFaceUpCard(cardPos: int) T
-        ~ revealDeckCard() T
+        <<abstract>>
+        + DrawableDeck(type : CardType, content : Stack~T~)
+        + DrawableDeck( existingDeck : DrawableDeck~T~)
+        + drawFaceUpCard(cardPos: int) ~T~
+        ~ revealDeckCard() ~T~
     }
     class GoldCardsDeck{
-        + GoldCardsDeck()
+        + GoldCardsDeck(type : CardType, content : Stack~GoldCard~)
+        + GoldCardsDeck(existingDeck : GoldCardsDeck)
         + revealBackDeckCard() GameResource
     }
     class ResourceCardsDeck{
-        + ResourceCardsDeck()
+        + ResourceCardsDeck(type : CardType, content: Stack~DrawableCard~)
+        + ResourceCardsDeck(existingDeck : ResourceCardsDeck)
         + revealBackDeckCard() GameResource
     }
     Deck~T~ <|-- PlayingDeck~T~
@@ -112,6 +150,8 @@ classDiagram
     DrawableDeck~T~ <|-- ResourceCardsDeck
     DrawableDeck~T~ <|-- GoldCardsDeck
 
+
+    %%CONTROLLARE DA QUA IN POI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     %%Deck --> Card
     %% --------------------------------
     %% Enumerations
@@ -160,32 +200,6 @@ classDiagram
     }
     GameItem <|.. GameResource
     GameItem <|.. GameObject
-
-    class Chat {
-        - messages: List~Message~
-        + Chat()
-        + addMessage(content: String, sender: String, isPublic: boolean,\n receiver: String, players: List~String~)
-        + getContent(receiver: String) List~Message~
-        + getLastMessage(receiver: String) Message
-    }
-
-    class Message{
-        - CONTENT: String
-        - SENDERNICKNAME: String
-        - ISPUBLIC: boolean
-        + Message(content: String, senderNickname: String, isPublic: boolean)
-        + getContent() String
-        + getSender() String
-        + isPublic() boolean
-        + getReceiver() String
-    }
-
-    class PrivateMessage{
-        - RECEIVERNICKNAME: String
-        + PrivateMessage(content: String, senderNickname: String, isPublic: boolean, receiverNickname: String)
-    }
-    Chat o-- Message
-    Message <|-- PrivateMessage
 
     class Game {
         - state: GameState
