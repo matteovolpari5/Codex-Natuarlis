@@ -217,31 +217,29 @@ public class Game {
         }
         // chose randomly the first player
         Random random= new Random();
-        this.currPlayer=random.nextInt(playersNumber);
-        getCurrentPlayer().setFirst();
+        currPlayer=random.nextInt(playersNumber);
+        players.get(currPlayer).setFirst();
         try {
             //place 2 gold cards
             List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
-            setUpGoldCardsFaceUp.add(this.goldCardsDeck.drawCard());
-            setUpGoldCardsFaceUp.add(this.goldCardsDeck.drawCard());
-            this.goldCardsDeck.setFaceUpCards(setUpGoldCardsFaceUp);
+            setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
+            setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
+            goldCardsDeck.setFaceUpCards(setUpGoldCardsFaceUp);
         } catch (CardNotPresentException e) {
             e.printStackTrace();
         }
         try {
             //place 2 resource card
             List<DrawableCard> setUpResourceCardsFaceUp = new ArrayList<>();
-            setUpResourceCardsFaceUp.add(this.resourceCardsDeck.drawCard());
-            setUpResourceCardsFaceUp.add(this.resourceCardsDeck.drawCard());
-            this.resourceCardsDeck.setFaceUpCards(setUpResourceCardsFaceUp);
+            setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
+            setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
+            resourceCardsDeck.setFaceUpCards(setUpResourceCardsFaceUp);
         }
         catch (CardNotPresentException e)
         {
             e.printStackTrace();
         }
-
     }
-
     /**
      * Method telling if there are available places in the game.
      * @return true if no other player can connect to the game
@@ -311,28 +309,28 @@ public class Game {
         if(!state.equals(GameState.PLAYING)) {
             throw new WrongStateException();
         }
-        if(this.currPlayer==this.players.size()-1)
-            this.currPlayer=0;
+        if(currPlayer==players.size()-1)
+            currPlayer=0;
         else
-            this.currPlayer++;
-        if(this.twentyPointsReached)
+            currPlayer++;
+        if(twentyPointsReached)
         {
-            if(getCurrentPlayer().isFirst()&&this.additionalRound)
+            if(players.get(currPlayer).isFirst()&&additionalRound)
             {
-                this.state=GameState.GAME_ENDED;
+                state=GameState.GAME_ENDED;
                 List<Player> winners = new ArrayList<>(computeWinner());
                 //TODO: fare qualcosa con questo winner
             }
-            else if(getCurrentPlayer().isFirst())
+            else if(players.get(currPlayer).isFirst())
             {
-                this.additionalRound=true;
+                additionalRound=true;
             }
         }
-        if(!getCurrentPlayer().isConnected())
+        if(!players.get(currPlayer).isConnected())
         {
             changeCurrPlayer();
         }
-        if(getCurrentPlayer().getIsStalled())
+        if(players.get(currPlayer).getIsStalled())
         {
             changeCurrPlayer();
         }
@@ -351,32 +349,32 @@ public class Game {
      * @throws CardNotPresentException : if the card that the player wants to play is not in his hands
      */
     public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
-        if(!getCurrentPlayer().getNickname().equals(nickname)) {
+        if(!players.get(currPlayer).getNickname().equals(nickname)) {
             throw new WrongPlayerException();
         }
-        if(!(getCurrentPlayer().getCurrentHand()).contains(card)){
+        if(!(players.get(currPlayer).getCurrentHand()).contains(card)){
             throw new WrongPlayerException();
         }
         if(!state.equals(GameState.PLAYING)){
             throw new WrongStateException();
         }
         try {
-            getGameField(nickname).placeCard(card,x,y,way);
-            List<DrawableCard> newHand = new ArrayList<>(getCurrentPlayer().getCurrentHand());
+            playersGameField.get(nickname).placeCard(card,x,y,way);
+            List<DrawableCard> newHand = new ArrayList<>(players.get(currPlayer).getCurrentHand());
             newHand.remove(card);
-            getCurrentPlayer().setCurrentHand(newHand);
+            players.get(currPlayer).setCurrentHand(newHand);
             addPoints(nickname,x,y);
             boolean isStalled=true;
             for(int a=0;a<81&&isStalled;a++)
                 for(int b=0;b<81&&isStalled;b++)
                 {
-                    PlacementResult result = getGameField(nickname).checkAvailability(a,b);
+                    PlacementResult result = playersGameField.get(nickname).checkAvailability(a,b);
                     if(result.equals(PlacementResult.SUCCESS))
                     {
                         isStalled=false;
                     }
                 }
-            getCurrentPlayer().setIsStalled(isStalled);
+            players.get(currPlayer).setIsStalled(isStalled);
         }catch (PlayerNotPresentException e)
         {
             e.printStackTrace();
