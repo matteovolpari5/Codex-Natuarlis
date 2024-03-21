@@ -586,13 +586,17 @@ public class DecksBuilder {
 
             // extract and create the placement condition
             // always ITEM_CONDITION
-            // TODO
+            Condition placementCondition = null;
+            JsonObject placementConditionObject = cardJsonObject.get("placementcondition").getAsJsonObject();
+            // extract items condition
+            List<GameItem> neededItems = DecksBuilder.extractItemsCondition(placementConditionObject);
+            placementCondition = new ItemsCondition(neededItems);
 
             // create resource card and add it to deck content
             GoldCard card = new GoldCard(id, type, frontCorners, frontCornersContent, backCorners, backCornersContent,
                     placementScore, permanentResources, placementCondition, scoringCondition);
             deckContent.add(card);
         }
-        return new ResourceCardsDeck(CardType.GOLD_CARD, deckContent);
+        return new GoldCardsDeck(CardType.GOLD_CARD, deckContent);
     }
 }
