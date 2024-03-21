@@ -368,10 +368,13 @@ public class Game {
             players.get(currPlayer).setCurrentHand(newHand);
             addPoints(nickname,x,y);
             boolean isStalled = true;
+            // check if a card is placeable
             for(int i = 0; i < GameField.getDim() && isStalled; i++) {
                 for (int j = 0; j < GameField.getDim() && isStalled; j++) {
-                    // TODO fix error
-                    PlacementResult result = playersGameField.get(nickname).checkAvailability(i, j);
+                    // check if the firs card (a casual card), is placeable on the back,
+                    // i.e. check only the indexes
+                    PlacementResult result = players.get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
+                            .isPlaceable(new GameField(playersGameField.get(nickname)), i, j, true);
                     if (result.equals(PlacementResult.SUCCESS)) {
                         isStalled = false;
                     }
@@ -511,7 +514,8 @@ public class Game {
      * @throws CardNotPresentException: if the List of faceUpCards doesn't have a card in the given position
      * @throws WrongPlayerException: if the player is not the current player
      */
-    public void drawFaceUpCard(String nickname, CardType type, int pos) throws WrongCardTypeException, CardNotPresentException, WrongPlayerException, PlayerNotPresentException {
+    public void drawFaceUpCard(String nickname, CardType type, int pos) throws WrongCardTypeException, CardNotPresentException,
+            WrongPlayerException, PlayerNotPresentException {
         if(!players.get(currPlayer).getNickname().equals(nickname)){
             throw new WrongPlayerException();
         }
