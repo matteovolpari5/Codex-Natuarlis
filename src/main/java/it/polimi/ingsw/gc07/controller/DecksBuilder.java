@@ -11,7 +11,9 @@ import it.polimi.ingsw.gc07.model.conditions.Condition;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
 import it.polimi.ingsw.gc07.model.decks.Deck;
+import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
+import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameObject;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
@@ -26,8 +28,9 @@ import java.util.Stack;
 public class DecksBuilder {
 
     /**
-     * Method that builds a starter card deck from the json file starterCardDeck.json
+     * Method that builds a starter card deck from the json file starterCardsDeck.json
      * @return starter card deck
+     * @throws FileNotFoundException
      */
     public static Deck<StarterCard> buildStarterCardsDeck() throws FileNotFoundException{
         Stack<StarterCard> deckContent = new Stack<>();
@@ -369,8 +372,9 @@ public class DecksBuilder {
     }
 
     /**
-     * Method that builds an objective card deck from the json file objectiveCardDeck.json
+     * Method that builds an objective card deck from the json file objectiveCardsDeck.json
      * @return objective card deck
+     * @throws FileNotFoundException
      */
     public static PlayingDeck<ObjectiveCard> buildObjectiveCardsDeck() throws FileNotFoundException{
         Stack<ObjectiveCard> deckContent = new Stack<>();
@@ -475,5 +479,23 @@ public class DecksBuilder {
             deckContent.add(card);
         }
         return new PlayingDeck<>(CardType.OBJECTIVE_CARD, deckContent);
+    }
+
+    /**
+     * Method that build a resource cards deck from the json file resourceCardsDeck.json
+     * @return resource cards deck
+     * @throws FileNotFoundException
+     */
+    public static ResourceCardsDeck buildResourceCardsDeck() throws FileNotFoundException {
+
+    }
+
+    /**
+     * Method that build a gold cards deck from the json file goldCardsDeck.json
+     * @return resource cards deck
+     * @throws FileNotFoundException
+     */
+    public static GoldCardsDeck buildGoldCardsDeck() throws FileNotFoundException {
+
     }
 }
