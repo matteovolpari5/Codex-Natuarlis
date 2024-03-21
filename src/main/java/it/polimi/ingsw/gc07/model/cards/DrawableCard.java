@@ -184,10 +184,10 @@ public class DrawableCard extends PlaceableCard {
 
     /**
      * Method that calculates the number of points scored by a card
-     * @param gameField
-     * @param x
-     * @param y
-     * @return
+     * @param gameField: gameField of the player
+     * @param x: x index of the matrix
+     * @param y: x index of the matrix
+     * @return int value that is the points scored by the card.
      * @throws CardNotPresentException
      */
     @Override
