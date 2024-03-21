@@ -551,7 +551,24 @@ public class DecksBuilder {
         JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
         JsonObject fileObject = fileElement.getAsJsonObject();
         // get the JsonArray of all the cards
-        JsonArray jsonArrayStarterCards = fileObject.get("cards").getAsJsonArray();
+        JsonArray jsonArrayGoldCards = fileObject.get("cards").getAsJsonArray();
+        for (JsonElement c : jsonArrayGoldCards) {
+            // for every card, extract attributes
+            JsonObject cardJsonObject = c.getAsJsonObject();
 
+            int id = cardJsonObject.get("id").getAsInt();
+            CardType type = CardType.GOLD_CARD;
+            int placementScore = cardJsonObject.get("placementscore").getAsInt();
+            boolean[] frontCorners = DecksBuilder.extractFrontCorners(cardJsonObject);
+            GameItem[] frontCornersContent = DecksBuilder.extractFrontCornersContent(cardJsonObject);
+            boolean[] backCorners = DecksBuilder.extractBackCorners(cardJsonObject);
+            GameItem[] backCornersContent = DecksBuilder.extractBackCornersContent(cardJsonObject);
+            List<GameResource> permanentResources = DecksBuilder.extractPermanentResources(cardJsonObject);
+
+            // create resource card and add it to deck content
+            DrawableCard card = new DrawableCard(id, type, frontCorners, frontCornersContent, backCorners, backCornersContent, placementScore, permanentResources);
+            deckContent.add(card);
+        }
+        return new ResourceCardsDeck(CardType.RESOURCE_CARD, deckContent);
     }
 }
