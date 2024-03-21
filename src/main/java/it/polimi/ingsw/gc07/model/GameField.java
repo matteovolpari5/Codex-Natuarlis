@@ -223,7 +223,4 @@ public class GameField {
     public int getNumPlayedCards() {
         return this.numPlayedCards;
     }
-
-    // TODO
-    // aggiungere getter per cardsContent e cardsFace
 }

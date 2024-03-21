@@ -80,13 +80,12 @@ public class Game {
      * @param tokenColor color of player's token
      * @param connectionType type of connection
      * @param interfaceType type of the interface
-     * @param starterCardWay way of the starter card
      * @throws WrongNumberOfPlayersException exception thrown when the number of players is wrong
      */
     public Game(int playersNumber, ResourceCardsDeck resourceCardsDeck,
-                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck, Deck<PlaceableCard> starterCardsDeck,
-                String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongNumberOfPlayersException
-    {
+                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
+                Deck<PlaceableCard> starterCardsDeck, String nickname, TokenColor tokenColor,
+                boolean connectionType, boolean interfaceType) throws WrongNumberOfPlayersException {
         this.state = GameState.WAITING_PLAYERS;
         if (playersNumber<2 || playersNumber>4)  {
             throw new WrongNumberOfPlayersException();
@@ -105,7 +104,7 @@ public class Game {
         this.twentyPointsReached = false;
         this.additionalRound = false;
         try {
-            addPlayer(nickname, tokenColor, connectionType, interfaceType, starterCardWay);
+            addPlayer(nickname, tokenColor, connectionType, interfaceType);
         } catch (WrongStateException e) {
             e.printStackTrace();
         }
@@ -116,7 +115,7 @@ public class Game {
      * @return the state of the game
      */
     public GameState getState() {
-        return this.state;
+        return state;
     }
 
     /**
@@ -124,7 +123,7 @@ public class Game {
      * @return the players in the game
      */
     public List<Player> getPlayers() {
-        return new ArrayList<>(this.players);
+        return new ArrayList<>(players);
     }
 
     /**
@@ -132,7 +131,7 @@ public class Game {
      * @return the current player
      */
     public Player getCurrentPlayer() {
-        return new Player(this.players.get(this.currPlayer));
+        return new Player(players.get(currPlayer));
     }
 
     /**
@@ -145,7 +144,7 @@ public class Game {
         if(!this.playersGameField.containsKey(nickname)) {
             throw new PlayerNotPresentException();
         }
-        return new GameField(this.playersGameField.get(nickname));
+        return new GameField(playersGameField.get(nickname));
     }
 
     /**
@@ -155,11 +154,21 @@ public class Game {
      * @throws PlayerNotPresentException exception thrown when a player is not present in the game
      */
     public int getScore(String nickname) throws PlayerNotPresentException {
-        return this.scoreTrackBoard.getScore(nickname);
+        return scoreTrackBoard.getScore(nickname);
     }
 
     public void setStarterCardWay(String nickname, boolean way){
-        placeCard(nickname, playersGameField.get(nickname).getStarterCard(), 40, 40, way);
+        try {
+            placeCard(nickname, playersGameField.get(nickname).getStarterCard(), 40, 40, way);
+        } catch (WrongPlayerException e) {
+            throw new RuntimeException(e);
+        } catch (CardAlreadyPresentException e) {
+            throw new RuntimeException(e);
+        } catch (CardNotPresentException e) {
+            throw new RuntimeException(e);
+        } catch (WrongStateException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -168,10 +177,9 @@ public class Game {
      * @param tokenColor color of player's token
      * @param connectionType type of connection
      * @param interfaceType type of the interface
-     * @param starterCardWay way of the starter card
      * @throws WrongStateException if the state of the game is wrong
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongStateException{
+    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) throws WrongStateException{
         try{
             if(!state.equals(GameState.WAITING_PLAYERS)) {
                 throw new WrongStateException();
@@ -182,24 +190,18 @@ public class Game {
             currentHand.add(this.goldCardsDeck.drawCard());
             ObjectiveCard secretObjective = this.objectiveCardsDeck.drawCard();
             Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType, currentHand, secretObjective);
-            GameField gameField = new GameField();
-            getPlayers().add(newPlayer);
-            this.playersGameField.put(newPlayer.getNickname(), gameField);
-            try {
-                getGameField(nickname).placeCard(this.starterCardsDeck.drawCard(), 40, 40, starterCardWay);
-            } catch (PlayerNotPresentException | CardNotPlaceableException e) {
-                e.printStackTrace();
-            }
-            this.scoreTrackBoard.addPlayer(newPlayer.getNickname());
+            PlaceableCard starterCard = starterCardsDeck.drawCard();
+            GameField gameField = new GameField(starterCard);
+            players.add(newPlayer);
+            playersGameField.put(newPlayer.getNickname(), gameField);
+            scoreTrackBoard.addPlayer(newPlayer.getNickname());
             if (isFull()) {
                 setup();
-                this.state = GameState.PLAYING;
+                state = GameState.PLAYING;
             }
         } catch (CardNotPresentException e) {
             e.printStackTrace();
         } catch (PlayerAlreadyPresentException e) {
-            e.printStackTrace();
-        } catch (CardAlreadyPresentException e) {
             e.printStackTrace();
         }
     }
@@ -212,25 +214,25 @@ public class Game {
         if (!state.equals(GameState.WAITING_PLAYERS)) {
             throw new WrongStateException();
         }
-        // chose randomly the first player
+        // choose randomly the first player
         Random random= new Random();
         this.currPlayer=random.nextInt(playersNumber);
         getCurrentPlayer().setFirst();
         try {
             //place 2 gold cards
             List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
-            setUpGoldCardsFaceUp.add(this.goldCardsDeck.drawCard());
-            setUpGoldCardsFaceUp.add(this.goldCardsDeck.drawCard());
-            this.goldCardsDeck.setFaceUpCards(setUpGoldCardsFaceUp);
+            setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
+            setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
+            goldCardsDeck.setFaceUpCards(setUpGoldCardsFaceUp);
         } catch (CardNotPresentException e) {
             e.printStackTrace();
         }
         try {
             //place 2 resource card
             List<DrawableCard> setUpResourceCardsFaceUp = new ArrayList<>();
-            setUpResourceCardsFaceUp.add(this.resourceCardsDeck.drawCard());
-            setUpResourceCardsFaceUp.add(this.resourceCardsDeck.drawCard());
-            this.resourceCardsDeck.setFaceUpCards(setUpResourceCardsFaceUp);
+            setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
+            setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
+            resourceCardsDeck.setFaceUpCards(setUpResourceCardsFaceUp);
         }
         catch (CardNotPresentException e)
         {
@@ -248,9 +250,10 @@ public class Game {
     }
 
     /**
-     * method that disconnect a player from the game
+     * Method that disconnect a player from the game
      * @param nickname : nickname of the player
      */
+    // TODO può scendere a 0, cosa succede?
     public void disconnectPlayer(String nickname){
         try{
             int pos = getPlayerByNickname(nickname);
@@ -270,7 +273,7 @@ public class Game {
         }
     }
     /**
-     * method that reconnect a player from the game
+     * Method that reconnect a player from the game
      * @param nickname : nickname of the player
      */
     public void reconnectPlayer(String nickname){
@@ -280,6 +283,7 @@ public class Game {
         } catch (PlayerNotPresentException e) {
             e.printStackTrace();
         }
+        // TODO: controllare se lo stato torna a PLAYING, dipende se il numero di giocatori connessi può scendere a 0
     }
 
     /**
@@ -316,7 +320,7 @@ public class Game {
         {
             if(getCurrentPlayer().isFirst()&&this.additionalRound)
             {
-                this.state=GameState.GAME_ENDED;
+                this.state = GameState.GAME_ENDED;
                 List<Player> winners = new ArrayList<>(computeWinner());
                 //TODO: fare qualcosa con questo winner
             }
@@ -363,9 +367,9 @@ public class Game {
             newHand.remove(card);
             getCurrentPlayer().setCurrentHand(newHand);
             addPoints(nickname,x,y);
-            boolean isStalled=true;
-            for(int a=0;a<81&&isStalled;a++)
-                for(int b=0;b<81&&isStalled;b++)
+            boolean isStalled = true;
+            for(int a=0; a<81 && isStalled; a++)
+                for(int b=0; b<81 && isStalled; b++)
                 {
                     PlacementResult result = getGameField(nickname).checkAvailability(a,b);
                     if(result.equals(PlacementResult.SUCCESS))
@@ -377,6 +381,16 @@ public class Game {
         }catch (PlayerNotPresentException e)
         {
             e.printStackTrace();
+        } catch (IndexesOutOfGameFieldException e) {
+            throw new RuntimeException(e);
+        } catch (PlacingConditionNotMetException e) {
+            throw new RuntimeException(e);
+        } catch (MultipleCornersCoveredException e) {
+            throw new RuntimeException(e);
+        } catch (NotLegitCornerException e) {
+            throw new RuntimeException(e);
+        } catch (NoCoveredCornerException e) {
+            throw new RuntimeException(e);
         }
     }
 

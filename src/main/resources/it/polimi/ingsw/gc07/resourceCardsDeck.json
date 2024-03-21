@@ -2,7 +2,7 @@
   "cards": [
     {
       "id": 1,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -15,7 +15,7 @@
     },
     {
       "id": 2,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -28,7 +28,7 @@
     },
     {
       "id": 3,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -41,7 +41,7 @@
     },
     {
       "id": 4,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -54,7 +54,7 @@
     },
     {
       "id": 5,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -67,7 +67,7 @@
     },
     {
       "id": 6,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -80,7 +80,7 @@
     },
     {
       "id": 7,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -93,7 +93,7 @@
     },
     {
       "id": 8,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -106,7 +106,7 @@
     },
     {
       "id": 9,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -119,7 +119,7 @@
     },
     {
       "id": 10,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -132,7 +132,7 @@
     },
     {
       "id": 11,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -145,7 +145,7 @@
     },
     {
       "id": 12,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -158,7 +158,7 @@
     },
     {
       "id": 13,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -171,7 +171,7 @@
     },
     {
       "id": 14,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -184,7 +184,7 @@
     },
     {
       "id": 15,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -197,7 +197,7 @@
     },
     {
       "id": 16,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -210,7 +210,7 @@
     },
     {
       "id": 17,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -223,7 +223,7 @@
     },
     {
       "id": 18,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -236,7 +236,7 @@
     },
     {
       "id": 19,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -249,7 +249,7 @@
     },
     {
       "id": 20,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -262,7 +262,7 @@
     },
     {
       "id": 21,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -275,7 +275,7 @@
     },
     {
       "id": 22,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -288,7 +288,7 @@
     },
     {
       "id": 23,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -301,7 +301,7 @@
     },
     {
       "id": 24,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -314,7 +314,7 @@
     },
     {
       "id": 25,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -327,7 +327,7 @@
     },
     {
       "id": 26,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -340,7 +340,7 @@
     },
     {
       "id": 27,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -353,7 +353,7 @@
     },
     {
       "id": 28,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -366,7 +366,7 @@
     },
     {
       "id": 29,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -379,7 +379,7 @@
     },
     {
       "id": 30,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -392,7 +392,7 @@
     },
     {
       "id": 31,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -405,7 +405,7 @@
     },
     {
       "id": 32,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -418,7 +418,7 @@
     },
     {
       "id": 33,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -431,7 +431,7 @@
     },
     {
       "id": 34,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -444,7 +444,7 @@
     },
     {
       "id": 35,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -457,7 +457,7 @@
     },
     {
       "id": 36,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -470,7 +470,7 @@
     },
     {
       "id": 37,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -483,7 +483,7 @@
     },
     {
       "id": 38,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -496,7 +496,7 @@
     },
     {
       "id": 39,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -509,7 +509,7 @@
     },
     {
       "id": 40,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",

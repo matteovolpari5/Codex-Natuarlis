@@ -2,7 +2,7 @@
   "cards": [
     {
       "id": 41,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -23,7 +23,7 @@
     },
     {
       "id": 42,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -44,7 +44,7 @@
     },
     {
       "id": 43,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -65,7 +65,7 @@
     },
     {
       "id": 44,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -85,7 +85,7 @@
     },
     {
       "id": 45,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -105,7 +105,7 @@
     },
     {
       "id": 46,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -125,7 +125,7 @@
     },
     {
       "id": 47,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -145,7 +145,7 @@
     },
     {
       "id": 48,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "false",
@@ -165,7 +165,7 @@
     },
     {
       "id": 49,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -185,7 +185,7 @@
     },
     {
       "id": 50,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -205,7 +205,7 @@
     },
     {
       "id": 51,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -226,7 +226,7 @@
     },
     {
       "id": 52,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -247,7 +247,7 @@
     },
     {
       "id": 53,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -268,7 +268,7 @@
     },
     {
       "id": 54,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -288,7 +288,7 @@
     },
     {
       "id": 55,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -308,7 +308,7 @@
     },
     {
       "id": 56,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -328,7 +328,7 @@
     },
     {
       "id": 57,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -348,7 +348,7 @@
     },
     {
       "id": 58,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "false",
@@ -368,7 +368,7 @@
     },
     {
       "id": 59,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -388,7 +388,7 @@
     },
     {
       "id": 60,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "false",
@@ -407,7 +407,7 @@
       }
     },{
       "id": 61,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -428,7 +428,7 @@
     },
     {
       "id": 62,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -449,7 +449,7 @@
     },
     {
       "id": 63,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -470,7 +470,7 @@
     },
     {
       "id": 64,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -490,7 +490,7 @@
     },
     {
       "id": 65,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -510,7 +510,7 @@
     },
     {
       "id": 66,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -530,7 +530,7 @@
     },
     {
       "id": 67,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -550,7 +550,7 @@
     },
     {
       "id": 68,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "false",
@@ -570,7 +570,7 @@
     },
     {
       "id": 69,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -590,7 +590,7 @@
     },
     {
       "id": 70,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -609,7 +609,7 @@
       }
     },{
       "id": 71,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -630,7 +630,7 @@
     },
     {
       "id": 72,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -651,7 +651,7 @@
     },
     {
       "id": 73,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -672,7 +672,7 @@
     },
     {
       "id": 74,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -692,7 +692,7 @@
     },
     {
       "id": 75,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -712,7 +712,7 @@
     },
     {
       "id": 76,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -732,7 +732,7 @@
     },
     {
       "id": 77,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -752,7 +752,7 @@
     },
     {
       "id": 78,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "false",
@@ -772,7 +772,7 @@
     },
     {
       "id": 79,
-      "frontcorner0": "false",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -792,7 +792,7 @@
     },
     {
       "id": 80,
-      "frontcorner0": "true",
+      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "false",
