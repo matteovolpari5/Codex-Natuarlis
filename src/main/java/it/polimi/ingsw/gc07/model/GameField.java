@@ -45,10 +45,16 @@ public class GameField {
      * Integer attribute that show the number of cards played in the game field
      */
     private int numPlayedCards;
+
+    /**
+     * Attribute to save the starter card before the player places it.
+     */
+    private PlaceableCard starterCard;
+
     /**
      * Constructor of the game field: builds an empty game field.
      */
-    public GameField() {
+    public GameField(PlaceableCard starterCard) {
         this.cardsContent = new PlaceableCard[dim][dim];
         for(int i=0; i < dim; i++){
             for(int j=0; j < dim; j++){
@@ -68,6 +74,7 @@ public class GameField {
             }
         }
         this.numPlayedCards = 0;
+        this.starterCard = starterCard;
     }
 
     /**
@@ -99,34 +106,20 @@ public class GameField {
         return GameField.dim;
     }
 
+    public PlaceableCard getStarterCard(){
+        return starterCard;
+    }
 
     public void placeCard(PlaceableCard card, int x, int y, boolean way) throws NoCoveredCornerException, NotLegitCornerException,
             MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException{
-        if(card == null){
-            throw new NullPointerException();
-        }
-        if(numPlayedCards == 0){
-            //the first card must be a StarterCard, if so no further condition must be checked
-            if(card.getBackCorners() == null){
-                //throw new CardNotPlaceableException(); //non c'è eccezione relativa
-            }
-        }else {
-            //this is not the first placement, this card cannot be a StarterCard
-            if (card.getBackCorners() != null) {
-                //throw new CardNotPlaceableException(); //non c'è eccezione relativa
-            }
-            if(way == false){
-                //the card to be placed is face up
-                if(card.getPlacementCondition().numTimesMet(this) <= 0){
-                    //the card is a GoldCard and the placement condition is not met
-                    throw new PlacingConditionNotMetException();
-                }
-            }
-            PlacementResult result = checkAvailability(x, y);
-            switch (result){
-                case PlacementResult.NO_COVERED_CORNER:
-                    throw new NoCoveredCornerException();
+            NullPointerException, IndexesOutOfGameFieldException {
+        assert(card != null) : "Card has value null";
+        PlacementResult result = card.isPlaceable(new GameField(this), x, y, way);
+
+        // VANNO TOLTE LE ECCEZIONI ?
+        switch (result){
+            case PlacementResult.NO_COVERED_CORNER:
+                throw new NoCoveredCornerException();
                 case PlacementResult.CARD_ALREADY_PRESENT:
                     throw new CardAlreadyPresentException();
                 case PlacementResult.MULTIPLE_CORNERS_COVERED:
@@ -137,13 +130,15 @@ public class GameField {
                     throw new IndexesOutOfGameFieldException();
                 default:
                     //caso base
-            }
         }
-        // PlaceableCard is immutable, I can insert the card I receive
-        cardsContent[x][y] = card;
-        cardsFace[x][y] = way;
-        numPlayedCards++;
-        cardsOrder[x][y] = numPlayedCards;
+
+        if(result.equals(PlacementResult.SUCCESS)){
+            // PlaceableCard is immutable, I can insert the card I receive
+            cardsContent[x][y] = card;
+            cardsFace[x][y] = way;
+            numPlayedCards++;
+            cardsOrder[x][y] = numPlayedCards;
+        }
     }
 
     /**

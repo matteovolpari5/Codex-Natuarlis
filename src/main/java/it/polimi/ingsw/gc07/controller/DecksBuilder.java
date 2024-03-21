@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import it.polimi.ingsw.gc07.model.GameItem;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.conditions.Condition;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
@@ -434,8 +435,8 @@ public class DecksBuilder {
      * @return starter card deck
      * @throws FileNotFoundException
      */
-    public static Deck<StarterCard> buildStarterCardsDeck() throws FileNotFoundException{
-        Stack<StarterCard> deckContent = new Stack<>();
+    public static Deck<PlaceableCard> buildStarterCardsDeck() throws FileNotFoundException{
+        Stack<PlaceableCard> deckContent = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/starterCardsDeck.json");
         JsonElement fileElement;
         JsonObject fileObject;
@@ -457,7 +458,7 @@ public class DecksBuilder {
             GameItem[] frontCornersContent =  DecksBuilder.extractFrontCornersContent(cardJsonObject);
             List<GameResource> permanentResources = DecksBuilder.extractPermanentResources(cardJsonObject);
 
-            StarterCard card = new StarterCard(id, type, frontCorners, frontCornersContent, permanentResources, backCorners, backCornersContent);
+            PlaceableCard card = new PlaceableCard(id, type, frontCorners, frontCornersContent, backCorners, backCornersContent, permanentResources);
             deckContent.add(card);
         }
         return new Deck<>(CardType.STARTER_CARD, deckContent);
@@ -514,6 +515,7 @@ public class DecksBuilder {
      * @return resource cards deck
      * @throws FileNotFoundException
      */
+    // TODO mancato attributi backCorner e backCornerContent
     public static ResourceCardsDeck buildResourceCardsDeck() throws FileNotFoundException {
         Stack<DrawableCard> deckContent = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/resourceCardsDeck.json");

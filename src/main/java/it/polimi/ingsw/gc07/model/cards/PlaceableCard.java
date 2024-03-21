@@ -126,4 +126,9 @@ public class PlaceableCard extends Card {
     public  List<GameResource> getPermanentResources(){
         return new ArrayList<>(permanentResources);
     }
+
+    public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way) {
+        assert(gameField.getNumPlayedCards() == 0): "A card was placed before the starter card";
+        return PlacementResult.SUCCESS;
+    }
 }

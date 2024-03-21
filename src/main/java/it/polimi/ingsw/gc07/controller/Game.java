@@ -55,7 +55,7 @@ public class Game {
     /**
      * Deck of starter cards.
      */
-    private Deck<StarterCard> starterCardsDeck;
+    private Deck<PlaceableCard> starterCardsDeck;
     /**
      * Boolean attribute, true if a player has reached 20 points.
      */
@@ -84,7 +84,7 @@ public class Game {
      * @throws WrongNumberOfPlayersException exception thrown when the number of players is wrong
      */
     public Game(int playersNumber, ResourceCardsDeck resourceCardsDeck,
-                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck, Deck<StarterCard> starterCardsDeck,
+                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck, Deck<PlaceableCard> starterCardsDeck,
                 String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongNumberOfPlayersException
     {
         this.state = GameState.WAITING_PLAYERS;
@@ -156,6 +156,10 @@ public class Game {
      */
     public int getScore(String nickname) throws PlayerNotPresentException {
         return this.scoreTrackBoard.getScore(nickname);
+    }
+
+    public void setStarterCardWay(String nickname, boolean way){
+        placeCard(nickname, playersGameField.get(nickname).getStarterCard(), 40, 40, way);
     }
 
     /**
@@ -343,7 +347,7 @@ public class Game {
      * @throws CardAlreadyPresentException : if a player play a card that is already present in the gameField
      * @throws CardNotPresentException : if the card that the player wants to play is not in his hands
      */
-    public void placeCard(String nickname, DrawableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
+    public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
         if(!getCurrentPlayer().getNickname().equals(nickname)) {
             throw new WrongPlayerException();
         }

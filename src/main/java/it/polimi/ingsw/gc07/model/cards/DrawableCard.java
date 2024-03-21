@@ -51,6 +51,7 @@ public class DrawableCard extends PlaceableCard {
     // TODO
     // usare i getter anzichè accedere direttamente ai campi
     // aggiungere il controllore fronte / retro
+    @Override
     public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way) {
         boolean found = false;
         if(x < 0 || x >= dim || y <0 || y >= dim) {
