@@ -412,34 +412,15 @@ public class Game {
         {
             throw new WrongPlayerException();
         }
-        if (!playersGameField.get(nickname).isCardPresent(x, y)){
-            throw new CardNotPresentException();
-        }
-        if(playersGameField.get(nickname).getCardWay(x, y)){
-            return;
-        }
-        if(playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition() == null){
-            deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getScore();
-            if(deltaPoints + getScore(nickname) >= 20){
-                twentyPointsReached = true;
-                if((deltaPoints + getScore(nickname)) > 29){
-                    scoreTrackBoard.setScore(nickname, 29);
-                }
-                else{
-                    scoreTrackBoard.incrementScore(nickname, deltaPoints);
-                }
+        assert (playersGameField.get(nickname).isCardPresent(x, y)) : "there isn't a Card in the x,y position";
+        deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).computePoints(playersGameField.get(nickname), x, y);
+        if(deltaPoints + getScore(nickname) >= 20){
+            twentyPointsReached = true;
+            if((deltaPoints + getScore(nickname)) > 29){
+                scoreTrackBoard.setScore(nickname, 29);
             }
-        }
-        else{
-            deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getScoringCondition().numTimesMet(this.playersGameField.get(nickname)) * this.playersGameField.get(nickname).getPlacedCard(x, y).getScore();
-            if(deltaPoints + getScore(nickname) >= 20){
-                twentyPointsReached = true;
-                if((deltaPoints + getScore(nickname)) > 29){
-                    scoreTrackBoard.setScore(nickname, 29);
-                }
-                else{
-                    scoreTrackBoard.incrementScore(nickname, deltaPoints);
-                }
+            else{
+                scoreTrackBoard.incrementScore(nickname, deltaPoints);
             }
         }
     }
