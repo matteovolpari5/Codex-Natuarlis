@@ -565,10 +565,34 @@ public class DecksBuilder {
             GameItem[] backCornersContent = DecksBuilder.extractBackCornersContent(cardJsonObject);
             List<GameResource> permanentResources = DecksBuilder.extractPermanentResources(cardJsonObject);
 
+            // extract and create the scoring condition
+            Condition scoringCondition = null;
+            JsonObject scoringConditionObject = cardJsonObject.get("scoringcondition").getAsJsonObject();
+            String conditionType = scoringConditionObject.get("conditiontype").getAsString();
+            if(conditionType.equals("LAYOUT_CONDITION")){
+                // extract layout condition
+                GameResource[][] cardsColor = DecksBuilder.extractLayoutCondition(scoringConditionObject);
+                scoringCondition = new LayoutCondition(cardsColor);
+            }
+            else if(conditionType.equals("ITEMS_CONDITION")){
+                // extract items condition
+                List<GameItem> neededItems = DecksBuilder.extractItemsCondition(scoringConditionObject);
+                scoringCondition = new ItemsCondition(neededItems);
+            }
+            else{
+                // the gold card has no scoringCondition
+                // scoringCondition has value null
+            }
+
+            // extract and create the placement condition
+            // always ITEM_CONDITION
+            // TODO
+
             // create resource card and add it to deck content
-            DrawableCard card = new DrawableCard(id, type, frontCorners, frontCornersContent, backCorners, backCornersContent, placementScore, permanentResources);
+            GoldCard card = new GoldCard(id, type, frontCorners, frontCornersContent, backCorners, backCornersContent,
+                    placementScore, permanentResources, placementCondition, scoringCondition);
             deckContent.add(card);
         }
-        return new ResourceCardsDeck(CardType.RESOURCE_CARD, deckContent);
+        return new ResourceCardsDeck(CardType.GOLD_CARD, deckContent);
     }
 }
