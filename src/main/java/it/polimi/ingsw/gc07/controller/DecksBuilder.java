@@ -6,12 +6,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.gc07.model.GameItem;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
+import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.conditions.Condition;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
 import it.polimi.ingsw.gc07.model.decks.Deck;
+import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
@@ -475,15 +477,14 @@ public class DecksBuilder {
         JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
         JsonObject fileObject = fileElement.getAsJsonObject();
         // get the JsonArray of all the cards
-        JsonArray jsonArrayStarterCards = fileObject.get("cards").getAsJsonArray();
-        for(JsonElement c: jsonArrayStarterCards){
+        JsonArray jsonArrayObjectiveCards = fileObject.get("cards").getAsJsonArray();
+        for(JsonElement c: jsonArrayObjectiveCards){
             // for every card, extract attributes
             JsonObject cardJsonObject = c.getAsJsonObject();
 
-            // id
             int id = cardJsonObject.get("id").getAsInt();
-            // the card type is CardType.OBJECTIVE_CARD for all cards in the deck
             CardType type = CardType.OBJECTIVE_CARD;
+            int objectiveScore = cardJsonObject.get("objectivescore").getAsInt();
 
             // extract and create the condition
             Condition scoringCondition = null;
@@ -500,9 +501,6 @@ public class DecksBuilder {
                 scoringCondition = new ItemsCondition(neededItems);
             }
 
-            // objectiveScore
-            int objectiveScore = cardJsonObject.get("objectivescore").getAsInt();
-
             // create Objective card and add it to deck content
             ObjectiveCard card = new ObjectiveCard(id, type, scoringCondition, objectiveScore);
             deckContent.add(card);
@@ -515,31 +513,28 @@ public class DecksBuilder {
      * @return resource cards deck
      * @throws FileNotFoundException
      */
-    // TODO mancato attributi backCorner e backCornerContent
     public static ResourceCardsDeck buildResourceCardsDeck() throws FileNotFoundException {
         Stack<DrawableCard> deckContent = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/resourceCardsDeck.json");
         JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
         JsonObject fileObject = fileElement.getAsJsonObject();
         // get the JsonArray of all the cards
-        JsonArray jsonArrayStarterCards = fileObject.get("cards").getAsJsonArray();
-        for (JsonElement c : jsonArrayStarterCards) {
+        JsonArray jsonArrayResourceCards = fileObject.get("cards").getAsJsonArray();
+        for (JsonElement c : jsonArrayResourceCards) {
             // for every card, extract attributes
             JsonObject cardJsonObject = c.getAsJsonObject();
 
-            // id
             int id = cardJsonObject.get("id").getAsInt();
-            // the card type is CardType.OBJECTIVE_CARD for all cards in the deck
             CardType type = CardType.RESOURCE_CARD;
-            // placement score
             int placementScore = cardJsonObject.get("placementscore").getAsInt();
-
             boolean[] frontCorners = DecksBuilder.extractFrontCorners(cardJsonObject);
             GameItem[] frontCornersContent = DecksBuilder.extractFrontCornersContent(cardJsonObject);
+            boolean[] backCorners = DecksBuilder.extractBackCorners(cardJsonObject);
+            GameItem[] backCornersContent = DecksBuilder.extractBackCornersContent(cardJsonObject);
             List<GameResource> permanentResources = DecksBuilder.extractPermanentResources(cardJsonObject);
 
             // create resource card and add it to deck content
-            DrawableCard card = new DrawableCard(id, type, frontCorners, frontCornersContent, placementScore, permanentResources);
+            DrawableCard card = new DrawableCard(id, type, frontCorners, frontCornersContent, backCorners, backCornersContent, placementScore, permanentResources);
             deckContent.add(card);
         }
         return new ResourceCardsDeck(CardType.RESOURCE_CARD, deckContent);
@@ -550,5 +545,13 @@ public class DecksBuilder {
      * @return resource cards deck
      * @throws FileNotFoundException
      */
-    // public static GoldCardsDeck buildGoldCardsDeck() throws FileNotFoundException {}
+    public static GoldCardsDeck buildGoldCardsDeck() throws FileNotFoundException {
+        Stack<GoldCard> deckContent = new Stack<>();
+        File input = new File("src/main/resources/it/polimi/ingsw/gc07/goldCardsDeck.json");
+        JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+        JsonObject fileObject = fileElement.getAsJsonObject();
+        // get the JsonArray of all the cards
+        JsonArray jsonArrayStarterCards = fileObject.get("cards").getAsJsonArray();
+
+    }
 }
