@@ -516,7 +516,6 @@ public class DecksBuilder {
      * @return resource cards deck
      * @throws FileNotFoundException
      */
-    /*
     public static ResourceCardsDeck buildResourceCardsDeck() throws FileNotFoundException {
         Stack<NonStarterCard> content = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/resourceCardsDeck.json");
@@ -524,7 +523,7 @@ public class DecksBuilder {
         JsonObject fileObject = fileElement.getAsJsonObject();
         // get the JsonArray of all the cards
         JsonArray jsonArrayStarterCards = fileObject.get("cards").getAsJsonArray();
-        for(JsonElement c: jsonArrayStarterCards){
+        for (JsonElement c : jsonArrayStarterCards) {
             // for every card, extract attributes
             JsonObject cardJsonObject = c.getAsJsonObject();
 
@@ -535,14 +534,14 @@ public class DecksBuilder {
             // placement score
             int placementScore = cardJsonObject.get("placementscore").getAsInt();
 
-            boolean[] frontCorners = new boolean[4];
-            GameItem[] frontCornersContent = new GameItem[4];
-            List<GameResource> permanentResources = new ArrayList<>();
+            boolean[] frontCorners = DecksBuilder.extractFrontCorners(cardJsonObject);
+            GameItem[] frontCornersContent = DecksBuilder.extractFrontCornersContent(cardJsonObject);
+            List<GameResource> permanentResources = DecksBuilder.extractPermanentResources(cardJsonObject);
 
             // TODO continuare
 
         }
-        */
+    }
 
     /**
      * Method that build a gold cards deck from the json file goldCardsDeck.json
