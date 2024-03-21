@@ -55,7 +55,7 @@ public class Game {
     /**
      * Deck of starter cards.
      */
-    private Deck<StarterCard> starterCardsDeck;
+    private Deck<PlaceableCard> starterCardsDeck;
     /**
      * Boolean attribute, true if a player has reached 20 points.
      */
@@ -84,7 +84,7 @@ public class Game {
      * @throws WrongNumberOfPlayersException exception thrown when the number of players is wrong
      */
     public Game(int playersNumber, ResourceCardsDeck resourceCardsDeck,
-                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck, Deck<StarterCard> starterCardsDeck,
+                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck, Deck<PlaceableCard> starterCardsDeck,
                 String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongNumberOfPlayersException
     {
         this.state = GameState.WAITING_PLAYERS;
@@ -105,7 +105,7 @@ public class Game {
         this.twentyPointsReached = false;
         this.additionalRound = false;
         try {
-            addPlayer(nickname, tokenColor, connectionType, interfaceType, starterCardWay);
+            addPlayer(nickname, tokenColor, connectionType, interfaceType);
         } catch (WrongStateException e) {
             e.printStackTrace();
         }
@@ -158,16 +158,29 @@ public class Game {
         return this.scoreTrackBoard.getScore(nickname);
     }
 
+    public void setStarterCardWay(String nickname, boolean way){
+        try {
+            placeCard(nickname, playersGameField.get(nickname).getStarterCard(), 40, 40, way);
+        } catch (WrongPlayerException e) {
+            throw new RuntimeException(e);
+        } catch (CardAlreadyPresentException e) {
+            throw new RuntimeException(e);
+        } catch (CardNotPresentException e) {
+            throw new RuntimeException(e);
+        } catch (WrongStateException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Method to add a new player.
      * @param nickname player to add to the game
      * @param tokenColor color of player's token
      * @param connectionType type of connection
      * @param interfaceType type of the interface
-     * @param starterCardWay way of the starter card
      * @throws WrongStateException if the state of the game is wrong
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongStateException{
+    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) throws WrongStateException{
         try{
             if(!state.equals(GameState.WAITING_PLAYERS)) {
                 throw new WrongStateException();
@@ -178,24 +191,18 @@ public class Game {
             currentHand.add(this.goldCardsDeck.drawCard());
             ObjectiveCard secretObjective = this.objectiveCardsDeck.drawCard();
             Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType, currentHand, secretObjective);
-            GameField gameField = new GameField();
-            getPlayers().add(newPlayer);
-            this.playersGameField.put(newPlayer.getNickname(), gameField);
-            try {
-                getGameField(nickname).placeCard(this.starterCardsDeck.drawCard(), 40, 40, starterCardWay);
-            } catch (PlayerNotPresentException | CardNotPlaceableException e) {
-                e.printStackTrace();
-            }
-            this.scoreTrackBoard.addPlayer(newPlayer.getNickname());
+            PlaceableCard starterCard = starterCardsDeck.drawCard();
+            GameField gameField = new GameField(starterCard);
+            players.add(newPlayer);
+            playersGameField.put(newPlayer.getNickname(), gameField);
+            scoreTrackBoard.addPlayer(newPlayer.getNickname());
             if (isFull()) {
                 setup();
-                this.state = GameState.PLAYING;
+                state = GameState.PLAYING;
             }
         } catch (CardNotPresentException e) {
             e.printStackTrace();
         } catch (PlayerAlreadyPresentException e) {
-            e.printStackTrace();
-        } catch (CardAlreadyPresentException e) {
             e.printStackTrace();
         }
     }
@@ -343,7 +350,7 @@ public class Game {
      * @throws CardAlreadyPresentException : if a player play a card that is already present in the gameField
      * @throws CardNotPresentException : if the card that the player wants to play is not in his hands
      */
-    public void placeCard(String nickname, DrawableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
+    public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
         if(!getCurrentPlayer().getNickname().equals(nickname)) {
             throw new WrongPlayerException();
         }
@@ -373,6 +380,16 @@ public class Game {
         }catch (PlayerNotPresentException e)
         {
             e.printStackTrace();
+        } catch (IndexesOutOfGameFieldException e) {
+            throw new RuntimeException(e);
+        } catch (PlacingConditionNotMetException e) {
+            throw new RuntimeException(e);
+        } catch (MultipleCornersCoveredException e) {
+            throw new RuntimeException(e);
+        } catch (NotLegitCornerException e) {
+            throw new RuntimeException(e);
+        } catch (NoCoveredCornerException e) {
+            throw new RuntimeException(e);
         }
     }
 
