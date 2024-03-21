@@ -151,7 +151,6 @@ classDiagram
     DrawableDeck~T~ <|-- GoldCardsDeck
 
 
-    %%CONTROLLARE DA QUA IN POI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     %%Deck --> Card
     %% --------------------------------
     %% Enumerations
@@ -188,6 +187,16 @@ classDiagram
         PLAYING
         GAME_ENDED
     }
+    class PlacementResult {
+        <<enumeration>>
+        SUCCESS,
+        NO_COVERED_CORNER,
+        NOT_LEGIT_CORNER,
+        MULTIPLE_CORNERS_COVERED,
+        CARD_ALREADY_PRESENT,
+        INDEXES_OUT_OF_GAME_FIELD,
+        PLACING_CONDITION_NOT_MET
+    }
     class TokenColor {
         <<enumeration>>
         BLUE
@@ -195,12 +204,75 @@ classDiagram
         RED
         YELLOW
     }
+
+
     class GameItem {
         <<interface>>
     }
     GameItem <|.. GameResource
     GameItem <|.. GameObject
 
+    class GameField {
+        - DIM: int$
+        - cardsContent: PlaceableCard[81][81]
+        - cardsFace: boolean [81][81]
+        - cardsOrder: int[81][81]
+        - numPlayedCards: int
+        + GameField()
+        + GameField(GameField existingGameField)
+        + getDim() int
+        + placeCard(card: PlaceableCard, x: int, y: int, way: boolean)
+        + isCardPresent(x: int, y: int) boolean
+        + getPlacedCard(x: int, y: int) PlaceableCard
+        + removePlacedcard(x: int, y: int)
+        + getCardWay(x: int, y: int) boolean
+        + getCardsOrder() int[81][81]
+        + getNumPlayedCards() int
+    }
+    %%GameField --> PlaceableCard
+
+    class Player {
+        - nickname: String
+        - tokenColor: TokenColor
+        - isFirst: boolean
+        - connectionType: boolean
+        - interfaceType: boolean
+        - isConnected: boolean
+        - isStalled : boolean
+        - currentHand: List ~NonStarterCard~
+        - secretObjectve: ObjectiveCard
+        + Player(nickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType: boolean, currentHand: List~NonStarterCard~, \nsecretObjective: ObjectiveCard)
+        + Player(existingPlayer: Player)
+        + getNickname() String
+        + getTokenColor() TokenColor
+        + setFirst()
+        + getIsStalled() boolean
+        + setIsStalled(isStalled : boolean)
+        + isFirst() boolean
+        + isConnected() boolean
+        + setIsConnected(isConnected: boolean)
+        + setCurrentHand(currentHand: List~DrawableCard~)
+        + getCurrentHand() List~DrawableCard~
+        + getSecretObjetive() ObjectiveCard
+        + getConnectionType() boolean
+        + getInterfaceType() boolean
+    }
+    %%Player --> NonStarterCard
+    %%Player --> TokenColor
+    %%Player --> ObjectiveCard
+    class ScoreTrackBoard {
+        - playersScore: Map~String, Integer~
+        + ScoreTrackBoard()
+        + addPlayer(nickname: String)
+        + setScore(nickname: String, newScore: int)
+        + getScore(nickname: String) int
+        + incrementScore(nickname: String, deltaScore: int)
+    }
+    %%ScoreTrackBoard --> Player
+
+%% -----------------------------------------
+%%  CONTROLLER
+%% -----------------------------------------
     class Game {
         - state: GameState
         - playersNumber: int
@@ -239,75 +311,34 @@ classDiagram
         + getLastChatMessage(receiver: String) Message
         + getChatContent(receiver: String) List~Message~
     }
-    %%  Game --> DrawableDeck
-    %%  Game --> Deck
-    %%  Game --> PlayingDeck
-    %%  Game --> ScoreTrackBoard
-    %%  Game --> Player
-    %%  Game --> Chat
-    %%  Game --> GameField
-    class GameField {
-        - DIM: int$
-        - cardsContent: PlaceableCard[81][81]
-        - cardsFace: boolean [81][81]
-        - cardsOrder: int[81][81]
-        - numPlayedCards: int
-        + GameField()
-        + GameField(GameField existingGameField)
-        + getDim() int
-        + placeCard(card: PlaceableCard, x: int, y: int, way: boolean)
-        + isCardPresent(x: int, y: int) boolean
-        + getPlacedCard(x: int, y: int) PlaceableCard
-        + removePlacedcard(x: int, y: int)
-        + getCardWay(x: int, y: int) boolean
-        + getCardsOrder() int[81][81]
-        + getNumPlayedCards() int
-    }
-    %%GameField --> PlaceableCard
+%%  Game --> DrawableDeck
+%%  Game --> Deck
+%%  Game --> PlayingDeck
+%%  Game --> ScoreTrackBoard
+%%  Game --> Player
+%%  Game --> Chat
+%%  Game --> GameField
+
     class GamesManager {
         - games: List~Game~
         + GamesManager()
         + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType: boolean, starterCardWay: boolean)
         + checkNickname(nickname: String) boolean
     }
-    %%GamesManager --> Game
-    class Player {
-        - nickname: String
-        - tokenColor: TokenColor
-        - isFirst: boolean
-        - connectionType: boolean
-        - interfaceType: boolean
-        - isConnected: boolean
-        - isStalled : boolean
-        - currentHand: List ~NonStarterCard~
-        - secretObjectve: ObjectiveCard
-        + Player(nickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType: boolean, currentHand: List~NonStarterCard~, \nsecretObjective: ObjectiveCard)
-        + Player(existingPlayer: Player)
-        + getNickname() String
-        + getTokenColor() TokenColor
-        + setFirst()
-        + isFirst() boolean
-        + isConnected() boolean
-        + setIsConnected(isConnected: boolean)
-        + setCurrentHand(currentHand: List~NonStarterCard~)
-        + getCurrentHand() List~NonStarterCard~
-        + getSecretObjetive() ObjectiveCard
-        + getConnectionType() boolean
-        + getInterfaceType() boolean
-    }
-    %%Player --> NonStarterCard
-    %%Player --> TokenColor
-    %%Player --> ObjectiveCard
-    class ScoreTrackBoard {
-        - playersScore: Map~String, Integer~
-        + ScoreTrackBoard()
-        + addPlayer(nickname: String)
-        + setScore(nickname: String, newScore: int)
-        + getScore(nickname: String) int
-        + incrementScore(nickname: String, deltaScore: int)
-    }
-    %%ScoreTrackBoard --> Player
+%%GamesManager --> Game
 
-
+    class DecksBuilder{
+        + extractFrontCorners(cardJsonObject : JsonObject) boolean[4]
+        + extractFrontCornersContent(cardJsonObject : JsonObject) GameItem[4]
+        + extractBackCorners(cardJsonObject : JsonObject) boolean[4]
+        + extractBackCornersContent(cardJsonObject : JsonObject) GameItem[4]
+        + extractPermanentResources(cardJsonObject : JsonObject) List~GameResource~
+        + extractLayoutCondition(conditionObject : JsonObject) GameResource[4][3]
+        + extracrItemsCondition(conditionObject : JsonObject) List~GameItem~
+        + buildStarterCardsDeck() Deck~PlaceableCard~
+        + buildObjectiveCardsDeck() PlayingDeck~ObjectiveCard~
+        + buildResourceCardsDeck() ResourceCardsDeck
+        + buildGoldCardsDeck() GoldCardsDeck
+    }
 
 
