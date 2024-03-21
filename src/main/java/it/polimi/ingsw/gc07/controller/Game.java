@@ -217,7 +217,7 @@ public class Game {
         // choose randomly the first player
         Random random= new Random();
         this.currPlayer=random.nextInt(playersNumber);
-        getCurrentPlayer().setFirst();
+        players.get(currPlayer).setFirst();
         try {
             //place 2 gold cards
             List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
@@ -318,22 +318,22 @@ public class Game {
             this.currPlayer++;
         if(this.twentyPointsReached)
         {
-            if(getCurrentPlayer().isFirst()&&this.additionalRound)
+            if(players.get(currPlayer).isFirst()&&this.additionalRound)
             {
                 this.state = GameState.GAME_ENDED;
                 List<Player> winners = new ArrayList<>(computeWinner());
                 //TODO: fare qualcosa con questo winner
             }
-            else if(getCurrentPlayer().isFirst())
+            else if(players.get(currPlayer).isFirst())
             {
                 this.additionalRound=true;
             }
         }
-        if(!getCurrentPlayer().isConnected())
+        if(!players.get(currPlayer).isConnected())
         {
             changeCurrPlayer();
         }
-        if(getCurrentPlayer().getIsStalled())
+        if(players.get(currPlayer).getIsStalled())
         {
             changeCurrPlayer();
         }
@@ -352,32 +352,32 @@ public class Game {
      * @throws CardNotPresentException : if the card that the player wants to play is not in his hands
      */
     public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
-        if(!getCurrentPlayer().getNickname().equals(nickname)) {
+        if(!players.get(currPlayer).getNickname().equals(nickname)) {
             throw new WrongPlayerException();
         }
-        if(!(getCurrentPlayer().getCurrentHand()).contains(card)){
+        if(!(players.get(currPlayer).getCurrentHand()).contains(card)){
             throw new WrongPlayerException();
         }
         if(!state.equals(GameState.PLAYING)){
             throw new WrongStateException();
         }
         try {
-            getGameField(nickname).placeCard(card,x,y,way);
-            List<DrawableCard> newHand = new ArrayList<>(getCurrentPlayer().getCurrentHand());
+            playersGameField.get(nickname).placeCard(card,x,y,way);
+            List<DrawableCard> newHand = new ArrayList<>(players.get(currPlayer).getCurrentHand());
             newHand.remove(card);
-            getCurrentPlayer().setCurrentHand(newHand);
+            players.get(currPlayer).setCurrentHand(newHand);
             addPoints(nickname,x,y);
             boolean isStalled = true;
             for(int a=0; a<81 && isStalled; a++)
                 for(int b=0; b<81 && isStalled; b++)
                 {
-                    PlacementResult result = getGameField(nickname).checkAvailability(a,b);
+                    PlacementResult result = playersGameField.get(nickname).checkAvailability(a,b);
                     if(result.equals(PlacementResult.SUCCESS))
                     {
                         isStalled=false;
                     }
                 }
-            getCurrentPlayer().setIsStalled(isStalled);
+            players.get(currPlayer).setIsStalled(isStalled);
         }catch (PlayerNotPresentException e)
         {
             e.printStackTrace();
@@ -408,7 +408,7 @@ public class Game {
             throw new WrongStateException();
         }
         int deltaPoints;
-        if(!getCurrentPlayer().getNickname().equals(nickname))
+        if(!players.get(currPlayer).getNickname().equals(nickname))
         {
             throw new WrongPlayerException();
         }
@@ -478,7 +478,7 @@ public class Game {
      * @throws WrongPlayerException: if the player is not the current player
      */
     public void drawDeckCard(String nickname, CardType type) throws WrongCardTypeException, CardNotPresentException, WrongPlayerException {
-        if(!getCurrentPlayer().getNickname().equals(nickname)){
+        if(!players.get(currPlayer).getNickname().equals(nickname)){
             throw new WrongPlayerException();
         }
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
@@ -512,7 +512,7 @@ public class Game {
      * @throws WrongPlayerException: if the player is not the current player
      */
     public void drawFaceUpCard(String nickname, CardType type, int pos) throws WrongCardTypeException, CardNotPresentException, WrongPlayerException, PlayerNotPresentException {
-        if(!getCurrentPlayer().getNickname().equals(nickname)){
+        if(!players.get(currPlayer).getNickname().equals(nickname)){
             throw new WrongPlayerException();
         }
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
