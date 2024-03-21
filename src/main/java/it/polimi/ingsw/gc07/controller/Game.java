@@ -105,7 +105,7 @@ public class Game {
         this.twentyPointsReached = false;
         this.additionalRound = false;
         try {
-            addPlayer(nickname, tokenColor, connectionType, interfaceType, starterCardWay);
+            addPlayer(nickname, tokenColor, connectionType, interfaceType);
         } catch (WrongStateException e) {
             e.printStackTrace();
         }
@@ -159,7 +159,17 @@ public class Game {
     }
 
     public void setStarterCardWay(String nickname, boolean way){
-        placeCard(nickname, playersGameField.get(nickname).getStarterCard(), 40, 40, way);
+        try {
+            placeCard(nickname, playersGameField.get(nickname).getStarterCard(), 40, 40, way);
+        } catch (WrongPlayerException e) {
+            throw new RuntimeException(e);
+        } catch (CardAlreadyPresentException e) {
+            throw new RuntimeException(e);
+        } catch (CardNotPresentException e) {
+            throw new RuntimeException(e);
+        } catch (WrongStateException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -168,10 +178,9 @@ public class Game {
      * @param tokenColor color of player's token
      * @param connectionType type of connection
      * @param interfaceType type of the interface
-     * @param starterCardWay way of the starter card
      * @throws WrongStateException if the state of the game is wrong
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongStateException{
+    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) throws WrongStateException{
         try{
             if(!state.equals(GameState.WAITING_PLAYERS)) {
                 throw new WrongStateException();
@@ -182,24 +191,18 @@ public class Game {
             currentHand.add(this.goldCardsDeck.drawCard());
             ObjectiveCard secretObjective = this.objectiveCardsDeck.drawCard();
             Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType, currentHand, secretObjective);
-            GameField gameField = new GameField();
-            getPlayers().add(newPlayer);
-            this.playersGameField.put(newPlayer.getNickname(), gameField);
-            try {
-                getGameField(nickname).placeCard(this.starterCardsDeck.drawCard(), 40, 40, starterCardWay);
-            } catch (PlayerNotPresentException | CardNotPlaceableException e) {
-                e.printStackTrace();
-            }
-            this.scoreTrackBoard.addPlayer(newPlayer.getNickname());
+            PlaceableCard starterCard = starterCardsDeck.drawCard();
+            GameField gameField = new GameField(starterCard);
+            players.add(newPlayer);
+            playersGameField.put(newPlayer.getNickname(), gameField);
+            scoreTrackBoard.addPlayer(newPlayer.getNickname());
             if (isFull()) {
                 setup();
-                this.state = GameState.PLAYING;
+                state = GameState.PLAYING;
             }
         } catch (CardNotPresentException e) {
             e.printStackTrace();
         } catch (PlayerAlreadyPresentException e) {
-            e.printStackTrace();
-        } catch (CardAlreadyPresentException e) {
             e.printStackTrace();
         }
     }
@@ -377,6 +380,16 @@ public class Game {
         }catch (PlayerNotPresentException e)
         {
             e.printStackTrace();
+        } catch (IndexesOutOfGameFieldException e) {
+            throw new RuntimeException(e);
+        } catch (PlacingConditionNotMetException e) {
+            throw new RuntimeException(e);
+        } catch (MultipleCornersCoveredException e) {
+            throw new RuntimeException(e);
+        } catch (NotLegitCornerException e) {
+            throw new RuntimeException(e);
+        } catch (NoCoveredCornerException e) {
+            throw new RuntimeException(e);
         }
     }
 
