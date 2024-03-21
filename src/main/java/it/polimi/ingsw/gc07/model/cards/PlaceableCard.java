@@ -132,7 +132,7 @@ public class PlaceableCard extends Card {
         return PlacementResult.SUCCESS;
     }
     public int computePoints(GameField gameField, int x, int y){
-        assert (gameField.isCardPresent(x, y)) : "there isn't a Card in the x,y position";
+        assert (gameField.isCardPresent(x, y)) : "There isn't a Card in position (x,y)";
         return 0;
     }
 }
