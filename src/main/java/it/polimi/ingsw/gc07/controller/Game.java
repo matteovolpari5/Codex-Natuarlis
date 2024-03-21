@@ -172,7 +172,7 @@ public class Game {
             if(!state.equals(GameState.WAITING_PLAYERS)) {
                 throw new WrongStateException();
             }
-            List<NonStarterCard> currentHand = new ArrayList<>();
+            List<DrawableCard> currentHand = new ArrayList<>();
             currentHand.add(this.resourceCardsDeck.drawCard());
             currentHand.add(this.resourceCardsDeck.drawCard());
             currentHand.add(this.goldCardsDeck.drawCard());
@@ -223,7 +223,7 @@ public class Game {
         }
         try {
             //place 2 resource card
-            List<NonStarterCard> setUpResourceCardsFaceUp = new ArrayList<>();
+            List<DrawableCard> setUpResourceCardsFaceUp = new ArrayList<>();
             setUpResourceCardsFaceUp.add(this.resourceCardsDeck.drawCard());
             setUpResourceCardsFaceUp.add(this.resourceCardsDeck.drawCard());
             this.resourceCardsDeck.setFaceUpCards(setUpResourceCardsFaceUp);
@@ -343,7 +343,7 @@ public class Game {
      * @throws CardAlreadyPresentException : if a player play a card that is already present in the gameField
      * @throws CardNotPresentException : if the card that the player wants to play is not in his hands
      */
-    public void placeCard(String nickname, NonStarterCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
+    public void placeCard(String nickname, DrawableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
         if(!getCurrentPlayer().getNickname().equals(nickname)) {
             throw new WrongPlayerException();
         }
@@ -355,7 +355,7 @@ public class Game {
         }
         try {
             getGameField(nickname).placeCard(card,x,y,way);
-            List<NonStarterCard> newHand = new ArrayList<>(getCurrentPlayer().getCurrentHand());
+            List<DrawableCard> newHand = new ArrayList<>(getCurrentPlayer().getCurrentHand());
             newHand.remove(card);
             getCurrentPlayer().setCurrentHand(newHand);
             addPoints(nickname,x,y);
@@ -485,7 +485,7 @@ public class Game {
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
             throw new WrongCardTypeException();
         }
-        List<NonStarterCard> newHand = new ArrayList<>();
+        List<DrawableCard> newHand = new ArrayList<>();
         newHand.addAll(this.players.get(this.currPlayer).getCurrentHand());
         if(type.equals(CardType.RESOURCE_CARD)){
             newHand.add(this.resourceCardsDeck.drawCard());
@@ -519,7 +519,7 @@ public class Game {
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
             throw new WrongCardTypeException();
         }
-        List<NonStarterCard> newHand = new ArrayList<>();
+        List<DrawableCard> newHand = new ArrayList<>();
         newHand.addAll(this.players.get(this.currPlayer).getCurrentHand());
         if(type.equals(CardType.RESOURCE_CARD)){
             newHand.add(this.resourceCardsDeck.drawFaceUpCard(pos));

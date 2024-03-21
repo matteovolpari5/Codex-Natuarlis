@@ -5,14 +5,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.gc07.model.GameItem;
-import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
+import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
-import it.polimi.ingsw.gc07.model.cards.StarterCard;
 import it.polimi.ingsw.gc07.model.conditions.Condition;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
 import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
@@ -517,7 +515,7 @@ public class DecksBuilder {
      * @throws FileNotFoundException
      */
     public static ResourceCardsDeck buildResourceCardsDeck() throws FileNotFoundException {
-        Stack<NonStarterCard> deckContent = new Stack<>();
+        Stack<DrawableCard> deckContent = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/resourceCardsDeck.json");
         JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
         JsonObject fileObject = fileElement.getAsJsonObject();
@@ -539,7 +537,7 @@ public class DecksBuilder {
             List<GameResource> permanentResources = DecksBuilder.extractPermanentResources(cardJsonObject);
 
             // create resource card and add it to deck content
-            NonStarterCard card = new NonStarterCard(id, type, frontCorners, frontCornersContent, placementScore, permanentResources);
+            DrawableCard card = new DrawableCard(id, type, frontCorners, frontCornersContent, placementScore, permanentResources);
             deckContent.add(card);
         }
         return new ResourceCardsDeck(CardType.RESOURCE_CARD, deckContent);

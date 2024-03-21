@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.model.cards.NonStarterCard;
+import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
@@ -43,7 +43,7 @@ public class Player {
     /**
      * List of cards the player currently has.
      */
-    private List<NonStarterCard> currentHand;
+    private List<DrawableCard> currentHand;
     /**
      * Player's secret objective, it is an objective card.
      */
@@ -63,7 +63,7 @@ public class Player {
      */
     public Player(String nickname, TokenColor tokenColor,
                   boolean connectionType, boolean interfaceType,
-                  List<NonStarterCard> currentHand, ObjectiveCard secretObjective) {
+                  List<DrawableCard> currentHand, ObjectiveCard secretObjective) {
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.isFirst = false;   // will be set true only for the first player
@@ -149,7 +149,7 @@ public class Player {
      * Setter for cards in player's hand.
      * @param currentHand current card in player's hand
      */
-    public void setCurrentHand(List<NonStarterCard> currentHand){
+    public void setCurrentHand(List<DrawableCard> currentHand){
         // create a copy of the list
         // cards are immutable, I can use them
         this.currentHand = new ArrayList<>(currentHand);
@@ -159,7 +159,7 @@ public class Player {
      * Getter for cards in player's hand.
      * @return currentHand current card in player's hand
      */
-    public List<NonStarterCard> getCurrentHand() {
+    public List<DrawableCard> getCurrentHand() {
         return new ArrayList<>(currentHand);
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Class that represents gold cards.
  */
-public final class GoldCard extends NonStarterCard {
+public final class GoldCard extends DrawableCard {
     /**
      * Attribute that shows the placement condition of the gold card
      */
@@ -33,11 +33,11 @@ public final class GoldCard extends NonStarterCard {
      * @param placementCondition : placement condition
      * @param scoringCondition : scoring condition
      */
-    public GoldCard(int cardID, CardType cardType, boolean[] frontCorners,
-                    GameItem[] frontCornersContent, int placementScore,
+    public GoldCard(int cardID, CardType cardType, boolean[] frontCorners, GameItem[] frontCornersContent,
+                    boolean[] backCorners, GameItem[] backCornersContent, int placementScore,
                     List<GameResource> permanentResources, Condition placementCondition,
                     Condition scoringCondition) {
-        super(cardID, cardType, frontCorners, frontCornersContent, placementScore, permanentResources);
+        super(cardID, cardType, frontCorners, frontCornersContent, backCorners, backCornersContent, placementScore, permanentResources);
         this.placementCondition = placementCondition;
         this.scoringCondition = scoringCondition;
     }

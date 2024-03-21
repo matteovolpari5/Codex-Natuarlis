@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.model.cards;
 
-import it.polimi.ingsw.gc07.model.conditions.Condition;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
@@ -11,7 +10,7 @@ import java.util.List;
  * Class that represents non-starter cards.
  * Non-starter cards are: GoldCards and ResourceCards.
  */
-public class NonStarterCard extends PlaceableCard {
+public class DrawableCard extends PlaceableCard {
     /**
      * Attribute that shows how many points the player will score if he places
      * this card.
@@ -35,14 +34,13 @@ public class NonStarterCard extends PlaceableCard {
      * @param permanentResources :  list of permanent game resources on the back of the card
      */
     // Regular constructor
-    public NonStarterCard(int cardID, CardType cardType, boolean[] frontCorners,
-                          GameItem[] frontCornersContent, int placementScore,
-                          List<GameResource> permanentResources) {
-        super(cardID, cardType, frontCorners, frontCornersContent, permanentResources);
+    public DrawableCard(int cardID, CardType cardType, boolean[] frontCorners, GameItem[] frontCornersContent,
+                        boolean[] backCorners, GameItem[] backCornersContent, int placementScore,
+                        List<GameResource> permanentResources) {
+        super(cardID, cardType, frontCorners, frontCornersContent, backCorners, backCornersContent, permanentResources);
         this.placementScore = placementScore;
     }
     public int getScore(){
         return placementScore;
     }
-
 }

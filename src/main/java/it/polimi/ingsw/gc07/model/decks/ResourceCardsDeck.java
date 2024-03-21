@@ -5,8 +5,8 @@ import it.polimi.ingsw.gc07.model.enumerations.*;
 
 import java.util.Stack;
 
-public class ResourceCardsDeck extends DrawableDeck<NonStarterCard> {
-    public ResourceCardsDeck(CardType type, Stack<NonStarterCard> content) {
+public class ResourceCardsDeck extends DrawableDeck<DrawableCard> {
+    public ResourceCardsDeck(CardType type, Stack<DrawableCard> content) {
         super(type, content);
     }
     public ResourceCardsDeck(ResourceCardsDeck existingDeck){
