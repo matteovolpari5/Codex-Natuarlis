@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc07.model.cards;
 
+import it.polimi.ingsw.gc07.exceptions.PlacementResult;
+import it.polimi.ingsw.gc07.exceptions.PlacingConditionNotMetException;
+import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
@@ -60,5 +63,20 @@ public final class GoldCard extends DrawableCard {
 
     public int getScore() {
         return super.getScore();
+    }
+
+    public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way){
+        PlacementResult isPlaceableResult = super.isPlaceable(gameField, x, y, way);
+        if(isPlaceableResult.equals(PlacementResult.SUCCESS)){
+            // indexes are ok
+            if(!way){
+                //the gold card to be placed is face up
+                if(placementCondition.numTimesMet(gameField) <= 0){
+                    //the card is a GoldCard and the placement condition is not met
+                    isPlaceableResult = PlacementResult.PLACING_CONDITION_NOT_MET;
+                }
+            }
+        }
+        return isPlaceableResult;
     }
 }

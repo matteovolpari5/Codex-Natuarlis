@@ -16,5 +16,6 @@ public enum PlacementResult {
     NOT_LEGIT_CORNER, // NotLegitCornerException
     MULTIPLE_CORNERS_COVERED, // MultipleCornersCoveredException
     CARD_ALREADY_PRESENT, // CardAlreadyPresentException
-    INDEXES_OUT_OF_GAME_FIELD // IndexesOutOfGameFieldException
+    INDEXES_OUT_OF_GAME_FIELD, // IndexesOutOfGameFieldException
+    PLACING_CONDITION_NOT_MET // PlacingConditionNotMetException
 }
