@@ -102,7 +102,7 @@ public class GameField {
         this.numPlayedCards = existingGameField.numPlayedCards;
     }
 
-    public int getDim(){
+    public static int getDim(){
         return GameField.dim;
     }
 

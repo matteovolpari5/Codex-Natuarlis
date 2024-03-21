@@ -159,7 +159,7 @@ public class Game {
 
     public void setStarterCardWay(String nickname, boolean way){
         try {
-            placeCard(nickname, playersGameField.get(nickname).getStarterCard(), 40, 40, way);
+            placeCard(nickname, playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
         } catch (WrongPlayerException e) {
             throw new RuntimeException(e);
         } catch (CardAlreadyPresentException e) {
@@ -368,15 +368,15 @@ public class Game {
             players.get(currPlayer).setCurrentHand(newHand);
             addPoints(nickname,x,y);
             boolean isStalled = true;
-            for(int a=0; a<81 && isStalled; a++)
-                for(int b=0; b<81 && isStalled; b++)
-                {
-                    PlacementResult result = playersGameField.get(nickname).checkAvailability(a,b);
-                    if(result.equals(PlacementResult.SUCCESS))
-                    {
-                        isStalled=false;
+            for(int i = 0; i < GameField.getDim() && isStalled; i++) {
+                for (int j = 0; j < GameField.getDim() && isStalled; j++) {
+                    // TODO fix error
+                    PlacementResult result = playersGameField.get(nickname).checkAvailability(i, j);
+                    if (result.equals(PlacementResult.SUCCESS)) {
+                        isStalled = false;
                     }
                 }
+            }
             players.get(currPlayer).setIsStalled(isStalled);
         }catch (PlayerNotPresentException e)
         {
