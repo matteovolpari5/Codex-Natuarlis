@@ -51,6 +51,7 @@ public class DrawableCard extends PlaceableCard {
     // TODO
     // usare i getter anzichè accedere direttamente ai campi
     // aggiungere il controllore fronte / retro
+    // alla fine penso non serva way, perchè non interessa se copro con non angolo (?)
     @Override
     public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way) {
         boolean found = false;

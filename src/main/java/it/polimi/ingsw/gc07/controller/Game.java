@@ -80,13 +80,12 @@ public class Game {
      * @param tokenColor color of player's token
      * @param connectionType type of connection
      * @param interfaceType type of the interface
-     * @param starterCardWay way of the starter card
      * @throws WrongNumberOfPlayersException exception thrown when the number of players is wrong
      */
     public Game(int playersNumber, ResourceCardsDeck resourceCardsDeck,
-                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck, Deck<PlaceableCard> starterCardsDeck,
-                String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType, boolean starterCardWay) throws WrongNumberOfPlayersException
-    {
+                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
+                Deck<PlaceableCard> starterCardsDeck, String nickname, TokenColor tokenColor,
+                boolean connectionType, boolean interfaceType) throws WrongNumberOfPlayersException {
         this.state = GameState.WAITING_PLAYERS;
         if (playersNumber<2 || playersNumber>4)  {
             throw new WrongNumberOfPlayersException();
@@ -116,7 +115,7 @@ public class Game {
      * @return the state of the game
      */
     public GameState getState() {
-        return this.state;
+        return state;
     }
 
     /**
@@ -124,7 +123,7 @@ public class Game {
      * @return the players in the game
      */
     public List<Player> getPlayers() {
-        return new ArrayList<>(this.players);
+        return new ArrayList<>(players);
     }
 
     /**
@@ -132,7 +131,7 @@ public class Game {
      * @return the current player
      */
     public Player getCurrentPlayer() {
-        return new Player(this.players.get(this.currPlayer));
+        return new Player(players.get(currPlayer));
     }
 
     /**
@@ -145,7 +144,7 @@ public class Game {
         if(!this.playersGameField.containsKey(nickname)) {
             throw new PlayerNotPresentException();
         }
-        return new GameField(this.playersGameField.get(nickname));
+        return new GameField(playersGameField.get(nickname));
     }
 
     /**
@@ -155,7 +154,7 @@ public class Game {
      * @throws PlayerNotPresentException exception thrown when a player is not present in the game
      */
     public int getScore(String nickname) throws PlayerNotPresentException {
-        return this.scoreTrackBoard.getScore(nickname);
+        return scoreTrackBoard.getScore(nickname);
     }
 
     public void setStarterCardWay(String nickname, boolean way){
@@ -215,10 +214,10 @@ public class Game {
         if (!state.equals(GameState.WAITING_PLAYERS)) {
             throw new WrongStateException();
         }
-        // chose randomly the first player
+        // choose randomly the first player
         Random random= new Random();
-        currPlayer=random.nextInt(playersNumber);
-        players.get(currPlayer).setFirst();
+        this.currPlayer=random.nextInt(playersNumber);
+        getCurrentPlayer().setFirst();
         try {
             //place 2 gold cards
             List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
@@ -239,7 +238,9 @@ public class Game {
         {
             e.printStackTrace();
         }
+
     }
+
     /**
      * Method telling if there are available places in the game.
      * @return true if no other player can connect to the game
@@ -249,9 +250,10 @@ public class Game {
     }
 
     /**
-     * method that disconnect a player from the game
+     * Method that disconnect a player from the game
      * @param nickname : nickname of the player
      */
+    // TODO può scendere a 0, cosa succede?
     public void disconnectPlayer(String nickname){
         try{
             int pos = getPlayerByNickname(nickname);
@@ -271,7 +273,7 @@ public class Game {
         }
     }
     /**
-     * method that reconnect a player from the game
+     * Method that reconnect a player from the game
      * @param nickname : nickname of the player
      */
     public void reconnectPlayer(String nickname){
@@ -281,6 +283,7 @@ public class Game {
         } catch (PlayerNotPresentException e) {
             e.printStackTrace();
         }
+        // TODO: controllare se lo stato torna a PLAYING, dipende se il numero di giocatori connessi può scendere a 0
     }
 
     /**
@@ -309,28 +312,28 @@ public class Game {
         if(!state.equals(GameState.PLAYING)) {
             throw new WrongStateException();
         }
-        if(currPlayer==players.size()-1)
-            currPlayer=0;
+        if(this.currPlayer==this.players.size()-1)
+            this.currPlayer=0;
         else
-            currPlayer++;
-        if(twentyPointsReached)
+            this.currPlayer++;
+        if(this.twentyPointsReached)
         {
-            if(players.get(currPlayer).isFirst()&&additionalRound)
+            if(getCurrentPlayer().isFirst()&&this.additionalRound)
             {
-                state=GameState.GAME_ENDED;
+                this.state = GameState.GAME_ENDED;
                 List<Player> winners = new ArrayList<>(computeWinner());
                 //TODO: fare qualcosa con questo winner
             }
-            else if(players.get(currPlayer).isFirst())
+            else if(getCurrentPlayer().isFirst())
             {
-                additionalRound=true;
+                this.additionalRound=true;
             }
         }
-        if(!players.get(currPlayer).isConnected())
+        if(!getCurrentPlayer().isConnected())
         {
             changeCurrPlayer();
         }
-        if(players.get(currPlayer).getIsStalled())
+        if(getCurrentPlayer().getIsStalled())
         {
             changeCurrPlayer();
         }
@@ -349,32 +352,32 @@ public class Game {
      * @throws CardNotPresentException : if the card that the player wants to play is not in his hands
      */
     public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
-        if(!players.get(currPlayer).getNickname().equals(nickname)) {
+        if(!getCurrentPlayer().getNickname().equals(nickname)) {
             throw new WrongPlayerException();
         }
-        if(!(players.get(currPlayer).getCurrentHand()).contains(card)){
+        if(!(getCurrentPlayer().getCurrentHand()).contains(card)){
             throw new WrongPlayerException();
         }
         if(!state.equals(GameState.PLAYING)){
             throw new WrongStateException();
         }
         try {
-            playersGameField.get(nickname).placeCard(card,x,y,way);
-            List<DrawableCard> newHand = new ArrayList<>(players.get(currPlayer).getCurrentHand());
+            getGameField(nickname).placeCard(card,x,y,way);
+            List<DrawableCard> newHand = new ArrayList<>(getCurrentPlayer().getCurrentHand());
             newHand.remove(card);
-            players.get(currPlayer).setCurrentHand(newHand);
+            getCurrentPlayer().setCurrentHand(newHand);
             addPoints(nickname,x,y);
-            boolean isStalled=true;
-            for(int a=0;a<81&&isStalled;a++)
-                for(int b=0;b<81&&isStalled;b++)
+            boolean isStalled = true;
+            for(int a=0; a<81 && isStalled; a++)
+                for(int b=0; b<81 && isStalled; b++)
                 {
-                    PlacementResult result = playersGameField.get(nickname).checkAvailability(a,b);
+                    PlacementResult result = getGameField(nickname).checkAvailability(a,b);
                     if(result.equals(PlacementResult.SUCCESS))
                     {
                         isStalled=false;
                     }
                 }
-            players.get(currPlayer).setIsStalled(isStalled);
+            getCurrentPlayer().setIsStalled(isStalled);
         }catch (PlayerNotPresentException e)
         {
             e.printStackTrace();
