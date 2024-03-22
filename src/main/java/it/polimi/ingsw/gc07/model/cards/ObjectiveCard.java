@@ -34,20 +34,10 @@ public final class ObjectiveCard extends Card {
         this.scoringCondition = scoringCondition;
         this.objectiveScore = objectiveScore;
     }
-
-    /**
-     * Getter method of the attribute scoringCondition
-     * @return this.scoringCondition
-     */
-    public Condition getScoringCondition(){
-        return this.scoringCondition;
-    };
-
-    /**
-     * Getter method of the attribute objectiveScore
-     * @return this.objectiveScore
-     */
-    public int getScore(){
-        return this.objectiveScore;
-    };
+    public int getObjectiveScore(GameField gameField){
+        return scoringCondition.numTimesMet(gameField) * objectiveScore;
+    }
+    public int numTimesScoringConditionMet(GameField gameField){
+        return scoringCondition.numTimesMet(gameField);
+    }
 }
