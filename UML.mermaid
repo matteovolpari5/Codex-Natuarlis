@@ -254,8 +254,9 @@ classDiagram
         + isFirst() boolean
         + isConnected() boolean
         + setIsConnected(isConnected: boolean)
-        + setCurrentHand(currentHand: List~DrawableCard~)
         + getCurrentHand() List~DrawableCard~
+        + removeCardHand(DrawableCard card)
+        + addCardHand(DrawableCard card)
         + getSecretObjetive() ObjectiveCard
         + getConnectionType() boolean
         + getInterfaceType() boolean
@@ -293,6 +294,7 @@ classDiagram
         + getCurrentPlayer() Player
         + getGameField(nickname: String) GameField
         + getScore(nickname: String) int
+        + placeStarterCard(nickname : String, way: boolean)
         + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType:  boolean, starterCardWay : boolean)
         + setup()
         + isFull() boolean
