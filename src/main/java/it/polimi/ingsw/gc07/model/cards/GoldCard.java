@@ -47,25 +47,13 @@ public final class GoldCard extends DrawableCard {
     }
 
     /**
-     * Getter method of the attribute placementCondition
-     * @return this.placementCondition
+     *
+     * @param gameField
+     * @param x
+     * @param y
+     * @param way
+     * @return
      */
-    public Condition getPlacementCondition() {
-        return this.placementCondition;
-    };
-
-    /**
-     * Getter method of the attribute scoringCondition
-     * @return this.scoringCondition
-     */
-    public Condition getScoringCondition() {
-        return this.scoringCondition;
-    };
-
-    public int getScore() {
-        return super.getScore();
-    }
-
     public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way){
         PlacementResult isPlaceableResult = super.isPlaceable(gameField, x, y, way);
         if(isPlaceableResult.equals(PlacementResult.SUCCESS)){
