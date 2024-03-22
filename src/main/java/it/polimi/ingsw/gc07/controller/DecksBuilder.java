@@ -333,7 +333,7 @@ public class DecksBuilder {
     private static List<GameResource> extractPermanentResources(JsonObject cardJsonObject) {
         List<GameResource> permanentResources = new ArrayList<>();
 
-        JsonArray permanentResourcesArray = cardJsonObject.get("permanentresources").getAsJsonArray();
+        JsonArray permanentResourcesArray = cardJsonObject.get("permanentresource").getAsJsonArray();
         for(JsonElement r: permanentResourcesArray){
             // for every resource
             JsonObject resourceJsonObject = r.getAsJsonObject();
