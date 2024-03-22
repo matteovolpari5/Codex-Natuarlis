@@ -157,16 +157,21 @@ public class Game {
         return scoreTrackBoard.getScore(nickname);
     }
 
-    public void setStarterCardWay(String nickname, boolean way){
+    public void placeStarterCard(String nickname, boolean way){
         try {
-            placeCard(nickname, playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
-        } catch (WrongPlayerException e) {
+            playersGameField.get(nickname).placeCard(playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
+        }
+        catch (CardAlreadyPresentException e) {
             throw new RuntimeException(e);
-        } catch (CardAlreadyPresentException e) {
+        } catch (IndexesOutOfGameFieldException e) {
             throw new RuntimeException(e);
-        } catch (CardNotPresentException e) {
+        } catch (PlacingConditionNotMetException e) {
             throw new RuntimeException(e);
-        } catch (WrongStateException e) {
+        } catch (MultipleCornersCoveredException e) {
+            throw new RuntimeException(e);
+        } catch (NotLegitCornerException e) {
+            throw new RuntimeException(e);
+        } catch (NoCoveredCornerException e) {
             throw new RuntimeException(e);
         }
     }
@@ -351,21 +356,19 @@ public class Game {
      * @throws CardAlreadyPresentException : if a player play a card that is already present in the gameField
      * @throws CardNotPresentException : if the card that the player wants to play is not in his hands
      */
-    public void placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
+    public void placeCard(String nickname, DrawableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
         if(!players.get(currPlayer).getNickname().equals(nickname)) {
             throw new WrongPlayerException();
         }
         if(!(players.get(currPlayer).getCurrentHand()).contains(card)){
-            throw new WrongPlayerException();
+            throw new CardNotPresentException();
         }
         if(!state.equals(GameState.PLAYING)){
             throw new WrongStateException();
         }
         try {
             playersGameField.get(nickname).placeCard(card,x,y,way);
-            List<DrawableCard> newHand = new ArrayList<>(players.get(currPlayer).getCurrentHand());
-            newHand.remove(card);
-            players.get(currPlayer).setCurrentHand(newHand);
+            players.get(currPlayer).removeCardHand(card);
             addPoints(nickname,x,y);
             boolean isStalled = true;
             // check if a card is placeable
@@ -487,15 +490,19 @@ public class Game {
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
             throw new WrongCardTypeException();
         }
-        List<DrawableCard> newHand = new ArrayList<>();
-        newHand.addAll(this.players.get(this.currPlayer).getCurrentHand());
+        players.get(currPlayer).addCardHand(resourceCardsDeck.drawCard());
+        //List<DrawableCard> newHand = new ArrayList<>();
+        //newHand.addAll(this.players.get(this.currPlayer).getCurrentHand());
         if(type.equals(CardType.RESOURCE_CARD)){
-            newHand.add(this.resourceCardsDeck.drawCard());
+            players.get(currPlayer).addCardHand(resourceCardsDeck.drawCard());
+            //newHand.add(this.resourceCardsDeck.drawCard());
         }
-        if(type.equals(CardType.RESOURCE_CARD)){
-            newHand.add(this.goldCardsDeck.drawCard());
+        if(type.equals(CardType.GOLD_CARD)){
+
+            players.get(currPlayer).addCardHand(goldCardsDeck.drawCard());
+            //newHand.add(this.goldCardsDeck.drawCard());
         }
-        this.players.get(this.currPlayer).setCurrentHand(newHand);
+        //this.players.get(this.currPlayer).setCurrentHand(newHand);
         try {
             changeCurrPlayer();
         }
@@ -522,15 +529,17 @@ public class Game {
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
             throw new WrongCardTypeException();
         }
-        List<DrawableCard> newHand = new ArrayList<>();
-        newHand.addAll(this.players.get(this.currPlayer).getCurrentHand());
+        //List<DrawableCard> newHand = new ArrayList<>();
+        //newHand.addAll(this.players.get(this.currPlayer).getCurrentHand());
         if(type.equals(CardType.RESOURCE_CARD)){
-            newHand.add(this.resourceCardsDeck.drawFaceUpCard(pos));
+            players.get(currPlayer).addCardHand(resourceCardsDeck.drawFaceUpCard(pos));
+            //newHand.add(this.resourceCardsDeck.drawFaceUpCard(pos));
         }
         if(type.equals(CardType.GOLD_CARD)){
-            newHand.add(this.goldCardsDeck.drawFaceUpCard(pos));
+            players.get(currPlayer).addCardHand(goldCardsDeck.drawFaceUpCard(pos));
+            //newHand.add(this.goldCardsDeck.drawFaceUpCard(pos));
         }
-        this.players.get(this.currPlayer).setCurrentHand(newHand);
+        //this.players.get(this.currPlayer).setCurrentHand(newHand);
         try {
             changeCurrPlayer();
         }

@@ -2,8 +2,10 @@ package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
+import java.util.Currency;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -141,20 +143,13 @@ public class Player {
         return this.isConnected;
     }
 
+    /**
+     * setter for the method isConnected
+     * @param isConnected: if the player is connected
+     */
     public void setIsConnected(boolean isConnected){
         this.isConnected = isConnected;
     }
-
-    /**
-     * Setter for cards in player's hand.
-     * @param currentHand current card in player's hand
-     */
-    public void setCurrentHand(List<DrawableCard> currentHand){
-        // create a copy of the list
-        // cards are immutable, I can use them
-        this.currentHand = new ArrayList<>(currentHand);
-    }
-
     /**
      * Getter for cards in player's hand.
      * @return currentHand current card in player's hand
@@ -163,6 +158,23 @@ public class Player {
         return new ArrayList<>(currentHand);
     }
 
+    /**
+     * method that remove a card from the hand of a player
+     * @param card: card that the player play
+     */
+    public void removeCardHand(DrawableCard card) {
+        currentHand.remove(card);
+        this.currentHand = new ArrayList<>(currentHand);
+    }
+
+    /**
+     * method that add a card from the hand of a player
+     * @param card: card that the player draw
+     */
+    public void addCardHand(DrawableCard card) {
+        currentHand.add(card);
+        this.currentHand = new ArrayList<>(currentHand);
+    }
     /**
      * Getter for the secret objective card.
      * @return secret objective card
