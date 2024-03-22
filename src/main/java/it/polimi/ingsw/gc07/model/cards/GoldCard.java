@@ -80,10 +80,10 @@ public final class GoldCard extends DrawableCard {
     @Override
     public int getPlacementScore(GameField gameField, int x, int y) {
         if (scoringCondition == null){
-            return super.computePoints(gameField, x, y);
+            return super.getPlacementScore(gameField, x, y);
         }
         else{
-            int cardScore = super.computePoints(gameField, x, y);
+            int cardScore = super.getPlacementScore(gameField, x, y);
             return cardScore * scoringCondition.numTimesMet(gameField);
         }
     }
