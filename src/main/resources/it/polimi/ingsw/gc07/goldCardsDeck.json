@@ -14,11 +14,11 @@
       "placementscore": 1,
       "placementcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "animal"}]
+        "neededItems":  [{"resource": "fungi"},{"resource": "fungi"},{"resource": "animal"}]
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "quill"}]
+        "neededItems":  [{"resource": "quill"}]
       }
     },
     {
@@ -39,7 +39,7 @@
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "inkwell"}]
+        "neededItems":  [{"resource": "inkwell"}]
       }
     },
     {
@@ -60,7 +60,7 @@
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "manuscript"}]
+        "neededItems":  [{"resource": "manuscript"}]
       }
     },
     {
@@ -217,11 +217,11 @@
       "placementscore": 1,
       "placementcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "insect"}]
+        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "insect"}]
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "quill"}]
+        "neededItems":  [{"resource": "quill"}]
       }
     },
     {
@@ -242,7 +242,7 @@
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "manuscript"}]
+        "neededItems":  [{"resource": "manuscript"}]
       }
     },
     {
@@ -263,7 +263,7 @@
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "inkwell"}]
+        "neededItems":  [{"resource": "inkwell"}]
       }
     },
     {
@@ -419,11 +419,11 @@
       "placementscore": 1,
       "placementcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "insect"}]
+        "neededItems":  [{"resource": "animal"},{"resource": "animal"},{"resource": "insect"}]
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "inkwell"}]
+        "neededItems":  [{"resource": "inkwell"}]
       }
     },
     {
@@ -444,7 +444,7 @@
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "manuscript"}]
+        "neededItems":  [{"resource": "manuscript"}]
       }
     },
     {
@@ -465,7 +465,7 @@
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "quill"}]
+        "neededItems":  [{"resource": "quill"}]
       }
     },
     {
@@ -621,11 +621,11 @@
       "placementscore": 1,
       "placementcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "plant"}]
+        "neededItems":  [{"resource": "insect"},{"resource": "insect"},{"resource": "plant"}]
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "quill"}]
+        "neededItems":  [{"resource": "quill"}]
       }
     },
     {
@@ -646,7 +646,7 @@
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "manuscript"}]
+        "neededItems":  [{"resource": "manuscript"}]
       }
     },
     {
@@ -667,7 +667,7 @@
       },
       "scoringcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededitems":  [{"resource": "inkwell"}]
+        "neededItems":  [{"resource": "inkwell"}]
       }
     },
     {
