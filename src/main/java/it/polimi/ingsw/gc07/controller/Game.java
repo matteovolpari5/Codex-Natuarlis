@@ -419,7 +419,7 @@ public class Game {
             throw new WrongPlayerException();
         }
         assert (playersGameField.get(nickname).isCardPresent(x, y)) : "there isn't a Card in the x,y position";
-        deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).computePoints(playersGameField.get(nickname), x, y);
+        deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getPlacementScore(playersGameField.get(nickname), x, y);
         if(deltaPoints + getScore(nickname) >= 20){
             twentyPointsReached = true;
             if((deltaPoints + getScore(nickname)) > 29){

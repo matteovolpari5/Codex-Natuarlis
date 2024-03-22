@@ -198,7 +198,7 @@ public class DrawableCard extends PlaceableCard {
      * @throws CardNotPresentException
      */
     @Override
-    public int computePoints(GameField gameField, int x, int y) {
+    public int getPlacementScore(GameField gameField, int x, int y) {
         //TODO modificare gestione assert/eccezioni
         try{
             if (!gameField.getCardWay(x, y)) {

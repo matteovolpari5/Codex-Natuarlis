@@ -78,7 +78,7 @@ public final class GoldCard extends DrawableCard {
      * @throws CardNotPresentException
      */
     @Override
-    public int computePoints(GameField gameField, int x, int y) {
+    public int getPlacementScore(GameField gameField, int x, int y) {
         if (scoringCondition == null){
             return super.computePoints(gameField, x, y);
         }
