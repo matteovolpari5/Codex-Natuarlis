@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.conditions.Condition;
+import it.polimi.ingsw.gc07.model.conditions.CornerCoverageCondition;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
 import it.polimi.ingsw.gc07.model.decks.Deck;
@@ -569,20 +570,15 @@ public class DecksBuilder {
             Condition scoringCondition = null;
             JsonObject scoringConditionObject = cardJsonObject.get("scoringcondition").getAsJsonObject();
             String conditionType = scoringConditionObject.get("conditiontype").getAsString();
-            if(conditionType.equals("LAYOUT_CONDITION")){
-                // extract layout condition
-                GameResource[][] cardsColor = DecksBuilder.extractLayoutCondition(scoringConditionObject);
-                scoringCondition = new LayoutCondition(cardsColor);
+            if(conditionType.equals("CORNER_COVERAGE_CONDITION")){
+                scoringCondition = new CornerCoverageCondition();
             }
             else if(conditionType.equals("ITEMS_CONDITION")){
                 // extract items condition
                 List<GameItem> neededItems = DecksBuilder.extractItemsCondition(scoringConditionObject);
                 scoringCondition = new ItemsCondition(neededItems);
             }
-            else{
-                // the gold card has no scoringCondition
-                // scoringCondition has value null
-            }
+            // else, the gold card has no scoringCondition
 
             // extract and create the placement condition
             // always ITEM_CONDITION
