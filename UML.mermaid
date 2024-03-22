@@ -1,8 +1,41 @@
 classDiagram
+
+%% DA TENERE
+    Card <|-- PlaceableCard
+    Card <|-- ObjectiveCard
+    PlaceableCard <|-- DrawableCard
+    DrawableCard <|-- GoldCard
+    Deck~T~ o-- Card
+    Deck~T~ <|-- PlayingDeck~T~
+    PlayingDeck~T~ <|-- DrawableDeck~T~
+    DrawableDeck~T~ <|-- ResourceCardsDeck
+    DrawableDeck~T~ <|-- GoldCardsDeck
+    Condition <|-- LayoutCondition
+    Condition <|-- ItemsCondition
+    Condition <|-- CornerCoverageCondition
+    GameItem <|.. GameResource
+    GameItem <|.. GameObject
+    Chat o-- Message
+    Message <|-- PrivateMessage
+    LayoutCondition --> GameResource
+    ItemsCondition --> GameItem
+    GameField --> PlaceableCard
+    %%Player --> PlaceableCard
+    Player --> TokenColor
+    %%Player --> ObjectiveCard
+    ScoreTrackBoard --> Player
+    %%Game --> DrawableDeck
+    %%Game --> Deck
+    %%Game --> PlayingDeck
+    %%Game --> ScoreTrackBoard
+    %%Game --> Player
+    %%Game --> Chat
+    %%Game --> GameField
+    GamesManager --> Game
+
     %% --------------------------------
     %% cards
     %% --------------------------------
-    Deck~T~ o-- Card
     class Card {
         <<abstract>>
         - ID: int
@@ -44,10 +77,6 @@ classDiagram
         + getScoringCondition: Condition
         + getScore: int
     }
-    Card <|-- ObjectiveCard
-    Card <|-- PlaceableCard
-    PlaceableCard <|-- DrawableCard
-    DrawableCard <|-- GoldCard
 
     %% --------------------------------
     %% chat
@@ -59,7 +88,6 @@ classDiagram
         + getLastMessage(receiver: String) Message
         + getContent(receiver: String) List~Message~
     }
-
     class Message{
         - CONTENT: String
         - SENDERNICKNAME: String
@@ -70,13 +98,10 @@ classDiagram
         + isPublic() boolean
         + getReceiver() String
     }
-
     class PrivateMessage{
         - RECEIVERNICKNAME: String
         + PrivateMessage(content: String, senderNickname: String, isPublic: boolean, receiverNickname: String)
     }
-    Chat o-- Message
-    Message <|-- PrivateMessage
 
     %% --------------------------------
     %% Conditions
@@ -94,17 +119,12 @@ classDiagram
         + getNeededItems() List~GameItem~
     }
     class LayoutCondition {
-        - CARDSCOLOR: GameResource[3][3]
+        - CARDSCOLOR: GameResource[4][3]
         - MAXLAYOUTROWS: int$
         - MAXLAYOUTCOLUMNS: int$
         + LayoutCondition(cardsColor: GameResource[3][3])
         + getCardsColor() GameResource[3][3]
     }
-    %%LayoutCondition --> GameResource
-    %%ItemsCondition --> GameItem
-    Condition <|-- LayoutCondition
-    Condition <|-- ItemsCondition
-    Condition <|-- CornerCoverageCondition
 
     %% --------------------------------
     %% Decks
@@ -145,13 +165,7 @@ classDiagram
         + ResourceCardsDeck(existingDeck : ResourceCardsDeck)
         + revealBackDeckCard() GameResource
     }
-    Deck~T~ <|-- PlayingDeck~T~
-    PlayingDeck~T~ <|-- DrawableDeck~T~
-    DrawableDeck~T~ <|-- ResourceCardsDeck
-    DrawableDeck~T~ <|-- GoldCardsDeck
 
-
-    %%Deck --> Card
     %% --------------------------------
     %% Enumerations
     %% --------------------------------
@@ -198,13 +212,9 @@ classDiagram
         RED
         YELLOW
     }
-
-
     class GameItem {
         <<interface>>
     }
-    GameItem <|.. GameResource
-    GameItem <|.. GameObject
 
     class GameField {
         - DIM: int$
@@ -223,7 +233,6 @@ classDiagram
         + getCardsOrder() int[81][81]
         + getNumPlayedCards() int
     }
-    %%GameField --> PlaceableCard
 
     class Player {
         - nickname: String
@@ -251,9 +260,7 @@ classDiagram
         + getConnectionType() boolean
         + getInterfaceType() boolean
     }
-    %%Player --> NonStarterCard
-    %%Player --> TokenColor
-    %%Player --> ObjectiveCard
+
     class ScoreTrackBoard {
         - playersScore: Map~String, Integer~
         + ScoreTrackBoard()
@@ -262,11 +269,10 @@ classDiagram
         + getScore(nickname: String) int
         + incrementScore(nickname: String, deltaScore: int)
     }
-    %%ScoreTrackBoard --> Player
 
-%% -----------------------------------------
-%%  CONTROLLER
-%% -----------------------------------------
+    %% -----------------------------------------
+    %%  CONTROLLER
+    %% -----------------------------------------
     class Game {
         - state: GameState
         - playersNumber: int
@@ -305,13 +311,6 @@ classDiagram
         + getLastChatMessage(receiver: String) Message
         + getChatContent(receiver: String) List~Message~
     }
-%%  Game --> DrawableDeck
-%%  Game --> Deck
-%%  Game --> PlayingDeck
-%%  Game --> ScoreTrackBoard
-%%  Game --> Player
-%%  Game --> Chat
-%%  Game --> GameField
 
     class GamesManager {
         - games: List~Game~
@@ -319,7 +318,6 @@ classDiagram
         + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType: boolean, starterCardWay: boolean)
         + checkNickname(nickname: String) boolean
     }
-%%GamesManager --> Game
 
     class DecksBuilder{
         + extractFrontCorners(cardJsonObject : JsonObject) boolean[4]
@@ -334,5 +332,3 @@ classDiagram
         + buildResourceCardsDeck() ResourceCardsDeck
         + buildGoldCardsDeck() GoldCardsDeck
     }
-
-
