@@ -55,27 +55,26 @@ classDiagram
         + getFrontCornersContent() GameItem[4]
         + getBackCorners() boolean [4]
         + getBackCornersContent() GameItem [4]
-        + getPermanentResources() GameResource[3]
+        + getPermanentResources() List~GameResource~
+        + isPlaceable(gameField: Gamefield, x : int, y: int, \nway : boolean) PlacementResult
+        + getPlacementScore(gameField: Gamefield, x : int, y: int) int
     }
     class DrawableCard {
         - PLACEMENTSCORE: int
         + DrawableCard(cardID: int, cardType: CardType, \nfrontCorners: boolean [4], frontCornersContent: GameItem [4],\nbackCorners: boolean [4], backCornersContent: GameItem [4],\n placementScore: int,\n permanentResources: List~GameResource~)
-        + isPlaceable(gameField: Gamefield, x : int, y: int, \nway : boolean) PlacementResult
         + getScore() int
     }
     class GoldCard {
         - PLACEMENTCONDITION: Condition
         - SCORINGCONDITION: Condition
         + GoldCard(cardID: int, cardType: CardType,\n frontCorners: boolean[4], frontCornersContent: GameItem[4],\n backCorners: boolean[4], backCornersContent: GameItem[4], \nplacementScore: int, permanentResources: List~GameResource~, \nplacementCondition: Condition, scoringCondition: Condition)
-        + getScoringCondition() Condition
-        + getPlacementCondition() Condition
     }
     class ObjectiveCard {
         - SCORINGCONDITION: Condition
         - OBJECTIVESCORE: int
         + ObjectiveCard(cardID int, cardType: CardType,\n scoringCondition: Condition, objectiveScore: int)
-        + getScoringCondition() Condition
-        + getScore() int
+        + getObjectiveScore(gameField GameField) int
+        + numTimesScoringConditionMet(gameField GameField) int
     }
 
     %% --------------------------------
@@ -142,7 +141,7 @@ classDiagram
         + shuffle()
     }
     class PlayingDeck~T~{
-        ~ faceUpCard: List~T~
+        ~ faceUpCards: List~T~
         + PlayingDeck(type : CardType, content : Stack~T~)
         + PlayingDeck(existingDeck : PlayingDeck~T~)
         + setFaceUpCards(faceUpCards: List~T~)
@@ -222,8 +221,9 @@ classDiagram
         - cardsFace: boolean [81][81]
         - cardsOrder: int[81][81]
         - numPlayedCards: int
-        + GameField()
-        + GameField(GameField existingGameField)
+        - starterCard: PlaceableCard
+        + GameField(starterCard: PlaceableCard)
+        + GameField(existingGameField: GameField)
         + getDim() int
         + placeCard(card: PlaceableCard, x: int, y: int, way: boolean)
         + isCardPresent(x: int, y: int) boolean
