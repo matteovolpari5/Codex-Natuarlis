@@ -59,14 +59,14 @@ classDiagram
     }
     class DrawableCard {
         - PLACEMENTSCORE: int
-        + DrawableCard(cardID: int, \ncardType: CardType, frontCorners: boolean [4],\n frontCornersContent: GameItem [4],\nbackCorners: boolean [4],\n backCornersContent: GameItem [4],\n placementScore: int,\n permanentResources: List~GameResource~)
-        + isPlaceable(gameField: Gamefield, x : int, y: int, way : boolean) PlacementResult
+        + DrawableCard(cardID: int, cardType: CardType, \nfrontCorners: boolean [4], frontCornersContent: GameItem [4],\nbackCorners: boolean [4], backCornersContent: GameItem [4],\n placementScore: int,\n permanentResources: List~GameResource~)
+        + isPlaceable(gameField: Gamefield, x : int, y: int, \nway : boolean) PlacementResult
         + getScore() int
     }
     class GoldCard {
         - PLACEMENTCONDITION: Condition
         - SCORINGCONDITION: Condition
-        + GoldCard(cardID: int, cardType: CardType,\n frontCorners: boolean[4], \nfrontCornersContent: GameItem[4],\n backCorners: boolean[4], \nbackCornersContent: GameItem[4], placementScore: int, \n permanentResources: List~GameResource~, \nplacementCondition: Condition, \nscoringCondition: Condition)
+        + GoldCard(cardID: int, cardType: CardType,\n frontCorners: boolean[4], frontCornersContent: GameItem[4],\n backCorners: boolean[4], backCornersContent: GameItem[4], \nplacementScore: int, permanentResources: List~GameResource~, \nplacementCondition: Condition, scoringCondition: Condition)
         + getScoringCondition() Condition
         + getPlacementCondition() Condition
     }
@@ -74,8 +74,8 @@ classDiagram
         - SCORINGCONDITION: Condition
         - OBJECTIVESCORE: int
         + ObjectiveCard(cardID int, cardType: CardType,\n scoringCondition: Condition, objectiveScore: int)
-        + getScoringCondition: Condition
-        + getScore: int
+        + getScoringCondition() Condition
+        + getScore() int
     }
 
     %% --------------------------------
