@@ -54,7 +54,7 @@ public class Deck<T> {
         this.content.addAll(content);
     }
 
-    private Stack<T> getContent(){
+    public Stack<T> getContent(){
         Stack<T> contentCopy = new Stack<>();
         contentCopy.addAll(content);
         return contentCopy;
