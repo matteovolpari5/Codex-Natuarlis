@@ -55,7 +55,7 @@ class CornerCoverageConditionTest {
     @Test
     public void oneCornerCovered() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException {
         for(PlaceableCard c: starterCardsDeck.getContent()){
-            if(c.getId() == 85){
+            if(c.getId() == 84){
                 myStarterCard = c;
             }
         }
@@ -69,7 +69,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void twoCornerCovered() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void twoCornersCovered() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -80,8 +80,17 @@ class CornerCoverageConditionTest {
         assertNotNull(myGoldCard);
         DrawableCard lastCard = resourceCardsDeck.drawCard();
         gameField.placeCard(myResourceCard, 41, 41, false);
-        gameField.placeCard(myGoldCard, 39, 39, true);
+        gameField.placeCard(myGoldCard, 39, 41, true);
         gameField.placeCard(lastCard, 40, 42, false);
         assertEquals(2, condition.numTimesMet(gameField));
+    }
+
+    @Test
+    public void threeCornersCovered() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException {
+        myStarterCard = starterCardsDeck.drawCard();
+        assertNotNull(myStarterCard);
+        gameField = new GameField(myStarterCard);
+        gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        // TODO continue
     }
 }
