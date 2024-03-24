@@ -54,7 +54,7 @@ public class CornerCoverageCondition implements Condition {
                 try {
                     if (!gameField.getCardWay(x + 1, y + 1)) {
                         // card placed face up
-                        if (gameField.getPlacedCard(x + 1, y + 1).getFrontCorners()[3]) {
+                        if (gameField.getPlacedCard(x + 1, y + 1).getFrontCorners()[0]) {
                             numTimes++;
                         }
                     }
@@ -66,7 +66,7 @@ public class CornerCoverageCondition implements Condition {
                         }
                         else {
                             // StarterCard
-                            if (gameField.getPlacedCard(x + 1, y + 1).getBackCorners()[3]) {
+                            if (gameField.getPlacedCard(x + 1, y + 1).getBackCorners()[0]) {
                                 numTimes++;
                             }
                         }
@@ -84,7 +84,7 @@ public class CornerCoverageCondition implements Condition {
                 try {
                     if (!gameField.getCardWay(x + 1, y - 1)) {
                         // card placed face up
-                        if(gameField.getPlacedCard(x+1, y-1).getFrontCorners()[0]){
+                        if(gameField.getPlacedCard(x+1, y-1).getFrontCorners()[3]){
                             numTimes++;
                         }
                     }
@@ -96,7 +96,7 @@ public class CornerCoverageCondition implements Condition {
                         }
                         else {
                             // StarterCard
-                            if (gameField.getPlacedCard(x + 1, y - 1).getBackCorners()[0]) {
+                            if (gameField.getPlacedCard(x + 1, y - 1).getBackCorners()[3]) {
                                 numTimes++;
                             }
                         }
@@ -114,7 +114,7 @@ public class CornerCoverageCondition implements Condition {
                 try {
                     if (!gameField.getCardWay(x - 1, y + 1)) {
                         // card placed face up
-                        if (gameField.getPlacedCard(x - 1, y + 1).getFrontCorners()[2]) {
+                        if (gameField.getPlacedCard(x - 1, y + 1).getFrontCorners()[1]) {
                             numTimes++;
                         }
                     }
@@ -126,7 +126,7 @@ public class CornerCoverageCondition implements Condition {
                         }
                         else {
                             // StarterCard
-                            if (gameField.getPlacedCard(x - 1, y + 1).getBackCorners()[2]) {
+                            if (gameField.getPlacedCard(x - 1, y + 1).getBackCorners()[1]) {
                                 numTimes++;
                             }
                         }
@@ -144,7 +144,7 @@ public class CornerCoverageCondition implements Condition {
                 try {
                     if (!gameField.getCardWay(x - 1, y - 1)) {
                         // card placed face up
-                        if (gameField.getPlacedCard(x - 1, y - 1).getFrontCorners()[1]) {
+                        if (gameField.getPlacedCard(x - 1, y - 1).getFrontCorners()[2]) {
                             numTimes++;
                         }
                     }
@@ -156,7 +156,7 @@ public class CornerCoverageCondition implements Condition {
                         }
                         else {
                             // StarterCard
-                            if (gameField.getPlacedCard(x - 1, y - 1).getBackCorners()[1]) {
+                            if (gameField.getPlacedCard(x - 1, y - 1).getBackCorners()[2]) {
                                 numTimes++;
                             }
                         }
