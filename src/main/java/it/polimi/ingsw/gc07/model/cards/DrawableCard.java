@@ -56,26 +56,26 @@ public class DrawableCard extends PlaceableCard {
     @Override
     public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way) {
         boolean found = false;
-        int dim = gameField.getDim();
+        int dim = GameField.getDim();
         if(x < 0 || x >= dim || y <0 || y >= dim) {
             return PlacementResult.INDEXES_OUT_OF_GAME_FIELD;
         }
         try{
-            if(gameField.getPlacedCard(x,y) != null){
+            if(gameField.isCardPresent(x,y)){
                 return PlacementResult.CARD_ALREADY_PRESENT;
             }
             //checking if there is at least one available corner near (x,y)
             if(x - 1 >= 0){
-                if(gameField.getPlacedCard(x-1, y) != null){
+                if(gameField.isCardPresent(x-1, y)){
                     //the card would cover two corners of the card above it
                     return PlacementResult.MULTIPLE_CORNERS_COVERED;
                 }
                 if(y - 1 >= 0){
-                    if(gameField.getPlacedCard(x,y-1) != null){
+                    if(gameField.isCardPresent(x,y-1)){
                         //the card would cover two corners of the card on its left
                         return PlacementResult.MULTIPLE_CORNERS_COVERED;
                     }
-                    if(gameField.getPlacedCard(x-1,y-1) != null){
+                    if(gameField.isCardPresent(x-1,y-1)){
                         //a placed card is present
                         found = true;
                         if(gameField.getCardWay(x-1,y-1) == false){
@@ -92,7 +92,7 @@ public class DrawableCard extends PlaceableCard {
                             }
                         }
                         if(x + 1 <= dim - 1){
-                            if(gameField.getPlacedCard(x+1,y-1) != null){
+                            if(gameField.isCardPresent(x+1,y-1)){
                                 if(gameField.getCardWay(x+1,y-1) == false){
                                     if(gameField.getPlacedCard(x+1,y-1).getFrontCorners()[1] == false){
                                         //the card to be placed covers an unavailable corner of another card
@@ -109,11 +109,11 @@ public class DrawableCard extends PlaceableCard {
                     }//the placed card is not present
                 }
                 if(y + 1 <= dim - 1){
-                    if(gameField.getPlacedCard(x,y+1) != null){
+                    if(gameField.isCardPresent(x,y+1)){
                         //the card would cover two corners of the card on its right
                         return PlacementResult.MULTIPLE_CORNERS_COVERED;
                     }
-                    if(gameField.getPlacedCard(x-1,y+1) != null){
+                    if(gameField.isCardPresent(x-1,y+1)){
                         //a placed card is present
                         found = true;
                         if(gameField.getCardWay(x-1,y+1) == false){
@@ -130,7 +130,7 @@ public class DrawableCard extends PlaceableCard {
                             }
                         }
                         if(x + 1 <= dim - 1){
-                            if(gameField.getPlacedCard(x+1,y+1) != null){
+                            if(gameField.isCardPresent(x+1,y+1)){
                                 if(gameField.getCardWay(x+1,y+1) == false){
                                     if(gameField.getPlacedCard(x+1,y+1).getFrontCorners()[0] == false){
                                         //the card to be placed covers an unavailable corner of another card
@@ -148,12 +148,12 @@ public class DrawableCard extends PlaceableCard {
                 }
             }
             if(x + 1 <= dim - 1){
-                if(gameField.getPlacedCard(x+1,y) != null){
+                if(gameField.isCardPresent(x+1,y)){
                     //the card would cover two corners of the card below it
                     return PlacementResult.MULTIPLE_CORNERS_COVERED;
                 }
                 if(y - 1 >= 0){
-                    if(gameField.getPlacedCard(x+1,y-1) != null){
+                    if(gameField.isCardPresent(x+1,y-1)){
                         //a placed card is present
                         found = true;
                         if(gameField.getCardWay(x+1,y-1) == false){
@@ -170,7 +170,7 @@ public class DrawableCard extends PlaceableCard {
                             }
                         }
                         if(x - 1 >= 0){
-                            if(gameField.getPlacedCard(x-1,y-1) != null){
+                            if(gameField.isCardPresent(x-1,y-1)){
                                 if(gameField.getCardWay(x-1,y-1) == false){
                                     if(gameField.getPlacedCard(x-1,y-1).getFrontCorners()[2] == false){
                                         //the card to be placed covers an unavailable corner of another card
@@ -187,7 +187,7 @@ public class DrawableCard extends PlaceableCard {
                     }//card in position x+1 y-1 is not present
                 }
                 if(y + 1 <= dim - 1) {
-                    if (gameField.getPlacedCard(x + 1,y + 1) != null) {
+                    if (gameField.isCardPresent(x + 1,y + 1)) {
                         //a placed card is present
                         found = true;
                         if (gameField.getCardWay(x + 1,y + 1) == false) {
@@ -204,7 +204,7 @@ public class DrawableCard extends PlaceableCard {
                             }
                         }
                         if(x - 1 >= 0){
-                            if (gameField.getPlacedCard(x - 1,y + 1) != null){
+                            if (gameField.isCardPresent(x - 1,y + 1)){
                                 if (gameField.getCardWay(x - 1,y + 1) == false){
                                     if (gameField.getPlacedCard(x - 1,y + 1).getFrontCorners()[3] == false){
                                         //the card to be placed covers an unavailable corner of another card
