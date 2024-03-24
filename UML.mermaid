@@ -225,6 +225,7 @@ classDiagram
         + GameField(starterCard: PlaceableCard)
         + GameField(existingGameField: GameField)
         + getDim() int
+        + getStarterCard() Placeablecard
         + placeCard(card: PlaceableCard, x: int, y: int, way: boolean)
         + isCardPresent(x: int, y: int) boolean
         + getPlacedCard(x: int, y: int) PlaceableCard
@@ -241,10 +242,10 @@ classDiagram
         - connectionType: boolean
         - interfaceType: boolean
         - isConnected: boolean
-        - isStalled : boolean
-        - currentHand: List ~NonStarterCard~
+        - currentHand: List ~DrawableCard~
         - secretObjectve: ObjectiveCard
-        + Player(nickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType: boolean, currentHand: List~NonStarterCard~, \nsecretObjective: ObjectiveCard)
+        - isStalled : boolean
+        + Player(nickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType: boolean, currentHand: List~DrawableCard~, \nsecretObjective: ObjectiveCard)
         + Player(existingPlayer: Player)
         + getNickname() String
         + getTokenColor() TokenColor
@@ -284,25 +285,25 @@ classDiagram
         - resourceCardsDeck: ResourceCardsDeck
         - goldCardsDeck: GoldCardsDeck
         - objectiveCardsDeck: PlayingDeck~ObjectiveCard~
-        - starterCardsDeck: Deck~StarterCard~
+        - starterCardsDeck: Deck~PlaceableCard~
         - twentyPointsReached: boolean
         - additionalRound : boolean
         - chat: Chat
-        + Game(gameId: int, playersNumber: int, resourceCardsDeck: ResourceCardsDeck,\n goldCardsDeck: GoldCardsDeck, objectiveCardsDeck: PlayingDeck~ObjectiveCard~, starterCardsDeck : Deck~StarterCard~, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean, starterCardWay: boolean)
+        + Game(gameId: int, playersNumber: int, resourceCardsDeck: ResourceCardsDeck,\n goldCardsDeck: GoldCardsDeck, objectiveCardsDeck: PlayingDeck~ObjectiveCard~, starterCardsDeck : Deck~PlaceableCard~, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean)
         + getState() GameState
         + getPlayers() List~Player~
         + getCurrentPlayer() Player
         + getGameField(nickname: String) GameField
         + getScore(nickname: String) int
         + placeStarterCard(nickname : String, way: boolean)
-        + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType:  boolean, starterCardWay : boolean)
+        + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType:  boolean)
         + setup()
         + isFull() boolean
         + disconnectPlayer(nickname : String)
         + reconnectPlayer(nickname : String)
         + getPlayerByNickname(nickname : String) int
         + changeCurrPlayer()
-        + placeCard(nickname: String, card: NonStarterCard, x:int, y:int, way:boolean)
+        + placeCard(nickname: String, card: DrawableCard, x:int, y:int, way:boolean)
         + addPoints(nickname: String, x: int, y:int)
         + computeWinner() List~Player~
         + drawDeckCard(nickname: String, type: CardType)
@@ -317,7 +318,7 @@ classDiagram
     class GamesManager {
         - games: List~Game~
         + GamesManager()
-        + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType: boolean, starterCardWay: boolean)
+        + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType: boolean)
         + checkNickname(nickname: String) boolean
     }
 
@@ -328,7 +329,7 @@ classDiagram
         + extractBackCornersContent(cardJsonObject : JsonObject) GameItem[4]
         + extractPermanentResources(cardJsonObject : JsonObject) List~GameResource~
         + extractLayoutCondition(conditionObject : JsonObject) GameResource[4][3]
-        + extracrItemsCondition(conditionObject : JsonObject) List~GameItem~
+        + extractItemsCondition(conditionObject : JsonObject) List~GameItem~
         + buildStarterCardsDeck() Deck~PlaceableCard~
         + buildObjectiveCardsDeck() PlayingDeck~ObjectiveCard~
         + buildResourceCardsDeck() ResourceCardsDeck
