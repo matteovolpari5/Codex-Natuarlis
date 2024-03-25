@@ -47,7 +47,7 @@ public class ItemsCondition implements Condition {
         if(gameField == null){
             throw new NullPointerException();
         }
-        int dim = gameField.getDim();
+        int dim = GameField.getDim();
 
         // create list of items found on the game field
         List<GameItem> foundItems = new ArrayList<>();
@@ -59,8 +59,10 @@ public class ItemsCondition implements Condition {
                         PlaceableCard placedCard = gameField.getPlacedCard(i,j);
                         if (!gameField.getCardWay(i,j)) {
                             // card placed face up (no permanent resources)
-                            boolean[] frontCorners = placedCard.getFrontCorners(); // TODO: se null ? per la costruzione non può esserlo!
-                            GameItem[] frontCornersContent = placedCard.getFrontCornersContent(); // TODO: se null ? per la costruzione non può esserlo!
+                            boolean[] frontCorners = placedCard.getFrontCorners();
+                            assert(frontCorners != null) : "frontCorners can't be null";
+                            GameItem[] frontCornersContent = placedCard.getFrontCornersContent();
+                            assert(frontCornersContent != null) : "frontCornersContent can't be null";
                             // all placeable cards can have temporary resources on the front
 
                             // check position (i-1,j+1)

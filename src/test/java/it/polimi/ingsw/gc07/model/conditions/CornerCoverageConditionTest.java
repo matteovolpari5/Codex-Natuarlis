@@ -26,6 +26,12 @@ class CornerCoverageConditionTest {
 
     @BeforeEach
     void setUp() {
+        resourceCardsDeck = null;
+        goldCardsDeck = null;
+        starterCardsDeck = null;
+        condition = new CornerCoverageCondition();;
+        gameField = null;
+        myStarterCard = null;
         try {
             resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
             goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
@@ -33,8 +39,6 @@ class CornerCoverageConditionTest {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        condition = new CornerCoverageCondition();
-        myStarterCard = null;
     }
 
     @Test
