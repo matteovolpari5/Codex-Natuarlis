@@ -35,6 +35,14 @@ public class LayoutCondition implements Condition{
         this.cardsColor = cardsColorCopy;
     }
 
+    public static int getRows(){
+        return maxLayoutRows;
+    }
+
+    public static int getColumns(){
+        return maxLayoutColumns;
+    }
+
     // TODO probabilmente da eliminares
     /**
      * Getter method returning a copy of cardColor, the matrix showing
@@ -59,10 +67,8 @@ public class LayoutCondition implements Condition{
      */
     public int numTimesMet(GameField gameField) throws NullPointerException {
         // check valid game field
-        if(gameField == null){
-            throw new NullPointerException();
-        }
-        int dim = gameField.getDim();
+        assert(gameField != null): "No GameField passed as parameter";
+        int dim = GameField.getDim();
 
         // find actual layoutRows number
         int layoutRows = maxLayoutRows - 1;
@@ -80,8 +86,8 @@ public class LayoutCondition implements Condition{
         }
 
         int numTimes = 0;
-        for(int i = 0; i < dim-layoutColumns+1; i++){
-            for(int j = 0; j < dim-layoutRows+1; j++){
+        for(int i = 0; i < dim-layoutRows+1; i++){
+            for(int j = 0; j < dim-layoutColumns+1; j++){
                 // for every top left cell of the layout
                 boolean flag = true;
                 for(int h = 0; h < layoutRows; h++){
