@@ -225,11 +225,6 @@ class LayoutConditionTest {
         System.out.println();
         condition = new LayoutCondition(layout);
 
-        System.out.print(gameField.getPlacedCard(38, 36, ));
-        System.out.print(layout[3][1]);
-        System.out.print(layout[3][2]);
-        System.out.println();
-
         assertEquals(1, condition.numTimesMet(gameField));
     }
 
