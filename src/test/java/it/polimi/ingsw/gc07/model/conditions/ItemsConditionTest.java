@@ -45,6 +45,7 @@ class ItemsConditionTest {
         neededItems = new ArrayList<>();
     }
 
+    /*
     @Test
     public void constructorAndGetter() {
         List<GameItem> myList = new ArrayList<>();
@@ -57,6 +58,7 @@ class ItemsConditionTest {
         assertNotNull(checkList);
         assertEquals(myList, checkList);
     }
+     */
 
     // checks the case of only the starter card placed face down
     // the card has only permanent resources

@@ -27,13 +27,16 @@ public class ItemsCondition implements Condition {
         this.neededItems = new ArrayList<>(neededItems);
     }
 
+    // TODO probabilmente da eliminare
     /**
      * Getter method returning the List of items required by the condition.
      * @return List of Items of the condition.
      */
+    /*
     public List<GameItem> getNeededItems() {
         return new ArrayList<>(this.neededItems);
     }
+     */
 
     /**
      * Method returning the number of times an item condition is met.

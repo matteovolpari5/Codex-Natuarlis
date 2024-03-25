@@ -35,11 +35,13 @@ public class LayoutCondition implements Condition{
         this.cardsColor = cardsColorCopy;
     }
 
+    // TODO probabilmente da eliminares
     /**
      * Getter method returning a copy of cardColor, the matrix showing
      * the color / resource that needs to be found in every position.
      * @return copy of matrix cardsColor
      */
+    /*
     public GameResource[][] getCardsColor() {
         GameResource[][] cardsColorCopy = new GameResource[maxLayoutRows][maxLayoutColumns];
         for(int i = 0; i < maxLayoutRows; i++){
@@ -49,6 +51,7 @@ public class LayoutCondition implements Condition{
         }
         return cardsColorCopy;
     }
+     */
 
     /**
      * Counts how many times the layout is found in the gameField.
