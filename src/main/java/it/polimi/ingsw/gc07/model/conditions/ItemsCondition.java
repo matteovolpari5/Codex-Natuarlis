@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.GameItem;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -42,11 +43,9 @@ public class ItemsCondition implements Condition {
      * @param gameField game field on which the condition has to be verified
      * @return number of times the list of items is found
      */
-    public int numTimesMet(GameField gameField) throws NullPointerException {
+    public int numTimesMet(GameField gameField) {
         // check valid game field
-        if(gameField == null){
-            throw new NullPointerException();
-        }
+        assert(gameField != null): "No GameField passed as parameter";
         int dim = GameField.getDim();
 
         // create list of items found on the game field
@@ -69,74 +68,77 @@ public class ItemsCondition implements Condition {
                             if((i == 0 || j == dim-1) ||
                                     (i>0 && j<dim-1 && !gameField.isCardPresent(i-1,j+1)) ||
                                     (i>0 && j<dim-1 && gameField.isCardPresent(i-1,j+1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i-1][j+1])) {
-                                // uncovered top left corner
-                                if(frontCorners[0] && frontCornersContent[0] != null)
-                                    foundItems.add(frontCornersContent[0]);
+                                // uncovered bottom left corner
+                                if(frontCorners[3] && frontCornersContent[3] != null)
+                                    foundItems.add(frontCornersContent[3]);
                             }
                             // check position (i+1,j+1)
                             if((i == dim-1 || j == dim-1) ||
                                     (i<dim-1 && j<dim-1 && !gameField.isCardPresent(i+1,j+1)) ||
                                     (i<dim-1 && j<dim-1 && gameField.isCardPresent(i+1,j+1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i+1][j+1])) {
-                                // uncovered top right corner
-                                if(frontCorners[1] && frontCornersContent[1] != null)
-                                    foundItems.add(frontCornersContent[1]);
+                                // uncovered bottom right corner
+                                if(frontCorners[2] && frontCornersContent[2] != null)
+                                    foundItems.add(frontCornersContent[2]);
                             }
                             // check position (i+1,j-1)
                             if((i == dim-1 || j == 0) ||
                                     (i<dim-1 && j>0 && !gameField.isCardPresent(i+1,j-1)) ||
                                     (i<dim-1 && j>0 && gameField.isCardPresent(i+1,j-1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i+1][j-1])) {
-                                // uncovered bottom right corner
-                                if(frontCorners[2] && frontCornersContent[2] != null)
-                                    foundItems.add(frontCornersContent[2]);
+                                // uncovered top right corner
+                                if(frontCorners[1] && frontCornersContent[1] != null)
+                                    foundItems.add(frontCornersContent[1]);
                             }
                             // check position (i-1,j-1)
                             if((i == 0 || j == 0) ||
                                     (i>0 && j>0 && !gameField.isCardPresent(i-1,j-1)) ||
                                     (i>0 && j>0 && gameField.isCardPresent(i-1,j-1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i-1][j-1])) {
-                                // uncovered bottom left corner
-                                if(frontCorners[3] && frontCornersContent[3] != null)
-                                    foundItems.add(frontCornersContent[3]);
+                                // uncovered top left corner
+                                if(frontCorners[0] && frontCornersContent[0] != null)
+                                    foundItems.add(frontCornersContent[0]);
                             }
                         }
                         else {
                             // card placed face down
                             // add permanent resources to foundItems
                             foundItems.addAll(gameField.getPlacedCard(i,j).getPermanentResources());
+
                             // only starter cards can have temporary resources on the back
-                            boolean[] backCorners = placedCard.getBackCorners();
-                            GameItem[] backCornersContent = placedCard.getBackCornersContent();
-                            if(backCorners != null && backCornersContent != null) {
-                                // starter card
+                            if(placedCard.getType().equals(CardType.STARTER_CARD)) {
+                                boolean[] backCorners = placedCard.getBackCorners();
+                                assert(backCorners != null): "backCorners can't be null";
+                                GameItem[] backCornersContent = placedCard.getBackCornersContent();
+                                assert(backCornersContent != null): "backCorners can't be null";
+
                                 // checks if a card is present in the 4 corners
                                 // if yes, it covers the starter card
-                                // it not, checks if the starter card has a resource in that corner
+                                // if not, checks if the starter card has a resource in that corner
 
                                 // check position (39,41)
                                 if(!gameField.isCardPresent(39,41)){
-                                    // uncovered top left corner
-                                    if(backCorners[0] && backCornersContent[0] != null) {
-                                        foundItems.add(backCornersContent[0]);
+                                    // uncovered bottom left corner
+                                    if(backCorners[3] && backCornersContent[3] != null) {
+                                        foundItems.add(backCornersContent[3]);
                                     }
                                 }
                                 // check position (41,41)
                                 if(!gameField.isCardPresent(41,41)){
-                                    // uncovered top right corner
-                                    if(backCorners[1] && backCornersContent[1] != null) {
-                                        foundItems.add(backCornersContent[1]);
-                                    }
-                                }
-                                // check position (41,39)
-                                if(!gameField.isCardPresent(41,39)){
                                     // uncovered bottom right corner
                                     if(backCorners[2] && backCornersContent[2] != null) {
                                         foundItems.add(backCornersContent[2]);
                                     }
                                 }
+                                // check position (41,39)
+                                if(!gameField.isCardPresent(41,39)){
+                                    // uncovered top right corner
+                                    if(backCorners[1] && backCornersContent[1] != null) {
+                                        foundItems.add(backCornersContent[1]);
+                                    }
+                                }
                                 // check position (39,39)
                                 if(!gameField.isCardPresent(39,39)){
-                                    // uncovered bottom left corner
-                                    if(backCorners[3] && backCornersContent[3] != null) {
-                                        foundItems.add(backCornersContent[3]);
+                                    // uncovered top left corner
+                                    if(backCorners[0] && backCornersContent[0] != null) {
+                                        foundItems.add(backCornersContent[0]);
                                     }
                                 }
                             }
