@@ -99,7 +99,7 @@ class LayoutConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 39, 41, false);
+        gameField.placeCard(card, 41, 39, false);
 
         card = null;
         for(PlaceableCard c: resourceCardsDeck.getContent()){
@@ -133,7 +133,7 @@ class LayoutConditionTest {
         layout[3][2] = null;
         condition = new LayoutCondition(layout);
 
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(new GameField(gameField)));
     }
 
     @Test
@@ -186,7 +186,7 @@ class LayoutConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 36, 38, false);
+        gameField.placeCard(card, 38, 36, false);
 
         GameResource[][] layout = new GameResource[LayoutCondition.getRows()][LayoutCondition.getColumns()];
         layout[0][0] = GameResource.FUNGI;
@@ -203,7 +203,7 @@ class LayoutConditionTest {
         layout[3][2] = null;
         condition = new LayoutCondition(layout);
 
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(new GameField(gameField)));
     }
 
     @Test
@@ -266,7 +266,7 @@ class LayoutConditionTest {
         condition = new LayoutCondition(layout);
 
         // if cards are used only one time, I expect numTimesMet to return 1, not 2
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(new GameField(gameField)));
     }
 
     @Test
