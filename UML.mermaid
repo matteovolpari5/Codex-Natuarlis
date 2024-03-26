@@ -245,7 +245,7 @@ classDiagram
         - currentHand: List ~DrawableCard~
         - secretObjectve: ObjectiveCard
         - isStalled : boolean
-        + Player(nickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType: boolean, currentHand: List~DrawableCard~, \nsecretObjective: ObjectiveCard)
+        + Player(nickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType: boolean)
         + Player(existingPlayer: Player)
         + getNickname() String
         + getTokenColor() TokenColor
@@ -258,6 +258,7 @@ classDiagram
         + getCurrentHand() List~DrawableCard~
         + removeCardHand(DrawableCard card)
         + addCardHand(DrawableCard card)
+        + setSecretObjective(ObjectiveCard secrectObjective)
         + getSecretObjetive() ObjectiveCard
         + getConnectionType() boolean
         + getInterfaceType() boolean
@@ -297,7 +298,7 @@ classDiagram
         + getGameField(nickname: String) GameField
         + getScore(nickname: String) int
         + placeStarterCard(nickname : String, way: boolean)
-        + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType:  boolean)
+        + addplayer(newPlayer : Player)
         + setup()
         + isFull() boolean
         + disconnectPlayer(nickname : String)
@@ -318,10 +319,15 @@ classDiagram
 
     class GamesManager {
         - games: List~Game~
+        - pendingPlayers: List~Player~
         + GamesManager()
         + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType: boolean)
         + checkNicknameUnique(nickname: String) boolean
-        + createGame(playersNumber : int)
+        + createGame(playersNumber : int) int
+        + displayExistingGame()
+        + getPendingPlayer(nickname: String)
+        + joinExistingNickname(nickname: String, gameId : int)
+        + joinNewGame(nickname: String)
     }
 
     class DecksBuilder{
