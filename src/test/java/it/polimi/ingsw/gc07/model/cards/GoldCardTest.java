@@ -60,4 +60,36 @@ class GoldCardTest {
         gameField.placeCard(myGoldCard, 38, 38, false);
         assertEquals(3, myGoldCard.getPlacementScore(gameField, 38, 38));
     }
+
+    @Test
+    void getGoldCornerPlacementScore() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+        myStarterCard = starterCardsDeck.drawCard();
+        GameField gameField = new GameField(myStarterCard);
+        gameField.placeCard(myStarterCard, 40, 40, false);
+        for(DrawableCard c: goldCardsDeck.getContent()){
+            if(c.getId() == 45){
+                myGoldCard = c;
+            }
+        }
+        for(DrawableCard c: resourceCardsDeck.getContent()){
+            if (c.getId() == 1){
+                myResourceCard = c;
+                gameField.placeCard(myResourceCard, 39, 39, false);
+            }
+            if (c.getId() == 2){
+                myResourceCard = c;
+                gameField.placeCard(myResourceCard, 41, 39, true);
+            }
+            if (c.getId() == 3){
+                myResourceCard = c;
+                gameField.placeCard(myResourceCard, 39, 41, true);
+            }
+            if (c.getId() == 11){
+                myResourceCard = c;
+                gameField.placeCard(myResourceCard, 41, 41, true);
+            }
+        }
+        gameField.placeCard(myGoldCard, 38, 40, false);
+        assertEquals(4, myGoldCard.getPlacementScore(gameField, 38, 40));
+    }
 }
