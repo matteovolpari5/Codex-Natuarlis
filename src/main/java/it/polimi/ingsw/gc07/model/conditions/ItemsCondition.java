@@ -27,17 +27,6 @@ public class ItemsCondition implements Condition {
         this.neededItems = new ArrayList<>(neededItems);
     }
 
-    // TODO probabilmente da eliminare
-    /**
-     * Getter method returning the List of items required by the condition.
-     * @return List of Items of the condition.
-     */
-    /*
-    public List<GameItem> getNeededItems() {
-        return new ArrayList<>(this.neededItems);
-    }
-     */
-
     /**
      * Method returning the number of times an item condition is met.
      * Counts how many times the list neededItems is found in the gameField.
@@ -71,9 +60,9 @@ public class ItemsCondition implements Condition {
                             if((i == 0 || j == dim-1) ||
                                     (i>0 && j<dim-1 && !gameField.isCardPresent(i-1,j+1)) ||
                                     (i>0 && j<dim-1 && gameField.isCardPresent(i-1,j+1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i-1][j+1])) {
-                                // uncovered bottom left corner
-                                if(frontCorners[3] && frontCornersContent[3] != null)
-                                    foundItems.add(frontCornersContent[3]);
+                                // uncovered top right corner
+                                if(frontCorners[1] && frontCornersContent[1] != null)
+                                    foundItems.add(frontCornersContent[1]);
                             }
                             // check position (i+1,j+1)
                             if((i == dim-1 || j == dim-1) ||
@@ -87,9 +76,9 @@ public class ItemsCondition implements Condition {
                             if((i == dim-1 || j == 0) ||
                                     (i<dim-1 && j>0 && !gameField.isCardPresent(i+1,j-1)) ||
                                     (i<dim-1 && j>0 && gameField.isCardPresent(i+1,j-1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i+1][j-1])) {
-                                // uncovered top right corner
-                                if(frontCorners[1] && frontCornersContent[1] != null)
-                                    foundItems.add(frontCornersContent[1]);
+                                // uncovered bottom left corner
+                                if(frontCorners[3] && frontCornersContent[3] != null)
+                                    foundItems.add(frontCornersContent[3]);
                             }
                             // check position (i-1,j-1)
                             if((i == 0 || j == 0) ||
@@ -118,9 +107,9 @@ public class ItemsCondition implements Condition {
 
                                 // check position (39,41)
                                 if(!gameField.isCardPresent(39,41)){
-                                    // uncovered bottom left corner
-                                    if(backCorners[3] && backCornersContent[3] != null) {
-                                        foundItems.add(backCornersContent[3]);
+                                    // uncovered top right corner
+                                    if(backCorners[1] && backCornersContent[1] != null) {
+                                        foundItems.add(backCornersContent[1]);
                                     }
                                 }
                                 // check position (41,41)
@@ -132,9 +121,9 @@ public class ItemsCondition implements Condition {
                                 }
                                 // check position (41,39)
                                 if(!gameField.isCardPresent(41,39)){
-                                    // uncovered top right corner
-                                    if(backCorners[1] && backCornersContent[1] != null) {
-                                        foundItems.add(backCornersContent[1]);
+                                    // uncovered bottom left corner
+                                    if(backCorners[3] && backCornersContent[3] != null) {
+                                        foundItems.add(backCornersContent[3]);
                                     }
                                 }
                                 // check position (39,39)

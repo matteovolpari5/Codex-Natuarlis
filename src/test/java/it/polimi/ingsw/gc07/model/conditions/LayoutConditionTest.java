@@ -12,8 +12,6 @@ import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class LayoutConditionTest {
