@@ -32,13 +32,9 @@ class LayoutConditionTest {
         condition = null;
         gameField = null;
         myStarterCard = null;
-        try {
-            resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
-            goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
-            starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
     }
 
     @Test

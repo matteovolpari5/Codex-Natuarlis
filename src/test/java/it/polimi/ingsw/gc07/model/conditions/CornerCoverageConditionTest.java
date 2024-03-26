@@ -32,13 +32,9 @@ class CornerCoverageConditionTest {
         condition = new CornerCoverageCondition();;
         gameField = null;
         myStarterCard = null;
-        try {
-            resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
-            goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
-            starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
     }
 
     @Test
@@ -82,8 +78,8 @@ class CornerCoverageConditionTest {
         assertNotNull(myGoldCard);
         DrawableCard lastCard = resourceCardsDeck.drawCard();
         gameField.placeCard(myResourceCard, 41, 41, true);
-        gameField.placeCard(myGoldCard, 39, 41, true);
-        gameField.placeCard(lastCard, 40, 42, true);
+        gameField.placeCard(myGoldCard, 41, 39, true);
+        gameField.placeCard(lastCard, 42, 40, true);
         assertEquals(2, condition.numTimesMet(gameField));
     }
 
@@ -94,10 +90,10 @@ class CornerCoverageConditionTest {
         gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 39, 39, true);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 41, 39, true);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 42, 38, true);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 41, 37, true);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 40, 38, true);
+        gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, true);
+        gameField.placeCard(resourceCardsDeck.drawCard(), 38, 42, true);
+        gameField.placeCard(resourceCardsDeck.drawCard(), 37, 41, true);
+        gameField.placeCard(resourceCardsDeck.drawCard(), 38, 40, true);
         assertEquals(3, condition.numTimesMet(gameField));
     }
 
@@ -109,17 +105,17 @@ class CornerCoverageConditionTest {
         gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 39, 39, true);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 41, 39, true);
-        gameField.placeCard(goldCardsDeck.drawCard(), 42, 38, true);
-        gameField.placeCard(goldCardsDeck.drawCard(), 41, 37, true);
+        gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, true);
+        gameField.placeCard(goldCardsDeck.drawCard(), 38, 42, true);
+        gameField.placeCard(goldCardsDeck.drawCard(), 37, 41, true);
         gameField.placeCard(resourceCardsDeck.drawCard(), 38, 38, true);
-        gameField.placeCard(goldCardsDeck.drawCard(), 39, 37, true);
-        gameField.placeCard(goldCardsDeck.drawCard(), 40, 38, true);
+        gameField.placeCard(goldCardsDeck.drawCard(), 37, 39, true);
+        gameField.placeCard(goldCardsDeck.drawCard(), 38, 40, true);
         assertEquals(4, condition.numTimesMet(gameField));
     }
 
     @Test
-    public void leftBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void topBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -136,7 +132,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void rightBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void bottomBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -153,7 +149,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void bottomBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void rightBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -170,7 +166,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void topBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void leftBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);

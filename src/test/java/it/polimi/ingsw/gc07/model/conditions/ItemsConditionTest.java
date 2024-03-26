@@ -31,13 +31,9 @@ class ItemsConditionTest {
         resourceCardsDeck = null;
         goldCardsDeck = null;
         starterCardsDeck = null;
-        try {
-            resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
-            goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
-            starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
         assertNotNull(resourceCardsDeck);
         assertNotNull(goldCardsDeck);
         assertNotNull(starterCardsDeck);
