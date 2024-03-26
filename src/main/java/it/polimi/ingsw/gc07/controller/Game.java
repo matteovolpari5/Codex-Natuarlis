@@ -11,15 +11,14 @@ import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.GameState;
-import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import java.util.*;
 import java.util.Random;
 
 public class Game {
     /**
-     * Id of the game.
+     * ID of the game.
      */
-    private int id;
+    private final int id;
     /**
      * State of the game.
      */
@@ -27,15 +26,15 @@ public class Game {
     /**
      * Number of players in the game, chose by the first player.
      */
-    private int playersNumber;
+    private final int playersNumber;
     /**
      * Map of players and their game field.
      */
-    private Map<String, GameField> playersGameField;
+    private final Map<String, GameField> playersGameField;
     /**
      * List of players and an integer for their order.
      */
-    private List<Player> players;
+    private final List<Player> players;
     /**
      * Integer value representing the position of the current player.
      */
@@ -43,23 +42,23 @@ public class Game {
     /**
      * Score track board of the game.
      */
-    private ScoreTrackBoard scoreTrackBoard;
+    private final ScoreTrackBoard scoreTrackBoard;
     /**
      * Deck of resource cards.
      */
-    private ResourceCardsDeck resourceCardsDeck;
+    private final ResourceCardsDeck resourceCardsDeck;
     /**
      * Deck of gold cards.
      */
-    private GoldCardsDeck goldCardsDeck;
+    private final GoldCardsDeck goldCardsDeck;
     /**
      * Deck of objective cards.
      */
-    private PlayingDeck<ObjectiveCard> objectiveCardsDeck;
+    private final PlayingDeck<ObjectiveCard> objectiveCardsDeck;
     /**
      * Deck of starter cards.
      */
-    private Deck<PlaceableCard> starterCardsDeck;
+    private final Deck<PlaceableCard> starterCardsDeck;
     /**
      * Boolean attribute, true if a player has reached 20 points.
      */

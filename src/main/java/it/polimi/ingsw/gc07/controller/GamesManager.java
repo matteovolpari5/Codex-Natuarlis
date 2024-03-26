@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.*;
+import it.polimi.ingsw.gc07.model.enumerations.GameState;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.ArrayList;
@@ -141,11 +142,16 @@ public class GamesManager {
         }
     }
 
-    // deleteGame()
-    // VORREI PRENDER COME PARAMETRO IL GAME, NON POSSO, ID?
-    // Altrimenti ?
-    // TODO
-    // se un Game finisce, lo elimino dalla lista e li faccio scalare?
-    // potrebbe essere chiamato e scorrere ed eliminare quelli finiti (stato)
-    // oppure quando preleva il vincitore, elimina il Game
+    // TODO: chi lo chiama?
+    public void deleteGame(int id) {
+        Game game = null;
+        for(Game g: games) {
+            if(g.getId() == id) {
+                game = g;
+            }
+        }
+        if(game != null && game.getState().equals(GameState.GAME_ENDED)){
+            games.remove(game);
+        }
+    }
 }
