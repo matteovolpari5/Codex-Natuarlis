@@ -45,7 +45,7 @@ class CornerCoverageConditionTest {
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
-        assertEquals(0, condition.numTimesMet(gameField));
+        assertEquals(0, condition.numTimesMet(new GameField(gameField)));
     }
 
     @Test
@@ -61,7 +61,7 @@ class CornerCoverageConditionTest {
         DrawableCard myResourceCard = resourceCardsDeck.drawCard();
         assertNotNull(myResourceCard);
         gameField.placeCard(myResourceCard, 41, 41, true);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(new GameField(gameField)));
     }
 
     @Test
@@ -78,7 +78,7 @@ class CornerCoverageConditionTest {
         gameField.placeCard(myResourceCard, 41, 41, true);
         gameField.placeCard(myGoldCard, 41, 39, true);
         gameField.placeCard(lastCard, 42, 40, true);
-        assertEquals(2, condition.numTimesMet(gameField));
+        assertEquals(2, condition.numTimesMet(new GameField(gameField)));
     }
 
     @Test
@@ -92,7 +92,7 @@ class CornerCoverageConditionTest {
         gameField.placeCard(resourceCardsDeck.drawCard(), 38, 42, true);
         gameField.placeCard(resourceCardsDeck.drawCard(), 37, 41, true);
         gameField.placeCard(resourceCardsDeck.drawCard(), 38, 40, true);
-        assertEquals(3, condition.numTimesMet(gameField));
+        assertEquals(3, condition.numTimesMet(new GameField(gameField)));
     }
 
     // testing all four corners, I test all possible positions
@@ -109,7 +109,7 @@ class CornerCoverageConditionTest {
         gameField.placeCard(resourceCardsDeck.drawCard(), 38, 38, true);
         gameField.placeCard(goldCardsDeck.drawCard(), 37, 39, true);
         gameField.placeCard(goldCardsDeck.drawCard(), 38, 40, true);
-        assertEquals(4, condition.numTimesMet(gameField));
+        assertEquals(4, condition.numTimesMet(new GameField(gameField)));
     }
 
     @Test
@@ -126,7 +126,7 @@ class CornerCoverageConditionTest {
                 j = 39;
             gameField.placeCard(resourceCardsDeck.drawCard(), i, j, true);
         }
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(new GameField(gameField)));
     }
 
     @Test
@@ -143,7 +143,7 @@ class CornerCoverageConditionTest {
                 j = 41;
             gameField.placeCard(resourceCardsDeck.drawCard(), i, j, true);
         }
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(new GameField(gameField)));
     }
 
     @Test
@@ -160,7 +160,7 @@ class CornerCoverageConditionTest {
                 i = 39;
             gameField.placeCard(goldCardsDeck.drawCard(), i, j, true);
         }
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(new GameField(gameField)));
     }
 
     @Test
@@ -177,6 +177,6 @@ class CornerCoverageConditionTest {
                 i = 41;
             gameField.placeCard(goldCardsDeck.drawCard(), i, j, true);
         }
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(new GameField(gameField)));
     }
 }

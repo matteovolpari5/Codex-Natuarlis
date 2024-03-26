@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
 import it.polimi.ingsw.gc07.controller.DecksBuilder;
-import it.polimi.ingsw.gc07.controller.Game;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -55,7 +54,7 @@ class LayoutConditionTest {
         layout[3][1] = null;
         layout[3][2] = null;
         condition = new LayoutCondition(layout);
-        assertEquals(0, condition.numTimesMet(gameField));
+        assertEquals(0, condition.numTimesMet(new GameField(gameField)));
     }
 
     @Test
@@ -186,7 +185,7 @@ class LayoutConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 38, 36, false);
+        gameField.placeCard(card, 36, 38, false);
 
         GameResource[][] layout = new GameResource[LayoutCondition.getRows()][LayoutCondition.getColumns()];
         layout[0][0] = GameResource.FUNGI;
@@ -270,7 +269,157 @@ class LayoutConditionTest {
     }
 
     @Test
-    public void multipleTimesMet() {
+    public void multipleTimesMet() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
         // the condition is met multiple times
+        myStarterCard = starterCardsDeck.drawCard();
+        assertNotNull(myStarterCard);
+        gameField = new GameField(myStarterCard);
+        gameField.placeCard(myStarterCard, 40, 40, false);
+
+        PlaceableCard card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 11){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 39, 39, true);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 12){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 38, 38, true);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 13){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 37, 37, true);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 22){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 41, 41, false);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 33){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 42, 42, false);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 29){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 43, 43, false);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 7){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 43, 41, true);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 35){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 44, 42, true);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 36){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 44, 44, true);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 20){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 45, 45, false);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 37){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 46, 44, false);
+
+        /*
+        P X X X X X X X X
+        X P X X X X X X X
+        X X P X X X X X X
+        X X X S X X X X X
+        X X X X A X X X X
+        X X X X X I X X X
+        X X X X F X A X X
+        X X X X X I X I X
+        X X X X X X X X P
+        X X X X X X X I X
+        */
+
+        GameResource[][] layout = new GameResource[LayoutCondition.getRows()][LayoutCondition.getColumns()];
+        layout[0][0] = GameResource.PLANT;
+        layout[0][1] = null;
+        layout[0][2] = null;
+        layout[1][0] = null;
+        layout[1][1] = GameResource.PLANT;
+        layout[1][2] = null;
+        layout[2][0] = null;
+        layout[2][1] = null;
+        layout[2][2] = GameResource.PLANT;
+        layout[3][0] = null;
+        layout[3][1] = null;
+        layout[3][2] = null;
+        condition = new LayoutCondition(layout);
+
+        assertEquals(1, condition.numTimesMet(new GameField(gameField)));
+
+        layout = new GameResource[LayoutCondition.getRows()][LayoutCondition.getColumns()];
+        layout[0][0] = GameResource.ANIMAL;
+        layout[0][1] = null;
+        layout[0][2] = null;
+        layout[1][0] = null;
+        layout[1][1] = GameResource.INSECT;
+        layout[1][2] = null;
+        layout[2][0] = null;
+        layout[2][1] = null;
+        layout[2][2] = null;
+        layout[3][0] = null;
+        layout[3][1] = GameResource.INSECT;
+        layout[3][2] = null;
+        condition = new LayoutCondition(layout);
+
+        assertEquals(2, condition.numTimesMet(new GameField(gameField)));
     }
 }
