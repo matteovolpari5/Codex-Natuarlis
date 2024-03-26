@@ -13,7 +13,7 @@ public class ScoreTrackBoard {
     /**
      * Map that link each player with his personal score.
      */
-    private Map<String, Integer> playersScore;
+    private final Map<String, Integer> playersScore;
 
     /**
      * Constructor method for an empty ScoreTrackBoard.
