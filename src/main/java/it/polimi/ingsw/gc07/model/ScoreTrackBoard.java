@@ -26,6 +26,7 @@ public class ScoreTrackBoard {
      * Method that allows to insert a new Player to the ScoreTrackBoard,
      * initializing it's score to 0.
      * @param nickname player to add
+     * @throws PlayerAlreadyPresentException exception thrown if the player is already present
      */
     public void addPlayer(String nickname) throws PlayerAlreadyPresentException {
        if(playersScore.containsKey(nickname)){
@@ -38,18 +39,20 @@ public class ScoreTrackBoard {
      * Setter method, allows to set a certain score for a player.
      * @param nickname player
      * @param newScore new score to set
+     * @throws PlayerNotPresentException exception thrown if the player is not present
      */
     public void setScore(String nickname, int newScore) throws PlayerNotPresentException {
         if(!playersScore.containsKey(nickname)){
             throw new PlayerNotPresentException();
         }
-        this.playersScore.put(nickname, newScore);
+        playersScore.put(nickname, newScore);
     }
 
     /**
      * Getter method for the score, allows to know the current score of a player.
      * @param nickname player
      * @return current score for the player
+     * @throws PlayerNotPresentException exception thrown if the player is not present
      */
     public int getScore(String nickname) throws PlayerNotPresentException {
         if(!playersScore.containsKey(nickname)){
@@ -57,11 +60,17 @@ public class ScoreTrackBoard {
         }
         return playersScore.get(nickname);
     }
+
+    /**
+     * Method that allows to increment a player's score of deltaScore points.
+     * @param nickname nickname of the player
+     * @param deltaScore points to add
+     * @throws PlayerNotPresentException exception thrown if the player is not present
+     */
     public void incrementScore(String nickname, int deltaScore) throws PlayerNotPresentException {
         if(!playersScore.containsKey(nickname)){
             throw new PlayerNotPresentException();
         }
-        int newScore = this.getScore(nickname) + deltaScore;
-        this.playersScore.put(nickname, newScore);
+        playersScore.put(nickname, getScore(nickname) + deltaScore);
     }
 }
