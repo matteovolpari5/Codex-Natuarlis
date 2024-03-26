@@ -29,10 +29,20 @@ public class GamesManager {
      * @throws WrongNumberOfPlayersException
      */
     private void createGame(int playersNumber) throws WrongNumberOfPlayersException {
-        boolean flag = false;
+        boolean foundId = false;
+        boolean foundGame = false;
+        boolean
         int id = 0;
 
-        // TODO: compute id
+        while(!foundId){
+            foundGame = false;
+            for(Game g: games){
+                if(g.getId() == id){
+                    foundGame = true;
+                }
+            }
+
+        }
 
         ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         resourceCardsDeck.shuffle();

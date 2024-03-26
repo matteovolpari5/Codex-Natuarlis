@@ -80,10 +80,6 @@ public class Game {
      * @param goldCardsDeck deck of gold cards
      * @param objectiveCardsDeck deck of objective cards
      * @param starterCardsDeck deck of starter cards
-     * @param nickname player to add to the game
-     * @param tokenColor color of player's token
-     * @param connectionType type of connection
-     * @param interfaceType type of the interface
      * @throws WrongNumberOfPlayersException exception thrown when the number of players is wrong
      */
     public Game(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
@@ -107,6 +103,10 @@ public class Game {
         this.currPlayer = 0;
         this.twentyPointsReached = false;
         this.additionalRound = false;
+    }
+
+    public int getId(){
+        return id;
     }
 
     /**
