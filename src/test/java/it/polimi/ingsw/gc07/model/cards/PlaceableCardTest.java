@@ -21,7 +21,6 @@ class PlaceableCardTest {
     private ResourceCardsDeck resourceCardsDeck;
     private GoldCardsDeck goldCardsDeck;
     PlaceableCard myStarterCard;
-    DrawableCard myResourceCard;
 
     @BeforeEach
     void setUp() {
@@ -36,7 +35,7 @@ class PlaceableCardTest {
     }
 
     @Test
-    public void starterCardScore () throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void onlyStarterCardScore () throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
         myStarterCard=starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
@@ -44,19 +43,15 @@ class PlaceableCardTest {
     }
 
     @Test
-    public void resourceCardScore() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void starterCardScore() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
         myStarterCard=starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
-        for(DrawableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 9){
-                myResourceCard = c;
-            }
-        }
-        assertNotNull(myResourceCard);
-        gameField.placeCard(myResourceCard, 41, 41, false);
-        assertEquals(1, myResourceCard.getPlacementScore(gameField, 41, 41));
-
+        gameField.placeCard(resourceCardsDeck.drawCard(), 41, 41, false);
+        gameField.placeCard(resourceCardsDeck.drawCard(), 42, 42, false);
+        gameField.placeCard(resourceCardsDeck.drawCard(), 39, 39, false);
+        gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, false);
+        assertEquals(0, myStarterCard.getPlacementScore(gameField, 40, 40));
     }
 
 

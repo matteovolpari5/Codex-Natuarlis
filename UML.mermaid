@@ -245,7 +245,7 @@ classDiagram
         - currentHand: List ~DrawableCard~
         - secretObjectve: ObjectiveCard
         - isStalled : boolean
-        + Player(nickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType: boolean, currentHand: List~DrawableCard~, \nsecretObjective: ObjectiveCard)
+        + Player(nickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType: boolean)
         + Player(existingPlayer: Player)
         + getNickname() String
         + getTokenColor() TokenColor
@@ -258,6 +258,7 @@ classDiagram
         + getCurrentHand() List~DrawableCard~
         + removeCardHand(DrawableCard card)
         + addCardHand(DrawableCard card)
+        + setSecretObjective(ObjectiveCard secrectObjective)
         + getSecretObjetive() ObjectiveCard
         + getConnectionType() boolean
         + getInterfaceType() boolean
@@ -276,6 +277,7 @@ classDiagram
     %%  CONTROLLER
     %% -----------------------------------------
     class Game {
+        - id: int
         - state: GameState
         - playersNumber: int
         - playersGameField: Map~String, GameField~
@@ -289,14 +291,14 @@ classDiagram
         - twentyPointsReached: boolean
         - additionalRound : boolean
         - chat: Chat
-        + Game(gameId: int, playersNumber: int, resourceCardsDeck: ResourceCardsDeck,\n goldCardsDeck: GoldCardsDeck, objectiveCardsDeck: PlayingDeck~ObjectiveCard~, starterCardsDeck : Deck~PlaceableCard~, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean)
+        + Game(id: int, playersNumber: int, resourceCardsDeck: ResourceCardsDeck,\n goldCardsDeck: GoldCardsDeck, objectiveCardsDeck: PlayingDeck~ObjectiveCard~, starterCardsDeck : Deck~PlaceableCard~)
         + getState() GameState
         + getPlayers() List~Player~
         + getCurrentPlayer() Player
         + getGameField(nickname: String) GameField
         + getScore(nickname: String) int
         + placeStarterCard(nickname : String, way: boolean)
-        + addplayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType:  boolean)
+        + addplayer(newPlayer : Player)
         + setup()
         + isFull() boolean
         + disconnectPlayer(nickname : String)
@@ -317,9 +319,15 @@ classDiagram
 
     class GamesManager {
         - games: List~Game~
+        - pendingPlayers: List~Player~
         + GamesManager()
         + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType: boolean)
         + checkNicknameUnique(nickname: String) boolean
+        + createGame(playersNumber : int) int
+        + displayExistingGame()
+        + getPendingPlayer(nickname: String)
+        + joinExistingNickname(nickname: String, gameId : int)
+        + joinNewGame(nickname: String)
     }
 
     class DecksBuilder{

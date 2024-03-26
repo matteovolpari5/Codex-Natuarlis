@@ -1,15 +1,15 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.exceptions.PlayerAlreadyPresentException;
+import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentException;
 import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
+import it.polimi.ingsw.gc07.exceptions.WrongStateException;
+import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
-import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
-import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
-import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
+import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +20,16 @@ public class GamesManager {
     private List<Game> games;
 
     /**
+     * List of players who have not chosen a game.
+     */
+    private List<Player> pendingPlayers;
+
+    /**
      * GamesManger is created once the server is started.
      */
     public GamesManager() {
         games = new ArrayList<>();
+        pendingPlayers = new ArrayList<>();
     }
 
     /**
@@ -31,48 +37,53 @@ public class GamesManager {
      * @param playersNumber number of player of the new game, decided by the first player to join.
      * @throws WrongNumberOfPlayersException
      */
-    private void createGame(int playersNumber) throws WrongNumberOfPlayersException {
-        //TODO perchè abbiamo deciso di inserire il primo giocatore quando costruiamo il Game?
-        // non mi sembra bello nè utile
-        try {
-            Game game = new Game(playersNumber,
-                    DecksBuilder.buildResourceCardsDeck().shuffle(),
-                    DecksBuilder.buildGoldCardsDeck().shuffle(),
-                    DecksBuilder.buildObjectiveCardsDeck().shuffle(),
-                    DecksBuilder.buildStarterCardsDeck().shuffle());
-            games.add(game);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    private int createGame(int playersNumber) throws WrongNumberOfPlayersException {
+        boolean foundId = false;
+        boolean foundGame;
+        int id = 0;
+
+        while(!foundId){
+            foundGame = false;
+            for(Game g: games){
+                if(g.getId() == id){
+                    foundGame = true;
+                }
+            }
+            if(!foundGame){
+                foundId = true;
+            }
+            else{
+                id++;
+            }
         }
+
+        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        resourceCardsDeck.shuffle();
+        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        goldCardsDeck.shuffle();
+        PlayingDeck<ObjectiveCard> objectiveCardDeck = DecksBuilder.buildObjectiveCardsDeck();
+        objectiveCardDeck.shuffle();
+        Deck<PlaceableCard> starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
+        starterCardsDeck.shuffle();
+
+        Game game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
+        games.add(game);
+
+        return id;
     }
 
     /**
-     * Accepts new player's data and adds him to a game.
-     * Places in games are filled in order.
+     * Accepts new player's data and creates a Player object if the nickname is unique.
+     * Adds the player to a list until he will choose a game.
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) {
-
-        // per la FA, il player può scegliere se creare una partita oppure
-        // se partecipare ad una esistente
-
-        // TODO
-
-
-        // Altrimenti crea un nuovo game:
-        // gameId è uguale all'indice nella lista
-        // players number è scelto dal giocatore
-        // crea i deck (json) e li mescola col metodo shuffle di Deck
-
-        // Se deve poter scegliere il colore, getter dei giocatori in Game
-        // per sapere i colori già usati
-
-        // Se deve creare un nuovo gioco, chiede il numero di giocatori
-
-        // 2
-        // Sul game creato / sul game trovato:
-        // game.addPlayer(nickname, tokenColor, connectionType,way)
-
-        // eventualmente creare dei metodi privati (/statici) per spezzettare
+    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) throws PlayerAlreadyPresentException {
+        if(checkNicknameUnique(nickname)){
+            Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType);
+            pendingPlayers.add(newPlayer);
+        }
+        else{
+            throw new PlayerAlreadyPresentException();
+        }
     }
 
     /**
@@ -88,6 +99,46 @@ public class GamesManager {
             }
         }
         return unique;
+    }
+
+    public void displayExistingGames() {
+        // TODO
+        // probabilmente non void
+    }
+
+    private Player getPendingPlayer(String nickname) {
+        Player player = null;
+        for(Player p: pendingPlayers) {
+            if(p.getNickname().equals(nickname)){
+                player = p;
+            }
+        }
+        return player;
+    }
+
+    public void joinExistingGame(String nickname, int gameId) throws WrongStateException, PlayerNotPresentException {
+        Player player = getPendingPlayer(nickname);
+        if(player == null){
+            throw new PlayerNotPresentException();
+        }
+        for(Game game: games) {
+            if(game.getId() == gameId) {
+                game.addPlayer(player);
+            }
+        }
+    }
+
+    public void joinNewGame(String nickname, int playersNumber) throws PlayerNotPresentException, WrongNumberOfPlayersException, WrongStateException {
+        Player player = getPendingPlayer(nickname);
+        if(player == null){
+            throw new PlayerNotPresentException();
+        }
+        int gameId = createGame(playersNumber);
+        for(Game game: games) {
+            if(game.getId() == gameId) {
+                game.addPlayer(player);
+            }
+        }
     }
 
     // deleteGame()

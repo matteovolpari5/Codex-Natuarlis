@@ -438,12 +438,16 @@ public abstract class DecksBuilder {
      * @return starter card deck
      * @throws FileNotFoundException
      */
-    public static Deck<PlaceableCard> buildStarterCardsDeck() throws FileNotFoundException{
+    public static Deck<PlaceableCard> buildStarterCardsDeck() {
         Stack<PlaceableCard> deckContent = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/starterCardsDeck.json");
-        JsonElement fileElement;
+        JsonElement fileElement = null;
         JsonObject fileObject;
-        fileElement = JsonParser.parseReader(new FileReader(input));
+        try{
+            fileElement = JsonParser.parseReader(new FileReader(input));
+        }catch(FileNotFoundException e){
+            throw new RuntimeException();
+        }
         fileObject = fileElement.getAsJsonObject();
         // get the JsonArray of all the cards
         JsonArray jsonArrayStarterCards = fileObject.get("cards").getAsJsonArray();
@@ -472,10 +476,15 @@ public abstract class DecksBuilder {
      * @return objective card deck
      * @throws FileNotFoundException
      */
-    public static PlayingDeck<ObjectiveCard> buildObjectiveCardsDeck() throws FileNotFoundException{
+    public static PlayingDeck<ObjectiveCard> buildObjectiveCardsDeck() {
         Stack<ObjectiveCard> deckContent = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/objectiveCardsDeck.json");
-        JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+        JsonElement fileElement = null;
+        try{
+            fileElement = JsonParser.parseReader(new FileReader(input));
+        }catch(FileNotFoundException e){
+            throw new RuntimeException();
+        }
         JsonObject fileObject = fileElement.getAsJsonObject();
         // get the JsonArray of all the cards
         JsonArray jsonArrayObjectiveCards = fileObject.get("cards").getAsJsonArray();
@@ -514,10 +523,15 @@ public abstract class DecksBuilder {
      * @return resource cards deck
      * @throws FileNotFoundException
      */
-    public static ResourceCardsDeck buildResourceCardsDeck() throws FileNotFoundException {
+    public static ResourceCardsDeck buildResourceCardsDeck() {
         Stack<DrawableCard> deckContent = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/resourceCardsDeck.json");
-        JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+        JsonElement fileElement = null;
+        try {
+            fileElement = JsonParser.parseReader(new FileReader(input));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         JsonObject fileObject = fileElement.getAsJsonObject();
         // get the JsonArray of all the cards
         JsonArray jsonArrayResourceCards = fileObject.get("cards").getAsJsonArray();
@@ -546,10 +560,16 @@ public abstract class DecksBuilder {
      * @return resource cards deck
      * @throws FileNotFoundException
      */
-    public static GoldCardsDeck buildGoldCardsDeck() throws FileNotFoundException {
+    public static GoldCardsDeck buildGoldCardsDeck() {
         Stack<GoldCard> deckContent = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/goldCardsDeck.json");
-        JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+        JsonElement fileElement = null;
+        try{
+            fileElement = JsonParser.parseReader(new FileReader(input));
+        }
+        catch(FileNotFoundException e){
+            throw new RuntimeException();
+        }
         JsonObject fileObject = fileElement.getAsJsonObject();
         // get the JsonArray of all the cards
         JsonArray jsonArrayGoldCards = fileObject.get("cards").getAsJsonArray();

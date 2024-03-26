@@ -17,6 +17,10 @@ import java.util.Random;
 
 public class Game {
     /**
+     * Id of the game.
+     */
+    private int id;
+    /**
      * State of the game.
      */
     private GameState state;
@@ -76,16 +80,12 @@ public class Game {
      * @param goldCardsDeck deck of gold cards
      * @param objectiveCardsDeck deck of objective cards
      * @param starterCardsDeck deck of starter cards
-     * @param nickname player to add to the game
-     * @param tokenColor color of player's token
-     * @param connectionType type of connection
-     * @param interfaceType type of the interface
      * @throws WrongNumberOfPlayersException exception thrown when the number of players is wrong
      */
-    public Game(int playersNumber, ResourceCardsDeck resourceCardsDeck,
+    public Game(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
                 GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
-                Deck<PlaceableCard> starterCardsDeck, String nickname, TokenColor tokenColor,
-                boolean connectionType, boolean interfaceType) throws WrongNumberOfPlayersException {
+                Deck<PlaceableCard> starterCardsDeck) throws WrongNumberOfPlayersException {
+        this.id = id;
         this.state = GameState.WAITING_PLAYERS;
         if (playersNumber<2 || playersNumber>4)  {
             throw new WrongNumberOfPlayersException();
@@ -103,11 +103,10 @@ public class Game {
         this.currPlayer = 0;
         this.twentyPointsReached = false;
         this.additionalRound = false;
-        try {
-            addPlayer(nickname, tokenColor, connectionType, interfaceType);
-        } catch (WrongStateException e) {
-            e.printStackTrace();
-        }
+    }
+
+    public int getId(){
+        return id;
     }
 
     /**
@@ -178,23 +177,20 @@ public class Game {
 
     /**
      * Method to add a new player.
-     * @param nickname player to add to the game
-     * @param tokenColor color of player's token
-     * @param connectionType type of connection
-     * @param interfaceType type of the interface
+     * @param newPlayer player to add
      * @throws WrongStateException if the state of the game is wrong
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) throws WrongStateException{
+    public void addPlayer(Player newPlayer) throws WrongStateException{
         try{
             if(!state.equals(GameState.WAITING_PLAYERS)) {
                 throw new WrongStateException();
             }
-            List<DrawableCard> currentHand = new ArrayList<>();
-            currentHand.add(this.resourceCardsDeck.drawCard());
-            currentHand.add(this.resourceCardsDeck.drawCard());
-            currentHand.add(this.goldCardsDeck.drawCard());
-            ObjectiveCard secretObjective = this.objectiveCardsDeck.drawCard();
-            Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType, currentHand, secretObjective);
+
+            newPlayer.addCardHand(resourceCardsDeck.drawCard());
+            newPlayer.addCardHand(resourceCardsDeck.drawCard());
+            newPlayer.addCardHand(goldCardsDeck.drawCard());
+            newPlayer.setSecretObjective(objectiveCardsDeck.drawCard());
+
             PlaceableCard starterCard = starterCardsDeck.drawCard();
             GameField gameField = new GameField(starterCard);
             players.add(newPlayer);
