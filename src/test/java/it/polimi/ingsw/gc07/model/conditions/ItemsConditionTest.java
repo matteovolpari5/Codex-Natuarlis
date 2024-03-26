@@ -13,7 +13,6 @@ import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,21 +39,6 @@ class ItemsConditionTest {
         condition = null;
         neededItems = new ArrayList<>();
     }
-
-    /*
-    @Test
-    public void constructorAndGetter() {
-        List<GameItem> myList = new ArrayList<>();
-        myList.add(GameObject.QUILL);
-        myList.add(GameObject.INKWELL);
-        myList.add(GameResource.ANIMAL);
-        myList.add(GameResource.FUNGI);
-        ItemsCondition condition = new ItemsCondition(myList);
-        List<GameItem> checkList = condition.getNeededItems();
-        assertNotNull(checkList);
-        assertEquals(myList, checkList);
-    }
-     */
 
     // checks the case of only the starter card placed face down
     // the card has only permanent resources
@@ -141,7 +125,7 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 41, 39, true);
+        gameField.placeCard(card, 39, 41, true);
         // 4 INSECT, 1 FUNGI
 
         neededItems.add(GameResource.INSECT);
@@ -208,7 +192,7 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 41, 39, true);
+        gameField.placeCard(card, 39, 41, true);
         // 4 INSECT, 1 FUNGI
 
         card = null;
@@ -270,7 +254,7 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 41, 39, true);
+        gameField.placeCard(card, 39, 41, true);
         // 4 INSECT, 1 FUNGI
 
         card = null;
@@ -316,7 +300,7 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 39, 41, false);
+        gameField.placeCard(card, 41, 39, false);
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.FUNGI);
@@ -340,7 +324,7 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 38, 42, true);
+        gameField.placeCard(card, 42, 38, true);
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.FUNGI);
