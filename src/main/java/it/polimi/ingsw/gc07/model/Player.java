@@ -59,21 +59,18 @@ public class Player {
      * Constructor of class player
      * @param nickname player's nickname
      * @param tokenColor player's token color
-     * @param currentHand current hand
-     * @param secretObjective player's secret objective card
      * @param connectionType player's connection type
      */
     public Player(String nickname, TokenColor tokenColor,
-                  boolean connectionType, boolean interfaceType,
-                  List<DrawableCard> currentHand, ObjectiveCard secretObjective) {
+                  boolean connectionType, boolean interfaceType) {
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.isFirst = false;   // will be set true only for the first player
         this.isConnected = true;
         this.connectionType = connectionType;
         this.interfaceType = interfaceType;
-        this.currentHand = new ArrayList<>(currentHand);
-        this.secretObjective = secretObjective;
+        this.currentHand = new ArrayList<>();
+        this.secretObjective = null;
         this.isStalled = false;
     }
 
@@ -175,6 +172,11 @@ public class Player {
         currentHand.add(card);
         this.currentHand = new ArrayList<>(currentHand);
     }
+
+    public void setSecretObjective(ObjectiveCard secretObjective) {
+        this.secretObjective = secretObjective;
+    }
+
     /**
      * Getter for the secret objective card.
      * @return secret objective card

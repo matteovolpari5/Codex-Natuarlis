@@ -177,23 +177,20 @@ public class Game {
 
     /**
      * Method to add a new player.
-     * @param nickname player to add to the game
-     * @param tokenColor color of player's token
-     * @param connectionType type of connection
-     * @param interfaceType type of the interface
+     * @param newPlayer player to add
      * @throws WrongStateException if the state of the game is wrong
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) throws WrongStateException{
+    public void addPlayer(Player newPlayer) throws WrongStateException{
         try{
             if(!state.equals(GameState.WAITING_PLAYERS)) {
                 throw new WrongStateException();
             }
-            List<DrawableCard> currentHand = new ArrayList<>();
-            currentHand.add(this.resourceCardsDeck.drawCard());
-            currentHand.add(this.resourceCardsDeck.drawCard());
-            currentHand.add(this.goldCardsDeck.drawCard());
-            ObjectiveCard secretObjective = this.objectiveCardsDeck.drawCard();
-            Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType, currentHand, secretObjective);
+
+            newPlayer.addCardHand(resourceCardsDeck.drawCard());
+            newPlayer.addCardHand(resourceCardsDeck.drawCard());
+            newPlayer.addCardHand(goldCardsDeck.drawCard());
+            newPlayer.setSecretObjective(objectiveCardsDeck.drawCard());
+
             PlaceableCard starterCard = starterCardsDeck.drawCard();
             GameField gameField = new GameField(starterCard);
             players.add(newPlayer);
