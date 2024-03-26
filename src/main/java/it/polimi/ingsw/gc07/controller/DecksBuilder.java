@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class DecksBuilder {
+public abstract class DecksBuilder {
 
     private static boolean[] extractFrontCorners(JsonObject cardJsonObject) {
         boolean[] frontCorners = new boolean[4];

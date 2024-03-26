@@ -319,17 +319,18 @@ classDiagram
         - games: List~Game~
         + GamesManager()
         + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType: boolean)
-        + checkNickname(nickname: String) boolean
+        + checkNicknameUnique(nickname: String) boolean
     }
 
     class DecksBuilder{
-        + extractFrontCorners(cardJsonObject : JsonObject) boolean[4]
-        + extractFrontCornersContent(cardJsonObject : JsonObject) GameItem[4]
-        + extractBackCorners(cardJsonObject : JsonObject) boolean[4]
-        + extractBackCornersContent(cardJsonObject : JsonObject) GameItem[4]
-        + extractPermanentResources(cardJsonObject : JsonObject) List~GameResource~
-        + extractLayoutCondition(conditionObject : JsonObject) GameResource[4][3]
-        + extractItemsCondition(conditionObject : JsonObject) List~GameItem~
+        <<abstract>>
+        - extractFrontCorners(cardJsonObject : JsonObject) boolean[4]
+        - extractFrontCornersContent(cardJsonObject : JsonObject) GameItem[4]
+        - extractBackCorners(cardJsonObject : JsonObject) boolean[4]
+        - extractBackCornersContent(cardJsonObject : JsonObject) GameItem[4]
+        - extractPermanentResources(cardJsonObject : JsonObject) List~GameResource~
+        - extractLayoutCondition(conditionObject : JsonObject) GameResource[4][3]
+        - extractItemsCondition(conditionObject : JsonObject) List~GameItem~
         + buildStarterCardsDeck() Deck~PlaceableCard~
         + buildObjectiveCardsDeck() PlayingDeck~ObjectiveCard~
         + buildResourceCardsDeck() ResourceCardsDeck

@@ -198,39 +198,81 @@ class LayoutConditionTest {
         layout[0][0] = GameResource.FUNGI;
         layout[0][1] = null;
         layout[0][2] = null;
-        System.out.print(layout[0][0]);
-        System.out.print(layout[0][1]);
-        System.out.print(layout[0][2]);
-        System.out.println();
         layout[1][0] = null;
         layout[1][1] = null;
         layout[1][2] = null;
-        System.out.print(layout[1][0]);
-        System.out.print(layout[1][1]);
-        System.out.print(layout[1][2]);
-        System.out.println();
         layout[2][0] = GameResource.FUNGI;
         layout[2][1] = null;
         layout[2][2] = null;
-        System.out.print(layout[2][0]);
-        System.out.print(layout[2][1]);
-        System.out.print(layout[2][2]);
-        System.out.println();
         layout[3][0] = null;
         layout[3][1] = GameResource.PLANT;
         layout[3][2] = null;
-        System.out.print(layout[3][0]);
-        System.out.print(layout[3][1]);
-        System.out.print(layout[3][2]);
-        System.out.println();
         condition = new LayoutCondition(layout);
 
         assertEquals(1, condition.numTimesMet(gameField));
     }
 
     @Test
-    public void checkDoNotReuseCards() {
+    public void checkDoNotReuseCards() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
         // checks that the same is card is not reused
+        myStarterCard = starterCardsDeck.drawCard();
+        assertNotNull(myStarterCard);
+        gameField = new GameField(myStarterCard);
+        gameField.placeCard(myStarterCard, 40, 40, false);
+
+        PlaceableCard card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 11){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 41, 41, true);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 12){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 42, 42, false);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 13){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 43, 43, false);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 14){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 44, 44, false);
+
+        GameResource[][] layout = new GameResource[LayoutCondition.getRows()][LayoutCondition.getColumns()];
+        layout[0][0] = GameResource.PLANT;
+        layout[0][1] = null;
+        layout[0][2] = null;
+        layout[1][0] = null;
+        layout[1][1] = GameResource.PLANT;
+        layout[1][2] = null;
+        layout[2][0] = null;
+        layout[2][1] = null;
+        layout[2][2] = GameResource.PLANT;
+        layout[3][0] = null;
+        layout[3][1] = null;
+        layout[3][2] = null;
+        condition = new LayoutCondition(layout);
+
+        // if cards are used only one time, I expect numTimesMet to return 1, not 2
+        assertEquals(1, condition.numTimesMet(gameField));
     }
 
     @Test

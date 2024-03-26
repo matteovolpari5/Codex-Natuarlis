@@ -211,6 +211,16 @@ public class Game {
         }
     }
 
+    public boolean hasPlayer(String nickname) {
+        boolean found = false;
+        for(Player p: players){
+            if(p.getNickname().equals(nickname)){
+                found = true;
+            }
+        }
+        return found;
+    }
+
     /**
      * method to set up the game: the first player is chosen and 4 cards(2 gold and 2 resource) are revealed
      * @throws WrongStateException if the state of the game is wrong
