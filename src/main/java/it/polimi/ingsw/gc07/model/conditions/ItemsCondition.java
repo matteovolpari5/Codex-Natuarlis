@@ -20,8 +20,7 @@ public class ItemsCondition implements Condition {
 
     /**
      * Constructor for the class ItemsCondition.
-     * @param neededItems List of items that need to be on the game field in
-     *                    order satisfy the condition
+     * @param neededItems List of items that needs to be on the game field in order satisfy the condition
      */
     public ItemsCondition(List<GameItem> neededItems) {
         this.neededItems = new ArrayList<>(neededItems);

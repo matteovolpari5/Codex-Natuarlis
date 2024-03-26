@@ -31,7 +31,6 @@ public class Player {
      * false: socket
      */
     private boolean connectionType;
-
     /**
      * Player's connection type.
      * true: GUI
@@ -61,8 +60,7 @@ public class Player {
      * @param tokenColor player's token color
      * @param connectionType player's connection type
      */
-    public Player(String nickname, TokenColor tokenColor,
-                  boolean connectionType, boolean interfaceType) {
+    public Player(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) {
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.isFirst = false;   // will be set true only for the first player
@@ -74,6 +72,10 @@ public class Player {
         this.isStalled = false;
     }
 
+    /**
+     * Copy constructor of class Player.
+     * @param existingPlayer player to copy
+     */
     public Player(Player existingPlayer) {
         this.nickname = existingPlayer.nickname;
         this.tokenColor = existingPlayer.tokenColor;
@@ -83,6 +85,7 @@ public class Player {
         this.interfaceType = existingPlayer.interfaceType;
         this.currentHand = new ArrayList<>(existingPlayer.currentHand);
         this.secretObjective = existingPlayer.secretObjective;
+        this.isStalled = existingPlayer.isStalled;
     }
 
     /**
@@ -134,15 +137,15 @@ public class Player {
 
     /**
      * Getter method for the player's connection state.
-     * @return
+     * @return true if the player is connected
      */
     public boolean isConnected(){
         return this.isConnected;
     }
 
     /**
-     * setter for the method isConnected
-     * @param isConnected: if the player is connected
+     * Setter for the method isConnected.
+     * @param isConnected: true if the player is connected
      */
     public void setIsConnected(boolean isConnected){
         this.isConnected = isConnected;
@@ -156,7 +159,7 @@ public class Player {
     }
 
     /**
-     * method that remove a card from the hand of a player
+     * Method that removes a card from the hand of a player.
      * @param card: card that the player play
      */
     public void removeCardHand(DrawableCard card) {
@@ -165,7 +168,7 @@ public class Player {
     }
 
     /**
-     * method that add a card from the hand of a player
+     * Method that adds a card from the hand of a player.
      * @param card: card that the player draw
      */
     public void addCardHand(DrawableCard card) {

@@ -13,15 +13,7 @@ public class CornerCoverageCondition implements Condition {
 
     /**
      * This method must be called after placement of the card!
-     * Counts the number of corners covered by the card in position (x,y) at the moment of placement,
-     * the last card which has been placed.
-     * Combinations to check (if not on a border):
-     * (x+1, y+1) - corner 3
-     * (x+1, y-1) - corner 0
-     * (x-1, y+1) - corner 2
-     * (x-1, y-1) - corner 1
-     * Checks if a card is present in these positions.
-     * If it is present, checks the way it is placed and if it has a certain corner.
+     * Counts the number of corners covered by the last card which has been placed.
      * @param gameField game field on which the condition has to be verified
      * @return number of times the list of items is found
      */
