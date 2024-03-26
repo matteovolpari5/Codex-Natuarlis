@@ -76,6 +76,43 @@ class PlayerTest {
 
     @Test
     public void removeAddCardHand() {
+        ResourceCardsDeck reosurceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        reosurceCardsDeck.shuffle();
 
+        // create a test player
+        String nickname = "TestNickname";
+        TokenColor tokenColor = TokenColor.RED;
+        boolean connectionType = true;
+        boolean interfaceType = true;
+        Player player = new Player(nickname, tokenColor, connectionType, interfaceType);
+
+        assertEquals(0, player.getCurrentHand().size());
+        try {
+            player.addCardHand(reosurceCardsDeck.drawCard());
+        } catch (CardNotPresentException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(1, player.getCurrentHand().size());
+        try {
+            player.addCardHand(reosurceCardsDeck.drawCard());
+        } catch (CardNotPresentException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(2, player.getCurrentHand().size());
+        DrawableCard card = null;
+        try {
+            card = reosurceCardsDeck.drawCard();
+            player.addCardHand(card);
+        } catch (CardNotPresentException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(3, player.getCurrentHand().size());
+        List<DrawableCard> currentHand = player.getCurrentHand();
+        player.removeCardHand(card);
+        List<DrawableCard> newCurrentHand = player.getCurrentHand();
+        assertEquals(2, player.getCurrentHand().size());
+        for(DrawableCard c: currentHand){
+            assertTrue(c.equals(card) || newCurrentHand.contains(c));
+        }
     }
 }
