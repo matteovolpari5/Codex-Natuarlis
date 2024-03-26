@@ -11,7 +11,6 @@ public interface Condition {
      * Method allowing to know how many times a condition is met.
      * @param gameField current game field
      * @return number of times a condition is met
-     * @throws NullPointerException
      */
-    int numTimesMet(GameField gameField) throws NullPointerException;
+    int numTimesMet(GameField gameField);
 }

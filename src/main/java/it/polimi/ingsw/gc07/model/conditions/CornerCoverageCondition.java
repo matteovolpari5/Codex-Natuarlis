@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
 
 /**
@@ -8,7 +7,7 @@ import it.polimi.ingsw.gc07.model.GameField;
  */
 public class CornerCoverageCondition implements Condition {
     /**
-     * Constructor of class CornerCoverageCondtion.
+     * Constructor of class CornerCoverageCondition.
      */
     public CornerCoverageCondition() {}
 

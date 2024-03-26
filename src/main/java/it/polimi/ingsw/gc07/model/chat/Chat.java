@@ -44,17 +44,17 @@ public class Chat {
     }
 
     public Message getLastMessage(String receiver) throws EmptyChatException {
-        if(messages.size() < 1){
+        if(messages.isEmpty()){
             throw new EmptyChatException();
         }
         return getContent(receiver).getLast();
     }
 
     /**
-     * Method that return the whole chat for a given receiver,
+     * Method that returns the whole chat for a given receiver,
      * containing public messages and private messages for the receiver.
-     * @param receiver
-     * @return
+     * @param receiver nickname of the receiver
+     * @return messages the receiver has received
      */
     public List<Message> getContent(String receiver) {
         List<Message> receiverMessages = new ArrayList<>();
