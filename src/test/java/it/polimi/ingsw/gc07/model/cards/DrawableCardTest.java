@@ -34,10 +34,10 @@ class DrawableCardTest {
         gameField.placeCard(myStarterCard, (GameField.getDim() - 1) / 2, (GameField.getDim() - 1) / 2, true);
     }
     @Test
-    void getPlacementScore() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    void getResourcePlacementScore() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
-        gameField.placeCard(myStarterCard, 40, 40, true);
+        gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 9){
                 myResourceCard = c;
@@ -48,7 +48,6 @@ class DrawableCardTest {
         gameField.placeCard(resourceCardsDeck.drawCard(), 39, 39, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, true);
         gameField.placeCard(resourceCardsDeck.drawCard(), 41, 39, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 42, 42, false);
         assertEquals(1, myResourceCard.getPlacementScore(gameField, 41, 41));
     }
 }
