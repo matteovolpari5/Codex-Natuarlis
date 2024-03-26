@@ -276,6 +276,7 @@ classDiagram
     %%  CONTROLLER
     %% -----------------------------------------
     class Game {
+        - id: int
         - state: GameState
         - playersNumber: int
         - playersGameField: Map~String, GameField~
@@ -289,7 +290,7 @@ classDiagram
         - twentyPointsReached: boolean
         - additionalRound : boolean
         - chat: Chat
-        + Game(gameId: int, playersNumber: int, resourceCardsDeck: ResourceCardsDeck,\n goldCardsDeck: GoldCardsDeck, objectiveCardsDeck: PlayingDeck~ObjectiveCard~, starterCardsDeck : Deck~PlaceableCard~, \nnickname: String, tokenColor: TokenColor, connectionType: boolean,\n interfaceType :boolean)
+        + Game(id: int, playersNumber: int, resourceCardsDeck: ResourceCardsDeck,\n goldCardsDeck: GoldCardsDeck, objectiveCardsDeck: PlayingDeck~ObjectiveCard~, starterCardsDeck : Deck~PlaceableCard~)
         + getState() GameState
         + getPlayers() List~Player~
         + getCurrentPlayer() Player
@@ -320,6 +321,7 @@ classDiagram
         + GamesManager()
         + addPlayer(nickname: String, tokenColor: TokenColor, connectionType: boolean, interfaceType: boolean)
         + checkNicknameUnique(nickname: String) boolean
+        + createGame(playersNumber : int)
     }
 
     class DecksBuilder{
