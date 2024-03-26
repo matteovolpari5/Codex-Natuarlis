@@ -192,7 +192,7 @@ class LayoutConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 38, 36, false);
+        gameField.placeCard(card, 36, 38, false);
 
         GameResource[][] layout = new GameResource[LayoutCondition.getRows()][LayoutCondition.getColumns()];
         layout[0][0] = GameResource.FUNGI;

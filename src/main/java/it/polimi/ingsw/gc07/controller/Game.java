@@ -17,6 +17,10 @@ import java.util.Random;
 
 public class Game {
     /**
+     * Id of the game.
+     */
+    private int id;
+    /**
      * State of the game.
      */
     private GameState state;
@@ -82,10 +86,10 @@ public class Game {
      * @param interfaceType type of the interface
      * @throws WrongNumberOfPlayersException exception thrown when the number of players is wrong
      */
-    public Game(int playersNumber, ResourceCardsDeck resourceCardsDeck,
+    public Game(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
                 GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
-                Deck<PlaceableCard> starterCardsDeck, String nickname, TokenColor tokenColor,
-                boolean connectionType, boolean interfaceType) throws WrongNumberOfPlayersException {
+                Deck<PlaceableCard> starterCardsDeck) throws WrongNumberOfPlayersException {
+        this.id = id;
         this.state = GameState.WAITING_PLAYERS;
         if (playersNumber<2 || playersNumber>4)  {
             throw new WrongNumberOfPlayersException();
@@ -103,11 +107,6 @@ public class Game {
         this.currPlayer = 0;
         this.twentyPointsReached = false;
         this.additionalRound = false;
-        try {
-            addPlayer(nickname, tokenColor, connectionType, interfaceType);
-        } catch (WrongStateException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

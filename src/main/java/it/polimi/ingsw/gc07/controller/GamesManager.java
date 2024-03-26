@@ -3,10 +3,7 @@ package it.polimi.ingsw.gc07.controller;
 import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
-import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
-import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
-import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
+import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.io.FileNotFoundException;
@@ -32,18 +29,22 @@ public class GamesManager {
      * @throws WrongNumberOfPlayersException
      */
     private void createGame(int playersNumber) throws WrongNumberOfPlayersException {
-        //TODO perchè abbiamo deciso di inserire il primo giocatore quando costruiamo il Game?
-        // non mi sembra bello nè utile
-        try {
-            Game game = new Game(playersNumber,
-                    DecksBuilder.buildResourceCardsDeck().shuffle(),
-                    DecksBuilder.buildGoldCardsDeck().shuffle(),
-                    DecksBuilder.buildObjectiveCardsDeck().shuffle(),
-                    DecksBuilder.buildStarterCardsDeck().shuffle());
-            games.add(game);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        boolean flag = false;
+        int id = 0;
+
+        // TODO: compute id
+
+        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        resourceCardsDeck.shuffle();
+        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        goldCardsDeck.shuffle();
+        PlayingDeck<ObjectiveCard> objectiveCardDeck = DecksBuilder.buildObjectiveCardsDeck();
+        objectiveCardDeck.shuffle();
+        Deck<PlaceableCard> starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
+        starterCardsDeck.shuffle();
+
+        Game game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
+        games.add(game);
     }
 
     /**
