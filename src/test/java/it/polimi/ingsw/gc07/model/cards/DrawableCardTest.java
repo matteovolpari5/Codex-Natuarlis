@@ -8,9 +8,7 @@ import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.io.FileNotFoundException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class DrawableCardTest {
@@ -18,23 +16,23 @@ class DrawableCardTest {
     private ResourceCardsDeck resourceCardsDeck;
     private GoldCardsDeck goldCardsDeck;
     PlaceableCard myStarterCard;
-    PlaceableCard myResourceCard;
+    DrawableCard myResourceCard;
+
     @BeforeEach
     void setUp() {
-        try{
-            resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
-            goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
-            starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
-        } catch (
-                FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
     }
 
     @Test
-    void isPlaceable() {
+    void isResourceCardPlaceable() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
+    MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
+    NullPointerException, IndexesOutOfGameFieldException {
+        myStarterCard = starterCardsDeck.drawCard();
+        GameField gameField = new GameField(myStarterCard);
+        gameField.placeCard(myStarterCard, (GameField.getDim() - 1) / 2, (GameField.getDim() - 1) / 2, true);
     }
-
     @Test
     void getPlacementScore() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
         myStarterCard = starterCardsDeck.drawCard();
