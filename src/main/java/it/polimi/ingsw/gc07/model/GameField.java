@@ -158,19 +158,17 @@ public class GameField {
     }
 
     /**
-     * Returns the card placed in position (x,y).
+     * Returns the card placed in position (x,y), null if a card is not present.
      * @param x x index of the matrix
      * @param y y index of the matrix
      * @return card in position (x,y)
      */
-    public PlaceableCard getPlacedCard(int x, int y) throws IndexOutOfBoundsException, CardNotPresentException {
+    public PlaceableCard getPlacedCard(int x, int y) throws IndexOutOfBoundsException {
         if(x < 0 || x >= dim || y <0 || y >= dim){
             throw new IndexOutOfBoundsException();
         }
-        if(cardsContent[x][y] == null){
-            throw new CardNotPresentException();
-        }
         // PlaceableCard is immutable, I can return the card without copy
+        // if a card is not present, returns null
         return cardsContent[x][y];
     }
 
@@ -183,12 +181,9 @@ public class GameField {
      * @throws IndexOutOfBoundsException
      * @throws CardNotPresentException
      */
-    public void removePlacedCard(int x, int y) throws IndexOutOfBoundsException, CardNotPresentException {
+    public void removePlacedCard(int x, int y) throws IndexOutOfBoundsException {
         if(x < 0 || x >= dim || y <0 || y >= dim){
             throw new IndexOutOfBoundsException();
-        }
-        if(cardsContent[x][y] == null){
-            throw new CardNotPresentException();
         }
         cardsContent[x][y] = null;
     }

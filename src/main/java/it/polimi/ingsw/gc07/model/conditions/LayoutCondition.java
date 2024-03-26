@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
@@ -76,21 +75,15 @@ public class LayoutCondition implements Condition{
                     for(int k = 0; k < layoutColumns; k++){
                         if(cardsColor[h][k] != null){
                             // specific card needed
-                            try{
-                                // a card must be present
-                                // it mustn't be a starter card, it can be a resource or gold card
-                                // it must have the correct color (i.e. GameResource)
-                                if(!(gameField.isCardPresent(i+h,j+k)
-                                        && !gameField.getPlacedCard(i+h,j+k).getType().equals(CardType.STARTER_CARD)
-                                        && gameField.getPlacedCard(i+h,j+k).getPermanentResources().getFirst().equals(cardsColor[h][k])
-                                )) {
-                                    // mismatch
-                                    flag = false;
-                                }
-                            }
-                            catch (CardNotPresentException e){
-                                // I already checked
-                                e.printStackTrace();
+                            // a card must be present
+                            // it mustn't be a starter card, it can be a resource or gold card
+                            // it must have the correct color (i.e. GameResource)
+                            if(     (!gameField.isCardPresent(i+h,j+k)) ||
+                                    (gameField.isCardPresent(i+h,j+k) && gameField.getPlacedCard(i+h,j+k).getType().equals(CardType.STARTER_CARD)) ||
+                                    (gameField.isCardPresent(i+h,j+k) && !gameField.getPlacedCard(i+h,j+k).getPermanentResources().getFirst().equals(cardsColor[h][k]))
+                            ) {
+                                // mismatch
+                                flag = false;
                             }
                         }
                     }
@@ -102,13 +95,8 @@ public class LayoutCondition implements Condition{
                     for(int h = 0; h < layoutRows; h++) {
                         for (int k = 0; k < layoutColumns; k++) {
                             if(cardsColor[h][k] != null){
-                                try{
-                                    gameField.removePlacedCard(i+h,j+k);
-                                }
-                                catch(CardNotPresentException e){
-                                    // I already checked
-                                    e.printStackTrace();
-                                }
+                                assert(gameField.isCardPresent(i+h, j+k)): "The card must be present, the pattern was found";
+                                gameField.removePlacedCard(i+h,j+k);
                             }
                         }
                     }
