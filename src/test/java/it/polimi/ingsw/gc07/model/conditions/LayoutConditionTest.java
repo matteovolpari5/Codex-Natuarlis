@@ -1,8 +1,10 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
 import it.polimi.ingsw.gc07.controller.DecksBuilder;
+import it.polimi.ingsw.gc07.controller.Game;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
+import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
@@ -421,5 +423,107 @@ class LayoutConditionTest {
         condition = new LayoutCondition(layout);
 
         assertEquals(2, condition.numTimesMet(new GameField(gameField)));
+    }
+
+    @Test
+    public void patternInterruptedByStarterCard() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+        // the pattern is interrupted by a starter card
+
+        myStarterCard = starterCardsDeck.drawCard();
+        assertNotNull(myStarterCard);
+        gameField = new GameField(myStarterCard);
+        gameField.placeCard(myStarterCard, 40, 40, false);
+
+        PlaceableCard card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 13){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 39, 39, false);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 12){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 38, 38, false);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 15){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 41, 41, false);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 20){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 39, 41, false);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 32){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        gameField.placeCard(card, 42, 40, false);
+
+        /*
+        P X X X X X X X X
+        X P X P X X X X X
+        X X S X X X X X X
+        X X X P X X X X X
+        X X I X X X X X X
+        X X X X X X X X X
+        X X X X X X X X X
+        X X X X X X X X X
+        X X X X X X X X X
+        X X X X X X X X X
+        */
+
+        GameResource[][] layout1 = new GameResource[LayoutCondition.getRows()][LayoutCondition.getColumns()];
+        layout1[0][0] = GameResource.PLANT;
+        layout1[0][1] = null;
+        layout1[0][2] = null;
+        layout1[1][0] = null;
+        layout1[1][1] = GameResource.PLANT;
+        layout1[1][2] = null;
+        layout1[2][0] = null;
+        layout1[2][1] = null;
+        layout1[2][2] = GameResource.PLANT;
+        layout1[3][0] = null;
+        layout1[3][1] = null;
+        layout1[3][2] = null;
+        condition = new LayoutCondition(layout1);
+        // the layout should not be found because the starter card interrupts it
+        assertEquals(0, condition.numTimesMet(new GameField(gameField)));
+
+        GameResource[][] layout2 = new GameResource[LayoutCondition.getRows()][LayoutCondition.getColumns()];
+        layout2[0][0] = null;
+        layout2[0][1] = GameResource.PLANT;
+        layout2[0][2] = null;
+        layout2[1][0] = null;
+        layout2[1][1] = null;
+        layout2[1][2] = null;
+        layout2[2][0] = null;
+        layout2[2][1] = GameResource.PLANT;
+        layout2[2][2] = null;
+        layout2[3][0] = GameResource.INSECT;
+        layout2[3][1] = null;
+        layout2[3][2] = null;
+        condition = new LayoutCondition(layout2);
+        // the layout should be found because the starter card is in a useless position
+        assertEquals(1, condition.numTimesMet(new GameField(gameField)));
     }
 }
