@@ -11,7 +11,7 @@ public class Chat {
      * List containing the messages sent to players in the game.
      * It contains bought public and private messages.
      */
-    private List<Message> messages;
+    private final List<Message> messages;
 
     /**
      * Constructor method for Chat.
@@ -21,26 +21,27 @@ public class Chat {
     }
 
     /**
-     * Method to add a new message to the chat.
-     * @param content Content
-     * @param sender Sender nickname
-     * @param isPublic Boolean value, tells if the message is public (true) or not (false)
-     * @param receiver Receiver nickname
-     * @param players List of players in the game
-     * @throws InvalidReceiverException exception thrown if the receiver is not valid
+     * Method to add a new public message to the chat.
+     * @param content content of the message
+     * @param sender sender nickname
+     * @param players list of players in the game
      */
-    public void addMessage(String content, String sender, boolean isPublic, String receiver, List<String> players) throws InvalidReceiverException {
-        if(isPublic){
-            // create new public message
-            messages.add(new Message(content, sender, isPublic));
-        }
-        else{
-            // create new private message
-            if(receiver == null || players == null || !players.contains(receiver)){
-                throw new InvalidReceiverException();
-            }
-            messages.add(new PrivateMessage(content, sender, isPublic, receiver));
-        }
+    public void addPublicMessage(String content, String sender, List<String> players) {
+        assert(players.contains(sender)): "The sender is not among the players";
+        messages.add(new Message(content, sender, true));
+    }
+
+    /**
+     * Method to add a new public message to the chat.
+     * @param content content of the message
+     * @param sender sender nickname
+     * @param receiver receiver nickname
+     * @param players list of players in the game
+     */
+    public void addPrivateMessage(String content, String sender, String receiver, List<String> players) {
+        assert(players.contains(sender)): "The sender is not among the players";
+        assert(players.contains(receiver)): "The receiver is not among the players";
+        messages.add(new PrivateMessage(content, sender, false, receiver));
     }
 
     public Message getLastMessage(String receiver) throws EmptyChatException {
@@ -65,6 +66,5 @@ public class Chat {
         }
         return receiverMessages;
     }
-
 }
 

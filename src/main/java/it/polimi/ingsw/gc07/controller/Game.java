@@ -596,18 +596,36 @@ public class Game {
 
     // metodi chat
     /**
-     * Method that adds the message to the chat.
-     * @param content
-     * @param sender
-     * @param isPublic
-     * @param receiver
-     * @throws InvalidReceiverException
+     * Method that adds a private message to the chat.
+     * @param content content of the message
+     * @param sender sender of the message
      */
-    public void addChatMessage(String content, String sender, boolean isPublic, String receiver) throws InvalidReceiverException {
+    public void addChatPublicMessage(String content, String sender) {
         // list of players' nicknames
         List<String> playersNicknames = players.stream().map(p -> p.getNickname()).toList();
-        // adds message to the chat
-        chat.addMessage(content, sender, isPublic, receiver, playersNicknames);
+        if(playersNicknames.contains(sender)) {
+            // adds message to the chat
+            chat.addPublicMessage(content, sender, playersNicknames);
+        }
+        else{
+            // TODO
+            // chi passa questi parametri? cosa faccio se sender sbagliato?
+        }
+    }
+
+    public void addChatPrivateMessage(String content, String sender, String receiver) throws InvalidReceiverException {
+        // list of players' nicknames
+        List<String> playersNicknames = players.stream().map(p -> p.getNickname()).toList();
+        if(playersNicknames.contains(content) && playersNicknames.contains(receiver)) {
+            // adds message to the chat
+            chat.addPrivateMessage(content, sender, receiver, playersNicknames);
+        }
+        else{
+            // TODO
+            // chi passa questi parametri?
+            // cosa faccio se sender sbagliato?
+            // cosa faccio se receiver sbagliato?
+        }
     }
 
     /**
