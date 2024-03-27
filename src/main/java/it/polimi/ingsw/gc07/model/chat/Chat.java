@@ -27,7 +27,7 @@ public class Chat {
      * @param isPublic Boolean value, tells if the message is public (true) or not (false)
      * @param receiver Receiver nickname
      * @param players List of players in the game
-     * @throws InvalidReceiverException
+     * @throws InvalidReceiverException exception thrown if the receiver is not valid
      */
     public void addMessage(String content, String sender, boolean isPublic, String receiver, List<String> players) throws InvalidReceiverException {
         if(isPublic){

@@ -1,10 +1,8 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
 import it.polimi.ingsw.gc07.controller.DecksBuilder;
-import it.polimi.ingsw.gc07.controller.Game;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
-import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;

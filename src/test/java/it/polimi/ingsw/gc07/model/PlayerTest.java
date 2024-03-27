@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,15 +13,24 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
+    Player player = null;
+    String nickname = null;
+    TokenColor tokenColor = null;
+    boolean connectionType;
+    boolean interfaceType;
+
+    @BeforeEach
+    void setUp() {
+        // create a test player
+        nickname = "TestNickname";
+        tokenColor = TokenColor.RED;
+        connectionType = true;
+        interfaceType = true;
+        player = new Player(nickname, tokenColor, connectionType, interfaceType);
+    }
 
     @Test
     public void checkInitAttributes() {
-        // create a test player
-        String nickname = "TestNickname";
-        TokenColor tokenColor = TokenColor.RED;
-        boolean connectionType = true;
-        boolean interfaceType = true;
-        Player player = new Player(nickname, tokenColor, connectionType, interfaceType);
         assertEquals(nickname, player.getNickname());
         assertEquals(tokenColor, player.getTokenColor());
         assertFalse(player.isFirst());
@@ -37,13 +47,6 @@ class PlayerTest {
     public void checkAddCardHand() {
         ResourceCardsDeck reosurceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         reosurceCardsDeck.shuffle();
-
-        // create a test player
-        String nickname = "TestNickname";
-        TokenColor tokenColor = TokenColor.RED;
-        boolean connectionType = true;
-        boolean interfaceType = true;
-        Player player = new Player(nickname, tokenColor, connectionType, interfaceType);
 
         assertEquals(0, player.getCurrentHand().size());
         try {
@@ -78,13 +81,6 @@ class PlayerTest {
     public void removeAddCardHand() {
         ResourceCardsDeck reosurceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         reosurceCardsDeck.shuffle();
-
-        // create a test player
-        String nickname = "TestNickname";
-        TokenColor tokenColor = TokenColor.RED;
-        boolean connectionType = true;
-        boolean interfaceType = true;
-        Player player = new Player(nickname, tokenColor, connectionType, interfaceType);
 
         assertEquals(0, player.getCurrentHand().size());
         try {
