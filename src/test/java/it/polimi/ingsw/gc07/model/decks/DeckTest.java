@@ -32,8 +32,8 @@ class DeckTest {
         PlaceableCard topCard = deck.getContent().peek();
         int size = deck.getContent().size();
         try {
-            PlaceableCard drawedCard  = deck.drawCard();
-            assertEquals(topCard, drawedCard);
+            PlaceableCard card  = deck.drawCard();
+            assertEquals(topCard, card);
             assertEquals(size-1, deck.getContent().size());
         } catch (CardNotPresentException e) {
             throw new RuntimeException(e);
@@ -43,12 +43,12 @@ class DeckTest {
     @Test
     public void checkDrawEmptyDeck() {
         try {
-            PlaceableCard drawedCard  = deck.drawCard();
-            drawedCard = deck.drawCard();
-            drawedCard = deck.drawCard();
-            drawedCard = deck.drawCard();
-            drawedCard = deck.drawCard();
-            drawedCard = deck.drawCard();
+            deck.drawCard();
+            deck.drawCard();
+            deck.drawCard();
+            deck.drawCard();
+            deck.drawCard();
+            deck.drawCard();
             assertThrows(CardNotPresentException.class,
                     () -> deck.drawCard());
         } catch (CardNotPresentException e) {
