@@ -110,8 +110,25 @@ public class GameField {
         return starterCard;
     }
 
-    public PlacementResult placeCard(PlaceableCard card, int x, int y, boolean way) {
+    public void placeCard(PlaceableCard card, int x, int y, boolean way) throws NoCoveredCornerException, NotLegitCornerException,
+            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
+            NullPointerException, IndexesOutOfGameFieldException {
+        assert(card != null) : "Card has value null";
         PlacementResult result = card.isPlaceable(new GameField(this), x, y, way);
+
+        switch (result){
+            case PlacementResult.NO_COVERED_CORNER:
+                throw new NoCoveredCornerException();
+                case PlacementResult.CARD_ALREADY_PRESENT:
+                    throw new CardAlreadyPresentException();
+                case PlacementResult.MULTIPLE_CORNERS_COVERED:
+                    throw new MultipleCornersCoveredException();
+                case PlacementResult.NOT_LEGIT_CORNER:
+                    throw new NotLegitCornerException();
+                case PlacementResult.INDEXES_OUT_OF_GAME_FIELD:
+                    throw new IndexesOutOfGameFieldException();
+        }
+
         if(result.equals(PlacementResult.SUCCESS)){
             // PlaceableCard is immutable, I can insert the card I receive
             cardsContent[x][y] = card;
@@ -119,7 +136,6 @@ public class GameField {
             numPlayedCards++;
             cardsOrder[x][y] = numPlayedCards;
         }
-        return result;
     }
 
     /**
