@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
@@ -14,7 +14,7 @@ import it.polimi.ingsw.gc07.model.enumerations.GameState;
 import java.util.*;
 import java.util.Random;
 
-public class Game {
+public class GameModel {
     /**
      * ID of the game.
      */
@@ -81,9 +81,9 @@ public class Game {
      * @param starterCardsDeck deck of starter cards
      * @throws WrongNumberOfPlayersException exception thrown when the number of players is wrong
      */
-    public Game(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
-                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
-                Deck<PlaceableCard> starterCardsDeck) throws WrongNumberOfPlayersException {
+    public GameModel(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
+                     GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
+                     Deck<PlaceableCard> starterCardsDeck) throws WrongNumberOfPlayersException {
         this.id = id;
         this.state = GameState.WAITING_PLAYERS;
         if (playersNumber<2 || playersNumber>4)  {
@@ -104,12 +104,16 @@ public class Game {
         this.additionalRound = false;
     }
 
+    /**
+     * Getter for the game id.
+     * @return game id
+     */
     public int getId(){
         return id;
     }
 
     /**
-     * get the state of the game
+     * Getter for the state of the game.
      * @return the state of the game
      */
     public GameState getState() {
@@ -117,7 +121,7 @@ public class Game {
     }
 
     /**
-     * get the list of players
+     * Getter for the list of players.
      * @return the players in the game
      */
     public List<Player> getPlayers() {
@@ -125,7 +129,7 @@ public class Game {
     }
 
     /**
-     * get the current player
+     * Getter for the current player.
      * @return the current player
      */
     public Player getCurrentPlayer() {
@@ -133,7 +137,7 @@ public class Game {
     }
 
     /**
-     * get the game field of the player
+     * Getter method for the player's game field.
      * @param nickname : nickname of the player
      * @return the game field of the player
      * @throws PlayerNotPresentException exception thrown when a player is not present in the game
@@ -146,32 +150,23 @@ public class Game {
     }
 
     /**
-     * get the players' score
+     * Getter for the player's score.
      * @param nickname : nickname of the player
      * @return the players' score
-     * @throws PlayerNotPresentException exception thrown when a player is not present in the game
      */
-    public int getScore(String nickname) throws PlayerNotPresentException {
+    public int getScore(String nickname) {
         return scoreTrackBoard.getScore(nickname);
     }
 
-    public void placeStarterCard(String nickname, boolean way){
-        try {
-            playersGameField.get(nickname).placeCard(playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
-        }
-        catch (CardAlreadyPresentException e) {
-            throw new RuntimeException(e);
-        } catch (IndexesOutOfGameFieldException e) {
-            throw new RuntimeException(e);
-        } catch (PlacingConditionNotMetException e) {
-            throw new RuntimeException(e);
-        } catch (MultipleCornersCoveredException e) {
-            throw new RuntimeException(e);
-        } catch (NotLegitCornerException e) {
-            throw new RuntimeException(e);
-        } catch (NoCoveredCornerException e) {
-            throw new RuntimeException(e);
-        }
+    /**
+     * Method to place the starter card in a certain way.
+     * @param nickname nickname of the player
+     * @param way way of the starter card
+     */
+    public void placeStarterCard(String nickname, boolean way) {
+        assert(playersGameField.containsKey(nickname)): "The player is not in the game";
+        PlacementResult placementResult = playersGameField.get(nickname).placeCard(playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
+        // TODO: bandierina per placementResult
     }
 
     /**
