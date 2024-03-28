@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.model.decks;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
-import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 import java.util.ArrayList;
@@ -19,17 +18,27 @@ public class PlayingDeck<T> extends Deck<T> {
 
     /**
      * Constructor class PlayingDeck.
+     * @param type cards type
+     * @param content deck content
      */
     public PlayingDeck(CardType type, Stack<T> content) {
         super(type, content);
         this.faceUpCards = new ArrayList<>();
     }
 
+    /**
+     * Copy constructor of PlayingDeck.
+     * @param existingDeck existing deck
+     */
     public PlayingDeck(PlayingDeck<T> existingDeck){
         super(existingDeck);
-        this.faceUpCards = new ArrayList<>(this.faceUpCards);
+        this.faceUpCards = new ArrayList<>(existingDeck.faceUpCards);
     }
 
+    /**
+     * Setter method for face up cards.
+     * @param faceUpCards list of face up cards
+     */
     public void setFaceUpCards(List<T> faceUpCards) {
         this.faceUpCards = new ArrayList<>(faceUpCards);
     }

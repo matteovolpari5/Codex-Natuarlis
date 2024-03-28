@@ -201,8 +201,6 @@ public class Game {
             }
         } catch (CardNotPresentException e) {
             e.printStackTrace();
-        } catch (PlayerAlreadyPresentException e) {
-            e.printStackTrace();
         }
     }
 
@@ -442,6 +440,7 @@ public class Game {
      * @throws CardNotPresentException : if there isn't an objective faceUpCard on the board.
      * @throws PlayerNotPresentException : if the player is not present in the List players.
      */
+    // TODO RIVEDERE
     private List<Player> computeWinner() throws CardNotPresentException, PlayerNotPresentException, WrongStateException {
         if (state.equals(GameState.GAME_ENDED)){
             throw new WrongStateException();
@@ -462,7 +461,7 @@ public class Game {
             //points counter for the secret objective
             deltapoints += players.get(i).getSecretObjective().getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
             scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltapoints);
-            List<Player> playersCopy = getPlayers();
+            List<Player> playersCopy = new ArrayList<>(players);
             if (max <= getScore(playersCopy.get(i).getNickname())){
                 max = getScore(playersCopy.get(i).getNickname());
                 if (realizedObjectives >= maxRealizedObjective){

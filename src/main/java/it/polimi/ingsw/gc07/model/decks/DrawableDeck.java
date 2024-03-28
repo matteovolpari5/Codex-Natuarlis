@@ -11,11 +11,17 @@ import java.util.Stack;
 public abstract class DrawableDeck<T> extends PlayingDeck<T> {
     /**
      * Constructor of DrawableDeck
+     * @param type cards type
+     * @param content deck content
      */
     public DrawableDeck(CardType type, Stack<T> content) {
         super(type, content);
     }
 
+    /**
+     * Copy constructor of PlayingDeck.
+     * @param existingDeck existing deck
+     */
     public DrawableDeck(DrawableDeck<T> existingDeck){
         super(existingDeck);
     }
@@ -42,7 +48,7 @@ public abstract class DrawableDeck<T> extends PlayingDeck<T> {
         }
         catch(CardNotPresentException e){
             // Deck is empty, face up card cannot be replaced
-            e.printStackTrace();
+            // TODO Margara ha detto che dovrei sostituire con una carta dell'altro mazzo
         }
         // Card is immutable, I can return it
         return resultCard;

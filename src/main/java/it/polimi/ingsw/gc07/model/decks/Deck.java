@@ -3,7 +3,6 @@ import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Class representing a collection of cards.
@@ -23,7 +22,9 @@ public class Deck<T> {
     Stack<T> content;
 
     /**
-     * Constructor class Deck.
+     *  Constructor class Deck.
+     * @param type type of cards contained
+     * @param content content of the deck
      */
     public Deck(CardType type, Stack<T> content) {
         this.type = type;
@@ -31,29 +32,20 @@ public class Deck<T> {
         this.content.addAll(content);
     }
 
+    /**
+     * Copy constructor of class Deck.
+     * @param existingDeck deck to copy
+     */
     public Deck(Deck<T> existingDeck){
-        this.type = existingDeck.getType();
-        this.content = new Stack<T>();
-        this.content.addAll(existingDeck.getContent());
-    }
-
-    public void setType(CardType type) {
-        this.type = type;
+        this.type = existingDeck.type;
+        this.content = new Stack<>();
+        this.content.addAll(existingDeck.content);
     }
 
     /**
-     * Return the card type of all cards in the deck.
-     * @return card type of the deck
+     * Getter method for deck content, used in tests.
+     * @return content of the deck
      */
-    public CardType getType() {
-        return this.type;
-    }
-
-    public void setContent(Stack<T> content) {
-        this.content = new Stack<>();
-        this.content.addAll(content);
-    }
-
     public Stack<T> getContent(){
         Stack<T> contentCopy = new Stack<>();
         contentCopy.addAll(content);
