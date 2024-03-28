@@ -65,7 +65,7 @@ public class Chat {
     public List<Message> getContent(String receiver) {
         List<Message> receiverMessages = new ArrayList<>();
         for(Message m: messages){
-            if(m.isPublic() || (m.getReceiver()!=null && m.getReceiver().equals(receiver))){
+            if(m.isForReceiver(receiver)){
                 receiverMessages.add(m);
             }
         }

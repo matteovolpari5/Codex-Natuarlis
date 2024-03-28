@@ -27,19 +27,44 @@ public class Message {
         this.isPublic = isPublic;
     }
 
+    /**
+     * Getter for the Message's content.
+     * @return content of the message
+     */
     public String getContent(){
         return content;
     }
 
+    /**
+     * Getter for the Message's sender.
+     * @return nickname of the Message's sender
+     */
     public String getSender(){
         return senderNickname;
     }
 
+    /**
+     * Getter for the isPublic attribute
+     * @return a boolean representing the isPublic attribute
+     */
     public boolean isPublic(){
         return isPublic;
     }
 
+    /**
+     * Getter for the Message's receiver.
+     * @return nickname of the Message's receiver
+     */
     public String getReceiver(){
         return null;
+    }
+
+    /**
+     * Method that checks if the message is for a certain receiver.
+     * @param receiver nickname of the receiver
+     * @return true if the message is for the receiver, false in other cases
+     */
+    public boolean isForReceiver(String receiver){
+        return true;
     }
 }
