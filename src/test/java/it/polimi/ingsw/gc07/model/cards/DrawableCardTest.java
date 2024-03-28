@@ -180,4 +180,31 @@ class DrawableCardTest {
         }
         assertEquals(PlacementResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(gameField, 40, 42, false));
     }
+
+    @Test
+    void isResourcePlaceableNoLegitCorner4() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
+            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
+            NullPointerException, IndexesOutOfGameFieldException {
+        myStarterCard = starterCardsDeck.drawCard();
+        GameField gameField = new GameField(myStarterCard);
+        gameField.placeCard(myStarterCard, 40, 40, false);
+        for(DrawableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 2){
+                myResourceCard = c;
+            }
+        }
+        gameField.placeCard(myResourceCard, 39, 39, false);
+        for(DrawableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 1){
+                myResourceCard = c;
+            }
+        }
+        gameField.placeCard(myResourceCard, 41, 39, true);
+        for(DrawableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 3){
+                myResourceCard = c;
+            }
+        }
+        assertEquals(PlacementResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(gameField, 40, 38, false));
+    }
 }
