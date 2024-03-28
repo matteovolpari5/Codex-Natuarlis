@@ -49,11 +49,8 @@ public class PlayingDeck<T> extends Deck<T> {
      * @param cardPos position of the card the player wants to see
      * @return face up card in position cardPos
      */
-    public T revealFaceUpCard(int cardPos) throws IndexOutOfBoundsException, CardNotPresentException {
+    public T revealFaceUpCard(int cardPos) throws CardNotPresentException {
         if(cardPos >= faceUpCards.size()){
-            throw new IndexOutOfBoundsException();
-        }
-        if(faceUpCards.get(cardPos) == null){
             throw new CardNotPresentException();
         }
         return faceUpCards.get(cardPos);

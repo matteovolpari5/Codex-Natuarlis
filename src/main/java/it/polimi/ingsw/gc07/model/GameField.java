@@ -48,7 +48,7 @@ public class GameField {
     /**
      * Attribute to save the starter card before the player places it.
      */
-    private PlaceableCard starterCard;
+    private final PlaceableCard starterCard;
 
     /**
      * Constructor of the game field: builds an empty game field.
@@ -99,6 +99,7 @@ public class GameField {
             }
         }
         this.numPlayedCards = existingGameField.numPlayedCards;
+        this.starterCard = existingGameField.starterCard;
     }
 
     public static int getDim(){
@@ -109,28 +110,8 @@ public class GameField {
         return starterCard;
     }
 
-    public void placeCard(PlaceableCard card, int x, int y, boolean way) throws NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
-        assert(card != null) : "Card has value null";
+    public PlacementResult placeCard(PlaceableCard card, int x, int y, boolean way) {
         PlacementResult result = card.isPlaceable(new GameField(this), x, y, way);
-
-        // VANNO TOLTE LE ECCEZIONI ?
-        switch (result){
-            case PlacementResult.NO_COVERED_CORNER:
-                throw new NoCoveredCornerException();
-                case PlacementResult.CARD_ALREADY_PRESENT:
-                    throw new CardAlreadyPresentException();
-                case PlacementResult.MULTIPLE_CORNERS_COVERED:
-                    throw new MultipleCornersCoveredException();
-                case PlacementResult.NOT_LEGIT_CORNER:
-                    throw new NotLegitCornerException();
-                case PlacementResult.INDEXES_OUT_OF_GAME_FIELD:
-                    throw new IndexesOutOfGameFieldException();
-                default:
-                    //caso base
-        }
-
         if(result.equals(PlacementResult.SUCCESS)){
             // PlaceableCard is immutable, I can insert the card I receive
             cardsContent[x][y] = card;
@@ -138,6 +119,7 @@ public class GameField {
             numPlayedCards++;
             cardsOrder[x][y] = numPlayedCards;
         }
+        return result;
     }
 
     /**
@@ -174,7 +156,7 @@ public class GameField {
      * so it does not change the cards' placement order.
      * @param x x index of the matrix
      * @param y y index of the matrix
-     * @throws IndexOutOfBoundsException
+     * @throws IndexOutOfBoundsException exception thrown if the indexes are not inside the game field
      */
     public void removePlacedCard(int x, int y) throws IndexOutOfBoundsException {
         if(x < 0 || x >= dim || y <0 || y >= dim){
