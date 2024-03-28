@@ -1,7 +1,5 @@
 package it.polimi.ingsw.gc07.model.chat;
 
-import it.polimi.ingsw.gc07.exceptions.EmptyChatException;
-
 import java.util.ArrayList;
 import java.util.List;
 
