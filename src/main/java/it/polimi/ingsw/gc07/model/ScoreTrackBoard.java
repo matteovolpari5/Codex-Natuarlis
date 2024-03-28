@@ -47,7 +47,7 @@ public class ScoreTrackBoard {
      * @param nickname player
      * @return current score for the player
      */
-    public int getScore(String nickname) throws PlayerNotPresentException {
+    public int getScore(String nickname) {
         assert(playersScore.containsKey(nickname)): "The player is not present";
         return playersScore.get(nickname);
     }
@@ -57,7 +57,7 @@ public class ScoreTrackBoard {
      * @param nickname nickname of the player
      * @param deltaScore points to add
      */
-    public void incrementScore(String nickname, int deltaScore) throws PlayerNotPresentException {
+    public void incrementScore(String nickname, int deltaScore) {
         assert(playersScore.containsKey(nickname)): "The player is not present";
         playersScore.put(nickname, getScore(nickname) + deltaScore);
     }
