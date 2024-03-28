@@ -2,8 +2,6 @@ package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
-import it.polimi.ingsw.gc07.model.conditions.*;
-
 /**
  * Abstract class that represents the generic cards of the game
  */

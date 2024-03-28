@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.exceptions.PlacementResult;
 import it.polimi.ingsw.gc07.model.GameField;
-import it.polimi.ingsw.gc07.model.conditions.Condition;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
@@ -44,7 +43,8 @@ public class PlaceableCard extends Card {
      * @param frontCornersContent : game items that the front of the card has
      * @param permanentResources list of permanent resources
      */
-    public PlaceableCard(int cardID, CardType cardType, boolean[] frontCorners, GameItem[] frontCornersContent, boolean[] backCorners, GameItem[] backCornersContent, List<GameResource> permanentResources) {
+    public PlaceableCard(int cardID, CardType cardType, boolean[] frontCorners, GameItem[] frontCornersContent,
+                         boolean[] backCorners, GameItem[] backCornersContent, List<GameResource> permanentResources) {
         super(cardID, cardType);
         boolean[] frontCornersCopy = new boolean[4];
         for(int i = 0; i < 4; i++){
@@ -127,10 +127,28 @@ public class PlaceableCard extends Card {
         return new ArrayList<>(permanentResources);
     }
 
+    /**
+     * Method to check if the card is placeable on a certain game field, in a certain position and way.
+     * Used on starter cards.
+     * @param gameField game field to place the card
+     * @param x row
+     * @param y column
+     * @param way way
+     * @return enum representing the placement result
+     */
     public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way) {
         assert(gameField.getNumPlayedCards() == 0): "A card was placed before the starter card";
         return PlacementResult.SUCCESS;
     }
+
+    /**
+     * Method returning the placement score of the card in position (x,y).
+     * Used on starter cards.
+     * @param gameField game field
+     * @param x row
+     * @param y column
+     * @return score obtained
+     */
     public int getPlacementScore(GameField gameField, int x, int y){
         assert (gameField.isCardPresent(x, y)) : "There isn't a Card in position (x,y)";
         return 0;

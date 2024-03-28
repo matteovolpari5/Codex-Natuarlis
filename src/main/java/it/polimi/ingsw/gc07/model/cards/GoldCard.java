@@ -1,8 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.exceptions.PlacementResult;
-import it.polimi.ingsw.gc07.exceptions.PlacingConditionNotMetException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
@@ -32,7 +30,7 @@ public final class GoldCard extends DrawableCard {
      * @param cardType : type of the card
      * @param frontCorners : corners that the front of the card has
      * @param frontCornersContent : game items that the front of the card has
-     * @param placementScore : scorable points
+     * @param placementScore : placement score
      * @param permanentResources : list of permanent game resources that the back of the card has
      * @param placementCondition : placement condition
      * @param scoringCondition : scoring condition
@@ -47,12 +45,13 @@ public final class GoldCard extends DrawableCard {
     }
 
     /**
-     *
-     * @param gameField
-     * @param x
-     * @param y
-     * @param way
-     * @return
+     * Method to check if the card is placeable on a certain game field, in a certain position and way.
+     * Used on gold cards.
+     * @param gameField game field to place the card
+     * @param x row
+     * @param y column
+     * @param way way
+     * @return enum representing the placement result
      */
     public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way){
         PlacementResult isPlaceableResult = super.isPlaceable(gameField, x, y, way);
@@ -70,12 +69,12 @@ public final class GoldCard extends DrawableCard {
     }
 
     /**
-     * Method that calculates the number of points made by a card.
-     * @param gameField
-     * @param x
-     * @param y
-     * @return
-     * @throws CardNotPresentException
+     * Method returning the placement score of the card in position (x,y).
+     * Used on gold cards.
+     * @param gameField game field
+     * @param x row
+     * @param y column
+     * @return score obtained
      */
     @Override
     public int getPlacementScore(GameField gameField, int x, int y) {

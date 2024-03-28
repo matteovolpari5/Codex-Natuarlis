@@ -25,7 +25,7 @@ public class GameField {
      * false: the card has been placed face up
      * true: the card has been placed face down
      */
-    private boolean[][] cardsFace;
+    private Boolean[][] cardsFace;
 
     /**
      * Constant value representing the max dimension of a player's
@@ -61,10 +61,10 @@ public class GameField {
                 this.cardsContent[i][j] = null;
             }
         }
-        this.cardsFace = new boolean[dim][dim];
+        this.cardsFace = new Boolean[dim][dim];
         for(int i = 0; i < dim; i++){
             for(int j = 0; j < dim; j++){
-                this.cardsFace[i][j] = false;
+                this.cardsFace[i][j] = null;
             }
         }
         this.cardsOrder = new int [dim][dim];
@@ -87,7 +87,7 @@ public class GameField {
                 this.cardsContent[i][j] = existingGameField.cardsContent[i][j];
             }
         }
-        this.cardsFace = new boolean[dim][dim];
+        this.cardsFace = new Boolean[dim][dim];
         for(int i=0; i < dim; i++){
             for(int j=0; j < dim; j++){
                 this.cardsFace[i][j] = existingGameField.cardsFace[i][j];
@@ -179,7 +179,6 @@ public class GameField {
      * @param x x index of the matrix
      * @param y y index of the matrix
      * @throws IndexOutOfBoundsException
-     * @throws CardNotPresentException
      */
     public void removePlacedCard(int x, int y) throws IndexOutOfBoundsException {
         if(x < 0 || x >= dim || y <0 || y >= dim){
@@ -195,12 +194,9 @@ public class GameField {
      * @return  false: the card has been placed face up
      *          true: the card has been placed face down
      */
-    public boolean getCardWay(int x, int y) throws IndexOutOfBoundsException, CardNotPresentException {
+    public Boolean getCardWay(int x, int y) throws IndexOutOfBoundsException {
         if(x < 0 || x >= dim || y <0 || y >= dim){
             throw new IndexOutOfBoundsException();
-        }
-        if(cardsContent[x][y] == null){
-            throw new CardNotPresentException();
         }
         return cardsFace[x][y];
     }

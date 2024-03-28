@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.model.cards;
 
-import it.polimi.ingsw.gc07.exceptions.PlacementResult;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
@@ -34,9 +33,21 @@ public final class ObjectiveCard extends Card {
         this.scoringCondition = scoringCondition;
         this.objectiveScore = objectiveScore;
     }
+
+    /**
+     * Method returning the score gained thanks to the objective card.
+     * @param gameField game field
+     * @return score
+     */
     public int getObjectiveScore(GameField gameField){
         return scoringCondition.numTimesMet(gameField) * objectiveScore;
     }
+
+    /**
+     * Method returning the number of times the scoring condition is met.
+     * @param gameField game field
+     * @return number of times the scoring condition is met
+     */
     public int numTimesScoringConditionMet(GameField gameField){
         return scoringCondition.numTimesMet(gameField);
     }
