@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model.chat;
 
 import it.polimi.ingsw.gc07.exceptions.EmptyChatException;
-import it.polimi.ingsw.gc07.exceptions.InvalidReceiverException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +43,17 @@ public class Chat {
         messages.add(new PrivateMessage(content, sender, false, receiver));
     }
 
-    public Message getLastMessage(String receiver) throws EmptyChatException {
-        if(messages.isEmpty()){
-            throw new EmptyChatException();
+    /**
+     * Method returning the last message for the specified receiver.
+     * Returns null if the receiver has no messages.
+     * @param receiver receiver nickname
+     * @return last message
+     */
+    public Message getLastMessage(String receiver) {
+        if(!getContent(receiver).isEmpty()) {
+            return getContent(receiver).getLast();
         }
-        return getContent(receiver).getLast();
+        return null;
     }
 
     /**

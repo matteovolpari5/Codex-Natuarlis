@@ -631,10 +631,15 @@ public class Game {
     /**
      * Returns the last message of the chat for a certain player.
      * @return the last message of the chat
-     * @throws EmptyChatException if the chat is empty
      */
-    public Message getLastChatMessage(String receiver) throws EmptyChatException {
-        return chat.getLastMessage(receiver);
+    public Message getLastChatMessage(String receiver)  {
+        Message message = chat.getLastMessage(receiver);
+        if(message == null) {
+            // TODO
+            return null;
+        }
+        else
+            return message;
     }
 
     /**
