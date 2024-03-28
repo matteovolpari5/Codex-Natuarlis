@@ -364,38 +364,32 @@ public class GameModel {
         if(!state.equals(GameState.PLAYING)){
             throw new WrongStateException();
         }
+        playersGameField.get(nickname).placeCard(card,x,y,way);
+        players.get(currPlayer).removeCardHand(card);
         try {
-            playersGameField.get(nickname).placeCard(card,x,y,way);
-            players.get(currPlayer).removeCardHand(card);
             addPoints(nickname,x,y);
-            boolean isStalled = true;
-            // check if a card is placeable
-            for(int i = 0; i < GameField.getDim() && isStalled; i++) {
-                for (int j = 0; j < GameField.getDim() && isStalled; j++) {
-                    // check if the firs card (a casual card), is placeable on the back,
-                    // i.e. check only the indexes
-                    PlacementResult result = players.get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
+        } catch (PlayerNotPresentException e) {
+            // TODO ????
+        }
+        boolean isStalled = true;
+        // check if a card is placeable
+        for(int i = 0; i < GameField.getDim() && isStalled; i++) {
+            for (int j = 0; j < GameField.getDim() && isStalled; j++) {
+                // check if the firs card (a casual card), is placeable on the back,
+                // i.e. check only the indexes
+                PlacementResult result = null;
+                try {
+                    result = players.get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
                             .isPlaceable(new GameField(playersGameField.get(nickname)), i, j, true);
                     if (result.equals(PlacementResult.SUCCESS)) {
                         isStalled = false;
                     }
+                } catch (PlayerNotPresentException e) {
+                    // TODO ????
                 }
             }
-            players.get(currPlayer).setIsStalled(isStalled);
-        }catch (PlayerNotPresentException e)
-        {
-            e.printStackTrace();
-        } catch (IndexesOutOfGameFieldException e) {
-            throw new RuntimeException(e);
-        } catch (PlacingConditionNotMetException e) {
-            throw new RuntimeException(e);
-        } catch (MultipleCornersCoveredException e) {
-            throw new RuntimeException(e);
-        } catch (NotLegitCornerException e) {
-            throw new RuntimeException(e);
-        } catch (NoCoveredCornerException e) {
-            throw new RuntimeException(e);
         }
+        players.get(currPlayer).setIsStalled(isStalled);
     }
 
     /**
@@ -580,7 +574,7 @@ public class GameModel {
     {
         if(type.equals(CardType.STARTER_CARD) || type.equals(CardType.OBJECTIVE_CARD))
         {
-          throw new WrongCardTypeException();
+            throw new WrongCardTypeException();
         }
         if(type.equals(CardType.GOLD_CARD))
             return this.goldCardsDeck.revealBackDeckCard();

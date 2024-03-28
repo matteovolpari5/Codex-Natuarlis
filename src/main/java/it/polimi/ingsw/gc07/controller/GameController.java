@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentException;
+import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.gc07.exceptions.WrongStateException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.GameModel;
@@ -19,7 +20,7 @@ public class GameController {
     /**
      * Reference to the game model.
      */
-    private final GameModel gameModel;
+    private GameModel gameModel;
 
     public GameController(int playersNumber, int id) {
         ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
@@ -30,7 +31,12 @@ public class GameController {
         objectiveCardDeck.shuffle();
         Deck<PlaceableCard> starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
         starterCardsDeck.shuffle();
-        gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
+        gameModel = null;
+        try {
+            gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
+        } catch (WrongNumberOfPlayersException e) {
+            // TODO ????
+        }
     }
 
     public int getId() {
