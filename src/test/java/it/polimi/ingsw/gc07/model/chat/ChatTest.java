@@ -19,6 +19,12 @@ class ChatTest {
     }
 
     @Test
+    void getLastMessageEmptyChat() {
+        String receiver = "TestReceiver";
+        assertNull(chat.getLastMessage(receiver));
+    }
+
+    @Test
     void getContentEmptyChat() {
         String receiver = "TestReceiver";
         assertEquals(0, chat.getContent(receiver).size());
