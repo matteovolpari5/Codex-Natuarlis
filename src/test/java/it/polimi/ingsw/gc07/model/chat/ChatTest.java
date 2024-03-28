@@ -19,13 +19,6 @@ class ChatTest {
     }
 
     @Test
-    void getLastMessageEmptyChat() {
-        String receiver = "TestReceiver";
-        assertThrows(EmptyChatException.class,
-                () ->  chat.getLastMessage(receiver));
-    }
-
-    @Test
     void getContentEmptyChat() {
         String receiver = "TestReceiver";
         assertEquals(0, chat.getContent(receiver).size());
@@ -45,12 +38,8 @@ class ChatTest {
         chat.addPublicMessage("TestMessage3", sender, players);
         assertEquals(3, chat.getContent(receiver1).size());
         assertEquals(3, chat.getContent(receiver2).size());
-        try {
-            assertEquals("TestMessage3", chat.getLastMessage(receiver1).getContent());
-            assertEquals("TestMessage3", chat.getLastMessage(receiver2).getContent());
-        } catch (EmptyChatException e) {
-            throw new RuntimeException(e);
-        }
+        assertEquals("TestMessage3", chat.getLastMessage(receiver1).getContent());
+        assertEquals("TestMessage3", chat.getLastMessage(receiver2).getContent());
     }
 
     @Test
@@ -66,16 +55,8 @@ class ChatTest {
         chat.addPrivateMessage("TestMessage2", sender, receiver1, players);
         chat.addPrivateMessage("TestMessage3", sender, receiver1, players);
         assertEquals(3, chat.getContent(receiver1).size());
-        try {
-            assertEquals("TestMessage3", chat.getLastMessage(receiver1).getContent());
-        } catch (EmptyChatException e) {
-            throw new RuntimeException(e);
-        }
+        assertEquals("TestMessage3", chat.getLastMessage(receiver1).getContent());
         assertEquals(1, chat.getContent(receiver2).size());
-        try {
-            assertEquals("TestMessage1", chat.getLastMessage(receiver2).getContent());
-        } catch (EmptyChatException e) {
-            throw new RuntimeException(e);
-        }
+        assertEquals("TestMessage1", chat.getLastMessage(receiver2).getContent());
     }
 }
