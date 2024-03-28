@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.CardAlreadyPresentException;
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.exceptions.PlacementResult;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -17,7 +16,7 @@ public class GameField {
      * for a player's game field. Each cell contains a placeable card,
      * or null if the place is empty.
      */
-    private PlaceableCard[][] cardsContent;
+    private final PlaceableCard[][] cardsContent;
 
     /**
      * Matrix of dimension 81x81, the biggest possible dimension
@@ -25,7 +24,7 @@ public class GameField {
      * false: the card has been placed face up
      * true: the card has been placed face down
      */
-    private Boolean[][] cardsFace;
+    private final Boolean[][] cardsFace;
 
     /**
      * Constant value representing the max dimension of a player's
@@ -39,7 +38,7 @@ public class GameField {
      * Matrix of dimension 81x81, biggest possible dimension for a player's
      * game field. Represent the placement's order of the cards.
      */
-    private int [][] cardsOrder;
+    private final int [][] cardsOrder;
 
     /**
      * Integer attribute that show the number of cards played in the game field
@@ -151,10 +150,7 @@ public class GameField {
         if(x < 0 || x >= dim || y <0 || y >= dim){
             throw new IndexOutOfBoundsException();
         }
-        if(cardsContent[x][y] == null){
-            return false;
-        }
-        return true;
+        return cardsContent[x][y] != null;
     }
 
     /**
