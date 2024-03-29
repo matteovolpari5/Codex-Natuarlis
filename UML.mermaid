@@ -291,23 +291,21 @@ classDiagram
         - twentyPointsReached: boolean
         - additionalRound : boolean
         - chat: Chat
+        %% constructor and getters
         + Game(id: int, playersNumber: int, resourceCardsDeck: ResourceCardsDeck,\n goldCardsDeck: GoldCardsDeck, objectiveCardsDeck: PlayingDeck~ObjectiveCard~, starterCardsDeck : Deck~PlaceableCard~)
+        + getId int
         + getState() GameState
         + getPlayers() List~Player~
         + getCurrentPlayer() Player
         + getGameField(nickname: String) GameField
         + getScore(nickname: String) int
-        + placeStarterCard(nickname : String, way: boolean)
+        %% public methods - called by users
         + addplayer(newPlayer : Player)
-        + setup()
+        + placeStarterCard(nickname : String, way: boolean)
         + isFull() boolean
         + disconnectPlayer(nickname : String)
         + reconnectPlayer(nickname : String)
-        + getPlayerByNickname(nickname : String) int
-        + changeCurrPlayer()
         + placeCard(nickname: String, card: DrawableCard, x:int, y:int, way:boolean)
-        + addPoints(nickname: String, x: int, y:int)
-        + computeWinner() List~Player~
         + drawDeckCard(nickname: String, type: CardType)
         + drawFaceUpCard(nickname: String, type : CardType, pos:int)
         + revealFaceUpCard(type: CardType, pos:int) Card
@@ -315,6 +313,12 @@ classDiagram
         + addChatMessage(content: String, sender: String, isPublic: boolean, receiver: String)
         + getLastChatMessage(receiver: String) Message
         + getChatContent(receiver: String) List~Message~
+        %% private methods - internal methods
+        - setup()
+        - getPlayerByNickname(nickname : String) int
+        - changeCurrPlayer()
+        - addPoints(nickname: String, x: int, y:int)
+        - computeWinner() List~Player~
     }
 
     class GamesManager {
