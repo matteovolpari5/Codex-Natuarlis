@@ -1,6 +1,9 @@
-package it.polimi.ingsw.gc07.model;
+package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.exceptions.*;
+import it.polimi.ingsw.gc07.model.GameField;
+import it.polimi.ingsw.gc07.model.Player;
+import it.polimi.ingsw.gc07.model.ScoreTrackBoard;
 import it.polimi.ingsw.gc07.model.cards.*;
 import it.polimi.ingsw.gc07.model.chat.Chat;
 import it.polimi.ingsw.gc07.model.chat.Message;

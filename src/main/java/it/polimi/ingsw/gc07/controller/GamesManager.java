@@ -4,7 +4,6 @@ import it.polimi.ingsw.gc07.exceptions.PlayerAlreadyPresentException;
 import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentException;
 import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.gc07.exceptions.WrongStateException;
-import it.polimi.ingsw.gc07.model.Game;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
