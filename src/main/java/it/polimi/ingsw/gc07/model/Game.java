@@ -11,7 +11,7 @@ import it.polimi.ingsw.gc07.model.enumerations.GameState;
 import java.util.*;
 import java.util.Random;
 
-public class GameModel {
+public class Game {
     /**
      * ID of the game.
      */
@@ -78,9 +78,9 @@ public class GameModel {
      * @param starterCardsDeck deck of starter cards
      * @throws WrongNumberOfPlayersException exception thrown when the number of players is wrong
      */
-    public GameModel(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
-                     GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
-                     Deck<PlaceableCard> starterCardsDeck) throws WrongNumberOfPlayersException {
+    public Game(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
+                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
+                Deck<PlaceableCard> starterCardsDeck) throws WrongNumberOfPlayersException {
         this.id = id;
         this.state = GameState.WAITING_PLAYERS;
         if (playersNumber<2 || playersNumber>4)  {
