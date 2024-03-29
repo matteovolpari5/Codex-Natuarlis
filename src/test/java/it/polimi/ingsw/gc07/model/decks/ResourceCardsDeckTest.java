@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model.decks;
 
-import it.polimi.ingsw.gc07.controller.DecksBuilder;
+import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import org.junit.jupiter.api.BeforeEach;

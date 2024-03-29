@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
