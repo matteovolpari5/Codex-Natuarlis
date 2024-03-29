@@ -1,9 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.exceptions.*;
-import it.polimi.ingsw.gc07.model.GameField;
-import it.polimi.ingsw.gc07.model.Player;
-import it.polimi.ingsw.gc07.model.ScoreTrackBoard;
 import it.polimi.ingsw.gc07.model.cards.*;
 import it.polimi.ingsw.gc07.model.chat.Chat;
 import it.polimi.ingsw.gc07.model.chat.Message;
@@ -70,7 +67,7 @@ public class GameModel {
     /**
      * Chat of the game.
      */
-    private Chat chat;
+    private final Chat chat;
 
     /** Constructor of a Game with only the first player.
      *
@@ -102,6 +99,7 @@ public class GameModel {
         this.currPlayer = 0;
         this.twentyPointsReached = false;
         this.additionalRound = false;
+        this.chat = new Chat();
     }
 
 
@@ -307,7 +305,7 @@ public class GameModel {
             for (int j = 0; j < GameField.getDim() && isStalled; j++) {
                 // check if the firs card (a casual card), is placeable on the back,
                 // i.e. check only the indexes
-                PlacementResult result = null;
+                PlacementResult result;
                 try {
                     result = players.get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
                             .isPlaceable(new GameField(playersGameField.get(nickname)), i, j, true);
@@ -453,10 +451,10 @@ public class GameModel {
         }
     }
 
-    public void addChatPrivateMessage(String content, String sender, String receiver) throws InvalidReceiverException {
+    public void addChatPrivateMessage(String content, String sender, String receiver) {
         // list of players' nicknames
         List<String> playersNicknames = players.stream().map(p -> p.getNickname()).toList();
-        if(playersNicknames.contains(content) && playersNicknames.contains(receiver)) {
+        if(playersNicknames.contains(sender) && playersNicknames.contains(receiver)) {
             // adds message to the chat
             chat.addPrivateMessage(content, sender, receiver, playersNicknames);
         }
@@ -475,7 +473,7 @@ public class GameModel {
     public Message getLastChatMessage(String receiver)  {
         Message message = chat.getLastMessage(receiver);
         if(message == null) {
-            // TODO
+            // TODO no return null!
             return null;
         }
         else

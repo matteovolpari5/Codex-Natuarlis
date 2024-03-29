@@ -1,8 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.exceptions.CardAlreadyPresentException;
 import it.polimi.ingsw.gc07.exceptions.PlacementResult;
-import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
 /**
