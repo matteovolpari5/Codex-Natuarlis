@@ -171,6 +171,21 @@ public class GameModel {
     // -----------------------------------
 
     /**
+     * Method telling if a player is in a game.
+     * @param nickname nickname of the player
+     * @return true if the player is in the game
+     */
+    public boolean hasPlayer(String nickname) {
+        boolean found = false;
+        for(Player p: players){
+            if(p.getNickname().equals(nickname)){
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    /**
      * Method to add a new player.
      * @param newPlayer player to add
      * @throws WrongStateException if the state of the game is wrong
@@ -209,21 +224,6 @@ public class GameModel {
         assert(playersGameField.containsKey(nickname)): "The player is not in the game";
         PlacementResult placementResult = playersGameField.get(nickname).placeCard(playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
         // TODO: bandierina per placementResult
-    }
-
-    /**
-     * Method telling if a player is in a game.
-     * @param nickname nickname of the player
-     * @return true if the player is in the game
-     */
-    public boolean hasPlayer(String nickname) {
-        boolean found = false;
-        for(Player p: players){
-            if(p.getNickname().equals(nickname)){
-                found = true;
-            }
-        }
-        return found;
     }
 
     /**
@@ -368,8 +368,7 @@ public class GameModel {
      * @throws CardNotPresentException: if the List of faceUpCards doesn't have a card in the given position
      * @throws WrongPlayerException: if the player is not the current player
      */
-    public void drawFaceUpCard(String nickname, CardType type, int pos) throws WrongCardTypeException, CardNotPresentException,
-            WrongPlayerException, PlayerNotPresentException {
+    public void drawFaceUpCard(String nickname, CardType type, int pos) throws WrongCardTypeException, CardNotPresentException, WrongPlayerException, PlayerNotPresentException {
         if(!players.get(currPlayer).getNickname().equals(nickname)){
             throw new WrongPlayerException();
         }
@@ -424,8 +423,7 @@ public class GameModel {
      * @throws WrongCardTypeException   if we reveal the back of a starter card or the back of an objective card
      * @throws CardNotPresentException if the deck is empty
      */
-    public GameResource revealBackDeckCard(CardType type) throws WrongCardTypeException, CardNotPresentException
-    {
+    public GameResource revealBackDeckCard(CardType type) throws WrongCardTypeException, CardNotPresentException {
         if(type.equals(CardType.STARTER_CARD) || type.equals(CardType.OBJECTIVE_CARD))
         {
             throw new WrongCardTypeException();
