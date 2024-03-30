@@ -46,6 +46,7 @@ public class LayoutCondition implements Condition{
      * Counts how many times the layout is found in the gameField.
      * @return number of times the layout is found
      */
+    @Override
     public int numTimesMet(GameField gameField) throws NullPointerException {
         // check valid game field
         assert(gameField != null): "No GameField passed as parameter";

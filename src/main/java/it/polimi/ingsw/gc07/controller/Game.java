@@ -106,7 +106,6 @@ public class Game {
     }
 
 
-
     // ------------------------------
     // getters
     // ------------------------------
@@ -115,7 +114,7 @@ public class Game {
      * Getter for the game id.
      * @return game id
      */
-    public int getId(){
+    public int getId() {
         return id;
     }
 
@@ -126,50 +125,6 @@ public class Game {
     public GameState getState() {
         return state;
     }
-
-    /**
-     * Getter for the list of players.
-     * @return the players in the game
-     */
-    public List<Player> getPlayers() {
-        return new ArrayList<>(players);
-    }
-
-    /**
-     * Getter for the current player.
-     * @return the current player
-     */
-    public Player getCurrentPlayer() {
-        return new Player(players.get(currPlayer));
-    }
-
-    /**
-     * Getter method for the player's game field.
-     * @param nickname : nickname of the player
-     * @return the game field of the player
-     * @throws PlayerNotPresentException exception thrown when a player is not present in the game
-     */
-    public GameField getGameField(String nickname) throws PlayerNotPresentException {
-        if(!this.playersGameField.containsKey(nickname)) {
-            throw new PlayerNotPresentException();
-        }
-        return new GameField(playersGameField.get(nickname));
-    }
-
-    /**
-     * Getter for the player's score.
-     * @param nickname : nickname of the player
-     * @return the players' score
-     */
-    public int getScore(String nickname) {
-        return scoreTrackBoard.getScore(nickname);
-    }
-
-
-
-    // -----------------------------------
-    // public methods - called by users
-    // -----------------------------------
 
     /**
      * Method telling if a player is in a game.
@@ -185,6 +140,82 @@ public class Game {
         }
         return found;
     }
+
+
+    // ------------------------------------
+    // command pattern
+    // ------------------------------------
+
+    // getter e metodi da aggiungere per realizzare il command pattern
+    // poi basta creare per ognuno dei metodi pubblici una classe e spostare il corpo del metodo
+    // nel metodo execute
+    // tutti i metodi privati verranno spostati in uno dei concrete command, mentre i metodi pubblici
+    // verranno eliminati
+
+    // questione da discutere: questi metodi per ora sono void, vorremo ritornare questa famosa
+    // bandierina? in quel caso dovremo creare una classe enum che contiene tutti i possibili esiti
+    // di fallimento
+
+    int getPlayersNumber() {
+        return playersNumber;
+    }
+
+    Map<String, GameField> getPlayersGameField() {
+        return playersGameField;
+    }
+
+    List<Player> getPlayers() {
+        return players;
+    }
+
+    int getCurrPlayer() {
+        return currPlayer;
+    }
+
+    ScoreTrackBoard getScoreTrackBoard() {
+        return scoreTrackBoard;
+    }
+
+    ResourceCardsDeck getResourceCardsDeck() {
+        return resourceCardsDeck;
+    }
+
+    GoldCardsDeck getGoldCardsDeck() {
+        return goldCardsDeck;
+    }
+
+    PlayingDeck<ObjectiveCard> getObjectiveCardsDeck() {
+        return objectiveCardsDeck;
+    }
+
+    Deck<PlaceableCard> getStarterCardsDeck() {
+        return starterCardsDeck;
+    }
+
+    boolean getTwentyPointsReached() {
+        return twentyPointsReached;
+    }
+
+    boolean getAdditionalRound() {
+        return additionalRound;
+    }
+
+    Chat getChat() {
+        return chat;
+    }
+
+    //public void setCommand(GameCommand gameCommand) {
+    // TODO
+    //}
+
+    public void execute() {
+        // TODO
+    }
+
+
+    // -----------------------------------
+    // public methods - called by users
+    // -----------------------------------
 
     /**
      * Method to add a new player.
@@ -225,14 +256,6 @@ public class Game {
         assert(playersGameField.containsKey(nickname)): "The player is not in the game";
         PlacementResult placementResult = playersGameField.get(nickname).placeCard(playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
         // TODO: bandierina per placementResult
-    }
-
-    /**
-     * Method telling if there are available places in the game.
-     * @return true if no other player can connect to the game
-     */
-    public boolean isFull(){
-        return players.size() == playersNumber;
     }
 
     /**
@@ -492,10 +515,17 @@ public class Game {
     }
 
 
-
     // -----------------------------------
     // private methods - used to break complexity
     // -----------------------------------
+
+    /**
+     * Method telling if there are available places in the game.
+     * @return true if no other player can connect to the game
+     */
+    private boolean isFull(){
+        return players.size() == playersNumber;
+    }
 
     /**
      * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
@@ -603,9 +633,9 @@ public class Game {
         }
         assert (playersGameField.get(nickname).isCardPresent(x, y)) : "there isn't a Card in the x,y position";
         deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getPlacementScore(playersGameField.get(nickname), x, y);
-        if(deltaPoints + getScore(nickname) >= 20){
+        if(deltaPoints + scoreTrackBoard.getScore(nickname) >= 20){
             twentyPointsReached = true;
-            if((deltaPoints + getScore(nickname)) > 29){
+            if((deltaPoints + scoreTrackBoard.getScore(nickname)) > 29){
                 scoreTrackBoard.setScore(nickname, 29);
             }
             else{
@@ -642,8 +672,8 @@ public class Game {
             deltapoints += players.get(i).getSecretObjective().getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
             scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltapoints);
             List<Player> playersCopy = new ArrayList<>(players);
-            if (max <= getScore(playersCopy.get(i).getNickname())){
-                max = getScore(playersCopy.get(i).getNickname());
+            if (max <= scoreTrackBoard.getScore(playersCopy.get(i).getNickname())){
+                max = scoreTrackBoard.getScore(playersCopy.get(i).getNickname());
                 if (realizedObjectives >= maxRealizedObjective){
                     if (realizedObjectives == maxRealizedObjective){
                         winners.add(playersCopy.get(i));

@@ -7,6 +7,4 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface VirtualServer extends Remote {
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) throws RemoteException, PlayerAlreadyPresentException;
-    // ...
 }

@@ -295,14 +295,10 @@ classDiagram
         + Game(id: int, playersNumber: int, resourceCardsDeck: ResourceCardsDeck,\n goldCardsDeck: GoldCardsDeck, objectiveCardsDeck: PlayingDeck~ObjectiveCard~, starterCardsDeck : Deck~PlaceableCard~)
         + getId int
         + getState() GameState
-        + getPlayers() List~Player~
-        + getCurrentPlayer() Player
-        + getGameField(nickname: String) GameField
-        + getScore(nickname: String) int
+        + hasPlayer(nickname: String) boolean
         %% public methods - called by users
-        + addplayer(newPlayer : Player)
+        + addPlayer(newPlayer : Player)
         + placeStarterCard(nickname : String, way: boolean)
-        + isFull() boolean
         + disconnectPlayer(nickname : String)
         + reconnectPlayer(nickname : String)
         + placeCard(nickname: String, card: DrawableCard, x:int, y:int, way:boolean)
@@ -314,6 +310,7 @@ classDiagram
         + getLastChatMessage(receiver: String) Message
         + getChatContent(receiver: String) List~Message~
         %% private methods - internal methods
+        - isFull() boolean
         - setup()
         - getPlayerByNickname(nickname : String) int
         - changeCurrPlayer()

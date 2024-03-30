@@ -33,6 +33,7 @@ public class ItemsCondition implements Condition {
      * @param gameField game field on which the condition has to be verified
      * @return number of times the list of items is found
      */
+    @Override
     public int numTimesMet(GameField gameField) {
         // check valid game field
         assert(gameField != null): "No GameField passed as parameter";
