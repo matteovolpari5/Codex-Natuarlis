@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.model.chat;
 
-import it.polimi.ingsw.gc07.exceptions.EmptyChatException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

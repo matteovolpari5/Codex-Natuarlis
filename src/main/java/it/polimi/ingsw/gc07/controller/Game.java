@@ -318,7 +318,8 @@ public class Game {
         if(!state.equals(GameState.PLAYING)){
             throw new WrongStateException();
         }
-        playersGameField.get(nickname).placeCard(card,x,y,way);
+        PlacementResult result = playersGameField.get(nickname).placeCard(card,x,y,way);
+        // TODO cosa me ne faccio di result ???
         players.get(currPlayer).removeCardHand(card);
         try {
             addPoints(nickname,x,y);
@@ -331,7 +332,6 @@ public class Game {
             for (int j = 0; j < GameField.getDim() && isStalled; j++) {
                 // check if the firs card (a casual card), is placeable on the back,
                 // i.e. check only the indexes
-                PlacementResult result;
                 try {
                     result = players.get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
                             .isPlaceable(new GameField(playersGameField.get(nickname)), i, j, true);
