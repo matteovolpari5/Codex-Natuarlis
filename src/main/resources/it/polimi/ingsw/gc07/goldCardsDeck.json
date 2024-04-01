@@ -292,8 +292,8 @@
       "id": 52,
       "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
       "frontcorner1": "true",
-      "frontcorner2": "false",
-      "frontcorner3": "true",
+      "frontcorner2": "true",
+      "frontcorner3": "false",
       "frontcontent0": "null",
       "frontcontent1": "manuscript",
       "frontcontent2": "null",
@@ -384,7 +384,7 @@
       "placementscore": 2,
       "placementcondition": {
         "conditiontype": "ITEMS_CONDITION",
-        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "plant"},{"resource": "insect"}]
+        "neededItems":  [{"resource": "plant"},{"resource": "plant"},{"resource": "plant"},{"resource": "fungi"}]
       },
       "scoringcondition": {
         "conditiontype": "CORNER_COVERAGE_CONDITION"
