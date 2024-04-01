@@ -27,8 +27,14 @@ class GameFieldTest {
     }
 
     @Test
-    void placeCard() {
-
+    void placeCard() throws CardNotPresentException {
+        myStarterCard = starterCardsDeck.drawCard();
+        GameField gameField = new GameField(myStarterCard);
+        gameField.placeCard(myStarterCard, 40, 40, false);
+        assertEquals(gameField.getPlacedCard(40, 40), myStarterCard);
+        myResourceCard = resourceCardsDeck.drawCard();
+        gameField.placeCard(myResourceCard, 40, 41, true);
+        assertNull(gameField.getPlacedCard(40, 41));
     }
 
     @Test

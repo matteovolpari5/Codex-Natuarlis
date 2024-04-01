@@ -45,18 +45,18 @@ class PlayerTest {
 
     @Test
     public void checkAddCardHand() {
-        ResourceCardsDeck reosurceCardsDeck = DecksBuilder.buildResourceCardsDeck();
-        reosurceCardsDeck.shuffle();
+        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        resourceCardsDeck.shuffle();
 
         assertEquals(0, player.getCurrentHand().size());
         try {
-            player.addCardHand(reosurceCardsDeck.drawCard());
+            player.addCardHand(resourceCardsDeck.drawCard());
         } catch (CardNotPresentException e) {
             throw new RuntimeException(e);
         }
         assertEquals(1, player.getCurrentHand().size());
         try {
-            player.addCardHand(reosurceCardsDeck.drawCard());
+            player.addCardHand(resourceCardsDeck.drawCard());
         } catch (CardNotPresentException e) {
             throw new RuntimeException(e);
         }
@@ -64,7 +64,7 @@ class PlayerTest {
         List<DrawableCard> currentHand = player.getCurrentHand();
         DrawableCard card = null;
         try {
-            card = reosurceCardsDeck.drawCard();
+            card = resourceCardsDeck.drawCard();
             player.addCardHand(card);
         } catch (CardNotPresentException e) {
             throw new RuntimeException(e);
@@ -79,25 +79,25 @@ class PlayerTest {
 
     @Test
     public void removeAddCardHand() {
-        ResourceCardsDeck reosurceCardsDeck = DecksBuilder.buildResourceCardsDeck();
-        reosurceCardsDeck.shuffle();
+        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        resourceCardsDeck.shuffle();
 
         assertEquals(0, player.getCurrentHand().size());
         try {
-            player.addCardHand(reosurceCardsDeck.drawCard());
+            player.addCardHand(resourceCardsDeck.drawCard());
         } catch (CardNotPresentException e) {
             throw new RuntimeException(e);
         }
         assertEquals(1, player.getCurrentHand().size());
         try {
-            player.addCardHand(reosurceCardsDeck.drawCard());
+            player.addCardHand(resourceCardsDeck.drawCard());
         } catch (CardNotPresentException e) {
             throw new RuntimeException(e);
         }
         assertEquals(2, player.getCurrentHand().size());
         DrawableCard card = null;
         try {
-            card = reosurceCardsDeck.drawCard();
+            card = resourceCardsDeck.drawCard();
             player.addCardHand(card);
         } catch (CardNotPresentException e) {
             throw new RuntimeException(e);
