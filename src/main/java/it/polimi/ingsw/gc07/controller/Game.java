@@ -244,6 +244,9 @@ public class Game {
             }
         } catch (CardNotPresentException e) {
             e.printStackTrace();
+            // TODO no printStackTrace
+            // non si può verificare perchè ho sicuramente abbastanza carte per 4 giocatori
+            // e il gioco è appena iniziato
         }
     }
 
@@ -255,7 +258,8 @@ public class Game {
     public void placeStarterCard(String nickname, boolean way) {
         assert(playersGameField.containsKey(nickname)): "The player is not in the game";
         PlacementResult placementResult = playersGameField.get(nickname).placeCard(playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
-        // TODO: bandierina per placementResult
+        // TODO: bandierina per placementResult?
+        // ritorno placementResult, oppure lo salvo in attributo ??
     }
 
     /**
@@ -320,6 +324,7 @@ public class Game {
         }
         PlacementResult result = playersGameField.get(nickname).placeCard(card,x,y,way);
         // TODO cosa me ne faccio di result ???
+        // ritorno e/o salvo in un attributo ???
         players.get(currPlayer).removeCardHand(card);
         try {
             addPoints(nickname,x,y);
@@ -380,6 +385,7 @@ public class Game {
         catch (WrongStateException | PlayerNotPresentException e)
         {
             e.printStackTrace();
+            // TODO noooo
         }
     }
 

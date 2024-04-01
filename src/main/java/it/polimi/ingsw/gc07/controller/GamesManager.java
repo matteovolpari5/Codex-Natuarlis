@@ -132,6 +132,7 @@ public class GamesManager {
     }
 
     public void joinExistingGame(String nickname, int gameId) throws WrongStateException, PlayerNotPresentException {
+        // TODO: no throws !!!
         Player player = getPendingPlayer(nickname);
         if(player == null){
             throw new PlayerNotPresentException();
@@ -144,6 +145,7 @@ public class GamesManager {
     }
 
     public void joinNewGame(String nickname, int playersNumber) throws PlayerNotPresentException, WrongNumberOfPlayersException, WrongStateException {
+        // TODO: no throws !!!
         Player player = getPendingPlayer(nickname);
         if(player == null){
             throw new PlayerNotPresentException();
