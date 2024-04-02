@@ -10,12 +10,12 @@ package it.polimi.ingsw.gc07.controller;
  * INDEXES_OUT_OF_GAME_FIELD: specified indexes exceed the game field size
  *
  */
-public enum PlacementResult {
-    SUCCESS, // no exception
-    NO_COVERED_CORNER, // NoCoveredCornerException
-    NOT_LEGIT_CORNER, // NotLegitCornerException
-    MULTIPLE_CORNERS_COVERED, // MultipleCornersCoveredException
-    CARD_ALREADY_PRESENT, // CardAlreadyPresentException
-    INDEXES_OUT_OF_GAME_FIELD, // IndexesOutOfGameFieldException
-    PLACING_CONDITION_NOT_MET // PlacingConditionNotMetException
+public enum PlacementResult implements CommandResult {
+    SUCCESS,
+    NO_COVERED_CORNER,
+    NOT_LEGIT_CORNER,
+    MULTIPLE_CORNERS_COVERED,
+    CARD_ALREADY_PRESENT,
+    INDEXES_OUT_OF_GAME_FIELD,
+    PLACING_CONDITION_NOT_MET
 }

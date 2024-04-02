@@ -204,6 +204,10 @@ public class Game {
     Chat getChat() {
         return chat;
     }
+    void setTwentyPointsReached(boolean twentyPointsReached)
+    {
+        this.twentyPointsReached=twentyPointsReached;
+    }
 
     public void setCommand(GameCommand gameCommand) {
         this.gameCommand = gameCommand;
@@ -228,57 +232,6 @@ public class Game {
         PlacementResult placementResult = playersGameField.get(nickname).placeCard(playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
         // TODO: bandierina per placementResult?
         // ritorno placementResult, oppure lo salvo in attributo ??
-    }
-
-    /**
-     * method that place a card in the game field of the current player
-     * this method also remove the card placed from the hand of the current player and calls the method that compute the points scored by placing the card
-     * @param nickname : nickname of the player
-     * @param card : card that the player wants to play
-     * @param x : row of the matrix (gameField)
-     * @param y: column of the matrix (gameField)
-     * @param way : face of the card
-     * @throws WrongPlayerException : if a player that is not the current player try to place a card
-     * @throws CardAlreadyPresentException : if a player play a card that is already present in the gameField
-     * @throws CardNotPresentException : if the card that the player wants to play is not in his hands
-     */
-    public void placeCard(String nickname, DrawableCard card, int x, int y, boolean way) throws WrongPlayerException, CardAlreadyPresentException, CardNotPresentException, WrongStateException {
-        if(!players.get(currPlayer).getNickname().equals(nickname)) {
-            throw new WrongPlayerException();
-        }
-        if(!(players.get(currPlayer).getCurrentHand()).contains(card)){
-            throw new CardNotPresentException();
-        }
-        if(!state.equals(GameState.PLAYING)){
-            throw new WrongStateException();
-        }
-        PlacementResult result = playersGameField.get(nickname).placeCard(card,x,y,way);
-        // TODO cosa me ne faccio di result ???
-        // ritorno e/o salvo in un attributo ???
-        players.get(currPlayer).removeCardHand(card);
-        try {
-            addPoints(nickname,x,y);
-        } catch (PlayerNotPresentException e) {
-            // TODO ????
-        }
-        boolean isStalled = true;
-        // check if a card is placeable
-        for(int i = 0; i < GameField.getDim() && isStalled; i++) {
-            for (int j = 0; j < GameField.getDim() && isStalled; j++) {
-                // check if the firs card (a casual card), is placeable on the back,
-                // i.e. check only the indexes
-                try {
-                    result = players.get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
-                            .isPlaceable(new GameField(playersGameField.get(nickname)), i, j, true);
-                    if (result.equals(PlacementResult.SUCCESS)) {
-                        isStalled = false;
-                    }
-                } catch (PlayerNotPresentException e) {
-                    // TODO ????
-                }
-            }
-        }
-        players.get(currPlayer).setIsStalled(isStalled);
     }
 
     /**
@@ -471,37 +424,6 @@ public class Game {
         if(players.get(currPlayer).getIsStalled())
         {
             changeCurrPlayer();
-        }
-    }
-
-    /**
-     * method that add points to a player and check if a player is reaching 20 points.
-     * @param nickname: nickname of the player
-     * @param x: where the card is placed in the matrix
-     * @param y: where the card is placed in the matrix
-     * @throws WrongPlayerException : if the player is not the current player.
-     * @throws PlayerNotPresentException : if the player is not present in the List players.
-     * @throws CardNotPresentException: if there isn't a card in the specified position of the game field.
-     */
-    private void addPoints(String nickname, int x, int y) throws WrongPlayerException, CardNotPresentException, PlayerNotPresentException, WrongStateException {
-        if (!state.equals(GameState.PLAYING)){
-            throw new WrongStateException();
-        }
-        int deltaPoints;
-        if(!players.get(currPlayer).getNickname().equals(nickname))
-        {
-            throw new WrongPlayerException();
-        }
-        assert (playersGameField.get(nickname).isCardPresent(x, y)) : "there isn't a Card in the x,y position";
-        deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getPlacementScore(playersGameField.get(nickname), x, y);
-        if(deltaPoints + scoreTrackBoard.getScore(nickname) >= 20){
-            twentyPointsReached = true;
-            if((deltaPoints + scoreTrackBoard.getScore(nickname)) > 29){
-                scoreTrackBoard.setScore(nickname, 29);
-            }
-            else{
-                scoreTrackBoard.incrementScore(nickname, deltaPoints);
-            }
         }
     }
 
