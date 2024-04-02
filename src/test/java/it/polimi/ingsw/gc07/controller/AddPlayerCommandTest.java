@@ -59,7 +59,7 @@ class AddPlayerCommandTest {
         game.setCommand(new AddPlayerCommand(game, firstPlayer));
         AddPlayerResult result = (AddPlayerResult) game.execute();
         assertEquals(AddPlayerResult.SUCCESS, result);
-        Player secondPlayer = new Player("Player 2", TokenColor.GREEN, false, false);
+        Player secondPlayer = new Player("Player2", TokenColor.GREEN, false, false);
         game.setCommand(new AddPlayerCommand(game, secondPlayer));
         result = (AddPlayerResult) game.execute();
         assertEquals(AddPlayerResult.SUCCESS, result);
