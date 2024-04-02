@@ -5,33 +5,45 @@ import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.enumerations.GameState;
 
-public class placeCardCommand implements GameCommand{
+/**
+ * Concrete command to place a card.
+ */
+public class PlaceCardCommand implements GameCommand {
     /**
      * Game in which the command has to be executed.
      */
     private final Game game;
     /**
-     * nickname of the player that will place the card
+     * Nickname of the player that will place the card.
      */
     private final String nickname;
     /**
-     * card that will be placed
+     * Card that will be placed.
      */
     private final DrawableCard card;
     /**
-     * row of the matrix
+     * Row in the matrix.
      */
     private final int x;
     /**
-     * column of the matrix
+     * Column in the matrix.
      */
     private final int y;
     /**
-     * face of the card
+     * Way of the card.
      */
     private final boolean way;
 
-    public placeCardCommand(Game game, String nickname, DrawableCard card, int x, int y, boolean way) {
+    /**
+     * Constructor of the concrete command PlaceCardCommand.
+     * @param game game
+     * @param nickname nickname
+     * @param card card
+     * @param x row
+     * @param y column
+     * @param way way
+     */
+    public PlaceCardCommand(Game game, String nickname, DrawableCard card, int x, int y, boolean way) {
         this.game = game;
         this.nickname = nickname;
         this.card = card;
@@ -39,9 +51,11 @@ public class placeCardCommand implements GameCommand{
         this.y = y;
         this.way = way;
     }
+
     /**
-     * method that place a card in the game field of the current player
-     * this method also remove the card placed from the hand of the current player and calls the method that compute the points scored by placing the card
+     * Method to place a card in the game field of the current player.
+     * This method also removes the card placed from the hand of the current player and calls
+     * the method that computes the points scored by placing the card.
      * @return : command result
      */
     @Override
@@ -91,7 +105,7 @@ public class placeCardCommand implements GameCommand{
     }
 
     /**
-     * method that add points to a player and check if a player is reaching 20 points.
+     * Method that adds points to a player and checks if a player had reached 20 points.
      * @param nickname: nickname of the player
      * @param x: where the card is placed in the matrix
      * @param y: where the card is placed in the matrix

@@ -4,13 +4,16 @@ import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentException;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.enumerations.GameState;
 
-public class ReconnectPlayerCommand implements GameCommand{
+/**
+ * Concrete command to reconnect a player to the game.
+ */
+public class ReconnectPlayerCommand implements GameCommand {
     /**
      * Game in which the command has to be executed.
      */
     private final Game game;
     /**
-     * nickname of the player that will be reconnected to the game
+     * Nickname of the player that will be reconnected to the game.
      */
     private final String nickname;
     /**
@@ -27,6 +30,8 @@ public class ReconnectPlayerCommand implements GameCommand{
      * Method to execute the concrete command reconnectPlayerCommand.
      * @return command result
      */
+    //TODO questione delle connessioni, se era sceso a 0?
+    // vedi slack
     @Override
     public CommandResult execute() {
         try{
