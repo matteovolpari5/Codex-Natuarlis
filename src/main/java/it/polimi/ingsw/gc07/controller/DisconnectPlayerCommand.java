@@ -36,8 +36,12 @@ public class DisconnectPlayerCommand implements GameCommand {
     // gestire attesa riconnessione/timeout
     // domanda su slack
     public CommandResult execute() {
+        if(!game.getPlayersGameField().containsKey(nickname))
+            return ConnectionResult.PLAYER_NOT_PRESENT;
         try{
             int pos = game.getPlayerByNickname(nickname);
+            if(!game.getPlayers().get(pos).isConnected())
+                return ConnectionResult.PLAYER_ALREADY_DISCONNECTED;
             game.getPlayers().get(pos).setIsConnected(false);
             int numPlayersConnected = 0;
             for (Player p : game.getPlayers()){

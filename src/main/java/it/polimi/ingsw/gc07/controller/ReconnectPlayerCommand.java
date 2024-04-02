@@ -34,8 +34,12 @@ public class ReconnectPlayerCommand implements GameCommand {
     // vedi slack
     @Override
     public CommandResult execute() {
+        if(!game.getPlayersGameField().containsKey(nickname))
+            return ConnectionResult.PLAYER_NOT_PRESENT;
         try{
             int pos = game.getPlayerByNickname(nickname);
+            if(game.getPlayers().get(pos).isConnected())
+                return ConnectionResult.PLAYER_ALREADY_CONNECTED;
             game.getPlayers().get(pos).setIsConnected(true);
             int numPlayersConnected = 0;
             for (Player p : game.getPlayers()){
