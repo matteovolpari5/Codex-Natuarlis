@@ -100,14 +100,30 @@ public class GameField {
         this.starterCard = existingGameField.starterCard;
     }
 
+    /**
+     * Method that returns the constant dimension of the game field.
+     * @return dimension of the game field
+     */
     public static int getDim(){
         return GameField.dim;
     }
 
+    /**
+     * Method that returns the starter card of the game field, i.e. of the player.
+     * @return starter card of the game field
+     */
     public PlaceableCard getStarterCard(){
         return starterCard;
     }
 
+    /**
+     * Method to place a card on the game field.
+     * @param card card to place
+     * @param x row
+     * @param y column
+     * @param way way
+     * @return result of the placement
+     */
     public PlacementResult placeCard(PlaceableCard card, int x, int y, boolean way) {
         PlacementResult result = card.isPlaceable(new GameField(this), x, y, way);
         if(result.equals(PlacementResult.SUCCESS)){
@@ -177,6 +193,10 @@ public class GameField {
         return cardsFace[x][y];
     }
 
+    /**
+     * Returns a matrix representing the order cards have been placed.
+     * @return matrix representing the order cards have been placed
+     */
     public int[][] getCardsOrder() {
         int[][] cardsOrderCopy = new int[dim][dim];
         for(int i = 0; i < dim; i++){
@@ -187,6 +207,10 @@ public class GameField {
         return cardsOrderCopy;
     }
 
+    /**
+     * Return the number of cards placed on the game field.
+     * @return number of cards placed
+     */
     public int getNumPlayedCards() {
         return this.numPlayedCards;
     }

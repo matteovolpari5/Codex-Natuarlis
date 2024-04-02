@@ -16,8 +16,13 @@ public class LayoutCondition implements Condition{
      * to be found in that cell, null if the cell can contain anything.
      */
     private final GameResource[][] cardsColor;
-
+    /**
+     * Maximum number of rows of a layout.
+     */
     private static final int maxLayoutRows = 4;
+    /**
+     * Maximum number of columns of a layout.
+     */
     private static final int maxLayoutColumns = 3;
 
     /**
@@ -34,10 +39,18 @@ public class LayoutCondition implements Condition{
         this.cardsColor = cardsColorCopy;
     }
 
+    /**
+     * Getter method for the maximum number of rows of a layout.
+     * @return maximum number of rows of a layout
+     */
     public static int getRows(){
         return maxLayoutRows;
     }
 
+    /**
+     * Getter method for the maximum number of columns of a layout.
+     * @return maximum number of columns of a layout
+     */
     public static int getColumns(){
         return maxLayoutColumns;
     }

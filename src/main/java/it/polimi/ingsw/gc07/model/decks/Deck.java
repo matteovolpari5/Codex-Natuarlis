@@ -67,6 +67,9 @@ public class Deck<T> {
         }
     }
 
+    /**
+     * Method to shuffle the deck after it has been created from the JSON file.
+     */
     public void shuffle(){
         List<T> contentList = new ArrayList<>(content);
         Collections.shuffle(contentList);

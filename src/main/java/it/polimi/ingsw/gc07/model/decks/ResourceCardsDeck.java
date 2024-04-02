@@ -5,6 +5,9 @@ import it.polimi.ingsw.gc07.model.enumerations.*;
 
 import java.util.Stack;
 
+/**
+ * Class representing a deck of resource cards.
+ */
 public class ResourceCardsDeck extends DrawableDeck<DrawableCard> {
     /**
      * Constructor of ResourceCardsDeck.

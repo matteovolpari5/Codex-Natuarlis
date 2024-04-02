@@ -3,10 +3,13 @@ package it.polimi.ingsw.gc07.model.chat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class representing the chat of the game.
+ */
 public class Chat {
     /**
      * List containing the messages sent to players in the game.
-     * It contains bought public and private messages.
+     * It contains both public and private messages.
      */
     private final List<Message> messages;
 

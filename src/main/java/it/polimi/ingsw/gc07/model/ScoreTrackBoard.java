@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * Class representing the ScoreTrackBoard
+ * Class representing the ScoreTrackBoard.
  */
 public class ScoreTrackBoard {
     /**

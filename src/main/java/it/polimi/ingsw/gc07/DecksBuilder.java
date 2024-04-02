@@ -28,12 +28,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * Class used to parse decks' JSON files.
+ */
 public abstract class DecksBuilder {
 
+    /**
+     * Method to extract a boolean value from a string.
+     * @param booleanString string representing the boolean value
+     * @return boolean value
+     */
     private static boolean extractBoolean(String booleanString) {
         return booleanString.equals("true");
     }
 
+    /**
+     * Method to extract a resource from a string.
+     * @param resource string representing a resource
+     * @return resource
+     */
     private static GameResource extractResource(String resource) {
         return switch (resource) {
             case "plant" -> GameResource.PLANT;
@@ -45,6 +58,11 @@ public abstract class DecksBuilder {
         };
     }
 
+    /**
+     * Method to extract an item from a string.
+     * @param item string representing an item
+     * @return item
+     */
     private static GameItem extractItem(String item) {
         return switch (item) {
             case "plant" -> GameResource.PLANT;
@@ -59,6 +77,11 @@ public abstract class DecksBuilder {
         };
     }
 
+    /**
+     * Method to extract front corners.
+     * @param cardJsonObject card JSON object
+     * @return front corners boolean array
+     */
     private static boolean[] extractFrontCorners(JsonObject cardJsonObject) {
         boolean[] frontCorners = new boolean[4];
 
@@ -74,6 +97,11 @@ public abstract class DecksBuilder {
         return frontCorners;
     }
 
+    /**
+     * Method to extract front corners content.
+     * @param cardJsonObject card JSON object
+     * @return front corners content array
+     */
     private static GameItem[] extractFrontCornersContent(JsonObject cardJsonObject){
         GameItem[] frontCornersContent = new GameItem[4];
         // frontCornersContent
@@ -90,6 +118,11 @@ public abstract class DecksBuilder {
         return frontCornersContent;
     }
 
+    /**
+     * Method to extract back corners.
+     * @param cardJsonObject card JSON object
+     * @return back corners boolean array
+     */
     private static boolean[] extractBackCorners(JsonObject cardJsonObject) {
         boolean[] backCorners = new boolean[4];
 
@@ -106,6 +139,11 @@ public abstract class DecksBuilder {
         return backCorners;
     }
 
+    /**
+     * Method to extract back corners content.
+     * @param cardJsonObject card JSON object
+     * @return back corners content array
+     */
     private static GameItem[] extractBackCornersContent(JsonObject cardJsonObject) {
         GameItem[] backCornersContent = new GameItem[4];
 
@@ -122,6 +160,11 @@ public abstract class DecksBuilder {
         return backCornersContent;
     }
 
+    /**
+     * Method to extract permanent resources.
+     * @param cardJsonObject card JSON object
+     * @return list of permanent resources
+     */
     private static List<GameResource> extractPermanentResources(JsonObject cardJsonObject) {
         List<GameResource> permanentResources = new ArrayList<>();
 
@@ -136,6 +179,11 @@ public abstract class DecksBuilder {
         return permanentResources;
     }
 
+    /**
+     * Method to extract a layout condition.
+     * @param conditionObject condition JSON object
+     * @return matrix representing a layout
+     */
     private static GameResource[][] extractLayoutCondition(JsonObject conditionObject){
         GameResource[][] cardsColor = new GameResource[4][3];
         int row = 0;
@@ -160,6 +208,11 @@ public abstract class DecksBuilder {
         return cardsColor;
     }
 
+    /**
+     * Method to extract an item condition.
+     * @param conditionObject condition JSON object
+     * @return game items list
+     */
     private static List<GameItem> extractItemsCondition(JsonObject conditionObject) {
         List<GameItem> neededItems = new ArrayList<>();
         JsonArray neededItemsArray = conditionObject.get("neededItems").getAsJsonArray();
@@ -175,7 +228,7 @@ public abstract class DecksBuilder {
     }
 
     /**
-     * Method that builds a starter card deck from the json file starterCardsDeck.json
+     * Method that builds a starter card deck from the JSON file starterCardsDeck.json
      * @return starter card deck
      */
     public static Deck<PlaceableCard> buildStarterCardsDeck() {
@@ -212,7 +265,7 @@ public abstract class DecksBuilder {
     }
 
     /**
-     * Method that builds an objective card deck from the json file objectiveCardsDeck.json
+     * Method that builds an objective card deck from the JSON file objectiveCardsDeck.json
      * @return objective card deck
      */
     public static PlayingDeck<ObjectiveCard> buildObjectiveCardsDeck() {
@@ -258,7 +311,7 @@ public abstract class DecksBuilder {
     }
 
     /**
-     * Method that build a resource cards deck from the json file resourceCardsDeck.json
+     * Method that build a resource cards deck from the JSON file resourceCardsDeck.json
      * @return resource cards deck
      */
     public static ResourceCardsDeck buildResourceCardsDeck() {
@@ -294,7 +347,7 @@ public abstract class DecksBuilder {
     }
 
     /**
-     * Method that build a gold cards deck from the json file goldCardsDeck.json
+     * Method that build a gold cards deck from the JSON file goldCardsDeck.json
      * @return resource cards deck
      */
     public static GoldCardsDeck buildGoldCardsDeck() {

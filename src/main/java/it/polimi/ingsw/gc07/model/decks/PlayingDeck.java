@@ -12,7 +12,7 @@ import java.util.Stack;
  */
 public class PlayingDeck<T> extends Deck<T> {
     /**
-     * Array containing the two face up cards that players can draw.
+     * List containing face up cards that players can draw.
      */
     List<T> faceUpCards;
 

@@ -5,6 +5,9 @@ import it.polimi.ingsw.gc07.model.enumerations.*;
 
 import java.util.Stack;
 
+/**
+ * Class representing a deck of gold cards.
+ */
 public class GoldCardsDeck extends DrawableDeck<GoldCard> {
     /**
      * Constructor of GoldCardsDeck.
