@@ -52,12 +52,9 @@ public class DrawFaceUpCardCommand implements GameCommand{
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
             return ManageCardsResult.WRONG_CARD_TYPE;
         }
-        //List<DrawableCard> newHand = new ArrayList<>();
-        //newHand.addAll(this.players.get(this.currPlayer).getCurrentHand());
         if(type.equals(CardType.RESOURCE_CARD)){
             try{
                 game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getResourceCardsDeck().drawFaceUpCard(pos));
-                //newHand.add(this.resourceCardsDeck.drawFaceUpCard(pos));
             } catch (CardNotPresentException e) {
                 return ManageCardsResult.CARD_NOT_PRESENT;
             }
@@ -65,12 +62,10 @@ public class DrawFaceUpCardCommand implements GameCommand{
         if(type.equals(CardType.GOLD_CARD)){
             try{
                 game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getGoldCardsDeck().drawFaceUpCard(pos));
-                //newHand.add(this.goldCardsDeck.drawFaceUpCard(pos));
             } catch (CardNotPresentException e) {
                 return ManageCardsResult.CARD_NOT_PRESENT;
             }
         }
-        //this.players.get(this.currPlayer).setCurrentHand(newHand);
         try {
             game.changeCurrPlayer();
         } catch (CardNotPresentException e){
