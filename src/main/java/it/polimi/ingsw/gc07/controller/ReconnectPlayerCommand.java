@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentException;
+import it.polimi.ingsw.gc07.model.Player;
+import it.polimi.ingsw.gc07.model.enumerations.GameState;
 
 public class ReconnectPlayerCommand implements GameCommand{
     /**
@@ -30,10 +32,18 @@ public class ReconnectPlayerCommand implements GameCommand{
         try{
             int pos = game.getPlayerByNickname(nickname);
             game.getPlayers().get(pos).setIsConnected(true);
+            int numPlayersConnected = 0;
+            for (Player p : game.getPlayers()){
+                if (p.isConnected()){
+                    numPlayersConnected++;
+                }
+            }
+            if (numPlayersConnected > 1){
+                game.setState(GameState.PLAYING);
+            }
         } catch (PlayerNotPresentException e) {
             return ConnectionResult.PLAYER_NOT_PRESENT;
         }
         return ConnectionResult.SUCCESS;
-        // TODO: controllare se lo stato torna a PLAYING, dipende se il numero di giocatori connessi può scendere a 0
     }
 }
