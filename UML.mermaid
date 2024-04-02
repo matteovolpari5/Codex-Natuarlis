@@ -297,11 +297,31 @@ classDiagram
         - twentyPointsReached: boolean
         - additionalRound : boolean
         - chat: Chat
+        - gameCommand: GameCommand
+
         %% constructor and getters
         + Game(id: int, playersNumber: int, resourceCardsDeck: ResourceCardsDeck,\n goldCardsDeck: GoldCardsDeck, objectiveCardsDeck: PlayingDeck~ObjectiveCard~, starterCardsDeck : Deck~PlaceableCard~)
-        + getId int
-        + getState() GameState
-        + hasPlayer(nickname: String) boolean
+        ~ getId() int
+        ~ setState(state: GameState)
+        ~ getState() GameState
+        ~ hasPlayer(String nickname) boolean
+        ~ getPlayersNumber() int
+        ~ getPlayersGameField() Map<String, GameField>
+        ~ getPlayers() List<Player>
+        ~ setCurrPlayer(int currPlayer)
+        ~ getCurrPlayer() int
+        ~ getScoreTrackBoard() ScoreTrackBoard
+        ~ getResourceCardsDeck() ResourceCardsDeck
+        ~ getGoldCardsDeck() GoldCardsDeck
+        ~ getObjectiveCardsDeck() PlayingDeck<ObjectiveCard>
+        ~ getStarterCardsDeck() Deck<PlaceableCard>
+        ~ setTwentyPointsReached(boolean twentyPointsReached)
+        ~ getTwentyPointsReached() boolean
+        ~ getAdditionalRound() boolean
+        ~ getChat() Chat
+        + setCommand(GameCommand gameCommand)
+        + execute() CommandResult
+
         %% public methods - called by users
         + placeStarterCard(nickname : String, way: boolean)
         + drawDeckCard(nickname: String, type: CardType)

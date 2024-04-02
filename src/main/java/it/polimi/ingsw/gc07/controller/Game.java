@@ -193,6 +193,11 @@ public class Game {
         return starterCardsDeck;
     }
 
+    void setTwentyPointsReached(boolean twentyPointsReached)
+    {
+        this.twentyPointsReached=twentyPointsReached;
+    }
+
     boolean getTwentyPointsReached() {
         return twentyPointsReached;
     }
@@ -204,10 +209,6 @@ public class Game {
     Chat getChat() {
         return chat;
     }
-    void setTwentyPointsReached(boolean twentyPointsReached)
-    {
-        this.twentyPointsReached=twentyPointsReached;
-    }
 
     public void setCommand(GameCommand gameCommand) {
         this.gameCommand = gameCommand;
@@ -217,9 +218,25 @@ public class Game {
         return gameCommand.execute();
     }
 
+    /**
+     * Method that returns the position of the player in the List players.
+     * @param nickname: nickname of the player whose position is being searched
+     * @return position of the player in the List players
+     * @throws PlayerNotPresentException: thrown if the nickname is not present in the list players.
+     */
+    int getPlayerByNickname(String nickname) throws PlayerNotPresentException {
+        for (int i = 0; i < playersNumber; i++){
+            if(players.get(i).getNickname().equals(nickname)){
+                return i;
+            }
+        }
+        throw new PlayerNotPresentException();
+    }
+
 
     // -----------------------------------
-    // public methods - called by users
+    // public methods - that will be removed (command pattern)
+    // TODO transform in a concrete command
     // -----------------------------------
 
     /**
@@ -371,23 +388,9 @@ public class Game {
 
 
     // -----------------------------------
-    // private methods - used to break complexity
+    // private methods - will be moved in a concrete command
+    // TODO move in a concrete command
     // -----------------------------------
-
-    /**
-     * method that returns the position of the player in the List players.
-     * @param nickname: is the nickname of the player whose position is being searched.
-     * @return the position of the player searched in the List players.
-     * @throws PlayerNotPresentException: if the nickname is not present in the list players.
-     */
-    int getPlayerByNickname(String nickname) throws PlayerNotPresentException {
-        for (int i = 0; i < playersNumber; i++){
-            if(players.get(i).getNickname().equals(nickname)){
-                return i;
-            }
-        }
-        throw new PlayerNotPresentException();
-    }
 
     /**
      * method that change the current player, if it's the last turn and all the players
