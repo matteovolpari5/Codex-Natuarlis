@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.exceptions.PlacementResult;
+import it.polimi.ingsw.gc07.controller.PlacementResult;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
 /**

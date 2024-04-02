@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.exceptions;
+package it.polimi.ingsw.gc07.controller;
 
 /**
  * Enumerated class containing the possible ways a card placement can go wrong.

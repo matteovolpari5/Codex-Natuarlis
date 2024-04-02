@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
+import it.polimi.ingsw.gc07.controller.PlacementResult;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.decks.Deck;

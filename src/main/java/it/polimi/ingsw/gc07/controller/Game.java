@@ -12,7 +12,6 @@ import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.GameState;
 import java.util.*;
-import java.util.Random;
 
 public class Game {
     /**
@@ -72,6 +71,11 @@ public class Game {
      */
     private final Chat chat;
 
+    /**
+     * GameCommand for command pattern.
+     */
+    private GameCommand gameCommand;
+
     /** Constructor of a Game with only the first player.
      *
      * @param playersNumber number of players
@@ -103,26 +107,34 @@ public class Game {
         this.twentyPointsReached = false;
         this.additionalRound = false;
         this.chat = new Chat();
+        this.gameCommand = null;
     }
 
 
     // ------------------------------
-    // getters
+    // setters and getters
     // ------------------------------
 
     /**
      * Getter for the game id.
      * @return game id
      */
-    public int getId() {
+    int getId() {
         return id;
+    }
+
+    /**
+     * Setter for the state of the game.
+     */
+    void setState(GameState state) {
+        this.state = state;
     }
 
     /**
      * Getter for the state of the game.
      * @return the state of the game
      */
-    public GameState getState() {
+    GameState getState() {
         return state;
     }
 
@@ -131,7 +143,7 @@ public class Game {
      * @param nickname nickname of the player
      * @return true if the player is in the game
      */
-    public boolean hasPlayer(String nickname) {
+    boolean hasPlayer(String nickname) {
         boolean found = false;
         for(Player p: players){
             if(p.getNickname().equals(nickname)){
@@ -140,21 +152,6 @@ public class Game {
         }
         return found;
     }
-
-
-    // ------------------------------------
-    // command pattern
-    // ------------------------------------
-
-    // getter e metodi da aggiungere per realizzare il command pattern
-    // poi basta creare per ognuno dei metodi pubblici una classe e spostare il corpo del metodo
-    // nel metodo execute
-    // tutti i metodi privati verranno spostati in uno dei concrete command, mentre i metodi pubblici
-    // verranno eliminati
-
-    // questione da discutere: questi metodi per ora sono void, vorremo ritornare questa famosa
-    // bandierina? in quel caso dovremo creare una classe enum che contiene tutti i possibili esiti
-    // di fallimento
 
     int getPlayersNumber() {
         return playersNumber;
@@ -166,6 +163,10 @@ public class Game {
 
     List<Player> getPlayers() {
         return players;
+    }
+
+    void setCurrPlayer(int currPlayer) {
+        this.currPlayer = currPlayer;
     }
 
     int getCurrPlayer() {
@@ -204,51 +205,18 @@ public class Game {
         return chat;
     }
 
-    //public void setCommand(GameCommand gameCommand) {
-    // TODO
-    //}
+    public void setCommand(GameCommand gameCommand) {
+        this.gameCommand = gameCommand;
+    }
 
-    public void execute() {
-        // TODO
+    public CommandResult execute() {
+        return gameCommand.execute();
     }
 
 
     // -----------------------------------
     // public methods - called by users
     // -----------------------------------
-
-    /**
-     * Method to add a new player.
-     * @param newPlayer player to add
-     * @throws WrongStateException if the state of the game is wrong
-     */
-    public void addPlayer(Player newPlayer) throws WrongStateException{
-        try{
-            if(!state.equals(GameState.WAITING_PLAYERS)) {
-                throw new WrongStateException();
-            }
-
-            newPlayer.addCardHand(resourceCardsDeck.drawCard());
-            newPlayer.addCardHand(resourceCardsDeck.drawCard());
-            newPlayer.addCardHand(goldCardsDeck.drawCard());
-            newPlayer.setSecretObjective(objectiveCardsDeck.drawCard());
-
-            PlaceableCard starterCard = starterCardsDeck.drawCard();
-            GameField gameField = new GameField(starterCard);
-            players.add(newPlayer);
-            playersGameField.put(newPlayer.getNickname(), gameField);
-            scoreTrackBoard.addPlayer(newPlayer.getNickname());
-            if (isFull()) {
-                setup();
-                state = GameState.PLAYING;
-            }
-        } catch (CardNotPresentException e) {
-            e.printStackTrace();
-            // TODO no printStackTrace
-            // non si può verificare perchè ho sicuramente abbastanza carte per 4 giocatori
-            // e il gioco è appena iniziato
-        }
-    }
 
     /**
      * Method to place the starter card in a certain way.
@@ -283,6 +251,7 @@ public class Game {
             }
         } catch (PlayerNotPresentException e) {
             e.printStackTrace();
+            // TODO assert ???
         }
     }
 
@@ -524,47 +493,6 @@ public class Game {
     // -----------------------------------
     // private methods - used to break complexity
     // -----------------------------------
-
-    /**
-     * Method telling if there are available places in the game.
-     * @return true if no other player can connect to the game
-     */
-    private boolean isFull(){
-        return players.size() == playersNumber;
-    }
-
-    /**
-     * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
-     * @throws WrongStateException if the state of the game is wrong
-     */
-    private void setup() {
-        assert(state.equals(GameState.WAITING_PLAYERS)): "The state is not waiting players";
-        // choose randomly the first player
-        Random random= new Random();
-        this.currPlayer=random.nextInt(playersNumber);
-        players.get(currPlayer).setFirst();
-        try {
-            //place 2 gold cards
-            List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
-            setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
-            setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
-            goldCardsDeck.setFaceUpCards(setUpGoldCardsFaceUp);
-        } catch (CardNotPresentException e) {
-            e.printStackTrace();
-        }
-        try {
-            //place 2 resource card
-            List<DrawableCard> setUpResourceCardsFaceUp = new ArrayList<>();
-            setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
-            setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
-            resourceCardsDeck.setFaceUpCards(setUpResourceCardsFaceUp);
-        }
-        catch (CardNotPresentException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
 
     /**
      * method that returns the position of the player in the List players.
