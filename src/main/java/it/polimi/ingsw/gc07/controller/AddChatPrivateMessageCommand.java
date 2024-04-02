@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.model.Player;
+
 import java.util.List;
 
 /**
@@ -39,7 +41,7 @@ public class AddChatPrivateMessageCommand implements GameCommand {
      */
     @Override
     public CommandResult execute() {
-        List<String> playersNicknames = game.getPlayers().stream().map(p -> p.getNickname()).toList();
+        List<String> playersNicknames = game.getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender
         if(!playersNicknames.contains(sender))
             return ChatCommandResult.WRONG_SENDER;
