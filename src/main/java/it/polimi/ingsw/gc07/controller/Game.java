@@ -500,7 +500,7 @@ public class Game {
      * @return the position of the player searched in the List players.
      * @throws PlayerNotPresentException: if the nickname is not present in the list players.
      */
-    private int getPlayerByNickname(String nickname) throws PlayerNotPresentException {
+    int getPlayerByNickname(String nickname) throws PlayerNotPresentException {
         for (int i = 0; i < playersNumber; i++){
             if(players.get(i).getNickname().equals(nickname)){
                 return i;
