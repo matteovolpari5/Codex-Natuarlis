@@ -32,6 +32,12 @@ classDiagram
     %%Game --> Chat
     %%Game --> GameField
     GamesManager --> Game
+    GameCommand <|-- AddChatPrivateMessageCommand
+    GameCommand <|-- AddChatPublicMessageCommand
+    GameCommand <|-- AddPlayerCommand
+    GameCommand <|-- DisconnectPlayerCommand
+    GameCommand <|-- PlaceCardCommand
+    GameCommand <|-- ReconnectPlayerCommand
 
     %% --------------------------------
     %% cards
@@ -297,25 +303,67 @@ classDiagram
         + getState() GameState
         + hasPlayer(nickname: String) boolean
         %% public methods - called by users
-        + addPlayer(newPlayer : Player)
         + placeStarterCard(nickname : String, way: boolean)
-        + disconnectPlayer(nickname : String)
-        + reconnectPlayer(nickname : String)
-        + placeCard(nickname: String, card: DrawableCard, x:int, y:int, way:boolean)
         + drawDeckCard(nickname: String, type: CardType)
         + drawFaceUpCard(nickname: String, type : CardType, pos:int)
         + revealFaceUpCard(type: CardType, pos:int) Card
         + revealBackDeckCard(type: CardType) GameResource
-        + addChatMessage(content: String, sender: String, isPublic: boolean, receiver: String)
         + getLastChatMessage(receiver: String) Message
         + getChatContent(receiver: String) List~Message~
         %% private methods - internal methods
-        - isFull() boolean
-        - setup()
         - getPlayerByNickname(nickname : String) int
         - changeCurrPlayer()
-        - addPoints(nickname: String, x: int, y:int)
         - computeWinner() List~Player~
+    }
+
+    class GameCommand {
+        <<interface>>
+    }
+
+    class AddPlayerCommand {
+        - game: Game
+        - newPlayer: Player
+        + AddPlayerCommand(game: Game, newPlayer: Player)
+        - isFull() boolean
+        - setup()
+    }
+
+    class AddChatPrivateMessageCommand {
+        - game: Game
+        - content: String
+        - sender: String
+        - receiver: String
+        + AddChatPrivateMessageCommand(game: Game, content: String, sender: String, receiver: String)
+    }
+
+    class AddChatPublicMessageCommand {
+        - game: Game
+        - content: String
+        - sender: String
+        + AddChatPublicMessageCommand(game: Game, content: String, sender: String)
+    }
+
+    class PlaceCardCommand {
+        - game: Game
+        - nickname: String
+        - card: DrawableCard
+        - x: int
+        - y: int
+        - way: boolean
+        + PlaceCardCommand(game: Game, nickname: String, card: DrawableCard, x: int, y: int, way: boolean)
+        - addPoints(nickname: String, x: int, y: int)
+    }
+
+    class DisconnectPlayerCommand {
+        - game: Game
+        - nickname: String
+        + DisconnectPlayerCommand(game: Game, nickname: String)
+    }
+
+    class ReconnectPlayerCommand {
+        - game: Game
+        - nickname: String
+        + ReconnectPlayerCommand(game: Game, nickname: String)
     }
 
     class GamesManager {
