@@ -231,45 +231,6 @@ public class Game {
     }
 
     /**
-     * Method that disconnect a player from the game
-     * @param nickname : nickname of the player
-     */
-    // TODO può scendere a 0, cosa succede?
-    public void disconnectPlayer(String nickname){
-        try{
-            int pos = getPlayerByNickname(nickname);
-            players.get(pos).setIsConnected(false);
-            int numPlayersConnected = 0;
-            for (Player p : players){
-                if (p.isConnected()){
-                    numPlayersConnected++;
-                }
-            }
-            if (numPlayersConnected <= 1){
-                state = GameState.WAITING_RECONNECTION;
-                //TODO gestire attesa riconnessione/timeout
-            }
-        } catch (PlayerNotPresentException e) {
-            e.printStackTrace();
-            // TODO assert ???
-        }
-    }
-
-    /**
-     * Method that reconnect a player from the game
-     * @param nickname : nickname of the player
-     */
-    public void reconnectPlayer(String nickname){
-        try{
-            int pos = getPlayerByNickname(nickname);
-            players.get(pos).setIsConnected(true);
-        } catch (PlayerNotPresentException e) {
-            e.printStackTrace();
-        }
-        // TODO: controllare se lo stato torna a PLAYING, dipende se il numero di giocatori connessi può scendere a 0
-    }
-
-    /**
      * method that place a card in the game field of the current player
      * this method also remove the card placed from the hand of the current player and calls the method that compute the points scored by placing the card
      * @param nickname : nickname of the player
@@ -431,40 +392,6 @@ public class Game {
             return this.goldCardsDeck.revealBackDeckCard();
         else
             return this.resourceCardsDeck.revealBackDeckCard();
-    }
-
-    // metodi chat
-    /**
-     * Method that adds a private message to the chat.
-     * @param content content of the message
-     * @param sender sender of the message
-     */
-    public void addChatPublicMessage(String content, String sender) {
-        // list of players' nicknames
-        List<String> playersNicknames = players.stream().map(p -> p.getNickname()).toList();
-        if(playersNicknames.contains(sender)) {
-            // adds message to the chat
-            chat.addPublicMessage(content, sender, playersNicknames);
-        }
-        else{
-            // TODO
-            // chi passa questi parametri? cosa faccio se sender sbagliato?
-        }
-    }
-
-    public void addChatPrivateMessage(String content, String sender, String receiver) {
-        // list of players' nicknames
-        List<String> playersNicknames = players.stream().map(p -> p.getNickname()).toList();
-        if(playersNicknames.contains(sender) && playersNicknames.contains(receiver)) {
-            // adds message to the chat
-            chat.addPrivateMessage(content, sender, receiver, playersNicknames);
-        }
-        else{
-            // TODO
-            // chi passa questi parametri?
-            // cosa faccio se sender sbagliato?
-            // cosa faccio se receiver sbagliato?
-        }
     }
 
     /**
