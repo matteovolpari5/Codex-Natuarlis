@@ -38,6 +38,8 @@ classDiagram
     GameCommand <|-- DisconnectPlayerCommand
     GameCommand <|-- PlaceCardCommand
     GameCommand <|-- ReconnectPlayerCommand
+    GameCommand <|-- DrawFaceUpCardCommand
+    GameCommand <|-- PlaceStarterCardCommand
 
     %% --------------------------------
     %% cards
@@ -386,6 +388,21 @@ classDiagram
         + ReconnectPlayerCommand(game: Game, nickname: String)
     }
 
+    class DrawFaceUpCardCommand {
+        - GAME: Game
+        - NICKNAME: String
+        - TYPE: CardType
+        - POS: int
+        + DrawFaceUpCardCommand(game: Game, nickname: string, type: CardType, pos: int)
+    }
+
+    class PlaceStarterCardCommand {
+        - GAME: Game
+        - NICKNAME: String
+        - TYPE: CardType
+        - WAY: boolean
+        + PlaceStarterCardCommand(game: Game, nickname: string, way: boolean)
+    }
     class GamesManager {
         - games: List~Game~
         - pendingPlayers: List~Player~

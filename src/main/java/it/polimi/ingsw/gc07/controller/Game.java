@@ -399,7 +399,7 @@ public class Game {
      * if a player is stalled he will be skipped
      * @throws WrongStateException if the state of the game is wrong
      */
-    private void changeCurrPlayer () throws WrongStateException, CardNotPresentException, PlayerNotPresentException {
+     void changeCurrPlayer () throws WrongStateException, CardNotPresentException, PlayerNotPresentException {
         if(!state.equals(GameState.PLAYING)) {
             throw new WrongStateException();
         }
