@@ -139,7 +139,8 @@ public class GamesManager {
         }
         for(Game game: games) {
             if(game.getId() == gameId) {
-                game.addPlayer(player);
+                game.setCommand(new AddPlayerCommand(game, player));
+                game.execute();
             }
         }
     }
@@ -153,7 +154,8 @@ public class GamesManager {
         int gameId = createGame(playersNumber);
         for(Game game: games) {
             if(game.getId() == gameId) {
-                game.addPlayer(player);
+                game.setCommand(new AddPlayerCommand(game, player));
+                game.execute();
             }
         }
     }
