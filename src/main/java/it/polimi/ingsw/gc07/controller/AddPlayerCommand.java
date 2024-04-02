@@ -16,7 +16,13 @@ import java.util.Random;
  * Concrete command to add a new player to the game.
  */
 public class AddPlayerCommand implements GameCommand {
+    /**
+     * Game in which the command has to be executed.
+     */
     private final Game game;
+    /**
+     * Player to add.
+     */
     private final Player newPlayer;
 
     /**
@@ -30,8 +36,8 @@ public class AddPlayerCommand implements GameCommand {
     }
 
     /**
-     * Override of method execute.
-     * @return CommandResult
+     * Override of method execute to add a new player to the game.
+     * @return command result
      */
     @Override
     public CommandResult execute() {
