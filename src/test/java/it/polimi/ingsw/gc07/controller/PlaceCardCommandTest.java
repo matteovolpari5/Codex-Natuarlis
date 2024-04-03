@@ -12,6 +12,7 @@ import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.controller.enumerations.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

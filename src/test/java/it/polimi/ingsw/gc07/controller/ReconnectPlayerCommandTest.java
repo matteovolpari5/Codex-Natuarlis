@@ -1,0 +1,109 @@
+package it.polimi.ingsw.gc07.controller;
+
+import it.polimi.ingsw.gc07.DecksBuilder;
+import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
+import it.polimi.ingsw.gc07.model.Player;
+import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
+import it.polimi.ingsw.gc07.model.decks.Deck;
+import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
+import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
+import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
+import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ReconnectPlayerCommandTest {
+    Game game;
+    @BeforeEach
+    void setUp() {
+        // create a game
+        int id = 0;
+        int playersNumber = 2;
+        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        resourceCardsDeck.shuffle();
+        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        goldCardsDeck.shuffle();
+        PlayingDeck<ObjectiveCard> objectiveCardsDeck = DecksBuilder.buildObjectiveCardsDeck();
+        objectiveCardsDeck.shuffle();
+        Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
+        starterCardsDecks.shuffle();
+        try{
+            game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
+        }catch(WrongNumberOfPlayersException e){
+            throw new RuntimeException();
+        }
+        Player firstPlayer = new Player("Player1", TokenColor.BLUE, true, false);
+        game.setCommand(new AddPlayerCommand(game, firstPlayer));
+        CommandResult result = game.execute();
+        if(!result.equals(CommandResult.SUCCESS))
+            throw new RuntimeException();
+        Player secondPlayer = new Player("Player2", TokenColor.GREEN, false, false);
+        game.setCommand(new AddPlayerCommand(game, secondPlayer));
+        result = game.execute();
+        if(!result.equals(CommandResult.SUCCESS))
+            throw new RuntimeException();
+    }
+    @Test
+    void reconnectPlayerSuccess()
+    {
+        game.getPlayers().get(0).setIsConnected(false);
+        game.setCommand(new ReconnectPlayerCommand(game, "Player1"));
+        CommandResult result = game.execute();
+        assertEquals(CommandResult.SUCCESS, result);
+    }
+
+    @Test
+    void reconnectToAWrongGame()
+    {
+        Game game2;
+        // create another game
+        int id = 1;
+        int playersNumber = 2;
+        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        resourceCardsDeck.shuffle();
+        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        goldCardsDeck.shuffle();
+        PlayingDeck<ObjectiveCard> objectiveCardsDeck = DecksBuilder.buildObjectiveCardsDeck();
+        objectiveCardsDeck.shuffle();
+        Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
+        starterCardsDecks.shuffle();
+        try{
+            game2 = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
+        }catch(WrongNumberOfPlayersException e){
+            throw new RuntimeException();
+        }
+        Player firstPlayer = new Player("P1", TokenColor.BLUE, true, false);
+        game2.setCommand(new AddPlayerCommand(game2, firstPlayer));
+        CommandResult result = game2.execute();
+        if(!result.equals(CommandResult.SUCCESS))
+            throw new RuntimeException();
+        Player secondPlayer = new Player("P2", TokenColor.GREEN, false, false);
+        game2.setCommand(new AddPlayerCommand(game2, secondPlayer));
+        result = game2.execute();
+        if(!result.equals(CommandResult.SUCCESS))
+            throw new RuntimeException();
+
+        game.getPlayers().get(0).setIsConnected(false);
+        game.setCommand(new ReconnectPlayerCommand(game2, "Player1"));
+        CommandResult result2 = game.execute();
+        assertEquals(CommandResult.PLAYER_NOT_PRESENT, result2);
+    }
+
+    @Test
+    void alreadyConnected()
+    {
+        game.getPlayers().get(0).setIsConnected(false);
+        game.setCommand(new ReconnectPlayerCommand(game, "Player1"));
+        CommandResult result = game.execute();
+        assertEquals(CommandResult.SUCCESS, result);
+
+        game.setCommand(new ReconnectPlayerCommand(game, "Player1"));
+        result = game.execute();
+        assertEquals(CommandResult.PLAYER_ALREADY_CONNECTED, result);
+    }
+
+}
