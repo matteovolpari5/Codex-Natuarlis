@@ -36,11 +36,10 @@ public class PlaceStarterCardCommand implements GameCommand{
 
     /**
      * Method to place the starter card in a certain way.
-     * @return command result
      */
     @Override
-    public CommandResult execute() {
+    public void execute() {
         assert(game.getPlayersGameField().containsKey(nickname)): "The player is not in the game";
-        return game.getPlayersGameField().get(nickname).placeCard(game.getPlayersGameField().get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
+        game.getCommandResultManager().setCommandResult(game.getPlayersGameField().get(nickname).placeCard(game.getPlayersGameField().get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way));
     }
 }

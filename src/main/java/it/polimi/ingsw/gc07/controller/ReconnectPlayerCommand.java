@@ -29,18 +29,21 @@ public class ReconnectPlayerCommand implements GameCommand {
     }
     /**
      * Method to execute the concrete command reconnectPlayerCommand.
-     * @return command result
      */
     //TODO questione delle connessioni, se era sceso a 0?
     // vedi slack
     @Override
-    public CommandResult execute() {
-        if(!game.getPlayersGameField().containsKey(nickname))
-            return CommandResult.PLAYER_NOT_PRESENT;
+    public void execute() {
+        if(!game.getPlayersGameField().containsKey(nickname)){
+            game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            return;
+        }
         try{
             int pos = game.getPlayerByNickname(nickname);
-            if(game.getPlayers().get(pos).isConnected())
-                return CommandResult.PLAYER_ALREADY_CONNECTED;
+            if(game.getPlayers().get(pos).isConnected()) {
+                game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_ALREADY_CONNECTED);
+                return;
+            }
             game.getPlayers().get(pos).setIsConnected(true);
             int numPlayersConnected = 0;
             for (Player p : game.getPlayers()){
@@ -52,8 +55,9 @@ public class ReconnectPlayerCommand implements GameCommand {
                 game.setState(GameState.PLAYING);
             }
         } catch (PlayerNotPresentException e) {
-            return CommandResult.PLAYER_NOT_PRESENT;
+            game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            return;
         }
-        return CommandResult.SUCCESS;
+        game.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
 }
