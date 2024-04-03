@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.controller.PlacementResult;
+import it.polimi.ingsw.gc07.controller.CommandResult;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
 /**
@@ -124,9 +124,9 @@ public class GameField {
      * @param way way
      * @return result of the placement
      */
-    public PlacementResult placeCard(PlaceableCard card, int x, int y, boolean way) {
-        PlacementResult result = card.isPlaceable(new GameField(this), x, y, way);
-        if(result.equals(PlacementResult.SUCCESS)){
+    public CommandResult placeCard(PlaceableCard card, int x, int y, boolean way) {
+        CommandResult result = card.isPlaceable(new GameField(this), x, y, way);
+        if(result.equals(CommandResult.SUCCESS)){
             // PlaceableCard is immutable, I can insert the card I receive
             cardsContent[x][y] = card;
             cardsFace[x][y] = way;

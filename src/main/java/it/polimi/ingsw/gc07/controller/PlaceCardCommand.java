@@ -61,29 +61,29 @@ public class PlaceCardCommand implements GameCommand {
     @Override
     public CommandResult execute() {
         if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)) {
-            return ManageCardsResult.PLAYER_NOT_PRESENT;
+            return CommandResult.PLAYER_NOT_PRESENT;
         }
         if(!(game.getPlayers().get(game.getCurrPlayer()).getCurrentHand()).contains(card)){
-            return ManageCardsResult.CARD_NOT_PRESENT;
+            return CommandResult.CARD_NOT_PRESENT;
         }
         if(!game.getState().equals(GameState.PLAYING)){
-            return ManageCardsResult.WRONG_STATE;
+            return CommandResult.WRONG_STATE;
         }
-        PlacementResult result = game.getPlayersGameField().get(nickname).placeCard(card,x,y,way);
+        CommandResult result = game.getPlayersGameField().get(nickname).placeCard(card,x,y,way);
         game.getPlayers().get(game.getCurrPlayer()).removeCardHand(card);
         try {
             addPoints(nickname,x,y);
         } catch (PlayerNotPresentException e) {
-            return ManageCardsResult.PLAYER_NOT_PRESENT;
+            return CommandResult.PLAYER_NOT_PRESENT;
         } catch (WrongStateException e) {
-            return ManageCardsResult.WRONG_STATE;
+            return CommandResult.WRONG_STATE;
         } catch (WrongPlayerException e) {
-            return ManageCardsResult.WRONG_PLAYER;
+            return CommandResult.WRONG_PLAYER;
         } catch (CardNotPresentException e) {
-            return ManageCardsResult.CARD_NOT_PRESENT;
+            return CommandResult.CARD_NOT_PRESENT;
         }
         boolean isStalled = true;
-        PlacementResult resultStall;
+        CommandResult resultStall;
         // check if a card is placeable
         for(int i = 0; i < GameField.getDim() && isStalled; i++) {
             for (int j = 0; j < GameField.getDim() && isStalled; j++) {
@@ -92,11 +92,11 @@ public class PlaceCardCommand implements GameCommand {
                 try {
                     resultStall = game.getPlayers().get(game.getPlayerByNickname(nickname)).getCurrentHand().getFirst()
                             .isPlaceable(new GameField(game.getPlayersGameField().get(nickname)), i, j, true);
-                    if (resultStall.equals(PlacementResult.SUCCESS)) {
+                    if (resultStall.equals(CommandResult.SUCCESS)) {
                         isStalled = false;
                     }
                 } catch (PlayerNotPresentException e) {
-                    return ManageCardsResult.PLAYER_NOT_PRESENT;
+                    return CommandResult.PLAYER_NOT_PRESENT;
                 }
             }
         }

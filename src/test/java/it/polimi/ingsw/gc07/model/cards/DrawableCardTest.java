@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.controller.PlacementResult;
+import it.polimi.ingsw.gc07.controller.CommandResult;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.decks.Deck;
@@ -34,7 +34,7 @@ class DrawableCardTest {
                 myResourceCard = c;
             }
         }
-        assertEquals(PlacementResult.NO_COVERED_CORNER, myResourceCard.isPlaceable(gameField, 42, 42, false));
+        assertEquals(CommandResult.NO_COVERED_CORNER, myResourceCard.isPlaceable(gameField, 42, 42, false));
     }
 
     @Test
@@ -49,7 +49,7 @@ class DrawableCardTest {
                 myResourceCard = c;
             }
         }
-        assertEquals(PlacementResult.INDEXES_OUT_OF_GAME_FIELD, myResourceCard.isPlaceable(gameField, 81, 81, false));
+        assertEquals(CommandResult.INDEXES_OUT_OF_GAME_FIELD, myResourceCard.isPlaceable(gameField, 81, 81, false));
     }
 
     @Test
@@ -64,7 +64,7 @@ class DrawableCardTest {
                 myResourceCard = c;
             }
         }
-        assertEquals(PlacementResult.MULTIPLE_CORNERS_COVERED, myResourceCard.isPlaceable(gameField, 40, 41, false));
+        assertEquals(CommandResult.MULTIPLE_CORNERS_COVERED, myResourceCard.isPlaceable(gameField, 40, 41, false));
     }
 
     @Test
@@ -79,7 +79,7 @@ class DrawableCardTest {
                 myResourceCard = c;
             }
         }
-        assertEquals(PlacementResult.CARD_ALREADY_PRESENT, myResourceCard.isPlaceable(gameField, 40, 40, false));
+        assertEquals(CommandResult.CARD_ALREADY_PRESENT, myResourceCard.isPlaceable(gameField, 40, 40, false));
     }
 
     @Test
@@ -106,7 +106,7 @@ class DrawableCardTest {
                 myResourceCard = c;
             }
         }
-        assertEquals(PlacementResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(gameField, 40, 42, false));
+        assertEquals(CommandResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(gameField, 40, 42, false));
     }
 
     @Test
@@ -151,7 +151,7 @@ class DrawableCardTest {
                 myResourceCard = c;
             }
         }
-        assertEquals(PlacementResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(gameField, 40, 38, false));
+        assertEquals(CommandResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(gameField, 40, 38, false));
     }
 
     @Test
@@ -178,7 +178,7 @@ class DrawableCardTest {
                 myResourceCard = c;
             }
         }
-        assertEquals(PlacementResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(gameField, 40, 42, false));
+        assertEquals(CommandResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(gameField, 40, 42, false));
     }
 
     @Test
@@ -205,6 +205,6 @@ class DrawableCardTest {
                 myResourceCard = c;
             }
         }
-        assertEquals(PlacementResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(gameField, 40, 38, false));
+        assertEquals(CommandResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(gameField, 40, 38, false));
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
-import it.polimi.ingsw.gc07.controller.PlacementResult;
+import it.polimi.ingsw.gc07.controller.CommandResult;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
@@ -53,15 +53,15 @@ public final class GoldCard extends DrawableCard {
      * @param way way
      * @return enum representing the placement result
      */
-    public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way) {
-        PlacementResult isPlaceableResult = super.isPlaceable(gameField, x, y, way);
-        if(isPlaceableResult.equals(PlacementResult.SUCCESS)){
+    public CommandResult isPlaceable(GameField gameField, int x, int y, boolean way) {
+        CommandResult isPlaceableResult = super.isPlaceable(gameField, x, y, way);
+        if(isPlaceableResult.equals(CommandResult.SUCCESS)){
             // indexes are ok
             if(!way){
                 //the gold card to be placed is face up
                 if(placementCondition.numTimesMet(gameField) <= 0){
                     //the card is a GoldCard and the placement condition is not met
-                    isPlaceableResult = PlacementResult.PLACING_CONDITION_NOT_MET;
+                    isPlaceableResult = CommandResult.PLACING_CONDITION_NOT_MET;
                 }
             }
         }

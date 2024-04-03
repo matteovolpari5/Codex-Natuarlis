@@ -44,12 +44,12 @@ public class AddChatPrivateMessageCommand implements GameCommand {
         List<String> playersNicknames = game.getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender
         if(!playersNicknames.contains(sender))
-            return ChatCommandResult.WRONG_SENDER;
+            return CommandResult.WRONG_SENDER;
         // check valid receiver
         if(!playersNicknames.contains(receiver))
-            return ChatCommandResult.WRONG_RECEIVER;
+            return CommandResult.WRONG_RECEIVER;
         // adds message to the chat
         game.getChat().addPrivateMessage(content, sender, receiver, playersNicknames);
-        return ChatCommandResult.SUCCESS;
+        return CommandResult.SUCCESS;
     }
 }

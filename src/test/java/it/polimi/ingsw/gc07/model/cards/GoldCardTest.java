@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.controller.PlacementResult;
+import it.polimi.ingsw.gc07.controller.CommandResult;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.decks.Deck;
@@ -54,7 +54,7 @@ class GoldCardTest {
                 gameField.placeCard(myResourceCard, 41, 39, false);
             }
         }
-        assertEquals(PlacementResult.NOT_LEGIT_CORNER, myGoldCard.isPlaceable(gameField, 42, 40, false));
+        assertEquals(CommandResult.NOT_LEGIT_CORNER, myGoldCard.isPlaceable(gameField, 42, 40, false));
     }
 
     @Test
@@ -85,7 +85,7 @@ class GoldCardTest {
                 gameField.placeCard(myResourceCard, 41, 39, true);
             }
         }
-        assertEquals(PlacementResult.NO_COVERED_CORNER, myGoldCard.isPlaceable(gameField, 45, 45, true));
+        assertEquals(CommandResult.NO_COVERED_CORNER, myGoldCard.isPlaceable(gameField, 45, 45, true));
     }
 
     @Test
@@ -116,7 +116,7 @@ class GoldCardTest {
                 gameField.placeCard(myResourceCard, 41, 39, true);
             }
         }
-        assertEquals(PlacementResult.MULTIPLE_CORNERS_COVERED, myGoldCard.isPlaceable(gameField, 42, 41, true));
+        assertEquals(CommandResult.MULTIPLE_CORNERS_COVERED, myGoldCard.isPlaceable(gameField, 42, 41, true));
     }
 
     @Test
@@ -147,7 +147,7 @@ class GoldCardTest {
                 gameField.placeCard(myResourceCard, 41, 39, true);
             }
         }
-        assertEquals(PlacementResult.INDEXES_OUT_OF_GAME_FIELD, myGoldCard.isPlaceable(gameField, 89, 10, true));
+        assertEquals(CommandResult.INDEXES_OUT_OF_GAME_FIELD, myGoldCard.isPlaceable(gameField, 89, 10, true));
     }
 
     @Test
@@ -178,7 +178,7 @@ class GoldCardTest {
                 gameField.placeCard(myResourceCard, 41, 39, true);
             }
         }
-        assertEquals(PlacementResult.CARD_ALREADY_PRESENT, myGoldCard.isPlaceable(gameField, 41, 41, true));
+        assertEquals(CommandResult.CARD_ALREADY_PRESENT, myGoldCard.isPlaceable(gameField, 41, 41, true));
     }
     @Test
     void isGoldPlaceableCondition() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException {
@@ -208,7 +208,7 @@ class GoldCardTest {
                 gameField.placeCard(myResourceCard, 41, 39, true);
             }
         }
-        assertEquals(PlacementResult.PLACING_CONDITION_NOT_MET, myGoldCard.isPlaceable(gameField, 42, 40, false));
+        assertEquals(CommandResult.PLACING_CONDITION_NOT_MET, myGoldCard.isPlaceable(gameField, 42, 40, false));
 
     }
 
@@ -303,7 +303,7 @@ class GoldCardTest {
                 gameField.placeCard(myResourceCard, 41, 41, false);
             }
         }
-        assertEquals(PlacementResult.SUCCESS, myGoldCard.isPlaceable(gameField, 42, 42, false));
+        assertEquals(CommandResult.SUCCESS, myGoldCard.isPlaceable(gameField, 42, 42, false));
         gameField.placeCard(myGoldCard, 42, 42, false);
         assertEquals(5, myGoldCard.getPlacementScore(gameField, 42, 42));
     }

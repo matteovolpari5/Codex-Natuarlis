@@ -38,40 +38,40 @@ class DisconnectPlayerCommandTest {
         }
         Player firstPlayer = new Player("Player1", TokenColor.BLUE, true, false);
         game.setCommand(new AddPlayerCommand(game, firstPlayer));
-        AddPlayerResult result = (AddPlayerResult) game.execute();
-        if(!result.equals(AddPlayerResult.SUCCESS))
+        CommandResult result = game.execute();
+        if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("Player2", TokenColor.GREEN, false, false);
         game.setCommand(new AddPlayerCommand(game, secondPlayer));
-        result = (AddPlayerResult) game.execute();
-        if(!result.equals(AddPlayerResult.SUCCESS))
+        result = game.execute();
+        if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
     }
 
     @Test
     void disconnectPlayerSuccess() {
         game.setCommand(new DisconnectPlayerCommand(game, "Player1"));
-        ConnectionResult result = (ConnectionResult) game.execute();
-        assertEquals(ConnectionResult.SUCCESS, result);
+        CommandResult result = game.execute();
+        assertEquals(CommandResult.SUCCESS, result);
     }
 
     @Test
     void playerAlreadyDisconnected() {
         // disconnect player
         game.setCommand(new DisconnectPlayerCommand(game, "Player2"));
-        ConnectionResult result = (ConnectionResult) game.execute();
-        assertEquals(ConnectionResult.SUCCESS, result);
+        CommandResult result = game.execute();
+        assertEquals(CommandResult.SUCCESS, result);
         // try to disconnect the same player
         game.setCommand(new DisconnectPlayerCommand(game, "Player2"));
-        result = (ConnectionResult) game.execute();
-        assertEquals(ConnectionResult.PLAYER_ALREADY_DISCONNECTED, result);
+        result = game.execute();
+        assertEquals(CommandResult.PLAYER_ALREADY_DISCONNECTED, result);
     }
 
     @Test
     void disconnectPlayerNotPresent() {
         // disconnect player not present in the game
         game.setCommand(new DisconnectPlayerCommand(game, "AnOtherPlayer"));
-        ConnectionResult result = (ConnectionResult) game.execute();
-        assertEquals(ConnectionResult.PLAYER_NOT_PRESENT, result);
+        CommandResult result = game.execute();
+        assertEquals(CommandResult.PLAYER_NOT_PRESENT, result);
     }
 }

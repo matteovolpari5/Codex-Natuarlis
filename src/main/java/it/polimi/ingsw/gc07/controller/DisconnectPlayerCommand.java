@@ -37,11 +37,11 @@ public class DisconnectPlayerCommand implements GameCommand {
     // domanda su slack
     public CommandResult execute() {
         if(!game.getPlayersGameField().containsKey(nickname))
-            return ConnectionResult.PLAYER_NOT_PRESENT;
+            return CommandResult.PLAYER_NOT_PRESENT;
         try{
             int pos = game.getPlayerByNickname(nickname);
             if(!game.getPlayers().get(pos).isConnected())
-                return ConnectionResult.PLAYER_ALREADY_DISCONNECTED;
+                return CommandResult.PLAYER_ALREADY_DISCONNECTED;
             game.getPlayers().get(pos).setIsConnected(false);
             int numPlayersConnected = 0;
             for (Player p : game.getPlayers()){
@@ -54,8 +54,8 @@ public class DisconnectPlayerCommand implements GameCommand {
             }
         }
         catch(PlayerNotPresentException e){
-            return ConnectionResult.PLAYER_NOT_PRESENT;
+            return CommandResult.PLAYER_NOT_PRESENT;
         }
-        return ConnectionResult.SUCCESS;
+        return CommandResult.SUCCESS;
     }
 }

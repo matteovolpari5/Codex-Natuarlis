@@ -43,7 +43,7 @@ public class AddPlayerCommand implements GameCommand {
     public CommandResult execute() {
         try{
             if(!game.getState().equals(GameState.WAITING_PLAYERS)) {
-                return AddPlayerResult.WRONG_STATE;
+                return CommandResult.WRONG_STATE;
             }
 
             newPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
@@ -64,7 +64,7 @@ public class AddPlayerCommand implements GameCommand {
             // the exception can't occur since the game is not started yet
             throw new RuntimeException();
         }
-        return AddPlayerResult.SUCCESS;
+        return CommandResult.SUCCESS;
     }
 
     /**

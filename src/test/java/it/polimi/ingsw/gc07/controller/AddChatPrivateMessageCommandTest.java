@@ -39,41 +39,41 @@ class AddChatPrivateMessageCommandTest {
         // add first player
         Player firstPlayer = new Player("Player1", TokenColor.BLUE, true, false);
         game.setCommand(new AddPlayerCommand(game, firstPlayer));
-        AddPlayerResult result = (AddPlayerResult) game.execute();
-        if(!result.equals(AddPlayerResult.SUCCESS))
+        CommandResult result = game.execute();
+        if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add second player
         Player secondPlayer = new Player("Player2", TokenColor.GREEN, false, false);
         game.setCommand(new AddPlayerCommand(game, secondPlayer));
-        result = (AddPlayerResult) game.execute();
-        if(!result.equals(AddPlayerResult.SUCCESS))
+        result = game.execute();
+        if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add third player
         Player thirdPlayer = new Player("Player3", TokenColor.YELLOW, false, false);
         game.setCommand(new AddPlayerCommand(game, thirdPlayer));
-        result = (AddPlayerResult) game.execute();
-        if(!result.equals(AddPlayerResult.SUCCESS))
+        result = game.execute();
+        if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
     }
 
     @Test
     void addMessageSuccess() {
         game.setCommand(new AddChatPrivateMessageCommand(game, "My content...", "Player1", "Player3"));
-        ChatCommandResult result = (ChatCommandResult) game.execute();
-        assertEquals(ChatCommandResult.SUCCESS, result);
+        CommandResult result = game.execute();
+        assertEquals(CommandResult.SUCCESS, result);
     }
 
     @Test
     void addMessageWrongSender() {
         game.setCommand(new AddChatPrivateMessageCommand(game, "My content...", "WrongSender", "Player1"));
-        ChatCommandResult result = (ChatCommandResult) game.execute();
-        assertEquals(ChatCommandResult.WRONG_SENDER, result);
+        CommandResult result = game.execute();
+        assertEquals(CommandResult.WRONG_SENDER, result);
     }
 
     @Test
     void addMessageWrongReceiver() {
         game.setCommand(new AddChatPrivateMessageCommand(game, "My content...", "Player3", "WrongReceiver"));
-        ChatCommandResult result = (ChatCommandResult) game.execute();
-        assertEquals(ChatCommandResult.WRONG_RECEIVER, result);
+        CommandResult result = game.execute();
+        assertEquals(CommandResult.WRONG_RECEIVER, result);
     }
 }

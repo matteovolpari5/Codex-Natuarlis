@@ -47,34 +47,34 @@ public class DrawFaceUpCardCommand implements GameCommand{
     @Override
     public CommandResult execute() {
         if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)){
-            return ManageCardsResult.WRONG_PLAYER;
+            return CommandResult.WRONG_PLAYER;
         }
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
-            return ManageCardsResult.WRONG_CARD_TYPE;
+            return CommandResult.WRONG_CARD_TYPE;
         }
         if(type.equals(CardType.RESOURCE_CARD)){
             try{
                 game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getResourceCardsDeck().drawFaceUpCard(pos));
             } catch (CardNotPresentException e) {
-                return ManageCardsResult.CARD_NOT_PRESENT;
+                return CommandResult.CARD_NOT_PRESENT;
             }
         }
         if(type.equals(CardType.GOLD_CARD)){
             try{
                 game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getGoldCardsDeck().drawFaceUpCard(pos));
             } catch (CardNotPresentException e) {
-                return ManageCardsResult.CARD_NOT_PRESENT;
+                return CommandResult.CARD_NOT_PRESENT;
             }
         }
         try {
             game.changeCurrPlayer();
         } catch (CardNotPresentException e){
-            return ManageCardsResult.CARD_NOT_PRESENT;
+            return CommandResult.CARD_NOT_PRESENT;
         } catch (WrongStateException e){
-            return ManageCardsResult.WRONG_STATE;
+            return CommandResult.WRONG_STATE;
         } catch (PlayerNotPresentException e){
-            return ManageCardsResult.PLAYER_NOT_PRESENT;
+            return CommandResult.PLAYER_NOT_PRESENT;
         }
-        return ManageCardsResult.SUCCESS;
+        return CommandResult.SUCCESS;
     }
 }

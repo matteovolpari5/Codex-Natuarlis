@@ -49,22 +49,22 @@ class AddPlayerCommandTest {
     @Test
     void addPlayerSuccess() {
         game.setCommand(new AddPlayerCommand(game, newPlayer));
-        AddPlayerResult result = (AddPlayerResult) game.execute();      // TODO casting !!!
-        assertEquals(AddPlayerResult.SUCCESS, result);
+        CommandResult result = game.execute();      // TODO casting !!!
+        assertEquals(CommandResult.SUCCESS, result);
     }
 
     @Test
     void addPlayerWrongState() {
         Player firstPlayer = new Player("Player1", TokenColor.BLUE, true, false);
         game.setCommand(new AddPlayerCommand(game, firstPlayer));
-        AddPlayerResult result = (AddPlayerResult) game.execute();
-        assertEquals(AddPlayerResult.SUCCESS, result);
+        CommandResult result = game.execute();
+        assertEquals(CommandResult.SUCCESS, result);
         Player secondPlayer = new Player("Player2", TokenColor.GREEN, false, false);
         game.setCommand(new AddPlayerCommand(game, secondPlayer));
-        result = (AddPlayerResult) game.execute();
-        assertEquals(AddPlayerResult.SUCCESS, result);
+        result = game.execute();
+        assertEquals(CommandResult.SUCCESS, result);
         game.setCommand(new AddPlayerCommand(game, newPlayer));
-        result = (AddPlayerResult) game.execute();
-        assertEquals(AddPlayerResult.WRONG_STATE, result);
+        result = game.execute();
+        assertEquals(CommandResult.WRONG_STATE, result);
     }
 }

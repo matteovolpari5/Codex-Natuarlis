@@ -42,9 +42,9 @@ public class AddChatPublicMessageCommand implements GameCommand {
         List<String> playersNicknames = game.getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender
         if(!playersNicknames.contains(sender))
-            return ChatCommandResult.WRONG_SENDER;
+            return CommandResult.WRONG_SENDER;
         // add message to chat
         game.getChat().addPublicMessage(content, sender, playersNicknames);
-        return ChatCommandResult.SUCCESS;
+        return CommandResult.SUCCESS;
     }
 }

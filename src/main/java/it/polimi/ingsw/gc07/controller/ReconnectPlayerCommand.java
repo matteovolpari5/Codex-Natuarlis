@@ -35,11 +35,11 @@ public class ReconnectPlayerCommand implements GameCommand {
     @Override
     public CommandResult execute() {
         if(!game.getPlayersGameField().containsKey(nickname))
-            return ConnectionResult.PLAYER_NOT_PRESENT;
+            return CommandResult.PLAYER_NOT_PRESENT;
         try{
             int pos = game.getPlayerByNickname(nickname);
             if(game.getPlayers().get(pos).isConnected())
-                return ConnectionResult.PLAYER_ALREADY_CONNECTED;
+                return CommandResult.PLAYER_ALREADY_CONNECTED;
             game.getPlayers().get(pos).setIsConnected(true);
             int numPlayersConnected = 0;
             for (Player p : game.getPlayers()){
@@ -51,8 +51,8 @@ public class ReconnectPlayerCommand implements GameCommand {
                 game.setState(GameState.PLAYING);
             }
         } catch (PlayerNotPresentException e) {
-            return ConnectionResult.PLAYER_NOT_PRESENT;
+            return CommandResult.PLAYER_NOT_PRESENT;
         }
-        return ConnectionResult.SUCCESS;
+        return CommandResult.SUCCESS;
     }
 }

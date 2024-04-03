@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
-import it.polimi.ingsw.gc07.controller.PlacementResult;
+import it.polimi.ingsw.gc07.controller.CommandResult;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;
@@ -134,9 +134,9 @@ public class PlaceableCard extends Card {
      * @param way way
      * @return enum representing the placement result
      */
-    public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way) {
+    public CommandResult isPlaceable(GameField gameField, int x, int y, boolean way) {
         assert(gameField.getNumPlayedCards() == 0): "A card was placed before the starter card";
-        return PlacementResult.SUCCESS;
+        return CommandResult.SUCCESS;
     }
 
     /**
