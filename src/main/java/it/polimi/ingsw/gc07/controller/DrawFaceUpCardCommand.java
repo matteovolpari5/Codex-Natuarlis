@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
