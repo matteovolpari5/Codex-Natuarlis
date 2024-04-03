@@ -38,4 +38,18 @@ class GameTest {
                 () -> new Game(id, 5, resourceCardsDeck,
                         goldCardsDeck, objectiveCardsDeck, starterCardsDeck));
     }
+    @Test
+    void computeWinnerOneWinner() {
+
+    }
+
+    @Test
+    void computeWinnerDraw() {
+
+    }
+
+    @Test
+    void changeCurrPlayer() {
+
+    }
 }
