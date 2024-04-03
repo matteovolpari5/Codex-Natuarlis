@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.exceptions.*;
+import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 public class DrawDeckCardCommand implements GameCommand{
@@ -35,27 +35,23 @@ public class DrawDeckCardCommand implements GameCommand{
     @Override
     public void execute() {
         if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)){
-            throw new WrongPlayerException();
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_PLAYER);
         }
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
-            throw new WrongCardTypeException();
-        }
-
-        if(type.equals(CardType.RESOURCE_CARD)){
-            game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getResourceCardsDeck().drawCard());
-        }
-        if(type.equals(CardType.GOLD_CARD)){
-
-            game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getGoldCardsDeck().drawCard());
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_CARD_TYPE);
         }
         try {
+            if (type.equals(CardType.RESOURCE_CARD)) {
+                game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getResourceCardsDeck().drawCard());
+            }
+            if (type.equals(CardType.GOLD_CARD)) {
+
+                game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getGoldCardsDeck().drawCard());
+            }
             game.changeCurrPlayer();
         }
-        catch (WrongStateException | PlayerNotPresentException e)
-        {
-            e.printStackTrace();
-            // TODO noooo
+        catch (CardNotPresentException e){
+            game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
         }
     }
-
 }
