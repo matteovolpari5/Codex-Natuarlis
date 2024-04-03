@@ -39,7 +39,7 @@ public final class ObjectiveCard extends Card {
      * @param gameField game field
      * @return score
      */
-    public int getObjectiveScore(GameField gameField){
+    public int getObjectiveScore(GameField gameField) {
         return scoringCondition.numTimesMet(gameField) * objectiveScore;
     }
 
@@ -48,7 +48,7 @@ public final class ObjectiveCard extends Card {
      * @param gameField game field
      * @return number of times the scoring condition is met
      */
-    public int numTimesScoringConditionMet(GameField gameField){
+    public int numTimesScoringConditionMet(GameField gameField) {
         return scoringCondition.numTimesMet(gameField);
     }
 }

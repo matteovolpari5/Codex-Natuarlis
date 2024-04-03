@@ -52,6 +52,7 @@ public class Chat {
      */
     public Message getLastMessage(String receiver) {
         if(!getContent(receiver).isEmpty()) {
+            // messages are immutable
             return getContent(receiver).getLast();
         }
         return null;
@@ -67,6 +68,7 @@ public class Chat {
         List<Message> receiverMessages = new ArrayList<>();
         for(Message m: messages){
             if(m.isForReceiver(receiver)){
+                // messages are immutable
                 receiverMessages.add(m);
             }
         }

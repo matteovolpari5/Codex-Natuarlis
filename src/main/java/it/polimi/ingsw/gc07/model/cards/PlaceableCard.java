@@ -73,7 +73,7 @@ public class PlaceableCard extends Card {
      * Getter method of the attribute frontCorners.
      * @return this.frontCorners
      */
-    public boolean[] getFrontCorners(){
+    public boolean[] getFrontCorners() {
         boolean[] frontCornersCopy = new boolean[4];
         for(int i = 0; i < 4; i++){
             frontCornersCopy[i] = frontCorners[i];
@@ -85,7 +85,7 @@ public class PlaceableCard extends Card {
      * Getter method of the attribute frontCornersContent.
      * @return this.frontCornersContent
      */
-    public GameItem[] getFrontCornersContent(){
+    public GameItem[] getFrontCornersContent() {
         GameItem[] frontCornersContentCopy = new GameItem[4];
         for(int i = 0; i < 4; i++){
             frontCornersContentCopy[i] = frontCornersContent[i];
@@ -97,8 +97,7 @@ public class PlaceableCard extends Card {
      * Getter method of the attribute backCorners
      * @return an array of booleans
      */
-    public boolean[] getBackCorners()
-    {
+    public boolean[] getBackCorners() {
         boolean[] backCornersCopy = new boolean[4];
         for(int i = 0; i < 4; i++){
             backCornersCopy[i] = backCorners[i];
@@ -110,8 +109,7 @@ public class PlaceableCard extends Card {
      * Getter method of the attribute backCornersContent
      * @return an array of GameItems
      */
-    public GameItem[] getBackCornersContent()
-    {
+    public GameItem[] getBackCornersContent() {
         GameItem[] backCornersContentCopy = new GameItem[4];
         for(int i = 0; i < 4; i++){
             backCornersContentCopy[i] = backCornersContent[i];
@@ -123,7 +121,7 @@ public class PlaceableCard extends Card {
      * Getter method of the attribute permanentResources
      * @return an arrayList of GameResources
      */
-    public  List<GameResource> getPermanentResources(){
+    public  List<GameResource> getPermanentResources() {
         return new ArrayList<>(permanentResources);
     }
 
@@ -149,7 +147,7 @@ public class PlaceableCard extends Card {
      * @param y column
      * @return score obtained
      */
-    public int getPlacementScore(GameField gameField, int x, int y){
+    public int getPlacementScore(GameField gameField, int x, int y) {
         assert (gameField.isCardPresent(x, y)) : "There isn't a Card in position (x,y)";
         return 0;
     }

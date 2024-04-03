@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc07.model.chat;
 /**
  * Class representing a message.
  * Public messages are instances of this class.
+ * Message is immutable.
  */
 public class Message {
     /**
@@ -45,22 +46,6 @@ public class Message {
      */
     public String getSender(){
         return senderNickname;
-    }
-
-    /**
-     * Getter for the isPublic attribute
-     * @return a boolean representing the isPublic attribute
-     */
-    public boolean isPublic(){
-        return isPublic;
-    }
-
-    /**
-     * Getter for the Message's receiver.
-     * @return nickname of the Message's receiver
-     */
-    public String getReceiver(){
-        return null;
     }
 
     /**

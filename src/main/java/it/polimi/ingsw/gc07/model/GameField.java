@@ -104,7 +104,7 @@ public class GameField {
      * Method that returns the constant dimension of the game field.
      * @return dimension of the game field
      */
-    public static int getDim(){
+    public static int getDim() {
         return GameField.dim;
     }
 
@@ -112,7 +112,7 @@ public class GameField {
      * Method that returns the starter card of the game field, i.e. of the player.
      * @return starter card of the game field
      */
-    public PlaceableCard getStarterCard(){
+    public PlaceableCard getStarterCard() {
         return starterCard;
     }
 
@@ -142,10 +142,7 @@ public class GameField {
      * @param y y index of the matrix
      * @return true: there is a card in position (x,y), false: otherwise
      */
-    public boolean isCardPresent(int x, int y) throws IndexOutOfBoundsException {
-        if(x < 0 || x >= dim || y <0 || y >= dim){
-            throw new IndexOutOfBoundsException();
-        }
+    public boolean isCardPresent(int x, int y) {
         return cardsContent[x][y] != null;
     }
 
@@ -155,10 +152,7 @@ public class GameField {
      * @param y y index of the matrix
      * @return card in position (x,y)
      */
-    public PlaceableCard getPlacedCard(int x, int y) throws IndexOutOfBoundsException {
-        if(x < 0 || x >= dim || y <0 || y >= dim){
-            throw new IndexOutOfBoundsException();
-        }
+    public PlaceableCard getPlacedCard(int x, int y) {
         // PlaceableCard is immutable, I can return the card without copy
         // if a card is not present, returns null
         return cardsContent[x][y];
@@ -172,10 +166,7 @@ public class GameField {
      * @param y y index of the matrix
      * @throws IndexOutOfBoundsException exception thrown if the indexes are not inside the game field
      */
-    public void removePlacedCard(int x, int y) throws IndexOutOfBoundsException {
-        if(x < 0 || x >= dim || y <0 || y >= dim){
-            throw new IndexOutOfBoundsException();
-        }
+    public void removePlacedCard(int x, int y) {
         cardsContent[x][y] = null;
     }
 
@@ -186,10 +177,7 @@ public class GameField {
      * @return  false: the card has been placed face up
      *          true: the card has been placed face down
      */
-    public Boolean getCardWay(int x, int y) throws IndexOutOfBoundsException {
-        if(x < 0 || x >= dim || y <0 || y >= dim){
-            throw new IndexOutOfBoundsException();
-        }
+    public Boolean getCardWay(int x, int y) {
         return cardsFace[x][y];
     }
 

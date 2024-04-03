@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.model.chat;
 
 /**
  * Class representing a private message.
+ * PrivateMessage is immutable.
  */
 public class PrivateMessage extends Message {
     /**
@@ -19,15 +20,6 @@ public class PrivateMessage extends Message {
     public PrivateMessage(String content, String senderNickname, boolean isPublic, String receiverNickname) {
         super(content, senderNickname, isPublic);
         this.receiverNickname = receiverNickname;
-    }
-
-    /**
-     * Getter for the Message's receiver.
-     * @return nickname of the Message's receiver
-     */
-    @Override
-    public String getReceiver(){
-        return receiverNickname;
     }
 
     /**

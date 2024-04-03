@@ -36,7 +36,7 @@ public class Deck<T> {
      * Copy constructor of class Deck.
      * @param existingDeck deck to copy
      */
-    public Deck(Deck<T> existingDeck){
+    public Deck(Deck<T> existingDeck) {
         this.type = existingDeck.type;
         this.content = new Stack<>();
         this.content.addAll(existingDeck.content);
@@ -46,7 +46,7 @@ public class Deck<T> {
      * Getter method for deck content, used in tests.
      * @return content of the deck
      */
-    public Stack<T> getContent(){
+    public Stack<T> getContent() {
         Stack<T> contentCopy = new Stack<>();
         contentCopy.addAll(content);
         return contentCopy;
@@ -70,7 +70,7 @@ public class Deck<T> {
     /**
      * Method to shuffle the deck after it has been created from the JSON file.
      */
-    public void shuffle(){
+    public void shuffle() {
         List<T> contentList = new ArrayList<>(content);
         Collections.shuffle(contentList);
         content.clear();

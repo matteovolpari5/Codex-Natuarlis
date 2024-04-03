@@ -53,7 +53,7 @@ public final class GoldCard extends DrawableCard {
      * @param way way
      * @return enum representing the placement result
      */
-    public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way){
+    public PlacementResult isPlaceable(GameField gameField, int x, int y, boolean way) {
         PlacementResult isPlaceableResult = super.isPlaceable(gameField, x, y, way);
         if(isPlaceableResult.equals(PlacementResult.SUCCESS)){
             // indexes are ok
