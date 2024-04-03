@@ -427,7 +427,7 @@ public class Game {
      * @throws PlayerNotPresentException : if the player is not present in the List players.
      */
     // TODO RIVEDERE
-    private List<Player> computeWinner() throws CardNotPresentException, PlayerNotPresentException, WrongStateException {
+    private List<Player> computeWinner() throws CardNotPresentException, WrongStateException {
         if (state.equals(GameState.GAME_ENDED)){
             throw new WrongStateException();
         }
@@ -436,6 +436,7 @@ public class Game {
         int max = 0;
         int realizedObjectives;
         int maxRealizedObjective = 0;
+        List<Player> playersCopy = new ArrayList<>(players);
         for (int i=0; i>=0 && i< players.size(); i++){
             realizedObjectives = objectiveCardsDeck.revealFaceUpCard(0).numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
             //points counter for the 1st common objective
@@ -447,7 +448,6 @@ public class Game {
             //points counter for the secret objective
             deltapoints += players.get(i).getSecretObjective().getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
             scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltapoints);
-            List<Player> playersCopy = new ArrayList<>(players);
             if (max <= scoreTrackBoard.getScore(playersCopy.get(i).getNickname())){
                 max = scoreTrackBoard.getScore(playersCopy.get(i).getNickname());
                 if (realizedObjectives >= maxRealizedObjective){
