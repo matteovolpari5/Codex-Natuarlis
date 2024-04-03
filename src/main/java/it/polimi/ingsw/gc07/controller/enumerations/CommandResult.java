@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.controller.enumerations;
 
 public enum CommandResult {
     SUCCESS(""),

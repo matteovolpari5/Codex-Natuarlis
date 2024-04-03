@@ -1,8 +1,9 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentException;
 import it.polimi.ingsw.gc07.model.Player;
-import it.polimi.ingsw.gc07.model.enumerations.GameState;
 
 /**
  * Concrete command to reconnect a player to the game.

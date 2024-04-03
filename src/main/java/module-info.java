@@ -22,4 +22,6 @@ module it.polimi.ingsw.gc07 {
     exports it.polimi.ingsw.gc07.exceptions;
     exports it.polimi.ingsw.gc07.controller;
     opens it.polimi.ingsw.gc07.controller to javafx.fxml;
+    exports it.polimi.ingsw.gc07.controller.enumerations;
+    opens it.polimi.ingsw.gc07.controller.enumerations to javafx.fxml;
 }
