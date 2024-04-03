@@ -3,7 +3,6 @@ package it.polimi.ingsw.gc07.controller;
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.*;
-import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 
 /**
@@ -61,7 +60,7 @@ public class PlaceCardCommand implements GameCommand {
     @Override
     public void execute() {
         if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)) {
-            game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_PLAYER);
             return;
         }
         if(!(game.getPlayers().get(game.getCurrPlayer()).getCurrentHand()).contains(card)){
@@ -78,7 +77,6 @@ public class PlaceCardCommand implements GameCommand {
             game.getPlayers().get(game.getCurrPlayer()).removeCardHand(card);
             try {
                 addPoints(nickname,x,y);
-                System.out.println("deltaPoints: 00000000000");
             } catch (PlayerNotPresentException e) {
                 game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
                 return;
