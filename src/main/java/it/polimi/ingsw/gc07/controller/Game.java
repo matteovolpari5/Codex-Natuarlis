@@ -208,6 +208,11 @@ public class Game {
         return additionalRound;
     }
 
+    //method for testing PlaceCardEasily
+    void setCurrentPlayer(int num)
+    {
+        this.currPlayer=num;
+    }
     Chat getChat() {
         return chat;
     }

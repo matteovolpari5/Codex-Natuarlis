@@ -62,7 +62,7 @@ public class PlaceCardCommand implements GameCommand {
     @Override
     public CommandResult execute() {
         if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)) {
-            return CommandResult.PLAYER_NOT_PRESENT;
+            return CommandResult.WRONG_PLAYER;
         }
         if(!(game.getPlayers().get(game.getCurrPlayer()).getCurrentHand()).contains(card)){
             return CommandResult.CARD_NOT_PRESENT;
@@ -76,7 +76,6 @@ public class PlaceCardCommand implements GameCommand {
             game.getPlayers().get(game.getCurrPlayer()).removeCardHand(card);
             try {
                 addPoints(nickname,x,y);
-                System.out.println("deltaPoints: 00000000000");
             } catch (PlayerNotPresentException e) {
                 return CommandResult.PLAYER_NOT_PRESENT;
             } catch (WrongStateException e) {
@@ -86,25 +85,6 @@ public class PlaceCardCommand implements GameCommand {
             } catch (CardNotPresentException e) {
                 return CommandResult.CARD_NOT_PRESENT;
             }
-            boolean isStalled = true;
-            CommandResult resultStall;
-            // check if a card is placeable
-            for(int i = 0; i < GameField.getDim() && isStalled; i++) {
-                for (int j = 0; j < GameField.getDim() && isStalled; j++) {
-                    // check if the firs card (a casual card), is placeable on the back,
-                    // i.e. check only the indexes
-                    try {
-                        resultStall = game.getPlayers().get(game.getPlayerByNickname(nickname)).getCurrentHand().getFirst()
-                                .isPlaceable(new GameField(game.getPlayersGameField().get(nickname)), i, j, true);
-                        if (resultStall.equals(CommandResult.SUCCESS)) {
-                            isStalled = false;
-                        }
-                    } catch (PlayerNotPresentException e) {
-                        return CommandResult.PLAYER_NOT_PRESENT;
-                    }
-                }
-            }
-            game.getPlayers().get(game.getCurrPlayer()).setIsStalled(isStalled);
         }
         return result;
     }
@@ -129,7 +109,6 @@ public class PlaceCardCommand implements GameCommand {
         }
         assert (game.getPlayersGameField().get(nickname).isCardPresent(x, y)) : "there isn't a Card in the x,y position";
         deltaPoints = game.getPlayersGameField().get(nickname).getPlacedCard(x, y).getPlacementScore(game.getPlayersGameField().get(nickname), x, y);
-        System.out.println("deltaPoints:" + deltaPoints);
         if(deltaPoints + game.getScoreTrackBoard().getScore(nickname) >= 20){
             game.setTwentyPointsReached(true);
             if((deltaPoints + game.getScoreTrackBoard().getScore(nickname)) > 29){
