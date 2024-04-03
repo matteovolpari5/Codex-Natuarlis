@@ -39,12 +39,14 @@ class AddChatPublicMessageCommandTest {
         }
         Player firstPlayer = new Player("Player1", TokenColor.BLUE, true, false);
         game.setCommand(new AddPlayerCommand(game, firstPlayer));
-        CommandResult result = game.execute();
+        game.execute();
+        CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("Player2", TokenColor.GREEN, false, false);
         game.setCommand(new AddPlayerCommand(game, secondPlayer));
-        result = game.execute();
+        game.execute();
+        result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
     }
@@ -52,17 +54,19 @@ class AddChatPublicMessageCommandTest {
     @Test
     void addMessageSuccess() {
         game.setCommand(new AddChatPublicMessageCommand(game, "My content...", "Player1"));
-        CommandResult result = game.execute();
-        assertEquals(CommandResult.SUCCESS, result);
+        game.execute();
+        CommandResult result = game.getCommandResultManager().getCommandResult();        assertEquals(CommandResult.SUCCESS, result);
         game.setCommand(new AddChatPublicMessageCommand(game, "My other content....", "Player2"));
-        result = game.execute();
+        game.execute();
+        result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
 
     @Test
     void addMessageWrongSender() {
         game.setCommand(new AddChatPublicMessageCommand(game, "My content...", "WrongPlayer"));
-        CommandResult result = game.execute();
+        game.execute();
+        CommandResult result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.WRONG_SENDER, result);
     }
 }

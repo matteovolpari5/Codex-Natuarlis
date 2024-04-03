@@ -38,13 +38,13 @@ public class AddPlayerCommand implements GameCommand {
 
     /**
      * Override of method execute to add a new player to the game.
-     * @return command result
      */
     @Override
-    public CommandResult execute() {
+    public void execute() {
         try{
             if(!game.getState().equals(GameState.WAITING_PLAYERS)) {
-                return CommandResult.WRONG_STATE;
+                game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
+                return;
             }
 
             newPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
@@ -65,7 +65,7 @@ public class AddPlayerCommand implements GameCommand {
             // the exception can't occur since the game is not started yet
             throw new RuntimeException();
         }
-        return CommandResult.SUCCESS;
+        game.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
 
     /**

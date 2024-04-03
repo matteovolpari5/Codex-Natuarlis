@@ -30,19 +30,23 @@ public class DisconnectPlayerCommand implements GameCommand {
 
     /**
      * Method to disconnect a player from the game.
-     * @return command result
      */
     @Override
     //TODO il numero di connessi può scendere a 0
     // gestire attesa riconnessione/timeout
     // domanda su slack
-    public CommandResult execute() {
-        if(!game.getPlayersGameField().containsKey(nickname))
-            return CommandResult.PLAYER_NOT_PRESENT;
+    public void execute() {
+        if(!game.getPlayersGameField().containsKey(nickname)){
+            game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            return;
+        }
         try{
             int pos = game.getPlayerByNickname(nickname);
             if(!game.getPlayers().get(pos).isConnected())
-                return CommandResult.PLAYER_ALREADY_DISCONNECTED;
+            {
+                game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_ALREADY_DISCONNECTED);
+                return;
+            }
             game.getPlayers().get(pos).setIsConnected(false);
             int numPlayersConnected = 0;
             for (Player p : game.getPlayers()){
@@ -55,8 +59,9 @@ public class DisconnectPlayerCommand implements GameCommand {
             }
         }
         catch(PlayerNotPresentException e){
-            return CommandResult.PLAYER_NOT_PRESENT;
+            game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            return;
         }
-        return CommandResult.SUCCESS;
+        game.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
 }

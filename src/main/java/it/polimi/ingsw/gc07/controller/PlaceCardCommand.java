@@ -57,18 +57,20 @@ public class PlaceCardCommand implements GameCommand {
      * Method to place a card in the game field of the current player.
      * This method also removes the card placed from the hand of the current player and calls
      * the method that computes the points scored by placing the card.
-     * @return : command result
      */
     @Override
-    public CommandResult execute() {
+    public void execute() {
         if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)) {
-            return CommandResult.WRONG_PLAYER;
+            game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            return;
         }
         if(!(game.getPlayers().get(game.getCurrPlayer()).getCurrentHand()).contains(card)){
-            return CommandResult.CARD_NOT_PRESENT;
+            game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
+            return;
         }
         if(!game.getState().equals(GameState.PLAYING)){
-            return CommandResult.WRONG_STATE;
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
+            return;
         }
         CommandResult result = game.getPlayersGameField().get(nickname).placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS))
@@ -76,17 +78,22 @@ public class PlaceCardCommand implements GameCommand {
             game.getPlayers().get(game.getCurrPlayer()).removeCardHand(card);
             try {
                 addPoints(nickname,x,y);
+                System.out.println("deltaPoints: 00000000000");
             } catch (PlayerNotPresentException e) {
-                return CommandResult.PLAYER_NOT_PRESENT;
+                game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+                return;
             } catch (WrongStateException e) {
-                return CommandResult.WRONG_STATE;
+                game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
+                return;
             } catch (WrongPlayerException e) {
-                return CommandResult.WRONG_PLAYER;
+                game.getCommandResultManager().setCommandResult(CommandResult.WRONG_PLAYER);
+                return;
             } catch (CardNotPresentException e) {
-                return CommandResult.CARD_NOT_PRESENT;
+                game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
+                return;
             }
         }
-        return result;
+        game.getCommandResultManager().setCommandResult(result);
     }
 
     /**
