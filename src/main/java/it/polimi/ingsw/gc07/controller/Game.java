@@ -329,6 +329,11 @@ public class Game {
         }
     }
 
+    // ----------------------------
+    // Metodi che probabilmente non vengono invocati direttamente dal client,
+    // ma servono per aggiornare la view
+    // ----------------------------
+
     /**
      * method that reveal the face up card in position pos
      * @param type type of the card
