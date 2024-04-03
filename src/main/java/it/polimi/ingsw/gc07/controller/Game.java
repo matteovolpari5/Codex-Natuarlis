@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc07.controller;
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.*;
+import it.polimi.ingsw.gc07.model.CommandResultManager;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.ScoreTrackBoard;
@@ -72,11 +73,14 @@ public class Game {
      * Chat of the game.
      */
     private final Chat chat;
-
     /**
      * GameCommand for command pattern.
      */
     private GameCommand gameCommand;
+    /**
+     * Command result manager of the game.
+     */
+    private final CommandResultManager commandResultManager;
 
     /** Constructor of a Game with only the first player.
      *
@@ -110,6 +114,7 @@ public class Game {
         this.additionalRound = false;
         this.chat = new Chat();
         this.gameCommand = null;
+        this.commandResultManager = new CommandResultManager();
     }
 
 
@@ -208,16 +213,25 @@ public class Game {
         return additionalRound;
     }
 
+    //method for testing PlaceCardEasily
+    void setCurrentPlayer(int num)
+    {
+        this.currPlayer=num;
+    }
     Chat getChat() {
         return chat;
+    }
+
+    CommandResultManager getCommandResultManager() {
+        return commandResultManager;
     }
 
     public void setCommand(GameCommand gameCommand) {
         this.gameCommand = gameCommand;
     }
 
-    public CommandResult execute() {
-        return gameCommand.execute();
+    public void execute() {
+        gameCommand.execute();
     }
 
     /**
@@ -314,6 +328,11 @@ public class Game {
             e.printStackTrace();
         }
     }
+
+    // ----------------------------
+    // Metodi che probabilmente non vengono invocati direttamente dal client,
+    // ma servono per aggiornare la view
+    // ----------------------------
 
     /**
      * method that reveal the face up card in position pos

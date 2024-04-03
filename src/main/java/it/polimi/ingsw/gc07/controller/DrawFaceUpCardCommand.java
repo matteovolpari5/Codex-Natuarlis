@@ -43,39 +43,38 @@ public class DrawFaceUpCardCommand implements GameCommand{
 
     /**
      * Method that allows a player to draw one of two faceUp cards of a given type.
-     * @return command result
      */
     @Override
-    public CommandResult execute() {
+    public void execute() {
         if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)){
-            return CommandResult.WRONG_PLAYER;
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_PLAYER);
         }
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
-            return CommandResult.WRONG_CARD_TYPE;
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_CARD_TYPE);
         }
         if(type.equals(CardType.RESOURCE_CARD)){
             try{
                 game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getResourceCardsDeck().drawFaceUpCard(pos));
             } catch (CardNotPresentException e) {
-                return CommandResult.CARD_NOT_PRESENT;
+                game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
             }
         }
         if(type.equals(CardType.GOLD_CARD)){
             try{
                 game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getGoldCardsDeck().drawFaceUpCard(pos));
             } catch (CardNotPresentException e) {
-                return CommandResult.CARD_NOT_PRESENT;
+                game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
             }
         }
         try {
             game.changeCurrPlayer();
         } catch (CardNotPresentException e){
-            return CommandResult.CARD_NOT_PRESENT;
+            game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
         } catch (WrongStateException e){
-            return CommandResult.WRONG_STATE;
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
         } catch (PlayerNotPresentException e){
-            return CommandResult.PLAYER_NOT_PRESENT;
+            game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
         }
-        return CommandResult.SUCCESS;
+        game.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
 }

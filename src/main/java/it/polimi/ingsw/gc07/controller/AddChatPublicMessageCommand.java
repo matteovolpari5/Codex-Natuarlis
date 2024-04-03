@@ -36,16 +36,17 @@ public class AddChatPublicMessageCommand implements GameCommand {
 
     /**
      * Method to execute the concrete command AddChatPublicMessageCommand.
-     * @return command result
      */
     @Override
-    public CommandResult execute() {
+    public void execute() {
         List<String> playersNicknames = game.getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender
-        if(!playersNicknames.contains(sender))
-            return CommandResult.WRONG_SENDER;
+        if(!playersNicknames.contains(sender)){
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_SENDER);
+            return;
+        }
         // add message to chat
         game.getChat().addPublicMessage(content, sender, playersNicknames);
-        return CommandResult.SUCCESS;
+        game.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
 }
