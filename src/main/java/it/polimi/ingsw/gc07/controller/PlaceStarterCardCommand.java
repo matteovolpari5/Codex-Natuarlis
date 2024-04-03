@@ -40,7 +40,6 @@ public class PlaceStarterCardCommand implements GameCommand{
     @Override
     public CommandResult execute() {
         assert(game.getPlayersGameField().containsKey(nickname)): "The player is not in the game";
-        PlacementResult placementResult = game.getPlayersGameField().get(nickname).placeCard(game.getPlayersGameField().get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
-        return placementResult;
+        return game.getPlayersGameField().get(nickname).placeCard(game.getPlayersGameField().get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
     }
 }

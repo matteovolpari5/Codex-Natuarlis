@@ -240,18 +240,6 @@ public class Game {
     // -----------------------------------
 
     /**
-     * Method to place the starter card in a certain way.
-     * @param nickname nickname of the player
-     * @param way way of the starter card
-     */
-    public void placeStarterCard(String nickname, boolean way) {
-        assert(playersGameField.containsKey(nickname)): "The player is not in the game";
-        PlacementResult placementResult = playersGameField.get(nickname).placeCard(playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way);
-        // TODO: bandierina per placementResult?
-        // ritorno placementResult, oppure lo salvo in attributo ??
-    }
-
-    /**
      * method that allows a player to draw one card from a GoldCardDeck or a ResourceCardDeck.
      * @param nickname: nickname of a player.
      * @param type: type of the card a user wants to draw.
