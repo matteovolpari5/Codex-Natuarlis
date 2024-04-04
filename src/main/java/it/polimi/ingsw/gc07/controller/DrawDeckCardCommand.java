@@ -36,9 +36,11 @@ public class DrawDeckCardCommand implements GameCommand{
     public void execute() {
         if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)){
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_PLAYER);
+            return;
         }
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_CARD_TYPE);
+            return;
         }
         try {
             if (type.equals(CardType.RESOURCE_CARD)) {
@@ -51,6 +53,7 @@ public class DrawDeckCardCommand implements GameCommand{
         }
         catch (CardNotPresentException e){
             game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
+            return;
         }
     }
 }
