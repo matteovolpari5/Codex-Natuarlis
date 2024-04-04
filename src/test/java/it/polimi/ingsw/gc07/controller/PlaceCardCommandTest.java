@@ -11,6 +11,7 @@ import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.controller.enumerations.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -216,6 +217,9 @@ class PlaceCardCommandTest {
                 game.execute();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.SUCCESS, result);
+                game.setCommand(new DrawDeckCardCommand(game, "Player2", CardType.RESOURCE_CARD));
+                game.execute();
+                game.setCurrentPlayer(2);
             }
             if (c.getId() == 36) {
                 myResourceCard = c;
@@ -224,6 +228,9 @@ class PlaceCardCommandTest {
                 game.execute();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.SUCCESS, result);
+                game.setCommand(new DrawDeckCardCommand(game, "Player2", CardType.GOLD_CARD));
+                game.execute();
+                game.setCurrentPlayer(2);
             }
             if (c.getId() == 78) {
                 myResourceCard = c;

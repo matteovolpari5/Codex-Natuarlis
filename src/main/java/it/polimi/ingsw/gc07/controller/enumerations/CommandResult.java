@@ -8,11 +8,11 @@ public enum CommandResult {
     PLAYER_NOT_PRESENT("The player is not present in the game"),
     PLAYER_ALREADY_CONNECTED("The player is already connected"),
     PLAYER_ALREADY_DISCONNECTED("The player is already disconnected"),
-    WRONG_PLAYER("Wrong player - CAMBIARE!!!"), //TODO change ???
+    WRONG_PLAYER("It's not your turn"),
     WRONG_CARD_TYPE("The card is of the wrong type"),
     CARD_NOT_PRESENT("The required card is not present"),
     NO_COVERED_CORNER("The placement is not valid: you must cover at least one corner"),
-    NOT_LEGIT_CORNER("Not legit corner - CAMBIARE!!!"), // TODO ???
+    NOT_LEGIT_CORNER("Trying to cover a not-corner"),
     MULTIPLE_CORNERS_COVERED("The placement is not valid: you can't cover multiple corners of the same card"),
     CARD_ALREADY_PRESENT("A card is already present"),
     INDEXES_OUT_OF_GAME_FIELD("Provided indexes exceed game field size"),

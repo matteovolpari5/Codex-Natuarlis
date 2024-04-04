@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc07.controller;
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.*;
+import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 
 /**
@@ -72,8 +73,7 @@ public class PlaceCardCommand implements GameCommand {
             return;
         }
         CommandResult result = game.getPlayersGameField().get(nickname).placeCard(card,x,y,way);
-        if(result.equals(CommandResult.SUCCESS))
-        {
+        if(result.equals(CommandResult.SUCCESS)) {
             game.getPlayers().get(game.getCurrPlayer()).removeCardHand(card);
             try {
                 addPoints(nickname,x,y);
@@ -90,6 +90,27 @@ public class PlaceCardCommand implements GameCommand {
                 game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
                 return;
             }
+
+            // check if the player is stalled
+            boolean isStalled = true;
+            CommandResult resultStall;
+            for(int i = 0; i < GameField.getDim() && isStalled; i++) {
+                for (int j = 0; j < GameField.getDim() && isStalled; j++) {
+                    // check if the firs card (a casual card), is placeable on the back,
+                    // i.e. check only the indexes
+                    try {
+                        resultStall = game.getPlayers().get(game.getPlayerByNickname(nickname)).getCurrentHand().getFirst()
+                                .isPlaceable(new GameField(game.getPlayersGameField().get(nickname)), i, j, true);
+                        if (resultStall.equals(CommandResult.SUCCESS)) {
+                            isStalled = false;
+                        }
+                    } catch (PlayerNotPresentException e) {
+                        game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+                        return;
+                    }
+                }
+            }
+            game.getPlayers().get(game.getCurrPlayer()).setIsStalled(isStalled);
         }
         game.getCommandResultManager().setCommandResult(result);
     }

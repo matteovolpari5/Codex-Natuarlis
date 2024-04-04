@@ -45,7 +45,6 @@ public class DrawDeckCardCommand implements GameCommand{
                 game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getResourceCardsDeck().drawCard());
             }
             if (type.equals(CardType.GOLD_CARD)) {
-
                 game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getGoldCardsDeck().drawCard());
             }
             game.changeCurrPlayer();
