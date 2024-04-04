@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
+import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlaceCardCommandTest {
     Game game;
     @BeforeEach
-    void setUp() {
+    void setUp() throws CardNotPresentException {
         // create a game
         int id = 0;
         int playersNumber = 3;
@@ -60,6 +61,9 @@ class PlaceCardCommandTest {
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
+        game.getPlayers().get(0).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
+        game.getPlayers().get(1).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
+        game.getPlayers().get(2).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
         game.setCurrentPlayer(2);
     }
 
@@ -217,7 +221,7 @@ class PlaceCardCommandTest {
                 game.execute();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.SUCCESS, result);
-                game.setCommand(new DrawDeckCardCommand(game, "Player2", CardType.RESOURCE_CARD));
+                game.setCommand(new DrawDeckCardCommand(game, "Player3", CardType.RESOURCE_CARD));
                 game.execute();
                 game.setCurrentPlayer(2);
             }
@@ -228,7 +232,7 @@ class PlaceCardCommandTest {
                 game.execute();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.SUCCESS, result);
-                game.setCommand(new DrawDeckCardCommand(game, "Player2", CardType.GOLD_CARD));
+                game.setCommand(new DrawDeckCardCommand(game, "Player3", CardType.GOLD_CARD));
                 game.execute();
                 game.setCurrentPlayer(2);
             }
@@ -242,6 +246,84 @@ class PlaceCardCommandTest {
             }
         }
         assertEquals(game.getScoreTrackBoard().getScore(game.getPlayers().get(game.getCurrPlayer()).getNickname()), 3);
+    }
+    @Test
+    void placeCardTwentyPointsReached(){
+        DrawableCard myResourceCard;
+        game.getPlayersGameField().get(game.getPlayers().get(game.getCurrPlayer()).getNickname()).placeCard(game.getPlayersGameField().get(game.getPlayers().get(game.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        game.getScoreTrackBoard().incrementScore("Player3",19);
+        for (DrawableCard c : game.getPlayers().get(game.getCurrPlayer()).getCurrentHand()) {
+            if (c.getId() == 35) {
+                myResourceCard = c;
+                assertNotNull(myResourceCard);
+                game.setCommand(new PlaceCardCommand(game, game.getPlayers().get(game.getCurrPlayer()).getNickname(), myResourceCard, 41,41,false));
+                game.execute();
+                CommandResult result = game.getCommandResultManager().getCommandResult();
+                assertEquals(CommandResult.SUCCESS, result);
+                game.setCommand(new DrawDeckCardCommand(game, "Player3", CardType.RESOURCE_CARD));
+                game.execute();
+                game.setCurrentPlayer(2);
+            }
+            if (c.getId() == 36) {
+                myResourceCard = c;
+                assertNotNull(myResourceCard);
+                game.setCommand(new PlaceCardCommand(game, game.getPlayers().get(game.getCurrPlayer()).getNickname(), myResourceCard, 39,39,false));
+                game.execute();
+                CommandResult result = game.getCommandResultManager().getCommandResult();
+                assertEquals(CommandResult.SUCCESS, result);
+                game.setCommand(new DrawDeckCardCommand(game, "Player3", CardType.GOLD_CARD));
+                game.execute();
+                game.setCurrentPlayer(2);
+            }
+            if (c.getId() == 78) {
+                myResourceCard = c;
+                assertNotNull(myResourceCard);
+                game.setCommand(new PlaceCardCommand(game, game.getPlayers().get(game.getCurrPlayer()).getNickname(), myResourceCard, 41,39,false));
+                game.execute();
+                CommandResult result = game.getCommandResultManager().getCommandResult();
+                assertEquals(CommandResult.SUCCESS, result);
+            }
+        }
+        assertEquals(game.getScoreTrackBoard().getScore(game.getPlayers().get(game.getCurrPlayer()).getNickname()), 22);
+    }
+    @Test
+    void placeCardOverTwentyNinePoints(){
+        DrawableCard myResourceCard;
+        game.getPlayersGameField().get(game.getPlayers().get(game.getCurrPlayer()).getNickname()).placeCard(game.getPlayersGameField().get(game.getPlayers().get(game.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        game.getScoreTrackBoard().incrementScore("Player3",27);
+        for (DrawableCard c : game.getPlayers().get(game.getCurrPlayer()).getCurrentHand()) {
+            if (c.getId() == 35) {
+                myResourceCard = c;
+                assertNotNull(myResourceCard);
+                game.setCommand(new PlaceCardCommand(game, game.getPlayers().get(game.getCurrPlayer()).getNickname(), myResourceCard, 41,41,false));
+                game.execute();
+                CommandResult result = game.getCommandResultManager().getCommandResult();
+                assertEquals(CommandResult.SUCCESS, result);
+                game.setCommand(new DrawDeckCardCommand(game, "Player3", CardType.RESOURCE_CARD));
+                game.execute();
+                game.setCurrentPlayer(2);
+            }
+            if (c.getId() == 36) {
+                myResourceCard = c;
+                assertNotNull(myResourceCard);
+                game.setCommand(new PlaceCardCommand(game, game.getPlayers().get(game.getCurrPlayer()).getNickname(), myResourceCard, 39,39,false));
+                game.execute();
+                CommandResult result = game.getCommandResultManager().getCommandResult();
+                assertEquals(CommandResult.SUCCESS, result);
+                game.setCommand(new DrawDeckCardCommand(game, "Player3", CardType.GOLD_CARD));
+                game.execute();
+                game.setCurrentPlayer(2);
+            }
+            if (c.getId() == 78) {
+                myResourceCard = c;
+                assertNotNull(myResourceCard);
+                game.setCommand(new PlaceCardCommand(game, game.getPlayers().get(game.getCurrPlayer()).getNickname(), myResourceCard, 41,39,false));
+                game.execute();
+                CommandResult result = game.getCommandResultManager().getCommandResult();
+                assertEquals(CommandResult.SUCCESS, result);
+            }
+        }
+        assertEquals(game.getScoreTrackBoard().getScore(game.getPlayers().get(game.getCurrPlayer()).getNickname()), 29);
     }
     @Test
     void PlaceCardNotCurrPlayer()
