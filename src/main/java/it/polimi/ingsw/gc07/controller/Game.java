@@ -298,42 +298,6 @@ public class Game {
         }
     }
 
-    /**
-     * method that allows a player to draw one of two faceUp cards of a given type.
-     * @param nickname: nickname of a player.
-     * @param type: type of the card a user wants to draw.
-     * @param pos: position in the List of faceUpCards
-     * @throws WrongCardTypeException: if the Type given is not correct
-     * @throws CardNotPresentException: if the List of faceUpCards doesn't have a card in the given position
-     * @throws WrongPlayerException: if the player is not the current player
-     */
-    public void drawFaceUpCard(String nickname, CardType type, int pos) throws WrongCardTypeException, CardNotPresentException, WrongPlayerException, PlayerNotPresentException {
-        if(!players.get(currPlayer).getNickname().equals(nickname)){
-            throw new WrongPlayerException();
-        }
-        if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
-            throw new WrongCardTypeException();
-        }
-        //List<DrawableCard> newHand = new ArrayList<>();
-        //newHand.addAll(this.players.get(this.currPlayer).getCurrentHand());
-        if(type.equals(CardType.RESOURCE_CARD)){
-            players.get(currPlayer).addCardHand(resourceCardsDeck.drawFaceUpCard(pos));
-            //newHand.add(this.resourceCardsDeck.drawFaceUpCard(pos));
-        }
-        if(type.equals(CardType.GOLD_CARD)){
-            players.get(currPlayer).addCardHand(goldCardsDeck.drawFaceUpCard(pos));
-            //newHand.add(this.goldCardsDeck.drawFaceUpCard(pos));
-        }
-        //this.players.get(this.currPlayer).setCurrentHand(newHand);
-        try {
-            changeCurrPlayer();
-        }
-        catch (WrongStateException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     // ----------------------------
     // Metodi che probabilmente non vengono invocati direttamente dal client,
     // ma servono per aggiornare la view
