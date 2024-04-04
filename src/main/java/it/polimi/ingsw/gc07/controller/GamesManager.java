@@ -42,17 +42,43 @@ public class GamesManager {
      * @param playersNumber number of player of the new game, decided by the first player to join.
      */
     private int createGame(int playersNumber) throws WrongNumberOfPlayersException {
-        boolean foundId = false;
-        boolean foundGame;
-        int id = 0;
 
+        // check players number
         if(playersNumber < 2 || playersNumber > 4){
-            //TODO
-            // bandierina
-            // spostare il controllo nel model per alzare una bandierina
+            //TODO rientra nei controlli per cui non possono ancora usare la bandierina,
+            // ma devo notificare il player
             throw new WrongNumberOfPlayersException();
         }
 
+        // find first free id
+        int id = findFirstFreeId();
+
+        // create and shuffle decks
+        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        resourceCardsDeck.shuffle();
+        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        goldCardsDeck.shuffle();
+        PlayingDeck<ObjectiveCard> objectiveCardDeck = DecksBuilder.buildObjectiveCardsDeck();
+        objectiveCardDeck.shuffle();
+        Deck<PlaceableCard> starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
+        starterCardsDeck.shuffle();
+
+        // create game
+        Game game = null;
+        game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
+        games.add(game);
+
+        return id;
+    }
+
+    /**
+     * Method that finds the first free id.
+     * @return first free id
+     */
+    private int findFirstFreeId() {
+        boolean foundId = false;
+        boolean foundGame;
+        int id = 0;
         while(!foundId){
             foundGame = false;
             for(Game g: games){
@@ -67,37 +93,26 @@ public class GamesManager {
                 id++;
             }
         }
-
-        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
-        resourceCardsDeck.shuffle();
-        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
-        goldCardsDeck.shuffle();
-        PlayingDeck<ObjectiveCard> objectiveCardDeck = DecksBuilder.buildObjectiveCardsDeck();
-        objectiveCardDeck.shuffle();
-        Deck<PlaceableCard> starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
-        starterCardsDeck.shuffle();
-        Game game = null;
-        try {
-            game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
-            games.add(game);
-        } catch (WrongNumberOfPlayersException e) {
-            // TODO ????
-        }
-
         return id;
     }
 
     /**
      * Accepts new player's data and creates a Player object if the nickname is unique.
      * Adds the player to a list until he will choose a game.
+     * @param nickname nickname
+     * @param connectionType connection type
+     * @param interfaceType interface type
+     * @throws PlayerAlreadyPresentException
      */
-    public void addPlayer(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) throws PlayerAlreadyPresentException {
+    public void addPlayer(String nickname, boolean connectionType, boolean interfaceType) throws PlayerAlreadyPresentException {
         if(checkNicknameUnique(nickname)){
-            Player newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType);
+            Player newPlayer = new Player(nickname, connectionType, interfaceType);
             pendingPlayers.add(newPlayer);
         }
-        else{
+        else {
             throw new PlayerAlreadyPresentException();
+            //TODO nooooo non posso lanciare eccezione da controller a view
+            // notificare nickname duplicato
         }
     }
 
@@ -108,8 +123,13 @@ public class GamesManager {
      */
     private boolean checkNicknameUnique(String nickname) {
         boolean unique = true;
-        for(Game g: games){
+        for(Game g: games) {
             if(g.hasPlayer(nickname)){
+                unique = false;
+            }
+        }
+        for(Player p: pendingPlayers) {
+            if(p.getNickname().equals(nickname)) {
                 unique = false;
             }
         }
@@ -131,29 +151,65 @@ public class GamesManager {
         return player;
     }
 
-    public void joinExistingGame(String nickname, int gameId) throws WrongStateException, PlayerNotPresentException {
-        // TODO: no throws !!!
+    public void joinExistingGame(String nickname, TokenColor tokenColor, int gameId) throws PlayerNotPresentException, WrongStateException {
         Player player = getPendingPlayer(nickname);
         if(player == null){
             throw new PlayerNotPresentException();
+            //TODO: no throws !!!
+            // situazione tipo: il giocatore è già entrato in un gioco,
+            // poi lancia di nuovo il comando per entrare in un gioco
+            // cosa fare?
         }
         for(Game game: games) {
             if(game.getId() == gameId) {
+                // check game state WAITING_PLAYERS
+                if(!game.getState().equals(GameState.WAITING_PLAYERS)) {
+                    throw new WrongStateException();
+                    //TODO: no throws !!!
+                    // devo notificare, ma non posso mandare eccezione
+                }
+                // check token color unique
+                if(!checkTokenColorUnique(game, tokenColor)) {
+                    throw new RuntimeException();   // non abbiamo TokenColorException, ma tanto va tolta l'eccezione
+                    //TODO: no throws !!!
+                    // devo notificare, ma non posso mandare eccezione
+                }
+                player.setTokenColor(tokenColor);
                 game.setCommand(new AddPlayerCommand(game, player));
                 game.execute();
             }
         }
     }
 
-    public void joinNewGame(String nickname, int playersNumber) throws PlayerNotPresentException, WrongNumberOfPlayersException, WrongStateException {
-        // TODO: no throws !!!
+    /**
+     * Method to check if a given token color is unique in a game.
+     * @param game game
+     * @param tokenColor token color
+     * @return true if the token color is unique in the game
+     */
+    private boolean checkTokenColorUnique(Game game, TokenColor tokenColor) {
+        boolean unique = true;
+        for(Player p: game.getPlayers()) {
+            if(p.getTokenColor().equals(tokenColor))
+                unique = false;
+        }
+        return unique;
+    }
+
+    public void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) throws PlayerNotPresentException, WrongNumberOfPlayersException {
         Player player = getPendingPlayer(nickname);
         if(player == null){
             throw new PlayerNotPresentException();
+            //TODO: no throws !!!
+            // situazione tipo: il giocatore è già entrato in un gioco,
+            // poi lancia di nuovo il comando per entrare in un gioco
+            // cosa fare?
         }
         int gameId = createGame(playersNumber);
         for(Game game: games) {
             if(game.getId() == gameId) {
+                // no need to check the token color for the first player of the game
+                player.setTokenColor(tokenColor);
                 game.setCommand(new AddPlayerCommand(game, player));
                 game.execute();
             }

@@ -18,7 +18,7 @@ public class Player {
     /**
      * Color of the player's token.
      */
-    private final TokenColor tokenColor;
+    private TokenColor tokenColor;
     /**
      * Boolean value representing if the player is first.
      */
@@ -55,12 +55,11 @@ public class Player {
     /**
      * Constructor of class player
      * @param nickname player's nickname
-     * @param tokenColor player's token color
      * @param connectionType player's connection type
      */
-    public Player(String nickname, TokenColor tokenColor, boolean connectionType, boolean interfaceType) {
+    public Player(String nickname, boolean connectionType, boolean interfaceType) {
         this.nickname = nickname;
-        this.tokenColor = tokenColor;
+        this.tokenColor = null;
         this.isFirst = false;   // will be set true only for the first player
         this.connectionType = connectionType;
         this.interfaceType = interfaceType;
@@ -92,6 +91,14 @@ public class Player {
      */
     public String getNickname() {
         return nickname;
+    }
+
+    /**
+     * Setter for tokenColor.
+     * @param tokenColor token color
+     */
+    public void setTokenColor(TokenColor tokenColor) {
+        this.tokenColor = tokenColor;
     }
 
     /**

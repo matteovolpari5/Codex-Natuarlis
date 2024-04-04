@@ -93,19 +93,14 @@ public class Game {
      * @param goldCardsDeck deck of gold cards
      * @param objectiveCardsDeck deck of objective cards
      * @param starterCardsDeck deck of starter cards
-     * @throws WrongNumberOfPlayersException exception thrown when the number of players is wrong
      */
     public Game(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
                 GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
-                Deck<PlaceableCard> starterCardsDeck) throws WrongNumberOfPlayersException {
+                Deck<PlaceableCard> starterCardsDeck) {
         this.id = id;
         this.state = GameState.WAITING_PLAYERS;
-        if (playersNumber<2 || playersNumber>4)  {
-            throw new WrongNumberOfPlayersException();
-        }
-        else{
-            this.playersNumber = playersNumber;
-        }
+        assert(playersNumber>=2 && playersNumber<=4): "Wrong players number";
+        this.playersNumber = playersNumber;
         this.players = new ArrayList<>();
         this.winners = new ArrayList<>();
         this.playersGameField = new HashMap<>();
@@ -336,6 +331,7 @@ public class Game {
         }
         return winners;
     }
+
 
 
 
