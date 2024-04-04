@@ -40,6 +40,7 @@ classDiagram
     GameCommand <|-- ReconnectPlayerCommand
     GameCommand <|-- DrawFaceUpCardCommand
     GameCommand <|-- PlaceStarterCardCommand
+    GameCommand <|-- DrawDeckCardCommand
 
     %% --------------------------------
     %% cards
@@ -403,6 +404,14 @@ classDiagram
         - WAY: boolean
         + PlaceStarterCardCommand(game: Game, nickname: string, way: boolean)
     }
+
+    class DrawDeckCardCommand {
+        - GAME : game
+        - NICKNAME : String
+        - TYPE : CardType
+        + DrawDeckCardCommand (game: Game, nickname: string, type: CardType)
+    }
+
     class GamesManager {
         - games: List~Game~
         - pendingPlayers: List~Player~

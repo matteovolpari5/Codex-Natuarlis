@@ -6,6 +6,11 @@ import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 public class DrawDeckCardCommand implements GameCommand{
     /**
+     * Game in which the command has to be executed.
+     */
+    private final Game game;
+
+    /**
      *  Nickname of the player.
      */
     private final String nickname;
@@ -14,11 +19,6 @@ public class DrawDeckCardCommand implements GameCommand{
      * Type of the card a user wants to draw.
      */
     private final CardType type;
-
-    /**
-     * Game in which the command has to be executed.
-     */
-    private final Game game;
 
     /**
      *  Constructor of the concrete command DrawDeckCardCommand.
@@ -31,6 +31,10 @@ public class DrawDeckCardCommand implements GameCommand{
         this.type = type;
         this.nickname = nickname;
     }
+
+    /**
+     * method that allows a player to draw one card from a GoldCardDeck or a ResourceCardDeck.
+     */
 
     @Override
     public void execute() {
@@ -55,5 +59,6 @@ public class DrawDeckCardCommand implements GameCommand{
             game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
             return;
         }
+        game.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
 }
