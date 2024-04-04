@@ -32,18 +32,14 @@ class DisconnectPlayerCommandTest {
         objectiveCardsDeck.shuffle();
         Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
         starterCardsDecks.shuffle();
-        try{
-            game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
-        }catch(WrongNumberOfPlayersException e){
-            throw new RuntimeException();
-        }
-        Player firstPlayer = new Player("Player1", TokenColor.BLUE, true, false);
+        game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
+        Player firstPlayer = new Player("Player1", true, false);
         game.setCommand(new AddPlayerCommand(game, firstPlayer));
         game.execute();
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
-        Player secondPlayer = new Player("Player2", TokenColor.GREEN, false, false);
+        Player secondPlayer = new Player("Player2", false, false);
         game.setCommand(new AddPlayerCommand(game, secondPlayer));
         game.execute();
         result = game.getCommandResultManager().getCommandResult();

@@ -31,18 +31,15 @@ class ReconnectPlayerCommandTest {
         objectiveCardsDeck.shuffle();
         Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
         starterCardsDecks.shuffle();
-        try{
-            game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
-        }catch(WrongNumberOfPlayersException e){
-            throw new RuntimeException();
-        }
-        Player firstPlayer = new Player("Player1", TokenColor.BLUE, true, false);
+        game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
+
+        Player firstPlayer = new Player("Player1", true, false);
         game.setCommand(new AddPlayerCommand(game, firstPlayer));
         game.execute();
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
-        Player secondPlayer = new Player("Player2", TokenColor.GREEN, false, false);
+        Player secondPlayer = new Player("Player2", false, false);
         game.setCommand(new AddPlayerCommand(game, secondPlayer));
         game.execute();
         result = game.getCommandResultManager().getCommandResult();
@@ -74,18 +71,14 @@ class ReconnectPlayerCommandTest {
         objectiveCardsDeck.shuffle();
         Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
         starterCardsDecks.shuffle();
-        try{
-            game2 = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
-        }catch(WrongNumberOfPlayersException e){
-            throw new RuntimeException();
-        }
-        Player firstPlayer = new Player("P1", TokenColor.BLUE, true, false);
+        game2 = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
+        Player firstPlayer = new Player("P1", true, false);
         game2.setCommand(new AddPlayerCommand(game2, firstPlayer));
         game2.execute();
         CommandResult result = game2.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
-        Player secondPlayer = new Player("P2", TokenColor.GREEN, false, false);
+        Player secondPlayer = new Player("P2", false, false);
         game2.setCommand(new AddPlayerCommand(game2, secondPlayer));
         game2.execute();
         result = game2.getCommandResultManager().getCommandResult();

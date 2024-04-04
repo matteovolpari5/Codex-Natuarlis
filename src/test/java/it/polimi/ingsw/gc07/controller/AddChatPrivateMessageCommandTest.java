@@ -32,27 +32,24 @@ class AddChatPrivateMessageCommandTest {
         objectiveCardsDeck.shuffle();
         Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
         starterCardsDecks.shuffle();
-        try{
-            game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
-        }catch(WrongNumberOfPlayersException e){
-            throw new RuntimeException();
-        }
+        game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
+
         // add first player
-        Player firstPlayer = new Player("Player1", TokenColor.BLUE, true, false);
+        Player firstPlayer = new Player("Player1", true, false);
         game.setCommand(new AddPlayerCommand(game, firstPlayer));
         game.execute();
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add second player
-        Player secondPlayer = new Player("Player2", TokenColor.GREEN, false, false);
+        Player secondPlayer = new Player("Player2", false, false);
         game.setCommand(new AddPlayerCommand(game, secondPlayer));
         game.execute();
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add third player
-        Player thirdPlayer = new Player("Player3", TokenColor.YELLOW, false, false);
+        Player thirdPlayer = new Player("Player3", false, false);
         game.setCommand(new AddPlayerCommand(game, thirdPlayer));
         game.execute();
         result = game.getCommandResultManager().getCommandResult();

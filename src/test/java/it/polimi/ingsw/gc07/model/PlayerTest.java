@@ -26,7 +26,8 @@ class PlayerTest {
         tokenColor = TokenColor.RED;
         connectionType = true;
         interfaceType = true;
-        player = new Player(nickname, tokenColor, connectionType, interfaceType);
+        player = new Player(nickname, connectionType, interfaceType);
+        player.setTokenColor(tokenColor);
     }
 
     @Test

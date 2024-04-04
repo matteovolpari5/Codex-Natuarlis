@@ -33,18 +33,13 @@ class AddPlayerCommandTest {
         objectiveCardsDeck.shuffle();
         Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
         starterCardsDecks.shuffle();
-        try{
-            game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
-        }catch(WrongNumberOfPlayersException e){
-            throw new RuntimeException();
-        }
+        game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
 
         // create a new player
         String nickname = "New player";
-        TokenColor tokenColor = TokenColor.RED;
         boolean connectionType = true;
         boolean interfaceType = true;
-        newPlayer = new Player(nickname, tokenColor, connectionType, interfaceType);
+        newPlayer = new Player(nickname, connectionType, interfaceType);
     }
 
     @Test
@@ -57,12 +52,12 @@ class AddPlayerCommandTest {
 
     @Test
     void addPlayerWrongState() {
-        Player firstPlayer = new Player("Player1", TokenColor.BLUE, true, false);
+        Player firstPlayer = new Player("Player1", true, false);
         game.setCommand(new AddPlayerCommand(game, firstPlayer));
         game.execute();
         CommandResult result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
-        Player secondPlayer = new Player("Player2", TokenColor.GREEN, false, false);
+        Player secondPlayer = new Player("Player2", false, false);
         game.setCommand(new AddPlayerCommand(game, secondPlayer));
         game.execute();
         result = game.getCommandResultManager().getCommandResult();
