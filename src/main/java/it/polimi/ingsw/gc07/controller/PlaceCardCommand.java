@@ -75,21 +75,7 @@ public class PlaceCardCommand implements GameCommand {
         CommandResult result = game.getPlayersGameField().get(nickname).placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS)) {
             game.getPlayers().get(game.getCurrPlayer()).removeCardHand(card);
-            try {
-                addPoints(nickname,x,y);
-            } catch (PlayerNotPresentException e) {
-                game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
-                return;
-            } catch (WrongStateException e) {
-                game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
-                return;
-            } catch (WrongPlayerException e) {
-                game.getCommandResultManager().setCommandResult(CommandResult.WRONG_PLAYER);
-                return;
-            } catch (CardNotPresentException e) {
-                game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
-                return;
-            }
+            addPoints(nickname,x,y);    // the card has just been placed
 
             // check if the player is stalled
             boolean isStalled = true;
@@ -120,20 +106,12 @@ public class PlaceCardCommand implements GameCommand {
      * @param nickname: nickname of the player
      * @param x: where the card is placed in the matrix
      * @param y: where the card is placed in the matrix
-     * @throws WrongPlayerException : if the player is not the current player.
-     * @throws PlayerNotPresentException : if the player is not present in the List players.
-     * @throws CardNotPresentException: if there isn't a card in the specified position of the game field.
      */
-    private void addPoints(String nickname, int x, int y) throws WrongPlayerException, CardNotPresentException, PlayerNotPresentException, WrongStateException {
-        if (!game.getState().equals(GameState.PLAYING)){
-            throw new WrongStateException();
-        }
+    private void addPoints(String nickname, int x, int y) {
+        assert(game.getState().equals(GameState.PLAYING)): "Wrong game state";
+        assert(game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)): "Not the current player";
+        assert (game.getPlayersGameField().get(nickname).isCardPresent(x, y)) : "No card present in the provided position";
         int deltaPoints;
-        if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname))
-        {
-            throw new WrongPlayerException();
-        }
-        assert (game.getPlayersGameField().get(nickname).isCardPresent(x, y)) : "there isn't a Card in the x,y position";
         deltaPoints = game.getPlayersGameField().get(nickname).getPlacedCard(x, y).getPlacementScore(game.getPlayersGameField().get(nickname), x, y);
         if(deltaPoints + game.getScoreTrackBoard().getScore(nickname) >= 20){
             game.setTwentyPointsReached(true);

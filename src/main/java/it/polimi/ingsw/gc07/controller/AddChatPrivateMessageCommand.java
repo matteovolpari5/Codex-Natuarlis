@@ -43,12 +43,16 @@ public class AddChatPrivateMessageCommand implements GameCommand {
     public void execute() {
         List<String> playersNicknames = game.getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender
-        if(!playersNicknames.contains(sender)){
+        if(!playersNicknames.contains(sender)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_SENDER);
             return;
         }
         // check valid receiver
-        if(!playersNicknames.contains(receiver)){
+        if(!playersNicknames.contains(receiver)) {
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_RECEIVER);
+            return;
+        }
+        if(sender.equals(receiver)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_RECEIVER);
             return;
         }
