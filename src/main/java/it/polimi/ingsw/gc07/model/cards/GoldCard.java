@@ -27,7 +27,6 @@ public final class GoldCard extends DrawableCard {
     /**
      * Constructor of the gold card class
      * @param cardID : id of the card
-     * @param cardType : type of the card
      * @param frontCorners : corners that the front of the card has
      * @param frontCornersContent : game items that the front of the card has
      * @param placementScore : placement score
@@ -35,11 +34,11 @@ public final class GoldCard extends DrawableCard {
      * @param placementCondition : placement condition
      * @param scoringCondition : scoring condition
      */
-    public GoldCard(int cardID, CardType cardType, boolean[] frontCorners, GameItem[] frontCornersContent,
+    public GoldCard(int cardID, boolean[] frontCorners, GameItem[] frontCornersContent,
                     boolean[] backCorners, GameItem[] backCornersContent, int placementScore,
                     List<GameResource> permanentResources, Condition placementCondition,
                     Condition scoringCondition) {
-        super(cardID, cardType, frontCorners, frontCornersContent, backCorners, backCornersContent, placementScore, permanentResources);
+        super(cardID, CardType.GOLD_CARD, frontCorners, frontCornersContent, backCorners, backCornersContent, placementScore, permanentResources);
         this.placementCondition = placementCondition;
         this.scoringCondition = scoringCondition;
     }

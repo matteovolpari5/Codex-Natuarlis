@@ -66,15 +66,7 @@ public class DrawFaceUpCardCommand implements GameCommand{
                 game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
             }
         }
-        try {
-            game.changeCurrPlayer();
-        } catch (CardNotPresentException e){
-            game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
-        } catch (WrongStateException e){
-            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
-        } catch (PlayerNotPresentException e){
-            game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
-        }
+        game.changeCurrPlayer();
         game.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
 }

@@ -254,49 +254,94 @@ public class Game {
         throw new PlayerNotPresentException();
     }
 
-
-    // -----------------------------------
-    // public methods - that will be removed (command pattern)
-    // TODO transform in a concrete command
-    // -----------------------------------
-
     /**
-     * method that allows a player to draw one card from a GoldCardDeck or a ResourceCardDeck.
-     * @param nickname: nickname of a player.
-     * @param type: type of the card a user wants to draw.
-     * @throws WrongCardTypeException: if the Type given is not correct
-     * @throws CardNotPresentException: if the List of faceUpCards doesn't have a card in the given position
-     * @throws WrongPlayerException: if the player is not the current player
+     * Method that change the current player, if it's the last turn and all the players
+     * played the same amount of turn it computes the winner;
+     * if a player is disconnect from the game he loose the turn,
+     * if a player is stalled he will be skipped.
      */
-    public void drawDeckCard(String nickname, CardType type) throws WrongCardTypeException, CardNotPresentException, WrongPlayerException {
-        if(!players.get(currPlayer).getNickname().equals(nickname)){
-            throw new WrongPlayerException();
+    void changeCurrPlayer () {
+        if(!state.equals(GameState.PLAYING)) {
+            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
         }
-        if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
-            throw new WrongCardTypeException();
+        if(this.currPlayer==this.players.size()-1)
+            this.currPlayer=0;
+        else
+            this.currPlayer++;
+        if(this.twentyPointsReached)
+        {
+            if(players.get(currPlayer).isFirst()&&this.additionalRound)
+            {
+                this.state = GameState.GAME_ENDED;
+                winners.addAll(computeWinner());
+            }
+            else if(players.get(currPlayer).isFirst())
+            {
+                this.additionalRound=true;
+            }
         }
-        players.get(currPlayer).addCardHand(resourceCardsDeck.drawCard());
-        //List<DrawableCard> newHand = new ArrayList<>();
-        //newHand.addAll(this.players.get(this.currPlayer).getCurrentHand());
-        if(type.equals(CardType.RESOURCE_CARD)){
-            players.get(currPlayer).addCardHand(resourceCardsDeck.drawCard());
-            //newHand.add(this.resourceCardsDeck.drawCard());
-        }
-        if(type.equals(CardType.GOLD_CARD)){
-
-            players.get(currPlayer).addCardHand(goldCardsDeck.drawCard());
-            //newHand.add(this.goldCardsDeck.drawCard());
-        }
-        //this.players.get(this.currPlayer).setCurrentHand(newHand);
-        try {
+        if(!players.get(currPlayer).isConnected())
+        {
             changeCurrPlayer();
         }
-        catch (WrongStateException | PlayerNotPresentException e)
+        if(players.get(currPlayer).getIsStalled())
         {
-            e.printStackTrace();
-            // TODO noooo
+            changeCurrPlayer();
         }
     }
+
+    /**
+     * Method that compute the winner/s of the game.
+     * This method is package friendly.
+     * @return the list of players who won the game
+     */
+    private List<Player> computeWinner() {
+        if (!state.equals(GameState.GAME_ENDED)){
+            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+        }
+        List<Player> winners = new ArrayList<>();
+        int deltaPoints;
+        int max = 0;
+        int realizedObjectives;
+        int maxRealizedObjective = 0;
+        List<Player> playersCopy = new ArrayList<>(players);
+        for (int i=0; i>=0 && i< players.size(); i++){
+            try {
+                realizedObjectives = objectiveCardsDeck.revealFaceUpCard(0).numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+                //points counter for the 1st common objective
+                deltaPoints = objectiveCardsDeck.revealFaceUpCard(0).getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
+                realizedObjectives += objectiveCardsDeck.revealFaceUpCard(1).numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+                //points counter for the 2nd common objective
+                deltaPoints += objectiveCardsDeck.revealFaceUpCard(1).getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
+                realizedObjectives += players.get(i).getSecretObjective().numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+                //points counter for the secret objective
+                deltaPoints += players.get(i).getSecretObjective().getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
+                scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltaPoints);
+                if (max <= scoreTrackBoard.getScore(playersCopy.get(i).getNickname())) {
+                    max = scoreTrackBoard.getScore(playersCopy.get(i).getNickname());
+                    if (realizedObjectives >= maxRealizedObjective) {
+                        if (realizedObjectives == maxRealizedObjective) {
+                            winners.add(playersCopy.get(i));
+                        } else {
+                            winners.clear();
+                            winners.add(playersCopy.get(i));
+                            maxRealizedObjective = realizedObjectives;
+                        }
+                    }
+                }
+            }catch (CardNotPresentException e){
+                // the exception can't occur since the objectives cards cannot end.
+                throw new RuntimeException();
+            }
+        }
+        return winners;
+    }
+
+
+
+
+    // TODO discutere
+
 
     // ----------------------------
     // Metodi che probabilmente non vengono invocati direttamente dal client,
@@ -362,94 +407,5 @@ public class Game {
      */
     public List<Message> getChatContent(String receiver) {
         return chat.getContent(receiver);
-    }
-
-
-    // -----------------------------------
-    // private methods - will be moved in a concrete command
-    // TODO move in a concrete command
-    // -----------------------------------
-
-    /**
-     * Method that change the current player, if it's the last turn and all the players
-     * played the same amount of turn it computes the winner;
-     * if a player is disconnect from the game he loose the turn,
-     * if a player is stalled he will be skipped.
-     */
-     void changeCurrPlayer () {
-        if(!state.equals(GameState.PLAYING)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
-        }
-        if(this.currPlayer==this.players.size()-1)
-            this.currPlayer=0;
-        else
-            this.currPlayer++;
-        if(this.twentyPointsReached)
-        {
-            if(players.get(currPlayer).isFirst()&&this.additionalRound)
-            {
-                this.state = GameState.GAME_ENDED;
-                winners.addAll(computeWinner());
-            }
-            else if(players.get(currPlayer).isFirst())
-            {
-                this.additionalRound=true;
-            }
-        }
-        if(!players.get(currPlayer).isConnected())
-        {
-            changeCurrPlayer();
-        }
-        if(players.get(currPlayer).getIsStalled())
-        {
-            changeCurrPlayer();
-        }
-    }
-
-    /**
-     * Method that compute the winner/s of the game.
-     * This method is package friendly.
-     * @return the list of players who won the game
-     */
-     List<Player> computeWinner() {
-        if (!state.equals(GameState.GAME_ENDED)){
-            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
-        }
-        List<Player> winners = new ArrayList<>();
-        int deltapoints;
-        int max = 0;
-        int realizedObjectives;
-        int maxRealizedObjective = 0;
-        List<Player> playersCopy = new ArrayList<>(players);
-        for (int i=0; i>=0 && i< players.size(); i++){
-            try {
-                realizedObjectives = objectiveCardsDeck.revealFaceUpCard(0).numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
-                //points counter for the 1st common objective
-                deltapoints = objectiveCardsDeck.revealFaceUpCard(0).getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
-                realizedObjectives += objectiveCardsDeck.revealFaceUpCard(1).numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
-                //points counter for the 2nd common objective
-                deltapoints += objectiveCardsDeck.revealFaceUpCard(1).getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
-                realizedObjectives += players.get(i).getSecretObjective().numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
-                //points counter for the secret objective
-                deltapoints += players.get(i).getSecretObjective().getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
-                scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltapoints);
-                if (max <= scoreTrackBoard.getScore(playersCopy.get(i).getNickname())) {
-                    max = scoreTrackBoard.getScore(playersCopy.get(i).getNickname());
-                    if (realizedObjectives >= maxRealizedObjective) {
-                        if (realizedObjectives == maxRealizedObjective) {
-                            winners.add(playersCopy.get(i));
-                        } else {
-                            winners.clear();
-                            winners.add(playersCopy.get(i));
-                            maxRealizedObjective = realizedObjectives;
-                        }
-                    }
-                }
-            }catch (CardNotPresentException e){
-                // the exception can't occur since the objectives cards cannot end.
-                throw new RuntimeException();
-            }
-        }
-        return winners;
     }
 }

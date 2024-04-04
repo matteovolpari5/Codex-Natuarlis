@@ -304,7 +304,7 @@ public abstract class DecksBuilder {
             }
 
             // create Objective card and add it to deck content
-            ObjectiveCard card = new ObjectiveCard(id, type, scoringCondition, objectiveScore);
+            ObjectiveCard card = new ObjectiveCard(id, scoringCondition, objectiveScore);
             deckContent.add(card);
         }
         return new PlayingDeck<>(CardType.OBJECTIVE_CARD, deckContent);
@@ -368,7 +368,6 @@ public abstract class DecksBuilder {
             JsonObject cardJsonObject = c.getAsJsonObject();
 
             int id = cardJsonObject.get("id").getAsInt();
-            CardType type = CardType.GOLD_CARD;
             int placementScore = cardJsonObject.get("placementscore").getAsInt();
             boolean[] frontCorners = DecksBuilder.extractFrontCorners(cardJsonObject);
             GameItem[] frontCornersContent = DecksBuilder.extractFrontCornersContent(cardJsonObject);
@@ -399,7 +398,7 @@ public abstract class DecksBuilder {
             placementCondition = new ItemsCondition(neededItems);
 
             // create resource card and add it to deck content
-            GoldCard card = new GoldCard(id, type, frontCorners, frontCornersContent, backCorners, backCornersContent,
+            GoldCard card = new GoldCard(id, frontCorners, frontCornersContent, backCorners, backCornersContent,
                     placementScore, permanentResources, placementCondition, scoringCondition);
             deckContent.add(card);
         }

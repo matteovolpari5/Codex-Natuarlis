@@ -24,12 +24,11 @@ public final class ObjectiveCard extends Card {
     /**
      * Constructor of the class ObjectiveCard
      * @param cardID : id of the card
-     * @param cardType : type of the card
      * @param scoringCondition : scoring condition of the card
      * @param objectiveScore : points that can be obtained
      */
-    public ObjectiveCard(int cardID, CardType cardType, Condition scoringCondition, int objectiveScore) {
-        super(cardID, cardType);
+    public ObjectiveCard(int cardID, Condition scoringCondition, int objectiveScore) {
+        super(cardID, CardType.OBJECTIVE_CARD);
         this.scoringCondition = scoringCondition;
         this.objectiveScore = objectiveScore;
     }
