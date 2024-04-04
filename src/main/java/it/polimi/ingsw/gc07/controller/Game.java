@@ -258,21 +258,22 @@ public class Game {
     void changeCurrPlayer () {
         if(!state.equals(GameState.PLAYING)) {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+            return;
         }
-        if(this.currPlayer==this.players.size()-1)
-            this.currPlayer=0;
+        if(currPlayer==players.size()-1)
+            currPlayer=0;
         else
-            this.currPlayer++;
-        if(this.twentyPointsReached)
+            currPlayer++;
+        if(twentyPointsReached)
         {
-            if(players.get(currPlayer).isFirst()&&this.additionalRound)
+            if(players.get(currPlayer).isFirst()&&additionalRound)
             {
-                this.state = GameState.GAME_ENDED;
+                state = GameState.GAME_ENDED;
                 winners.addAll(computeWinner());
             }
             else if(players.get(currPlayer).isFirst())
             {
-                this.additionalRound=true;
+                additionalRound=true;
             }
         }
         if(!players.get(currPlayer).isConnected())
@@ -283,17 +284,15 @@ public class Game {
         {
             changeCurrPlayer();
         }
+        commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
     /**
      * Method that compute the winner/s of the game.
-     * This method is package friendly.
      * @return the list of players who won the game
      */
     private List<Player> computeWinner() {
-        if (!state.equals(GameState.GAME_ENDED)){
-            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
-        }
+        assert(state.equals(GameState.GAME_ENDED)) : "The game state is not correct";
         List<Player> winners = new ArrayList<>();
         int deltaPoints;
         int max = 0;
@@ -329,6 +328,7 @@ public class Game {
                 throw new RuntimeException();
             }
         }
+        commandResultManager.setCommandResult(CommandResult.SUCCESS);
         return winners;
     }
 
