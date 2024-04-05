@@ -61,14 +61,6 @@ class GameTest {
             throw new RuntimeException();
         }
         game.setCurrentPlayer(0);
-        List<ObjectiveCard> faceUpCards= new ArrayList<>();
-        try {
-            faceUpCards.add(game.getObjectiveCardsDeck().drawCard());
-            faceUpCards.add(game.getObjectiveCardsDeck().drawCard());
-        }catch (CardNotPresentException e){
-            throw new RuntimeException();
-        }
-        game.getObjectiveCardsDeck().setFaceUpCards(faceUpCards);
     }
 
     @Test
