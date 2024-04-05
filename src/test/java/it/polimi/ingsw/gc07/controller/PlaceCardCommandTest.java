@@ -1,8 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
-import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
@@ -23,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlaceCardCommandTest {
     Game game;
     @BeforeEach
-    void setUp() throws CardNotPresentException {
+    void setUp() {
         // create a game
         int id = 0;
         int playersNumber = 3;
