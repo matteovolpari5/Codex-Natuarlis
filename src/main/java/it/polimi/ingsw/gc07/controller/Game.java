@@ -171,7 +171,7 @@ public class Game {
     List<Player> getPlayers() {
         return players;
     }
-
+    List<Player> getWinners(){return winners;}
     void setCurrPlayer(int currPlayer) {
         this.currPlayer = currPlayer;
     }
