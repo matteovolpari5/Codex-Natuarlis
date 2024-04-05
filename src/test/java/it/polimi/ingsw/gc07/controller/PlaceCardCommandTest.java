@@ -62,9 +62,6 @@ class PlaceCardCommandTest {
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
-        game.getPlayers().get(0).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
-        game.getPlayers().get(1).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
-        game.getPlayers().get(2).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
         game.setCurrentPlayer(2);
     }
 
