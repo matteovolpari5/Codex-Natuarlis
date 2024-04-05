@@ -7,6 +7,7 @@ import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
+import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
 import java.util.ArrayList;
@@ -97,6 +98,12 @@ public class AddPlayerCommand implements GameCommand {
             setUpResourceCardsFaceUp.add(game.getResourceCardsDeck().drawCard());
             setUpResourceCardsFaceUp.add(game.getResourceCardsDeck().drawCard());
             game.getResourceCardsDeck().setFaceUpCards(setUpResourceCardsFaceUp);
+
+            // place common objective cards
+            List<ObjectiveCard> setUpObjectiveCardsFaceUp = new ArrayList<>();
+            setUpObjectiveCardsFaceUp.add(game.getObjectiveCardsDeck().drawCard());
+            setUpObjectiveCardsFaceUp.add(game.getObjectiveCardsDeck().drawCard());
+            game.getObjectiveCardsDeck().setFaceUpCards(setUpObjectiveCardsFaceUp);
         } catch (CardNotPresentException e) {
             // the exception can't occur since the game is not started yet
             throw new RuntimeException();
