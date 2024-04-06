@@ -2,7 +2,15 @@
   "cards": [
     {
       "id": 1,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -10,12 +18,24 @@
       "frontcontent1": "null",
       "frontcontent2": "null",
       "frontcontent3": "fungi",
-      "permanentresource": [{"resource": "fungi"}],
+      "permanentresource": [
+        {
+          "resource": "fungi"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 2,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -23,12 +43,24 @@
       "frontcontent1": "fungi",
       "frontcontent2": "null",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "fungi"}],
+      "permanentresource": [
+        {
+          "resource": "fungi"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 3,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -36,12 +68,24 @@
       "frontcontent1": "null",
       "frontcontent2": "fungi",
       "frontcontent3": "fungi",
-      "permanentresource": [{"resource": "fungi"}],
+      "permanentresource": [
+        {
+          "resource": "fungi"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 4,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -49,12 +93,24 @@
       "frontcontent1": "fungi",
       "frontcontent2": "fungi",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "fungi"}],
+      "permanentresource": [
+        {
+          "resource": "fungi"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 5,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -62,12 +118,24 @@
       "frontcontent1": "quill",
       "frontcontent2": "fungi",
       "frontcontent3": "plant",
-      "permanentresource": [{"resource": "fungi"}],
+      "permanentresource": [
+        {
+          "resource": "fungi"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 6,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -75,7 +143,11 @@
       "frontcontent1": "fungi",
       "frontcontent2": "animal",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "fungi"}],
+      "permanentresource": [
+        {
+          "resource": "fungi"
+        }
+      ],
       "placementscore": 0
     },
     {
@@ -96,12 +168,24 @@
       "frontcontent1": "insect",
       "frontcontent2": "null",
       "frontcontent3": "manuscript",
-      "permanentresource": [{"resource": "fungi"}],
+      "permanentresource": [
+        {
+          "resource": "fungi"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 8,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -109,12 +193,24 @@
       "frontcontent1": "fungi",
       "frontcontent2": "null",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "fungi"}],
+      "permanentresource": [
+        {
+          "resource": "fungi"
+        }
+      ],
       "placementscore": 1
     },
     {
       "id": 9,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -122,12 +218,24 @@
       "frontcontent1": "null",
       "frontcontent2": "null",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "fungi"}],
+      "permanentresource": [
+        {
+          "resource": "fungi"
+        }
+      ],
       "placementscore": 1
     },
     {
       "id": 10,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -135,12 +243,24 @@
       "frontcontent1": "null",
       "frontcontent2": "null",
       "frontcontent3": "fungi",
-      "permanentresource": [{"resource": "fungi"}],
+      "permanentresource": [
+        {
+          "resource": "fungi"
+        }
+      ],
       "placementscore": 1
     },
     {
       "id": 11,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -148,12 +268,24 @@
       "frontcontent1": "null",
       "frontcontent2": "null",
       "frontcontent3": "plant",
-      "permanentresource": [{"resource": "plant"}],
+      "permanentresource": [
+        {
+          "resource": "plant"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 12,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -161,12 +293,24 @@
       "frontcontent1": "plant",
       "frontcontent2": "null",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "plant"}],
+      "permanentresource": [
+        {
+          "resource": "plant"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 13,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -174,12 +318,24 @@
       "frontcontent1": "null",
       "frontcontent2": "plant",
       "frontcontent3": "plant",
-      "permanentresource": [{"resource": "plant"}],
+      "permanentresource": [
+        {
+          "resource": "plant"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 14,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -187,12 +343,24 @@
       "frontcontent1": "plant",
       "frontcontent2": "plant",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "plant"}],
+      "permanentresource": [
+        {
+          "resource": "plant"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 15,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -200,12 +368,24 @@
       "frontcontent1": "insect",
       "frontcontent2": "plant",
       "frontcontent3": "quill",
-      "permanentresource": [{"resource": "plant"}],
+      "permanentresource": [
+        {
+          "resource": "plant"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 16,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -213,12 +393,24 @@
       "frontcontent1": "plant",
       "frontcontent2": "inkwell",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "plant"}],
+      "permanentresource": [
+        {
+          "resource": "plant"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 17,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -226,12 +418,24 @@
       "frontcontent1": "null",
       "frontcontent2": "animal",
       "frontcontent3": "plant",
-      "permanentresource": [{"resource": "plant"}],
+      "permanentresource": [
+        {
+          "resource": "plant"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 18,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -239,12 +443,24 @@
       "frontcontent1": "null",
       "frontcontent2": "null",
       "frontcontent3": "plant",
-      "permanentresource": [{"resource": "plant"}],
+      "permanentresource": [
+        {
+          "resource": "plant"
+        }
+      ],
       "placementscore": 1
     },
     {
       "id": 19,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -252,12 +468,24 @@
       "frontcontent1": "null",
       "frontcontent2": "plant",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "plant"}],
+      "permanentresource": [
+        {
+          "resource": "plant"
+        }
+      ],
       "placementscore": 1
     },
     {
       "id": 20,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -265,12 +493,24 @@
       "frontcontent1": "plant",
       "frontcontent2": "null",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "plant"}],
+      "permanentresource": [
+        {
+          "resource": "plant"
+        }
+      ],
       "placementscore": 1
     },
     {
       "id": 21,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -278,12 +518,24 @@
       "frontcontent1": "animal",
       "frontcontent2": "null",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "animal"}],
+      "permanentresource": [
+        {
+          "resource": "animal"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 22,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -291,12 +543,24 @@
       "frontcontent1": "null",
       "frontcontent2": "animal",
       "frontcontent3": "animal",
-      "permanentresource": [{"resource": "animal"}],
+      "permanentresource": [
+        {
+          "resource": "animal"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 23,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -304,12 +568,24 @@
       "frontcontent1": "null",
       "frontcontent2": "null",
       "frontcontent3": "animal",
-      "permanentresource": [{"resource": "animal"}],
+      "permanentresource": [
+        {
+          "resource": "animal"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 24,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -317,12 +593,24 @@
       "frontcontent1": "animal",
       "frontcontent2": "animal",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "animal"}],
+      "permanentresource": [
+        {
+          "resource": "animal"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 25,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -330,12 +618,24 @@
       "frontcontent1": "insect",
       "frontcontent2": "animal",
       "frontcontent3": "inkwell",
-      "permanentresource": [{"resource": "animal"}],
+      "permanentresource": [
+        {
+          "resource": "animal"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 26,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -343,12 +643,24 @@
       "frontcontent1": "animal",
       "frontcontent2": "manuscript",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "animal"}],
+      "permanentresource": [
+        {
+          "resource": "animal"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 27,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -356,12 +668,24 @@
       "frontcontent1": "null",
       "frontcontent2": "fungi",
       "frontcontent3": "animal",
-      "permanentresource": [{"resource": "animal"}],
+      "permanentresource": [
+        {
+          "resource": "animal"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 28,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -369,12 +693,24 @@
       "frontcontent1": "null",
       "frontcontent2": "null",
       "frontcontent3": "animal",
-      "permanentresource": [{"resource": "animal"}],
+      "permanentresource": [
+        {
+          "resource": "animal"
+        }
+      ],
       "placementscore": 1
     },
     {
       "id": 29,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -382,12 +718,24 @@
       "frontcontent1": "null",
       "frontcontent2": "animal",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "animal"}],
+      "permanentresource": [
+        {
+          "resource": "animal"
+        }
+      ],
       "placementscore": 1
     },
     {
       "id": 30,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -395,12 +743,24 @@
       "frontcontent1": "animal",
       "frontcontent2": "null",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "animal"}],
+      "permanentresource": [
+        {
+          "resource": "animal"
+        }
+      ],
       "placementscore": 1
     },
     {
       "id": 31,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -408,12 +768,24 @@
       "frontcontent1": "insect",
       "frontcontent2": "null",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "insect"}],
+      "permanentresource": [
+        {
+          "resource": "insect"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 32,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -421,12 +793,24 @@
       "frontcontent1": "null",
       "frontcontent2": "insect",
       "frontcontent3": "insect",
-      "permanentresource": [{"resource": "insect"}],
+      "permanentresource": [
+        {
+          "resource": "insect"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 33,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -434,12 +818,24 @@
       "frontcontent1": "null",
       "frontcontent2": "null",
       "frontcontent3": "insect",
-      "permanentresource": [{"resource": "insect"}],
+      "permanentresource": [
+        {
+          "resource": "insect"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 34,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -447,12 +843,24 @@
       "frontcontent1": "insect",
       "frontcontent2": "insect",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "insect"}],
+      "permanentresource": [
+        {
+          "resource": "insect"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 35,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -460,12 +868,24 @@
       "frontcontent1": "quill",
       "frontcontent2": "insect",
       "frontcontent3": "animal",
-      "permanentresource": [{"resource": "insect"}],
+      "permanentresource": [
+        {
+          "resource": "insect"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 36,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -473,12 +893,24 @@
       "frontcontent1": "insect",
       "frontcontent2": "fungi",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "insect"}],
+      "permanentresource": [
+        {
+          "resource": "insect"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 37,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "false",
       "frontcorner3": "true",
@@ -486,12 +918,24 @@
       "frontcontent1": "plant",
       "frontcontent2": "null",
       "frontcontent3": "inkwell",
-      "permanentresource": [{"resource": "insect"}],
+      "permanentresource": [
+        {
+          "resource": "insect"
+        }
+      ],
       "placementscore": 0
     },
     {
       "id": 38,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "false",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -499,12 +943,24 @@
       "frontcontent1": "null",
       "frontcontent2": "null",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "insect"}],
+      "permanentresource": [
+        {
+          "resource": "insect"
+        }
+      ],
       "placementscore": 1
     },
     {
       "id": 39,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "true",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "true",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "false",
@@ -512,12 +968,24 @@
       "frontcontent1": "null",
       "frontcontent2": "insect",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "insect"}],
+      "permanentresource": [
+        {
+          "resource": "insect"
+        }
+      ],
       "placementscore": 1
     },
     {
       "id": 40,
-      "backcorner0": "true",       "backcorner1": "true",       "backcorner2": "true",       "backcorner3": "true",       "backcontent0": "null",       "backcontent1": "null",       "backcontent2": "null",       "backcontent3": "null",       "frontcorner0": "false",
+      "backcorner0": "true",
+      "backcorner1": "true",
+      "backcorner2": "true",
+      "backcorner3": "true",
+      "backcontent0": "null",
+      "backcontent1": "null",
+      "backcontent2": "null",
+      "backcontent3": "null",
+      "frontcorner0": "false",
       "frontcorner1": "true",
       "frontcorner2": "true",
       "frontcorner3": "true",
@@ -525,7 +993,11 @@
       "frontcontent1": "insect",
       "frontcontent2": "null",
       "frontcontent3": "null",
-      "permanentresource": [{"resource": "insect"}],
+      "permanentresource": [
+        {
+          "resource": "insect"
+        }
+      ],
       "placementscore": 1
     }
   ]
