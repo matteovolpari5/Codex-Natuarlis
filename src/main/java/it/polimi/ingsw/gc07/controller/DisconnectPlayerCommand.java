@@ -54,8 +54,12 @@ public class DisconnectPlayerCommand implements GameCommand {
                     numPlayersConnected++;
                 }
             }
-            if (numPlayersConnected <= 1){
+            if (numPlayersConnected == 1){
                 game.setState(GameState.WAITING_RECONNECTION);
+                // TODO start the timer, when it ends, the only player left wins
+            } else if (numPlayersConnected == 0) {
+                game.setState(GameState.NO_PLAYERS_CONNECTED);
+                // TODO start the timer, when it ends, the game ends without winner
             }
         }
         catch(PlayerNotPresentException e){

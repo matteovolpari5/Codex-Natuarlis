@@ -77,7 +77,10 @@ public class GamesManager {
     }
 
 
+
+    // -----------------------------
     // TODO gestire questi
+    // -----------------------------
 
     // probabilmente observer (?), probabilmente non void
     // quindi no game command
@@ -89,6 +92,8 @@ public class GamesManager {
     // TODO: chi lo chiama?
     // probabilmente chiamato da gamesmanager stesso periodicamente,
     // non creo command (per ora)
+    // oppure chiamato dal metodo che setta game state a GAME_ENDED
+    // se invio l'info sul vincitore al client, posso eliminare il game
     public void deleteGame(int id) {
         Game game = null;
         for(Game g: games) {

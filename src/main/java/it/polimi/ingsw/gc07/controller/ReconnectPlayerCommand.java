@@ -51,7 +51,12 @@ public class ReconnectPlayerCommand implements GameCommand {
                     numPlayersConnected++;
                 }
             }
-            if (numPlayersConnected > 1){
+            if (numPlayersConnected == 1) {
+                game.setState(GameState.WAITING_RECONNECTION);
+                // TODO start the timer, when it ends, the only player connected wins
+            }
+            else if (numPlayersConnected > 1) {
+                // players can re-start to play
                 game.setState(GameState.PLAYING);
             }
         } catch (PlayerNotPresentException e) {
