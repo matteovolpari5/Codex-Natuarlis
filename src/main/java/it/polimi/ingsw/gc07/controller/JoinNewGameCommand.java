@@ -77,6 +77,7 @@ public class JoinNewGameCommand implements GameCommand {
                 game.setCommand(new AddPlayerCommand(game, player));
                 game.execute();
             }
+            gamesManager.getPendingPlayerspending().remove(player);
         }
     }
 

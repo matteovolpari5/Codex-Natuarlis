@@ -55,8 +55,10 @@ public class JoinExistingGameCommand implements GameCommand {
             // poi lancia di nuovo il comando per entrare in un gioco
             // cosa fare?
         }
+        boolean found = false;
         for(Game game: gamesManager.getGames()) {
             if(game.getId() == gameId) {
+                found = true;
                 // check game state WAITING_PLAYERS
                 if(!game.getState().equals(GameState.WAITING_PLAYERS)) {
                     //throw new WrongStateException();
@@ -72,7 +74,11 @@ public class JoinExistingGameCommand implements GameCommand {
                 player.setTokenColor(tokenColor);
                 game.setCommand(new AddPlayerCommand(game, player));
                 game.execute();
+                gamesManager.getPendingPlayerspending().remove(player);
             }
+        }
+        if(!found){
+            /**/
         }
     }
 
