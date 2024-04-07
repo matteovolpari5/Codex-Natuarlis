@@ -39,9 +39,6 @@ class GameTest {
 
     @Test
     void computeWinnerOneWinner() {
-        //TODO questo metodo non funziona perché placeCardCommand controlla che le carte siano in mano,
-        // in questo caso le prendo dal mazzo. per testarlo ho commentato le righe di controllo e funziona.
-
         // add first player
         Player firstPlayer = new Player("Player1", true, false);
         firstPlayer.setTokenColor(TokenColor.BLUE);
