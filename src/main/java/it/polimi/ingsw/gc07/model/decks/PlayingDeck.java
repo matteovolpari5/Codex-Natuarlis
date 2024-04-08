@@ -1,5 +1,4 @@
 package it.polimi.ingsw.gc07.model.decks;
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 import java.util.ArrayList;
@@ -49,9 +48,9 @@ public class PlayingDeck<T> extends Deck<T> {
      * @param cardPos position of the card the player wants to see
      * @return face up card in position cardPos
      */
-    public T revealFaceUpCard(int cardPos) throws CardNotPresentException {
+    public T revealFaceUpCard(int cardPos) {
         if(cardPos >= faceUpCards.size()){
-            throw new CardNotPresentException();
+            return null;
         }
         return faceUpCards.get(cardPos);
     }

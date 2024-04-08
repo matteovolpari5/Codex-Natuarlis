@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
@@ -23,9 +22,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableNoCoveredCorner() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-    MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-    NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableNoCoveredCorner() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -38,9 +35,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableIndexOut() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableIndexOut() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -53,9 +48,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableMultipleCorner1() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableMultipleCorner1() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -68,9 +61,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableMultipleCorner2() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableMultipleCorner2() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -83,9 +74,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableMultipleCorner3() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableMultipleCorner3() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -98,9 +87,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableMultipleCorner4() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableMultipleCorner4() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -113,9 +100,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableCardAlreadyPresent() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableCardAlreadyPresent() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -128,9 +113,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableNoLegitCorner1() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableNoLegitCorner1() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -155,7 +138,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void getResourcePlacementScore() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    void getResourcePlacementScore() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -173,9 +156,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableNoLegitCorner2() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableNoLegitCorner2() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -200,9 +181,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableNoLegitCorner3() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableNoLegitCorner3() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -227,9 +206,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableNoLegitCorner4() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableNoLegitCorner4() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -254,9 +231,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableNoLegitCorner5() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableNoLegitCorner5() {
         for(PlaceableCard c: starterCardsDeck.getContent()){
             if(c.getId() == 85){
                 myStarterCard = c;
@@ -273,9 +248,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableNoLegitCorner6() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableNoLegitCorner6() {
         for(PlaceableCard c: starterCardsDeck.getContent()){
             if(c.getId() == 85){
                 myStarterCard = c;
@@ -292,9 +265,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableNoLegitCorner7() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableNoLegitCorner7() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -313,9 +284,7 @@ class DrawableCardTest {
     }
 
     @Test
-    void isResourcePlaceableNoLegitCorner9() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableNoLegitCorner9() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -335,9 +304,7 @@ class DrawableCardTest {
 
     //TODO: dal debug risulta che al metodo viene passato x=41, y=41 e way=true, diversamente da quanto passato alla riga 365
     @Test
-    void isResourcePlaceableNoLegitCorner10() throws CardNotPresentException, NoCoveredCornerException, NotLegitCornerException,
-            MultipleCornersCoveredException, PlacingConditionNotMetException, CardAlreadyPresentException,
-            NullPointerException, IndexesOutOfGameFieldException {
+    void isResourcePlaceableNoLegitCorner10() {
         for(PlaceableCard c: starterCardsDeck.getContent()){
             if(c.getId() == 85){
                 myStarterCard = c;

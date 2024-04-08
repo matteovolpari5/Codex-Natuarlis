@@ -1,5 +1,4 @@
 package it.polimi.ingsw.gc07.model.decks;
-import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 import java.util.*;
@@ -58,12 +57,12 @@ public class Deck<T> {
      * objective cards and starter cards deck.
      * @return first card of the deck
      */
-    public T drawCard() throws CardNotPresentException {
+    public T drawCard() {
         try {
             return this.content.pop();
         }
         catch(EmptyStackException e){
-            throw new CardNotPresentException();
+            return null;
         }
     }
 

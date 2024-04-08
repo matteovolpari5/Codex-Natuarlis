@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.model.decks;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
+import it.polimi.ingsw.gc07.model.cards.Card;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,30 +31,22 @@ class DeckTest {
     public void checkDraw() {
         PlaceableCard topCard = deck.getContent().peek();
         int size = deck.getContent().size();
-        try {
-            PlaceableCard card  = deck.drawCard();
-            assertEquals(topCard, card);
-            assertEquals(size-1, deck.getContent().size());
-        } catch (CardNotPresentException e) {
-            throw new RuntimeException(e);
-        }
+        PlaceableCard card  = deck.drawCard();
+        assertEquals(topCard, card);
+        assertEquals(size-1, deck.getContent().size());
     }
 
     @Test
     public void checkDrawEmptyDeck() {
-        try {
             deck.drawCard();
             deck.drawCard();
             deck.drawCard();
             deck.drawCard();
             deck.drawCard();
             deck.drawCard();
-            assertThrows(CardNotPresentException.class,
-                    () -> deck.drawCard());
-        } catch (CardNotPresentException e) {
-            throw new RuntimeException(e);
+            Card card = deck.drawCard();
+            assertNull(card);
         }
-    }
 
     @Test
     public void testShuffle() {

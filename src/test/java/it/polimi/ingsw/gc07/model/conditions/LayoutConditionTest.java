@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
@@ -35,7 +34,7 @@ class LayoutConditionTest {
     }
 
     @Test
-    public void onlyStarterCard() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void onlyStarterCard() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -58,7 +57,7 @@ class LayoutConditionTest {
     }
 
     @Test
-    public void condition3x3() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void condition3x3() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -136,7 +135,7 @@ class LayoutConditionTest {
     }
 
     @Test
-    public void condition4x2() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void condition4x2() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -206,7 +205,7 @@ class LayoutConditionTest {
     }
 
     @Test
-    public void checkDoNotReuseCards() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void checkDoNotReuseCards() {
         // checks that the same is card is not reused
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
@@ -269,7 +268,7 @@ class LayoutConditionTest {
     }
 
     @Test
-    public void multipleTimesMet() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void multipleTimesMet() {
         // the condition is met multiple times
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
@@ -424,7 +423,7 @@ class LayoutConditionTest {
     }
 
     @Test
-    public void patternInterruptedByStarterCard() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void patternInterruptedByStarterCard() {
         // the pattern is interrupted by a starter card
 
         myStarterCard = starterCardsDeck.drawCard();

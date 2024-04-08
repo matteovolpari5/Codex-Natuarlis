@@ -30,9 +30,12 @@ public class GoldCardsDeck extends DrawableDeck<GoldCard> {
      * Method to reveal the game resource on the back of the card on top
      * of the deck.
      * @return game resource on the back of the card on top of the deck
-     * @throws CardNotPresentException thrown if the deck is empty
      */
-    public GameResource revealBackDeckCard() throws CardNotPresentException {
-        return revealDeckCard().getPermanentResources().getFirst();
+    public GameResource revealBackDeckCard() {
+        try {
+            return revealDeckCard().getPermanentResources().getFirst();
+        }catch(CardNotPresentException e) {
+            return null;
+        }
     }
 }

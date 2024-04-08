@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
+import it.polimi.ingsw.gc07.exceptions.IndexesOutOfGameFieldException;
 import it.polimi.ingsw.gc07.model.CommandResultManager;
 import it.polimi.ingsw.gc07.model.Player;
 
@@ -36,6 +37,10 @@ public class GamesManager {
         commandResultManager = new CommandResultManager();
     }
 
+    public static GamesManager getGamesManager() {
+        return null;
+    } // TODO no null, ritorno singleton
+
     /**
      * Friendly getter method for attribute games, used for Command pattern.
      * @return games
@@ -48,26 +53,24 @@ public class GamesManager {
      * Friendly getter method for attribute players, used for Command pattern.
      * @return players
      */
-    List<Player> getPendingPlayerspending() {
+    List<Player> getPendingPlayers() {
         return pendingPlayers;
+    }
+
+    /**
+     * Getter for the command result manager.
+     * @return command result manager of the games manager
+     */
+    CommandResultManager getCommandResultManager() {
+        return commandResultManager;
     }
 
     /**
      * Setter for game command, used to set the game command of Command pattern.
      * @param gameCommand game command to set
      */
-    public void setGameCommand(GameCommand gameCommand) {
+    public void setAndExecuteCommand(GameCommand gameCommand) {
         this.gameCommand = gameCommand;
-    }
-
-    CommandResultManager getCommandResultManager() {
-        return commandResultManager;
-    }
-
-    /**
-     * Execute method, used to execute the command of Command pattern.
-     */
-    public void execute() {
         gameCommand.execute();
     }
 

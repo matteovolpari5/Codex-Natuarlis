@@ -33,14 +33,12 @@ class AddChatPublicMessageCommandTest {
         game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
 
         Player firstPlayer = new Player("Player1", true, false);
-        game.setCommand(new AddPlayerCommand(game, firstPlayer));
-        game.execute();
+        game.setAndExecuteCommand(new AddPlayerCommand(game, firstPlayer));
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("Player2", false, false);
-        game.setCommand(new AddPlayerCommand(game, secondPlayer));
-        game.execute();
+        game.setAndExecuteCommand(new AddPlayerCommand(game, secondPlayer));
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
@@ -48,19 +46,16 @@ class AddChatPublicMessageCommandTest {
 
     @Test
     void addMessageSuccess() {
-        game.setCommand(new AddChatPublicMessageCommand(game, "My content...", "Player1"));
-        game.execute();
+        game.setAndExecuteCommand(new AddChatPublicMessageCommand(game, "My content...", "Player1"));
         CommandResult result = game.getCommandResultManager().getCommandResult();        assertEquals(CommandResult.SUCCESS, result);
-        game.setCommand(new AddChatPublicMessageCommand(game, "My other content....", "Player2"));
-        game.execute();
+        game.setAndExecuteCommand(new AddChatPublicMessageCommand(game, "My other content....", "Player2"));
         result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
 
     @Test
     void addMessageWrongSender() {
-        game.setCommand(new AddChatPublicMessageCommand(game, "My content...", "WrongPlayer"));
-        game.execute();
+        game.setAndExecuteCommand(new AddChatPublicMessageCommand(game, "My content...", "WrongPlayer"));
         CommandResult result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.WRONG_SENDER, result);
     }

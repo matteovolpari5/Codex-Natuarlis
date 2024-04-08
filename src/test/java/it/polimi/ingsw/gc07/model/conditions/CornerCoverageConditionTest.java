@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
@@ -36,7 +35,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void onlyStarterCard() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void onlyStarterCard() {
         for(PlaceableCard c: starterCardsDeck.getContent()){
             if(c.getId() == 85){
                 myStarterCard = c;
@@ -49,7 +48,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void oneCornerCovered() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException {
+    public void oneCornerCovered() {
         for(PlaceableCard c: starterCardsDeck.getContent()){
             if(c.getId() == 84){
                 myStarterCard = c;
@@ -65,7 +64,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void twoCornersCovered() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void twoCornersCovered() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -82,7 +81,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void threeCornersCovered() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException {
+    public void threeCornersCovered() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -97,7 +96,7 @@ class CornerCoverageConditionTest {
 
     // testing all four corners, I test all possible positions
     @Test
-    public void fourCornersCovered() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException {
+    public void fourCornersCovered() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -113,7 +112,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void topBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void topBorder() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -130,7 +129,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void bottomBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void bottomBorder() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -147,7 +146,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void rightBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void rightBorder() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);
@@ -164,7 +163,7 @@ class CornerCoverageConditionTest {
     }
 
     @Test
-    public void leftBorder() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void leftBorder() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         gameField = new GameField(myStarterCard);

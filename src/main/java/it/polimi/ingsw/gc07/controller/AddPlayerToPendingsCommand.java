@@ -47,7 +47,7 @@ public class AddPlayerToPendingsCommand implements GameCommand {
         // this command can always be used
         if(checkNicknameUnique(nickname)){
             Player newPlayer = new Player(nickname, connectionType, interfaceType);
-            gamesManager.getPendingPlayerspending().add(newPlayer);
+            gamesManager.getPendingPlayers().add(newPlayer);
         }
         else {
             gamesManager.getCommandResultManager().setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
@@ -68,7 +68,7 @@ public class AddPlayerToPendingsCommand implements GameCommand {
                 unique = false;
             }
         }
-        for(Player p: gamesManager.getPendingPlayerspending()) {
+        for(Player p: gamesManager.getPendingPlayers()) {
             if(p.getNickname().equals(nickname)) {
                 unique = false;
             }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc07.controller;
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
+import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 public class DrawDeckCardCommand implements GameCommand{
@@ -52,19 +53,24 @@ public class DrawDeckCardCommand implements GameCommand{
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_CARD_TYPE);
             return;
         }
-        try {
-            if (type.equals(CardType.RESOURCE_CARD)) {
-                game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getResourceCardsDeck().drawCard());
+        DrawableCard card = null;
+        if (type.equals(CardType.RESOURCE_CARD)) {
+            card = game.getResourceCardsDeck().drawCard();
+            if(card == null) {
+                game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
+                return;
             }
-            if (type.equals(CardType.GOLD_CARD)) {
-                game.getPlayers().get(game.getCurrPlayer()).addCardHand(game.getGoldCardsDeck().drawCard());
+            game.getPlayers().get(game.getCurrPlayer()).addCardHand(card);
+        }
+        if (type.equals(CardType.GOLD_CARD)) {
+            card = game.getGoldCardsDeck().drawCard();
+            if(card == null){
+                game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
+                return;
             }
-            game.changeCurrPlayer();
+            game.getPlayers().get(game.getCurrPlayer()).addCardHand(card);
         }
-        catch (CardNotPresentException e){
-            game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
-            return;
-        }
+        game.changeCurrPlayer();
         game.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
 }

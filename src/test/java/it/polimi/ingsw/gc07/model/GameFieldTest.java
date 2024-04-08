@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
@@ -27,7 +26,7 @@ class GameFieldTest {
     }
 
     @Test
-    void placeCard() throws CardNotPresentException {
+    void placeCard() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -38,7 +37,7 @@ class GameFieldTest {
     }
 
     @Test
-    void isCardPresent() throws CardNotPresentException {
+    void isCardPresent() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -64,7 +63,7 @@ class GameFieldTest {
     }
 
     @Test
-    void getPlacedCard() throws CardNotPresentException {
+    void getPlacedCard() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -92,7 +91,7 @@ class GameFieldTest {
     }
 
     @Test
-    void removePlacedCard() throws CardNotPresentException {
+    void removePlacedCard() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -124,7 +123,7 @@ class GameFieldTest {
     }
 
     @Test
-    void getCardWay() throws CardNotPresentException {
+    void getCardWay() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -139,7 +138,7 @@ class GameFieldTest {
     }
 
     @Test
-    void getCardsOrder() throws CardNotPresentException {
+    void getCardsOrder() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -157,7 +156,7 @@ class GameFieldTest {
     }
 
     @Test
-    void getNumPlayedCards() throws CardNotPresentException {
+    void getNumPlayedCards() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);

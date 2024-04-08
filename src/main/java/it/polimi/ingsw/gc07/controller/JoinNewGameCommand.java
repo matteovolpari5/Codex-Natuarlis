@@ -73,7 +73,7 @@ public class JoinNewGameCommand implements GameCommand {
                 player.setTokenColor(tokenColor);
                 game.setAndExecuteCommand(new AddPlayerCommand(game, player));
             }
-            gamesManager.getPendingPlayerspending().remove(player);
+            gamesManager.getPendingPlayers().remove(player);
         }
         gamesManager.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }

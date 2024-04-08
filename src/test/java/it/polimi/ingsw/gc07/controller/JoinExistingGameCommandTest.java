@@ -14,17 +14,13 @@ class JoinExistingGameCommandTest {
     @BeforeEach
     void setUp() {
         gamesManager = new GamesManager();
-        gamesManager.setGameCommand(new AddPlayerToPendingsCommand(gamesManager, "P1", true, true));
-        gamesManager.execute();
-        gamesManager.setGameCommand(new AddPlayerToPendingsCommand(gamesManager, "P2", true, true));
-        gamesManager.execute();
-        gamesManager.setGameCommand(new JoinNewGameCommand(gamesManager, "P1", TokenColor.GREEN, 4));
-        gamesManager.execute();
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingsCommand(gamesManager, "P1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingsCommand(gamesManager, "P2", true, true));
+        gamesManager.setAndExecuteCommand(new JoinNewGameCommand(gamesManager, "P1", TokenColor.GREEN, 4));
     }
     @Test
     void JoinExistingGameSuccess() {
-        gamesManager.setGameCommand(new JoinExistingGameCommand(gamesManager, "P2", TokenColor.RED, 0));
-        gamesManager.execute();
+        gamesManager.setAndExecuteCommand(new JoinExistingGameCommand(gamesManager, "P2", TokenColor.RED, 0));
         //assert mancante
         assertNull(gamesManager.getPendingPlayer("P2"));
         boolean found;
@@ -41,8 +37,7 @@ class JoinExistingGameCommandTest {
 
     @Test
     void JoinExistingGameFail() {
-        gamesManager.setGameCommand(new JoinExistingGameCommand(gamesManager, "P2", TokenColor.RED, 1));
-        gamesManager.execute();
+        gamesManager.setAndExecuteCommand(new JoinExistingGameCommand(gamesManager, "P2", TokenColor.RED, 1));
         //assert mancante
         assertNotNull(gamesManager.getPendingPlayer("P2"));
         boolean found;

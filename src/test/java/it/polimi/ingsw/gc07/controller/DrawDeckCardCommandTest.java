@@ -38,37 +38,28 @@ class DrawDeckCardCommandTest {
         // add first player
         Player firstPlayer = new Player("Player1", true, false);
         firstPlayer.setTokenColor(TokenColor.BLUE);
-        game.setCommand(new AddPlayerCommand(game, firstPlayer));
-        game.execute();
+        game.setAndExecuteCommand(new AddPlayerCommand(game, firstPlayer));
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add second player
         Player secondPlayer = new Player("Player2", false, false);
         secondPlayer.setTokenColor(TokenColor.GREEN);
-        game.setCommand(new AddPlayerCommand(game, secondPlayer));
-        game.execute();
+        game.setAndExecuteCommand(new AddPlayerCommand(game, secondPlayer));
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
-        try {
-            game.getPlayers().get(0).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
-            game.getPlayers().get(1).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
-        }catch (CardNotPresentException e){
-            throw new RuntimeException();
-        }
+        game.getPlayers().get(0).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
+        game.getPlayers().get(1).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
         game.setCurrentPlayer(0);
     }
 
     @Test
     void DrawDeckCard() {
-        game.setCommand(new DrawDeckCardCommand(game, "Player2", CardType.RESOURCE_CARD));
-        game.execute();
-        game.setCommand(new DrawDeckCardCommand(game, "Player1", CardType.OBJECTIVE_CARD));
-        game.execute();
+        game.setAndExecuteCommand(new DrawDeckCardCommand(game, "Player2", CardType.RESOURCE_CARD));
+        game.setAndExecuteCommand(new DrawDeckCardCommand(game, "Player1", CardType.OBJECTIVE_CARD));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_CARD_TYPE);
-        game.setCommand(new DrawDeckCardCommand(game, "Player1", CardType.RESOURCE_CARD));
-        game.execute();
+        game.setAndExecuteCommand(new DrawDeckCardCommand(game, "Player1", CardType.RESOURCE_CARD));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.SUCCESS);
         int id = game.getPlayers().get(1).getCurrentHand().getFirst().getId();
         boolean found = false;
@@ -84,14 +75,9 @@ class DrawDeckCardCommandTest {
     void DrawFromEmptyDeck(){
         DrawableCard resourceCard;
         for (int i = 0; i < 34; i++ ){
-            try{
-                resourceCard = game.getResourceCardsDeck().drawCard();
-            }catch (CardNotPresentException e){
-                throw new RuntimeException();
-            }
+            resourceCard = game.getResourceCardsDeck().drawCard();
         }
-        game.setCommand(new DrawDeckCardCommand(game, "Player1", CardType.RESOURCE_CARD));
-        game.execute();
+        game.setAndExecuteCommand(new DrawDeckCardCommand(game, "Player1", CardType.RESOURCE_CARD));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
 }

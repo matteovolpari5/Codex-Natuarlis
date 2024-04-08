@@ -228,10 +228,6 @@ public class Game {
 
     public void setAndExecuteCommand(GameCommand gameCommand) {
         this.gameCommand = gameCommand;
-        this.execute();
-    }
-
-    private void execute() {
         gameCommand.execute();
     }
 
@@ -263,13 +259,19 @@ public class Game {
         else
             currPlayer++;
         if(twentyPointsReached) {
-            if(players.get(currPlayer).isFirst() && additionalRound)
-            {
+            if(players.get(currPlayer).isFirst() && additionalRound) {
                 state = GameState.GAME_ENDED;
                 winners.addAll(computeWinner());
+                // the game is ended
+
+                //TODO faccio partire un timer di qualche minuto
+                // per permettere ai giocatori di scrivere in chat
+
+                // when the timer is ended
+                //GamesManager.getGamesManager().deleteGame(this.id);
+                //return;
             }
-            else if(players.get(currPlayer).isFirst())
-            {
+            else if(players.get(currPlayer).isFirst()) {
                 additionalRound=true;
             }
         }
@@ -304,32 +306,34 @@ public class Game {
         int maxRealizedObjective = 0;
         List<Player> playersCopy = new ArrayList<>(players);
         for (int i=0; i>=0 && i< players.size(); i++){
-            try {
-                realizedObjectives = objectiveCardsDeck.revealFaceUpCard(0).numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
-                //points counter for the 1st common objective
-                deltaPoints = objectiveCardsDeck.revealFaceUpCard(0).getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
-                realizedObjectives += objectiveCardsDeck.revealFaceUpCard(1).numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
-                //points counter for the 2nd common objective
-                deltaPoints += objectiveCardsDeck.revealFaceUpCard(1).getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
-                realizedObjectives += players.get(i).getSecretObjective().numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
-                //points counter for the secret objective
-                deltaPoints += players.get(i).getSecretObjective().getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
-                scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltaPoints);
-                if (max <= scoreTrackBoard.getScore(playersCopy.get(i).getNickname())) {
-                    max = scoreTrackBoard.getScore(playersCopy.get(i).getNickname());
-                    if (realizedObjectives >= maxRealizedObjective) {
-                        if (realizedObjectives == maxRealizedObjective) {
-                            winners.add(playersCopy.get(i));
-                        } else {
-                            winners.clear();
-                            winners.add(playersCopy.get(i));
-                            maxRealizedObjective = realizedObjectives;
-                        }
+            ObjectiveCard objectiveCard = null;
+            objectiveCard = objectiveCardsDeck.revealFaceUpCard(0);
+            assert(objectiveCard != null): "The common objective must be present";
+            realizedObjectives = objectiveCard.numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+            //points counter for the 1st common objective
+            deltaPoints = objectiveCard.getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
+
+            objectiveCard = objectiveCardsDeck.revealFaceUpCard(1);
+            assert(objectiveCard != null): "The common objective must be present";
+            realizedObjectives += objectiveCard.numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+            //points counter for the 2nd common objective
+            deltaPoints += objectiveCard.getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
+
+            realizedObjectives += players.get(i).getSecretObjective().numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+            //points counter for the secret objective
+            deltaPoints += players.get(i).getSecretObjective().getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
+            scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltaPoints);
+            if (max <= scoreTrackBoard.getScore(playersCopy.get(i).getNickname())) {
+                max = scoreTrackBoard.getScore(playersCopy.get(i).getNickname());
+                if (realizedObjectives >= maxRealizedObjective) {
+                    if (realizedObjectives == maxRealizedObjective) {
+                        winners.add(playersCopy.get(i));
+                    } else {
+                        winners.clear();
+                        winners.add(playersCopy.get(i));
+                        maxRealizedObjective = realizedObjectives;
                     }
                 }
-            }catch (CardNotPresentException e){
-                // the exception can't occur since the objectives cards cannot end.
-                throw new RuntimeException();
             }
         }
         return winners;
@@ -353,19 +357,25 @@ public class Game {
      * @param pos position of the card
      * @return the card that we want to reveal
      * @throws WrongCardTypeException if the card is a starter card
-     * @throws CardNotPresentException if there aren't face up cards
      */
-    public Card revealFaceUpCard(CardType type, int pos) throws WrongCardTypeException, CardNotPresentException {
-        if(type.equals(CardType.STARTER_CARD))
-        {
+    public Card revealFaceUpCard(CardType type, int pos) throws WrongCardTypeException {       // TODO rimuovere wrongcardtype exception
+        if(type.equals(CardType.STARTER_CARD)) {
             throw new WrongCardTypeException();
         }
+        Card faceUpCard;
         if(type.equals(CardType.GOLD_CARD))
-            return this.goldCardsDeck.revealFaceUpCard(pos);
+            faceUpCard = this.goldCardsDeck.revealFaceUpCard(pos);
         else if(type.equals(CardType.RESOURCE_CARD))
-            return this.resourceCardsDeck.revealFaceUpCard(pos);
+            faceUpCard = this.resourceCardsDeck.revealFaceUpCard(pos);
         else
-            return this.objectiveCardsDeck.revealFaceUpCard(pos);
+            faceUpCard = this.objectiveCardsDeck.revealFaceUpCard(pos);
+        if(faceUpCard != null) {
+            return faceUpCard;
+        }
+        else {
+            return null;
+            // TODO
+        }
     }
 
     /**
@@ -373,17 +383,23 @@ public class Game {
      * @param type : type of the card
      * @return the GameResource that represent the back of the card
      * @throws WrongCardTypeException   if we reveal the back of a starter card or the back of an objective card
-     * @throws CardNotPresentException if the deck is empty
      */
-    public GameResource revealBackDeckCard(CardType type) throws WrongCardTypeException, CardNotPresentException {
+    public GameResource revealBackDeckCard(CardType type) throws WrongCardTypeException {       // TODO togliere eccezione
         if(type.equals(CardType.STARTER_CARD) || type.equals(CardType.OBJECTIVE_CARD))
         {
             throw new WrongCardTypeException();
         }
-        if(type.equals(CardType.GOLD_CARD))
-            return this.goldCardsDeck.revealBackDeckCard();
-        else
-            return this.resourceCardsDeck.revealBackDeckCard();
+        GameResource backResource;
+        if(type.equals(CardType.GOLD_CARD)){
+            backResource = this.goldCardsDeck.revealBackDeckCard();
+        }else{
+            backResource = this.resourceCardsDeck.revealBackDeckCard();
+        }
+        if(backResource != null)
+            return backResource;
+        else {
+            return null;    // TODO cosa ritorno ?
+        }
     }
 
     /**

@@ -33,22 +33,19 @@ public abstract class DrawableDeck<T> extends PlayingDeck<T> {
      * @param cardPos position of the card the player wants to draw
      * @return face up card in position cardPos
      */
-    public T drawFaceUpCard(int cardPos) throws IndexOutOfBoundsException, CardNotPresentException {
-        if(cardPos < 0 || cardPos > 1){
-            throw new IndexOutOfBoundsException();
-        }
-        if(faceUpCards.get(cardPos) == null){
-            throw new CardNotPresentException();
+    public T drawFaceUpCard(int cardPos) {
+        if(cardPos < 0 || cardPos >= faceUpCards.size()){
+            return null;
         }
         // Save the card to return
         T resultCard = faceUpCards.remove(cardPos);
         // Substitute the face up card
-        try{
-            faceUpCards.add(this.drawCard());
-        }
-        catch(CardNotPresentException e){
-            // Deck is empty, face up card cannot be replaced
-            // TODO Margara ha detto che dovrei sostituire con una carta dell'altro mazzo
+        T newFaceUpCard = this.drawCard();
+        if(newFaceUpCard != null)
+            faceUpCards.add(newFaceUpCard);
+        else {
+            //TODO Margara ha detto che dovrei sostituire con una carta dell'altro mazzo
+            // altrimenti lascio vuoto
         }
         // Card is immutable, I can return it
         return resultCard;

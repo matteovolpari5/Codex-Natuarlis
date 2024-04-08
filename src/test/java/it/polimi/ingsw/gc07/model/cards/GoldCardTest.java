@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
@@ -27,7 +26,7 @@ class GoldCardTest {
     }
 
     @Test
-    void isGoldPlaceableNoLegitCorner() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException {
+    void isGoldPlaceableNoLegitCorner() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -58,7 +57,7 @@ class GoldCardTest {
     }
 
     @Test
-    void isGoldPlaceableNoCoveredCorner() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException{
+    void isGoldPlaceableNoCoveredCorner() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -89,7 +88,7 @@ class GoldCardTest {
     }
 
     @Test
-    void isGoldPlaceableMultipleCorner() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException{
+    void isGoldPlaceableMultipleCorner() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -120,7 +119,7 @@ class GoldCardTest {
     }
 
     @Test
-    void isGoldPlaceableIndexOut() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException{
+    void isGoldPlaceableIndexOut() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -151,7 +150,7 @@ class GoldCardTest {
     }
 
     @Test
-    void isGoldPlaceableCardAlreadyPresent() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException{
+    void isGoldPlaceableCardAlreadyPresent() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -181,7 +180,7 @@ class GoldCardTest {
         assertEquals(CommandResult.CARD_ALREADY_PRESENT, myGoldCard.isPlaceable(gameField, 41, 41, true));
     }
     @Test
-    void isGoldPlaceableCondition() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException {
+    void isGoldPlaceableCondition() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -213,7 +212,7 @@ class GoldCardTest {
     }
 
     @Test
-    void getGoldPlacementScore() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    void getGoldPlacementScore() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -245,7 +244,7 @@ class GoldCardTest {
     }
 
     @Test
-    void getGoldCornerPlacementScore() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    void getGoldCornerPlacementScore() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
@@ -276,7 +275,7 @@ class GoldCardTest {
         assertEquals(4, myGoldCard.getPlacementScore(gameField, 38, 40));
     }
     @Test
-    void getGoldItemsPlacementScore() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException, CardNotPresentException {
+    void getGoldItemsPlacementScore() {
         myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);

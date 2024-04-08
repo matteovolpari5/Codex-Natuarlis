@@ -46,24 +46,21 @@ public class AddPlayerCommand implements GameCommand {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        try{
-            newPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
-            newPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
-            newPlayer.addCardHand(game.getGoldCardsDeck().drawCard());
-            newPlayer.setSecretObjective(game.getObjectiveCardsDeck().drawCard());
 
-            PlaceableCard starterCard = game.getStarterCardsDeck().drawCard();
-            GameField gameField = new GameField(starterCard);
-            game.getPlayers().add(newPlayer);
-            game.getPlayersGameField().put(newPlayer.getNickname(), gameField);
-            game.getScoreTrackBoard().addPlayer(newPlayer.getNickname());
-            if (isFull()) {
-                setup();
-                game.setState(GameState.PLAYING);
-            }
-        } catch (CardNotPresentException e) {
-            // the exception can't occur since the game is not started yet
-            throw new RuntimeException();
+        // draw card can't return null, since the game hasn't already started
+        newPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
+        newPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
+        newPlayer.addCardHand(game.getGoldCardsDeck().drawCard());
+        newPlayer.setSecretObjective(game.getObjectiveCardsDeck().drawCard());
+
+        PlaceableCard starterCard = game.getStarterCardsDeck().drawCard();
+        GameField gameField = new GameField(starterCard);
+        game.getPlayers().add(newPlayer);
+        game.getPlayersGameField().put(newPlayer.getNickname(), gameField);
+        game.getScoreTrackBoard().addPlayer(newPlayer.getNickname());
+        if (isFull()) {
+            setup();
+            game.setState(GameState.PLAYING);
         }
         game.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
@@ -85,27 +82,25 @@ public class AddPlayerCommand implements GameCommand {
         Random random= new Random();
         game.setCurrPlayer(random.nextInt(game.getPlayersNumber()));
         game.getPlayers().get(game.getCurrPlayer()).setFirst();
-        try {
-            //place 2 gold cards
-            List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
-            setUpGoldCardsFaceUp.add(game.getGoldCardsDeck().drawCard());
-            setUpGoldCardsFaceUp.add(game.getGoldCardsDeck().drawCard());
-            game.getGoldCardsDeck().setFaceUpCards(setUpGoldCardsFaceUp);
 
-            //place 2 resource card
-            List<DrawableCard> setUpResourceCardsFaceUp = new ArrayList<>();
-            setUpResourceCardsFaceUp.add(game.getResourceCardsDeck().drawCard());
-            setUpResourceCardsFaceUp.add(game.getResourceCardsDeck().drawCard());
-            game.getResourceCardsDeck().setFaceUpCards(setUpResourceCardsFaceUp);
+        // draw card can't return null, since the game hasn't already started
 
-            // place common objective cards
-            List<ObjectiveCard> setUpObjectiveCardsFaceUp = new ArrayList<>();
-            setUpObjectiveCardsFaceUp.add(game.getObjectiveCardsDeck().drawCard());
-            setUpObjectiveCardsFaceUp.add(game.getObjectiveCardsDeck().drawCard());
-            game.getObjectiveCardsDeck().setFaceUpCards(setUpObjectiveCardsFaceUp);
-        } catch (CardNotPresentException e) {
-            // the exception can't occur since the game is not started yet
-            throw new RuntimeException();
-        }
+        //place 2 gold cards
+        List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
+        setUpGoldCardsFaceUp.add(game.getGoldCardsDeck().drawCard());
+        setUpGoldCardsFaceUp.add(game.getGoldCardsDeck().drawCard());
+        game.getGoldCardsDeck().setFaceUpCards(setUpGoldCardsFaceUp);
+
+        //place 2 resource card
+        List<DrawableCard> setUpResourceCardsFaceUp = new ArrayList<>();
+        setUpResourceCardsFaceUp.add(game.getResourceCardsDeck().drawCard());
+        setUpResourceCardsFaceUp.add(game.getResourceCardsDeck().drawCard());
+        game.getResourceCardsDeck().setFaceUpCards(setUpResourceCardsFaceUp);
+
+        // place common objective cards
+        List<ObjectiveCard> setUpObjectiveCardsFaceUp = new ArrayList<>();
+        setUpObjectiveCardsFaceUp.add(game.getObjectiveCardsDeck().drawCard());
+        setUpObjectiveCardsFaceUp.add(game.getObjectiveCardsDeck().drawCard());
+        game.getObjectiveCardsDeck().setFaceUpCards(setUpObjectiveCardsFaceUp);
     }
 }

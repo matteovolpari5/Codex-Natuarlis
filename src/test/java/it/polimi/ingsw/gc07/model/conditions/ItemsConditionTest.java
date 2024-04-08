@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.GameItem;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -43,7 +42,7 @@ class ItemsConditionTest {
     // checks the case of only the starter card placed face down
     // the card has only permanent resources
     @Test
-    public void onlyStarterCardPermanentResources() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void onlyStarterCardPermanentResources() {
         PlaceableCard myStarterCard = null;
         for(PlaceableCard c: starterCardsDeck.getContent()){
             if(c.getId() == 86){
@@ -63,7 +62,7 @@ class ItemsConditionTest {
     // checks the case of only the starter card placed face up
     // the card has only temporary resources
     @Test
-    public void onlyStarterCardTemporaryResources() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void onlyStarterCardTemporaryResources() {
         PlaceableCard myStarterCard = starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
@@ -78,7 +77,7 @@ class ItemsConditionTest {
     // checks the case of only the starter card placed face down
     // the card has bought temporary and permanent resources
     @Test
-    public void onlyStarterCard() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void onlyStarterCard() {
         PlaceableCard myStarterCard = null;
         for(PlaceableCard c: starterCardsDeck.getContent()){
             if(c.getId() == 81){
@@ -96,7 +95,7 @@ class ItemsConditionTest {
     }
 
     @Test
-    public void oneTimeMet() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void oneTimeMet() {
         PlaceableCard myStarterCard = null;
         for(PlaceableCard c: starterCardsDeck.getContent()){
             if(c.getId() == 81){
@@ -163,7 +162,7 @@ class ItemsConditionTest {
     }
 
     @Test
-    public void numTimesZero() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void numTimesZero() {
         PlaceableCard myStarterCard = null;
         for(PlaceableCard c: starterCardsDeck.getContent()){
             if(c.getId() == 81){
@@ -225,7 +224,7 @@ class ItemsConditionTest {
     }
 
     @Test
-    public void moreTimesMet() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void moreTimesMet() {
         PlaceableCard myStarterCard = null;
         for(PlaceableCard c: starterCardsDeck.getContent()){
             if(c.getId() == 81){
@@ -282,7 +281,7 @@ class ItemsConditionTest {
     }
 
     @Test
-    public void gameResourceAndGameObjectList() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void gameResourceAndGameObjectList() {
         PlaceableCard myStarterCard = null;
         for(PlaceableCard c: starterCardsDeck.getContent()){
             if(c.getId() == 82){

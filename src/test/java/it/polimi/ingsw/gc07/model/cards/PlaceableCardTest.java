@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
@@ -25,7 +24,7 @@ class PlaceableCardTest {
     }
 
     @Test
-    public void onlyStarterCardScore () throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void onlyStarterCardScore () {
         myStarterCard=starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
@@ -33,7 +32,7 @@ class PlaceableCardTest {
     }
 
     @Test
-    public void starterCardScore() throws CardNotPresentException, CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void starterCardScore() {
         myStarterCard=starterCardsDeck.drawCard();
         GameField gameField = new GameField(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
