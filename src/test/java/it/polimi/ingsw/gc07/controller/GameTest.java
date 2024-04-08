@@ -424,6 +424,8 @@ class GameTest {
         game.execute();
         game.setCommand(new AddPlayerCommand(game, secondPlayer));
         game.execute();
+        firstPlayer.setFirst();
+        game.setCurrentPlayer(0);
         game.setState(GameState.WAITING_PLAYERS);
         game.changeCurrPlayer();
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_STATE);
