@@ -1,7 +1,5 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.exceptions.PlayerAlreadyPresentException;
-import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

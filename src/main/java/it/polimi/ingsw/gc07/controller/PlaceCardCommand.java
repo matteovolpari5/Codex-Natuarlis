@@ -91,8 +91,8 @@ public class PlaceCardCommand implements GameCommand {
                             isStalled = false;
                         }
                     } catch (PlayerNotPresentException e) {
-                        game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
-                        return;
+                        // the current player must be present
+                        throw new RuntimeException();
                     }
                 }
             }

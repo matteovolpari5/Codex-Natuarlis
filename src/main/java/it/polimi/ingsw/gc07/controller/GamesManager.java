@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
-import it.polimi.ingsw.gc07.exceptions.IndexesOutOfGameFieldException;
 import it.polimi.ingsw.gc07.model.CommandResultManager;
 import it.polimi.ingsw.gc07.model.Player;
 

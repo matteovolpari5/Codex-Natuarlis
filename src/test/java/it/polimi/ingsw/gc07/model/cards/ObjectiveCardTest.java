@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
@@ -22,7 +21,7 @@ class ObjectiveCardTest {
 
 
     @BeforeEach
-    void setUp() throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    void setUp() {
             objectiveCardsDeck = DecksBuilder.buildObjectiveCardsDeck();
             resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
             //goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
@@ -45,7 +44,7 @@ class ObjectiveCardTest {
             gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
     }
     @Test
-    public void OneTimeLayoutConditionMet () throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void OneTimeLayoutConditionMet () {
         for (DrawableCard c : resourceCardsDeck.getContent()) {
             if (c.getId() == 1) {
                 myResourceCard = c;
@@ -68,7 +67,7 @@ class ObjectiveCardTest {
 
     }
     @Test
-    public void TwoTimesLayoutConditionMet () throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void TwoTimesLayoutConditionMet () {
         for (DrawableCard c : resourceCardsDeck.getContent()) {
             if (c.getId() == 1) {
                 myResourceCard = c;
@@ -105,7 +104,7 @@ class ObjectiveCardTest {
         assertEquals(2, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
     }
     @Test
-    public void NoLayoutConditionMet () throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void NoLayoutConditionMet () {
         for(DrawableCard c: resourceCardsDeck.getContent()) {
             if (c.getId() == 1) {
                 myResourceCard = c;
@@ -127,7 +126,7 @@ class ObjectiveCardTest {
         assertEquals(0, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
     }
     @Test
-    public void NotReusableCardLayout () throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void NotReusableCardLayout () {
         for (DrawableCard c : resourceCardsDeck.getContent()) {
             if (c.getId() == 1) {
                 myResourceCard = c;
@@ -159,7 +158,7 @@ class ObjectiveCardTest {
         assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
     }
     @Test
-    public void OneTimeLayoutConditionL () throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void OneTimeLayoutConditionL () {
         for(ObjectiveCard c: objectiveCardsDeck.getContent()){
             if(c.getId() == 91){
                 myObjectiveCard = c;
@@ -197,7 +196,7 @@ class ObjectiveCardTest {
         assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
     }
     @Test
-    public void TwoTimesLayoutConditionL () throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void TwoTimesLayoutConditionL () {
         for(ObjectiveCard c: objectiveCardsDeck.getContent()){
             if(c.getId() == 91){
                 myObjectiveCard = c;
@@ -255,7 +254,7 @@ class ObjectiveCardTest {
         assertEquals(2, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
     }
     @Test
-    public void NoLayoutConditionL () throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void NoLayoutConditionL () {
         for(ObjectiveCard c: objectiveCardsDeck.getContent()){
             if(c.getId() == 91){
                 myObjectiveCard = c;
@@ -293,7 +292,7 @@ class ObjectiveCardTest {
         assertEquals(0, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
     }
     @Test
-    public void NotReusableCardLayoutL () throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void NotReusableCardLayoutL () {
         for(ObjectiveCard c: objectiveCardsDeck.getContent()){
             if(c.getId() == 91){
                 myObjectiveCard = c;
@@ -341,7 +340,7 @@ class ObjectiveCardTest {
         assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
     }
     @Test
-    public void OneTimeItemCondition () throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void OneTimeItemCondition () {
         for(ObjectiveCard c: objectiveCardsDeck.getContent()){
             if(c.getId() == 95){
                 myObjectiveCard = c;
@@ -374,7 +373,7 @@ class ObjectiveCardTest {
         assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
     }
     @Test
-    public void TwoTimesItemCondition () throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void TwoTimesItemCondition () {
         for(ObjectiveCard c: objectiveCardsDeck.getContent()){
             if(c.getId() == 95){
                 myObjectiveCard = c;
@@ -407,7 +406,7 @@ class ObjectiveCardTest {
         assertEquals(2, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
     }
     @Test
-    public void NoItemConditionMet () throws CardAlreadyPresentException, IndexesOutOfGameFieldException, PlacingConditionNotMetException, MultipleCornersCoveredException, NotLegitCornerException, NoCoveredCornerException {
+    public void NoItemConditionMet () {
         for(ObjectiveCard c: objectiveCardsDeck.getContent()){
             if(c.getId() == 95){
                 myObjectiveCard = c;
