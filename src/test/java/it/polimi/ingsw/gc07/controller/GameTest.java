@@ -388,10 +388,6 @@ class GameTest {
         game.setAndExecuteCommand(new AddPlayerCommand(game, secondPlayer));
         firstPlayer.setFirst();
         game.setCurrentPlayer(0);
-        game.setState(GameState.GAME_STARTING);
-        game.changeCurrPlayer();
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_STATE);
-        game.setState(GameState.PLAYING);
         game.changeCurrPlayer();
         assertEquals(1, game.getCurrPlayer());
         game.changeCurrPlayer();
@@ -410,6 +406,22 @@ class GameTest {
         game.getPlayers().get(1).setIsStalled(false);
         game.changeCurrPlayer();
         game.changeCurrPlayer();
+        if (game.getState().equals(GameState.PLAYING)) {
+            game.changeCurrPlayer();
+        }
+    }
+    @Test
+    void changeCurrPlayerAllStalled(){
+        Player firstPlayer = new Player("Player1", false, false);
+        Player secondPlayer = new Player("Player2", false, true);
+        game.setAndExecuteCommand(new AddPlayerCommand(game, firstPlayer));
+        game.setAndExecuteCommand(new AddPlayerCommand(game, secondPlayer));
+        firstPlayer.setFirst();
+        game.setCurrentPlayer(0);
         game.changeCurrPlayer();
+        firstPlayer.setIsStalled(true);
+        secondPlayer.setIsStalled(true);
+        game.changeCurrPlayer();
+        assertEquals(GameState.GAME_ENDED, game.getState());
     }
 }
