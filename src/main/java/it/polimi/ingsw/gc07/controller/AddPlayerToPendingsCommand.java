@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 
 /**
@@ -43,15 +44,16 @@ public class AddPlayerToPendingsCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        // this command can always be used
         if(checkNicknameUnique(nickname)){
             Player newPlayer = new Player(nickname, connectionType, interfaceType);
             gamesManager.getPendingPlayerspending().add(newPlayer);
         }
         else {
-            // throw new PlayerAlreadyPresentException();
-            //TODO nooooo non posso lanciare eccezione da controller a view
-            // notificare nickname duplicato
+            gamesManager.getCommandResultManager().setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
+            return;
         }
+        gamesManager.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
 
     /**

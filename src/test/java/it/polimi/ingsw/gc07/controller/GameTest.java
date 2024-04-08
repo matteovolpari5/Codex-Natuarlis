@@ -3,8 +3,6 @@ package it.polimi.ingsw.gc07.controller;
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
-import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
@@ -426,7 +424,7 @@ class GameTest {
         game.execute();
         firstPlayer.setFirst();
         game.setCurrentPlayer(0);
-        game.setState(GameState.WAITING_PLAYERS);
+        game.setState(GameState.GAME_STARTING);
         game.changeCurrPlayer();
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_STATE);
         game.setState(GameState.PLAYING);
@@ -444,7 +442,7 @@ class GameTest {
         game.changeCurrPlayer();
         assertEquals(0, game.getCurrPlayer());
         //Testing the final phase
-        game.setTwentyPointsReached(true);
+        game.setTwentyPointsReached();
         game.getPlayers().get(1).setIsStalled(false);
         game.changeCurrPlayer();
         game.changeCurrPlayer();

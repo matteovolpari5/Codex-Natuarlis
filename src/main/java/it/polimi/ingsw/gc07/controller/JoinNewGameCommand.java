@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentException;
+import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -53,32 +53,29 @@ public class JoinNewGameCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        // this command can always be used
         Player player = gamesManager.getPendingPlayer(nickname);
-        if(player == null){
-            // throw new PlayerNotPresentException();
-            //TODO: no throws !!!
-            // situazione tipo: il giocatore è già entrato in un gioco,
-            // poi lancia di nuovo il comando per entrare in un gioco
-            // cosa fare?
+        if(player == null) {
+            gamesManager.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            return;
         }
         int gameId = -1;
         try{
             gameId = createGame(playersNumber);
         }
         catch(WrongNumberOfPlayersException e){
-            //TODO rientra nei controlli per cui non possono ancora usare la bandierina,
-            // ma devo notificare il player
+            gamesManager.getCommandResultManager().setCommandResult(CommandResult.WRONG_PLAYERS_NUMBER);
+            return;
         }
         for(Game game: gamesManager.getGames()) {
             if(game.getId() == gameId) {
                 // no need to check the token color for the first player of the game
-                assert(player != null): "The player was not found among pending ones";
                 player.setTokenColor(tokenColor);
-                game.setCommand(new AddPlayerCommand(game, player));
-                game.execute();
+                game.setAndExecuteCommand(new AddPlayerCommand(game, player));
             }
             gamesManager.getPendingPlayerspending().remove(player);
         }
+        gamesManager.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
 
     /**

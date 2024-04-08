@@ -39,6 +39,7 @@ public class AddChatPublicMessageCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        // no state check, this command be used all the time
         List<String> playersNicknames = game.getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender
         if(!playersNicknames.contains(sender)){

@@ -32,10 +32,8 @@ public class DisconnectPlayerCommand implements GameCommand {
      * Method to disconnect a player from the game.
      */
     @Override
-    //TODO il numero di connessi può scendere a 0
-    // gestire attesa riconnessione/timeout
-    // domanda su slack
     public void execute() {
+        // this command can always be used
         if(!game.getPlayersGameField().containsKey(nickname)){
             game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;

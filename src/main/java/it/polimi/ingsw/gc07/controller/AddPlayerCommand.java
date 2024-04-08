@@ -42,12 +42,11 @@ public class AddPlayerCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        if(!game.getState().equals(GameState.GAME_STARTING)) {
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
+            return;
+        }
         try{
-            if(!game.getState().equals(GameState.WAITING_PLAYERS)) {
-                game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
-                return;
-            }
-
             newPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
             newPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
             newPlayer.addCardHand(game.getGoldCardsDeck().drawCard());
@@ -81,7 +80,7 @@ public class AddPlayerCommand implements GameCommand {
      * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
      */
     private void setup() {
-        assert(game.getState().equals(GameState.WAITING_PLAYERS)): "The state is not waiting players";
+        assert(game.getState().equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
         // choose randomly the first player
         Random random= new Random();
         game.setCurrPlayer(random.nextInt(game.getPlayersNumber()));

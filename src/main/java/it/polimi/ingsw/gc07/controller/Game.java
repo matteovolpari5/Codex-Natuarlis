@@ -98,7 +98,7 @@ public class Game {
                 GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
                 Deck<PlaceableCard> starterCardsDeck) {
         this.id = id;
-        this.state = GameState.WAITING_PLAYERS;
+        this.state = GameState.GAME_STARTING;
         assert(playersNumber>=2 && playersNumber<=4): "Wrong players number";
         this.playersNumber = playersNumber;
         this.players = new ArrayList<>();
@@ -200,9 +200,8 @@ public class Game {
         return starterCardsDeck;
     }
 
-    void setTwentyPointsReached(boolean twentyPointsReached)
-    {
-        this.twentyPointsReached=twentyPointsReached;
+    void setTwentyPointsReached() {
+        this.twentyPointsReached = true;
     }
 
     boolean getTwentyPointsReached() {
@@ -218,6 +217,7 @@ public class Game {
     {
         this.currPlayer=num;
     }
+
     Chat getChat() {
         return chat;
     }
@@ -226,11 +226,12 @@ public class Game {
         return commandResultManager;
     }
 
-    public void setCommand(GameCommand gameCommand) {
+    public void setAndExecuteCommand(GameCommand gameCommand) {
         this.gameCommand = gameCommand;
+        this.execute();
     }
 
-    public void execute() {
+    private void execute() {
         gameCommand.execute();
     }
 
@@ -256,10 +257,7 @@ public class Game {
      * if a player is stalled he will be skipped.
      */
     void changeCurrPlayer () {
-        if(!state.equals(GameState.PLAYING)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
-            return;
-        }
+        assert(state.equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
         if(currPlayer == players.size()-1)
             currPlayer = 0;
         else
@@ -291,7 +289,6 @@ public class Game {
                 winners.addAll(computeWinner());
             }
         }
-        commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
     /**

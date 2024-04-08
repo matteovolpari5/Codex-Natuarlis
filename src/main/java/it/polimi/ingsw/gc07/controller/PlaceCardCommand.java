@@ -60,16 +60,16 @@ public class PlaceCardCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        if(!game.getState().equals(GameState.PLAYING)){
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
+            return;
+        }
         if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_PLAYER);
             return;
         }
         if(!(game.getPlayers().get(game.getCurrPlayer()).getCurrentHand()).contains(card)){
             game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
-            return;
-        }
-        if(!game.getState().equals(GameState.PLAYING)){
-            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
         CommandResult result = game.getPlayersGameField().get(nickname).placeCard(card,x,y,way);
@@ -114,7 +114,7 @@ public class PlaceCardCommand implements GameCommand {
         int deltaPoints;
         deltaPoints = game.getPlayersGameField().get(nickname).getPlacedCard(x, y).getPlacementScore(game.getPlayersGameField().get(nickname), x, y);
         if(deltaPoints + game.getScoreTrackBoard().getScore(nickname) >= 20){
-            game.setTwentyPointsReached(true);
+            game.setTwentyPointsReached();
             if((deltaPoints + game.getScoreTrackBoard().getScore(nickname)) > 29){
                 game.getScoreTrackBoard().setScore(nickname, 29);
             }

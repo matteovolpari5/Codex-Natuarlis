@@ -30,10 +30,9 @@ public class ReconnectPlayerCommand implements GameCommand {
     /**
      * Method to execute the concrete command reconnectPlayerCommand.
      */
-    //TODO questione delle connessioni, se era sceso a 0?
-    // vedi slack
     @Override
     public void execute() {
+        // this command can always be used
         if(!game.getPlayersGameField().containsKey(nickname)){
             game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;

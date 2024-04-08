@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
+import it.polimi.ingsw.gc07.model.CommandResultManager;
 import it.polimi.ingsw.gc07.model.Player;
 
 import java.util.ArrayList;
@@ -19,6 +20,11 @@ public class GamesManager {
      * GameCommand for command pattern.
      */
     private GameCommand gameCommand;
+    /**
+     * Command result manager for games manager.
+     */
+    private final CommandResultManager commandResultManager;
+
 
     /**
      * GamesManger is created once the server is started.
@@ -27,6 +33,7 @@ public class GamesManager {
         games = new ArrayList<>();
         pendingPlayers = new ArrayList<>();
         gameCommand = null;
+        commandResultManager = new CommandResultManager();
     }
 
     /**
@@ -51,6 +58,10 @@ public class GamesManager {
      */
     public void setGameCommand(GameCommand gameCommand) {
         this.gameCommand = gameCommand;
+    }
+
+    CommandResultManager getCommandResultManager() {
+        return commandResultManager;
     }
 
     /**

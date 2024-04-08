@@ -348,7 +348,7 @@ class PlaceCardCommandTest {
     }
     @Test
     void placeCardDuringWaiting() {
-        game.setState(GameState.WAITING_PLAYERS);
+        game.setState(GameState.GAME_STARTING);
         DrawableCard myResourceCard;
         game.getPlayersGameField().get(game.getPlayers().get(game.getCurrPlayer()).getNickname()).placeCard(game.getPlayersGameField().get(game.getPlayers().get(game.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : game.getPlayers().get(game.getCurrPlayer()).getCurrentHand()) {

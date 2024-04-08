@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
@@ -46,6 +47,11 @@ public class DrawFaceUpCardCommand implements GameCommand{
      */
     @Override
     public void execute() {
+        if(!game.getState().equals(GameState.PLAYING)) {
+            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
+            return;
+        }
+        // if the state is PLAYING ...
         if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)){
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_PLAYER);
             return;

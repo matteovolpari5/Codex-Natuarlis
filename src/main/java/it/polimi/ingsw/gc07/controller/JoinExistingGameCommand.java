@@ -1,8 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
-import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentException;
-import it.polimi.ingsw.gc07.exceptions.WrongStateException;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
@@ -47,39 +46,36 @@ public class JoinExistingGameCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        // this command can always be used
         Player player = gamesManager.getPendingPlayer(nickname);
         if(player == null){
-            //throw new PlayerNotPresentException();
-            //TODO: no throws !!!
-            // situazione tipo: il giocatore è già entrato in un gioco,
-            // poi lancia di nuovo il comando per entrare in un gioco
-            // cosa fare?
+            gamesManager.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            return;
         }
         boolean found = false;
         for(Game game: gamesManager.getGames()) {
             if(game.getId() == gameId) {
                 found = true;
                 // check game state WAITING_PLAYERS
-                if(!game.getState().equals(GameState.WAITING_PLAYERS)) {
-                    //throw new WrongStateException();
-                    //TODO: no throws !!!
-                    // devo notificare, ma non posso mandare eccezione
+                if(!game.getState().equals(GameState.GAME_STARTING)) {
+                    gamesManager.getCommandResultManager().setCommandResult(CommandResult.GAME_FULL);
+                    return;
                 }
                 // check token color unique
                 if(!checkTokenColorUnique(game, tokenColor)) {
-                    throw new RuntimeException();   // non abbiamo TokenColorException, ma tanto va tolta l'eccezione
-                    //TODO: no throws !!!
-                    // devo notificare, ma non posso mandare eccezione
+                    gamesManager.getCommandResultManager().setCommandResult(CommandResult.TOKEN_COLOR_ALREADY_TAKEN);
+                    return;
                 }
                 player.setTokenColor(tokenColor);
-                game.setCommand(new AddPlayerCommand(game, player));
-                game.execute();
+                game.setAndExecuteCommand(new AddPlayerCommand(game, player));
                 gamesManager.getPendingPlayerspending().remove(player);
             }
         }
         if(!found){
-            // TODO segnalarlo al player
+            gamesManager.getCommandResultManager().setCommandResult(CommandResult.GAME_NOT_PRESENT);
+            return;
         }
+        gamesManager.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
     }
 
     /**
