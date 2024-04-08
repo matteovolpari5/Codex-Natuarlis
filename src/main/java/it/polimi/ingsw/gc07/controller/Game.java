@@ -260,13 +260,12 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        if(currPlayer==players.size()-1)
-            currPlayer=0;
+        if(currPlayer == players.size()-1)
+            currPlayer = 0;
         else
             currPlayer++;
-        if(twentyPointsReached)
-        {
-            if(players.get(currPlayer).isFirst()&&additionalRound)
+        if(twentyPointsReached) {
+            if(players.get(currPlayer).isFirst() && additionalRound)
             {
                 state = GameState.GAME_ENDED;
                 winners.addAll(computeWinner());
@@ -276,13 +275,21 @@ public class Game {
                 additionalRound=true;
             }
         }
-        if(!players.get(currPlayer).isConnected())
-        {
+        if(!players.get(currPlayer).isConnected()) {
             changeCurrPlayer();
         }
-        if(players.get(currPlayer).getIsStalled())
-        {
-            changeCurrPlayer();
+        if(players.get(currPlayer).getIsStalled()) {
+            boolean found = false;
+            for(Player p: players) {
+                if(!p.getIsStalled())
+                    found = true;
+            }
+            if(found)
+                changeCurrPlayer();
+            else {
+                this.state = GameState.GAME_ENDED;
+                winners.addAll(computeWinner());
+            }
         }
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
@@ -328,7 +335,6 @@ public class Game {
                 throw new RuntimeException();
             }
         }
-        commandResultManager.setCommandResult(CommandResult.SUCCESS);
         return winners;
     }
 

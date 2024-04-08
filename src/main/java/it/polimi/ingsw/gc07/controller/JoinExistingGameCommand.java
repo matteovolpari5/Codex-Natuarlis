@@ -78,7 +78,7 @@ public class JoinExistingGameCommand implements GameCommand {
             }
         }
         if(!found){
-            /**/
+            // TODO segnalarlo al player
         }
     }
 
