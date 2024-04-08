@@ -418,6 +418,12 @@ class GameTest {
 
     @Test
     void changeCurrPlayer() {
+        Player firstPlayer = new Player("Player1", true, false);
+        Player secondPlayer = new Player("Player2", false, false);
+        game.setCommand(new AddPlayerCommand(game, firstPlayer));
+        game.execute();
+        game.setCommand(new AddPlayerCommand(game, secondPlayer));
+        game.execute();
         game.setState(GameState.WAITING_PLAYERS);
         game.changeCurrPlayer();
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_STATE);
