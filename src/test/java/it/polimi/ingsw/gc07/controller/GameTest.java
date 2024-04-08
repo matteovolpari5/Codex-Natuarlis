@@ -388,9 +388,9 @@ class GameTest {
         game.setAndExecuteCommand(new AddPlayerCommand(game, secondPlayer));
         firstPlayer.setFirst();
         game.setCurrentPlayer(0);
-        //game.setState(GameState.GAME_STARTING);
-        //game.changeCurrPlayer();
-        //assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_STATE);
+        game.setState(GameState.GAME_STARTING);
+        game.changeCurrPlayer();
+        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_STATE);
         game.setState(GameState.PLAYING);
         game.changeCurrPlayer();
         assertEquals(1, game.getCurrPlayer());
@@ -410,6 +410,6 @@ class GameTest {
         game.getPlayers().get(1).setIsStalled(false);
         game.changeCurrPlayer();
         game.changeCurrPlayer();
-        // game.changeCurrPlayer();
+        game.changeCurrPlayer();
     }
 }
