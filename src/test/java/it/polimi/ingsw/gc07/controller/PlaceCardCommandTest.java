@@ -282,7 +282,6 @@ class PlaceCardCommandTest {
         game.getPlayersGameField().get(game.getPlayers().get(game.getCurrPlayer()).getNickname()).placeCard(game.getPlayersGameField().get(game.getPlayers().get(game.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : game.getPlayers().get(game.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
-                System.out.println(game.getCurrPlayer());
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
                 game.setCommand(new PlaceCardCommand(game, game.getPlayers().get(game.getCurrPlayer()).getNickname(), myResourceCard, 41,41,false));
@@ -291,11 +290,8 @@ class PlaceCardCommandTest {
                 assertEquals(CommandResult.SUCCESS, result);
                 game.setCommand(new DrawDeckCardCommand(game, "Player3", CardType.RESOURCE_CARD));
                 game.execute();
-                System.out.println(game.getCurrPlayer());
             }
             if (c.getId() == 36) {
-
-                System.out.println(game.getCurrPlayer());
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
                 game.setCommand(new PlaceCardCommand(game, game.getPlayers().get(game.getCurrPlayer()).getNickname(), myResourceCard, 39,39,false));
@@ -304,19 +300,15 @@ class PlaceCardCommandTest {
                 assertEquals(CommandResult.SUCCESS, result);
                 game.setCommand(new DrawDeckCardCommand(game, "Player3", CardType.GOLD_CARD));
                 game.execute();
-
-                System.out.println(game.getCurrPlayer());
             }
             if (c.getId() == 78) {
                 game.getScoreTrackBoard().incrementScore("Player3",27);
-                System.out.println(game.getCurrPlayer());
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
                 game.setCommand(new PlaceCardCommand(game, game.getPlayers().get(game.getCurrPlayer()).getNickname(), myResourceCard, 41,39,false));
                 game.execute();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.SUCCESS, result);
-                System.out.println(game.getCurrPlayer());
             }
         }
         assertEquals(game.getScoreTrackBoard().getScore(game.getPlayers().get(game.getCurrPlayer()).getNickname()), 29);
