@@ -40,11 +40,11 @@ public class PlaceStarterCardCommand implements GameCommand{
      */
     @Override
     public void execute() {
-        // TODO solo PLAYING o anche GAME STARTING, alla rinfusa o solo current player
-        if(!game.getState().equals(GameState.GAME_STARTING) && !game.getState().equals(GameState.PLAYING)) {
+        if(!game.getState().equals(GameState.PLAYING)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
+        // no check for current player, starter cards can be placed in any order
         assert(game.getPlayersGameField().containsKey(nickname)): "The player is not in the game";
         game.getCommandResultManager().setCommandResult(game.getPlayersGameField().get(nickname).placeCard(game.getPlayersGameField().get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way));
     }
