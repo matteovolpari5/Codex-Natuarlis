@@ -2,19 +2,13 @@ package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
-import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 /**
  * Concrete command to draw one of two faceUp cards of a given type.
  */
-public class DrawFaceUpCardCommand implements GameCommand{
-    /**
-     * Game in which the command has to be executed.
-     */
-    private final Game game;
-
+public class DrawFaceUpCardCommand extends GameCommand {
     /**
      * Nickname of the player.
      */
@@ -37,7 +31,7 @@ public class DrawFaceUpCardCommand implements GameCommand{
      * @param pos pos
      */
     public DrawFaceUpCardCommand(Game game, String nickname, CardType type, int pos) {
-        this.game = game;
+        setGame(game);
         this.nickname = nickname;
         this.type = type;
         this.pos = pos;
@@ -48,6 +42,8 @@ public class DrawFaceUpCardCommand implements GameCommand{
      */
     @Override
     public void execute() {
+        Game game = getGame();
+
         if(!game.getState().equals(GameState.PLAYING)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -61,7 +57,7 @@ public class DrawFaceUpCardCommand implements GameCommand{
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_CARD_TYPE);
             return;
         }
-        DrawableCard card = null;
+        DrawableCard card;
         if(type.equals(CardType.RESOURCE_CARD)) {
             card = game.getResourceCardsDeck().drawFaceUpCard(pos);
             if(card == null) {

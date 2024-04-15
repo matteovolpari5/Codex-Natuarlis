@@ -4,9 +4,7 @@ import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class AddPlayerToPendingsCommandTest {
+class AddPlayerToPendingCommandTest {
     GamesManager gamesManager;
 
     @BeforeEach
@@ -16,20 +14,20 @@ class AddPlayerToPendingsCommandTest {
 
     @Test
     void addPlayerSuccessful() {
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingsCommand(gamesManager, "Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player1", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto success
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingsCommand(gamesManager, "Player2", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player2", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto success
     }
 
     @Test
     void addPlayerUnsuccessful() {
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingsCommand(gamesManager, "Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player1", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto NOT success
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingsCommand(gamesManager, "Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player1", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto NOT success
     }
@@ -37,7 +35,7 @@ class AddPlayerToPendingsCommandTest {
     @Test
     void addPlayerUnsuccessfulWithJoin() {
         // add Player1 to pending players
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingsCommand(gamesManager, "Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player1", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto success
 
@@ -47,7 +45,7 @@ class AddPlayerToPendingsCommandTest {
         // mi aspetto success
 
         // try to add Player1 to pending players
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingsCommand(gamesManager, "Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player1", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto NOT success
         // i nomi dei giocatori devono essere diversi anche tra game diversi !!!

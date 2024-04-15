@@ -8,11 +8,7 @@ import java.util.List;
 /**
  * Concrete command to add a public message to the chat.
  */
-public class AddChatPublicMessageCommand implements GameCommand {
-    /**
-     * Game in which the command has to be executed.
-     */
-    private final Game game;
+public class AddChatPublicMessageCommand extends GameCommand {
     /**
      * Content of the public message.
      */
@@ -29,7 +25,7 @@ public class AddChatPublicMessageCommand implements GameCommand {
      * @param sender sender of the message
      */
     public AddChatPublicMessageCommand(Game game, String content, String sender) {
-        this.game = game;
+        setGame(game);
         this.content = content;
         this.sender = sender;
     }
@@ -39,6 +35,8 @@ public class AddChatPublicMessageCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        Game game = getGame();
+
         // no state check, this command be used all the time
         List<String> playersNicknames = game.getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender

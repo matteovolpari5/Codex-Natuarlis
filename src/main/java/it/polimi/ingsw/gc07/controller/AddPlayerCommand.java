@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
@@ -17,11 +16,7 @@ import java.util.Random;
 /**
  * Concrete command to add a new player to the game.
  */
-public class AddPlayerCommand implements GameCommand {
-    /**
-     * Game in which the command has to be executed.
-     */
-    private final Game game;
+public class AddPlayerCommand extends GameCommand {
     /**
      * Player to add.
      */
@@ -33,7 +28,7 @@ public class AddPlayerCommand implements GameCommand {
      * @param newPlayer player to add
      */
     public AddPlayerCommand(Game game, Player newPlayer) {
-        this.game = game;
+        setGame(game);
         this.newPlayer = newPlayer;
     }
 
@@ -42,6 +37,8 @@ public class AddPlayerCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        Game game = getGame();
+
         if(!game.getState().equals(GameState.GAME_STARTING)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -70,13 +67,15 @@ public class AddPlayerCommand implements GameCommand {
      * @return true if no other player can connect to the game
      */
     private boolean isFull(){
-        return game.getPlayers().size() == game.getPlayersNumber();
+        return getGame().getPlayers().size() == getGame().getPlayersNumber();
     }
 
     /**
      * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
      */
     private void setup() {
+        Game game = getGame();
+
         assert(game.getState().equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
         // choose randomly the first player
         Random random= new Random();

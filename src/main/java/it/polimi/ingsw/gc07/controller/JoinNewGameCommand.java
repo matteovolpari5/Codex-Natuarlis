@@ -15,11 +15,7 @@ import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 /**
  * Concrete command to add a pending player to a new game.
  */
-public class JoinNewGameCommand implements GameCommand {
-    /**
-     * Reference to the games manager object.
-     */
-    private final GamesManager gamesManager;
+public class JoinNewGameCommand extends GamesManagerCommand {
     /**
      * Nickname of the player to add.
      */
@@ -41,7 +37,7 @@ public class JoinNewGameCommand implements GameCommand {
      * @param playersNumber players number
      */
     public JoinNewGameCommand(GamesManager gamesManager, String nickname, TokenColor tokenColor, int playersNumber) {
-        this.gamesManager = gamesManager;
+        setGamesManager(gamesManager);
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.playersNumber = playersNumber;
@@ -53,13 +49,15 @@ public class JoinNewGameCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        GamesManager gamesManager = getGamesManager();
+
         // this command can always be used
         Player player = gamesManager.getPendingPlayer(nickname);
         if(player == null) {
             gamesManager.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
-        int gameId = -1;
+        int gameId;
         try{
             gameId = createGame(playersNumber);
         }
@@ -102,9 +100,8 @@ public class JoinNewGameCommand implements GameCommand {
         starterCardsDeck.shuffle();
 
         // create game
-        Game game = null;
-        game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
-        gamesManager.getGames().add(game);
+        Game game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
+        getGamesManager().getGames().add(game);
 
         return id;
     }
@@ -119,7 +116,7 @@ public class JoinNewGameCommand implements GameCommand {
         int id = 0;
         while(!foundId){
             foundGame = false;
-            for(Game g: gamesManager.getGames()) {
+            for(Game g: getGamesManager().getGames()) {
                 if(g.getId() == id){
                     foundGame = true;
                 }

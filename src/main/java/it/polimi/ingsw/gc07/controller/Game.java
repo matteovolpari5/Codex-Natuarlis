@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.CommandResultManager;
@@ -228,7 +227,7 @@ public class Game {
 
     public void setAndExecuteCommand(GameCommand gameCommand) {
         this.gameCommand = gameCommand;
-        gameCommand.execute();
+        this.gameCommand.execute();
     }
 
     /**

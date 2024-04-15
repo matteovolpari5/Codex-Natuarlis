@@ -8,11 +8,7 @@ import it.polimi.ingsw.gc07.model.Player;
 /**
  * Concrete command to disconnect a player from the game.
  */
-public class DisconnectPlayerCommand implements GameCommand {
-    /**
-     * Game in which the command has to be executed.
-     */
-    Game game;
+public class DisconnectPlayerCommand extends GameCommand {
     /**
      * Nickname of the player that has disconnected.
      */
@@ -24,7 +20,7 @@ public class DisconnectPlayerCommand implements GameCommand {
      * @param nickname nickname of the player that has disconnected
      */
     public DisconnectPlayerCommand(Game game, String nickname) {
-        this.game = game;
+        setGame(game);
         this.nickname = nickname;
     }
 
@@ -33,6 +29,8 @@ public class DisconnectPlayerCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        Game game = getGame();
+
         // this command can always be used
         if(!game.getPlayersGameField().containsKey(nickname)){
             game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);

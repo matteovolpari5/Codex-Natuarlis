@@ -6,12 +6,7 @@ import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
-public class DrawDeckCardCommand implements GameCommand{
-    /**
-     * Game in which the command has to be executed.
-     */
-    private final Game game;
-
+public class DrawDeckCardCommand extends GameCommand{
     /**
      *  Nickname of the player.
      */
@@ -29,7 +24,7 @@ public class DrawDeckCardCommand implements GameCommand{
      * @param type deck's type
      */
     public DrawDeckCardCommand (Game game, String nickname, CardType type){
-        this.game = game;
+        setGame(game);
         this.type = type;
         this.nickname = nickname;
     }
@@ -40,6 +35,8 @@ public class DrawDeckCardCommand implements GameCommand{
 
     @Override
     public void execute() {
+        Game game = getGame();
+
         if(!game.getState().equals(GameState.PLAYING)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;

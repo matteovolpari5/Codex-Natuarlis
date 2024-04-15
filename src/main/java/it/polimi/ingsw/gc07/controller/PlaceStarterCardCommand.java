@@ -7,12 +7,7 @@ import it.polimi.ingsw.gc07.model.GameField;
 /**
  * Concrete command to place the starter card in a certain way.
  */
-public class PlaceStarterCardCommand implements GameCommand{
-    /**
-     * Game in which the command has to be executed.
-     */
-    private final Game game;
-
+public class PlaceStarterCardCommand extends GameCommand{
     /**
      * Nickname of the player.
      */
@@ -30,7 +25,7 @@ public class PlaceStarterCardCommand implements GameCommand{
      * @param way way
      */
     public PlaceStarterCardCommand(Game game, String nickname, boolean way) {
-        this.game = game;
+        setGame(game);
         this.nickname = nickname;
         this.way = way;
     }
@@ -40,6 +35,8 @@ public class PlaceStarterCardCommand implements GameCommand{
      */
     @Override
     public void execute() {
+        Game game = getGame();
+
         if(!game.getState().equals(GameState.PLAYING)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;

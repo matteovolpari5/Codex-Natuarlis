@@ -8,11 +8,7 @@ import java.util.List;
 /**
  * Concrete command to add a private message to the chat.
  */
-public class AddChatPrivateMessageCommand implements GameCommand {
-    /**
-     * Game in which the command has to be executed.
-     */
-    private final Game game;
+public class AddChatPrivateMessageCommand extends GameCommand {
     /**
      * Content of the private message.
      */
@@ -30,7 +26,7 @@ public class AddChatPrivateMessageCommand implements GameCommand {
      * Constructor of the concrete command AddChatMessageCommand.
      */
     public AddChatPrivateMessageCommand(Game game, String content, String sender, String receiver) {
-        this.game = game;
+        setGame(game);
         this.content = content;
         this.sender = sender;
         this.receiver = receiver;
@@ -41,6 +37,8 @@ public class AddChatPrivateMessageCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        Game game = getGame();
+
         // no state check, this command be used all the time
         List<String> playersNicknames = game.getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender

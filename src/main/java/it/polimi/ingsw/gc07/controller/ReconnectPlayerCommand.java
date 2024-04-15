@@ -8,11 +8,7 @@ import it.polimi.ingsw.gc07.model.Player;
 /**
  * Concrete command to reconnect a player to the game.
  */
-public class ReconnectPlayerCommand implements GameCommand {
-    /**
-     * Game in which the command has to be executed.
-     */
-    private final Game game;
+public class ReconnectPlayerCommand extends GameCommand {
     /**
      * Nickname of the player that will be reconnected to the game.
      */
@@ -22,9 +18,8 @@ public class ReconnectPlayerCommand implements GameCommand {
      * @param game game
      * @param nickname nickname of the player to reconnect
      */
-    public ReconnectPlayerCommand(Game game, String nickname)
-    {
-        this.game=game;
+    public ReconnectPlayerCommand(Game game, String nickname) {
+        setGame(game);
         this.nickname=nickname;
     }
     /**
@@ -32,6 +27,8 @@ public class ReconnectPlayerCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        Game game = getGame();
+
         // this command can always be used
         if(!game.getPlayersGameField().containsKey(nickname)){
             game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);

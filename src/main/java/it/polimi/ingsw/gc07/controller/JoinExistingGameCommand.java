@@ -8,11 +8,7 @@ import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 /**
  * Concrete command to add a pending player to an existing game.
  */
-public class JoinExistingGameCommand implements GameCommand {
-    /**
-     * Reference to the games manager object.
-     */
-    private final GamesManager gamesManager;
+public class JoinExistingGameCommand extends GamesManagerCommand {
     /**
      * Nickname of the player to add.
      */
@@ -34,7 +30,7 @@ public class JoinExistingGameCommand implements GameCommand {
      * @param gameId game ids
      */
     public JoinExistingGameCommand(GamesManager gamesManager, String nickname, TokenColor tokenColor, int gameId) {
-        this.gamesManager = gamesManager;
+        setGamesManager(gamesManager);
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.gameId = gameId;
@@ -46,6 +42,8 @@ public class JoinExistingGameCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        GamesManager gamesManager = getGamesManager();
+
         // this command can always be used
         Player player = gamesManager.getPendingPlayer(nickname);
         if(player == null){

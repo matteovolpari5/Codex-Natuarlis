@@ -9,11 +9,7 @@ import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 /**
  * Concrete command to place a card.
  */
-public class PlaceCardCommand implements GameCommand {
-    /**
-     * Game in which the command has to be executed.
-     */
-    private final Game game;
+public class PlaceCardCommand extends GameCommand {
     /**
      * Nickname of the player that will place the card.
      */
@@ -45,7 +41,7 @@ public class PlaceCardCommand implements GameCommand {
      * @param way way
      */
     public PlaceCardCommand(Game game, String nickname, DrawableCard card, int x, int y, boolean way) {
-        this.game = game;
+        setGame(game);
         this.nickname = nickname;
         this.card = card;
         this.x = x;
@@ -60,6 +56,8 @@ public class PlaceCardCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        Game game = getGame();
+
         if(!game.getState().equals(GameState.PLAYING)){
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -108,6 +106,8 @@ public class PlaceCardCommand implements GameCommand {
      * @param y: where the card is placed in the matrix
      */
     private void addPoints(String nickname, int x, int y) {
+        Game game = getGame();
+
         assert(game.getState().equals(GameState.PLAYING)): "Wrong game state";
         assert(game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)): "Not the current player";
         assert (game.getPlayersGameField().get(nickname).isCardPresent(x, y)) : "No card present in the provided position";

@@ -14,8 +14,8 @@ class JoinExistingGameCommandTest {
     @BeforeEach
     void setUp() {
         gamesManager = new GamesManager();
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingsCommand(gamesManager, "P1", true, true));
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingsCommand(gamesManager, "P2", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "P1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "P2", true, true));
         gamesManager.setAndExecuteCommand(new JoinNewGameCommand(gamesManager, "P1", TokenColor.GREEN, 4));
     }
     @Test

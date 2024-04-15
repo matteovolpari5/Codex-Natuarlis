@@ -7,11 +7,7 @@ import it.polimi.ingsw.gc07.model.Player;
  * Concrete command used to add a player to a list of pending players, that will be able
  * to enter a new or existing game.
  */
-public class AddPlayerToPendingsCommand implements GameCommand {
-    /**
-     * Reference to the games manager object.
-     */
-    private final GamesManager gamesManager;
+public class AddPlayerToPendingCommand extends GamesManagerCommand {
     /**
      * Nickname of the player to add.
      */
@@ -26,13 +22,13 @@ public class AddPlayerToPendingsCommand implements GameCommand {
     private final boolean interfaceType;
 
     /**
-     * Constructor of AddPlayerToPendingsCommand.
+     * Constructor of AddPlayerToPendingCommand.
      * @param nickname nickname of the player to add
      * @param connectionType connection type value of the player to add
      * @param interfaceType interface type value of the player to add
      */
-    public AddPlayerToPendingsCommand(GamesManager gamesManager, String nickname, boolean connectionType, boolean interfaceType) {
-        this.gamesManager = gamesManager;
+    public AddPlayerToPendingCommand(GamesManager gamesManager, String nickname, boolean connectionType, boolean interfaceType) {
+        setGamesManager(gamesManager);
         this.nickname = nickname;
         this.connectionType = connectionType;
         this.interfaceType = interfaceType;
@@ -44,6 +40,8 @@ public class AddPlayerToPendingsCommand implements GameCommand {
      */
     @Override
     public void execute() {
+        GamesManager gamesManager = getGamesManager();
+
         // this command can always be used
         if(checkNicknameUnique(nickname)){
             Player newPlayer = new Player(nickname, connectionType, interfaceType);
@@ -62,6 +60,8 @@ public class AddPlayerToPendingsCommand implements GameCommand {
      * @return true if no other player has the same nickname
      */
     private boolean checkNicknameUnique(String nickname) {
+        GamesManager gamesManager = getGamesManager();
+
         boolean unique = true;
         for(Game g: gamesManager.getGames()) {
             if(g.hasPlayer(nickname)){
