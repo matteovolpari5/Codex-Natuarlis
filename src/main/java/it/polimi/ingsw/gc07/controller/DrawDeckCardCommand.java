@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
-public class DrawDeckCardCommand extends GameCommand{
+public class DrawDeckCardCommand extends GameCommand {
     /**
      *  Nickname of the player.
      */

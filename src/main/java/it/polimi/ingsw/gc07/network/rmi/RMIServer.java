@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
-import it.polimi.ingsw.gc07.controller.GameCommand;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.controller.GamesManagerCommand;
 
@@ -15,7 +14,7 @@ public class RMIServer implements VirtualServer {
     final GamesManager gamesManager;
     final List<VirtualView> clients;
 
-    public RMIServer(GamesManager gamesManager) {
+    public RMIServer(GamesManager gamesManager) throws RemoteException {
         this.gamesManager = gamesManager;
         this.clients = new ArrayList<>();
     }
@@ -32,14 +31,5 @@ public class RMIServer implements VirtualServer {
         gamesManagerCommand.setGamesManager(gamesManager);
         gamesManager.setAndExecuteCommand(gamesManagerCommand);
         System.out.println(gamesManager.getCommandResultManager().getCommandResult());
-    }
-
-    public static void main(String[] args) throws RemoteException {
-        String name = "VirtualServer";
-        VirtualServer virtualServer = new RMIServer(new GamesManager());
-        VirtualServer stub = (VirtualServer) UnicastRemoteObject.exportObject(virtualServer, 0);
-        Registry registry = LocateRegistry.createRegistry(1234);
-        registry.rebind(name, stub);
-        System.out.println("GamesManager bound");
     }
 }
