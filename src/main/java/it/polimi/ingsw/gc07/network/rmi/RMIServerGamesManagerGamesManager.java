@@ -51,12 +51,24 @@ public class RMIServerGamesManagerGamesManager implements VirtualServerGamesMana
         System.out.println(gamesManager.getCommandResultManager().getCommandResult());
         if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SUCCESS)) {
             // TODO stampa aggiornamento al client
-        }else if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SET_GAME)) {
+        }else if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SET_SERVER_GAME)) {
             //TODO
-            // se non esiste un RMIServerGame per il Game, crearlo
             // setServerGame sul RMIClient
+        }else if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
+            //TODO
+            // creare server game e settarlo
         }else {
             System.out.println(gamesManager.getCommandResultManager().getCommandResult().getResultMessage());
         }
+    }
+
+    // trova la virtual view associata al nickname del command
+    private VirtualView getVirtualView(String commandNickname) throws RemoteException {
+        for(VirtualView client : clients) {
+            if(client.getNickname().equals(commandNickname)) {
+                return client;
+            }
+        }
+        return null;
     }
 }

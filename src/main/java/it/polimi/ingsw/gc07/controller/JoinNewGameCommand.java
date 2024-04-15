@@ -58,6 +58,11 @@ public class JoinNewGameCommand extends GamesManagerCommand {
         this.playersNumber = playersNumber;
     }
 
+    @Override
+    public String getNickname() {
+        return nickname;
+    }
+
     /**
      * Execute method for the concrete command.
      * Creates a new game and adds the player to the newly created game.
@@ -90,8 +95,8 @@ public class JoinNewGameCommand extends GamesManagerCommand {
         }
         // join successful, but it is necessary to set the game for the client
         //TODO va bene per Socket ???
-        // altrimenti possiamo mettere una seconda bandierina booleana che indica se serve settare il game
-        gamesManager.getCommandResultManager().setCommandResult(CommandResult.SET_GAME);
+        // altrimenti possiamo mettere una seconda bandierina booleana che indica se creare settare il game
+        gamesManager.getCommandResultManager().setCommandResult(CommandResult.CREATE_SERVER_GAME);
     }
 
     /**

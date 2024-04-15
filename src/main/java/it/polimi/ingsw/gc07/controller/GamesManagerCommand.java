@@ -22,6 +22,9 @@ public abstract class GamesManagerCommand implements Serializable {
     GamesManager getGamesManager() {
         return gamesManager;
     }
+
+    public abstract String getNickname();
+
     /**
      * Method to execute the game command.
      */

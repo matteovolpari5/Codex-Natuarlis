@@ -50,6 +50,11 @@ public class AddPlayerToPendingCommand extends GamesManagerCommand {
         this.interfaceType = interfaceType;
     }
 
+    @Override
+    public String getNickname() {
+        return nickname;
+    }
+
     /**
      * Execute method of the concrete command.
      * Accepts player data, creates a new player and adds it to the list of pending players.
