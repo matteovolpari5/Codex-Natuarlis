@@ -20,12 +20,25 @@ public class AddChatPublicMessageCommand extends GameCommand {
 
     /**
      * Constructor of the concrete command AddChatPublicMessageCommand.
+     * This constructor takes parameter game, used by the server.
      * @param game game in which the command has to be executed
      * @param content content of the message
      * @param sender sender of the message
      */
     public AddChatPublicMessageCommand(Game game, String content, String sender) {
         setGame(game);
+        this.content = content;
+        this.sender = sender;
+    }
+
+    /**
+     * Constructor of the concrete command AddChatPublicMessageCommand.
+     * This constructor doesn't take a game as parameter, used by the client.
+     * @param content content of the message
+     * @param sender sender of the message
+     */
+    public AddChatPublicMessageCommand(String content, String sender) {
+        setGame(null);
         this.content = content;
         this.sender = sender;
     }

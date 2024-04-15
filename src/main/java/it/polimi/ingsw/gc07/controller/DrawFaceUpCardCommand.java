@@ -26,12 +26,28 @@ public class DrawFaceUpCardCommand extends GameCommand {
 
     /**
      * Constructor of the concrete command DrawFaceUpCardCommand.
+     * This constructor takes parameter game, used by the server.
+     * @param game game
      * @param nickname nickname
      * @param type type
      * @param pos pos
      */
     public DrawFaceUpCardCommand(Game game, String nickname, CardType type, int pos) {
         setGame(game);
+        this.nickname = nickname;
+        this.type = type;
+        this.pos = pos;
+    }
+
+    /**
+     * Constructor of the concrete command DrawFaceUpCardCommand.
+     * This constructor doesn't take game as a parameter, used by the client.
+     * @param nickname nickname
+     * @param type type
+     * @param pos pos
+     */
+    public DrawFaceUpCardCommand(String nickname, CardType type, int pos) {
+        setGame(null);
         this.nickname = nickname;
         this.type = type;
         this.pos = pos;

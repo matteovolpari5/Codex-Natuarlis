@@ -16,11 +16,22 @@ public class DisconnectPlayerCommand extends GameCommand {
 
     /**
      * Constructor of the concrete command DisconnectPlayerCommand.
+     * This constructor takes parameter game, used by the server.
      * @param game game in which the player has disconnected
      * @param nickname nickname of the player that has disconnected
      */
     public DisconnectPlayerCommand(Game game, String nickname) {
         setGame(game);
+        this.nickname = nickname;
+    }
+
+    /**
+     * Constructor of the concrete command DisconnectPlayerCommand.
+     * This constructor doesn't take a game as parameter, used by the client.
+     * @param nickname nickname of the player that has disconnected
+     */
+    public DisconnectPlayerCommand(String nickname) {
+        setGame(null);
         this.nickname = nickname;
     }
 

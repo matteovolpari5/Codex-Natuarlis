@@ -31,6 +31,7 @@ public class JoinNewGameCommand extends GamesManagerCommand {
 
     /**
      * Constructor of the concrete command JoinNewGameCommand.
+     * This constructor takes games manager as parameter, used by the server.
      * @param gamesManager games manager
      * @param nickname nickname
      * @param tokenColor token color
@@ -38,6 +39,20 @@ public class JoinNewGameCommand extends GamesManagerCommand {
      */
     public JoinNewGameCommand(GamesManager gamesManager, String nickname, TokenColor tokenColor, int playersNumber) {
         setGamesManager(gamesManager);
+        this.nickname = nickname;
+        this.tokenColor = tokenColor;
+        this.playersNumber = playersNumber;
+    }
+
+    /**
+     * Constructor of the concrete command JoinNewGameCommand.
+     * This constructor doesn't take games manager as parameter, used by the client.
+     * @param nickname nickname
+     * @param tokenColor token color
+     * @param playersNumber players number
+     */
+    public JoinNewGameCommand(String nickname, TokenColor tokenColor, int playersNumber) {
+        setGamesManager(null);
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.playersNumber = playersNumber;

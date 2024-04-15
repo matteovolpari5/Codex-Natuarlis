@@ -24,6 +24,7 @@ public class JoinExistingGameCommand extends GamesManagerCommand {
 
     /**
      * Constructor of the concrete command JoinExistingGameCommand.
+     * This constructor takes games manager as parameter, used by the server.
      * @param gamesManager games manager
      * @param nickname nickname
      * @param tokenColor token color
@@ -31,6 +32,20 @@ public class JoinExistingGameCommand extends GamesManagerCommand {
      */
     public JoinExistingGameCommand(GamesManager gamesManager, String nickname, TokenColor tokenColor, int gameId) {
         setGamesManager(gamesManager);
+        this.nickname = nickname;
+        this.tokenColor = tokenColor;
+        this.gameId = gameId;
+    }
+
+    /**
+     * Constructor of the concrete command JoinExistingGameCommand.
+     * This constructor doesn't take games manager as parameter, used by the client.
+     * @param nickname nickname
+     * @param tokenColor token color
+     * @param gameId game ids
+     */
+    public JoinExistingGameCommand(String nickname, TokenColor tokenColor, int gameId) {
+        setGamesManager(null);
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.gameId = gameId;

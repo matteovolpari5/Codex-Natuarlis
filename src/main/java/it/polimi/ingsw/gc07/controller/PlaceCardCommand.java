@@ -33,6 +33,7 @@ public class PlaceCardCommand extends GameCommand {
 
     /**
      * Constructor of the concrete command PlaceCardCommand.
+     * This constructor takes game as parameter, used by the server.
      * @param game game
      * @param nickname nickname
      * @param card card
@@ -42,6 +43,24 @@ public class PlaceCardCommand extends GameCommand {
      */
     public PlaceCardCommand(Game game, String nickname, DrawableCard card, int x, int y, boolean way) {
         setGame(game);
+        this.nickname = nickname;
+        this.card = card;
+        this.x = x;
+        this.y = y;
+        this.way = way;
+    }
+
+    /**
+     * Constructor of the concrete command PlaceCardCommand.
+     * This constructor doesn't take game as parameter, used by the client.
+     * @param nickname nickname
+     * @param card card
+     * @param x row
+     * @param y column
+     * @param way way
+     */
+    public PlaceCardCommand(String nickname, DrawableCard card, int x, int y, boolean way) {
+        setGame(null);
         this.nickname = nickname;
         this.card = card;
         this.x = x;

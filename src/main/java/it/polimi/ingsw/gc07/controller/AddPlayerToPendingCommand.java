@@ -23,12 +23,28 @@ public class AddPlayerToPendingCommand extends GamesManagerCommand {
 
     /**
      * Constructor of AddPlayerToPendingCommand.
+     * This constructor takes parameter games manager, used by the server.
+     * @param gamesManager games manager
      * @param nickname nickname of the player to add
      * @param connectionType connection type value of the player to add
      * @param interfaceType interface type value of the player to add
      */
     public AddPlayerToPendingCommand(GamesManager gamesManager, String nickname, boolean connectionType, boolean interfaceType) {
         setGamesManager(gamesManager);
+        this.nickname = nickname;
+        this.connectionType = connectionType;
+        this.interfaceType = interfaceType;
+    }
+
+    /**
+     * Constructor of AddPlayerToPendingCommand.
+     * This constructor doesn't take a games manager as parameter, used by the client.
+     * @param nickname nickname of the player to add
+     * @param connectionType connection type value of the player to add
+     * @param interfaceType interface type value of the player to add
+     */
+    public AddPlayerToPendingCommand(String nickname, boolean connectionType, boolean interfaceType) {
+        setGamesManager(null);
         this.nickname = nickname;
         this.connectionType = connectionType;
         this.interfaceType = interfaceType;

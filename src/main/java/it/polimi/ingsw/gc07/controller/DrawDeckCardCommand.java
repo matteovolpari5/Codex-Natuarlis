@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
@@ -18,21 +17,33 @@ public class DrawDeckCardCommand extends GameCommand{
     private final CardType type;
 
     /**
-     *  Constructor of the concrete command DrawDeckCardCommand.
+     * Constructor of the concrete command DrawDeckCardCommand.
+     * This constructor takes parameter game, used by the server.
      * @param game game
      * @param nickname nickname of the player
      * @param type deck's type
      */
-    public DrawDeckCardCommand (Game game, String nickname, CardType type){
+    public DrawDeckCardCommand(Game game, String nickname, CardType type) {
         setGame(game);
         this.type = type;
         this.nickname = nickname;
     }
 
     /**
-     * method that allows a player to draw one card from a GoldCardDeck or a ResourceCardDeck.
+     * Constructor of the concrete command DrawDeckCardCommand.
+     * This constructor doesn't take a game as parameter, used by the client.
+     * @param nickname nickname of the player
+     * @param type deck's type
      */
+    public DrawDeckCardCommand(String nickname, CardType type) {
+        setGame(null);
+        this.type = type;
+        this.nickname = nickname;
+    }
 
+    /**
+     * Method that allows a player to draw one card from a GoldCardDeck or a ResourceCardDeck.
+     */
     @Override
     public void execute() {
         Game game = getGame();
@@ -50,7 +61,7 @@ public class DrawDeckCardCommand extends GameCommand{
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_CARD_TYPE);
             return;
         }
-        DrawableCard card = null;
+        DrawableCard card;
         if (type.equals(CardType.RESOURCE_CARD)) {
             card = game.getResourceCardsDeck().drawCard();
             if(card == null) {

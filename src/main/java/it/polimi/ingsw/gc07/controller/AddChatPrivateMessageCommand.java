@@ -24,9 +24,28 @@ public class AddChatPrivateMessageCommand extends GameCommand {
 
     /**
      * Constructor of the concrete command AddChatMessageCommand.
+     * This constructor takes parameter game, used by the server.
+     * @param game game
+     * @param content content
+     * @param sender sender nickname
+     * @param receiver receiver nickname
      */
     public AddChatPrivateMessageCommand(Game game, String content, String sender, String receiver) {
         setGame(game);
+        this.content = content;
+        this.sender = sender;
+        this.receiver = receiver;
+    }
+
+    /**
+     * Constructor of the concrete command AddChatMessageCommand.
+     * This constructor doesn't take a game as parameter, used by the client.
+     * @param content content
+     * @param sender sender nickname
+     * @param receiver receiver nickname
+     */
+    public AddChatPrivateMessageCommand(String content, String sender, String receiver) {
+        setGame(null);
         this.content = content;
         this.sender = sender;
         this.receiver = receiver;
