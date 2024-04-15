@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.controller.enumerations;
 
 public enum CommandResult {
     SUCCESS("Command successful"),
+    SET_GAME("Command successful, but you have to set the game"),
     WRONG_STATE("The game is in a wrong state"),
     WRONG_SENDER("The sender is wrong"),
     WRONG_RECEIVER("The receiver is wrong"),

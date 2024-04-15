@@ -17,10 +17,6 @@ public class GamesManager {
      */
     private final List<Player> pendingPlayers;
     /**
-     * GameCommand for command pattern.
-     */
-    private GamesManagerCommand gamesManagerCommand;
-    /**
      * Command result manager for games manager.
      */
     private final CommandResultManager commandResultManager;
@@ -32,7 +28,6 @@ public class GamesManager {
     public GamesManager() {
         games = new ArrayList<>();
         pendingPlayers = new ArrayList<>();
-        gamesManagerCommand = null;
         commandResultManager = new CommandResultManager();
     }
 
@@ -69,8 +64,7 @@ public class GamesManager {
      * @param gamesManagerCommand games manager command to set
      */
     public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
-        this.gamesManagerCommand = gamesManagerCommand;
-        this.gamesManagerCommand.execute();
+        gamesManagerCommand.execute();
     }
 
     // used by more game commands

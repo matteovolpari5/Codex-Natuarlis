@@ -1,11 +1,11 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
-import it.polimi.ingsw.gc07.controller.GamesManagerCommand;
+import it.polimi.ingsw.gc07.controller.GameCommand;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface VirtualServer extends Remote {
+public interface VirtualServerGame extends Remote {
     /**
      * Method to connect a new client.
      * @param client client to connect
@@ -14,9 +14,9 @@ public interface VirtualServer extends Remote {
     void connect(VirtualView client) throws RemoteException;
 
     /**
-     * Method to set a command and execute it.
-     * @param gamesManagerCommand games manager command to set and execute
+     * Method to set a command and execute game command.
+     * @param gameCommand game command to set and execute
      * @throws RemoteException remote exception
      */
-    void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException;
+    void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException;
 }

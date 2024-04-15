@@ -10,12 +10,18 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
 public class RMIClient extends UnicastRemoteObject implements VirtualView {
-    final VirtualServer server;
     private final String nickname;
+    private final VirtualServerGamesManager serverGamesManager;
+    private VirtualServerGame serverGame;
 
-    public RMIClient(VirtualServer server, String nickname) throws RemoteException {
-        this.server = server;
+    public RMIClient(VirtualServerGamesManager serverGamesManager, String nickname) throws RemoteException {
         this.nickname = nickname;
+        this.serverGamesManager = serverGamesManager;
+        this.serverGame = null;
+    }
+
+    public void setServerGame(VirtualServerGame serverGame) {
+        this.serverGame = serverGame;
     }
 
     //TODO
@@ -23,9 +29,10 @@ public class RMIClient extends UnicastRemoteObject implements VirtualView {
     // 3 fare display games
     // 4 creare dei metodi / classi per richiedere le cose, così è un pastrugno
 
-    public void runCli() {
+    public void runCliJoinGame() {
+        boolean joiningGame = true;
         Scanner scan = new Scanner(System.in);
-        while(true) {
+        while(joiningGame) {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to connect to games manager"); // AddPlayerToPendingCommand
             System.out.println("- w to join an existing game"); // JoinExistingGameCommand
@@ -62,7 +69,7 @@ public class RMIClient extends UnicastRemoteObject implements VirtualView {
                         break;
                     }
                     try {
-                        server.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
+                        serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
                     } catch (RemoteException e) {
                         // TODO
                         throw new RuntimeException(e);
@@ -70,7 +77,7 @@ public class RMIClient extends UnicastRemoteObject implements VirtualView {
                     break;
 
 
-                    case "w":
+                case "w":
                     // join existing game
 
                     // TODO display existing games
@@ -100,11 +107,12 @@ public class RMIClient extends UnicastRemoteObject implements VirtualView {
                     int gameId = scan.nextInt();
                     scan.nextLine();
                     try {
-                        server.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
+                        serverGamesManager.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
                     } catch (RemoteException e) {
                         // TODO
                         throw new RuntimeException(e);
                     }
+                    joiningGame = false;
                     break;
 
 
@@ -135,15 +143,33 @@ public class RMIClient extends UnicastRemoteObject implements VirtualView {
                     scan.nextLine();
                     // TODO potremmo fare già qua il controllo su players number per efficienza
                     try {
-                        server.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
+                        serverGamesManager.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
                     } catch (RemoteException e) {
                         // TODO
                         throw new RuntimeException(e);
                     }
+                    joiningGame = false;
                     break;
                 default:
                     System.out.println("The provided character doesn't refer to any action");
             }
         }
+        // game joined
+        connectToGameServer();
+        runCliGame();
+    }
+
+    private void connectToGameServer() {
+        try {
+            serverGame.connect(this);
+        }catch(RemoteException e) {
+            //TODO manager remote exception
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    private void runCliGame() {
+        // TODO
     }
 }

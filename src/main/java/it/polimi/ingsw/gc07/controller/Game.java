@@ -77,10 +77,6 @@ public class Game {
      */
     private final Chat chat;
     /**
-     * GameCommand for command pattern.
-     */
-    private GameCommand gameCommand;
-    /**
      * Command result manager of the game.
      */
     private final CommandResultManager commandResultManager;
@@ -112,10 +108,8 @@ public class Game {
         this.twentyPointsReached = false;
         this.additionalRound = false;
         this.chat = new Chat();
-        this.gameCommand = null;
         this.commandResultManager = new CommandResultManager();
     }
-
 
     // ------------------------------
     // setters and getters
@@ -221,13 +215,12 @@ public class Game {
         return chat;
     }
 
-    CommandResultManager getCommandResultManager() {
+    public CommandResultManager getCommandResultManager() {
         return commandResultManager;
     }
 
     public void setAndExecuteCommand(GameCommand gameCommand) {
-        this.gameCommand = gameCommand;
-        this.gameCommand.execute();
+        gameCommand.execute();
     }
 
     /**

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.main;
 
 import it.polimi.ingsw.gc07.network.rmi.RMIClient;
-import it.polimi.ingsw.gc07.network.rmi.VirtualServer;
+import it.polimi.ingsw.gc07.network.rmi.VirtualServerGamesManager;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -24,18 +24,24 @@ public class ClientMain {
             // deve avere un formato che vada bene
 
             Registry registry = LocateRegistry.getRegistry(ip, 1234);
-            VirtualServer server = (VirtualServer) registry.lookup("VirtualServer");
+            VirtualServerGamesManager server = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
 
             RMIClient newRMIClient = new RMIClient(server, nickname);
             try {
                 server.connect(newRMIClient);
-                newRMIClient.runCli();
+                newRMIClient.runCliJoinGame();
             }catch(RemoteException e) {
                 //TODO
+                e.printStackTrace();
+                throw new RuntimeException();
             }
         }catch(RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
             //TODO manage remote exception
         }catch(NotBoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
             //TODO manage not bound exception
         }
     }

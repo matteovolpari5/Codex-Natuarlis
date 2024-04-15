@@ -88,7 +88,10 @@ public class JoinNewGameCommand extends GamesManagerCommand {
             }
             gamesManager.getPendingPlayers().remove(player);
         }
-        gamesManager.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
+        // join successful, but it is necessary to set the game for the client
+        //TODO va bene per Socket ???
+        // altrimenti possiamo mettere una seconda bandierina booleana che indica se serve settare il game
+        gamesManager.getCommandResultManager().setCommandResult(CommandResult.SET_GAME);
     }
 
     /**
