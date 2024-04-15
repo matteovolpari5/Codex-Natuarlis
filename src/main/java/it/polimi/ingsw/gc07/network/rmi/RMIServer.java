@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.network.rmi;
 
 import it.polimi.ingsw.gc07.controller.GameCommand;
 import it.polimi.ingsw.gc07.controller.GamesManager;
+import it.polimi.ingsw.gc07.controller.GamesManagerCommand;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -26,8 +27,11 @@ public class RMIServer implements VirtualServer {
     }
 
     @Override
-    public void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException {
+    public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
         // TODO
+        gamesManagerCommand.setGamesManager(gamesManager);
+        gamesManager.setAndExecuteCommand(gamesManagerCommand);
+        System.out.println(gamesManager.getCommandResultManager().getCommandResult());
     }
 
     public static void main(String[] args) throws RemoteException {

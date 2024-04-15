@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc07.controller;
 
-public abstract class GamesManagerCommand {
+import java.io.Serializable;
+
+public abstract class GamesManagerCommand implements Serializable {
     /**
      * Reference to the games manager object.
      */
@@ -10,7 +12,7 @@ public abstract class GamesManagerCommand {
      * Setter for attribute game.
      * @param gamesManager games manager
      */
-    void setGamesManager(GamesManager gamesManager) {
+    public void setGamesManager(GamesManager gamesManager) {
         this.gamesManager = gamesManager;
     }
     /**

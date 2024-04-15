@@ -60,7 +60,7 @@ public class GamesManager {
      * Getter for the command result manager.
      * @return command result manager of the games manager
      */
-    CommandResultManager getCommandResultManager() {
+    public CommandResultManager getCommandResultManager() {
         return commandResultManager;
     }
 

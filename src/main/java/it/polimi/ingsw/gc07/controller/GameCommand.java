@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc07.controller;
 
-public abstract class GameCommand {
+import java.io.Serializable;
+
+public abstract class GameCommand implements Serializable {
     /**
      * Game in which the command has to be executed.
      */
@@ -10,7 +12,7 @@ public abstract class GameCommand {
      * Setter for attribute game.
      * @param game game
      */
-     void setGame(Game game) {
+     public void setGame(Game game) {
         this.game = game;
     }
     /**
