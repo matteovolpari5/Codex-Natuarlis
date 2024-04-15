@@ -50,7 +50,7 @@ class DrawFaceUpCardCommandTest {
         game.getPlayers().get(1).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
         game.setCurrentPlayer(0);
     }
-    /*
+
     @Test
     void drawFaceUpCardWrongState() {
         game.setState(GameState.GAME_STARTING);
@@ -68,32 +68,43 @@ class DrawFaceUpCardCommandTest {
     void drawFaceUpCardWrongCardType() {
         game.setAndExecuteCommand(new DrawFaceUpCardCommand(game, "P1", CardType.OBJECTIVE_CARD, 0));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_CARD_TYPE);
-    }*/
+    }
 
     @Test
     void drawFaceUpCardResourceCardSuccess() {
-        System.out.println("inizio:");
-        for( DrawableCard c : game.getPlayers().get(0).getCurrentHand()){
-            System.out.println(c.getId());
-
-        }
-        System.out.println("---");
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
-        System.out.println("rimossa:");
-        for( Card c : game.getPlayers().get(0).getCurrentHand()){
-            System.out.println(c.getId());
-
-        }
-        System.out.println("---");
         int id = game.getResourceCardsDeck().revealFaceUpCard(0).getId();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand(game, "P1", CardType.RESOURCE_CARD, 0));
-        System.out.println("dopo pescaggio:");
-        for( DrawableCard c : game.getPlayers().get(0).getCurrentHand()){
-            System.out.println(c.getId());
-        }
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.SUCCESS);
-        assertEquals(id, game.getPlayers().get(0).getCurrentHand().get(0).getId());
-        //assertNotEquals(id, game.getResourceCardsDeck().revealFaceUpCard(0).getId());
+        assertEquals(id, game.getPlayers().get(0).getCurrentHand().get(2).getId());
+        assertNotEquals(id, game.getResourceCardsDeck().revealFaceUpCard(0).getId());
+    }
+
+    @Test
+    void drawFaceUpCardGoldCardSuccess() {
+        DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
+        game.getPlayers().get(0).removeCardHand(card);
+        int id = game.getGoldCardsDeck().revealFaceUpCard(0).getId();
+        game.setAndExecuteCommand(new DrawFaceUpCardCommand(game, "P1", CardType.GOLD_CARD, 0));
+        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.SUCCESS);
+        assertEquals(id, game.getPlayers().get(0).getCurrentHand().get(2).getId());
+        assertNotEquals(id, game.getGoldCardsDeck().revealFaceUpCard(0).getId());
+    }
+
+    @Test
+    void drawFaceUpCardResourceCardNotSuccess() {
+        DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
+        game.getPlayers().get(0).removeCardHand(card);
+        game.setAndExecuteCommand(new DrawFaceUpCardCommand(game, "P1", CardType.RESOURCE_CARD, 2));
+        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.CARD_NOT_PRESENT);
+    }
+
+    @Test
+    void drawFaceUpCardGoldCardNotSuccess() {
+        DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
+        game.getPlayers().get(0).removeCardHand(card);
+        game.setAndExecuteCommand(new DrawFaceUpCardCommand(game, "P1", CardType.GOLD_CARD, 2));
+        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
 }
