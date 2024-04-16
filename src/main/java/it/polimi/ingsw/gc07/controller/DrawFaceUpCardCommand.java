@@ -1,8 +1,5 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.controller.enumerations.GameState;
-import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 /**
@@ -41,37 +38,6 @@ public class DrawFaceUpCardCommand extends GameCommand {
      */
     @Override
     public void execute(Game game) {
-        if(!game.getState().equals(GameState.PLAYING)) {
-            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
-            return;
-        }
-        // if the state is PLAYING ...
-        if(!game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)){
-            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_PLAYER);
-            return;
-        }
-        if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
-            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_CARD_TYPE);
-            return;
-        }
-        DrawableCard card;
-        if(type.equals(CardType.RESOURCE_CARD)) {
-            card = game.getResourceCardsDeck().drawFaceUpCard(pos);
-            if(card == null) {
-                game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
-                return;
-            }
-            game.getPlayers().get(game.getCurrPlayer()).addCardHand(card);
-        }
-        if(type.equals(CardType.GOLD_CARD)) {
-            card = game.getGoldCardsDeck().drawFaceUpCard(pos);
-            if(card == null) {
-                game.getCommandResultManager().setCommandResult(CommandResult.CARD_NOT_PRESENT);
-                return;
-            }
-            game.getPlayers().get(game.getCurrPlayer()).addCardHand(card);
-        }
-        game.changeCurrPlayer();
-        game.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
+        game.drawFaceUpCard(nickname, type, pos);
     }
 }

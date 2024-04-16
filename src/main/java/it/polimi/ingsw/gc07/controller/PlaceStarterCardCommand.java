@@ -1,9 +1,5 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.controller.enumerations.GameState;
-import it.polimi.ingsw.gc07.model.GameField;
-
 /**
  * Concrete command to place the starter card in a certain way.
  */
@@ -33,12 +29,6 @@ public class PlaceStarterCardCommand extends GameCommand{
      */
     @Override
     public void execute(Game game) {
-        if(!game.getState().equals(GameState.PLAYING)) {
-            game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
-            return;
-        }
-        // no check for current player, starter cards can be placed in any order
-        assert(game.getPlayersGameField().containsKey(nickname)): "The player is not in the game";
-        game.getCommandResultManager().setCommandResult(game.getPlayersGameField().get(nickname).placeCard(game.getPlayersGameField().get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way));
+        game.placeStarterCard(nickname, way);
     }
 }

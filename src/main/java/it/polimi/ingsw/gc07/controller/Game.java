@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.CommandResultManager;
@@ -153,10 +154,6 @@ public class Game {
         return found;
     }
 
-    int getPlayersNumber() {
-        return playersNumber;
-    }
-
     Map<String, GameField> getPlayersGameField() {
         return playersGameField;
     }
@@ -197,14 +194,6 @@ public class Game {
         this.twentyPointsReached = true;
     }
 
-    boolean getTwentyPointsReached() {
-        return twentyPointsReached;
-    }
-
-    boolean getAdditionalRound() {
-        return additionalRound;
-    }
-
     int getNumPlayersConnected(){
         int numPlayersConnected = 0;
         for (Player p: players){
@@ -219,10 +208,6 @@ public class Game {
     void setCurrentPlayer(int num)
     {
         this.currPlayer=num;
-    }
-
-    Chat getChat() {
-        return chat;
     }
 
     public CommandResultManager getCommandResultManager() {
@@ -254,7 +239,7 @@ public class Game {
      * if a player is disconnect from the game he loose the turn,
      * if a player is stalled he will be skipped.
      */
-    void changeCurrPlayer () {
+    protected void changeCurrPlayer () {
         assert(state.equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
         if(currPlayer == players.size()-1)
             currPlayer = 0;
@@ -308,7 +293,7 @@ public class Game {
         int maxRealizedObjective = 0;
         List<Player> playersCopy = new ArrayList<>(players);
         for (int i=0; i>=0 && i< players.size(); i++){
-            ObjectiveCard objectiveCard = null;
+            ObjectiveCard objectiveCard;
             objectiveCard = objectiveCardsDeck.revealFaceUpCard(0);
             assert(objectiveCard != null): "The common objective must be present";
             realizedObjectives = objectiveCard.numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
@@ -341,11 +326,353 @@ public class Game {
         return winners;
     }
 
+    /**
+     * Method telling if there are available places in the game.
+     * @return true if no other player can connect to the game
+     */
+    private boolean isFull(){
+        return players.size() == playersNumber;
+    }
+
+    /**
+     * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
+     */
+    private void setup() {
+        assert(state.equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
+        // choose randomly the first player
+        Random random= new Random();
+        setCurrPlayer(random.nextInt(playersNumber));
+        players.get(currPlayer).setFirst();
+
+        // draw card can't return null, since the game hasn't already started
+
+        //place 2 gold cards
+        List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
+        setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
+        setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
+        goldCardsDeck.setFaceUpCards(setUpGoldCardsFaceUp);
+
+        //place 2 resource card
+        List<DrawableCard> setUpResourceCardsFaceUp = new ArrayList<>();
+        setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
+        setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
+        resourceCardsDeck.setFaceUpCards(setUpResourceCardsFaceUp);
+
+        // place common objective cards
+        List<ObjectiveCard> setUpObjectiveCardsFaceUp = new ArrayList<>();
+        setUpObjectiveCardsFaceUp.add(objectiveCardsDeck.drawCard());
+        setUpObjectiveCardsFaceUp.add(objectiveCardsDeck.drawCard());
+        objectiveCardsDeck.setFaceUpCards(setUpObjectiveCardsFaceUp);
+    }
+
+    /**
+     * Method that adds points to a player and checks if a player had reached 20 points.
+     * @param nickname nickname of the player
+     * @param x where the card is placed in the matrix
+     * @param y where the card is placed in the matrix
+     */
+    private void addPoints(String nickname, int x, int y) {
+        assert(state.equals(GameState.PLAYING)): "Wrong game state";
+        assert(players.get(currPlayer).getNickname().equals(nickname)): "Not the current player";
+        assert (playersGameField.get(nickname).isCardPresent(x, y)) : "No card present in the provided position";
+        int deltaPoints;
+        deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getPlacementScore(playersGameField.get(nickname), x, y);
+        if(deltaPoints + scoreTrackBoard.getScore(nickname) >= 20){
+            setTwentyPointsReached();
+            if((deltaPoints + scoreTrackBoard.getScore(nickname)) > 29){
+                scoreTrackBoard.setScore(nickname, 29);
+            }
+            else{
+                scoreTrackBoard.incrementScore(nickname, deltaPoints);
+            }
+        }
+        else
+        {
+            scoreTrackBoard.incrementScore(nickname, deltaPoints);
+        }
+    }
+
+    // command pattern methods
+    public void addChatPrivateMessage(String content, String sender, String receiver) {
+        // no state check, this command be used all the time
+        List<String> playersNicknames = players.stream().map(Player::getNickname).toList();
+        // check valid sender
+        if(!playersNicknames.contains(sender)) {
+            commandResultManager.setCommandResult(CommandResult.WRONG_SENDER);
+            return;
+        }
+        // check valid receiver
+        if(!playersNicknames.contains(receiver)) {
+            commandResultManager.setCommandResult(CommandResult.WRONG_RECEIVER);
+            return;
+        }
+        if(sender.equals(receiver)) {
+            commandResultManager.setCommandResult(CommandResult.WRONG_RECEIVER);
+            return;
+        }
+        // adds message to the chat
+        chat.addPrivateMessage(content, sender, receiver, playersNicknames);
+        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+    }
+
+    public void addChatPublicMessage(String content, String sender) {
+        // no state check, this command be used all the time
+        List<String> playersNicknames = players.stream().map(Player::getNickname).toList();
+        // check valid sender
+        if(!playersNicknames.contains(sender)){
+           commandResultManager.setCommandResult(CommandResult.WRONG_SENDER);
+            return;
+        }
+        // add message to chat
+        chat.addPublicMessage(content, sender, playersNicknames);
+        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+    }
+
+    public void addPlayer(Player newPlayer) {
+        if(!state.equals(GameState.GAME_STARTING)) {
+            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+            return;
+        }
+
+        // draw card can't return null, since the game hasn't already started
+        newPlayer.addCardHand(resourceCardsDeck.drawCard());
+        newPlayer.addCardHand(resourceCardsDeck.drawCard());
+        newPlayer.addCardHand(goldCardsDeck.drawCard());
+        newPlayer.setSecretObjective(objectiveCardsDeck.drawCard());
+
+        PlaceableCard starterCard = starterCardsDeck.drawCard();
+        GameField gameField = new GameField(starterCard);
+        players.add(newPlayer);
+        playersGameField.put(newPlayer.getNickname(), gameField);
+        scoreTrackBoard.addPlayer(newPlayer.getNickname());
+        if (isFull()) {
+            setup();
+            state = GameState.PLAYING;
+        }
+        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+    }
+
+    public void disconnectPlayer(String nickname) {
+        // this command can always be used
+        if(!playersGameField.containsKey(nickname)){
+            commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            return;
+        }
+        try{
+            int pos = getPlayerByNickname(nickname);
+            if(!players.get(pos).isConnected())
+            {
+                commandResultManager.setCommandResult(CommandResult.PLAYER_ALREADY_DISCONNECTED);
+                return;
+            }
+            players.get(pos).setIsConnected(false);
+            int numPlayersConnected = getNumPlayersConnected();
+            if (numPlayersConnected == 1){
+                state = GameState.WAITING_RECONNECTION;
+                /*
+                // TODO start the timer, when it ends, the only player left wins
+                reconnectionOccurred = false;
+                Timer timeout = new Timer();
+                timeout.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (!reconnectionOccurred) {
+                            timeout.cancel();
+                            timeout.purge();
+                            //TODO settare il player rimasto come vincitore
+                        }
+                    }
+                }, 60*1000); //timeout of 1 minute
+                new Thread(() -> {
+                    for (int i = 0; i < 60; i++) {
+                        try {
+                            Thread.sleep(1000); // wait one second for each iteration
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException();
+                        }
+                        if (game.getNumPlayersConnected() > 1) {
+                            reconnectionOccurred = true;
+                            timeout.cancel(); // it stops the timeout
+                            timeout.purge();
+                            break;
+                        }
+                    }
+                }).start();
+             */
+            } else if (numPlayersConnected == 0) {
+                state = GameState.NO_PLAYERS_CONNECTED;
+                // TODO start the timer, when it ends, the game ends without winner
+            }
+        }
+        catch(PlayerNotPresentException e){
+            commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            return;
+        }
+        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+    }
+
+    public void drawDeckCard(String nickname, CardType type) {
+        if(!state.equals(GameState.PLAYING)) {
+            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+            return;
+        }
+        // if the state is PLAYING ...
+        if(!players.get(currPlayer).getNickname().equals(nickname)){
+            commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
+            return;
+        }
+        if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
+            commandResultManager.setCommandResult(CommandResult.WRONG_CARD_TYPE);
+            return;
+        }
+        DrawableCard card;
+        if (type.equals(CardType.RESOURCE_CARD)) {
+            card = resourceCardsDeck.drawCard();
+            if(card == null) {
+                commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
+                return;
+            }
+            players.get(currPlayer).addCardHand(card);
+        }
+        if (type.equals(CardType.GOLD_CARD)) {
+            card = goldCardsDeck.drawCard();
+            if(card == null){
+                commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
+                return;
+            }
+            players.get(currPlayer).addCardHand(card);
+        }
+        changeCurrPlayer();
+        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+    }
+
+    public void drawFaceUpCard(String nickname, CardType type, int pos) {
+        if(!state.equals(GameState.PLAYING)) {
+            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+            return;
+        }
+        // if the state is PLAYING ...
+        if(!players.get(currPlayer).getNickname().equals(nickname)){
+            commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
+            return;
+        }
+        if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
+            commandResultManager.setCommandResult(CommandResult.WRONG_CARD_TYPE);
+            return;
+        }
+        DrawableCard card;
+        if(type.equals(CardType.RESOURCE_CARD)) {
+            card = resourceCardsDeck.drawFaceUpCard(pos);
+            if(card == null) {
+                commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
+                return;
+            }
+            players.get(currPlayer).addCardHand(card);
+        }
+        if(type.equals(CardType.GOLD_CARD)) {
+            card = goldCardsDeck.drawFaceUpCard(pos);
+            if(card == null) {
+                commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
+                return;
+            }
+            players.get(currPlayer).addCardHand(card);
+        }
+        changeCurrPlayer();
+        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+    }
+
+    public void placeCard(String nickname, DrawableCard card, int x, int y, boolean way) {
+        if(!state.equals(GameState.PLAYING)){
+            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+            return;
+        }
+        if(!players.get(currPlayer).getNickname().equals(nickname)) {
+            commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
+            return;
+        }
+        if(!(players.get(currPlayer).getCurrentHand()).contains(card)){
+            commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
+            return;
+        }
+        CommandResult result = playersGameField.get(nickname).placeCard(card,x,y,way);
+        if(result.equals(CommandResult.SUCCESS)) {
+            players.get(currPlayer).removeCardHand(card);
+            addPoints(nickname, x, y);    // the card has just been placed
+
+            // check if the player is stalled
+            boolean isStalled = true;
+            CommandResult resultStall;
+            for(int i = 0; i < GameField.getDim() && isStalled; i++) {
+                for (int j = 0; j < GameField.getDim() && isStalled; j++) {
+                    // check if the firs card (a casual card), is placeable on the back,
+                    // i.e. check only the indexes
+                    try {
+                        resultStall = players.get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
+                                .isPlaceable(new GameField(getPlayersGameField().get(nickname)), i, j, true);
+                        if (resultStall.equals(CommandResult.SUCCESS)) {
+                            isStalled = false;
+                        }
+                    } catch (PlayerNotPresentException e) {
+                        // the current player must be present
+                        throw new RuntimeException();
+                    }
+                }
+            }
+            players.get(currPlayer).setIsStalled(isStalled);
+        }
+        commandResultManager.setCommandResult(result);
+    }
+
+    public void placeStarterCard(String nickname, boolean way) {
+        if(!state.equals(GameState.PLAYING)) {
+            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+            return;
+        }
+        // no check for current player, starter cards can be placed in any order
+        assert(playersGameField.containsKey(nickname)): "The player is not in the game";
+        commandResultManager.setCommandResult(playersGameField.get(nickname).placeCard(
+                playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way)
+        );
+    }
+
+    public void reconnectPlayer(String nickname) {
+        // this command can always be used
+        if(!playersGameField.containsKey(nickname)){
+            commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            return;
+        }
+        try{
+            int pos = getPlayerByNickname(nickname);
+            if(players.get(pos).isConnected()) {
+                commandResultManager.setCommandResult(CommandResult.PLAYER_ALREADY_CONNECTED);
+                return;
+            }
+            players.get(pos).setIsConnected(true);
+            int numPlayersConnected = 0;
+            for (Player p : players){
+                if (p.isConnected()){
+                    numPlayersConnected++;
+                }
+            }
+            if (numPlayersConnected == 1) {
+                state = GameState.WAITING_RECONNECTION;
+                // TODO start the timer, when it ends, the only player connected wins
+            }
+            else if (numPlayersConnected > 1) {
+                // players can re-start to play
+                state = GameState.PLAYING;
+            }
+        } catch (PlayerNotPresentException e) {
+            commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            return;
+        }
+        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+    }
 
 
 
 
-    // TODO discutere
+    // TODO da discutere
 
 
     // ----------------------------

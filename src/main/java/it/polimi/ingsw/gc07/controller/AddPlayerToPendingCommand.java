@@ -1,8 +1,5 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.model.Player;
-
 /**
  * Concrete command used to add a player to a list of pending players, that will be able
  * to enter a new or existing game.
@@ -44,36 +41,6 @@ public class AddPlayerToPendingCommand extends GamesManagerCommand {
      */
     @Override
     public void execute(GamesManager gamesManager) {
-        // this command can always be used
-        if(checkNicknameUnique(gamesManager, nickname)){
-            Player newPlayer = new Player(nickname, connectionType, interfaceType);
-            gamesManager.getPendingPlayers().add(newPlayer);
-        }
-        else {
-            gamesManager.getCommandResultManager().setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
-            return;
-        }
-        gamesManager.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
-    }
-
-    /**
-     * Method to check if a nickname is unique or another player has the same nickname.
-     * @param gamesManager games manager
-     * @param nickname nickname to check
-     * @return true if no other player has the same nickname
-     */
-    private boolean checkNicknameUnique(GamesManager gamesManager, String nickname) {
-        boolean unique = true;
-        for(Game g: gamesManager.getGames()) {
-            if(g.hasPlayer(nickname)){
-                unique = false;
-            }
-        }
-        for(Player p: gamesManager.getPendingPlayers()) {
-            if(p.getNickname().equals(nickname)) {
-                unique = false;
-            }
-        }
-        return unique;
+        gamesManager.addPlayerToPending(nickname, connectionType, interfaceType);
     }
 }
