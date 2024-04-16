@@ -25,15 +25,6 @@ public class ReconnectPlayerCommand extends GameCommand {
         this.nickname=nickname;
     }
     /**
-     * Constructor of the concrete command.
-     * This constructor doesn't take game as parameter, used by the client.
-     * @param nickname nickname of the player to reconnect
-     */
-    public ReconnectPlayerCommand(String nickname) {
-        setGame(null);
-        this.nickname=nickname;
-    }
-    /**
      * Method to execute the concrete command reconnectPlayerCommand.
      */
     @Override

@@ -34,16 +34,6 @@ public class AddPlayerCommand extends GameCommand {
     }
 
     /**
-     * Constructor of the concrete command.
-     * This constructor doesn't take a game as parameter, used by the client.
-     * @param newPlayer player to add
-     */
-    public AddPlayerCommand(Player newPlayer) {
-        setGame(null);
-        this.newPlayer = newPlayer;
-    }
-
-    /**
      * Override of method execute to add a new player to the game.
      */
     @Override
