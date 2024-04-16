@@ -5,10 +5,11 @@ import it.polimi.ingsw.gc07.controller.GamesManagerCommand;
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RMIServerGamesManagerGamesManager implements VirtualServerGamesManager {
+public class RMIServerGamesManager extends UnicastRemoteObject implements VirtualServerGamesManager {
     /**
      * Games manager controller.
      */
@@ -19,11 +20,11 @@ public class RMIServerGamesManagerGamesManager implements VirtualServerGamesMana
     private final List<VirtualView> clients;
 
     /**
-     * Constructor of class RMIServerGamesManagerGamesManager.
+     * Constructor of class RMIServerGamesManager.
      * @param gamesManager games manager
      * @throws RemoteException remote exception
      */
-    public RMIServerGamesManagerGamesManager(GamesManager gamesManager) throws RemoteException {
+    public RMIServerGamesManager(GamesManager gamesManager) throws RemoteException {
         this.gamesManager = gamesManager;
         this.clients = new ArrayList<>();
     }
