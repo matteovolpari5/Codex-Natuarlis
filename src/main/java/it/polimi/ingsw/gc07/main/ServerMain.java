@@ -10,7 +10,7 @@ import java.rmi.registry.Registry;
 public class ServerMain {
     public static void main(String[] args) throws RemoteException {
         String name = "VirtualServerGamesManager";
-        RmiServerGamesManager serverGamesManager = new RmiServerGamesManager(new GamesManager());
+        RmiServerGamesManager serverGamesManager = new RmiServerGamesManager(GamesManager.getGamesManager());
         Registry registry = LocateRegistry.createRegistry(1234);
         registry.rebind(name, serverGamesManager);
         System.out.println("GamesManager bound");

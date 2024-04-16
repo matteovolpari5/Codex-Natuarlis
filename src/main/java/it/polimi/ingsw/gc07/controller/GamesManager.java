@@ -30,20 +30,32 @@ public class GamesManager {
      * Command result manager for games manager.
      */
     private final CommandResultManager commandResultManager;
-
+    /**
+     * Instance of GamesManager.
+     */
+    private static GamesManager myGamesManager = null;
 
     /**
      * GamesManger is created once the server is started.
+     * GamesManager implements Singleton pattern.
      */
-    public GamesManager() {
+    private GamesManager() {
         games = new ArrayList<>();
         pendingPlayers = new ArrayList<>();
         commandResultManager = new CommandResultManager();
     }
 
-    public static GamesManager getGamesManager() {
-        return null;
-    } // TODO no null, ritorno singleton
+    /**
+     * Method to get the only available instance of GamesManager (Singleton pattern).
+     * @return instance of games manager
+     */
+    public static synchronized GamesManager getGamesManager() {
+        if(myGamesManager == null) {
+            return new GamesManager();
+        } else {
+            return myGamesManager;
+        }
+    }
 
     /**
      * Friendly getter method for attribute games, used for Command pattern.
