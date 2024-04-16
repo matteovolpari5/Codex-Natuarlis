@@ -28,7 +28,7 @@ public enum CommandResult {
 
     private final String resultMessage;
 
-    private CommandResult(String resultMessage){
+    CommandResult(String resultMessage){
         this.resultMessage = resultMessage;
     }
 

@@ -23,7 +23,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     /**
      * Map containing the RmiServerGame of every game.
      */
-    private Map<Integer, RmiServerGame> rmiServerGames;
+    private final Map<Integer, RmiServerGame> rmiServerGames;
 
     /**
      * Constructor of class RmiServerGamesManager.
@@ -58,7 +58,9 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         System.out.println(gamesManager.getCommandResultManager().getCommandResult());
         if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SUCCESS)) {
             // TODO stampa aggiornamento al client
-        }else if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SET_SERVER_GAME)) {
+            // TODO listener !!!
+        }else if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SET_SERVER_GAME) ||
+                gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
             String commandNickname = gamesManagerCommand.getNickname();
             int gameId = gamesManager.getGameIdWithPlayer(commandNickname);
             if(gameId < 0) {
@@ -68,25 +70,24 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             if(virtualView == null) {
                 throw new RuntimeException();
             }
-            virtualView.setServerGame(rmiServerGames.get(gameId));
-        }else if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
-            String commandNickname = gamesManagerCommand.getNickname();
-            int gameId = gamesManager.getGameIdWithPlayer(commandNickname);
-            if(gameId < 0) {
-                throw new RuntimeException();
+            if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
+                rmiServerGames.put(gameId, new RmiServerGame(gamesManager.getGameById(gameId)));
             }
-            VirtualView virtualView = getVirtualView(commandNickname);
-            if(virtualView == null) {
-                throw new RuntimeException();
-            }
-            rmiServerGames.put(gameId, new RmiServerGame(gamesManager.getGameById(gameId)));
             virtualView.setServerGame(rmiServerGames.get(gameId));
+            // TODO stampa aggiornamento al client
+            // TODO listener !!!
         }else {
             System.out.println(gamesManager.getCommandResultManager().getCommandResult().getResultMessage());
+            // TODO listener !!!
         }
     }
 
-    // trova la virtual view associata al nickname del command
+    /**
+     * Method that finds the VirtualView associated with a client with a certain nickname.
+     * @param commandNickname client's nickname
+     * @return virtual view
+     * @throws RemoteException remote exception
+     */
     private VirtualView getVirtualView(String commandNickname) throws RemoteException {
         for(VirtualView client : clients) {
             if(client.getNickname().equals(commandNickname)) {

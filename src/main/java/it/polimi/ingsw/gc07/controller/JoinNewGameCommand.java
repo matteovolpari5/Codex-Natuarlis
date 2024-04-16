@@ -32,6 +32,10 @@ public class JoinNewGameCommand extends GamesManagerCommand {
         this.playersNumber = playersNumber;
     }
 
+    /**
+     * Getter method for the nickname of the command.
+     * @return nickname
+     */
     @Override
     public String getNickname() {
         return nickname;
