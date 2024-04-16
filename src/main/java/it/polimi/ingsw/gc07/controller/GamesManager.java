@@ -44,6 +44,19 @@ public class GamesManager {
     }
 
     /**
+     * Return the game with the provided id.
+     * @return game with given id
+     */
+    public Game getGameById(int id) {
+        for(Game g: games) {
+            if(g.getId() == id) {
+                return g;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Friendly getter method for attribute players, used for Command pattern.
      * @return players
      */
@@ -83,6 +96,19 @@ public class GamesManager {
         return player;
     }
 
+    /**
+     * Finds the game id of the game in which is playing the player with provided nickname.
+     * @param nickname nickname of the player
+     * @return game id
+     */
+    public int getGameIdWithPlayer(String nickname) {
+        for(Game g: games) {
+            if(g.hasPlayer(nickname)) {
+                return g.getId();
+            }
+        }
+        return -1;
+    }
 
 
     // -----------------------------

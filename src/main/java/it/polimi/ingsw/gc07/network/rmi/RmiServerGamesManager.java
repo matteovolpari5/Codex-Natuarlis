@@ -7,9 +7,11 @@ import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class RMIServerGamesManager extends UnicastRemoteObject implements VirtualServerGamesManager {
+public class RmiServerGamesManager extends UnicastRemoteObject implements VirtualServerGamesManager {
     /**
      * Games manager controller.
      */
@@ -18,15 +20,20 @@ public class RMIServerGamesManager extends UnicastRemoteObject implements Virtua
      * Virtual views of connected clients.
      */
     private final List<VirtualView> clients;
+    /**
+     * Map containing the RmiServerGame of every game.
+     */
+    private Map<Integer, RmiServerGame> rmiServerGames;
 
     /**
-     * Constructor of class RMIServerGamesManager.
+     * Constructor of class RmiServerGamesManager.
      * @param gamesManager games manager
      * @throws RemoteException remote exception
      */
-    public RMIServerGamesManager(GamesManager gamesManager) throws RemoteException {
+    public RmiServerGamesManager(GamesManager gamesManager) throws RemoteException {
         this.gamesManager = gamesManager;
         this.clients = new ArrayList<>();
+        this.rmiServerGames = new HashMap<>();
     }
 
     /**
@@ -53,11 +60,28 @@ public class RMIServerGamesManager extends UnicastRemoteObject implements Virtua
         if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SUCCESS)) {
             // TODO stampa aggiornamento al client
         }else if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SET_SERVER_GAME)) {
-            //TODO
-            // setServerGame sul RMIClient
+            String commandNickname = gamesManagerCommand.getNickname();
+            int gameId = gamesManager.getGameIdWithPlayer(commandNickname);
+            if(gameId < 0) {
+                throw new RuntimeException();
+            }
+            VirtualView virtualView = getVirtualView(commandNickname);
+            if(virtualView == null) {
+                throw new RuntimeException();
+            }
+            virtualView.setServerGame(rmiServerGames.get(gameId));
         }else if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
-            //TODO
-            // creare server game e settarlo
+            String commandNickname = gamesManagerCommand.getNickname();
+            int gameId = gamesManager.getGameIdWithPlayer(commandNickname);
+            if(gameId < 0) {
+                throw new RuntimeException();
+            }
+            VirtualView virtualView = getVirtualView(commandNickname);
+            if(virtualView == null) {
+                throw new RuntimeException();
+            }
+            rmiServerGames.put(gameId, new RmiServerGame(gamesManager.getGameById(gameId)));
+            virtualView.setServerGame(rmiServerGames.get(gameId));
         }else {
             System.out.println(gamesManager.getCommandResultManager().getCommandResult().getResultMessage());
         }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.main;
 
-import it.polimi.ingsw.gc07.network.rmi.RMIClient;
+import it.polimi.ingsw.gc07.controller.AddPlayerToPendingCommand;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.VirtualServerGamesManager;
 
 import java.rmi.NotBoundException;
@@ -23,13 +24,50 @@ public class ClientMain {
             //TODO check IP
             // deve avere un formato che vada bene
 
+            boolean wrongInput = true;
+            boolean connectionType = false;
+            while(wrongInput) {
+                System.out.println("Insert connection type (1 = RMI, 0 = Socket)");
+                System.out.print("> ");
+                int connectionTypeInt = scan.nextInt();
+                scan.nextLine();
+                if(connectionTypeInt == 1) {
+                    wrongInput = false;
+                    connectionType = true;
+                }else if(connectionTypeInt == 0) {
+                    wrongInput = false;
+                    connectionType = false;
+                }else {
+                    System.out.println("No such connection type");
+                }
+            }
+
+            wrongInput = true;
+            boolean interfaceType = false;
+            while(wrongInput) {
+                System.out.println("Insert interface type(1 = GUI, 0 = TUI)");
+                System.out.print("> ");
+                int interfaceTypeInt = scan.nextInt();
+                scan.nextLine();
+                if(interfaceTypeInt == 1) {
+                    wrongInput = false;
+                    interfaceType = true;
+                }else if(interfaceTypeInt == 0) {
+                    wrongInput = false;
+                    interfaceType = false;
+                }else {
+                    System.out.println("No such interface type");
+                }
+            }
+
             Registry registry = LocateRegistry.getRegistry(ip, 1234);
             VirtualServerGamesManager server = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
 
-            RMIClient newRMIClient = new RMIClient(server, nickname);
+            RmiClient newRmiClient = new RmiClient(server, nickname);
             try {
-                server.connect(newRMIClient);
-                newRMIClient.runCliJoinGame();
+                server.connect(newRmiClient);
+                newRmiClient.connectToGamesManager(connectionType, interfaceType);
+                newRmiClient.runCliJoinGame();
             }catch(RemoteException e) {
                 //TODO
                 e.printStackTrace();

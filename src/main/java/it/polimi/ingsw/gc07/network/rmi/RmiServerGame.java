@@ -5,10 +5,11 @@ import it.polimi.ingsw.gc07.controller.GameCommand;
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RMIServerGame implements VirtualServerGame {
+public class RmiServerGame extends UnicastRemoteObject implements VirtualServerGame {
     /**
      * Game controller of the game.
      */
@@ -18,7 +19,7 @@ public class RMIServerGame implements VirtualServerGame {
      */
     private final List<VirtualView> clients;
 
-    public RMIServerGame(Game game) throws RemoteException {
+    public RmiServerGame(Game game) throws RemoteException {
         this.game = game;
         this.clients = new ArrayList<>();
     }

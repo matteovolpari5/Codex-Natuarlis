@@ -8,12 +8,12 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-public class RMIClient extends UnicastRemoteObject implements VirtualView {
+public class RmiClient extends UnicastRemoteObject implements VirtualView {
     private final String nickname;
     private final VirtualServerGamesManager serverGamesManager;
     private VirtualServerGame serverGame;
 
-    public RMIClient(VirtualServerGamesManager serverGamesManager, String nickname) throws RemoteException {
+    public RmiClient(VirtualServerGamesManager serverGamesManager, String nickname) throws RemoteException {
         this.nickname = nickname;
         this.serverGamesManager = serverGamesManager;
         this.serverGame = null;
@@ -29,6 +29,16 @@ public class RMIClient extends UnicastRemoteObject implements VirtualView {
         return nickname;
     }
 
+    public void connectToGamesManager(boolean connectionType, boolean interfaceType) {
+        try {
+            serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
+        } catch (RemoteException e) {
+            // TODO
+            throw new RuntimeException(e);
+        }
+    }
+
+
     //TODO
     // 1 probabilmente AddPlayerToPending non è qua (?)
     // 3 fare display games
@@ -39,50 +49,12 @@ public class RMIClient extends UnicastRemoteObject implements VirtualView {
         Scanner scan = new Scanner(System.in);
         while(joiningGame) {
             System.out.println("Insert a character to perform an action:");
-            System.out.println("- q to connect to games manager"); // AddPlayerToPendingCommand
-            System.out.println("- w to join an existing game"); // JoinExistingGameCommand
-            System.out.println("- e to join an new game"); // JoinNewGameCommand
+            System.out.println("- q to join an existing game"); // JoinExistingGameCommand
+            System.out.println("- w to join an new game"); // JoinNewGameCommand
             System.out.print("> ");
             String command = scan.nextLine();
             switch(command){
                 case "q":
-                    // connect to games manager
-                    System.out.println("Insert connection type (1 = RMI, 0 = Socket)");
-                    System.out.print("> ");
-                    int connectionTypeInt = scan.nextInt();
-                    scan.nextLine();
-                    boolean connectionType;
-                    if(connectionTypeInt == 1) {
-                        connectionType = true;
-                    }else if(connectionTypeInt == 0) {
-                        connectionType = false;
-                    }else {
-                        System.out.println("No such connection type");
-                        break;
-                    }
-                    System.out.println("Insert interface type(1 = GUI, 0 = TUI)");
-                    System.out.print("> ");
-                    int interfaceTypeInt = scan.nextInt();
-                    scan.nextLine();
-                    boolean interfaceType;
-                    if(interfaceTypeInt == 1) {
-                        interfaceType = true;
-                    }else if(interfaceTypeInt == 0) {
-                        interfaceType = false;
-                    }else {
-                        System.out.println("No such interface type");
-                        break;
-                    }
-                    try {
-                        serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
-                    } catch (RemoteException e) {
-                        // TODO
-                        throw new RuntimeException(e);
-                    }
-                    break;
-
-
-                case "w":
                     // join existing game
 
                     // TODO display existing games
@@ -121,7 +93,7 @@ public class RMIClient extends UnicastRemoteObject implements VirtualView {
                     break;
 
 
-                case "e":
+                case "w":
                     // join new game
                     System.out.println("Insert token color (green, red, yellow or blue): ");
                     System.out.print("> ");
