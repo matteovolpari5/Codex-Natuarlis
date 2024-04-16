@@ -60,18 +60,23 @@ public class ClientMain {
                 }
             }
 
-            Registry registry = LocateRegistry.getRegistry(ip, 1234);
-            VirtualServerGamesManager server = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
+            if(connectionType == true) {
+                // RMI
+                Registry registry = LocateRegistry.getRegistry(ip, 1234);
+                VirtualServerGamesManager server = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
 
-            RmiClient newRmiClient = new RmiClient(server, nickname);
-            try {
-                server.connect(newRmiClient);
-                newRmiClient.connectToGamesManager(connectionType, interfaceType);
-                newRmiClient.runCliJoinGame();
-            }catch(RemoteException e) {
-                //TODO
-                e.printStackTrace();
-                throw new RuntimeException();
+                RmiClient newRmiClient = new RmiClient(server, nickname);
+                try {
+                    server.connect(newRmiClient);
+                    newRmiClient.connectToGamesManager(connectionType, interfaceType);
+                    newRmiClient.runCliJoinGame();
+                }catch(RemoteException e) {
+                    //TODO
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                }
+            }else {
+                System.out.println("Socket not implemented");
             }
         }catch(RemoteException e) {
             e.printStackTrace();
