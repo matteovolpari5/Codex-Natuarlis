@@ -13,7 +13,7 @@ public class PlaceCardCommand extends GameCommand {
     /**
      * Card that will be placed.
      */
-    private final DrawableCard card;
+    private final int pos;
     /**
      * Row in the matrix.
      */
@@ -30,14 +30,14 @@ public class PlaceCardCommand extends GameCommand {
     /**
      * Constructor of the concrete command PlaceCardCommand.
      * @param nickname nickname
-     * @param card card
+     * @param pos position in hand
      * @param x row
      * @param y column
      * @param way way
      */
-    public PlaceCardCommand(String nickname, DrawableCard card, int x, int y, boolean way) {
+    public PlaceCardCommand(String nickname, int pos, int x, int y, boolean way) {
         this.nickname = nickname;
-        this.card = card;
+        this.pos = pos;
         this.x = x;
         this.y = y;
         this.way = way;
@@ -50,6 +50,6 @@ public class PlaceCardCommand extends GameCommand {
      */
     @Override
     public void execute(Game game) {
-        game.placeCard(nickname, card, x, y, way);
+        game.placeCard(nickname, pos, x, y, way);
     }
 }
