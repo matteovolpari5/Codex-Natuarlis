@@ -23,28 +23,11 @@ public class AddPlayerToPendingCommand extends GamesManagerCommand {
 
     /**
      * Constructor of AddPlayerToPendingCommand.
-     * This constructor takes parameter games manager, used by the server.
-     * @param gamesManager games manager
-     * @param nickname nickname of the player to add
-     * @param connectionType connection type value of the player to add
-     * @param interfaceType interface type value of the player to add
-     */
-    public AddPlayerToPendingCommand(GamesManager gamesManager, String nickname, boolean connectionType, boolean interfaceType) {
-        setGamesManager(gamesManager);
-        this.nickname = nickname;
-        this.connectionType = connectionType;
-        this.interfaceType = interfaceType;
-    }
-
-    /**
-     * Constructor of AddPlayerToPendingCommand.
-     * This constructor doesn't take a games manager as parameter, used by the client.
      * @param nickname nickname of the player to add
      * @param connectionType connection type value of the player to add
      * @param interfaceType interface type value of the player to add
      */
     public AddPlayerToPendingCommand(String nickname, boolean connectionType, boolean interfaceType) {
-        setGamesManager(null);
         this.nickname = nickname;
         this.connectionType = connectionType;
         this.interfaceType = interfaceType;
@@ -60,11 +43,9 @@ public class AddPlayerToPendingCommand extends GamesManagerCommand {
      * Accepts player data, creates a new player and adds it to the list of pending players.
      */
     @Override
-    public void execute() {
-        GamesManager gamesManager = getGamesManager();
-
+    public void execute(GamesManager gamesManager) {
         // this command can always be used
-        if(checkNicknameUnique(nickname)){
+        if(checkNicknameUnique(gamesManager, nickname)){
             Player newPlayer = new Player(nickname, connectionType, interfaceType);
             gamesManager.getPendingPlayers().add(newPlayer);
         }
@@ -77,12 +58,11 @@ public class AddPlayerToPendingCommand extends GamesManagerCommand {
 
     /**
      * Method to check if a nickname is unique or another player has the same nickname.
+     * @param gamesManager games manager
      * @param nickname nickname to check
      * @return true if no other player has the same nickname
      */
-    private boolean checkNicknameUnique(String nickname) {
-        GamesManager gamesManager = getGamesManager();
-
+    private boolean checkNicknameUnique(GamesManager gamesManager, String nickname) {
         boolean unique = true;
         for(Game g: gamesManager.getGames()) {
             if(g.hasPlayer(nickname)){

@@ -25,11 +25,9 @@ public class AddPlayerCommand extends GameCommand {
     /**
      * Constructor of the concrete command.
      * This constructor takes parameter game, used by the server.
-     * @param game game
      * @param newPlayer player to add
      */
-    public AddPlayerCommand(Game game, Player newPlayer) {
-        setGame(game);
+    public AddPlayerCommand(Player newPlayer) {
         this.newPlayer = newPlayer;
     }
 
@@ -37,9 +35,7 @@ public class AddPlayerCommand extends GameCommand {
      * Override of method execute to add a new player to the game.
      */
     @Override
-    public void execute() {
-        Game game = getGame();
-
+    public void execute(Game game) {
         if(!game.getState().equals(GameState.GAME_STARTING)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -56,8 +52,8 @@ public class AddPlayerCommand extends GameCommand {
         game.getPlayers().add(newPlayer);
         game.getPlayersGameField().put(newPlayer.getNickname(), gameField);
         game.getScoreTrackBoard().addPlayer(newPlayer.getNickname());
-        if (isFull()) {
-            setup();
+        if (isFull(game)) {
+            setup(game);
             game.setState(GameState.PLAYING);
         }
         game.getCommandResultManager().setCommandResult(CommandResult.SUCCESS);
@@ -67,16 +63,14 @@ public class AddPlayerCommand extends GameCommand {
      * Method telling if there are available places in the game.
      * @return true if no other player can connect to the game
      */
-    private boolean isFull(){
-        return getGame().getPlayers().size() == getGame().getPlayersNumber();
+    private boolean isFull(Game game){
+        return game.getPlayers().size() == game.getPlayersNumber();
     }
 
     /**
      * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
      */
-    private void setup() {
-        Game game = getGame();
-
+    private void setup(Game game) {
         assert(game.getState().equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
         // choose randomly the first player
         Random random= new Random();

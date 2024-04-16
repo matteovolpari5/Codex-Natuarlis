@@ -31,14 +31,14 @@ class PlaceStarterCardCommandTest {
 
         Player p1 = new Player("P1", true, true);
         p1.setTokenColor(TokenColor.GREEN);
-        game.setAndExecuteCommand(new AddPlayerCommand(game, p1));
+        game.setAndExecuteCommand(new AddPlayerCommand(p1));
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add second player
         Player p2 = new Player("P2", true, true);
         p2.setTokenColor(TokenColor.BLUE);
-        game.setAndExecuteCommand(new AddPlayerCommand(game, p2));
+        game.setAndExecuteCommand(new AddPlayerCommand(p2));
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
@@ -48,7 +48,7 @@ class PlaceStarterCardCommandTest {
 
     @Test
     void PlaceStarterCardSuccess() {
-        game.setAndExecuteCommand(new PlaceStarterCardCommand(game, game.getPlayers().get(game.getCurrPlayer()).getNickname(), true));
+        game.setAndExecuteCommand(new PlaceStarterCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), true));
         CommandResult result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }

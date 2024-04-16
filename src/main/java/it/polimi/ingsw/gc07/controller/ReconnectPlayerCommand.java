@@ -16,21 +16,16 @@ public class ReconnectPlayerCommand extends GameCommand {
 
     /**
      * Constructor of the concrete command.
-     * This constructor takes game as parameter, used by the server.
-     * @param game game
      * @param nickname nickname of the player to reconnect
      */
-    public ReconnectPlayerCommand(Game game, String nickname) {
-        setGame(game);
+    public ReconnectPlayerCommand(String nickname) {
         this.nickname=nickname;
     }
     /**
      * Method to execute the concrete command reconnectPlayerCommand.
      */
     @Override
-    public void execute() {
-        Game game = getGame();
-
+    public void execute(Game game) {
         // this command can always be used
         if(!game.getPlayersGameField().containsKey(nickname)){
             game.getCommandResultManager().setCommandResult(CommandResult.PLAYER_NOT_PRESENT);

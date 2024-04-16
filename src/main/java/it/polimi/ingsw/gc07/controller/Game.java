@@ -220,7 +220,7 @@ public class Game {
     }
 
     public void setAndExecuteCommand(GameCommand gameCommand) {
-        gameCommand.execute();
+        gameCommand.execute(this);
     }
 
     /**

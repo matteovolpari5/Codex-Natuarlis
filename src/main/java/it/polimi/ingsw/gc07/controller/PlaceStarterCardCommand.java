@@ -20,24 +20,10 @@ public class PlaceStarterCardCommand extends GameCommand{
 
     /**
      * Constructor of the concrete command PlaceStarterCardCommand.
-     * This constructor takes game as parameter, used by the server.
-     * @param game game
-     * @param nickname nickname
-     * @param way way
-     */
-    public PlaceStarterCardCommand(Game game, String nickname, boolean way) {
-        setGame(game);
-        this.nickname = nickname;
-        this.way = way;
-    }
-    /**
-     * Constructor of the concrete command PlaceStarterCardCommand.
-     * This constructor doesn't take games manager as parameter, used by the client.
      * @param nickname nickname
      * @param way way
      */
     public PlaceStarterCardCommand(String nickname, boolean way) {
-        setGame(null);
         this.nickname = nickname;
         this.way = way;
     }
@@ -46,9 +32,7 @@ public class PlaceStarterCardCommand extends GameCommand{
      * Method to place the starter card in a certain way.
      */
     @Override
-    public void execute() {
-        Game game = getGame();
-
+    public void execute(Game game) {
         if(!game.getState().equals(GameState.PLAYING)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;

@@ -14,20 +14,20 @@ class AddPlayerToPendingCommandTest {
 
     @Test
     void addPlayerSuccessful() {
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto success
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player2", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player2", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto success
     }
 
     @Test
     void addPlayerUnsuccessful() {
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto NOT success
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto NOT success
     }
@@ -35,17 +35,17 @@ class AddPlayerToPendingCommandTest {
     @Test
     void addPlayerUnsuccessfulWithJoin() {
         // add Player1 to pending players
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto success
 
         // make Player1 join a new game
-        gamesManager.setAndExecuteCommand(new JoinNewGameCommand(gamesManager, "Player1", TokenColor.GREEN, 3));
+        gamesManager.setAndExecuteCommand(new JoinNewGameCommand("Player1", TokenColor.GREEN, 3));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto success
 
         // try to add Player1 to pending players
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         //TODO assert sulla bandierina / eccezione, in base a cosa useremo
         // mi aspetto NOT success
         // i nomi dei giocatori devono essere diversi anche tra game diversi !!!

@@ -33,26 +33,6 @@ public class PlaceCardCommand extends GameCommand {
 
     /**
      * Constructor of the concrete command PlaceCardCommand.
-     * This constructor takes game as parameter, used by the server.
-     * @param game game
-     * @param nickname nickname
-     * @param card card
-     * @param x row
-     * @param y column
-     * @param way way
-     */
-    public PlaceCardCommand(Game game, String nickname, DrawableCard card, int x, int y, boolean way) {
-        setGame(game);
-        this.nickname = nickname;
-        this.card = card;
-        this.x = x;
-        this.y = y;
-        this.way = way;
-    }
-
-    /**
-     * Constructor of the concrete command PlaceCardCommand.
-     * This constructor doesn't take game as parameter, used by the client.
      * @param nickname nickname
      * @param card card
      * @param x row
@@ -60,7 +40,6 @@ public class PlaceCardCommand extends GameCommand {
      * @param way way
      */
     public PlaceCardCommand(String nickname, DrawableCard card, int x, int y, boolean way) {
-        setGame(null);
         this.nickname = nickname;
         this.card = card;
         this.x = x;
@@ -74,9 +53,7 @@ public class PlaceCardCommand extends GameCommand {
      * the method that computes the points scored by placing the card.
      */
     @Override
-    public void execute() {
-        Game game = getGame();
-
+    public void execute(Game game) {
         if(!game.getState().equals(GameState.PLAYING)){
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -92,7 +69,7 @@ public class PlaceCardCommand extends GameCommand {
         CommandResult result = game.getPlayersGameField().get(nickname).placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS)) {
             game.getPlayers().get(game.getCurrPlayer()).removeCardHand(card);
-            addPoints(nickname,x,y);    // the card has just been placed
+            addPoints(game, nickname, x, y);    // the card has just been placed
 
             // check if the player is stalled
             boolean isStalled = true;
@@ -120,13 +97,12 @@ public class PlaceCardCommand extends GameCommand {
 
     /**
      * Method that adds points to a player and checks if a player had reached 20 points.
-     * @param nickname: nickname of the player
-     * @param x: where the card is placed in the matrix
-     * @param y: where the card is placed in the matrix
+     * @param game game
+     * @param nickname nickname of the player
+     * @param x where the card is placed in the matrix
+     * @param y where the card is placed in the matrix
      */
-    private void addPoints(String nickname, int x, int y) {
-        Game game = getGame();
-
+    private void addPoints(Game game, String nickname, int x, int y) {
         assert(game.getState().equals(GameState.PLAYING)): "Wrong game state";
         assert(game.getPlayers().get(game.getCurrPlayer()).getNickname().equals(nickname)): "Not the current player";
         assert (game.getPlayersGameField().get(nickname).isCardPresent(x, y)) : "No card present in the provided position";
