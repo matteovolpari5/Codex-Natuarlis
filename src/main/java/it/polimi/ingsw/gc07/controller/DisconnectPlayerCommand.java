@@ -5,6 +5,9 @@ import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.PlayerNotPresentException;
 import it.polimi.ingsw.gc07.model.Player;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Concrete command to disconnect a player from the game.
  */
@@ -13,6 +16,7 @@ public class DisconnectPlayerCommand extends GameCommand {
      * Nickname of the player that has disconnected.
      */
     String nickname;
+    private boolean reconnectionOccurred;
 
     /**
      * Constructor of the concrete command DisconnectPlayerCommand.
@@ -55,15 +59,37 @@ public class DisconnectPlayerCommand extends GameCommand {
                 return;
             }
             game.getPlayers().get(pos).setIsConnected(false);
-            int numPlayersConnected = 0;
-            for (Player p : game.getPlayers()){
-                if (p.isConnected()){
-                    numPlayersConnected++;
-                }
-            }
+            int numPlayersConnected = game.getNumPlayersConnected();
             if (numPlayersConnected == 1){
                 game.setState(GameState.WAITING_RECONNECTION);
+                reconnectionOccurred = false;
                 // TODO start the timer, when it ends, the only player left wins
+                Timer timeout = new Timer();
+                timeout.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (!reconnectionOccurred) {
+                            timeout.cancel();
+                            timeout.purge();
+                            //TODO settare il player rimasto come vincitore
+                        }
+                    }
+                }, 60*1000); //timeout of 1 minute
+                new Thread(() -> {
+                    for (int i = 0; i < 60; i++) {
+                        try {
+                            Thread.sleep(1000); // wait one second for each iteration
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException();
+                        }
+                        if (game.getNumPlayersConnected() > 1) {
+                            reconnectionOccurred = true;
+                            timeout.cancel(); // it stops the timeout
+                            timeout.purge();
+                            break;
+                        }
+                    }
+                }).start();
             } else if (numPlayersConnected == 0) {
                 game.setState(GameState.NO_PLAYERS_CONNECTED);
                 // TODO start the timer, when it ends, the game ends without winner

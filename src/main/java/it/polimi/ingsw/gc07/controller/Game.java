@@ -205,6 +205,16 @@ public class Game {
         return additionalRound;
     }
 
+    int getNumPlayersConnected(){
+        int numPlayersConnected = 0;
+        for (Player p: players){
+            if (p.isConnected()){
+                numPlayersConnected++;
+            }
+        }
+        return numPlayersConnected;
+    }
+
     //method for testing PlaceCardEasily
     void setCurrentPlayer(int num)
     {

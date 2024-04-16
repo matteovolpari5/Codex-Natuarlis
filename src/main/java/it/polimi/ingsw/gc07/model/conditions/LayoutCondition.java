@@ -24,6 +24,10 @@ public class LayoutCondition implements Condition{
      * Maximum number of columns of a layout.
      */
     private static final int maxLayoutColumns = 3;
+    /**
+     * Copy of the game field.
+     */
+    private GameField myGamefield;
 
     /**
      * Constructor for layout conditions.
@@ -61,6 +65,7 @@ public class LayoutCondition implements Condition{
      */
     @Override
     public int numTimesMet(GameField gameField) throws NullPointerException {
+        myGamefield = new GameField(gameField);
         // check valid game field
         assert(gameField != null): "No GameField passed as parameter";
         int dim = GameField.getDim();
@@ -92,9 +97,9 @@ public class LayoutCondition implements Condition{
                             // a card must be present
                             // it mustn't be a starter card, it can be a resource or gold card
                             // it must have the correct color (i.e. GameResource)
-                            if(     (!gameField.isCardPresent(i+h,j+k)) ||
-                                    (gameField.isCardPresent(i+h,j+k) && gameField.getPlacedCard(i+h,j+k).getType().equals(CardType.STARTER_CARD)) ||
-                                    (gameField.isCardPresent(i+h,j+k) && !gameField.getPlacedCard(i+h,j+k).getPermanentResources().getFirst().equals(cardsColor[h][k]))
+                            if(     (!myGamefield.isCardPresent(i+h,j+k)) ||
+                                    (myGamefield.isCardPresent(i+h,j+k) && myGamefield.getPlacedCard(i+h,j+k).getType().equals(CardType.STARTER_CARD)) ||
+                                    (myGamefield.isCardPresent(i+h,j+k) && !myGamefield.getPlacedCard(i+h,j+k).getPermanentResources().getFirst().equals(cardsColor[h][k]))
                             ) {
                                 // mismatch
                                 flag = false;
@@ -109,8 +114,8 @@ public class LayoutCondition implements Condition{
                     for(int h = 0; h < layoutRows; h++) {
                         for (int k = 0; k < layoutColumns; k++) {
                             if(cardsColor[h][k] != null){
-                                assert(gameField.isCardPresent(i+h, j+k)): "The card must be present, the pattern was found";
-                                gameField.removePlacedCard(i+h,j+k);
+                                assert(myGamefield.isCardPresent(i+h, j+k)): "The card must be present, the pattern was found";
+                                myGamefield.removePlacedCard(i+h,j+k);
                             }
                         }
                     }

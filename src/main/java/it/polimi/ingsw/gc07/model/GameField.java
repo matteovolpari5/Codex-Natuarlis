@@ -196,6 +196,16 @@ public class GameField {
     }
 
     /**
+     * Getter that returns when the card was placed.
+     * @param x x position in the matrix
+     * @param y y position in the matrix
+     * @return an integer that represents when a card has been placed
+     */
+    public int getCardsOrder(int x,int y) {
+        return cardsOrder[x][y];
+    }
+
+    /**
      * Return the number of cards placed on the game field.
      * @return number of cards placed
      */
