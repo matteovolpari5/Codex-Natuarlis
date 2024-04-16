@@ -57,7 +57,7 @@ class PlaceCardCommandTest {
         game.getPlayers().get(0).setIsStalled(true);
         game.getPlayers().get(1).setIsStalled(true);
     }
-/*
+
     @Test
     void placeCardSuccess() {
         DrawableCard myResourceCard;
@@ -331,5 +331,5 @@ class PlaceCardCommandTest {
                 assertEquals(game.getScoreTrackBoard().getScore(game.getPlayers().get(game.getCurrPlayer()).getNickname()), 0);
             }
         }
-    }*/
+    }
 }
