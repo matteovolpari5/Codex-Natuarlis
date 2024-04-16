@@ -376,7 +376,76 @@ class GameTest {
 
     @Test
     void computeWinnerDraw() {
-        // TODO
+        // add first player
+        Player firstPlayer = new Player("Player1", true, false);
+        firstPlayer.setTokenColor(TokenColor.BLUE);
+        firstPlayer.setFirst();
+        // add second player
+        Player secondPlayer = new Player("Player2", false, false);
+        secondPlayer.setTokenColor(TokenColor.GREEN);
+        PlaceableCard myStarterCard1 =null;
+        for (PlaceableCard p: game.getStarterCardsDeck().getContent()){
+            if (p.getId() == 82){
+                myStarterCard1 = p;
+            }
+        }
+        PlaceableCard myStarterCard2 = null;
+        for (PlaceableCard p: game.getStarterCardsDeck().getContent()){
+            if (p.getId() == 81){
+                myStarterCard2 = p;
+            }
+        }
+        GameField gameField1 = new GameField(myStarterCard1);
+        game.getPlayers().add(firstPlayer);
+        game.getPlayersGameField().put("Player1", gameField1);
+        game.getScoreTrackBoard().addPlayer("Player1");
+        gameField1.placeCard(myStarterCard1, 40, 40, false);
+        GameField gameField2 = new GameField(myStarterCard1);
+        game.getPlayers().add(secondPlayer);
+        game.getPlayersGameField().put("Player2", gameField2);
+        game.getScoreTrackBoard().addPlayer("Player2");
+        gameField2.placeCard(myStarterCard2, 40, 40, false);
+        game.setState(GameState.PLAYING);
+        firstPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
+        secondPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
+        List<ObjectiveCard> publicObjective = new ArrayList<>();
+        for(ObjectiveCard o: game.getObjectiveCardsDeck().getContent()){
+            if (o.getId()==97){
+                firstPlayer.setSecretObjective(o);
+            }
+            if (o.getId()==95){
+                secondPlayer.setSecretObjective(o);
+            }
+            if (o.getId()==90){
+                publicObjective.add(o);
+            }
+            if (o.getId()==100){
+                publicObjective.add(o);
+            }
+        }
+        game.getObjectiveCardsDeck().setFaceUpCards(publicObjective);
+        for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
+            if (c.getId() == 8) {
+                firstPlayer.addCardHand(c);
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 1, 39, 39, false));
+                game.changeCurrPlayer();
+                break;
+            }
+        }
+        for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
+            if (c.getId() == 9) {
+                secondPlayer.addCardHand(c);
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 1, 39, 39, false));
+                game.changeCurrPlayer();
+                break;
+            }
+        }
+        game.setTwentyPointsReached();
+        game.changeCurrPlayer();
+        game.changeCurrPlayer();
+        game.changeCurrPlayer();
+        game.changeCurrPlayer();
+        assertTrue(game.getWinners().containsAll(game.getPlayers()));
     }
 
     @Test
