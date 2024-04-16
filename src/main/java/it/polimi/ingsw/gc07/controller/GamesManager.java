@@ -79,14 +79,6 @@ public class GamesManager {
     }
 
     /**
-     * Friendly getter method for attribute players, used for Command pattern.
-     * @return players
-     */
-    List<Player> getPendingPlayers() {
-        return pendingPlayers;
-    }
-
-    /**
      * Getter for the command result manager.
      * @return command result manager of the games manager
      */

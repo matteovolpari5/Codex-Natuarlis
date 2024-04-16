@@ -285,7 +285,6 @@ public abstract class DecksBuilder {
             JsonObject cardJsonObject = c.getAsJsonObject();
 
             int id = cardJsonObject.get("id").getAsInt();
-            CardType type = CardType.OBJECTIVE_CARD;
             int objectiveScore = cardJsonObject.get("objectivescore").getAsInt();
 
             // extract and create the condition

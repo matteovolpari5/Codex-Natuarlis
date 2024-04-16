@@ -7,11 +7,6 @@ import it.polimi.ingsw.gc07.model.GameField;
  */
 public class CornerCoverageCondition implements Condition {
     /**
-     * Constructor of class CornerCoverageCondition.
-     */
-    public CornerCoverageCondition() {}
-
-    /**
      * This method must be called after placement of the card!
      * Counts the number of corners covered by the last card which has been placed.
      * @param gameField game field on which the condition has to be verified
