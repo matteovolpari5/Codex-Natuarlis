@@ -14,13 +14,13 @@ class JoinNewGameCommandTest {
     @BeforeEach
     void setUp() {
         gamesManager = new GamesManager();
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "Player1", false, false));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", false, false));
     }
 
     @Test
     void joinNewGameSuccess(){
         playersNumber = 3;
-        gamesManager.setAndExecuteCommand(new JoinNewGameCommand(gamesManager, "Player1", TokenColor.RED, playersNumber));
+        gamesManager.setAndExecuteCommand(new JoinNewGameCommand("Player1", TokenColor.RED, playersNumber));
         //Controllo bandierina success
         assertNull(gamesManager.getPendingPlayer("Player1"));
         boolean found = false;

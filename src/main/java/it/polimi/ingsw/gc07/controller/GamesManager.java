@@ -77,7 +77,7 @@ public class GamesManager {
      * @param gamesManagerCommand games manager command to set
      */
     public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
-        gamesManagerCommand.execute();
+        gamesManagerCommand.execute(this);
     }
 
     // used by more game commands

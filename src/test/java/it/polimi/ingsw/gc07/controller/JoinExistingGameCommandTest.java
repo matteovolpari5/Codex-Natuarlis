@@ -14,13 +14,13 @@ class JoinExistingGameCommandTest {
     @BeforeEach
     void setUp() {
         gamesManager = new GamesManager();
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "P1", true, true));
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(gamesManager, "P2", true, true));
-        gamesManager.setAndExecuteCommand(new JoinNewGameCommand(gamesManager, "P1", TokenColor.GREEN, 4));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P2", true, true));
+        gamesManager.setAndExecuteCommand(new JoinNewGameCommand("P1", TokenColor.GREEN, 4));
     }
     @Test
     void JoinExistingGameSuccess() {
-        gamesManager.setAndExecuteCommand(new JoinExistingGameCommand(gamesManager, "P2", TokenColor.RED, 0));
+        gamesManager.setAndExecuteCommand(new JoinExistingGameCommand("P2", TokenColor.RED, 0));
         //assert mancante
         assertNull(gamesManager.getPendingPlayer("P2"));
         boolean found;
@@ -37,7 +37,7 @@ class JoinExistingGameCommandTest {
 
     @Test
     void JoinExistingGameFail() {
-        gamesManager.setAndExecuteCommand(new JoinExistingGameCommand(gamesManager, "P2", TokenColor.RED, 1));
+        gamesManager.setAndExecuteCommand(new JoinExistingGameCommand("P2", TokenColor.RED, 1));
         //assert mancante
         assertNotNull(gamesManager.getPendingPlayer("P2"));
         boolean found;

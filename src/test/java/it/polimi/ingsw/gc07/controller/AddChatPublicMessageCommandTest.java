@@ -33,12 +33,12 @@ class AddChatPublicMessageCommandTest {
         game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
 
         Player firstPlayer = new Player("Player1", true, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(game, firstPlayer));
+        game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("Player2", false, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(game, secondPlayer));
+        game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
@@ -46,16 +46,16 @@ class AddChatPublicMessageCommandTest {
 
     @Test
     void addMessageSuccess() {
-        game.setAndExecuteCommand(new AddChatPublicMessageCommand(game, "My content...", "Player1"));
+        game.setAndExecuteCommand(new AddChatPublicMessageCommand("My content...", "Player1"));
         CommandResult result = game.getCommandResultManager().getCommandResult();        assertEquals(CommandResult.SUCCESS, result);
-        game.setAndExecuteCommand(new AddChatPublicMessageCommand(game, "My other content....", "Player2"));
+        game.setAndExecuteCommand(new AddChatPublicMessageCommand("My other content....", "Player2"));
         result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
 
     @Test
     void addMessageWrongSender() {
-        game.setAndExecuteCommand(new AddChatPublicMessageCommand(game, "My content...", "WrongPlayer"));
+        game.setAndExecuteCommand(new AddChatPublicMessageCommand("My content...", "WrongPlayer"));
         CommandResult result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.WRONG_SENDER, result);
     }

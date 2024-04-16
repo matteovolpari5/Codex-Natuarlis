@@ -18,25 +18,10 @@ public class DrawDeckCardCommand extends GameCommand {
 
     /**
      * Constructor of the concrete command DrawDeckCardCommand.
-     * This constructor takes parameter game, used by the server.
-     * @param game game
-     * @param nickname nickname of the player
-     * @param type deck's type
-     */
-    public DrawDeckCardCommand(Game game, String nickname, CardType type) {
-        setGame(game);
-        this.type = type;
-        this.nickname = nickname;
-    }
-
-    /**
-     * Constructor of the concrete command DrawDeckCardCommand.
-     * This constructor doesn't take a game as parameter, used by the client.
      * @param nickname nickname of the player
      * @param type deck's type
      */
     public DrawDeckCardCommand(String nickname, CardType type) {
-        setGame(null);
         this.type = type;
         this.nickname = nickname;
     }
@@ -45,9 +30,7 @@ public class DrawDeckCardCommand extends GameCommand {
      * Method that allows a player to draw one card from a GoldCardDeck or a ResourceCardDeck.
      */
     @Override
-    public void execute() {
-        Game game = getGame();
-
+    public void execute(Game game) {
         if(!game.getState().equals(GameState.PLAYING)) {
             game.getCommandResultManager().setCommandResult(CommandResult.WRONG_STATE);
             return;

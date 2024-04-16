@@ -32,27 +32,11 @@ public class JoinNewGameCommand extends GamesManagerCommand {
     /**
      * Constructor of the concrete command JoinNewGameCommand.
      * This constructor takes games manager as parameter, used by the server.
-     * @param gamesManager games manager
-     * @param nickname nickname
-     * @param tokenColor token color
-     * @param playersNumber players number
-     */
-    public JoinNewGameCommand(GamesManager gamesManager, String nickname, TokenColor tokenColor, int playersNumber) {
-        setGamesManager(gamesManager);
-        this.nickname = nickname;
-        this.tokenColor = tokenColor;
-        this.playersNumber = playersNumber;
-    }
-
-    /**
-     * Constructor of the concrete command JoinNewGameCommand.
-     * This constructor doesn't take games manager as parameter, used by the client.
      * @param nickname nickname
      * @param tokenColor token color
      * @param playersNumber players number
      */
     public JoinNewGameCommand(String nickname, TokenColor tokenColor, int playersNumber) {
-        setGamesManager(null);
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.playersNumber = playersNumber;
@@ -68,9 +52,7 @@ public class JoinNewGameCommand extends GamesManagerCommand {
      * Creates a new game and adds the player to the newly created game.
      */
     @Override
-    public void execute() {
-        GamesManager gamesManager = getGamesManager();
-
+    public void execute(GamesManager gamesManager) {
         // this command can always be used
         Player player = gamesManager.getPendingPlayer(nickname);
         if(player == null) {
@@ -79,7 +61,7 @@ public class JoinNewGameCommand extends GamesManagerCommand {
         }
         int gameId;
         try{
-            gameId = createGame(playersNumber);
+            gameId = createGame(gamesManager, playersNumber);
         }
         catch(WrongNumberOfPlayersException e){
             gamesManager.getCommandResultManager().setCommandResult(CommandResult.WRONG_PLAYERS_NUMBER);
@@ -89,7 +71,7 @@ public class JoinNewGameCommand extends GamesManagerCommand {
             if(game.getId() == gameId) {
                 // no need to check the token color for the first player of the game
                 player.setTokenColor(tokenColor);
-                game.setAndExecuteCommand(new AddPlayerCommand(game, player));
+                game.setAndExecuteCommand(new AddPlayerCommand(player));
             }
             gamesManager.getPendingPlayers().remove(player);
         }
@@ -103,14 +85,14 @@ public class JoinNewGameCommand extends GamesManagerCommand {
      * Method that creates a new Game and adds it to the list games.
      * @param playersNumber number of player of the new game, decided by the first player to join.
      */
-    private int createGame(int playersNumber) throws WrongNumberOfPlayersException {
+    private int createGame(GamesManager gamesManager, int playersNumber) throws WrongNumberOfPlayersException {
         // check players number
         if(playersNumber < 2 || playersNumber > 4){
             throw new WrongNumberOfPlayersException();
         }
 
         // find first free id
-        int id = findFirstFreeId();
+        int id = findFirstFreeId(gamesManager);
 
         // create and shuffle decks
         ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
@@ -124,7 +106,7 @@ public class JoinNewGameCommand extends GamesManagerCommand {
 
         // create game
         Game game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
-        getGamesManager().getGames().add(game);
+        gamesManager.getGames().add(game);
 
         return id;
     }
@@ -133,13 +115,13 @@ public class JoinNewGameCommand extends GamesManagerCommand {
      * Method that finds the first free id.
      * @return first free id
      */
-    private int findFirstFreeId() {
+    private int findFirstFreeId(GamesManager gamesManager) {
         boolean foundId = false;
         boolean foundGame;
         int id = 0;
         while(!foundId){
             foundGame = false;
-            for(Game g: getGamesManager().getGames()) {
+            for(Game g: gamesManager.getGames()) {
                 if(g.getId() == id){
                     foundGame = true;
                 }

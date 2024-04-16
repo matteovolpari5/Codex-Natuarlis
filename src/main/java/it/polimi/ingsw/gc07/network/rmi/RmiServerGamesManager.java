@@ -54,7 +54,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      */
     @Override
     public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
-        gamesManagerCommand.setGamesManager(gamesManager);
         gamesManager.setAndExecuteCommand(gamesManagerCommand);
         System.out.println(gamesManager.getCommandResultManager().getCommandResult());
         if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SUCCESS)) {
