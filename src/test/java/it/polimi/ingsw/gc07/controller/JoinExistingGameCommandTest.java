@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JoinExistingGameCommandTest {
     GamesManager gamesManager;
-    int gameId;
 
     @BeforeEach
     void setUp() {
@@ -21,7 +21,7 @@ class JoinExistingGameCommandTest {
     @Test
     void JoinExistingGameSuccess() {
         gamesManager.setAndExecuteCommand(new JoinExistingGameCommand("P2", TokenColor.RED, 0));
-        //assert mancante
+        assertEquals(CommandResult.SET_SERVER_GAME, gamesManager.getCommandResultManager().getCommandResult());
         assertNull(gamesManager.getPendingPlayer("P2"));
         boolean found;
         found = false;
@@ -38,7 +38,7 @@ class JoinExistingGameCommandTest {
     @Test
     void JoinExistingGameFail() {
         gamesManager.setAndExecuteCommand(new JoinExistingGameCommand("P2", TokenColor.RED, 1));
-        //assert mancante
+        assertEquals(CommandResult.GAME_NOT_PRESENT, gamesManager.getCommandResultManager().getCommandResult());
         assertNotNull(gamesManager.getPendingPlayer("P2"));
         boolean found;
         found = false;

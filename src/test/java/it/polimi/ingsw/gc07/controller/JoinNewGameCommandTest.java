@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,7 @@ class JoinNewGameCommandTest {
     void joinNewGameSuccess(){
         playersNumber = 3;
         gamesManager.setAndExecuteCommand(new JoinNewGameCommand("Player1", TokenColor.RED, playersNumber));
-        //Controllo bandierina success
+        assertEquals(CommandResult.CREATE_SERVER_GAME, gamesManager.getCommandResultManager().getCommandResult());
         assertNull(gamesManager.getPendingPlayer("Player1"));
         boolean found = false;
         for (Game g: gamesManager.getGames()){
