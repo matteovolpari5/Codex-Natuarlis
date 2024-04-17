@@ -568,6 +568,14 @@ public class Game {
                 return;
             }
             players.get(currPlayer).addCardHand(card);
+
+            // check if the card has been replaced or replace
+            if(resourceCardsDeck.revealFaceUpCard(1) == null) {
+                GoldCard newFaceUpCard = goldCardsDeck.drawCard();
+                if(newFaceUpCard != null) {
+                    goldCardsDeck.addFaceUpCard(newFaceUpCard);
+                }
+            }
         }
         if(type.equals(CardType.GOLD_CARD)) {
             card = goldCardsDeck.drawFaceUpCard(pos);
@@ -576,6 +584,14 @@ public class Game {
                 return;
             }
             players.get(currPlayer).addCardHand(card);
+
+            // check if the card has been replaced or replace
+            if(goldCardsDeck.revealFaceUpCard(1) == null) {
+                DrawableCard newFaceUpCard = resourceCardsDeck.drawCard();
+                if(newFaceUpCard != null) {
+                    resourceCardsDeck.addFaceUpCard(newFaceUpCard);
+                }
+            }
         }
         changeCurrPlayer();
         commandResultManager.setCommandResult(CommandResult.SUCCESS);

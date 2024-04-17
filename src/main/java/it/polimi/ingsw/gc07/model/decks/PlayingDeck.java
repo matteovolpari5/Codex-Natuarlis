@@ -43,6 +43,14 @@ public class PlayingDeck<T> extends Deck<T> {
     }
 
     /**
+     * Method to add a face up card.
+     * @param faceUpCard face up card to add
+     */
+    public void addFaceUpCard(T faceUpCard) {
+        this.faceUpCards.add(faceUpCard);
+    }
+
+    /**
      * Method that allows a player to see the card in position cardPos
      * without drawing it.
      * @param cardPos position of the card the player wants to see

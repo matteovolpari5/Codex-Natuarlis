@@ -56,7 +56,6 @@ public class Chat {
             return getContent(receiver).getLast();
         }
         return null;
-        // TODO c'era throws EmptyChat ...
     }
 
     /**

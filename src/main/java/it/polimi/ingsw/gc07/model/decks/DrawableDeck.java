@@ -34,20 +34,17 @@ public abstract class DrawableDeck<T> extends PlayingDeck<T> {
      * @return face up card in position cardPos
      */
     public T drawFaceUpCard(int cardPos) {
-        if(cardPos < 0 || cardPos >= faceUpCards.size()){
+        if(cardPos < 0 || cardPos >= faceUpCards.size()) {
             return null;
         }
-        // Save the card to return
+        // save the card to return
         T resultCard = faceUpCards.remove(cardPos);
         // Substitute the face up card
         T newFaceUpCard = this.drawCard();
-        if(newFaceUpCard != null)
+        if(newFaceUpCard != null) {
             faceUpCards.add(newFaceUpCard);
-        else {
-            //TODO Margara ha detto che dovrei sostituire con una carta dell'altro mazzo
-            // altrimenti lascio vuoto
         }
-        // Card is immutable, I can return it
+        // card is immutable, I can return it
         return resultCard;
     }
 
