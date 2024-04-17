@@ -12,6 +12,7 @@ import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
+import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,11 +59,12 @@ class GameTest {
         game.getPlayers().add(firstPlayer);
         game.getPlayersGameField().put("Player1", gameField1);
         game.getScoreTrackBoard().addPlayer("Player1");
+        assertNotNull(myStarterCard1);
         gameField1.placeCard(myStarterCard1, 40, 40, false);
         GameField gameField2 = new GameField(myStarterCard1);
         game.getPlayers().add(secondPlayer);
         game.getPlayersGameField().put("Player2", gameField2);
-        game.getScoreTrackBoard().addPlayer("Player2");
+        assertNotNull(myStarterCard2);
         gameField2.placeCard(myStarterCard2, 40, 40, false);
 
         List<ObjectiveCard> publicObjective = new ArrayList<>();
@@ -399,11 +401,13 @@ class GameTest {
         game.getPlayers().add(firstPlayer);
         game.getPlayersGameField().put("Player1", gameField1);
         game.getScoreTrackBoard().addPlayer("Player1");
+        assertNotNull(myStarterCard1);
         gameField1.placeCard(myStarterCard1, 40, 40, false);
         GameField gameField2 = new GameField(myStarterCard1);
         game.getPlayers().add(secondPlayer);
         game.getPlayersGameField().put("Player2", gameField2);
         game.getScoreTrackBoard().addPlayer("Player2");
+        assertNotNull(myStarterCard2);
         gameField2.placeCard(myStarterCard2, 40, 40, false);
         game.setState(GameState.PLAYING);
         firstPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
@@ -492,4 +496,80 @@ class GameTest {
         game.changeCurrPlayer();
         assertEquals(GameState.GAME_ENDED, game.getState());
     }
+
+    @Test
+    void emptyResourceCardsDeckDrawFaceUp() {
+        Player firstPlayer = new Player("Player1", true, false);
+        firstPlayer.setTokenColor(TokenColor.BLUE);
+        Player secondPlayer = new Player("Player2", true, false);
+        secondPlayer.setTokenColor(TokenColor.GREEN);
+        game.addPlayer(firstPlayer);
+        game.addPlayer(secondPlayer);
+        assertEquals(34, game.getResourceCardsDeck().getContent().size());
+        // draw all cards
+        for(int i = 0; i < 34; i++) {
+            game.getResourceCardsDeck().drawCard();
+        }
+        // check empty deck
+        assertEquals(0, game.getResourceCardsDeck().getContent().size());
+        // check exactly 2 face up cards
+        assertNotNull(game.getResourceCardsDeck().revealFaceUpCard(0));
+        assertNotNull(game.getResourceCardsDeck().revealFaceUpCard(1));
+        assertNull(game.getResourceCardsDeck().revealFaceUpCard(2));
+        // check objective deck size
+        assertEquals(36, game.getGoldCardsDeck().getContent().size());
+        // check exactly 2 gold cards
+        assertNotNull(game.getGoldCardsDeck().revealFaceUpCard(0));
+        assertNotNull(game.getGoldCardsDeck().revealFaceUpCard(1));
+        assertNull(game.getGoldCardsDeck().revealFaceUpCard(2));
+        // draw a face up card
+        game.drawFaceUpCard(game.getPlayers().get(game.getCurrPlayer()).getNickname(), CardType.RESOURCE_CARD, 0);
+        // check card not replaced
+        assertNotNull(game.getResourceCardsDeck().revealFaceUpCard(0));
+        assertNull(game.getResourceCardsDeck().revealFaceUpCard(1));
+        // check 3 objective cards
+        assertNotNull(game.getGoldCardsDeck().revealFaceUpCard(0));
+        assertNotNull(game.getGoldCardsDeck().revealFaceUpCard(1));
+        assertNotNull(game.getGoldCardsDeck().revealFaceUpCard(2));
+        assertNull(game.getGoldCardsDeck().revealFaceUpCard(3));
+    }
+
+    @Test
+    void emptyGoldCardsDeckDrawFaceUp() {
+        Player firstPlayer = new Player("Player1", true, false);
+        firstPlayer.setTokenColor(TokenColor.BLUE);
+        Player secondPlayer = new Player("Player2", true, false);
+        secondPlayer.setTokenColor(TokenColor.GREEN);
+        game.addPlayer(firstPlayer);
+        game.addPlayer(secondPlayer);
+        assertEquals(36, game.getGoldCardsDeck().getContent().size());
+        // draw all cards
+        for(int i = 0; i < 36; i++) {
+            game.getGoldCardsDeck().drawCard();
+        }
+        // check empty deck
+        assertEquals(0, game.getGoldCardsDeck().getContent().size());
+        // check exactly 2 face up cards
+        assertNotNull(game.getGoldCardsDeck().revealFaceUpCard(0));
+        assertNotNull(game.getGoldCardsDeck().revealFaceUpCard(1));
+        assertNull(game.getGoldCardsDeck().revealFaceUpCard(2));
+        // check resource deck size
+        assertEquals(34, game.getResourceCardsDeck().getContent().size());
+        // check exactly 2 resource cards
+        assertNotNull(game.getResourceCardsDeck().revealFaceUpCard(0));
+        assertNotNull(game.getResourceCardsDeck().revealFaceUpCard(1));
+        assertNull(game.getResourceCardsDeck().revealFaceUpCard(2));
+        // draw a face up card
+        game.drawFaceUpCard(game.getPlayers().get(game.getCurrPlayer()).getNickname(), CardType.GOLD_CARD, 0);
+        // check card not replaced
+        assertNotNull(game.getGoldCardsDeck().revealFaceUpCard(0));
+        assertNull(game.getGoldCardsDeck().revealFaceUpCard(1));
+        assertNull(game.getGoldCardsDeck().revealFaceUpCard(2));
+        // check 3 objective cards
+        assertNotNull(game.getResourceCardsDeck().revealFaceUpCard(0));
+        assertNotNull(game.getResourceCardsDeck().revealFaceUpCard(1));
+        assertNotNull(game.getResourceCardsDeck().revealFaceUpCard(2));
+        assertNull(game.getResourceCardsDeck().revealFaceUpCard(3));
+    }
+
 }
