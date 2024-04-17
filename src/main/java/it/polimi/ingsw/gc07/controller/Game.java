@@ -598,17 +598,23 @@ public class Game {
     }
 
     public void placeCard(String nickname, int pos, int x, int y, boolean way) {
+        Player player = null;
         DrawableCard card = null;
-        if(pos>2||pos<0){
-            commandResultManager.setCommandResult(CommandResult.OUT_OF_HAND_BOUND);
-            return;
-        }
         if(!state.equals(GameState.PLAYING)){
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
         if(!players.get(currPlayer).getNickname().equals(nickname)) {
             commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
+            return;
+        }
+        try {
+            player = players.get(getPlayerByNickname(nickname));
+        } catch (PlayerNotPresentException e) {
+            throw new RuntimeException(e);
+        }
+        if(pos < 0 || pos >= player.getCurrentHand().size()) {
+            commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
             return;
         }
         for (Player p: players){

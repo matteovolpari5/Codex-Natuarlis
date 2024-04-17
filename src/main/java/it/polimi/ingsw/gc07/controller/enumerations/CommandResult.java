@@ -24,7 +24,6 @@ public enum CommandResult {
     TOKEN_COLOR_ALREADY_TAKEN("The chosen token color is already taken in this game"),
     GAME_NOT_PRESENT("A game with the given id does not exist"),
     WRONG_PLAYERS_NUMBER("The provided number of players is not correct"),
-    OUT_OF_HAND_BOUND("The provided position of card in your hand is not correct")
     ;
 
     private final String resultMessage;

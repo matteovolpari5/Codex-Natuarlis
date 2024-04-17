@@ -379,7 +379,7 @@ class PlaceCardCommandTest {
                 assertNotNull(myResourceCard);
                 game.setAndExecuteCommand(new PlaceCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), 3, 39,39,false));
                 CommandResult result = game.getCommandResultManager().getCommandResult();
-                assertEquals(CommandResult.OUT_OF_HAND_BOUND, result);
+                assertEquals(CommandResult.CARD_NOT_PRESENT, result);
                 assertEquals(game.getScoreTrackBoard().getScore(game.getPlayers().get(game.getCurrPlayer()).getNickname()), 0);
             }
         }

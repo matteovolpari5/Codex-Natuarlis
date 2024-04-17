@@ -64,6 +64,7 @@ class GameTest {
         GameField gameField2 = new GameField(myStarterCard1);
         game.getPlayers().add(secondPlayer);
         game.getPlayersGameField().put("Player2", gameField2);
+        game.getScoreTrackBoard().addPlayer("Player2");
         assertNotNull(myStarterCard2);
         gameField2.placeCard(myStarterCard2, 40, 40, false);
 
