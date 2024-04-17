@@ -617,11 +617,7 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
             return;
         }
-        for (Player p: players){
-            if (p.getNickname().equals(nickname)){
-                card = p.getCurrentHand().get(pos);
-            }
-        }
+        card = player.getCurrentHand().get(pos);
         CommandResult result = playersGameField.get(nickname).placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS)) {
             players.get(currPlayer).removeCardHand(card);
