@@ -369,4 +369,19 @@ class PlaceCardCommandTest {
             i++;
         }
     }
+    @Test
+    void placeCardOutOfHandBounds() {
+        DrawableCard myResourceCard;
+        game.getPlayersGameField().get(game.getPlayers().get(game.getCurrPlayer()).getNickname()).placeCard(game.getPlayersGameField().get(game.getPlayers().get(game.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        for (DrawableCard c : game.getPlayers().get(game.getCurrPlayer()).getCurrentHand()) {
+            if (c.getId() == 35) {
+                myResourceCard = c;
+                assertNotNull(myResourceCard);
+                game.setAndExecuteCommand(new PlaceCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), 3, 39,39,false));
+                CommandResult result = game.getCommandResultManager().getCommandResult();
+                assertEquals(CommandResult.OUT_OF_HAND_BOUND, result);
+                assertEquals(game.getScoreTrackBoard().getScore(game.getPlayers().get(game.getCurrPlayer()).getNickname()), 0);
+            }
+        }
+    }
 }

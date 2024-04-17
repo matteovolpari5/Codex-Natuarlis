@@ -599,10 +599,9 @@ public class Game {
 
     public void placeCard(String nickname, int pos, int x, int y, boolean way) {
         DrawableCard card = null;
-        for (Player p: players){
-            if (p.getNickname().equals(nickname)){
-                card = p.getCurrentHand().get(pos);
-            }
+        if(pos>2||pos<0){
+            commandResultManager.setCommandResult(CommandResult.OUT_OF_HAND_BOUND);
+            return;
         }
         if(!state.equals(GameState.PLAYING)){
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
@@ -612,9 +611,10 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
         }
-        if(!(players.get(currPlayer).getCurrentHand()).contains(card)){
-            commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
-            return;
+        for (Player p: players){
+            if (p.getNickname().equals(nickname)){
+                card = p.getCurrentHand().get(pos);
+            }
         }
         CommandResult result = playersGameField.get(nickname).placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS)) {
