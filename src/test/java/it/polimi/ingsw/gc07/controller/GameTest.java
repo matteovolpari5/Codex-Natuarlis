@@ -106,7 +106,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 3) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 39, 39, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 39, 39, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -114,7 +114,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 2) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 41, 39, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 41, 39, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -122,7 +122,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 24) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 38, 38, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 38, 38, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -130,7 +130,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 23) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 41, 41, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 41, 41, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -138,7 +138,7 @@ class GameTest {
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 68) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 41, 41, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 41, 41, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -146,7 +146,7 @@ class GameTest {
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 80) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 40, 38, true));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 40, 38, true));
                 game.changeCurrPlayer();
                 break;
             }
@@ -154,7 +154,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 34) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 37, 37, true));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 37, 37, true));
                 game.changeCurrPlayer();
                 break;
             }
@@ -162,7 +162,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 17) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 39, 41, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 39, 41, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -170,7 +170,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 10) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 38, 36, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 38, 36, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -178,7 +178,7 @@ class GameTest {
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 72) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 39, 37, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 39, 37, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -186,7 +186,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 28) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 36, 38, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 36, 38, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -194,7 +194,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 9) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 41, 37, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 41, 37, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -202,7 +202,7 @@ class GameTest {
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 68) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 37, 39, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 37, 39, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -210,7 +210,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 33) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 38, 36, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 38, 36, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -218,7 +218,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 37) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 36, 36, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 36, 36, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -226,7 +226,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 19) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 39, 39, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 39, 39, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -234,7 +234,7 @@ class GameTest {
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 53) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 35, 39, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 35, 39, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -242,7 +242,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 14) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 42, 42, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 42, 42, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -250,7 +250,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 40) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 35, 35, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 35, 35, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -258,7 +258,7 @@ class GameTest {
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 58) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 43, 41, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 43, 41, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -266,7 +266,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 15) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 40, 42, true));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 40, 42, true));
                 game.changeCurrPlayer();
                 break;
             }
@@ -274,7 +274,7 @@ class GameTest {
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 48) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 41, 43, true));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 41, 43, true));
                 game.changeCurrPlayer();
                 break;
             }
@@ -282,7 +282,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 39) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 39, 43, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 39, 43, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -290,7 +290,7 @@ class GameTest {
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 45) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 42, 40, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 42, 40, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -298,7 +298,7 @@ class GameTest {
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 78) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 38, 42, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 38, 42, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -306,7 +306,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 29) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 43, 39, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 43, 39, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -314,7 +314,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 35) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 37, 41, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 37, 41, false));
                 game.changeCurrPlayer();
                 break;
             }
@@ -322,42 +322,42 @@ class GameTest {
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 47) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 43, 43, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 43, 43, false));
                 game.changeCurrPlayer();
             }
         }
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 5) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 38, 44, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 38, 44, false));
                 game.changeCurrPlayer();
             }
         }
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 64) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 40, 44, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 40, 44, false));
                 game.changeCurrPlayer();
             }
         }
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 63) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 41, 43, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 41, 43, false));
                 game.changeCurrPlayer();
             }
         }
         for (GoldCard c: game.getGoldCardsDeck().getContent()) {
             if (c.getId() == 77) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 41, 45, false));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 41, 45, false));
                 game.changeCurrPlayer();
             }
         }
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 12) {
                 secondPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player2", c, 41, 39, true));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 2, 41, 39, true));
                 game.changeCurrPlayer();
                 break;
             }
@@ -365,7 +365,7 @@ class GameTest {
         for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
             if (c.getId() == 13) {
                 firstPlayer.addCardHand(c);
-                game.setAndExecuteCommand(new PlaceCardCommand("Player1", c, 42, 36, true));
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 2, 42, 36, true));
                 game.changeCurrPlayer();
                 break;
             }
@@ -376,7 +376,76 @@ class GameTest {
 
     @Test
     void computeWinnerDraw() {
-        // TODO
+        // add first player
+        Player firstPlayer = new Player("Player1", true, false);
+        firstPlayer.setTokenColor(TokenColor.BLUE);
+        firstPlayer.setFirst();
+        // add second player
+        Player secondPlayer = new Player("Player2", false, false);
+        secondPlayer.setTokenColor(TokenColor.GREEN);
+        PlaceableCard myStarterCard1 =null;
+        for (PlaceableCard p: game.getStarterCardsDeck().getContent()){
+            if (p.getId() == 82){
+                myStarterCard1 = p;
+            }
+        }
+        PlaceableCard myStarterCard2 = null;
+        for (PlaceableCard p: game.getStarterCardsDeck().getContent()){
+            if (p.getId() == 81){
+                myStarterCard2 = p;
+            }
+        }
+        GameField gameField1 = new GameField(myStarterCard1);
+        game.getPlayers().add(firstPlayer);
+        game.getPlayersGameField().put("Player1", gameField1);
+        game.getScoreTrackBoard().addPlayer("Player1");
+        gameField1.placeCard(myStarterCard1, 40, 40, false);
+        GameField gameField2 = new GameField(myStarterCard1);
+        game.getPlayers().add(secondPlayer);
+        game.getPlayersGameField().put("Player2", gameField2);
+        game.getScoreTrackBoard().addPlayer("Player2");
+        gameField2.placeCard(myStarterCard2, 40, 40, false);
+        game.setState(GameState.PLAYING);
+        firstPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
+        secondPlayer.addCardHand(game.getResourceCardsDeck().drawCard());
+        List<ObjectiveCard> publicObjective = new ArrayList<>();
+        for(ObjectiveCard o: game.getObjectiveCardsDeck().getContent()){
+            if (o.getId()==97){
+                firstPlayer.setSecretObjective(o);
+            }
+            if (o.getId()==95){
+                secondPlayer.setSecretObjective(o);
+            }
+            if (o.getId()==90){
+                publicObjective.add(o);
+            }
+            if (o.getId()==100){
+                publicObjective.add(o);
+            }
+        }
+        game.getObjectiveCardsDeck().setFaceUpCards(publicObjective);
+        for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
+            if (c.getId() == 8) {
+                firstPlayer.addCardHand(c);
+                game.setAndExecuteCommand(new PlaceCardCommand("Player1", 1, 39, 39, false));
+                game.changeCurrPlayer();
+                break;
+            }
+        }
+        for (DrawableCard c: game.getResourceCardsDeck().getContent()) {
+            if (c.getId() == 9) {
+                secondPlayer.addCardHand(c);
+                game.setAndExecuteCommand(new PlaceCardCommand("Player2", 1, 39, 39, false));
+                game.changeCurrPlayer();
+                break;
+            }
+        }
+        game.setTwentyPointsReached();
+        game.changeCurrPlayer();
+        game.changeCurrPlayer();
+        game.changeCurrPlayer();
+        game.changeCurrPlayer();
+        assertTrue(game.getWinners().containsAll(game.getPlayers()));
     }
 
     @Test

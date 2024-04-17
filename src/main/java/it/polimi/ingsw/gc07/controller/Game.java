@@ -597,7 +597,13 @@ public class Game {
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
-    public void placeCard(String nickname, DrawableCard card, int x, int y, boolean way) {
+    public void placeCard(String nickname, int pos, int x, int y, boolean way) {
+        DrawableCard card = null;
+        for (Player p: players){
+            if (p.getNickname().equals(nickname)){
+                card = p.getCurrentHand().get(pos);
+            }
+        }
         if(!state.equals(GameState.PLAYING)){
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
