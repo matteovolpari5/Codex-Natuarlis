@@ -90,7 +90,7 @@ public class GamesManager {
      * Setter for games manager command (command pattern).
      * @param gamesManagerCommand games manager command to set
      */
-    public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
+    public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
         gamesManagerCommand.execute(this);
     }
 
@@ -124,7 +124,7 @@ public class GamesManager {
         return -1;
     }
 
-    public void addPlayerToPending(String nickname, boolean connectionType, boolean interfaceType) {
+     void addPlayerToPending(String nickname, boolean connectionType, boolean interfaceType) {
         // this command can always be used
         if(checkNicknameUnique(nickname)){
             Player newPlayer = new Player(nickname, connectionType, interfaceType);
@@ -157,7 +157,7 @@ public class GamesManager {
         return unique;
     }
 
-    public void joinExistingGame(String nickname, TokenColor tokenColor, int gameId) {
+    void joinExistingGame(String nickname, TokenColor tokenColor, int gameId) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         if(player == null){
@@ -193,7 +193,7 @@ public class GamesManager {
         commandResultManager.setCommandResult(CommandResult.SET_SERVER_GAME);
     }
 
-    public void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
+     void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         if(player == null) {
@@ -208,7 +208,7 @@ public class GamesManager {
             commandResultManager.setCommandResult(CommandResult.WRONG_PLAYERS_NUMBER);
             return;
         }
-        for(Game game: getGames()) {
+        for(Game game: games) {
             if(game.getId() == gameId) {
                 // no need to check the token color for the first player of the game
                 player.setTokenColor(tokenColor);
@@ -276,6 +276,7 @@ public class GamesManager {
         }
         return id;
     }
+
 
 
 

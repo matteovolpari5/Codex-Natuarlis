@@ -140,36 +140,6 @@ public class Game {
         return state;
     }
 
-    /**
-     * Method telling if a player is in a game.
-     * @param nickname nickname of the player
-     * @return true if the player is in the game
-     */
-    synchronized boolean hasPlayer(String nickname) {
-        boolean found = false;
-        for(Player p: players){
-            if(p.getNickname().equals(nickname)){
-                found = true;
-            }
-        }
-        return found;
-    }
-
-    /**
-     * Method telling if a player with the given token color is in the game.
-     * @param tokenColor token color to search
-     * @return true if there is a player with the given token color
-     */
-    synchronized boolean hasPlayerWithTokenColor(TokenColor tokenColor) {
-        boolean found = false;
-        for(Player p: players){
-            if(p.getTokenColor().equals(tokenColor)){
-                found = true;
-            }
-        }
-        return found;
-    }
-
     Map<String, GameField> getPlayersGameField() {
         return playersGameField;
     }
@@ -222,181 +192,10 @@ public class Game {
         gameCommand.execute(this);
     }
 
-    /**
-     * Method that returns the position of the player in the List players.
-     * @param nickname: nickname of the player whose position is being searched
-     * @return position of the player in the List players
-     * @throws PlayerNotPresentException: thrown if the nickname is not present in the list players.
-     */
-    private int getPlayerByNickname(String nickname) throws PlayerNotPresentException {
-        for (int i = 0; i < playersNumber; i++){
-            if(players.get(i).getNickname().equals(nickname)){
-                return i;
-            }
-        }
-        throw new PlayerNotPresentException();
-    }
-
-    /**
-     * Method that change the current player, if it's the last turn and all the players
-     * played the same amount of turn it computes the winner;
-     * if a player is disconnect from the game he loose the turn,
-     * if a player is stalled he will be skipped.
-     */
-     void changeCurrPlayer () {
-        assert(state.equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
-        if(currPlayer == players.size()-1)
-            currPlayer = 0;
-        else
-            currPlayer++;
-        if(twentyPointsReached) {
-            if(players.get(currPlayer).isFirst() && additionalRound) {
-                state = GameState.GAME_ENDED;
-                winners.addAll(computeWinner());
-                // the game is ended
-
-                //TODO faccio partire un timer di qualche minuto
-                // per permettere ai giocatori di scrivere in chat
-
-                // when the timer is ended
-                //GamesManager.getGamesManager().deleteGame(this.id);
-                //return;
-            }
-            else if(players.get(currPlayer).isFirst()) {
-                additionalRound=true;
-            }
-        }
-        if(!players.get(currPlayer).isConnected()) {
-            changeCurrPlayer();
-        }
-        if(players.get(currPlayer).getIsStalled()) {
-            boolean found = false;
-            for(Player p: players) {
-                if(!p.getIsStalled())
-                    found = true;
-            }
-            if(found)
-                changeCurrPlayer();
-            else {
-                this.state = GameState.GAME_ENDED;
-                winners.addAll(computeWinner());
-            }
-        }
-    }
-
-    /**
-     * Method that compute the winner/s of the game.
-     * @return the list of players who won the game
-     */
-    private List<Player> computeWinner() {
-        assert(state.equals(GameState.GAME_ENDED)) : "The game state is not correct";
-        List<Player> winners = new ArrayList<>();
-        int deltaPoints;
-        int max = 0;
-        int realizedObjectives;
-        int maxRealizedObjective = 0;
-        List<Player> playersCopy = new ArrayList<>(players);
-        for (int i=0; i>=0 && i< players.size(); i++){
-            ObjectiveCard objectiveCard;
-            objectiveCard = objectiveCardsDeck.revealFaceUpCard(0);
-            assert(objectiveCard != null): "The common objective must be present";
-            realizedObjectives = objectiveCard.numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
-            //points counter for the 1st common objective
-            deltaPoints = objectiveCard.getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
-
-            objectiveCard = objectiveCardsDeck.revealFaceUpCard(1);
-            assert(objectiveCard != null): "The common objective must be present";
-            realizedObjectives += objectiveCard.numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
-            //points counter for the 2nd common objective
-            deltaPoints += objectiveCard.getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
-
-            realizedObjectives += players.get(i).getSecretObjective().numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
-            //points counter for the secret objective
-            deltaPoints += players.get(i).getSecretObjective().getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
-            scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltaPoints);
-            if (max <= scoreTrackBoard.getScore(playersCopy.get(i).getNickname())) {
-                max = scoreTrackBoard.getScore(playersCopy.get(i).getNickname());
-                if (realizedObjectives >= maxRealizedObjective) {
-                    if (realizedObjectives == maxRealizedObjective) {
-                        winners.add(playersCopy.get(i));
-                    } else {
-                        winners.clear();
-                        winners.add(playersCopy.get(i));
-                        maxRealizedObjective = realizedObjectives;
-                    }
-                }
-            }
-        }
-        return winners;
-    }
-
-    /**
-     * Method telling if there are available places in the game.
-     * @return true if no other player can connect to the game
-     */
-    private boolean isFull(){
-        return players.size() == playersNumber;
-    }
-
-    /**
-     * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
-     */
-    private void setup() {
-        assert(state.equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
-        // choose randomly the first player
-        Random random= new Random();
-        currPlayer = random.nextInt(playersNumber);
-        players.get(currPlayer).setFirst();
-
-        // draw card can't return null, since the game hasn't already started
-
-        //place 2 gold cards
-        List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
-        setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
-        setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
-        goldCardsDeck.setFaceUpCards(setUpGoldCardsFaceUp);
-
-        //place 2 resource card
-        List<DrawableCard> setUpResourceCardsFaceUp = new ArrayList<>();
-        setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
-        setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
-        resourceCardsDeck.setFaceUpCards(setUpResourceCardsFaceUp);
-
-        // place common objective cards
-        List<ObjectiveCard> setUpObjectiveCardsFaceUp = new ArrayList<>();
-        setUpObjectiveCardsFaceUp.add(objectiveCardsDeck.drawCard());
-        setUpObjectiveCardsFaceUp.add(objectiveCardsDeck.drawCard());
-        objectiveCardsDeck.setFaceUpCards(setUpObjectiveCardsFaceUp);
-    }
-
-    /**
-     * Method that adds points to a player and checks if a player had reached 20 points.
-     * @param nickname nickname of the player
-     * @param x where the card is placed in the matrix
-     * @param y where the card is placed in the matrix
-     */
-    private void addPoints(String nickname, int x, int y) {
-        assert(state.equals(GameState.PLAYING)): "Wrong game state";
-        assert(players.get(currPlayer).getNickname().equals(nickname)): "Not the current player";
-        assert (playersGameField.get(nickname).isCardPresent(x, y)) : "No card present in the provided position";
-        int deltaPoints;
-        deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getPlacementScore(playersGameField.get(nickname), x, y);
-        if(deltaPoints + scoreTrackBoard.getScore(nickname) >= 20){
-            twentyPointsReached = true;
-            if((deltaPoints + scoreTrackBoard.getScore(nickname)) > 29){
-                scoreTrackBoard.setScore(nickname, 29);
-            }
-            else{
-                scoreTrackBoard.incrementScore(nickname, deltaPoints);
-            }
-        }
-        else
-        {
-            scoreTrackBoard.incrementScore(nickname, deltaPoints);
-        }
-    }
-
+    // ----------------------
     // command pattern methods
+    // ----------------------
+
     void addChatPrivateMessage(String content, String sender, String receiver) {
         // no state check, this command be used all the time
         List<String> playersNicknames = players.stream().map(Player::getNickname).toList();
@@ -424,7 +223,7 @@ public class Game {
         List<String> playersNicknames = players.stream().map(Player::getNickname).toList();
         // check valid sender
         if(!playersNicknames.contains(sender)){
-           commandResultManager.setCommandResult(CommandResult.WRONG_SENDER);
+            commandResultManager.setCommandResult(CommandResult.WRONG_SENDER);
             return;
         }
         // add message to chat
@@ -513,16 +312,6 @@ public class Game {
             return;
         }
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
-    }
-
-    private int getNumPlayersConnected(){
-        int numPlayersConnected = 0;
-        for (Player p: players){
-            if (p.isConnected()){
-                numPlayersConnected++;
-            }
-        }
-        return numPlayersConnected;
     }
 
     void drawDeckCard(String nickname, CardType type) {
@@ -706,6 +495,227 @@ public class Game {
         }
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
+
+
+    // ----------------------
+    // utils
+    // ----------------------
+
+    private int getNumPlayersConnected() {
+        int numPlayersConnected = 0;
+        for (Player p: players){
+            if (p.isConnected()){
+                numPlayersConnected++;
+            }
+        }
+        return numPlayersConnected;
+    }
+
+    /**
+     * Method telling if a player is in a game.
+     * @param nickname nickname of the player
+     * @return true if the player is in the game
+     */
+    synchronized boolean hasPlayer(String nickname) {
+        boolean found = false;
+        for(Player p: players){
+            if(p.getNickname().equals(nickname)){
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    /**
+     * Method telling if a player with the given token color is in the game.
+     * @param tokenColor token color to search
+     * @return true if there is a player with the given token color
+     */
+    synchronized boolean hasPlayerWithTokenColor(TokenColor tokenColor) {
+        boolean found = false;
+        for(Player p: players){
+            if(p.getTokenColor().equals(tokenColor)){
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    /**
+     * Method that returns the position of the player in the List players.
+     * @param nickname: nickname of the player whose position is being searched
+     * @return position of the player in the List players
+     * @throws PlayerNotPresentException: thrown if the nickname is not present in the list players.
+     */
+    private int getPlayerByNickname(String nickname) throws PlayerNotPresentException {
+        for (int i = 0; i < playersNumber; i++){
+            if(players.get(i).getNickname().equals(nickname)){
+                return i;
+            }
+        }
+        throw new PlayerNotPresentException();
+    }
+
+    /**
+     * Method that change the current player, if it's the last turn and all the players
+     * played the same amount of turn it computes the winner;
+     * if a player is disconnect from the game he loose the turn,
+     * if a player is stalled he will be skipped.
+     */
+     void changeCurrPlayer () {
+        assert(state.equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
+        if(currPlayer == players.size()-1)
+            currPlayer = 0;
+        else
+            currPlayer++;
+        if(twentyPointsReached) {
+            if(players.get(currPlayer).isFirst() && additionalRound) {
+                state = GameState.GAME_ENDED;
+                winners.addAll(computeWinner());
+                // the game is ended
+
+                //TODO faccio partire un timer di qualche minuto
+                // per permettere ai giocatori di scrivere in chat
+
+                // when the timer is ended
+                //GamesManager.getGamesManager().deleteGame(this.id);
+                //return;
+            }
+            else if(players.get(currPlayer).isFirst()) {
+                additionalRound=true;
+            }
+        }
+        if(!players.get(currPlayer).isConnected()) {
+            changeCurrPlayer();
+        }
+        if(players.get(currPlayer).getIsStalled()) {
+            boolean found = false;
+            for(Player p: players) {
+                if(!p.getIsStalled())
+                    found = true;
+            }
+            if(found)
+                changeCurrPlayer();
+            else {
+                this.state = GameState.GAME_ENDED;
+                winners.addAll(computeWinner());
+            }
+        }
+    }
+
+    /**
+     * Method that compute the winner/s of the game.
+     * @return the list of players who won the game
+     */
+    private List<Player> computeWinner() {
+        assert(state.equals(GameState.GAME_ENDED)) : "The game state is not correct";
+        List<Player> winners = new ArrayList<>();
+        int deltaPoints;
+        int max = 0;
+        int realizedObjectives;
+        int maxRealizedObjective = 0;
+        List<Player> playersCopy = new ArrayList<>(players);
+        for (int i=0; i>=0 && i< players.size(); i++){
+            ObjectiveCard objectiveCard;
+            objectiveCard = objectiveCardsDeck.revealFaceUpCard(0);
+            assert(objectiveCard != null): "The common objective must be present";
+            realizedObjectives = objectiveCard.numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+            //points counter for the 1st common objective
+            deltaPoints = objectiveCard.getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
+
+            objectiveCard = objectiveCardsDeck.revealFaceUpCard(1);
+            assert(objectiveCard != null): "The common objective must be present";
+            realizedObjectives += objectiveCard.numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+            //points counter for the 2nd common objective
+            deltaPoints += objectiveCard.getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
+
+            realizedObjectives += players.get(i).getSecretObjective().numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+            //points counter for the secret objective
+            deltaPoints += players.get(i).getSecretObjective().getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
+            scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltaPoints);
+            if (max <= scoreTrackBoard.getScore(playersCopy.get(i).getNickname())) {
+                max = scoreTrackBoard.getScore(playersCopy.get(i).getNickname());
+                if (realizedObjectives >= maxRealizedObjective) {
+                    if (realizedObjectives == maxRealizedObjective) {
+                        winners.add(playersCopy.get(i));
+                    } else {
+                        winners.clear();
+                        winners.add(playersCopy.get(i));
+                        maxRealizedObjective = realizedObjectives;
+                    }
+                }
+            }
+        }
+        return winners;
+    }
+
+    /**
+     * Method telling if there are available places in the game.
+     * @return true if no other player can connect to the game
+     */
+    private boolean isFull(){
+        return players.size() == playersNumber;
+    }
+
+    /**
+     * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
+     */
+    private void setup() {
+        assert(state.equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
+        // choose randomly the first player
+        Random random= new Random();
+        currPlayer = random.nextInt(playersNumber);
+        players.get(currPlayer).setFirst();
+
+        // draw card can't return null, since the game hasn't already started
+
+        //place 2 gold cards
+        List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
+        setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
+        setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
+        goldCardsDeck.setFaceUpCards(setUpGoldCardsFaceUp);
+
+        //place 2 resource card
+        List<DrawableCard> setUpResourceCardsFaceUp = new ArrayList<>();
+        setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
+        setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
+        resourceCardsDeck.setFaceUpCards(setUpResourceCardsFaceUp);
+
+        // place common objective cards
+        List<ObjectiveCard> setUpObjectiveCardsFaceUp = new ArrayList<>();
+        setUpObjectiveCardsFaceUp.add(objectiveCardsDeck.drawCard());
+        setUpObjectiveCardsFaceUp.add(objectiveCardsDeck.drawCard());
+        objectiveCardsDeck.setFaceUpCards(setUpObjectiveCardsFaceUp);
+    }
+
+    /**
+     * Method that adds points to a player and checks if a player had reached 20 points.
+     * @param nickname nickname of the player
+     * @param x where the card is placed in the matrix
+     * @param y where the card is placed in the matrix
+     */
+    private void addPoints(String nickname, int x, int y) {
+        assert(state.equals(GameState.PLAYING)): "Wrong game state";
+        assert(players.get(currPlayer).getNickname().equals(nickname)): "Not the current player";
+        assert (playersGameField.get(nickname).isCardPresent(x, y)) : "No card present in the provided position";
+        int deltaPoints;
+        deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getPlacementScore(playersGameField.get(nickname), x, y);
+        if(deltaPoints + scoreTrackBoard.getScore(nickname) >= 20){
+            twentyPointsReached = true;
+            if((deltaPoints + scoreTrackBoard.getScore(nickname)) > 29){
+                scoreTrackBoard.setScore(nickname, 29);
+            }
+            else{
+                scoreTrackBoard.incrementScore(nickname, deltaPoints);
+            }
+        }
+        else
+        {
+            scoreTrackBoard.incrementScore(nickname, deltaPoints);
+        }
+    }
+
+
 
 
 
