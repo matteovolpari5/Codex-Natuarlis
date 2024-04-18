@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.main;
 
-import it.polimi.ingsw.gc07.controller.AddPlayerToPendingCommand;
-import it.polimi.ingsw.gc07.network.rmi.RmiClient;
+import it.polimi.ingsw.gc07.network.rmi.Client;
 import it.polimi.ingsw.gc07.network.rmi.VirtualServerGamesManager;
 
 import java.rmi.NotBoundException;
@@ -65,7 +64,7 @@ public class ClientMain {
                 Registry registry = LocateRegistry.getRegistry(ip, 1234);
                 VirtualServerGamesManager server = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
 
-                RmiClient newRmiClient = new RmiClient(server, nickname);
+                Client newRmiClient = new Client(server, nickname);
                 try {
                     server.connect(newRmiClient);
                     newRmiClient.connectToGamesManager(connectionType, interfaceType);

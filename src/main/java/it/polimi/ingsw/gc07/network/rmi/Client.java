@@ -8,12 +8,12 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-public class RmiClient extends UnicastRemoteObject implements VirtualView {
+public class Client extends UnicastRemoteObject implements VirtualView {
     private final String nickname;
     private final VirtualServerGamesManager serverGamesManager;
     private VirtualServerGame serverGame;
 
-    public RmiClient(VirtualServerGamesManager serverGamesManager, String nickname) throws RemoteException {
+    public Client(VirtualServerGamesManager serverGamesManager, String nickname) throws RemoteException {
         this.nickname = nickname;
         this.serverGamesManager = serverGamesManager;
         this.serverGame = null;
@@ -39,9 +39,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     //TODO
-    // 1 probabilmente AddPlayerToPending non è qua (?)
-    // 3 fare display games
-    // 4 creare dei metodi / classi per richiedere le cose, così è un pastrugno
+    // 1 fare display games
+    // 2 creare dei metodi / classi per richiedere le cose, così è un pastrugno
 
     public void runCliJoinGame() {
         boolean joiningGame = true;
