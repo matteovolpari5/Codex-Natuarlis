@@ -504,8 +504,8 @@ class GameTest {
         firstPlayer.setTokenColor(TokenColor.BLUE);
         Player secondPlayer = new Player("Player2", true, false);
         secondPlayer.setTokenColor(TokenColor.GREEN);
-        game.addPlayer(firstPlayer);
-        game.addPlayer(secondPlayer);
+        game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
+        game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
         assertEquals(34, game.getResourceCardsDeck().getContent().size());
         // draw all cards
         for(int i = 0; i < 34; i++) {
@@ -524,7 +524,7 @@ class GameTest {
         assertNotNull(game.getGoldCardsDeck().revealFaceUpCard(1));
         assertNull(game.getGoldCardsDeck().revealFaceUpCard(2));
         // draw a face up card
-        game.drawFaceUpCard(game.getPlayers().get(game.getCurrPlayer()).getNickname(), CardType.RESOURCE_CARD, 0);
+        game.setAndExecuteCommand(new DrawFaceUpCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), CardType.RESOURCE_CARD, 0));
         // check card not replaced
         assertNotNull(game.getResourceCardsDeck().revealFaceUpCard(0));
         assertNull(game.getResourceCardsDeck().revealFaceUpCard(1));
@@ -541,8 +541,8 @@ class GameTest {
         firstPlayer.setTokenColor(TokenColor.BLUE);
         Player secondPlayer = new Player("Player2", true, false);
         secondPlayer.setTokenColor(TokenColor.GREEN);
-        game.addPlayer(firstPlayer);
-        game.addPlayer(secondPlayer);
+        game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
+        game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
         assertEquals(36, game.getGoldCardsDeck().getContent().size());
         // draw all cards
         for(int i = 0; i < 36; i++) {
@@ -561,7 +561,7 @@ class GameTest {
         assertNotNull(game.getResourceCardsDeck().revealFaceUpCard(1));
         assertNull(game.getResourceCardsDeck().revealFaceUpCard(2));
         // draw a face up card
-        game.drawFaceUpCard(game.getPlayers().get(game.getCurrPlayer()).getNickname(), CardType.GOLD_CARD, 0);
+        game.setAndExecuteCommand(new DrawFaceUpCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), CardType.GOLD_CARD, 0));
         // check card not replaced
         assertNotNull(game.getGoldCardsDeck().revealFaceUpCard(0));
         assertNull(game.getGoldCardsDeck().revealFaceUpCard(1));

@@ -13,6 +13,7 @@ import it.polimi.ingsw.gc07.model.chat.Message;
 import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
+import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.*;
 
@@ -127,7 +128,7 @@ public class Game {
     /**
      * Setter for the state of the game.
      */
-    void setState(GameState state) {
+    synchronized void setState(GameState state) {
         this.state = state;
     }
 
@@ -135,7 +136,7 @@ public class Game {
      * Getter for the state of the game.
      * @return the state of the game
      */
-    GameState getState() {
+    synchronized GameState getState() {
         return state;
     }
 
@@ -144,10 +145,25 @@ public class Game {
      * @param nickname nickname of the player
      * @return true if the player is in the game
      */
-    boolean hasPlayer(String nickname) {
+    synchronized boolean hasPlayer(String nickname) {
         boolean found = false;
         for(Player p: players){
             if(p.getNickname().equals(nickname)){
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    /**
+     * Method telling if a player with the given token color is in the game.
+     * @param tokenColor token color to search
+     * @return true if there is a player with the given token color
+     */
+    synchronized boolean hasPlayerWithTokenColor(TokenColor tokenColor) {
+        boolean found = false;
+        for(Player p: players){
+            if(p.getTokenColor().equals(tokenColor)){
                 found = true;
             }
         }
@@ -161,12 +177,12 @@ public class Game {
     List<Player> getPlayers() {
         return players;
     }
-    List<Player> getWinners(){return winners;}
-    void setCurrPlayer(int currPlayer) {
-        this.currPlayer = currPlayer;
+
+    List<Player> getWinners(){
+        return winners;
     }
 
-    int getCurrPlayer() {
+    synchronized int getCurrPlayer() {
         return currPlayer;
     }
 
@@ -190,31 +206,19 @@ public class Game {
         return starterCardsDeck;
     }
 
-    void setTwentyPointsReached() {
+    synchronized void setTwentyPointsReached() {
         this.twentyPointsReached = true;
     }
 
-    int getNumPlayersConnected(){
-        int numPlayersConnected = 0;
-        for (Player p: players){
-            if (p.isConnected()){
-                numPlayersConnected++;
-            }
-        }
-        return numPlayersConnected;
-    }
-
-    //method for testing PlaceCardEasily
-    void setCurrentPlayer(int num)
-    {
-        this.currPlayer=num;
+    synchronized void setCurrentPlayer(int num) {
+        this.currPlayer = num;
     }
 
     public CommandResultManager getCommandResultManager() {
         return commandResultManager;
     }
 
-    public void setAndExecuteCommand(GameCommand gameCommand) {
+    public synchronized void setAndExecuteCommand(GameCommand gameCommand) {
         gameCommand.execute(this);
     }
 
@@ -224,7 +228,7 @@ public class Game {
      * @return position of the player in the List players
      * @throws PlayerNotPresentException: thrown if the nickname is not present in the list players.
      */
-    int getPlayerByNickname(String nickname) throws PlayerNotPresentException {
+    private int getPlayerByNickname(String nickname) throws PlayerNotPresentException {
         for (int i = 0; i < playersNumber; i++){
             if(players.get(i).getNickname().equals(nickname)){
                 return i;
@@ -239,7 +243,7 @@ public class Game {
      * if a player is disconnect from the game he loose the turn,
      * if a player is stalled he will be skipped.
      */
-    protected void changeCurrPlayer () {
+     void changeCurrPlayer () {
         assert(state.equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
         if(currPlayer == players.size()-1)
             currPlayer = 0;
@@ -341,7 +345,7 @@ public class Game {
         assert(state.equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
         // choose randomly the first player
         Random random= new Random();
-        setCurrPlayer(random.nextInt(playersNumber));
+        currPlayer = random.nextInt(playersNumber);
         players.get(currPlayer).setFirst();
 
         // draw card can't return null, since the game hasn't already started
@@ -378,7 +382,7 @@ public class Game {
         int deltaPoints;
         deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getPlacementScore(playersGameField.get(nickname), x, y);
         if(deltaPoints + scoreTrackBoard.getScore(nickname) >= 20){
-            setTwentyPointsReached();
+            twentyPointsReached = true;
             if((deltaPoints + scoreTrackBoard.getScore(nickname)) > 29){
                 scoreTrackBoard.setScore(nickname, 29);
             }
@@ -393,7 +397,7 @@ public class Game {
     }
 
     // command pattern methods
-    public void addChatPrivateMessage(String content, String sender, String receiver) {
+    void addChatPrivateMessage(String content, String sender, String receiver) {
         // no state check, this command be used all the time
         List<String> playersNicknames = players.stream().map(Player::getNickname).toList();
         // check valid sender
@@ -415,7 +419,7 @@ public class Game {
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
-    public void addChatPublicMessage(String content, String sender) {
+    void addChatPublicMessage(String content, String sender) {
         // no state check, this command be used all the time
         List<String> playersNicknames = players.stream().map(Player::getNickname).toList();
         // check valid sender
@@ -428,7 +432,7 @@ public class Game {
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
-    public void addPlayer(Player newPlayer) {
+    void addPlayer(Player newPlayer) {
         if(!state.equals(GameState.GAME_STARTING)) {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -452,7 +456,7 @@ public class Game {
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
-    public void disconnectPlayer(String nickname) {
+    void disconnectPlayer(String nickname) {
         // this command can always be used
         if(!playersGameField.containsKey(nickname)){
             commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
@@ -511,7 +515,17 @@ public class Game {
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
-    public void drawDeckCard(String nickname, CardType type) {
+    private int getNumPlayersConnected(){
+        int numPlayersConnected = 0;
+        for (Player p: players){
+            if (p.isConnected()){
+                numPlayersConnected++;
+            }
+        }
+        return numPlayersConnected;
+    }
+
+    void drawDeckCard(String nickname, CardType type) {
         if(!state.equals(GameState.PLAYING)) {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -546,7 +560,7 @@ public class Game {
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
-    public void drawFaceUpCard(String nickname, CardType type, int pos) {
+    void drawFaceUpCard(String nickname, CardType type, int pos) {
         if(!state.equals(GameState.PLAYING)) {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -597,7 +611,7 @@ public class Game {
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
-    public void placeCard(String nickname, int pos, int x, int y, boolean way) {
+    void placeCard(String nickname, int pos, int x, int y, boolean way) {
         Player player = null;
         DrawableCard card = null;
         if(!state.equals(GameState.PLAYING)){
@@ -632,7 +646,7 @@ public class Game {
                     // i.e. check only the indexes
                     try {
                         resultStall = players.get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
-                                .isPlaceable(new GameField(getPlayersGameField().get(nickname)), i, j, true);
+                                .isPlaceable(new GameField(playersGameField.get(nickname)), i, j, true);
                         if (resultStall.equals(CommandResult.SUCCESS)) {
                             isStalled = false;
                         }
@@ -647,7 +661,7 @@ public class Game {
         commandResultManager.setCommandResult(result);
     }
 
-    public void placeStarterCard(String nickname, boolean way) {
+    void placeStarterCard(String nickname, boolean way) {
         if(!state.equals(GameState.PLAYING)) {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -659,7 +673,7 @@ public class Game {
         );
     }
 
-    public void reconnectPlayer(String nickname) {
+    void reconnectPlayer(String nickname) {
         // this command can always be used
         if(!playersGameField.containsKey(nickname)){
             commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
@@ -692,6 +706,7 @@ public class Game {
         }
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
+
 
 
 

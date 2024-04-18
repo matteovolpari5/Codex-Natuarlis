@@ -38,7 +38,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         }
     }
 
-
     //TODO
     // 1 probabilmente AddPlayerToPending non è qua (?)
     // 3 fare display games
@@ -57,7 +56,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 case "q":
                     // join existing game
 
-                    // TODO display existing games
+                    //TODO display existing games
+                    // penso così:
+                    // 1) inserisce un comando e manda la richiesta di entrare in un gioco esistente
+                    // 2) il server riceve questa richiesta e chiama un metodo della virtual view che mostra i giochi esistenti
+                    // 3) il client fa queste cose sotto
+                    // 4) il server deve controllare di nuovo se il gioco è disponibile
 
                     System.out.println("Insert token color (green, red, yellow or blue): ");
                     System.out.print("> ");
@@ -244,16 +248,51 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     }
                     break;
                 case "y":
-                    //TODO
-                    // non posso conoscere la carta!
-                    // possiamo modificare PlaceCardCommand per prendere la posizione della carta in mano per esempio
-                    break;
-                case "u":
-                    System.out.println("Select 0 to place the starter card face up, 1 to place the starter card face down: ");
+                    // String nickname, int pos, int x, int y, boolean way) {
+                    // pos
+                    System.out.println("Select the position of the card you want to place: ");
+                    System.out.print("> ");
+                    int cardPos = scan.nextInt();
+                    scan.nextLine();
+                    System.out.println("Insert a position of the game field where you want to place the card.");
+                    // x
+                    System.out.println("Insert x: ");
+                    System.out.print("> ");
+                    int x = scan.nextInt();
+                    scan.nextLine();
+                    // y
+                    System.out.println("Insert y: ");
+                    System.out.print("> ");
+                    int y = scan.nextInt();
+                    scan.nextLine();
+                    // way
+                    System.out.println("Select 0 to place the card face up, 1 to place the card face down: ");
                     System.out.print("> ");
                     int wayInput = scan.nextInt();
                     scan.nextLine();
                     boolean way;
+                    if(wayInput == 1) {
+                        way = true;
+                    }else if(wayInput == 0) {
+                        way = false;
+                    }else {
+                        System.out.println("The provided value for way is not correct");
+                        continue;
+                    }
+                    // create and execute command
+                    try {
+                        serverGame.setAndExecuteCommand(new PlaceCardCommand(nickname, cardPos, x, y, way));
+                    }catch (RemoteException e) {
+                        // TODO gestire
+                        e.printStackTrace();
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case "u":
+                    System.out.println("Select 0 to place the starter card face up, 1 to place the starter card face down: ");
+                    System.out.print("> ");
+                    wayInput = scan.nextInt();
+                    scan.nextLine();
                     if(wayInput == 1) {
                         way = true;
                     }else if(wayInput == 0) {

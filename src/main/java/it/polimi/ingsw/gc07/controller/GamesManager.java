@@ -174,7 +174,7 @@ public class GamesManager {
                     return;
                 }
                 // check token color unique
-                if(!checkTokenColorUnique(game, tokenColor)) {
+                if(game.hasPlayerWithTokenColor(tokenColor)) {
                     commandResultManager.setCommandResult(CommandResult.TOKEN_COLOR_ALREADY_TAKEN);
                     return;
                 }
@@ -191,21 +191,6 @@ public class GamesManager {
         //TODO va bene per Socket ???
         // altrimenti possiamo mettere una seconda bandierina booleana che indica se serve settare il game
         commandResultManager.setCommandResult(CommandResult.SET_SERVER_GAME);
-    }
-
-    /**
-     * Method to check if a given token color is unique in a game.
-     * @param game game
-     * @param tokenColor token color
-     * @return true if the token color is unique in the game
-     */
-    private boolean checkTokenColorUnique(Game game, TokenColor tokenColor) {
-        boolean unique = true;
-        for(Player p: game.getPlayers()) {
-            if(p.getTokenColor().equals(tokenColor))
-                unique = false;
-        }
-        return unique;
     }
 
     public void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
