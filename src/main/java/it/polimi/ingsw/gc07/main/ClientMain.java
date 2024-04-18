@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.main;
 
-import it.polimi.ingsw.gc07.network.rmi.Client;
-import it.polimi.ingsw.gc07.network.rmi.VirtualServerGamesManager;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
+import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -64,7 +64,7 @@ public class ClientMain {
                 Registry registry = LocateRegistry.getRegistry(ip, 1234);
                 VirtualServerGamesManager server = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
 
-                Client newRmiClient = new Client(server, nickname);
+                RmiClient newRmiClient = new RmiClient(server, nickname);
                 try {
                     server.connect(newRmiClient);
                     newRmiClient.connectToGamesManager(connectionType, interfaceType);

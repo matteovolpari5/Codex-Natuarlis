@@ -1,4 +1,6 @@
-package it.polimi.ingsw.gc07.network.rmi;
+package it.polimi.ingsw.gc07.network;
+
+import it.polimi.ingsw.gc07.network.VirtualServerGame;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

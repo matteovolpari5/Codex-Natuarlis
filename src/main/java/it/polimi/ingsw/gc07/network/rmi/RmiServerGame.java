@@ -3,6 +3,8 @@ package it.polimi.ingsw.gc07.network.rmi;
 import it.polimi.ingsw.gc07.controller.Game;
 import it.polimi.ingsw.gc07.controller.GameCommand;
 import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.network.VirtualServerGame;
+import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

@@ -3,17 +3,20 @@ package it.polimi.ingsw.gc07.network.rmi;
 import it.polimi.ingsw.gc07.controller.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.VirtualServerGame;
+import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
+import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-public class Client extends UnicastRemoteObject implements VirtualView {
+public class RmiClient extends UnicastRemoteObject implements VirtualView {
     private final String nickname;
     private final VirtualServerGamesManager serverGamesManager;
     private VirtualServerGame serverGame;
 
-    public Client(VirtualServerGamesManager serverGamesManager, String nickname) throws RemoteException {
+    public RmiClient(VirtualServerGamesManager serverGamesManager, String nickname) throws RemoteException {
         this.nickname = nickname;
         this.serverGamesManager = serverGamesManager;
         this.serverGame = null;
