@@ -259,7 +259,7 @@ public class Game {
         scoreTrackBoard.addPlayer(newPlayer.getNickname());
         if (isFull()) {
             setup();
-            state = GameState.PLAYING;
+            state = GameState.PLACING_STARTER_CARDS;
         }
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
@@ -460,15 +460,33 @@ public class Game {
     }
 
     void placeStarterCard(String nickname, boolean way) {
-        if(!state.equals(GameState.PLAYING)) {
+        // check right state
+        if(!state.equals(GameState.PLACING_STARTER_CARDS)) {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
+        // check player has not already placed the starter card
+        if(playersGameField.get(nickname).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
+            commandResultManager.setCommandResult(CommandResult.CARD_ALREADY_PRESENT);
+            return;
+        }
         // no check for current player, starter cards can be placed in any order
+
         assert(playersGameField.containsKey(nickname)): "The player is not in the game";
         commandResultManager.setCommandResult(playersGameField.get(nickname).placeCard(
                 playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way)
         );
+
+        boolean changeState = true;
+        for(String p: playersGameField.keySet()) {
+            if(!playersGameField.get(p).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
+                // someone has to place the starter card
+                changeState = false;
+            }
+        }
+        if(changeState) {
+            state = GameState.PLAYING;
+        }
     }
 
     void reconnectPlayer(String nickname) {

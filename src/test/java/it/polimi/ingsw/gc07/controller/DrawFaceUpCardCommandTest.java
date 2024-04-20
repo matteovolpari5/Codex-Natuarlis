@@ -59,18 +59,21 @@ class DrawFaceUpCardCommandTest {
 
     @Test
     void drawFaceUpCardWrongPlayer() {
+        game.setState(GameState.PLAYING);
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P2", CardType.RESOURCE_CARD, 0));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_PLAYER);
     }
 
     @Test
     void drawFaceUpCardWrongCardType() {
+        game.setState(GameState.PLAYING);
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.OBJECTIVE_CARD, 0));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_CARD_TYPE);
     }
 
     @Test
     void drawFaceUpCardResourceCardSuccess() {
+        game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
         int id = game.getResourceCardsDeck().revealFaceUpCard(0).getId();
@@ -82,6 +85,7 @@ class DrawFaceUpCardCommandTest {
 
     @Test
     void drawFaceUpCardGoldCardSuccess() {
+        game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
         int id = game.getGoldCardsDeck().revealFaceUpCard(0).getId();
@@ -93,6 +97,7 @@ class DrawFaceUpCardCommandTest {
 
     @Test
     void drawFaceUpCardResourceCardNotSuccess() {
+        game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.RESOURCE_CARD, 2));
@@ -101,6 +106,7 @@ class DrawFaceUpCardCommandTest {
 
     @Test
     void drawFaceUpCardGoldCardNotSuccess() {
+        game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.GOLD_CARD, 2));

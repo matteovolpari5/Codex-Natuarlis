@@ -46,11 +46,8 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
     @Override
     public synchronized void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException {
         game.setAndExecuteCommand(gameCommand);
+
+        // only for testing
         System.out.println(game.getCommandResultManager().getCommandResult());
-        if(game.getCommandResultManager().getCommandResult().equals(CommandResult.SUCCESS)) {
-            // TODO stampa aggiornamento al client
-        }else {
-            System.out.println(game.getCommandResultManager().getCommandResult().getResultMessage());
-        }
     }
 }

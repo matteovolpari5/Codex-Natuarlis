@@ -56,6 +56,7 @@ class PlaceCardCommandTest {
         game.setCurrentPlayer(2);
         game.getPlayers().get(0).setIsStalled(true);
         game.getPlayers().get(1).setIsStalled(true);
+        game.setState(GameState.PLAYING);
     }
 
     @Test

@@ -27,4 +27,5 @@ module it.polimi.ingsw.gc07 {
     opens it.polimi.ingsw.gc07.network to java.rmi;
     opens it.polimi.ingsw.gc07.listeners to java.rmi;
     exports it.polimi.ingsw.gc07.listeners;
+    exports it.polimi.ingsw.gc07.model_view;
 }

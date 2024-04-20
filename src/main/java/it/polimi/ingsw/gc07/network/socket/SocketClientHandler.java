@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.network.socket;
 
+import it.polimi.ingsw.gc07.model_view.ModelView;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
@@ -13,5 +14,10 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public String getNickname() throws RemoteException {
         return null;
+    }
+
+    @Override
+    public void updateModelView(ModelView modelView) {
+
     }
 }

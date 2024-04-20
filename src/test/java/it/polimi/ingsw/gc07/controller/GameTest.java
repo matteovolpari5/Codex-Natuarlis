@@ -459,6 +459,7 @@ class GameTest {
         Player secondPlayer = new Player("Player2", false, false);
         game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
         game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        game.setState(GameState.PLAYING);
         firstPlayer.setFirst();
         game.setCurrentPlayer(0);
         game.changeCurrPlayer();
@@ -489,6 +490,7 @@ class GameTest {
         Player secondPlayer = new Player("Player2", false, true);
         game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
         game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        game.setState(GameState.PLAYING);
         firstPlayer.setFirst();
         game.setCurrentPlayer(0);
         game.changeCurrPlayer();
@@ -506,6 +508,7 @@ class GameTest {
         secondPlayer.setTokenColor(TokenColor.GREEN);
         game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
         game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        game.setState(GameState.PLAYING);
         assertEquals(34, game.getResourceCardsDeck().getContent().size());
         // draw all cards
         for(int i = 0; i < 34; i++) {
@@ -543,6 +546,7 @@ class GameTest {
         secondPlayer.setTokenColor(TokenColor.GREEN);
         game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
         game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        game.setState(GameState.PLAYING);
         assertEquals(36, game.getGoldCardsDeck().getContent().size());
         // draw all cards
         for(int i = 0; i < 36; i++) {
