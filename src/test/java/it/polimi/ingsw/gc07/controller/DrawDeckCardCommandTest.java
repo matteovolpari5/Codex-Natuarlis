@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.model.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
@@ -53,13 +53,18 @@ class DrawDeckCardCommandTest {
         game.getPlayers().get(1).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
         game.setCurrentPlayer(0);
         game.setState(GameState.PLAYING);
+
+        // remove a card to Player1, to be able to draw
+        firstPlayer.removeCardHand(firstPlayer.getCurrentHand().getFirst());
     }
 
     @Test
     void DrawDeckCard() {
         game.setAndExecuteCommand(new DrawDeckCardCommand("Player2", CardType.RESOURCE_CARD));
+        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_PLAYER);
         game.setAndExecuteCommand(new DrawDeckCardCommand("Player1", CardType.OBJECTIVE_CARD));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_CARD_TYPE);
+
         game.setAndExecuteCommand(new DrawDeckCardCommand("Player1", CardType.RESOURCE_CARD));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.SUCCESS);
         int id = game.getPlayers().get(1).getCurrentHand().getFirst().getId();

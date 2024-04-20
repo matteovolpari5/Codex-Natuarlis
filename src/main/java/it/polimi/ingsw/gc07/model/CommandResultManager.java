@@ -1,7 +1,5 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
-
 public class CommandResultManager {
     /**
      * Attribute representing the result of the last command.

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.model.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.listeners.GameListener;
@@ -328,7 +328,6 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        // if the state is PLAYING ...
         if(!players.get(currPlayer).getNickname().equals(nickname)){
             commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
@@ -337,6 +336,11 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_CARD_TYPE);
             return;
         }
+        if(getCurrentHandSize(nickname) >= 3) {
+            commandResultManager.setCommandResult(CommandResult.TOO_MANY_CARDS_IN_HAND);
+            return;
+        }
+
         DrawableCard card;
         if (type.equals(CardType.RESOURCE_CARD)) {
             card = resourceCardsDeck.drawCard();
@@ -363,7 +367,6 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        // if the state is PLAYING ...
         if(!players.get(currPlayer).getNickname().equals(nickname)){
             commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
@@ -372,6 +375,11 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_CARD_TYPE);
             return;
         }
+        if(getCurrentHandSize(nickname) >= 3) {
+            commandResultManager.setCommandResult(CommandResult.TOO_MANY_CARDS_IN_HAND);
+            return;
+        }
+
         DrawableCard card;
         if(type.equals(CardType.RESOURCE_CARD)) {
             card = resourceCardsDeck.drawFaceUpCard(pos);
@@ -407,6 +415,16 @@ public class Game {
         }
         changeCurrPlayer();
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
+    }
+
+    private int getCurrentHandSize(String nickname) {
+        int currentHandSize;
+        try {
+            currentHandSize = players.get(getPlayerByNickname(nickname)).getCurrentHand().size();
+        } catch (PlayerNotPresentException e) {
+            throw new RuntimeException(e);
+        }
+        return currentHandSize;
     }
 
     void placeCard(String nickname, int pos, int x, int y, boolean way) {

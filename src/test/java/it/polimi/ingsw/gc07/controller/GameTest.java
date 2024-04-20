@@ -508,6 +508,10 @@ class GameTest {
         secondPlayer.setTokenColor(TokenColor.GREEN);
         game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
         game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        // remove one card, to allow drawing cards
+        firstPlayer.removeCardHand(firstPlayer.getCurrentHand().getFirst());
+        secondPlayer.removeCardHand(secondPlayer.getCurrentHand().getFirst());
+
         game.setState(GameState.PLAYING);
         assertEquals(34, game.getResourceCardsDeck().getContent().size());
         // draw all cards
@@ -546,6 +550,9 @@ class GameTest {
         secondPlayer.setTokenColor(TokenColor.GREEN);
         game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
         game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        // remove one card, to allow drawing cards
+        firstPlayer.removeCardHand(firstPlayer.getCurrentHand().getFirst());
+        secondPlayer.removeCardHand(secondPlayer.getCurrentHand().getFirst());
         game.setState(GameState.PLAYING);
         assertEquals(36, game.getGoldCardsDeck().getContent().size());
         // draw all cards
