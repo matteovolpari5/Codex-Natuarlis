@@ -49,6 +49,10 @@ public class Game {
      */
     private int currPlayer;
     /**
+     * Boolean value representing if the current player has placed a card.
+     */
+    private boolean hasCurrPlayerPlaced;
+    /**
      * Score track board of the game.
      */
     private final ScoreTrackBoard scoreTrackBoard;
@@ -111,6 +115,7 @@ public class Game {
         this.objectiveCardsDeck = new PlayingDeck<>(objectiveCardsDeck);
         this.starterCardsDeck = new Deck<>(starterCardsDeck);
         this.currPlayer = 0;
+        this.hasCurrPlayerPlaced = false;
         this.twentyPointsReached = false;
         this.additionalRound = false;
         this.chat = new Chat();
@@ -163,6 +168,14 @@ public class Game {
 
     synchronized int getCurrPlayer() {
         return currPlayer;
+    }
+
+    synchronized void setHasCurrPlayerPlaced() {
+        this.hasCurrPlayerPlaced = true;
+    }
+
+    synchronized void setHasNotCurrPlayerPlaced() {
+        this.hasCurrPlayerPlaced = false;
     }
 
     ScoreTrackBoard getScoreTrackBoard() {
@@ -336,8 +349,8 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_CARD_TYPE);
             return;
         }
-        if(getCurrentHandSize(nickname) >= 3) {
-            commandResultManager.setCommandResult(CommandResult.TOO_MANY_CARDS_IN_HAND);
+        if(!hasCurrPlayerPlaced) {
+            commandResultManager.setCommandResult(CommandResult.NOT_PLACED_YET);
             return;
         }
 
@@ -375,8 +388,8 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_CARD_TYPE);
             return;
         }
-        if(getCurrentHandSize(nickname) >= 3) {
-            commandResultManager.setCommandResult(CommandResult.TOO_MANY_CARDS_IN_HAND);
+        if(!hasCurrPlayerPlaced) {
+            commandResultManager.setCommandResult(CommandResult.NOT_PLACED_YET);
             return;
         }
 
@@ -417,16 +430,6 @@ public class Game {
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
-    private int getCurrentHandSize(String nickname) {
-        int currentHandSize;
-        try {
-            currentHandSize = players.get(getPlayerByNickname(nickname)).getCurrentHand().size();
-        } catch (PlayerNotPresentException e) {
-            throw new RuntimeException(e);
-        }
-        return currentHandSize;
-    }
-
     void placeCard(String nickname, int pos, int x, int y, boolean way) {
         Player player = null;
         DrawableCard card = null;
@@ -436,6 +439,10 @@ public class Game {
         }
         if(!players.get(currPlayer).getNickname().equals(nickname)) {
             commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
+            return;
+        }
+        if(hasCurrPlayerPlaced) {
+            commandResultManager.setCommandResult(CommandResult.CARD_ALREADY_PLACED);
             return;
         }
         try {
@@ -450,6 +457,7 @@ public class Game {
         card = player.getCurrentHand().get(pos);
         CommandResult result = playersGameField.get(nickname).placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS)) {
+            hasCurrPlayerPlaced = true;
             players.get(currPlayer).removeCardHand(card);
             addPoints(nickname, x, y);    // the card has just been placed
 
@@ -613,6 +621,7 @@ public class Game {
             currPlayer = 0;
         else
             currPlayer++;
+        hasCurrPlayerPlaced = false;
         if(twentyPointsReached) {
             if(players.get(currPlayer).isFirst() && additionalRound) {
                 state = GameState.GAME_ENDED;
@@ -711,6 +720,7 @@ public class Game {
         Random random= new Random();
         currPlayer = random.nextInt(playersNumber);
         players.get(currPlayer).setFirst();
+        hasCurrPlayerPlaced = false;
 
         // draw card can't return null, since the game hasn't already started
 

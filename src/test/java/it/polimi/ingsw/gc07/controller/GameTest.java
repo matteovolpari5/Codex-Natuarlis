@@ -511,12 +511,13 @@ class GameTest {
         // remove one card, to allow drawing cards
         firstPlayer.removeCardHand(firstPlayer.getCurrentHand().getFirst());
         secondPlayer.removeCardHand(secondPlayer.getCurrentHand().getFirst());
-
+        game.setHasCurrPlayerPlaced();
         game.setState(GameState.PLAYING);
         assertEquals(34, game.getResourceCardsDeck().getContent().size());
         // draw all cards
         for(int i = 0; i < 34; i++) {
             game.getResourceCardsDeck().drawCard();
+            game.setHasCurrPlayerPlaced();
         }
         // check empty deck
         assertEquals(0, game.getResourceCardsDeck().getContent().size());
@@ -572,6 +573,7 @@ class GameTest {
         assertNotNull(game.getResourceCardsDeck().revealFaceUpCard(1));
         assertNull(game.getResourceCardsDeck().revealFaceUpCard(2));
         // draw a face up card
+        game.setHasCurrPlayerPlaced();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), CardType.GOLD_CARD, 0));
         // check card not replaced
         assertNotNull(game.getGoldCardsDeck().revealFaceUpCard(0));

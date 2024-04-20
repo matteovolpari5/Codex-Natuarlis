@@ -102,6 +102,7 @@ class PlaceCardCommandTest {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
                 game.setAndExecuteCommand(new PlaceCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), i, 39,39,false));
+                game.setHasNotCurrPlayerPlaced();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.SUCCESS, result);
             }
@@ -113,6 +114,7 @@ class PlaceCardCommandTest {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
                 game.setAndExecuteCommand(new PlaceCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), i, 38, 38, false));
+                game.setHasNotCurrPlayerPlaced();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.NOT_LEGIT_CORNER, result);
             }
@@ -130,6 +132,7 @@ class PlaceCardCommandTest {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
                 game.setAndExecuteCommand(new PlaceCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), i, 41,41,true));
+                game.setHasNotCurrPlayerPlaced();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.SUCCESS, result);
             }
@@ -141,6 +144,7 @@ class PlaceCardCommandTest {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
                 game.setAndExecuteCommand(new PlaceCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), i, 42, 41, false));
+                game.setHasNotCurrPlayerPlaced();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.MULTIPLE_CORNERS_COVERED, result);
             }
@@ -158,6 +162,7 @@ class PlaceCardCommandTest {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
                 game.setAndExecuteCommand(new PlaceCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), i, 41,41,true));
+                game.setHasNotCurrPlayerPlaced();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.SUCCESS, result);
             }
@@ -169,6 +174,7 @@ class PlaceCardCommandTest {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
                 game.setAndExecuteCommand(new PlaceCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), i, 41,41,false));
+                game.setHasNotCurrPlayerPlaced();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.CARD_ALREADY_PRESENT, result);
             }
@@ -186,6 +192,7 @@ class PlaceCardCommandTest {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
                 game.setAndExecuteCommand(new PlaceCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), i, 100,100,false));
+                game.setHasNotCurrPlayerPlaced();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.INDEXES_OUT_OF_GAME_FIELD, result);
             }
@@ -203,6 +210,7 @@ class PlaceCardCommandTest {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
                 game.setAndExecuteCommand(new PlaceCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), i, 41,41,false));
+                game.setHasNotCurrPlayerPlaced();
                 CommandResult result = game.getCommandResultManager().getCommandResult();
                 assertEquals(CommandResult.PLACING_CONDITION_NOT_MET, result);
             }

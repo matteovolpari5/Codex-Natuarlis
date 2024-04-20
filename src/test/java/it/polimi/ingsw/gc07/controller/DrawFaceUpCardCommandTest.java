@@ -76,6 +76,7 @@ class DrawFaceUpCardCommandTest {
         game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
+        game.setHasCurrPlayerPlaced();
         int id = game.getResourceCardsDeck().revealFaceUpCard(0).getId();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.RESOURCE_CARD, 0));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.SUCCESS);
@@ -88,6 +89,7 @@ class DrawFaceUpCardCommandTest {
         game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
+        game.setHasCurrPlayerPlaced();
         int id = game.getGoldCardsDeck().revealFaceUpCard(0).getId();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.GOLD_CARD, 0));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.SUCCESS);
@@ -100,6 +102,7 @@ class DrawFaceUpCardCommandTest {
         game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
+        game.setHasCurrPlayerPlaced();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.RESOURCE_CARD, 2));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
@@ -109,6 +112,7 @@ class DrawFaceUpCardCommandTest {
         game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
+        game.setHasCurrPlayerPlaced();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.GOLD_CARD, 2));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }

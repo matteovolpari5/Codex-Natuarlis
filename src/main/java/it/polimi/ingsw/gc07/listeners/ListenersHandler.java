@@ -13,5 +13,4 @@ public class ListenersHandler {
     public void addListener(GameListener listener) {
         listeners.add(listener);
     }
-
 }
