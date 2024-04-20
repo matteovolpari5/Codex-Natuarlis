@@ -42,13 +42,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         return nickname;
     }
 
-    @Override
-    public void updateModelView(ModelView modelView) {
-        // TODO
-        // metodo dell'interfaccia Listener
-        // modelView è l'aggiornamento del modello
-    }
-
     //TODO
     // 1 fare display games
     // 2 creare dei metodi / classi per richiedere le cose, così è un pastrugno

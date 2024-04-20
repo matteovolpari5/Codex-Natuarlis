@@ -15,9 +15,4 @@ public class SocketClientHandler implements VirtualView {
     public String getNickname() throws RemoteException {
         return null;
     }
-
-    @Override
-    public void updateModelView(ModelView modelView) {
-
-    }
 }
