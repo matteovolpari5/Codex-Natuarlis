@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.model.chat;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**

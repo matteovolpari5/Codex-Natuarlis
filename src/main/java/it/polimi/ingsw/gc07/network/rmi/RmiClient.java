@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc07.network.rmi;
 import it.polimi.ingsw.gc07.controller.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model_view.ModelView;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
@@ -22,6 +23,15 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         this.serverGame = null;
     }
 
+    public void connectToGamesManager(boolean connectionType, boolean interfaceType) {
+        try {
+            serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
+        } catch (RemoteException e) {
+            // TODO
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void setServerGame(VirtualServerGame serverGame) throws RemoteException {
         this.serverGame = serverGame;
@@ -32,13 +42,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         return nickname;
     }
 
-    public void connectToGamesManager(boolean connectionType, boolean interfaceType) {
-        try {
-            serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
-        } catch (RemoteException e) {
-            // TODO
-            throw new RuntimeException(e);
-        }
+    @Override
+    public void updateModelView(ModelView modelView) {
+        // TODO
+        // metodo dell'interfaccia Listener
+        // modelView è l'aggiornamento del modello
     }
 
     //TODO
