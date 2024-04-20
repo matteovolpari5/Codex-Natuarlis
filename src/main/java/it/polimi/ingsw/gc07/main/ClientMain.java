@@ -2,7 +2,11 @@ package it.polimi.ingsw.gc07.main;
 
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
+import it.polimi.ingsw.gc07.network.socket.SocketClient;
 
+import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -75,7 +79,13 @@ public class ClientMain {
                     throw new RuntimeException();
                 }
             }else {
-                System.out.println("Socket not implemented");
+                //TODO per adesso la porta e l'host è data da linea di comando, stabilire se bisogna cambiarlo
+                String host = args[0];
+                int port = Integer.parseInt(args[1]);
+                Socket sc = new Socket(host, port);
+                ObjectInputStream input = new ObjectInputStream(sc.getInputStream());
+                ObjectOutputStream output = new ObjectOutputStream(sc.getOutputStream());
+                new SocketClient(input, output).run();
             }
         }catch(RemoteException e) {
             e.printStackTrace();
@@ -85,6 +95,12 @@ public class ClientMain {
             e.printStackTrace();
             throw new RuntimeException();
             //TODO manage not bound exception
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+            //TODO sollevata dal costruttore di Socket
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+            //TODO sollevata dal costruttore di Socket
         }
     }
 }
