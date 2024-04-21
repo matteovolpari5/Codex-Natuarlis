@@ -1,7 +1,5 @@
 package it.polimi.ingsw.gc07.network;
 
-import it.polimi.ingsw.gc07.listeners.GameListener;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
