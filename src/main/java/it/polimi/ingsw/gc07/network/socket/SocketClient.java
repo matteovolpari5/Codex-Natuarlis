@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 
 public class SocketClient implements VirtualView {
-    final ObjectInputStream input;
+    private final ObjectInputStream input;
     private VirtualSocketServerGamesManager gamesManagerServer;
     private VirtualServerGame gameServer; //TODO dovrebbe essere VirtualSocketServerGame e non VirtualServerGame, tuttavia nell'interfaccia utilizza il secondo,
                                               //TODO dato che VirtualView è usata anche in RMI crea errori, per non causare problemi in RMI qui viene posta a VirtualServerGame
