@@ -3,8 +3,6 @@ package it.polimi.ingsw.gc07.controller;
 import it.polimi.ingsw.gc07.model.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.*;
-import it.polimi.ingsw.gc07.listeners.GameListener;
-import it.polimi.ingsw.gc07.listeners.ListenersHandler;
 import it.polimi.ingsw.gc07.model.CommandResultManager;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
@@ -89,8 +87,6 @@ public class Game {
      */
     private final CommandResultManager commandResultManager;
 
-    private final ListenersHandler listenersHandler;
-
     /** Constructor of a Game with only the first player.
      *
      * @param playersNumber number of players
@@ -120,11 +116,6 @@ public class Game {
         this.additionalRound = false;
         this.chat = new Chat();
         this.commandResultManager = new CommandResultManager();
-        this.listenersHandler = new ListenersHandler();
-    }
-
-    public void addListener(GameListener client) {
-        listenersHandler.addListener(client);
     }
 
     // ------------------------------
