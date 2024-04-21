@@ -4,15 +4,16 @@ import it.polimi.ingsw.gc07.controller.GameCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
+import java.net.ServerSocket;
 import java.rmi.RemoteException;
 
-public class SocketServerGame implements VirtualServerGame {
-    @Override
-    public void connect(VirtualView client) throws RemoteException {
+public class SocketServerGame{
+  private final ServerSocket mySocket;
+  public SocketServerGame(ServerSocket mySocket){
+    this.mySocket = mySocket;
+  }
 
-    }
-    @Override
-    public void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException {
+  public void runServer(){
 
-    }
+  }
 }

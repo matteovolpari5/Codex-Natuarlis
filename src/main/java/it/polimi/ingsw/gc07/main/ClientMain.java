@@ -79,6 +79,7 @@ public class ClientMain {
                     throw new RuntimeException();
                 }
             }else {
+                // Socket
                 //TODO per adesso la porta e l'host è data da linea di comando, stabilire se bisogna cambiarlo
                 String host = args[0];
                 int port = Integer.parseInt(args[1]);

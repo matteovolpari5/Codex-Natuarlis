@@ -11,7 +11,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class ServerMain {
-    public static void main(String[] args) throws RemoteException, IOException {
+    public static void main(String[] args) throws RemoteException, IOException{ //IOException sollevata da linea 33
         // create RMI server
         String name = "VirtualServerGamesManager";
         RmiServerGamesManager serverGamesManager = new RmiServerGamesManager(GamesManager.getGamesManager());
@@ -22,7 +22,14 @@ public class ServerMain {
         // create Socket server for gamesManager
         //TODO per adesso la porta è data da linea di comando, stabilire se bisogna cambiarlo
         int port = Integer.parseInt(args[1]);
-        ServerSocket sc = new ServerSocket(port);
-        new SocketGamesManagerServer(sc, GamesManager.getGamesManager()).runServer(); //TODO runServer() dovrebbe essere un metodo privato
+        ServerSocket sc = null;
+        try{
+            sc = new ServerSocket(port);
+        } catch (IOException e){
+            System.out.println("Unable to start the main server: unavailable port");
+            throw new RuntimeException();
+        }
+        System.out.println("Main server ready");
+        new SocketGamesManagerServer(sc /*, GamesManager.getGamesManager()*/ ).runServer(); //TODO runServer() dovrebbe essere un metodo privato
     }
 }

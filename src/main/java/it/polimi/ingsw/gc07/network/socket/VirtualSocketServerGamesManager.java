@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 
 public class VirtualSocketServerGamesManager implements VirtualServerGamesManager {
-    final ObjectOutputStream output;
+    private final ObjectOutputStream output;
 
     public VirtualSocketServerGamesManager(ObjectOutputStream output){
         this.output = output;

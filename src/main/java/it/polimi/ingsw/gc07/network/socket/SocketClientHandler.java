@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.network.socket;
 
+import it.polimi.ingsw.gc07.controller.Game;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.controller.GamesManagerCommand;
 import it.polimi.ingsw.gc07.model.CommandResult;
@@ -11,37 +12,80 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.RemoteException;
 
 public class SocketClientHandler implements VirtualView {
-    final GamesManager gamesManager;
-    final SocketGamesManagerServer server;
-    final ObjectInputStream input;
-    final ObjectOutputStream output;
+    private final GamesManager gamesManager;
+    private final Game game;
+    private final SocketGamesManagerServer GamesManagerserver;
+    private final Socket mySocket;
 
-    public SocketClientHandler(GamesManager gamesManager, SocketGamesManagerServer server, ObjectInputStream input, ObjectOutputStream output){
+    public SocketClientHandler(GamesManager gamesManager, SocketGamesManagerServer server, Socket mySocket){
         this.gamesManager = gamesManager;
-        this.server = server;
-        this.input = input;
-        this.output = output;
+        this.GamesManagerserver = server;
+        this.mySocket = mySocket;
+        this.game = null;
     }
 
-    public void manageCommand(){
+    public void manageGamesManagerCommand(){
         GamesManagerCommand command;
+        ObjectInputStream input = null;
+        ObjectOutputStream output = null;
         while(true){
             try{
+                input = new ObjectInputStream(mySocket.getInputStream());
+                output = new ObjectOutputStream(mySocket.getOutputStream());
                 command = (GamesManagerCommand) input.readObject();
-                gamesManager.setAndExecuteCommand(command);
-                if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)){
-                    //TODO in teoria dovrei creare un SocketServerGame che nel metodo runServer accetta connessioni dai client similmente a quanto viene fatto da
-                    //TODO SocketGamesManagerServer, sarebbe quindi necessario creare un nuovo socket standard che accetta connessioni su una porta, non sono sicuro di come si deve procedere
+                synchronized (gamesManager){
+                    gamesManager.setAndExecuteCommand(command);
+                    CommandResult result = gamesManager.getCommandResultManager().getCommandResult();
+                    //TODO per mostrare l'esito al client basta: output.writeObject(result).flush();  output.reset(); output.flush(); ?
+                    if(result.equals(CommandResult.SUCCESS)){
+                        break;
+                    }
+                    if(result.equals(CommandResult.CREATE_SERVER_GAME) || result.equals(CommandResult.SET_SERVER_GAME)){
+                        String commandNickname = command.getNickname();
+                        int gameId = gamesManager.getGameIdWithPlayer(commandNickname);
+                        if(gameId < 0){
+                            throw new RuntimeException();
+                        }
+                        this.game = gamesManager.getGameById(gameId);
+                        int port = GamesManagerserver.manageConnectionToGame(result, gameId);
+                        Socket socketClient = new Socket("host", port);
+                        //TODO decidere come gestire la sostituzione dell'input e dell'output, per ora sostituiti direttamente da ora in avanti
+                        input = new ObjectInputStream(socketClient.getInputStream());
+                        output = new ObjectOutputStream(socketClient.getOutputStream());
+                        output.writeBytes("Benvenuto"); //TODO oppure .writeChars(...);
+                        output.flush();
+                        output.reset(); //TODO necessario anche se non è un oggetto?
+                        break;
+                    }
                 }
-
                 //TODO l'esempio a questo punto invoca il metodo broadcastUpdate(...) di .server
                 //TODO decidere come gestire a seconda dei listener
             } catch (Exception e){
                 //TODO gestire eccezione
+                break;
             }
+        }
+        manageGameCommand();
+        //oppure alla riga 55 non si crea un'altro socket ma si riusa mySocket, in tal caso bisgona capire come gestire la chiusura del socket, input e output
+    }
+
+    private void manageGameCommand(){
+        closeConnection(mySocket, input, output); //forse realizzare come alla riga 73 così mySocket è il socket con Game, comunque sia deve essere cambiato mySocket
+    }
+
+    public void closeConnection(Socket mySocket, ObjectInputStream input, ObjectOutputStream output){
+        try{
+            input.close();
+            output.close();
+            mySocket.close();
+        }catch (IOException e){
+            System.out.println("Error while closing connection");
+            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
     @Override
