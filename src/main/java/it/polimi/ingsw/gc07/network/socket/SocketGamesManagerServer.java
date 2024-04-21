@@ -47,7 +47,7 @@ public class SocketGamesManagerServer {
             }
             new Thread(() -> {
                 //try{
-                    handler.manageCommand();
+                    handler.manageGamesManagerCommand();
                 //}catch (IOException e){
                     //TODO decidere come gestire eccezioni
                     //throw new RuntimeException(e);
