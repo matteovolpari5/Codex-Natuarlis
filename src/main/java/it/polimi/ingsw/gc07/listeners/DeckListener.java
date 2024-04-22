@@ -9,13 +9,6 @@ import java.util.List;
 
 public interface DeckListener {
     /**
-     * Method used to show a player his starter card.
-     * @param card starter card
-     */
-    // TODO devo inviare l'aggiornament solo al player giusto, non devo informare tutti!
-    void showStarterCard(PlaceableCard card);
-
-    /**
      * Method used to notify the client that the card on top the resource cards deck changed.
      * @param card new card on top of the deck
      */
@@ -43,5 +36,5 @@ public interface DeckListener {
      * Method used to notify the client that the objective face up cards changed.
      * @param faceUpCards new list of face up cards
      */
-    void objectiveFaceUpCardsChanged(List<ObjectiveCard> faceUpCards);
+    void commonObjectiveCardsRevealed(List<ObjectiveCard> faceUpCards);
 }
