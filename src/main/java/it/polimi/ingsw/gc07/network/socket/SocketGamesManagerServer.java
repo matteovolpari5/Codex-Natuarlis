@@ -24,15 +24,14 @@ import java.util.Map;
  */
 public class SocketGamesManagerServer {
     private final ServerSocket mySocket;
-    //final GamesManager gamesManager;
-    private final List<SocketClientHandler> clients = new ArrayList<>();
+    private final List<SocketClientHandler> clients;
     private final Map<Integer, Integer> gameServers;
 
 
-    public SocketGamesManagerServer(ServerSocket mySocket /*, GamesManager gamesManager*/){
+    public SocketGamesManagerServer(ServerSocket mySocket){
         this.mySocket = mySocket;
-        gameServers = new HashMap<>();
-        //this.gamesManager = gamesManager;
+        this.clients = new ArrayList<>();
+        this.gameServers = new HashMap<>();
     }
 
     public void runServer() throws IOException {
@@ -41,7 +40,7 @@ public class SocketGamesManagerServer {
         Socket clientSocket = null;
         while((clientSocket = this.mySocket.accept()) != null){
             System.out.println("Received client connection");
-            SocketClientHandler handler = new SocketClientHandler(GamesManager.getGamesManager() /*this.gamesManager*/, this, clientSocket);
+            SocketClientHandler handler = new SocketClientHandler(GamesManager.getGamesManager(), this, clientSocket);
             synchronized (this.clients){
                 clients.add(handler);
             }

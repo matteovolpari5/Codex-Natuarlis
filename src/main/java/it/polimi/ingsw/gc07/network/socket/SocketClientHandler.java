@@ -15,7 +15,7 @@ import java.rmi.RemoteException;
 
 public class SocketClientHandler implements VirtualView {
     private final GamesManager gamesManager;
-    private final Game game;
+    private Game game;
     private final SocketGamesManagerServer GamesManagerserver;
     private final Socket mySocket;
 
