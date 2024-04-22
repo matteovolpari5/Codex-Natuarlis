@@ -21,7 +21,7 @@ public class ServerMain {
 
         // create Socket server for gamesManager
         //TODO per adesso la porta è data da linea di comando, stabilire se bisogna cambiarlo
-        int port = Integer.parseInt(args[1]);
+        int port = Integer.parseInt(args[1]);   // TODO penso args[0]
         ServerSocket sc = null;
         try{
             sc = new ServerSocket(port);
@@ -30,6 +30,6 @@ public class ServerMain {
             throw new RuntimeException();
         }
         System.out.println("Main server ready");
-        new SocketGamesManagerServer(sc /*, GamesManager.getGamesManager()*/ ).runServer(); //TODO runServer() dovrebbe essere un metodo privato
+        new SocketGamesManagerServer(sc).runServer();
     }
 }
