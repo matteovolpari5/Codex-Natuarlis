@@ -36,7 +36,7 @@ public class Message {
         this.content = content;
         this.senderNickname = senderNickname;
         this.dateTime = new Date(System.currentTimeMillis());
-        // can be formatted with SimpleDateFormat formatter= new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss z");
+        // can be formatted with SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss z");
         this.isPublic = isPublic;
     }
 

@@ -4,14 +4,12 @@ import it.polimi.ingsw.gc07.controller.Game;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.controller.GamesManagerCommand;
 import it.polimi.ingsw.gc07.model.CommandResult;
-import it.polimi.ingsw.gc07.model_view.ModelView;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
@@ -29,6 +27,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     public void manageGamesManagerCommand(){
+
         GamesManagerCommand command;
         ObjectInputStream input = null;
         ObjectOutputStream output = null;
