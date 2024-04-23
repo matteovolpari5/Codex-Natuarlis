@@ -87,6 +87,11 @@ public class Game {
      */
     private final CommandResultManager commandResultManager;
 
+    /**
+     * Timeout for the reconnection.
+     */
+    private final Timer timeout;
+
 
     /** Constructor of a Game with only the first player.
      *
@@ -117,6 +122,7 @@ public class Game {
         this.additionalRound = false;
         this.chat = new Chat();
         this.commandResultManager = new CommandResultManager();
+        this.timeout = new Timer();
     }
 
     // ------------------------------
@@ -303,7 +309,6 @@ public class Game {
     }
 
     private void startTimeout(){
-        Timer timeout = new Timer();
         new Thread(() ->{
             timeout.schedule(new TimerTask() {
                 @Override
