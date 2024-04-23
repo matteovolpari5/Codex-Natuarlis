@@ -1,6 +1,8 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.game_commands;
 
-public class NotifyClientConnected extends GameCommand{
+import it.polimi.ingsw.gc07.controller.Game;
+
+public class NotifyClientConnected extends GameCommand {
     String nickname;
     public NotifyClientConnected(String nickname){
         this.nickname = nickname;

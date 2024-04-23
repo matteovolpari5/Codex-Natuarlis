@@ -1,13 +1,14 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.game_commands.GameCommand;
 import it.polimi.ingsw.gc07.model.*;
-import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.*;
 import it.polimi.ingsw.gc07.model.chat.Chat;
 import it.polimi.ingsw.gc07.model.chat.Message;
 import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
@@ -139,7 +140,7 @@ public class Game {
     // command pattern methods
     // ----------------------
 
-    void addChatPrivateMessage(String content, String sender, String receiver) {
+    public void addChatPrivateMessage(String content, String sender, String receiver) {
         // no state check, this command be used all the time
         List<String> playersNicknames = getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender
@@ -161,7 +162,7 @@ public class Game {
         gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
-    void addChatPublicMessage(String content, String sender) {
+    public void addChatPublicMessage(String content, String sender) {
         // no state check, this command be used all the time
         List<String> playersNicknames = getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender
@@ -175,7 +176,7 @@ public class Game {
     }
 
     // TODO synchronized chi lo chiama?
-    void addPlayer(Player newPlayer) {
+    public void addPlayer(Player newPlayer) {
         if(!getState().equals(GameState.GAME_STARTING)) {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -205,7 +206,7 @@ public class Game {
         gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
-    void disconnectPlayer(String nickname) {
+    public void disconnectPlayer(String nickname) {
         // this command can always be used
         if(!getPlayersGameField().containsKey(nickname)){
             gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
@@ -293,10 +294,10 @@ public class Game {
         }).start();
     }
 
-    void notifyClientConnected(String nickname){
+    public void notifyClientConnected(String nickname){
 
     }
-    void drawDeckCard(String nickname, CardType type) {
+    public void drawDeckCard(String nickname, CardType type) {
         if(!getState().equals(GameState.PLAYING)) {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -335,7 +336,7 @@ public class Game {
         gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
-    void drawFaceUpCard(String nickname, CardType type, int pos) {
+    public void drawFaceUpCard(String nickname, CardType type, int pos) {
         if(!getState().equals(GameState.PLAYING)) {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -390,7 +391,7 @@ public class Game {
         gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
-    void placeCard(String nickname, int pos, int x, int y, boolean way) {
+    public void placeCard(String nickname, int pos, int x, int y, boolean way) {
         Player player = null;
         DrawableCard card = null;
         if(!getState().equals(GameState.PLAYING)){
@@ -445,7 +446,7 @@ public class Game {
         gameModel.setCommandResult(result);
     }
 
-    void placeStarterCard(String nickname, boolean way) {
+    public void placeStarterCard(String nickname, boolean way) {
         // check right state
         if(!getState().equals(GameState.PLACING_STARTER_CARDS)) {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
@@ -476,7 +477,7 @@ public class Game {
     }
 
     // TODO synchronized chi lo chiama?
-     void reconnectPlayer(String nickname) {
+    public void reconnectPlayer(String nickname) {
         // this command can always be used
         if(!getPlayersGameField().containsKey(nickname)){
             gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);

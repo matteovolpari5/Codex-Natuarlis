@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.network;
 
-import it.polimi.ingsw.gc07.controller.GameCommand;
+import it.polimi.ingsw.gc07.game_commands.GameCommand;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

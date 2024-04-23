@@ -1,9 +1,11 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.game_commands;
+
+import it.polimi.ingsw.gc07.controller.Game;
 
 /**
  * Concrete command to place the starter card in a certain way.
  */
-public class PlaceStarterCardCommand extends GameCommand{
+public class PlaceStarterCardCommand extends GameCommand {
     /**
      * Nickname of the player.
      */

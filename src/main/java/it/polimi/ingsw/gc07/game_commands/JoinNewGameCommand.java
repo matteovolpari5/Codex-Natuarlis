@@ -1,11 +1,12 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.game_commands;
 
+import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 /**
- * Concrete command to add a pending player to an existing game.
+ * Concrete command to add a pending player to a new game.
  */
-public class JoinExistingGameCommand extends GamesManagerCommand {
+public class JoinNewGameCommand extends GamesManagerCommand {
     /**
      * Nickname of the player to add.
      */
@@ -15,21 +16,21 @@ public class JoinExistingGameCommand extends GamesManagerCommand {
      */
     private final TokenColor tokenColor;
     /**
-     * Game id of the game to join.
+     * Number of players for the new game.
      */
-    private final int gameId;
+    private final int playersNumber;
 
     /**
-     * Constructor of the concrete command JoinExistingGameCommand.
+     * Constructor of the concrete command JoinNewGameCommand.
      * This constructor takes games manager as parameter, used by the server.
      * @param nickname nickname
      * @param tokenColor token color
-     * @param gameId game ids
+     * @param playersNumber players number
      */
-    public JoinExistingGameCommand(String nickname, TokenColor tokenColor, int gameId) {
+    public JoinNewGameCommand(String nickname, TokenColor tokenColor, int playersNumber) {
         this.nickname = nickname;
         this.tokenColor = tokenColor;
-        this.gameId = gameId;
+        this.playersNumber = playersNumber;
     }
 
     /**
@@ -42,11 +43,11 @@ public class JoinExistingGameCommand extends GamesManagerCommand {
     }
 
     /**
-     * Execute method of the concrete command.
-     * Allows to add a player to an existing game.
+     * Execute method for the concrete command.
+     * Creates a new game and adds the player to the newly created game.
      */
     @Override
     public void execute(GamesManager gamesManager) {
-        gamesManager.joinExistingGame(nickname, tokenColor, gameId);
+        gamesManager.joinNewGame(nickname, tokenColor, playersNumber);
     }
 }

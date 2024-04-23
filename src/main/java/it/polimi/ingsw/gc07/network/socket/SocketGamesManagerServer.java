@@ -1,22 +1,12 @@
 package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.controller.GamesManager;
-import it.polimi.ingsw.gc07.controller.GamesManagerCommand;
-import it.polimi.ingsw.gc07.model.CommandResult;
-import it.polimi.ingsw.gc07.model.GameField;
-import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
-import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * GamesManager server used in socket based communication, this class manage the ServerSocket opened on the port used by clients to communicate

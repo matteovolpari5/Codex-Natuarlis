@@ -1,4 +1,6 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.game_commands;
+
+import it.polimi.ingsw.gc07.controller.GamesManager;
 
 /**
  * Concrete command used to add a player to a list of pending players, that will be able
