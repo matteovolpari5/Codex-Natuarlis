@@ -1,12 +1,5 @@
 package it.polimi.ingsw.gc07.model_view;
 
-import it.polimi.ingsw.gc07.model.cards.DrawableCard;
-import it.polimi.ingsw.gc07.model.cards.GoldCard;
-import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
-import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
-
-import java.util.List;
-
 public class GameView {
     /**
      * chatView reference
@@ -33,18 +26,12 @@ public class GameView {
 
     /**
      * Constructor of the class GameView
-     * @param starterCard  starter card that has to be placed
-     * @param faceUpGoldCard list of revealed gold card
-     * @param commonObjective list of common objective
-     * @param faceUpResourceCard list of revealed resource card
-     * @param topGoldDeck card on the top of the gold deck
-     * @param topResourceDeck card on the top of the gold deck
      * @param nickname nickname of the player
      */
-    public GameView(PlaceableCard starterCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck, DrawableCard topResourceDeck,String nickname) {
+    public GameView(String nickname) {
         chatView = new ChatView();
         deckView = new DeckView();
-        gameFieldView = new GameFieldView(starterCard);
+        gameFieldView = new GameFieldView();
         playerView = new PlayerView(nickname);
         scoreTrackBoardView = new ScoreTrackBoardView();
     }

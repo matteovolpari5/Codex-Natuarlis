@@ -29,28 +29,12 @@ public class GameFieldView {
     /**
      * Constructor of the game field view.
      */
-    public GameFieldView(PlaceableCard starterCard) {
+    public GameFieldView() {
         this.starterCard = null;
         this.cardsContent = null;
         this.cardsFace = null;
         this.cardsOrder = null;
     }
-
-    /**
-     * Getter method for the game field content.
-     */
-    public PlaceableCard[][] getCardsContent() {return cardsContent;}
-
-    /**
-     * Setter method for the game field content.
-     * @param cardsContent new game field
-     */
-    public void setCardsContent(PlaceableCard[][] cardsContent) {this.cardsContent = cardsContent;}
-
-    /**
-     * Getter method for the starter card.
-     */
-    public PlaceableCard getStarterCard() {return starterCard;}
 
     /**
      * Setter method for the starter card.
@@ -61,26 +45,18 @@ public class GameFieldView {
     }
 
     /**
-     * Getter method for the card's face.
+     * Method to add a new card to the game field view.
+     * @param x x
+     * @param y y
+     * @param card new card
+     * @param way way
+     * @param orderPosition order position
      */
-    public Boolean[][] getCardsFace() {return cardsFace;}
-
-    /**
-     * Setter method for the card's face.
-     * @param cardsFace new matrix of card's face.
-     */
-    public void setCardsFace(Boolean[][] cardsFace) {this.cardsFace = cardsFace;}
-
-    /**
-     * Getter method for the card's order.
-     */
-    public int[][] getCardsOrder() {return cardsOrder;}
-
-    /**
-     * Setter method for the card's order.
-     * @param cardsOrder new matrix of card's order.
-     */
-    public void setCardsOrder(int[][] cardsOrder) {this.cardsOrder = cardsOrder;}
+    public void addCard(int x, int y, PlaceableCard card, boolean way, int orderPosition) {
+        cardsContent[x][y] = card;
+        cardsFace[x][y] = way;
+        cardsOrder[x][y] = orderPosition;
+    }
 
     //TODO: robe per stampare
 }
