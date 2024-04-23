@@ -90,81 +90,242 @@ public class ScoreTrackBoardView {
                 color.add(ANSI_YELLOW_BACKGROUND);
             }
         }
-        int i=29;
-        for(int x=0; x<7;x++)
-        {
-            System.out.println(ANSI_BLACK_BACKGROUND+"+---+ +---+ +---+ +---+");
-            for(int y=0;y<4;y++)
-            {
-                if(score.contains(i))
-                {
-                    if(i==score.get(0)){
+        int i = 29;
+        for (int x = 0; x < 7; x++) {
+            System.out.println(ANSI_BLACK_BACKGROUND + "+---+ +---+ +---+ +---+");
+            for (int y = 0; y < 4; y++) {
+                if (score.contains(i)) {
+                    if (i == score.get(0)) {
                         System.out.print(color.get(0));
-                    }
-                    else if(i==score.get(1)){
+                        score.set(0,-1);
+                    } else if (i == score.get(1)) {
                         System.out.print(color.get(1));
-                    }
-                    else if(i==score.get(2)){
+                        score.set(1,-1);
+                    } else if (i == score.get(2)) {
                         System.out.print(color.get(2));
-                    }
-                    else if(i==score.get(3)){
+                        score.set(2,-1);
+                    } else if (i == score.get(3)) {
                         System.out.print(color.get(3));
+                        score.set(3,-1);
                     }
-                }
-                else {
+                } else {
                     System.out.print(ANSI_BLACK_BACKGROUND);
                 }
-                if(i>9)
-                {
-                    System.out.print("| "+i+"|");
+                System.out.print("|");
+                if (score.contains(i)) {
+                    if (i == score.get(0)) {
+                        System.out.print(color.get(0));
+                        score.set(0,-1);
+                    } else if (i == score.get(1)) {
+                        System.out.print(color.get(1));
+                        score.set(1,-1);
+                    } else if (i == score.get(2)) {
+                        System.out.print(color.get(2));
+                        score.set(2,-1);
+                    } else if (i == score.get(3)) {
+                        System.out.print(color.get(3));
+                        score.set(3,-1);
+                    }
+                } else {
+                    System.out.print(ANSI_BLACK_BACKGROUND);
+                }
+                System.out.print(" ");
+                if (score.contains(i)) {
+                    if (i == score.get(0)) {
+                        System.out.print(color.get(0));
+                        score.set(0,-1);
+                    } else if (i == score.get(1)) {
+                        System.out.print(color.get(1));
+                        score.set(1,-1);
+                    } else if (i == score.get(2)) {
+                        System.out.print(color.get(2));
+                        score.set(2,-1);
+                    } else if (i == score.get(3)) {
+                        System.out.print(color.get(3));
+                        score.set(3,-1);
+                    }
+                } else {
+                    System.out.print(ANSI_BLACK_BACKGROUND);
+                }
+                System.out.print(i);
+                if (score.contains(i)) {
+                    if (i == score.get(0)) {
+                        System.out.print(color.get(0));
+                        score.set(0,-1);
+                    } else if (i == score.get(1)) {
+                        System.out.print(color.get(1));
+                        score.set(1,-1);
+                    } else if (i == score.get(2)) {
+                        System.out.print(color.get(2));
+                        score.set(2,-1);
+                    } else if (i == score.get(3)) {
+                        System.out.print(color.get(3));
+                        score.set(3,-1);
+                    }
+                } else {
+                    System.out.print(ANSI_BLACK_BACKGROUND);
+                }
+                if (i > 9) {
+                    System.out.print("|");
+                    i--;
+                } else {
+                    System.out.print(" |");
                     i--;
                 }
-                else
-                {
-                    System.out.print("| "+i+" |");
-                    i--;
-                }
-                System.out.print(ANSI_BLACK_BACKGROUND+" ");
+                System.out.print(ANSI_BLACK_BACKGROUND + " ");
             }
             System.out.println();
-            System.out.println(ANSI_BLACK_BACKGROUND+"+---+ +---+ +---+ +---+");
+            System.out.println(ANSI_BLACK_BACKGROUND + "+---+ +---+ +---+ +---+");
         }
-        System.out.println(ANSI_BLACK_BACKGROUND+"      +---+ +---+      ");
-        System.out.print(ANSI_BLACK_BACKGROUND+"      ");
-        if(0==score.get(0)){
-            System.out.print(color.get(0));
-        }
-        else if(0==score.get(1)){
-            System.out.print(color.get(1));
-        }
-        else if(0==score.get(2)){
-            System.out.print(color.get(2));
-        }
-        else if(0==score.get(3)){
-            System.out.print(color.get(3));
-        }
-        else {
+        System.out.println(ANSI_BLACK_BACKGROUND + "      +---+ +---+      ");
+        System.out.print(ANSI_BLACK_BACKGROUND + "      ");
+        if (score.contains(0)) {
+            if (0 == score.get(0)) {
+                System.out.print(color.get(0));
+                score.set(0,-1);
+            } else if (0 == score.get(1)) {
+                System.out.print(color.get(1));
+                score.set(1,-1);
+            } else if (0 == score.get(2)) {
+                System.out.print(color.get(2));
+                score.set(2,-1);
+            } else if (0 == score.get(3)) {
+                System.out.print(color.get(3));
+                score.set(3,-1);
+            }
+        } else {
             System.out.print(ANSI_BLACK_BACKGROUND);
         }
-        System.out.print("| "+0+" |");
-        System.out.print(ANSI_BLACK_BACKGROUND+" ");
-        if(1==score.get(0)){
-            System.out.print(color.get(0));
-        }
-        else if(1==score.get(1)){
-            System.out.print(color.get(1));
-        }
-        else if(1==score.get(2)){
-            System.out.print(color.get(2));
-        }
-        else if(1==score.get(3)){
-            System.out.print(color.get(3));
-        }
-        else {
+        System.out.print("|");
+        if (score.contains(0)) {
+            if (0 == score.get(0)) {
+                System.out.print(color.get(0));
+                score.set(0,-1);
+            } else if (0 == score.get(1)) {
+                System.out.print(color.get(1));
+                score.set(1,-1);
+            } else if (0 == score.get(2)) {
+                System.out.print(color.get(2));
+                score.set(2,-1);
+            } else if (0 == score.get(3)) {
+                System.out.print(color.get(3));
+                score.set(3,-1);
+            }
+        } else {
             System.out.print(ANSI_BLACK_BACKGROUND);
         }
-        System.out.print("| "+1+" |");
-        System.out.println(ANSI_BLACK_BACKGROUND+"        ");
-        System.out.println(ANSI_BLACK_BACKGROUND+"      +---+ +---+      ");
+        System.out.print(" ");
+        if (score.contains(0)) {
+            if (0 == score.get(0)) {
+                System.out.print(color.get(0));
+                score.set(0,-1);
+            } else if (0 == score.get(1)) {
+                System.out.print(color.get(1));
+                score.set(1,-1);
+            } else if (0 == score.get(2)) {
+                System.out.print(color.get(2));
+                score.set(2,-1);
+            } else if (0 == score.get(3)) {
+                System.out.print(color.get(3));
+                score.set(3,-1);
+            }
+        } else {
+            System.out.print(ANSI_BLACK_BACKGROUND);
+        }
+        System.out.print(0);
+        if (score.contains(0)) {
+            if (0 == score.get(0)) {
+                System.out.print(color.get(0));
+                score.set(0,-1);
+            } else if (0 == score.get(1)) {
+                System.out.print(color.get(1));
+                score.set(1,-1);
+            } else if (0 == score.get(2)) {
+                System.out.print(color.get(2));
+                score.set(2,-1);
+            } else if (0 == score.get(3)) {
+                System.out.print(color.get(3));
+                score.set(3,-1);
+            }
+        } else {
+            System.out.print(ANSI_BLACK_BACKGROUND);
+        }
+        System.out.print(" |");
+        System.out.print(ANSI_BLACK_BACKGROUND + " ");
+        if (score.contains(1)) {
+            if (1 == score.get(0)) {
+                System.out.print(color.get(0));
+                score.set(0,-1);
+            } else if (1 == score.get(1)) {
+                System.out.print(color.get(1));
+                score.set(1,-1);
+            } else if (1 == score.get(2)) {
+                System.out.print(color.get(2));
+                score.set(2,-1);
+            } else if (1 == score.get(3)) {
+                System.out.print(color.get(3));
+                score.set(3,-1);
+            }
+        } else {
+            System.out.print(ANSI_BLACK_BACKGROUND);
+        }
+        System.out.print("|");
+        if (score.contains(1)) {
+            if (1 == score.get(0)) {
+                System.out.print(color.get(0));
+                score.set(0,-1);
+            } else if (1 == score.get(1)) {
+                System.out.print(color.get(1));
+                score.set(1,-1);
+            } else if (1 == score.get(2)) {
+                System.out.print(color.get(2));
+                score.set(2,-1);
+            } else if (1 == score.get(3)) {
+                System.out.print(color.get(3));
+                score.set(3,-1);
+            }
+        } else {
+            System.out.print(ANSI_BLACK_BACKGROUND);
+        }
+        System.out.print(" ");
+        if (score.contains(1)) {
+            if (1 == score.get(0)) {
+                System.out.print(color.get(0));
+                score.set(0,-1);
+            } else if (1 == score.get(1)) {
+                System.out.print(color.get(1));
+                score.set(1,-1);
+            } else if (1 == score.get(2)) {
+                System.out.print(color.get(2));
+                score.set(2,-1);
+            } else if (1 == score.get(3)) {
+                System.out.print(color.get(3));
+                score.set(3,-1);
+            }
+        } else {
+            System.out.print(ANSI_BLACK_BACKGROUND);
+        }
+        System.out.print(1);
+        if (score.contains(1)) {
+            if (1 == score.get(0)) {
+                System.out.print(color.get(0));
+                score.set(0,-1);
+            } else if (1 == score.get(1)) {
+                System.out.print(color.get(1));
+                score.set(1,-1);
+            } else if (1 == score.get(2)) {
+                System.out.print(color.get(2));
+                score.set(2,-1);
+            } else if (1 == score.get(3)) {
+                System.out.print(color.get(3));
+                score.set(3,-1);
+            }
+        } else {
+            System.out.print(ANSI_BLACK_BACKGROUND);
+        }
+        System.out.print(" |");
+        System.out.print(ANSI_BLACK_BACKGROUND + " ");
+        System.out.println(ANSI_BLACK_BACKGROUND + "        ");
+        System.out.println(ANSI_BLACK_BACKGROUND + "      +---+ +---+      ");
     }
 }
