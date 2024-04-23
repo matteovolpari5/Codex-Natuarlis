@@ -83,6 +83,7 @@ public class Game {
      */
     private final CommandResultManager commandResultManager;
 
+
     /** Constructor of a Game with only the first player.
      *
      * @param playersNumber number of players
@@ -272,39 +273,13 @@ public class Game {
             int numPlayersConnected = getNumPlayersConnected();
             if (numPlayersConnected == 1){
                 state = GameState.WAITING_RECONNECTION;
-                /*
                 // TODO start the timer, when it ends, the only player left wins
-                reconnectionOccurred = false;
-                Timer timeout = new Timer();
-                timeout.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (!reconnectionOccurred) {
-                            timeout.cancel();
-                            timeout.purge();
-                            //TODO settare il player rimasto come vincitore
-                        }
-                    }
-                }, 60*1000); //timeout of 1 minute
-                new Thread(() -> {
-                    for (int i = 0; i < 60; i++) {
-                        try {
-                            Thread.sleep(1000); // wait one second for each iteration
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException();
-                        }
-                        if (game.getNumPlayersConnected() > 1) {
-                            reconnectionOccurred = true;
-                            timeout.cancel(); // it stops the timeout
-                            timeout.purge();
-                            break;
-                        }
-                    }
-                }).start();
-             */
-            } else if (numPlayersConnected == 0) {
+                startTimeout();
+            }
+            else if (numPlayersConnected == 0) {
                 state = GameState.NO_PLAYERS_CONNECTED;
                 // TODO start the timer, when it ends, the game ends without winner
+                startTimeout();
             }
         }
         catch(PlayerNotPresentException e){
@@ -314,6 +289,35 @@ public class Game {
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
+    private void startTimeout(){
+        Timer timeout = new Timer();
+        new Thread(() ->{
+            timeout.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    timeout.cancel();
+                    timeout.purge();
+                    //TODO settare il player rimasto come vincitore
+                    System.out.println("il player rimanente è il vincitore");
+                }
+            }, 60*1000); //timeout of 1 minuto
+        }).start();
+        new Thread(() -> {
+            for (int i = 0; i < 60; i++) {
+                try {
+                    Thread.sleep(1000); // wait one second for each iteration
+                } catch (InterruptedException e) {
+                    throw new RuntimeException();
+                }
+                if (getNumPlayersConnected() > 1) {
+                    timeout.cancel(); // it stops the timeout
+                    timeout.purge();
+                    break;
+                }
+            }
+            System.out.println("si continua...");
+        }).start();
+    }
     void drawDeckCard(String nickname, CardType type) {
         if(!state.equals(GameState.PLAYING)) {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
