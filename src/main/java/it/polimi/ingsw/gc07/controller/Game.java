@@ -92,6 +92,11 @@ public class Game {
      */
     private final Timer timeout;
 
+    /**
+     * Timeout for keeping track of players' connection.
+     */
+    private final Map<String, Timer> playersTimer;
+
 
     /** Constructor of a Game with only the first player.
      *
@@ -123,6 +128,7 @@ public class Game {
         this.chat = new Chat();
         this.commandResultManager = new CommandResultManager();
         this.timeout = new Timer();
+        this.playersTimer = new HashMap<>();
     }
 
     // ------------------------------
@@ -260,7 +266,9 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
             return;
         }
-
+        Timer timeout = new Timer();
+        playersTimer.put(newPlayer.getNickname(), timeout);
+        startTimeoutReconnection(timeout, newPlayer.getNickname());
         // draw card can't return null, since the game hasn't already started
         newPlayer.addCardHand(resourceCardsDeck.drawCard());
         newPlayer.addCardHand(resourceCardsDeck.drawCard());
@@ -286,6 +294,8 @@ public class Game {
             return;
         }
         try{
+            playersTimer.get(nickname).cancel();
+            playersTimer.get(nickname).purge();
             int pos = getPlayerByNickname(nickname);
             if(!players.get(pos).isConnected())
             {
@@ -297,12 +307,12 @@ public class Game {
             if (numPlayersConnected == 1){
                 state = GameState.WAITING_RECONNECTION;
                 // TODO start the timer, when it ends, the only player left wins
-                startTimeout();
+                startTimeoutGameEnd();
             }
             else if (numPlayersConnected == 0) {
                 state = GameState.NO_PLAYERS_CONNECTED;
                 // TODO start the timer, when it ends, the game ends without winner
-                startTimeout();
+                startTimeoutGameEnd();
             }
         }
         catch(PlayerNotPresentException e){
@@ -312,15 +322,18 @@ public class Game {
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
-    private void startTimeout(){
+    private void startTimeoutGameEnd(){
         new Thread(() ->{
             timeout.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    timeout.cancel();
-                    timeout.purge();
-                    //TODO settare il player rimasto come vincitore
-                    System.out.println("il player rimanente è il vincitore");
+                    synchronized (this){
+                        timeout.cancel();
+                        timeout.purge();
+                        //TODO settare il player rimasto come vincitore
+                        System.out.println("il player rimanente è il vincitore");
+                    }
+
                 }
             }, 30*1000); //timeout of 1 minuto
         }).start();
@@ -331,14 +344,39 @@ public class Game {
                 } catch (InterruptedException e) {
                     throw new RuntimeException();
                 }
-                if (getNumPlayersConnected() > 1) {
-                    timeout.cancel(); // it stops the timeout
-                    timeout.purge();
-                    System.out.println("si continua...");
-                    break;
+                synchronized (this){
+                    if (getNumPlayersConnected() == 1) {
+                        timeout.cancel();
+                        timeout.purge();
+                        //TODO vedere cosa succede se uno si riconnette
+                    }
+
+                    if (getNumPlayersConnected() > 1) {
+                        timeout.cancel(); // it stops the timeout
+                        timeout.purge();
+                        System.out.println("si continua...");
+                        break;
+                    }
                 }
             }
         }).start();
+    }
+
+    private void startTimeoutReconnection(Timer timeout, String nickname){
+        new Thread(() -> {
+            timeout.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    synchronized (this){
+                        disconnectPlayer(nickname);
+                    }
+                }
+            }, 60*1000); //timeout of 1 minuto
+        }).start();
+    }
+
+    void notifyClientConnected(String nickname){
+
     }
     void drawDeckCard(String nickname, CardType type) {
         if(!state.equals(GameState.PLAYING)) {
