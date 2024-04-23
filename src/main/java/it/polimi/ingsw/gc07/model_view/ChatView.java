@@ -26,16 +26,4 @@ public class ChatView {
         chatMessages.add(chatMessage);
     }
 
-    // TODO come prendo il nickname di chi chiama il metodo?
-    public void printChat()
-    {
-        for(ChatMessage m : chatMessages)
-        {
-            if(m.getIsPublic())
-            {
-                System.out.print("["+m.getDateTime()+"] " + "<"+ m.getSender()+"> "+  m.getContent());
-            }
-            //else if(m.isForReceiver())
-        }
-    }
 }
