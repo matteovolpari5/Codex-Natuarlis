@@ -26,5 +26,16 @@ public class ChatView {
         messages.add(message);
     }
 
-    // TODO meotodo per stampare la chat / ultimo messaggio
+    // TODO come prendo il nickname di chi chiama il metodo?
+    public void printChat()
+    {
+        for(Message m : messages)
+        {
+            if(m.getIsPublic())
+            {
+                System.out.print("["+m.getDateTime()+"] " + "<"+ m.getSender()+"> "+  m.getContent());
+            }
+            //else if(m.isForReceiver())
+        }
+    }
 }
