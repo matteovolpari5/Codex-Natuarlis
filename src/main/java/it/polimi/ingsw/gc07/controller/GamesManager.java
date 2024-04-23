@@ -125,16 +125,37 @@ public class GamesManager {
     }
 
      public void addPlayerToPending(String nickname, boolean connectionType, boolean interfaceType) {
-        // this command can always be used
-        if(checkNicknameUnique(nickname)){
+         // this command can always be used
+         if(checkReconnection(nickname)) {
+             for(GameController gameController: gameControllers) {
+                 for(Player p: gameController.getPlayers()) {
+                     if(p.getNickname().equals(nickname)) {
+                         assert(!p.isConnected());
+                         gameController.reconnectPlayer(nickname);
+                     }
+                 }
+             }
+         }else if(checkNicknameUnique(nickname)){
             Player newPlayer = new Player(nickname, connectionType, interfaceType);
             pendingPlayers.add(newPlayer);
+         }else {
+             commandResultManager.setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
+             return;
+         }
+         commandResultManager.setCommandResult(CommandResult.SUCCESS);
+    }
+
+    private boolean checkReconnection(String nickname) {
+        boolean reconnection = false;
+        for(GameController gameController: gameControllers) {
+            // if a game has a player with the same nickname and disconnected
+            for(Player p: gameController.getPlayers()) {
+                if(p.getNickname().equals(nickname) && !p.isConnected()) {
+                    reconnection = true;
+                }
+            }
         }
-        else {
-            commandResultManager.setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
-            return;
-        }
-        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+        return reconnection;
     }
 
     /**
