@@ -46,7 +46,7 @@ class ReconnectPlayerCommandTest {
     void reconnectPlayerSuccess()
     {
         game.getPlayers().getFirst().setIsConnected(false);
-        game.setAndExecuteCommand(new ReconnectPlayerCommand("Player1"));
+        game.reconnectPlayer("Player1");
         CommandResult result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
@@ -79,7 +79,7 @@ class ReconnectPlayerCommandTest {
             throw new RuntimeException();
 
         game2.getPlayers().getFirst().setIsConnected(false);
-        game2.setAndExecuteCommand(new ReconnectPlayerCommand("Player1"));
+        game2.reconnectPlayer("Player1");
         CommandResult result2 = game2.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, result2);
     }
@@ -88,11 +88,11 @@ class ReconnectPlayerCommandTest {
     void alreadyConnected()
     {
         game.getPlayers().getFirst().setIsConnected(false);
-        game.setAndExecuteCommand(new ReconnectPlayerCommand("Player1"));
+        game.reconnectPlayer("Player1");
         CommandResult result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
 
-        game.setAndExecuteCommand(new ReconnectPlayerCommand("Player1"));
+        game.reconnectPlayer("Player1");
         result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.PLAYER_ALREADY_CONNECTED, result);
     }
