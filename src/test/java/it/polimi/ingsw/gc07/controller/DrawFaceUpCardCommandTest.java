@@ -36,13 +36,13 @@ class DrawFaceUpCardCommandTest {
         Player p1 = new Player("P1", true, true);
         p1.setTokenColor(TokenColor.GREEN);
         game.addPlayer(p1);
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player p2 = new Player("P2", true, true);
         p2.setTokenColor(TokenColor.YELLOW);
         game.addPlayer(p2);
-        result = game.getCommandResultManager().getCommandResult();
+        result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         game.getPlayers().get(0).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
@@ -54,21 +54,21 @@ class DrawFaceUpCardCommandTest {
     void drawFaceUpCardWrongState() {
         game.setState(GameState.GAME_STARTING);
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.RESOURCE_CARD, 0));
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_STATE);
+        assertEquals(game.getCommandResult(), CommandResult.WRONG_STATE);
     }
 
     @Test
     void drawFaceUpCardWrongPlayer() {
         game.setState(GameState.PLAYING);
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P2", CardType.RESOURCE_CARD, 0));
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_PLAYER);
+        assertEquals(game.getCommandResult(), CommandResult.WRONG_PLAYER);
     }
 
     @Test
     void drawFaceUpCardWrongCardType() {
         game.setState(GameState.PLAYING);
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.OBJECTIVE_CARD, 0));
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_CARD_TYPE);
+        assertEquals(game.getCommandResult(), CommandResult.WRONG_CARD_TYPE);
     }
 
     @Test
@@ -79,7 +79,7 @@ class DrawFaceUpCardCommandTest {
         game.setHasCurrPlayerPlaced();
         int id = game.getResourceCardsDeck().revealFaceUpCard(0).getId();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.RESOURCE_CARD, 0));
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.SUCCESS);
+        assertEquals(game.getCommandResult(), CommandResult.SUCCESS);
         assertEquals(id, game.getPlayers().get(0).getCurrentHand().get(2).getId());
         assertNotEquals(id, game.getResourceCardsDeck().revealFaceUpCard(0).getId());
     }
@@ -92,7 +92,7 @@ class DrawFaceUpCardCommandTest {
         game.setHasCurrPlayerPlaced();
         int id = game.getGoldCardsDeck().revealFaceUpCard(0).getId();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.GOLD_CARD, 0));
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.SUCCESS);
+        assertEquals(game.getCommandResult(), CommandResult.SUCCESS);
         assertEquals(id, game.getPlayers().get(0).getCurrentHand().get(2).getId());
         assertNotEquals(id, game.getGoldCardsDeck().revealFaceUpCard(0).getId());
     }
@@ -104,7 +104,7 @@ class DrawFaceUpCardCommandTest {
         game.getPlayers().get(0).removeCardHand(card);
         game.setHasCurrPlayerPlaced();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.RESOURCE_CARD, 2));
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.CARD_NOT_PRESENT);
+        assertEquals(game.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
 
     @Test
@@ -114,6 +114,6 @@ class DrawFaceUpCardCommandTest {
         game.getPlayers().get(0).removeCardHand(card);
         game.setHasCurrPlayerPlaced();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.GOLD_CARD, 2));
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.CARD_NOT_PRESENT);
+        assertEquals(game.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
 }

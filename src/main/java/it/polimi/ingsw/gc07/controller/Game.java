@@ -127,7 +127,7 @@ public class Game {
         return gameModel.getChat();
     }
 
-    public CommandResult getCommandResultManager() {
+    public CommandResult getCommandResult() {
         return gameModel.getCommandResult();
     }
 

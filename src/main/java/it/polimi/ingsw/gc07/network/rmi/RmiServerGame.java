@@ -46,6 +46,6 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
         game.setAndExecuteCommand(gameCommand);
 
         // only for testing
-        System.out.println(game.getCommandResultManager().getCommandResult());
+        System.out.println(game.getCommandResult());
     }
 }
