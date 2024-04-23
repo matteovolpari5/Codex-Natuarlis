@@ -1,7 +1,8 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.model.CommandResult;
+import it.polimi.ingsw.gc07.game_commands.AddChatPrivateMessageCommand;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -35,19 +36,19 @@ class AddChatPrivateMessageCommandTest {
         // add first player
         Player firstPlayer = new Player("Player1", true, false);
         game.addPlayer(firstPlayer);
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add second player
         Player secondPlayer = new Player("Player2", false, false);
         game.addPlayer(secondPlayer);
-        result = game.getCommandResultManager().getCommandResult();
+        result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add third player
         Player thirdPlayer = new Player("Player3", false, false);
         game.addPlayer(thirdPlayer);
-        result = game.getCommandResultManager().getCommandResult();
+        result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
     }
@@ -55,21 +56,21 @@ class AddChatPrivateMessageCommandTest {
     @Test
     void addMessageSuccess() {
         game.setAndExecuteCommand(new AddChatPrivateMessageCommand("My content...", "Player1", "Player3"));
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
 
     @Test
     void addMessageWrongSender() {
         game.setAndExecuteCommand(new AddChatPrivateMessageCommand("My content...", "WrongSender", "Player1"));
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         assertEquals(CommandResult.WRONG_SENDER, result);
     }
 
     @Test
     void addMessageWrongReceiver() {
         game.setAndExecuteCommand(new AddChatPrivateMessageCommand("My content...", "Player3", "WrongReceiver"));
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         assertEquals(CommandResult.WRONG_RECEIVER, result);
     }
 }

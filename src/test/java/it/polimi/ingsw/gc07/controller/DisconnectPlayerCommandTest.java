@@ -1,7 +1,8 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.model.CommandResult;
+import it.polimi.ingsw.gc07.game_commands.DisconnectPlayerCommand;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -33,12 +34,12 @@ class DisconnectPlayerCommandTest {
         game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
         Player firstPlayer = new Player("Player1", true, false);
         game.addPlayer(firstPlayer);
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("Player2", false, false);
         game.addPlayer(secondPlayer);
-        result = game.getCommandResultManager().getCommandResult();
+        result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
     }
@@ -46,7 +47,7 @@ class DisconnectPlayerCommandTest {
     @Test
     void disconnectPlayerSuccess() {
         game.setAndExecuteCommand(new DisconnectPlayerCommand("Player1"));
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
 
@@ -54,11 +55,11 @@ class DisconnectPlayerCommandTest {
     void playerAlreadyDisconnected() {
         // disconnect player
         game.setAndExecuteCommand(new DisconnectPlayerCommand("Player2"));
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
         // try to disconnect the same player
         game.setAndExecuteCommand(new DisconnectPlayerCommand("Player2"));
-        result = game.getCommandResultManager().getCommandResult();
+        result = game.getCommandResult();
         assertEquals(CommandResult.PLAYER_ALREADY_DISCONNECTED, result);
     }
 
@@ -66,7 +67,7 @@ class DisconnectPlayerCommandTest {
     void disconnectPlayerNotPresent() {
         // disconnect player not present in the game
         game.setAndExecuteCommand(new DisconnectPlayerCommand("AnOtherPlayer"));
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, result);
     }
 }

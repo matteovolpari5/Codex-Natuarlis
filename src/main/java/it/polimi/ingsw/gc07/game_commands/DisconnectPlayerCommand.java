@@ -1,4 +1,6 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.game_commands;
+
+import it.polimi.ingsw.gc07.controller.Game;
 
 /**
  * Concrete command to disconnect a player from the game.

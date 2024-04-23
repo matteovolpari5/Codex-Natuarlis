@@ -1,7 +1,8 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.model.CommandResult;
+import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardCommand;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -32,14 +33,14 @@ class PlaceStarterCardCommandTest {
         Player p1 = new Player("P1", true, true);
         p1.setTokenColor(TokenColor.GREEN);
         game.addPlayer(p1);
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add second player
         Player p2 = new Player("P2", true, true);
         p2.setTokenColor(TokenColor.BLUE);
         game.addPlayer(p2);
-        result = game.getCommandResultManager().getCommandResult();
+        result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         game.setCurrentPlayer(0);
@@ -49,7 +50,7 @@ class PlaceStarterCardCommandTest {
     @Test
     void PlaceStarterCardSuccess() {
         game.setAndExecuteCommand(new PlaceStarterCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), true));
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
 }

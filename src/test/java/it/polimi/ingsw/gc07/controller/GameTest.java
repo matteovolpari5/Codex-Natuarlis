@@ -1,7 +1,8 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.controller.enumerations.GameState;
+import it.polimi.ingsw.gc07.game_commands.DrawFaceUpCardCommand;
+import it.polimi.ingsw.gc07.game_commands.PlaceCardCommand;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;

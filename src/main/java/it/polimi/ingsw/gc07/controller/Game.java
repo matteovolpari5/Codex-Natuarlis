@@ -1,17 +1,14 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.model.CommandResult;
-import it.polimi.ingsw.gc07.controller.enumerations.GameState;
+import it.polimi.ingsw.gc07.game_commands.GameCommand;
+import it.polimi.ingsw.gc07.model.*;
 import it.polimi.ingsw.gc07.exceptions.*;
-import it.polimi.ingsw.gc07.model.CommandResultManager;
-import it.polimi.ingsw.gc07.model.GameField;
-import it.polimi.ingsw.gc07.model.Player;
-import it.polimi.ingsw.gc07.model.ScoreTrackBoard;
 import it.polimi.ingsw.gc07.model.cards.*;
 import it.polimi.ingsw.gc07.model.chat.Chat;
 import it.polimi.ingsw.gc07.model.chat.Message;
 import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
@@ -19,74 +16,9 @@ import java.util.*;
 
 public class Game {
     /**
-     * ID of the game.
+     * Reference to game model.
      */
-    private final int id;
-    /**
-     * State of the game.
-     */
-    private GameState state;
-    /**
-     * Number of players in the game, chose by the first player.
-     */
-    private final int playersNumber;
-    /**
-     * Map of players and their game field.
-     */
-    private final Map<String, GameField> playersGameField;
-    /**
-     * List of players.
-     */
-    private final List<Player> players;
-    /**
-     * List of winner/s of the game.
-     */
-    private final List<Player> winners;
-    /**
-     * Integer value representing the position of the current player.
-     */
-    private int currPlayer;
-    /**
-     * Boolean value representing if the current player has placed a card.
-     */
-    private boolean hasCurrPlayerPlaced;
-    /**
-     * Score track board of the game.
-     */
-    private final ScoreTrackBoard scoreTrackBoard;
-    /**
-     * Deck of resource cards.
-     */
-    private final ResourceCardsDeck resourceCardsDeck;
-    /**
-     * Deck of gold cards.
-     */
-    private final GoldCardsDeck goldCardsDeck;
-    /**
-     * Deck of objective cards.
-     */
-    private final PlayingDeck<ObjectiveCard> objectiveCardsDeck;
-    /**
-     * Deck of starter cards.
-     */
-    private final Deck<PlaceableCard> starterCardsDeck;
-    /**
-     * Boolean attribute, true if a player has reached 20 points.
-     */
-    private boolean twentyPointsReached;
-    /**
-     * Boolean attribute, if it is the additional round of the game.
-     */
-    private boolean additionalRound;
-    /**
-     * Chat of the game.
-     */
-    private final Chat chat;
-    /**
-     * Command result manager of the game.
-     */
-    private final CommandResultManager commandResultManager;
-
+    private final GameModel gameModel;
     /**
      * Timeout for the reconnection.
      */
@@ -98,35 +30,13 @@ public class Game {
     private final Map<String, Timer> playersTimer;
 
 
-    /** Constructor of a Game with only the first player.
-     *
-     * @param playersNumber number of players
-     * @param resourceCardsDeck deck of resource cards
-     * @param goldCardsDeck deck of gold cards
-     * @param objectiveCardsDeck deck of objective cards
-     * @param starterCardsDeck deck of starter cards
+    /**
+     * Constructor of a Game with only the first player.
      */
     public Game(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
                 GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
                 Deck<PlaceableCard> starterCardsDeck) {
-        this.id = id;
-        this.state = GameState.GAME_STARTING;
-        assert(playersNumber >= 2 && playersNumber <= 4): "Wrong players number";
-        this.playersNumber = playersNumber;
-        this.players = new ArrayList<>();
-        this.winners = new ArrayList<>();
-        this.playersGameField = new HashMap<>();
-        this.scoreTrackBoard = new ScoreTrackBoard();
-        this.resourceCardsDeck = new ResourceCardsDeck(resourceCardsDeck);
-        this.goldCardsDeck = new GoldCardsDeck(goldCardsDeck);
-        this.objectiveCardsDeck = new PlayingDeck<>(objectiveCardsDeck);
-        this.starterCardsDeck = new Deck<>(starterCardsDeck);
-        this.currPlayer = 0;
-        this.hasCurrPlayerPlaced = false;
-        this.twentyPointsReached = false;
-        this.additionalRound = false;
-        this.chat = new Chat();
-        this.commandResultManager = new CommandResultManager();
+        this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
         this.timeout = new Timer();
         this.playersTimer = new HashMap<>();
     }
@@ -140,14 +50,14 @@ public class Game {
      * @return game id
      */
     int getId() {
-        return id;
+        return gameModel.getId();
     }
 
     /**
      * Setter for the state of the game.
      */
     synchronized void setState(GameState state) {
-        this.state = state;
+        gameModel.setState(state);
     }
 
     /**
@@ -155,63 +65,71 @@ public class Game {
      * @return the state of the game
      */
     synchronized GameState getState() {
-        return state;
+        return gameModel.getState();
     }
 
     Map<String, GameField> getPlayersGameField() {
-        return playersGameField;
+        return gameModel.getPlayersGameField();
     }
 
     List<Player> getPlayers() {
-        return players;
+        return gameModel.getPlayers();
     }
 
     List<Player> getWinners(){
-        return winners;
+        return gameModel.getWinners();
     }
 
     synchronized int getCurrPlayer() {
-        return currPlayer;
+        return gameModel.getCurrPlayer();
     }
 
     synchronized void setHasCurrPlayerPlaced() {
-        this.hasCurrPlayerPlaced = true;
+        gameModel.setHasCurrPlayerPlaced(true);
     }
 
     synchronized void setHasNotCurrPlayerPlaced() {
-        this.hasCurrPlayerPlaced = false;
+        gameModel.setHasCurrPlayerPlaced(false);
+    }
+
+    synchronized boolean getHasCurrPlayerPlaced() {
+        return gameModel.getHasCurrPlayerPlaced();
     }
 
     ScoreTrackBoard getScoreTrackBoard() {
-        return scoreTrackBoard;
+        return gameModel.getScoreTrackBoard();
     }
 
     ResourceCardsDeck getResourceCardsDeck() {
-        return resourceCardsDeck;
+        return gameModel.getResourceCardsDeck();
     }
 
     GoldCardsDeck getGoldCardsDeck() {
-        return goldCardsDeck;
+        return gameModel.getGoldCardsDeck();
     }
 
     PlayingDeck<ObjectiveCard> getObjectiveCardsDeck() {
-        return objectiveCardsDeck;
+        return gameModel.getObjectiveCardsDeck();
     }
 
     Deck<PlaceableCard> getStarterCardsDeck() {
-        return starterCardsDeck;
+        return gameModel.getStarterCardsDeck();
     }
 
     synchronized void setTwentyPointsReached() {
-        this.twentyPointsReached = true;
+        gameModel.setTwentyPointsReached(true);
     }
 
     synchronized void setCurrentPlayer(int num) {
-        this.currPlayer = num;
+        gameModel.setCurrPlayer(num);
     }
 
-    public CommandResultManager getCommandResultManager() {
-        return commandResultManager;
+    synchronized Chat getChat() {
+        return gameModel.getChat();
+    }
+
+    public CommandResult getCommandResult() {
+        return gameModel.getCommandResult();
     }
 
     public synchronized void setAndExecuteCommand(GameCommand gameCommand) {
@@ -222,105 +140,105 @@ public class Game {
     // command pattern methods
     // ----------------------
 
-    void addChatPrivateMessage(String content, String sender, String receiver) {
+    public void addChatPrivateMessage(String content, String sender, String receiver) {
         // no state check, this command be used all the time
-        List<String> playersNicknames = players.stream().map(Player::getNickname).toList();
+        List<String> playersNicknames = getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender
         if(!playersNicknames.contains(sender)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_SENDER);
+            gameModel.setCommandResult(CommandResult.WRONG_SENDER);
             return;
         }
         // check valid receiver
         if(!playersNicknames.contains(receiver)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_RECEIVER);
+            gameModel.setCommandResult(CommandResult.WRONG_RECEIVER);
             return;
         }
         if(sender.equals(receiver)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_RECEIVER);
+            gameModel.setCommandResult(CommandResult.WRONG_RECEIVER);
             return;
         }
         // adds message to the chat
-        chat.addPrivateMessage(content, sender, receiver, playersNicknames);
-        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+        getChat().addPrivateMessage(content, sender, receiver, playersNicknames);
+        gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
-    void addChatPublicMessage(String content, String sender) {
+    public void addChatPublicMessage(String content, String sender) {
         // no state check, this command be used all the time
-        List<String> playersNicknames = players.stream().map(Player::getNickname).toList();
+        List<String> playersNicknames = getPlayers().stream().map(Player::getNickname).toList();
         // check valid sender
         if(!playersNicknames.contains(sender)){
-            commandResultManager.setCommandResult(CommandResult.WRONG_SENDER);
+            gameModel.setCommandResult(CommandResult.WRONG_SENDER);
             return;
         }
         // add message to chat
-        chat.addPublicMessage(content, sender, playersNicknames);
-        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+        getChat().addPublicMessage(content, sender, playersNicknames);
+        gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
     // TODO synchronized chi lo chiama?
-    void addPlayer(Player newPlayer) {
-        if(!state.equals(GameState.GAME_STARTING)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+    public void addPlayer(Player newPlayer) {
+        if(!getState().equals(GameState.GAME_STARTING)) {
+            gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        if(playersGameField.containsKey(newPlayer.getNickname())) {
-            commandResultManager.setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
+        if(getPlayersGameField().containsKey(newPlayer.getNickname())) {
+            gameModel.setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
             return;
         }
         Timer timeout = new Timer();
         playersTimer.put(newPlayer.getNickname(), timeout);
         startTimeoutReconnection(timeout, newPlayer.getNickname());
         // draw card can't return null, since the game hasn't already started
-        newPlayer.addCardHand(resourceCardsDeck.drawCard());
-        newPlayer.addCardHand(resourceCardsDeck.drawCard());
-        newPlayer.addCardHand(goldCardsDeck.drawCard());
-        newPlayer.setSecretObjective(objectiveCardsDeck.drawCard());
+        newPlayer.addCardHand(getResourceCardsDeck().drawCard());
+        newPlayer.addCardHand(getResourceCardsDeck().drawCard());
+        newPlayer.addCardHand(getGoldCardsDeck().drawCard());
+        newPlayer.setSecretObjective(getObjectiveCardsDeck().drawCard());
 
-        PlaceableCard starterCard = starterCardsDeck.drawCard();
+        PlaceableCard starterCard = getStarterCardsDeck().drawCard();
         GameField gameField = new GameField(starterCard);
-        players.add(newPlayer);
-        playersGameField.put(newPlayer.getNickname(), gameField);
-        scoreTrackBoard.addPlayer(newPlayer.getNickname());
+        getPlayers().add(newPlayer);
+        getPlayersGameField().put(newPlayer.getNickname(), gameField);
+        getScoreTrackBoard().addPlayer(newPlayer.getNickname());
         if (isFull()) {
             setup();
-            state = GameState.PLACING_STARTER_CARDS;
+            setState(GameState.PLACING_STARTER_CARDS);
         }
-        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+        gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
-    void disconnectPlayer(String nickname) {
+    public void disconnectPlayer(String nickname) {
         // this command can always be used
-        if(!playersGameField.containsKey(nickname)){
-            commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+        if(!getPlayersGameField().containsKey(nickname)){
+            gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
         try{
             playersTimer.get(nickname).cancel();
             playersTimer.get(nickname).purge();
             int pos = getPlayerByNickname(nickname);
-            if(!players.get(pos).isConnected())
+            if(!getPlayers().get(pos).isConnected())
             {
-                commandResultManager.setCommandResult(CommandResult.PLAYER_ALREADY_DISCONNECTED);
+                gameModel.setCommandResult(CommandResult.PLAYER_ALREADY_DISCONNECTED);
                 return;
             }
-            players.get(pos).setIsConnected(false);
+            getPlayers().get(pos).setIsConnected(false);
             int numPlayersConnected = getNumPlayersConnected();
             if (numPlayersConnected == 1){
-                state = GameState.WAITING_RECONNECTION;
+                setState(GameState.WAITING_RECONNECTION);
                 // TODO start the timer, when it ends, the only player left wins
                 startTimeoutGameEnd();
             }
             else if (numPlayersConnected == 0) {
-                state = GameState.NO_PLAYERS_CONNECTED;
+                setState(GameState.NO_PLAYERS_CONNECTED);
                 // TODO start the timer, when it ends, the game ends without winner
                 startTimeoutGameEnd();
             }
         }
         catch(PlayerNotPresentException e){
-            commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
-        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+        gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
     private void startTimeoutGameEnd(){
@@ -376,132 +294,132 @@ public class Game {
         }).start();
     }
 
-    void notifyClientConnected(String nickname){
+    public void notifyClientConnected(String nickname){
 
     }
-    void drawDeckCard(String nickname, CardType type) {
-        if(!state.equals(GameState.PLAYING)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+    public void drawDeckCard(String nickname, CardType type) {
+        if(!getState().equals(GameState.PLAYING)) {
+            gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        if(!players.get(currPlayer).getNickname().equals(nickname)){
-            commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
+        if(!getPlayers().get(getCurrPlayer()).getNickname().equals(nickname)){
+            gameModel.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
         }
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_CARD_TYPE);
+            gameModel.setCommandResult(CommandResult.WRONG_CARD_TYPE);
             return;
         }
-        if(!hasCurrPlayerPlaced) {
-            commandResultManager.setCommandResult(CommandResult.NOT_PLACED_YET);
+        if(!getHasCurrPlayerPlaced()) {
+            gameModel.setCommandResult(CommandResult.NOT_PLACED_YET);
             return;
         }
 
         DrawableCard card;
         if (type.equals(CardType.RESOURCE_CARD)) {
-            card = resourceCardsDeck.drawCard();
+            card = getResourceCardsDeck().drawCard();
             if(card == null) {
-                commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
+                gameModel.setCommandResult(CommandResult.CARD_NOT_PRESENT);
                 return;
             }
-            players.get(currPlayer).addCardHand(card);
+            getPlayers().get(getCurrPlayer()).addCardHand(card);
         }
         if (type.equals(CardType.GOLD_CARD)) {
-            card = goldCardsDeck.drawCard();
+            card = getGoldCardsDeck().drawCard();
             if(card == null){
-                commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
+                gameModel.setCommandResult(CommandResult.CARD_NOT_PRESENT);
                 return;
             }
-            players.get(currPlayer).addCardHand(card);
+            getPlayers().get(getCurrPlayer()).addCardHand(card);
         }
         changeCurrPlayer();
-        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+        gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
-    void drawFaceUpCard(String nickname, CardType type, int pos) {
-        if(!state.equals(GameState.PLAYING)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+    public void drawFaceUpCard(String nickname, CardType type, int pos) {
+        if(!getState().equals(GameState.PLAYING)) {
+            gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        if(!players.get(currPlayer).getNickname().equals(nickname)){
-            commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
+        if(!getPlayers().get(getCurrPlayer()).getNickname().equals(nickname)){
+            gameModel.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
         }
         if(type.equals(CardType.OBJECTIVE_CARD) || type.equals(CardType.STARTER_CARD)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_CARD_TYPE);
+            gameModel.setCommandResult(CommandResult.WRONG_CARD_TYPE);
             return;
         }
-        if(!hasCurrPlayerPlaced) {
-            commandResultManager.setCommandResult(CommandResult.NOT_PLACED_YET);
+        if(!getHasCurrPlayerPlaced()) {
+            gameModel.setCommandResult(CommandResult.NOT_PLACED_YET);
             return;
         }
 
         DrawableCard card;
         if(type.equals(CardType.RESOURCE_CARD)) {
-            card = resourceCardsDeck.drawFaceUpCard(pos);
+            card = getResourceCardsDeck().drawFaceUpCard(pos);
             if(card == null) {
-                commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
+                gameModel.setCommandResult(CommandResult.CARD_NOT_PRESENT);
                 return;
             }
-            players.get(currPlayer).addCardHand(card);
+            getPlayers().get(getCurrPlayer()).addCardHand(card);
 
             // check if the card has been replaced or replace
-            if(resourceCardsDeck.revealFaceUpCard(1) == null) {
-                GoldCard newFaceUpCard = goldCardsDeck.drawCard();
+            if(getResourceCardsDeck().revealFaceUpCard(1) == null) {
+                GoldCard newFaceUpCard = getGoldCardsDeck().drawCard();
                 if(newFaceUpCard != null) {
-                    goldCardsDeck.addFaceUpCard(newFaceUpCard);
+                    getGoldCardsDeck().addFaceUpCard(newFaceUpCard);
                 }
             }
         }
         if(type.equals(CardType.GOLD_CARD)) {
-            card = goldCardsDeck.drawFaceUpCard(pos);
+            card = getGoldCardsDeck().drawFaceUpCard(pos);
             if(card == null) {
-                commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
+                gameModel.setCommandResult(CommandResult.CARD_NOT_PRESENT);
                 return;
             }
-            players.get(currPlayer).addCardHand(card);
+            getPlayers().get(getCurrPlayer()).addCardHand(card);
 
             // check if the card has been replaced or replace
-            if(goldCardsDeck.revealFaceUpCard(1) == null) {
-                DrawableCard newFaceUpCard = resourceCardsDeck.drawCard();
+            if(getGoldCardsDeck().revealFaceUpCard(1) == null) {
+                DrawableCard newFaceUpCard = getResourceCardsDeck().drawCard();
                 if(newFaceUpCard != null) {
-                    resourceCardsDeck.addFaceUpCard(newFaceUpCard);
+                    getResourceCardsDeck().addFaceUpCard(newFaceUpCard);
                 }
             }
         }
         changeCurrPlayer();
-        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+        gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
-    void placeCard(String nickname, int pos, int x, int y, boolean way) {
+    public void placeCard(String nickname, int pos, int x, int y, boolean way) {
         Player player = null;
         DrawableCard card = null;
-        if(!state.equals(GameState.PLAYING)){
-            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+        if(!getState().equals(GameState.PLAYING)){
+            gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        if(!players.get(currPlayer).getNickname().equals(nickname)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
+        if(!getPlayers().get(getCurrPlayer()).getNickname().equals(nickname)) {
+            gameModel.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
         }
-        if(hasCurrPlayerPlaced) {
-            commandResultManager.setCommandResult(CommandResult.CARD_ALREADY_PLACED);
+        if(getHasCurrPlayerPlaced()) {
+            gameModel.setCommandResult(CommandResult.CARD_ALREADY_PLACED);
             return;
         }
         try {
-            player = players.get(getPlayerByNickname(nickname));
+            player = getPlayers().get(getPlayerByNickname(nickname));
         } catch (PlayerNotPresentException e) {
             throw new RuntimeException(e);
         }
         if(pos < 0 || pos >= player.getCurrentHand().size()) {
-            commandResultManager.setCommandResult(CommandResult.CARD_NOT_PRESENT);
+            gameModel.setCommandResult(CommandResult.CARD_NOT_PRESENT);
             return;
         }
         card = player.getCurrentHand().get(pos);
-        CommandResult result = playersGameField.get(nickname).placeCard(card,x,y,way);
+        CommandResult result = getPlayersGameField().get(nickname).placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS)) {
-            hasCurrPlayerPlaced = true;
-            players.get(currPlayer).removeCardHand(card);
+            setHasCurrPlayerPlaced();
+            getPlayers().get(getCurrPlayer()).removeCardHand(card);
             addPoints(nickname, x, y);    // the card has just been placed
 
             // check if the player is stalled
@@ -512,8 +430,8 @@ public class Game {
                     // check if the firs card (a casual card), is placeable on the back,
                     // i.e. check only the indexes
                     try {
-                        resultStall = players.get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
-                                .isPlaceable(new GameField(playersGameField.get(nickname)), i, j, true);
+                        resultStall = getPlayers().get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
+                                .isPlaceable(new GameField(getPlayersGameField().get(nickname)), i, j, true);
                         if (resultStall.equals(CommandResult.SUCCESS)) {
                             isStalled = false;
                         }
@@ -523,74 +441,74 @@ public class Game {
                     }
                 }
             }
-            players.get(currPlayer).setIsStalled(isStalled);
+            getPlayers().get(getCurrPlayer()).setIsStalled(isStalled);
         }
-        commandResultManager.setCommandResult(result);
+        gameModel.setCommandResult(result);
     }
 
-    void placeStarterCard(String nickname, boolean way) {
+    public void placeStarterCard(String nickname, boolean way) {
         // check right state
-        if(!state.equals(GameState.PLACING_STARTER_CARDS)) {
-            commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
+        if(!getState().equals(GameState.PLACING_STARTER_CARDS)) {
+            gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
         // check player has not already placed the starter card
-        if(playersGameField.get(nickname).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
-            commandResultManager.setCommandResult(CommandResult.CARD_ALREADY_PRESENT);
+        if(getPlayersGameField().get(nickname).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
+            gameModel.setCommandResult(CommandResult.CARD_ALREADY_PRESENT);
             return;
         }
         // no check for current player, starter cards can be placed in any order
 
-        assert(playersGameField.containsKey(nickname)): "The player is not in the game";
-        commandResultManager.setCommandResult(playersGameField.get(nickname).placeCard(
-                playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way)
+        assert(getPlayersGameField().containsKey(nickname)): "The player is not in the game";
+        gameModel.setCommandResult(getPlayersGameField().get(nickname).placeCard(
+                getPlayersGameField().get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way)
         );
 
         boolean changeState = true;
-        for(String p: playersGameField.keySet()) {
-            if(!playersGameField.get(p).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
+        for(String p: getPlayersGameField().keySet()) {
+            if(!getPlayersGameField().get(p).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
                 // someone has to place the starter card
                 changeState = false;
             }
         }
         if(changeState) {
-            state = GameState.PLAYING;
+            setState(GameState.PLAYING);
         }
     }
 
     // TODO synchronized chi lo chiama?
-     void reconnectPlayer(String nickname) {
+    public void reconnectPlayer(String nickname) {
         // this command can always be used
-        if(!playersGameField.containsKey(nickname)){
-            commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+        if(!getPlayersGameField().containsKey(nickname)){
+            gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
         try{
             int pos = getPlayerByNickname(nickname);
-            if(players.get(pos).isConnected()) {
-                commandResultManager.setCommandResult(CommandResult.PLAYER_ALREADY_CONNECTED);
+            if(getPlayers().get(pos).isConnected()) {
+                gameModel.setCommandResult(CommandResult.PLAYER_ALREADY_CONNECTED);
                 return;
             }
-            players.get(pos).setIsConnected(true);
+            getPlayers().get(pos).setIsConnected(true);
             int numPlayersConnected = 0;
-            for (Player p : players){
+            for (Player p : getPlayers()){
                 if (p.isConnected()){
                     numPlayersConnected++;
                 }
             }
             if (numPlayersConnected == 1) {
-                state = GameState.WAITING_RECONNECTION;
+                setState(GameState.WAITING_RECONNECTION);
                 // TODO start the timer, when it ends, the only player connected wins
             }
             else if (numPlayersConnected > 1) {
                 // players can re-start to play
-                state = GameState.PLAYING;
+                setState(GameState.PLAYING);
             }
         } catch (PlayerNotPresentException e) {
-            commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
-        commandResultManager.setCommandResult(CommandResult.SUCCESS);
+         gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
 
@@ -600,7 +518,7 @@ public class Game {
 
     private int getNumPlayersConnected() {
         int numPlayersConnected = 0;
-        for (Player p: players){
+        for (Player p: getPlayers()){
             if (p.isConnected()){
                 numPlayersConnected++;
             }
@@ -615,7 +533,7 @@ public class Game {
      */
     synchronized boolean hasPlayer(String nickname) {
         boolean found = false;
-        for(Player p: players){
+        for(Player p: getPlayers()){
             if(p.getNickname().equals(nickname)){
                 found = true;
             }
@@ -630,7 +548,7 @@ public class Game {
      */
     synchronized boolean hasPlayerWithTokenColor(TokenColor tokenColor) {
         boolean found = false;
-        for(Player p: players){
+        for(Player p: getPlayers()){
             if(p.getTokenColor().equals(tokenColor)){
                 found = true;
             }
@@ -645,8 +563,8 @@ public class Game {
      * @throws PlayerNotPresentException: thrown if the nickname is not present in the list players.
      */
     private int getPlayerByNickname(String nickname) throws PlayerNotPresentException {
-        for (int i = 0; i < playersNumber; i++){
-            if(players.get(i).getNickname().equals(nickname)){
+        for (int i = 0; i < gameModel.getPlayersNumber(); i++){
+            if(getPlayers().get(i).getNickname().equals(nickname)){
                 return i;
             }
         }
@@ -660,16 +578,16 @@ public class Game {
      * if a player is stalled he will be skipped.
      */
      void changeCurrPlayer () {
-        assert(state.equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
-        if(currPlayer == players.size()-1)
-            currPlayer = 0;
+        assert(getState().equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
+        if(getCurrPlayer() == getPlayers().size()-1)
+            setCurrentPlayer(0);
         else
-            currPlayer++;
-        hasCurrPlayerPlaced = false;
-        if(twentyPointsReached) {
-            if(players.get(currPlayer).isFirst() && additionalRound) {
-                state = GameState.GAME_ENDED;
-                winners.addAll(computeWinner());
+            setCurrentPlayer(getCurrPlayer()+1);
+        setHasNotCurrPlayerPlaced();
+        if(gameModel.getTwentyPointsReached()) {
+            if(getPlayers().get(getCurrPlayer()).isFirst() && gameModel.getAdditionalRound()) {
+                setState(GameState.GAME_ENDED);
+                getWinners().addAll(computeWinner());
                 // the game is ended
 
                 //TODO faccio partire un timer di qualche minuto
@@ -679,24 +597,24 @@ public class Game {
                 //GamesManager.getGamesManager().deleteGame(this.id);
                 //return;
             }
-            else if(players.get(currPlayer).isFirst()) {
-                additionalRound=true;
+            else if(getPlayers().get(getCurrPlayer()).isFirst()) {
+                gameModel.setAdditionalRound(true);
             }
         }
-        if(!players.get(currPlayer).isConnected()) {
+        if(!getPlayers().get(getCurrPlayer()).isConnected()) {
             changeCurrPlayer();
         }
-        if(players.get(currPlayer).getIsStalled()) {
+        if(getPlayers().get(getCurrPlayer()).getIsStalled()) {
             boolean found = false;
-            for(Player p: players) {
+            for(Player p: getPlayers()) {
                 if(!p.getIsStalled())
                     found = true;
             }
             if(found)
                 changeCurrPlayer();
             else {
-                this.state = GameState.GAME_ENDED;
-                winners.addAll(computeWinner());
+                setState(GameState.GAME_ENDED);
+                getWinners().addAll(computeWinner());
             }
         }
     }
@@ -706,33 +624,33 @@ public class Game {
      * @return the list of players who won the game
      */
     private List<Player> computeWinner() {
-        assert(state.equals(GameState.GAME_ENDED)) : "The game state is not correct";
+        assert(getState().equals(GameState.GAME_ENDED)) : "The game state is not correct";
         List<Player> winners = new ArrayList<>();
         int deltaPoints;
         int max = 0;
         int realizedObjectives;
         int maxRealizedObjective = 0;
-        List<Player> playersCopy = new ArrayList<>(players);
-        for (int i=0; i>=0 && i< players.size(); i++){
+        List<Player> playersCopy = new ArrayList<>(getPlayers());
+        for (int i=0; i>=0 && i< getPlayers().size(); i++){
             ObjectiveCard objectiveCard;
-            objectiveCard = objectiveCardsDeck.revealFaceUpCard(0);
+            objectiveCard = getObjectiveCardsDeck().revealFaceUpCard(0);
             assert(objectiveCard != null): "The common objective must be present";
-            realizedObjectives = objectiveCard.numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+            realizedObjectives = objectiveCard.numTimesScoringConditionMet(getPlayersGameField().get(getPlayers().get(i).getNickname()));
             //points counter for the 1st common objective
-            deltaPoints = objectiveCard.getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
+            deltaPoints = objectiveCard.getObjectiveScore(getPlayersGameField().get(getPlayers().get(i).getNickname()));
 
-            objectiveCard = objectiveCardsDeck.revealFaceUpCard(1);
+            objectiveCard = getObjectiveCardsDeck().revealFaceUpCard(1);
             assert(objectiveCard != null): "The common objective must be present";
-            realizedObjectives += objectiveCard.numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+            realizedObjectives += objectiveCard.numTimesScoringConditionMet(getPlayersGameField().get(getPlayers().get(i).getNickname()));
             //points counter for the 2nd common objective
-            deltaPoints += objectiveCard.getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
+            deltaPoints += objectiveCard.getObjectiveScore(getPlayersGameField().get(getPlayers().get(i).getNickname()));
 
-            realizedObjectives += players.get(i).getSecretObjective().numTimesScoringConditionMet(playersGameField.get(players.get(i).getNickname()));
+            realizedObjectives += getPlayers().get(i).getSecretObjective().numTimesScoringConditionMet(getPlayersGameField().get(getPlayers().get(i).getNickname()));
             //points counter for the secret objective
-            deltaPoints += players.get(i).getSecretObjective().getObjectiveScore(playersGameField.get(players.get(i).getNickname()));
-            scoreTrackBoard.incrementScore(players.get(i).getNickname(), deltaPoints);
-            if (max <= scoreTrackBoard.getScore(playersCopy.get(i).getNickname())) {
-                max = scoreTrackBoard.getScore(playersCopy.get(i).getNickname());
+            deltaPoints += getPlayers().get(i).getSecretObjective().getObjectiveScore(getPlayersGameField().get(getPlayers().get(i).getNickname()));
+            getScoreTrackBoard().incrementScore(getPlayers().get(i).getNickname(), deltaPoints);
+            if (max <= getScoreTrackBoard().getScore(playersCopy.get(i).getNickname())) {
+                max = getScoreTrackBoard().getScore(playersCopy.get(i).getNickname());
                 if (realizedObjectives >= maxRealizedObjective) {
                     if (realizedObjectives == maxRealizedObjective) {
                         winners.add(playersCopy.get(i));
@@ -752,39 +670,39 @@ public class Game {
      * @return true if no other player can connect to the game
      */
     private boolean isFull(){
-        return players.size() == playersNumber;
+        return getPlayers().size() == gameModel.getPlayersNumber();
     }
 
     /**
      * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
      */
     private void setup() {
-        assert(state.equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
+        assert(getState().equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
         // choose randomly the first player
         Random random= new Random();
-        currPlayer = random.nextInt(playersNumber);
-        players.get(currPlayer).setFirst();
-        hasCurrPlayerPlaced = false;
+        setCurrentPlayer(random.nextInt(gameModel.getPlayersNumber()));
+        getPlayers().get(getCurrPlayer()).setFirst();
+        setHasNotCurrPlayerPlaced();
 
         // draw card can't return null, since the game hasn't already started
 
         //place 2 gold cards
         List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
-        setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
-        setUpGoldCardsFaceUp.add(goldCardsDeck.drawCard());
-        goldCardsDeck.setFaceUpCards(setUpGoldCardsFaceUp);
+        setUpGoldCardsFaceUp.add(getGoldCardsDeck().drawCard());
+        setUpGoldCardsFaceUp.add(getGoldCardsDeck().drawCard());
+        getGoldCardsDeck().setFaceUpCards(setUpGoldCardsFaceUp);
 
         //place 2 resource card
         List<DrawableCard> setUpResourceCardsFaceUp = new ArrayList<>();
-        setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
-        setUpResourceCardsFaceUp.add(resourceCardsDeck.drawCard());
-        resourceCardsDeck.setFaceUpCards(setUpResourceCardsFaceUp);
+        setUpResourceCardsFaceUp.add(getResourceCardsDeck().drawCard());
+        setUpResourceCardsFaceUp.add(getResourceCardsDeck().drawCard());
+        getResourceCardsDeck().setFaceUpCards(setUpResourceCardsFaceUp);
 
         // place common objective cards
         List<ObjectiveCard> setUpObjectiveCardsFaceUp = new ArrayList<>();
-        setUpObjectiveCardsFaceUp.add(objectiveCardsDeck.drawCard());
-        setUpObjectiveCardsFaceUp.add(objectiveCardsDeck.drawCard());
-        objectiveCardsDeck.setFaceUpCards(setUpObjectiveCardsFaceUp);
+        setUpObjectiveCardsFaceUp.add(getObjectiveCardsDeck().drawCard());
+        setUpObjectiveCardsFaceUp.add(getObjectiveCardsDeck().drawCard());
+        getObjectiveCardsDeck().setFaceUpCards(setUpObjectiveCardsFaceUp);
     }
 
     /**
@@ -794,23 +712,23 @@ public class Game {
      * @param y where the card is placed in the matrix
      */
     private void addPoints(String nickname, int x, int y) {
-        assert(state.equals(GameState.PLAYING)): "Wrong game state";
-        assert(players.get(currPlayer).getNickname().equals(nickname)): "Not the current player";
-        assert (playersGameField.get(nickname).isCardPresent(x, y)) : "No card present in the provided position";
+        assert(getState().equals(GameState.PLAYING)): "Wrong game state";
+        assert(getPlayers().get(getCurrPlayer()).getNickname().equals(nickname)): "Not the current player";
+        assert (getPlayersGameField().get(nickname).isCardPresent(x, y)) : "No card present in the provided position";
         int deltaPoints;
-        deltaPoints = playersGameField.get(nickname).getPlacedCard(x, y).getPlacementScore(playersGameField.get(nickname), x, y);
-        if(deltaPoints + scoreTrackBoard.getScore(nickname) >= 20){
-            twentyPointsReached = true;
-            if((deltaPoints + scoreTrackBoard.getScore(nickname)) > 29){
-                scoreTrackBoard.setScore(nickname, 29);
+        deltaPoints = getPlayersGameField().get(nickname).getPlacedCard(x, y).getPlacementScore(getPlayersGameField().get(nickname), x, y);
+        if(deltaPoints + getScoreTrackBoard().getScore(nickname) >= 20){
+            setTwentyPointsReached();
+            if((deltaPoints + getScoreTrackBoard().getScore(nickname)) > 29){
+                getScoreTrackBoard().setScore(nickname, 29);
             }
             else{
-                scoreTrackBoard.incrementScore(nickname, deltaPoints);
+                getScoreTrackBoard().incrementScore(nickname, deltaPoints);
             }
         }
         else
         {
-            scoreTrackBoard.incrementScore(nickname, deltaPoints);
+            getScoreTrackBoard().incrementScore(nickname, deltaPoints);
         }
     }
 
@@ -841,11 +759,11 @@ public class Game {
         }
         Card faceUpCard;
         if(type.equals(CardType.GOLD_CARD))
-            faceUpCard = this.goldCardsDeck.revealFaceUpCard(pos);
+            faceUpCard = this.getGoldCardsDeck().revealFaceUpCard(pos);
         else if(type.equals(CardType.RESOURCE_CARD))
-            faceUpCard = this.resourceCardsDeck.revealFaceUpCard(pos);
+            faceUpCard = this.getResourceCardsDeck().revealFaceUpCard(pos);
         else
-            faceUpCard = this.objectiveCardsDeck.revealFaceUpCard(pos);
+            faceUpCard = this.getObjectiveCardsDeck().revealFaceUpCard(pos);
         if(faceUpCard != null) {
             return faceUpCard;
         }
@@ -868,9 +786,9 @@ public class Game {
         }
         GameResource backResource;
         if(type.equals(CardType.GOLD_CARD)){
-            backResource = this.goldCardsDeck.revealBackDeckCard();
+            backResource = this.getGoldCardsDeck().revealBackDeckCard();
         }else{
-            backResource = this.resourceCardsDeck.revealBackDeckCard();
+            backResource = this.getResourceCardsDeck().revealBackDeckCard();
         }
         if(backResource != null)
             return backResource;
@@ -884,7 +802,7 @@ public class Game {
      * @return the last message of the chat
      */
     public Message getLastChatMessage(String receiver)  {
-        Message message = chat.getLastMessage(receiver);
+        Message message = getChat().getLastMessage(receiver);
         if(message == null) {
             // TODO no return null!
             return null;
@@ -898,6 +816,6 @@ public class Game {
      * @return the list of the message in the chat
      */
     public List<Message> getChatContent(String receiver) {
-        return chat.getContent(receiver);
+        return getChat().getContent(receiver);
     }
 }

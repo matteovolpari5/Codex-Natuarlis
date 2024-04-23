@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.model.CommandResult;
-import it.polimi.ingsw.gc07.controller.enumerations.GameState;
+import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.gc07.model.CommandResultManager;
 import it.polimi.ingsw.gc07.model.Player;
@@ -124,7 +124,7 @@ public class GamesManager {
         return -1;
     }
 
-     void addPlayerToPending(String nickname, boolean connectionType, boolean interfaceType) {
+     public void addPlayerToPending(String nickname, boolean connectionType, boolean interfaceType) {
         // this command can always be used
         if(checkNicknameUnique(nickname)){
             Player newPlayer = new Player(nickname, connectionType, interfaceType);
@@ -157,7 +157,7 @@ public class GamesManager {
         return unique;
     }
 
-    void joinExistingGame(String nickname, TokenColor tokenColor, int gameId) {
+    public void joinExistingGame(String nickname, TokenColor tokenColor, int gameId) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         if(player == null){
@@ -193,7 +193,7 @@ public class GamesManager {
         commandResultManager.setCommandResult(CommandResult.SET_SERVER_GAME);
     }
 
-     void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
+     public void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         if(player == null) {

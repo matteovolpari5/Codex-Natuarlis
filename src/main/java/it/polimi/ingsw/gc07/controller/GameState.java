@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.controller.enumerations;
+package it.polimi.ingsw.gc07.controller;
 
 /**
  * Enum representing the possible states of a game.

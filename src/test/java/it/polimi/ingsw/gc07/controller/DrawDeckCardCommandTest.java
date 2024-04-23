@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.model.CommandResult;
-import it.polimi.ingsw.gc07.controller.enumerations.GameState;
+import it.polimi.ingsw.gc07.game_commands.DrawDeckCardCommand;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -39,14 +39,14 @@ class DrawDeckCardCommandTest {
         Player firstPlayer = new Player("Player1", true, false);
         firstPlayer.setTokenColor(TokenColor.BLUE);
         game.addPlayer(firstPlayer);
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add second player
         Player secondPlayer = new Player("Player2", false, false);
         secondPlayer.setTokenColor(TokenColor.GREEN);
         game.addPlayer(secondPlayer);
-        result = game.getCommandResultManager().getCommandResult();
+        result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         game.getPlayers().get(0).setSecretObjective(game.getObjectiveCardsDeck().drawCard());
@@ -61,14 +61,14 @@ class DrawDeckCardCommandTest {
     @Test
     void DrawDeckCard() {
         game.setAndExecuteCommand(new DrawDeckCardCommand("Player2", CardType.RESOURCE_CARD));
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_PLAYER);
+        assertEquals(game.getCommandResult(), CommandResult.WRONG_PLAYER);
         game.setHasCurrPlayerPlaced();
         game.setAndExecuteCommand(new DrawDeckCardCommand("Player1", CardType.OBJECTIVE_CARD));
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_CARD_TYPE);
+        assertEquals(game.getCommandResult(), CommandResult.WRONG_CARD_TYPE);
         game.setHasCurrPlayerPlaced();
         game.setAndExecuteCommand(new DrawDeckCardCommand("Player1", CardType.RESOURCE_CARD));
         game.setHasCurrPlayerPlaced();
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.SUCCESS);
+        assertEquals(game.getCommandResult(), CommandResult.SUCCESS);
         int id = game.getPlayers().get(1).getCurrentHand().getFirst().getId();
         boolean found = false;
         for (DrawableCard c: game.getResourceCardsDeck().getContent()){
@@ -87,6 +87,6 @@ class DrawDeckCardCommandTest {
             game.setHasCurrPlayerPlaced();
         }
         game.setAndExecuteCommand(new DrawDeckCardCommand("Player1", CardType.RESOURCE_CARD));
-        assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.CARD_NOT_PRESENT);
+        assertEquals(game.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
 }

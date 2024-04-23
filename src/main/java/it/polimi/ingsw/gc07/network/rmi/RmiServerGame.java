@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
 import it.polimi.ingsw.gc07.controller.Game;
-import it.polimi.ingsw.gc07.controller.GameCommand;
+import it.polimi.ingsw.gc07.game_commands.GameCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
@@ -46,6 +46,6 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
         game.setAndExecuteCommand(gameCommand);
 
         // only for testing
-        System.out.println(game.getCommandResultManager().getCommandResult());
+        System.out.println(game.getCommandResult());
     }
 }

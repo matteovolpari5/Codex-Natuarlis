@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.model.CommandResult;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -33,12 +33,12 @@ class ReconnectPlayerCommandTest {
 
         Player firstPlayer = new Player("Player1", true, false);
         game.addPlayer(firstPlayer);
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("Player2", false, false);
         game.addPlayer(secondPlayer);
-        result = game.getCommandResultManager().getCommandResult();
+        result = game.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
     }
@@ -47,7 +47,7 @@ class ReconnectPlayerCommandTest {
     {
         game.getPlayers().getFirst().setIsConnected(false);
         game.reconnectPlayer("Player1");
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
 
@@ -69,18 +69,18 @@ class ReconnectPlayerCommandTest {
         game2 = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
         Player firstPlayer = new Player("P1", true, false);
         game2.addPlayer(firstPlayer);
-        CommandResult result = game2.getCommandResultManager().getCommandResult();
+        CommandResult result = game2.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("P2", false, false);
         game2.addPlayer(secondPlayer);
-        result = game2.getCommandResultManager().getCommandResult();
+        result = game2.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
 
         game2.getPlayers().getFirst().setIsConnected(false);
         game2.reconnectPlayer("Player1");
-        CommandResult result2 = game2.getCommandResultManager().getCommandResult();
+        CommandResult result2 = game2.getCommandResult();
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, result2);
     }
 
@@ -89,11 +89,11 @@ class ReconnectPlayerCommandTest {
     {
         game.getPlayers().getFirst().setIsConnected(false);
         game.reconnectPlayer("Player1");
-        CommandResult result = game.getCommandResultManager().getCommandResult();
+        CommandResult result = game.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
 
         game.reconnectPlayer("Player1");
-        result = game.getCommandResultManager().getCommandResult();
+        result = game.getCommandResult();
         assertEquals(CommandResult.PLAYER_ALREADY_CONNECTED, result);
     }
 
