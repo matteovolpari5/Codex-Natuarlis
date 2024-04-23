@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.controller.Game;
+import it.polimi.ingsw.gc07.controller.GameCommand;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.controller.GamesManagerCommand;
 import it.polimi.ingsw.gc07.model.CommandResult;
@@ -70,6 +71,24 @@ public class SocketClientHandler implements VirtualView {
     }
 
     private void manageGameCommand(){
+        GameCommand command;
+        while(true){
+            try{
+                command = (GameCommand) input.readObject();
+                synchronized (game){
+                    game.setAndExecuteCommand(command);
+                    CommandResult result = game.getCommandResultManager().getCommandResult();
+                    if(result.equals(CommandResult.SUCCESS)){
+                        //TODO mostrare esito
+                    }else{
+                        //TODO mostrare errore
+                    }
+                }
+            } catch (Exception e){
+                //TODO gestire eccezione
+                break;
+            }
+        }
         closeConnection(mySocket, input, output);
     }
 

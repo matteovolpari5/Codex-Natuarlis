@@ -84,9 +84,7 @@ public class ClientMain {
                 String host = args[0];
                 int port = Integer.parseInt(args[1]);
                 Socket sc = new Socket(host, port);
-                ObjectInputStream input = new ObjectInputStream(sc.getInputStream());
-                ObjectOutputStream output = new ObjectOutputStream(sc.getOutputStream());
-                new SocketClient(input, output).run();
+                new SocketClient(sc, nickname).run();
             }
         }catch(RemoteException e) {
             e.printStackTrace();
