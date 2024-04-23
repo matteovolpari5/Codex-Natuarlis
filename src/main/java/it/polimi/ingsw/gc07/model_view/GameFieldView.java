@@ -1,29 +1,25 @@
 package it.polimi.ingsw.gc07.model_view;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
-
-import java.util.List;
-
 public class GameFieldView {
     /**
      * Player's starter card.
      */
     private PlaceableCard starterCard;
-
     /**
      * Each cell of the matrix contains a placeable card, or null if the place is empty.
      */
-    private PlaceableCard[][] cardsContent;
+    private final PlaceableCard[][] cardsContent;
     /**
      * Each cell of the matrix contains a boolean value:
      * false: the card has been placed face up
      * true: the card has been placed face down
      */
-    private Boolean[][] cardsFace;
+    private final Boolean[][] cardsFace;
     /**
      * Matrix representing the placement order of cards.
      */
-    private int [][] cardsOrder;
+    private final int [][] cardsOrder;
     /**
      * Constant value representing the max dimension of a player's game field.
      */

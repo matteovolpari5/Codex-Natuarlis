@@ -5,11 +5,9 @@ import it.polimi.ingsw.gc07.model.*;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.*;
 import it.polimi.ingsw.gc07.model.chat.Chat;
-import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.*;
@@ -730,92 +728,5 @@ public class GameController {
         {
             getScoreTrackBoard().incrementScore(nickname, deltaPoints);
         }
-    }
-
-
-
-
-
-
-
-    // TODO da discutere
-
-
-    // ----------------------------
-    // Metodi che probabilmente non vengono invocati direttamente dal client,
-    // ma servono per aggiornare la view
-    // ----------------------------
-
-    /**
-     * method that reveal the face up card in position pos
-     * @param type type of the card
-     * @param pos position of the card
-     * @return the card that we want to reveal
-     * @throws WrongCardTypeException if the card is a starter card
-     */
-    public Card revealFaceUpCard(CardType type, int pos) throws WrongCardTypeException {       // TODO rimuovere wrongcardtype exception
-        if(type.equals(CardType.STARTER_CARD)) {
-            throw new WrongCardTypeException();
-        }
-        Card faceUpCard;
-        if(type.equals(CardType.GOLD_CARD))
-            faceUpCard = this.getGoldCardsDeck().revealFaceUpCard(pos);
-        else if(type.equals(CardType.RESOURCE_CARD))
-            faceUpCard = this.getResourceCardsDeck().revealFaceUpCard(pos);
-        else
-            faceUpCard = this.getObjectiveCardsDeck().revealFaceUpCard(pos);
-        if(faceUpCard != null) {
-            return faceUpCard;
-        }
-        else {
-            return null;
-            // TODO
-        }
-    }
-
-    /**
-     * method that reveal the back of the card on top of the deck
-     * @param type : type of the card
-     * @return the GameResource that represent the back of the card
-     * @throws WrongCardTypeException   if we reveal the back of a starter card or the back of an objective card
-     */
-    public GameResource revealBackDeckCard(CardType type) throws WrongCardTypeException {       // TODO togliere eccezione
-        if(type.equals(CardType.STARTER_CARD) || type.equals(CardType.OBJECTIVE_CARD))
-        {
-            throw new WrongCardTypeException();
-        }
-        GameResource backResource;
-        if(type.equals(CardType.GOLD_CARD)){
-            backResource = this.getGoldCardsDeck().revealBackDeckCard();
-        }else{
-            backResource = this.getResourceCardsDeck().revealBackDeckCard();
-        }
-        if(backResource != null)
-            return backResource;
-        else {
-            return null;    // TODO cosa ritorno ?
-        }
-    }
-
-    /**
-     * Returns the last message of the chat for a certain player.
-     * @return the last message of the chat
-     */
-    public ChatMessage getLastChatMessage(String receiver)  {
-        ChatMessage chatMessage = getChat().getLastMessage(receiver);
-        if(chatMessage == null) {
-            // TODO no return null!
-            return null;
-        }
-        else
-            return chatMessage;
-    }
-
-    /**
-     * Returns the content of the chat for a certain player.
-     * @return the list of the message in the chat
-     */
-    public List<ChatMessage> getChatContent(String receiver) {
-        return getChat().getContent(receiver);
     }
 }
