@@ -197,6 +197,10 @@ public class Player {
         this.currentHand = new ArrayList<>(currentHand);
     }
 
+    /**
+     * setter method for secretObjective attribute
+     * @param secretObjective card that has to be set
+     */
     public void setSecretObjective(ObjectiveCard secretObjective) {
         this.secretObjective = secretObjective;
     }

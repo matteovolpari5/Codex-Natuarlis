@@ -24,4 +24,6 @@ module it.polimi.ingsw.gc07 {
     exports it.polimi.ingsw.gc07.controller.enumerations;
     opens it.polimi.ingsw.gc07.controller.enumerations to javafx.fxml;
     opens it.polimi.ingsw.gc07.network.rmi to java.rmi;
+    opens it.polimi.ingsw.gc07.network to java.rmi;
+    exports it.polimi.ingsw.gc07.model_view;
 }

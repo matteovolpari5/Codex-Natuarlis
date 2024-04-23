@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.controller.enumerations;
+package it.polimi.ingsw.gc07.model;
 
 public enum CommandResult {
     SUCCESS("Command successful"),
@@ -24,6 +24,8 @@ public enum CommandResult {
     TOKEN_COLOR_ALREADY_TAKEN("The chosen token color is already taken in this game"),
     GAME_NOT_PRESENT("A game with the given id does not exist"),
     WRONG_PLAYERS_NUMBER("The provided number of players is not correct"),
+    NOT_PLACED_YET("You have not placed a card yet"),
+    CARD_ALREADY_PLACED("You have already placed a card in this turn")
     ;
 
     private final String resultMessage;

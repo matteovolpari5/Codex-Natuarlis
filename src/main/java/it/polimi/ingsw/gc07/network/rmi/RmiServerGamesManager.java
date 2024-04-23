@@ -2,7 +2,9 @@ package it.polimi.ingsw.gc07.network.rmi;
 
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.controller.GamesManagerCommand;
-import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.model.CommandResult;
+import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
+import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -55,11 +57,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     @Override
     public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
         gamesManager.setAndExecuteCommand(gamesManagerCommand);
-        System.out.println(gamesManager.getCommandResultManager().getCommandResult());
-        if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SUCCESS)) {
-            // TODO stampa aggiornamento al client
-            // TODO listener !!!
-        }else if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SET_SERVER_GAME) ||
+        if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SET_SERVER_GAME) ||
                 gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
             String commandNickname = gamesManagerCommand.getNickname();
             int gameId = gamesManager.getGameIdWithPlayer(commandNickname);
@@ -74,12 +72,10 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
                 rmiServerGames.put(gameId, new RmiServerGame(gamesManager.getGameById(gameId)));
             }
             virtualView.setServerGame(rmiServerGames.get(gameId));
-            // TODO stampa aggiornamento al client
-            // TODO listener !!!
-        }else {
-            System.out.println(gamesManager.getCommandResultManager().getCommandResult().getResultMessage());
-            // TODO listener !!!
         }
+
+        // only for testing
+        System.out.println(gamesManager.getCommandResultManager().getCommandResult());
     }
 
     /**

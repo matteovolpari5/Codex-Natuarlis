@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.model.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
@@ -59,20 +59,24 @@ class DrawFaceUpCardCommandTest {
 
     @Test
     void drawFaceUpCardWrongPlayer() {
+        game.setState(GameState.PLAYING);
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P2", CardType.RESOURCE_CARD, 0));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_PLAYER);
     }
 
     @Test
     void drawFaceUpCardWrongCardType() {
+        game.setState(GameState.PLAYING);
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.OBJECTIVE_CARD, 0));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.WRONG_CARD_TYPE);
     }
 
     @Test
     void drawFaceUpCardResourceCardSuccess() {
+        game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
+        game.setHasCurrPlayerPlaced();
         int id = game.getResourceCardsDeck().revealFaceUpCard(0).getId();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.RESOURCE_CARD, 0));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.SUCCESS);
@@ -82,8 +86,10 @@ class DrawFaceUpCardCommandTest {
 
     @Test
     void drawFaceUpCardGoldCardSuccess() {
+        game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
+        game.setHasCurrPlayerPlaced();
         int id = game.getGoldCardsDeck().revealFaceUpCard(0).getId();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.GOLD_CARD, 0));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.SUCCESS);
@@ -93,16 +99,20 @@ class DrawFaceUpCardCommandTest {
 
     @Test
     void drawFaceUpCardResourceCardNotSuccess() {
+        game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
+        game.setHasCurrPlayerPlaced();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.RESOURCE_CARD, 2));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
 
     @Test
     void drawFaceUpCardGoldCardNotSuccess() {
+        game.setState(GameState.PLAYING);
         DrawableCard card = game.getPlayers().get(0).getCurrentHand().get(0);
         game.getPlayers().get(0).removeCardHand(card);
+        game.setHasCurrPlayerPlaced();
         game.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.GOLD_CARD, 2));
         assertEquals(game.getCommandResultManager().getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }

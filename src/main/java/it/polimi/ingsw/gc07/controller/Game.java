@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.model.CommandResult;
 import it.polimi.ingsw.gc07.controller.enumerations.GameState;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.CommandResultManager;
@@ -46,6 +46,10 @@ public class Game {
      * Integer value representing the position of the current player.
      */
     private int currPlayer;
+    /**
+     * Boolean value representing if the current player has placed a card.
+     */
+    private boolean hasCurrPlayerPlaced;
     /**
      * Score track board of the game.
      */
@@ -97,7 +101,7 @@ public class Game {
                 Deck<PlaceableCard> starterCardsDeck) {
         this.id = id;
         this.state = GameState.GAME_STARTING;
-        assert(playersNumber>=2 && playersNumber<=4): "Wrong players number";
+        assert(playersNumber >= 2 && playersNumber <= 4): "Wrong players number";
         this.playersNumber = playersNumber;
         this.players = new ArrayList<>();
         this.winners = new ArrayList<>();
@@ -108,6 +112,7 @@ public class Game {
         this.objectiveCardsDeck = new PlayingDeck<>(objectiveCardsDeck);
         this.starterCardsDeck = new Deck<>(starterCardsDeck);
         this.currPlayer = 0;
+        this.hasCurrPlayerPlaced = false;
         this.twentyPointsReached = false;
         this.additionalRound = false;
         this.chat = new Chat();
@@ -155,6 +160,14 @@ public class Game {
 
     synchronized int getCurrPlayer() {
         return currPlayer;
+    }
+
+    synchronized void setHasCurrPlayerPlaced() {
+        this.hasCurrPlayerPlaced = true;
+    }
+
+    synchronized void setHasNotCurrPlayerPlaced() {
+        this.hasCurrPlayerPlaced = false;
     }
 
     ScoreTrackBoard getScoreTrackBoard() {
@@ -251,7 +264,7 @@ public class Game {
         scoreTrackBoard.addPlayer(newPlayer.getNickname());
         if (isFull()) {
             setup();
-            state = GameState.PLAYING;
+            state = GameState.PLACING_STARTER_CARDS;
         }
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
@@ -323,7 +336,6 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        // if the state is PLAYING ...
         if(!players.get(currPlayer).getNickname().equals(nickname)){
             commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
@@ -332,6 +344,11 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_CARD_TYPE);
             return;
         }
+        if(!hasCurrPlayerPlaced) {
+            commandResultManager.setCommandResult(CommandResult.NOT_PLACED_YET);
+            return;
+        }
+
         DrawableCard card;
         if (type.equals(CardType.RESOURCE_CARD)) {
             card = resourceCardsDeck.drawCard();
@@ -358,7 +375,6 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        // if the state is PLAYING ...
         if(!players.get(currPlayer).getNickname().equals(nickname)){
             commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
@@ -367,6 +383,11 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_CARD_TYPE);
             return;
         }
+        if(!hasCurrPlayerPlaced) {
+            commandResultManager.setCommandResult(CommandResult.NOT_PLACED_YET);
+            return;
+        }
+
         DrawableCard card;
         if(type.equals(CardType.RESOURCE_CARD)) {
             card = resourceCardsDeck.drawFaceUpCard(pos);
@@ -415,6 +436,10 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
         }
+        if(hasCurrPlayerPlaced) {
+            commandResultManager.setCommandResult(CommandResult.CARD_ALREADY_PLACED);
+            return;
+        }
         try {
             player = players.get(getPlayerByNickname(nickname));
         } catch (PlayerNotPresentException e) {
@@ -427,6 +452,7 @@ public class Game {
         card = player.getCurrentHand().get(pos);
         CommandResult result = playersGameField.get(nickname).placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS)) {
+            hasCurrPlayerPlaced = true;
             players.get(currPlayer).removeCardHand(card);
             addPoints(nickname, x, y);    // the card has just been placed
 
@@ -455,15 +481,33 @@ public class Game {
     }
 
     void placeStarterCard(String nickname, boolean way) {
-        if(!state.equals(GameState.PLAYING)) {
+        // check right state
+        if(!state.equals(GameState.PLACING_STARTER_CARDS)) {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
+        // check player has not already placed the starter card
+        if(playersGameField.get(nickname).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
+            commandResultManager.setCommandResult(CommandResult.CARD_ALREADY_PRESENT);
+            return;
+        }
         // no check for current player, starter cards can be placed in any order
+
         assert(playersGameField.containsKey(nickname)): "The player is not in the game";
         commandResultManager.setCommandResult(playersGameField.get(nickname).placeCard(
                 playersGameField.get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way)
         );
+
+        boolean changeState = true;
+        for(String p: playersGameField.keySet()) {
+            if(!playersGameField.get(p).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
+                // someone has to place the starter card
+                changeState = false;
+            }
+        }
+        if(changeState) {
+            state = GameState.PLAYING;
+        }
     }
 
     void reconnectPlayer(String nickname) {
@@ -572,6 +616,7 @@ public class Game {
             currPlayer = 0;
         else
             currPlayer++;
+        hasCurrPlayerPlaced = false;
         if(twentyPointsReached) {
             if(players.get(currPlayer).isFirst() && additionalRound) {
                 state = GameState.GAME_ENDED;
@@ -670,6 +715,7 @@ public class Game {
         Random random= new Random();
         currPlayer = random.nextInt(playersNumber);
         players.get(currPlayer).setFirst();
+        hasCurrPlayerPlaced = false;
 
         // draw card can't return null, since the game hasn't already started
 

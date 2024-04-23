@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.controller.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.model.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
