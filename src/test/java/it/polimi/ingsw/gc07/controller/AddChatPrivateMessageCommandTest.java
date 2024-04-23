@@ -34,19 +34,19 @@ class AddChatPrivateMessageCommandTest {
 
         // add first player
         Player firstPlayer = new Player("Player1", true, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
+        game.addPlayer(firstPlayer);
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add second player
         Player secondPlayer = new Player("Player2", false, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        game.addPlayer(secondPlayer);
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add third player
         Player thirdPlayer = new Player("Player3", false, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(thirdPlayer));
+        game.addPlayer(thirdPlayer);
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();

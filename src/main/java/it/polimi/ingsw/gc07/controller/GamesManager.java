@@ -179,7 +179,7 @@ public class GamesManager {
                     return;
                 }
                 player.setTokenColor(tokenColor);
-                game.setAndExecuteCommand(new AddPlayerCommand(player));
+                game.addPlayer(player);
                 pendingPlayers.remove(player);
             }
         }
@@ -212,7 +212,7 @@ public class GamesManager {
             if(game.getId() == gameId) {
                 // no need to check the token color for the first player of the game
                 player.setTokenColor(tokenColor);
-                game.setAndExecuteCommand(new AddPlayerCommand(player));
+                game.addPlayer(player);
             }
             pendingPlayers.remove(player);
         }
