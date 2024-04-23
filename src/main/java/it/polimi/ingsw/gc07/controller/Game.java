@@ -251,6 +251,7 @@ public class Game {
         commandResultManager.setCommandResult(CommandResult.SUCCESS);
     }
 
+    // TODO synchronized chi lo chiama?
     void addPlayer(Player newPlayer) {
         if(!state.equals(GameState.GAME_STARTING)) {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
@@ -519,7 +520,8 @@ public class Game {
         }
     }
 
-    void reconnectPlayer(String nickname) {
+    // TODO synchronized chi lo chiama?
+     void reconnectPlayer(String nickname) {
         // this command can always be used
         if(!playersGameField.containsKey(nickname)){
             commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
