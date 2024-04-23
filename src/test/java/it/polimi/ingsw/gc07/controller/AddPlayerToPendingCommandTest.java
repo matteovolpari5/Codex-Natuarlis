@@ -39,7 +39,7 @@ class AddPlayerToPendingCommandTest {
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResultManager().getCommandResult());
 
-        // make Player1 join a new game
+        // make Player1 join a new gameController
         gamesManager.setAndExecuteCommand(new JoinNewGameCommand("Player1", TokenColor.GREEN, 3));
         assertEquals(CommandResult.CREATE_SERVER_GAME, gamesManager.getCommandResultManager().getCommandResult());
 

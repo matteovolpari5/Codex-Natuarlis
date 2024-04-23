@@ -24,13 +24,13 @@ classDiagram
     Player --> TokenColor
     %%Player --> ObjectiveCard
     ScoreTrackBoard --> Player
-    %%Game --> DrawableDeck
-    %%Game --> Deck
-    %%Game --> PlayingDeck
-    %%Game --> ScoreTrackBoard
-    %%Game --> Player
-    %%Game --> Chat
-    %%Game --> GameField
+    %%GameController --> DrawableDeck
+    %%GameController --> Deck
+    %%GameController --> PlayingDeck
+    %%GameController --> ScoreTrackBoard
+    %%GameController --> Player
+    %%GameController --> Chat
+    %%GameController --> GameField
     GamesManager --> Game
     GameCommand <|-- AddChatPrivateMessageCommand
     GameCommand <|-- AddChatPublicMessageCommand
@@ -344,49 +344,49 @@ classDiagram
     }
 
     class AddPlayerCommand {
-        - game: Game
+        - gameController: Game
         - newPlayer: Player
-        + AddPlayerCommand(game: Game, newPlayer: Player)
+        + AddPlayerCommand(gameController: Game, newPlayer: Player)
         - isFull() boolean
         - setup()
     }
 
     class AddChatPrivateMessageCommand {
-        - game: Game
+        - gameController: Game
         - content: String
         - sender: String
         - receiver: String
-        + AddChatPrivateMessageCommand(game: Game, content: String, sender: String, receiver: String)
+        + AddChatPrivateMessageCommand(gameController: Game, content: String, sender: String, receiver: String)
     }
 
     class AddChatPublicMessageCommand {
-        - game: Game
+        - gameController: Game
         - content: String
         - sender: String
-        + AddChatPublicMessageCommand(game: Game, content: String, sender: String)
+        + AddChatPublicMessageCommand(gameController: Game, content: String, sender: String)
     }
 
     class PlaceCardCommand {
-        - game: Game
+        - gameController: Game
         - nickname: String
         - card: DrawableCard
         - x: int
         - y: int
         - way: boolean
-        + PlaceCardCommand(game: Game, nickname: String, card: DrawableCard, x: int, y: int, way: boolean)
+        + PlaceCardCommand(gameController: Game, nickname: String, card: DrawableCard, x: int, y: int, way: boolean)
         - addPoints(nickname: String, x: int, y: int)
     }
 
     class DisconnectPlayerCommand {
-        - game: Game
+        - gameController: Game
         - nickname: String
-        + DisconnectPlayerCommand(game: Game, nickname: String)
+        + DisconnectPlayerCommand(gameController: Game, nickname: String)
     }
 
     class ReconnectPlayerCommand {
-        - game: Game
+        - gameController: Game
         - nickname: String
-        + ReconnectPlayerCommand(game: Game, nickname: String)
+        + ReconnectPlayerCommand(gameController: Game, nickname: String)
     }
 
     class DrawFaceUpCardCommand {
@@ -394,7 +394,7 @@ classDiagram
         - NICKNAME: String
         - TYPE: CardType
         - POS: int
-        + DrawFaceUpCardCommand(game: Game, nickname: string, type: CardType, pos: int)
+        + DrawFaceUpCardCommand(gameController: Game, nickname: string, type: CardType, pos: int)
     }
 
     class PlaceStarterCardCommand {
@@ -402,14 +402,14 @@ classDiagram
         - NICKNAME: String
         - TYPE: CardType
         - WAY: boolean
-        + PlaceStarterCardCommand(game: Game, nickname: string, way: boolean)
+        + PlaceStarterCardCommand(gameController: Game, nickname: string, way: boolean)
     }
 
     class DrawDeckCardCommand {
-        - GAME : game
+        - GAME : gameController
         - NICKNAME : String
         - TYPE : CardType
-        + DrawDeckCardCommand (game: Game, nickname: string, type: CardType)
+        + DrawDeckCardCommand (gameController: Game, nickname: string, type: CardType)
     }
 
     class GamesManager {

@@ -27,7 +27,7 @@ class JoinNewGameCommandTest {
         assertEquals(CommandResult.CREATE_SERVER_GAME, gamesManager.getCommandResultManager().getCommandResult());
         assertNull(gamesManager.getPendingPlayer("Player1"));
         boolean found = false;
-        for (Game g: gamesManager.getGames()){
+        for (GameController g: gamesManager.getGames()){
             for(Player p: g.getPlayers()){
                 if (p.getNickname().equals("Player1")){
                     found = true;

@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReconnectPlayerCommandTest {
-    Game game;
+    GameController gameController;
     @BeforeEach
     void setUp() {
-        // create a game
+        // create a gameController
         int id = 0;
         int playersNumber = 2;
         ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
@@ -29,33 +29,33 @@ class ReconnectPlayerCommandTest {
         objectiveCardsDeck.shuffle();
         Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
         starterCardsDecks.shuffle();
-        game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
+        gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
 
         Player firstPlayer = new Player("Player1", true, false);
-        game.addPlayer(firstPlayer);
-        CommandResult result = game.getCommandResult();
+        gameController.addPlayer(firstPlayer);
+        CommandResult result = gameController.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("Player2", false, false);
-        game.addPlayer(secondPlayer);
-        result = game.getCommandResult();
+        gameController.addPlayer(secondPlayer);
+        result = gameController.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
     }
     @Test
     void reconnectPlayerSuccess()
     {
-        game.getPlayers().getFirst().setIsConnected(false);
-        game.reconnectPlayer("Player1");
-        CommandResult result = game.getCommandResult();
+        gameController.getPlayers().getFirst().setIsConnected(false);
+        gameController.reconnectPlayer("Player1");
+        CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
 
     @Test
     void reconnectToAWrongGame()
     {
-        Game game2;
-        // create another game
+        GameController gameController2;
+        // create another gameController
         int id = 1;
         int playersNumber = 2;
         ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
@@ -66,34 +66,34 @@ class ReconnectPlayerCommandTest {
         objectiveCardsDeck.shuffle();
         Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
         starterCardsDecks.shuffle();
-        game2 = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
+        gameController2 = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
         Player firstPlayer = new Player("P1", true, false);
-        game2.addPlayer(firstPlayer);
-        CommandResult result = game2.getCommandResult();
+        gameController2.addPlayer(firstPlayer);
+        CommandResult result = gameController2.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("P2", false, false);
-        game2.addPlayer(secondPlayer);
-        result = game2.getCommandResult();
+        gameController2.addPlayer(secondPlayer);
+        result = gameController2.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
 
-        game2.getPlayers().getFirst().setIsConnected(false);
-        game2.reconnectPlayer("Player1");
-        CommandResult result2 = game2.getCommandResult();
+        gameController2.getPlayers().getFirst().setIsConnected(false);
+        gameController2.reconnectPlayer("Player1");
+        CommandResult result2 = gameController2.getCommandResult();
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, result2);
     }
 
     @Test
     void alreadyConnected()
     {
-        game.getPlayers().getFirst().setIsConnected(false);
-        game.reconnectPlayer("Player1");
-        CommandResult result = game.getCommandResult();
+        gameController.getPlayers().getFirst().setIsConnected(false);
+        gameController.reconnectPlayer("Player1");
+        CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
 
-        game.reconnectPlayer("Player1");
-        result = game.getCommandResult();
+        gameController.reconnectPlayer("Player1");
+        result = gameController.getCommandResult();
         assertEquals(CommandResult.PLAYER_ALREADY_CONNECTED, result);
     }
 

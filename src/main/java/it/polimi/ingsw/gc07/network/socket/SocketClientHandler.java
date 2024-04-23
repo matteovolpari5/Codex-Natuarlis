@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.network.socket;
 
-import it.polimi.ingsw.gc07.controller.Game;
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
@@ -15,14 +15,14 @@ import java.rmi.RemoteException;
 
 public class SocketClientHandler implements VirtualView {
     private final GamesManager gamesManager;
-    private Game game;
+    private GameController gameController;
     private final Socket mySocket;
     private final ObjectInputStream input;
     private final ObjectOutputStream output;
 
     public SocketClientHandler(GamesManager gamesManager, Socket mySocket) throws IOException {
         this.gamesManager = gamesManager;
-        this.game = null;
+        this.gameController = null;
         this.mySocket = mySocket;
         this.input = new ObjectInputStream(mySocket.getInputStream());
         this.output = new ObjectOutputStream(mySocket.getOutputStream());
@@ -49,7 +49,7 @@ public class SocketClientHandler implements VirtualView {
                         if(gameId < 0){
                             throw new RuntimeException();
                         }
-                        this.game = gamesManager.getGameById(gameId);
+                        this.gameController = gamesManager.getGameById(gameId);
 
                         //TODO output.write->.reset()->.flush()
                         output.writeBytes("Benvenuto"); //TODO oppure .writeChars(...);

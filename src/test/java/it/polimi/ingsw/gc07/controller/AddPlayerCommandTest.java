@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AddPlayerCommandTest {
-    private Game game;
+    private GameController gameController;
     private Player newPlayer;
 
     @BeforeEach
     void setUp() {
-        // create a game
+        // create a gameController
         int id = 0;
         int playersNumber = 2;
         ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
@@ -31,7 +31,7 @@ class AddPlayerCommandTest {
         objectiveCardsDeck.shuffle();
         Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
         starterCardsDecks.shuffle();
-        game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
+        gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
 
         // create a new player
         String nickname = "New player";
@@ -42,23 +42,23 @@ class AddPlayerCommandTest {
 
     @Test
     void addPlayerSuccess() {
-        game.addPlayer(newPlayer);
-        CommandResult result = game.getCommandResult();
+        gameController.addPlayer(newPlayer);
+        CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
 
     @Test
     void addPlayerWrongState() {
         Player firstPlayer = new Player("Player1", true, false);
-        game.addPlayer(firstPlayer);
-        CommandResult result = game.getCommandResult();
+        gameController.addPlayer(firstPlayer);
+        CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
         Player secondPlayer = new Player("Player2", false, false);
-        game.addPlayer(secondPlayer);
-        result = game.getCommandResult();
+        gameController.addPlayer(secondPlayer);
+        result = gameController.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
-        game.addPlayer(new Player("Player3", false, false));
-        result = game.getCommandResult();
+        gameController.addPlayer(new Player("Player3", false, false));
+        result = gameController.getCommandResult();
         assertEquals(CommandResult.WRONG_STATE, result);
     }
 }

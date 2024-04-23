@@ -14,7 +14,7 @@ import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.*;
 
-public class Game {
+public class GameController {
     /**
      * Reference to game model.
      */
@@ -31,11 +31,11 @@ public class Game {
 
 
     /**
-     * Constructor of a Game with only the first player.
+     * Constructor of a GameController with only the first player.
      */
-    public Game(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
-                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
-                Deck<PlaceableCard> starterCardsDeck) {
+    public GameController(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
+                          GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
+                          Deck<PlaceableCard> starterCardsDeck) {
         this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
         this.timeout = new Timer();
         this.playersTimer = new HashMap<>();

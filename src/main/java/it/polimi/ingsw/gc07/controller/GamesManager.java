@@ -19,9 +19,9 @@ import java.util.List;
 
 public class GamesManager {
     /**
-     * List of games.
+     * List of game controllers.
      */
-    private final List<Game> games;
+    private final List<GameController> gameControllers;
     /**
      * List of players who have not chosen a game.
      */
@@ -40,7 +40,7 @@ public class GamesManager {
      * GamesManager implements Singleton pattern.
      */
     private GamesManager() {
-        games = new ArrayList<>();
+        gameControllers = new ArrayList<>();
         pendingPlayers = new ArrayList<>();
         commandResultManager = new CommandResultManager();
     }
@@ -58,19 +58,19 @@ public class GamesManager {
     }
 
     /**
-     * Friendly getter method for attribute games, used for Command pattern.
-     * @return games
+     * Friendly getter method for attribute gameControllers, used for Command pattern.
+     * @return gameControllers
      */
-    List<Game> getGames() {
-        return games;
+    List<GameController> getGames() {
+        return gameControllers;
     }
 
     /**
      * Return the game with the provided id.
      * @return game with given id
      */
-    public Game getGameById(int id) {
-        for(Game g: games) {
+    public GameController getGameById(int id) {
+        for(GameController g: gameControllers) {
             if(g.getId() == id) {
                 return g;
             }
@@ -87,8 +87,8 @@ public class GamesManager {
     }
 
     /**
-     * Setter for games manager command (command pattern).
-     * @param gamesManagerCommand games manager command to set
+     * Setter for gameControllers manager command (command pattern).
+     * @param gamesManagerCommand games manager command
      */
     public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
         gamesManagerCommand.execute(this);
@@ -116,7 +116,7 @@ public class GamesManager {
      * @return game id
      */
     public int getGameIdWithPlayer(String nickname) {
-        for(Game g: games) {
+        for(GameController g: gameControllers) {
             if(g.hasPlayer(nickname)) {
                 return g.getId();
             }
@@ -144,7 +144,7 @@ public class GamesManager {
      */
     private boolean checkNicknameUnique(String nickname) {
         boolean unique = true;
-        for(Game g: games) {
+        for(GameController g: gameControllers) {
             if(g.hasPlayer(nickname)){
                 unique = false;
             }
@@ -165,21 +165,21 @@ public class GamesManager {
             return;
         }
         boolean found = false;
-        for(Game game: games) {
-            if(game.getId() == gameId) {
+        for(GameController gameController : gameControllers) {
+            if(gameController.getId() == gameId) {
                 found = true;
-                // check game state WAITING_PLAYERS
-                if(!game.getState().equals(GameState.GAME_STARTING)) {
+                // check gameController state WAITING_PLAYERS
+                if(!gameController.getState().equals(GameState.GAME_STARTING)) {
                     commandResultManager.setCommandResult(CommandResult.GAME_FULL);
                     return;
                 }
                 // check token color unique
-                if(game.hasPlayerWithTokenColor(tokenColor)) {
+                if(gameController.hasPlayerWithTokenColor(tokenColor)) {
                     commandResultManager.setCommandResult(CommandResult.TOKEN_COLOR_ALREADY_TAKEN);
                     return;
                 }
                 player.setTokenColor(tokenColor);
-                game.addPlayer(player);
+                gameController.addPlayer(player);
                 pendingPlayers.remove(player);
             }
         }
@@ -208,11 +208,11 @@ public class GamesManager {
             commandResultManager.setCommandResult(CommandResult.WRONG_PLAYERS_NUMBER);
             return;
         }
-        for(Game game: games) {
-            if(game.getId() == gameId) {
-                // no need to check the token color for the first player of the game
+        for(GameController gameController : gameControllers) {
+            if(gameController.getId() == gameId) {
+                // no need to check the token color for the first player of the gameController
                 player.setTokenColor(tokenColor);
-                game.addPlayer(player);
+                gameController.addPlayer(player);
             }
             pendingPlayers.remove(player);
         }
@@ -223,7 +223,7 @@ public class GamesManager {
     }
 
     /**
-     * Method that creates a new Game and adds it to the list games.
+     * Method that creates a new GameController and adds it to the list gameControllers.
      * @param playersNumber number of player of the new game, decided by the first player to join.
      */
     private int createGame(int playersNumber) throws WrongNumberOfPlayersException {
@@ -245,9 +245,9 @@ public class GamesManager {
         Deck<PlaceableCard> starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
         starterCardsDeck.shuffle();
 
-        // create game
-        Game game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
-        games.add(game);
+        // create gameController
+        GameController gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
+        gameControllers.add(gameController);
 
         return id;
     }
@@ -262,7 +262,7 @@ public class GamesManager {
         int id = 0;
         while(!foundId){
             foundGame = false;
-            for(Game g: games) {
+            for(GameController g: gameControllers) {
                 if(g.getId() == id){
                     foundGame = true;
                 }
@@ -299,14 +299,14 @@ public class GamesManager {
     // oppure chiamato dal metodo che setta game state a GAME_ENDED
     // se invio l'info sul vincitore al client, posso eliminare il game
     public void deleteGame(int id) {
-        Game game = null;
-        for(Game g: games) {
+        GameController gameController = null;
+        for(GameController g: gameControllers) {
             if(g.getId() == id) {
-                game = g;
+                gameController = g;
             }
         }
-        if(game != null && game.getState().equals(GameState.GAME_ENDED)){
-            games.remove(game);
+        if(gameController != null && gameController.getState().equals(GameState.GAME_ENDED)){
+            gameControllers.remove(gameController);
         }
     }
 

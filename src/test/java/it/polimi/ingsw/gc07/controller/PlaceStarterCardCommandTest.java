@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlaceStarterCardCommandTest {
 
-    Game game;
+    GameController gameController;
 
     @BeforeEach
     void setUp(){
@@ -28,29 +28,29 @@ class PlaceStarterCardCommandTest {
         GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
         PlayingDeck<ObjectiveCard> objectiveCardsDeck = DecksBuilder.buildObjectiveCardsDeck();
         Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
-        game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
+        gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
 
         Player p1 = new Player("P1", true, true);
         p1.setTokenColor(TokenColor.GREEN);
-        game.addPlayer(p1);
-        CommandResult result = game.getCommandResult();
+        gameController.addPlayer(p1);
+        CommandResult result = gameController.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         // add second player
         Player p2 = new Player("P2", true, true);
         p2.setTokenColor(TokenColor.BLUE);
-        game.addPlayer(p2);
-        result = game.getCommandResult();
+        gameController.addPlayer(p2);
+        result = gameController.getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
-        game.setCurrentPlayer(0);
-        game.getPlayers().get(1).setIsStalled(true);
+        gameController.setCurrentPlayer(0);
+        gameController.getPlayers().get(1).setIsStalled(true);
     }
 
     @Test
     void PlaceStarterCardSuccess() {
-        game.setAndExecuteCommand(new PlaceStarterCardCommand(game.getPlayers().get(game.getCurrPlayer()).getNickname(), true));
-        CommandResult result = game.getCommandResult();
+        gameController.setAndExecuteCommand(new PlaceStarterCardCommand(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname(), true));
+        CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
 }

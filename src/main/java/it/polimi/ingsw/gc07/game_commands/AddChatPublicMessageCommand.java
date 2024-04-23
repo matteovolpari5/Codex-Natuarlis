@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.game_commands;
 
-import it.polimi.ingsw.gc07.controller.Game;
+import it.polimi.ingsw.gc07.controller.GameController;
 
 /**
  * Concrete command to add a public message to the chat.
@@ -29,7 +29,7 @@ public class AddChatPublicMessageCommand extends GameCommand {
      * Method to execute the concrete command AddChatPublicMessageCommand.
      */
     @Override
-    public void execute(Game game) {
-        game.addChatPublicMessage(content, sender);
+    public void execute(GameController gameController) {
+        gameController.addChatPublicMessage(content, sender);
     }
 }

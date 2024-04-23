@@ -82,13 +82,8 @@ public class GameModel {
      */
     private CommandResult commandResult;
 
-    /** Constructor of a Game with only the first player.
-     *
-     * @param playersNumber number of players
-     * @param resourceCardsDeck deck of resource cards
-     * @param goldCardsDeck deck of gold cards
-     * @param objectiveCardsDeck deck of objective cards
-     * @param starterCardsDeck deck of starter cards
+    /**
+     * Constructor of a GameModel with only the first player.
      */
     public GameModel(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
                 GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,

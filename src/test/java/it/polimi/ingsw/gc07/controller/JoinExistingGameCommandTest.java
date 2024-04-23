@@ -28,7 +28,7 @@ class JoinExistingGameCommandTest {
         assertNull(gamesManager.getPendingPlayer("P2"));
         boolean found;
         found = false;
-        for(Game g : gamesManager.getGames()){
+        for(GameController g : gamesManager.getGames()){
             for(Player p : g.getPlayers()){
                 if(p.getNickname().equals("P2")){
                     found = true;
@@ -45,7 +45,7 @@ class JoinExistingGameCommandTest {
         assertNotNull(gamesManager.getPendingPlayer("P2"));
         boolean found;
         found = false;
-        for(Game g : gamesManager.getGames()){
+        for(GameController g : gamesManager.getGames()){
             for(Player p : g.getPlayers()){
                 if(p.getNickname().equals("P2")){
                     found = true;

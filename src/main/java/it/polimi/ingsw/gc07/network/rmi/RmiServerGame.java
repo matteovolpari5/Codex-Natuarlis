@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
-import it.polimi.ingsw.gc07.controller.Game;
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.game_commands.GameCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
@@ -12,16 +12,16 @@ import java.util.List;
 
 public class RmiServerGame extends UnicastRemoteObject implements VirtualServerGame {
     /**
-     * Game controller of the game.
+     * Game controller of the server.
      */
-    private final Game game;
+    private final GameController gameController;
     /**
      * Virtual views of clients in the game.
      */
     private final List<VirtualView> clients;
 
-    public RmiServerGame(Game game) throws RemoteException {
-        this.game = game;
+    public RmiServerGame(GameController gameController) throws RemoteException {
+        this.gameController = gameController;
         this.clients = new ArrayList<>();
     }
 
@@ -43,9 +43,9 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
      */
     @Override
     public synchronized void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException {
-        game.setAndExecuteCommand(gameCommand);
+        gameController.setAndExecuteCommand(gameCommand);
 
         // only for testing
-        System.out.println(game.getCommandResult());
+        System.out.println(gameController.getCommandResult());
     }
 }
