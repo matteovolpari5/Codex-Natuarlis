@@ -43,7 +43,7 @@ public class GameView {
      */
     public GameView(PlaceableCard starterCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck, DrawableCard topResourceDeck,String nickname) {
         chatView = new ChatView();
-        deckView = new DeckView(faceUpGoldCard, commonObjective, faceUpResourceCard, topGoldDeck, topResourceDeck);
+        deckView = new DeckView();
         gameFieldView = new GameFieldView(starterCard);
         playerView = new PlayerView(nickname);
         scoreTrackBoardView = new ScoreTrackBoardView();

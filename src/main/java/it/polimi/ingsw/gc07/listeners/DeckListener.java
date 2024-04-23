@@ -3,7 +3,6 @@ package it.polimi.ingsw.gc07.listeners;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
-import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
 import java.util.List;
 

@@ -8,39 +8,47 @@ import java.util.List;
 
 public class DeckView {
     /**
-     * attribute that represent the common objective
+     * Attribute that represents common objective cards.
      */
-    private final List<ObjectiveCard> commonObjective;
+    private List<ObjectiveCard> commonObjective;
     /**
-     * attribute that represent the revealed gold cards
+     * Attribute that represents the revealed gold cards.
      */
     private List<GoldCard> faceUpGoldCard;
     /**
-     * attribute that represent the revealed resource cards
+     * Attribute that represents the revealed resource cards.
      */
     private List<DrawableCard> faceUpResourceCard;
     /**
-     * attribute that represent the card on top of the gold deck
+     * Attribute that represent the cards on top of the gold deck.
      */
     private GoldCard topGoldDeck;
     /**
-     * attribute that represent the card on top of the reosurce deck
+     * Attribute that represents the card on top of the resource deck.
      */
     private DrawableCard topResourceDeck;
 
     /**
      * Constructor method for DeckView.
      */
-    public DeckView(List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck, DrawableCard topResourceDeck) {
-        this.faceUpGoldCard = faceUpGoldCard;
-        this.commonObjective = commonObjective;
-        this.faceUpResourceCard = faceUpResourceCard;
-        this.topGoldDeck = topGoldDeck;
-        this.topResourceDeck = topResourceDeck;
+    public DeckView() {
+        this.faceUpGoldCard = null;
+        this.commonObjective = null;
+        this.faceUpResourceCard = null;
+        this.topGoldDeck = null;
+        this.topResourceDeck = null;
     }
 
     /**
-     * setter for attribute faceUpGoldCard
+     * Setter for attribute commonObjective.
+     * @param commonObjective common objective cards
+     */
+    public void setCommonObjective(List<ObjectiveCard> commonObjective) {
+        this.commonObjective = commonObjective;
+    }
+
+    /**
+     * Setter for attribute faceUpGoldCard.
      * @param faceUpGoldCard new face up cards
      */
     public void setFaceUpGoldCard(List<GoldCard> faceUpGoldCard) {
@@ -48,16 +56,15 @@ public class DeckView {
     }
 
     /**
-     * setter for attribute faceUpResourceCard
+     * Setter for attribute faceUpResourceCard.
      * @param faceUpResourceCard new face up cards
      */
     public void setFaceUpResourceCard(List<DrawableCard> faceUpResourceCard) {
         this.faceUpResourceCard = faceUpResourceCard;
     }
 
-
     /**
-     * setter for attribute topGoldDeck
+     * Setter for attribute topGoldDeck.
      * @param topGoldDeck new top card of the gold deck
      */
     public void setTopGoldDeck(GoldCard topGoldDeck) {
@@ -65,11 +72,13 @@ public class DeckView {
     }
 
     /**
-     * setter for attribute topResourceDeck
+     * Setter for attribute topResourceDeck.
      * @param topResourceDeck new top card of the resource deck
      */
     public void setTopResourceDeck(DrawableCard topResourceDeck) {
         this.topResourceDeck = topResourceDeck;
     }
+
+    // TODO meotodi per stampare le modifiche
 }
 
