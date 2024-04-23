@@ -74,7 +74,7 @@ public class SocketClientHandler implements VirtualView {
 
     private void manageGameCommand(){
         //TODO completare
-        closeConnection(mySocket, input, output); //forse realizzare come alla riga 73 così mySocket è il socket con Game, comunque sia deve essere cambiato mySocket
+        //closeConnection(mySocket, input, output); //forse realizzare come alla riga 73 così mySocket è il socket con Game, comunque sia deve essere cambiato mySocket
     }
 
     public void closeConnection(Socket mySocket, ObjectInputStream input, ObjectOutputStream output){

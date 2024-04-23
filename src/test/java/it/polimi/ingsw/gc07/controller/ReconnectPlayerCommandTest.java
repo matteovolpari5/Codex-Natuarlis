@@ -32,12 +32,12 @@ class ReconnectPlayerCommandTest {
         game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
 
         Player firstPlayer = new Player("Player1", true, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
+        game.addPlayer(firstPlayer);
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("Player2", false, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        game.addPlayer(secondPlayer);
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
@@ -68,12 +68,12 @@ class ReconnectPlayerCommandTest {
         starterCardsDecks.shuffle();
         game2 = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
         Player firstPlayer = new Player("P1", true, false);
-        game2.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
+        game2.addPlayer(firstPlayer);
         CommandResult result = game2.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("P2", false, false);
-        game2.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        game2.addPlayer(secondPlayer);
         result = game2.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
