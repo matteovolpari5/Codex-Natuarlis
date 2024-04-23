@@ -5,9 +5,9 @@ import java.util.Date;
 /**
  * Class representing a message.
  * Public messages are instances of this class.
- * Message is immutable.
+ * ChatMessage is immutable.
  */
-public class Message {
+public class ChatMessage {
     /**
      * String containing the body of the message.
      */
@@ -28,12 +28,12 @@ public class Message {
     private final boolean isPublic;
 
     /**
-     * Constructor for Message.
+     * Constructor for ChatMessage.
      * @param content content of the message
      * @param senderNickname nickname of the sender
      * @param isPublic boolean value, tells if the message is public (true) or not (false)
      */
-    public Message(String content, String senderNickname, boolean isPublic) {
+    public ChatMessage(String content, String senderNickname, boolean isPublic) {
         this.content = content;
         this.senderNickname = senderNickname;
         this.dateTime = new Date(System.currentTimeMillis());
@@ -42,7 +42,7 @@ public class Message {
     }
 
     /**
-     * Getter for the Message's content (immutable).
+     * Getter for the ChatMessage's content (immutable).
      * @return content of the message
      */
     public String getContent(){
@@ -50,8 +50,8 @@ public class Message {
     }
 
     /**
-     * Getter for the Message's sender (immutable).
-     * @return nickname of the Message's sender
+     * Getter for the ChatMessage's sender (immutable).
+     * @return nickname of the ChatMessage's sender
      */
     public String getSender(){
         return senderNickname;

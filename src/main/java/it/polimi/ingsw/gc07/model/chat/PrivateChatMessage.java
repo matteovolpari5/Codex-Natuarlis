@@ -2,22 +2,22 @@ package it.polimi.ingsw.gc07.model.chat;
 
 /**
  * Class representing a private message.
- * PrivateMessage is immutable.
+ * PrivateChatMessage is immutable.
  */
-public class PrivateMessage extends Message {
+public class PrivateChatMessage extends ChatMessage {
     /**
      * String that identifies the receiver by its unique nickname.
      */
     private final String receiverNickname;
 
     /**
-     * Constructor of PrivateMessage.
+     * Constructor of PrivateChatMessage.
      * @param content content of the message
      * @param senderNickname nickname of the sender
      * @param isPublic boolean value, tells if the message is public (true) or not (false)
      * @param receiverNickname nickname of the receiver
      */
-    public PrivateMessage(String content, String senderNickname, boolean isPublic, String receiverNickname) {
+    public PrivateChatMessage(String content, String senderNickname, boolean isPublic, String receiverNickname) {
         super(content, senderNickname, isPublic);
         this.receiverNickname = receiverNickname;
     }

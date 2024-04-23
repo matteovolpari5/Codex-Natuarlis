@@ -73,6 +73,7 @@ public class GameFieldView {
         cardsOrder[x][y] = orderPosition;
     }
 
+    /*
     public void printGameField(GameController gameController) {
         //ricerca inizio righe/fine righe
         int startr = 0, endr = 80;
@@ -581,4 +582,5 @@ public class GameFieldView {
             System.out.print(ANSI_BLACK_BACKGROUND + "           ");
         }
     }
+     */
 }

@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc07.model.*;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.*;
 import it.polimi.ingsw.gc07.model.chat.Chat;
-import it.polimi.ingsw.gc07.model.chat.Message;
+import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
@@ -801,21 +801,21 @@ public class GameController {
      * Returns the last message of the chat for a certain player.
      * @return the last message of the chat
      */
-    public Message getLastChatMessage(String receiver)  {
-        Message message = getChat().getLastMessage(receiver);
-        if(message == null) {
+    public ChatMessage getLastChatMessage(String receiver)  {
+        ChatMessage chatMessage = getChat().getLastMessage(receiver);
+        if(chatMessage == null) {
             // TODO no return null!
             return null;
         }
         else
-            return message;
+            return chatMessage;
     }
 
     /**
      * Returns the content of the chat for a certain player.
      * @return the list of the message in the chat
      */
-    public List<Message> getChatContent(String receiver) {
+    public List<ChatMessage> getChatContent(String receiver) {
         return getChat().getContent(receiver);
     }
 }

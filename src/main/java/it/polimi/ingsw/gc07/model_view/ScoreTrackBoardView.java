@@ -56,19 +56,9 @@ public class ScoreTrackBoardView {
      * @param nickname player
      * @param newScore new score to set
      */
-    public void setScore(String nickname, int newScore) {
+    public void setNewScore(String nickname, int newScore) {
         assert(playersScore.containsKey(nickname)): "The player is not present";
         playersScore.put(nickname, newScore);
-    }
-
-    /**
-     * Method that allows to increment a player's score of deltaScore points.
-     * @param nickname nickname of the player
-     * @param deltaScore points to add
-     */
-    public void incrementScore(String nickname, int deltaScore) {
-        assert(playersScore.containsKey(nickname)): "The player is not present";
-        playersScore.put(nickname, playersScore.get(nickname) + deltaScore);
     }
 
     /**

@@ -8,16 +8,16 @@ import java.util.List;
  */
 public class Chat {
     /**
-     * List containing the messages sent to players in the game.
-     * It contains both public and private messages.
+     * List containing the chatMessages sent to players in the game.
+     * It contains both public and private chatMessages.
      */
-    private final List<Message> messages;
+    private final List<ChatMessage> chatMessages;
 
     /**
      * Constructor method for Chat.
      */
     public Chat() {
-        this.messages = new ArrayList<>();
+        this.chatMessages = new ArrayList<>();
     }
 
     /**
@@ -28,7 +28,7 @@ public class Chat {
      */
     public void addPublicMessage(String content, String sender, List<String> players) {
         assert(players.contains(sender)): "The sender is not among the players";
-        messages.add(new Message(content, sender, true));
+        chatMessages.add(new ChatMessage(content, sender, true));
     }
 
     /**
@@ -41,18 +41,18 @@ public class Chat {
     public void addPrivateMessage(String content, String sender, String receiver, List<String> players) {
         assert(players.contains(sender)): "The sender is not among the players";
         assert(players.contains(receiver)): "The receiver is not among the players";
-        messages.add(new PrivateMessage(content, sender, false, receiver));
+        chatMessages.add(new PrivateChatMessage(content, sender, false, receiver));
     }
 
     /**
      * Method returning the last message for the specified receiver.
-     * Returns null if the receiver has no messages.
+     * Returns null if the receiver has no chatMessages.
      * @param receiver receiver nickname
      * @return last message
      */
-    public Message getLastMessage(String receiver) {
+    public ChatMessage getLastMessage(String receiver) {
         if(!getContent(receiver).isEmpty()) {
-            // messages are immutable
+            // chatMessages are immutable
             return getContent(receiver).getLast();
         }
         return null;
@@ -60,19 +60,19 @@ public class Chat {
 
     /**
      * Method that returns the whole chat for a given receiver,
-     * containing public messages and private messages for the receiver.
+     * containing public chatMessages and private chatMessages for the receiver.
      * @param receiver nickname of the receiver
-     * @return messages the receiver has received
+     * @return chatMessages the receiver has received
      */
-    public List<Message> getContent(String receiver) {
-        List<Message> receiverMessages = new ArrayList<>();
-        for(Message m: messages){
+    public List<ChatMessage> getContent(String receiver) {
+        List<ChatMessage> receiverChatMessages = new ArrayList<>();
+        for(ChatMessage m: chatMessages){
             if(m.isForReceiver(receiver)){
-                // messages are immutable
-                receiverMessages.add(m);
+                // chatMessages are immutable
+                receiverChatMessages.add(m);
             }
         }
-        return receiverMessages;
+        return receiverChatMessages;
     }
 }
 
