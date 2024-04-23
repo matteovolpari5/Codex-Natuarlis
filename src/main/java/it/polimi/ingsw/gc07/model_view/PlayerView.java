@@ -41,7 +41,7 @@ public class PlayerView {
         this.nickname = nickname;
         this.tokenColor = null;
         this.isConnected = true;
-        this.currentHand = new ArrayList<>();
+        this.currentHand = null;
         this.secretObjective = null;
         this.isStalled = false;
     }
