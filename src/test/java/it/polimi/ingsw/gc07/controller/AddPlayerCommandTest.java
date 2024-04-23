@@ -42,7 +42,7 @@ class AddPlayerCommandTest {
 
     @Test
     void addPlayerSuccess() {
-        game.setAndExecuteCommand(new AddPlayerCommand(newPlayer));
+        game.addPlayer(newPlayer);
         CommandResult result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
@@ -50,14 +50,14 @@ class AddPlayerCommandTest {
     @Test
     void addPlayerWrongState() {
         Player firstPlayer = new Player("Player1", true, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
+        game.addPlayer(firstPlayer);
         CommandResult result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
         Player secondPlayer = new Player("Player2", false, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        game.addPlayer(secondPlayer);
         result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
-        game.setAndExecuteCommand(new AddPlayerCommand(newPlayer));
+        game.addPlayer(new Player("Player3", false, false));
         result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.WRONG_STATE, result);
     }

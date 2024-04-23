@@ -32,12 +32,12 @@ class DisconnectPlayerCommandTest {
         starterCardsDecks.shuffle();
         game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
         Player firstPlayer = new Player("Player1", true, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
+        game.addPlayer(firstPlayer);
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("Player2", false, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        game.addPlayer(secondPlayer);
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();

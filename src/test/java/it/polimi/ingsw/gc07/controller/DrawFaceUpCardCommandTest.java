@@ -35,13 +35,13 @@ class DrawFaceUpCardCommandTest {
         game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
         Player p1 = new Player("P1", true, true);
         p1.setTokenColor(TokenColor.GREEN);
-        game.setAndExecuteCommand(new AddPlayerCommand(p1));
+        game.addPlayer(p1);
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player p2 = new Player("P2", true, true);
         p2.setTokenColor(TokenColor.YELLOW);
-        game.setAndExecuteCommand(new AddPlayerCommand(p2));
+        game.addPlayer(p2);
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();

@@ -256,6 +256,10 @@ public class Game {
             commandResultManager.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
+        if(playersGameField.containsKey(newPlayer.getNickname())) {
+            commandResultManager.setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
+            return;
+        }
 
         // draw card can't return null, since the game hasn't already started
         newPlayer.addCardHand(resourceCardsDeck.drawCard());

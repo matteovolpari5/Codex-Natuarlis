@@ -32,12 +32,12 @@ class ReconnectPlayerCommandTest {
         game = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
 
         Player firstPlayer = new Player("Player1", true, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
+        game.addPlayer(firstPlayer);
         CommandResult result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("Player2", false, false);
-        game.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        game.addPlayer(secondPlayer);
         result = game.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
@@ -46,7 +46,7 @@ class ReconnectPlayerCommandTest {
     void reconnectPlayerSuccess()
     {
         game.getPlayers().getFirst().setIsConnected(false);
-        game.setAndExecuteCommand(new ReconnectPlayerCommand("Player1"));
+        game.reconnectPlayer("Player1");
         CommandResult result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }
@@ -68,18 +68,18 @@ class ReconnectPlayerCommandTest {
         starterCardsDecks.shuffle();
         game2 = new Game(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
         Player firstPlayer = new Player("P1", true, false);
-        game2.setAndExecuteCommand(new AddPlayerCommand(firstPlayer));
+        game2.addPlayer(firstPlayer);
         CommandResult result = game2.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
         Player secondPlayer = new Player("P2", false, false);
-        game2.setAndExecuteCommand(new AddPlayerCommand(secondPlayer));
+        game2.addPlayer(secondPlayer);
         result = game2.getCommandResultManager().getCommandResult();
         if(!result.equals(CommandResult.SUCCESS))
             throw new RuntimeException();
 
         game2.getPlayers().getFirst().setIsConnected(false);
-        game2.setAndExecuteCommand(new ReconnectPlayerCommand("Player1"));
+        game2.reconnectPlayer("Player1");
         CommandResult result2 = game2.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, result2);
     }
@@ -88,11 +88,11 @@ class ReconnectPlayerCommandTest {
     void alreadyConnected()
     {
         game.getPlayers().getFirst().setIsConnected(false);
-        game.setAndExecuteCommand(new ReconnectPlayerCommand("Player1"));
+        game.reconnectPlayer("Player1");
         CommandResult result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
 
-        game.setAndExecuteCommand(new ReconnectPlayerCommand("Player1"));
+        game.reconnectPlayer("Player1");
         result = game.getCommandResultManager().getCommandResult();
         assertEquals(CommandResult.PLAYER_ALREADY_CONNECTED, result);
     }
