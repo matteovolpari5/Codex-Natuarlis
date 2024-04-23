@@ -177,6 +177,8 @@ public class GameFieldView {
         }
     }
 
+    // TODO come passo il GameField per getPlacementScore??
+    // TODO posso aggiungere metodo getScoringCondition nelle classi? (sv: vedere prova che ho fatto)
     public void printSecondRow(int c, int startc, Game game, int r) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");
@@ -402,6 +404,7 @@ public class GameFieldView {
         }
     }
 
+    // TODO posso aggiungere metodo getScoringCondition nelle classi? (sv: vedere prova che ho fatto)
     public void printFourthRow(int c, int startc, Game game, int r) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");

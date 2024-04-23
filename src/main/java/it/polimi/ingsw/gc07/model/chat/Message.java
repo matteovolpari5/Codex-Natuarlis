@@ -20,6 +20,7 @@ public class Message {
      * Date and time the message was sent.
      */
     private final Date dateTime;
+
     /**
      * Boolean attribute, that tells if the message is public.
      * If true, the message is public, i.e. visible by all the players in the same game.
@@ -64,6 +65,13 @@ public class Message {
         return new Date(dateTime.getTime());
     }
 
+    /**
+     * Getter method for isPublic attribute.
+     * @return attribute isPublic
+     */
+    public boolean getIsPublic() {
+        return isPublic;
+    }
     /**
      * Method that checks if the message is for a certain receiver.
      * @param receiver nickname of the receiver
