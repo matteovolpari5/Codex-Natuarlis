@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc07.model_view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameView {
     /**
      * chatView reference
@@ -16,7 +19,7 @@ public class GameView {
     /**
      * playerView reference
      */
-    private final PlayerView  playerView;
+    private final List<PlayerView> playerViews;
     /**
      * scoreTrackBoardView reference
      */
@@ -26,13 +29,16 @@ public class GameView {
 
     /**
      * Constructor of the class GameView
-     * @param nickname nickname of the player
      */
-    public GameView(String nickname) {
+    public GameView() {
         chatView = new ChatView();
         deckView = new DeckView();
         gameFieldView = new GameFieldView();
-        playerView = new PlayerView(nickname);
+        playerViews = new ArrayList<>();
         scoreTrackBoardView = new ScoreTrackBoardView();
+    }
+
+    public void addPlayerView(PlayerView playerView) {
+        playerViews.add(playerView);
     }
 }

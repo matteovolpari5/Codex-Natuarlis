@@ -314,7 +314,7 @@ public class GameController {
         }
 
         DrawableCard card;
-        if (type.equals(CardType.RESOURCE_CARD)) {
+        if(type.equals(CardType.RESOURCE_CARD)) {
             card = getResourceCardsDeck().drawCard();
             if(card == null) {
                 gameModel.setCommandResult(CommandResult.CARD_NOT_PRESENT);
@@ -322,7 +322,7 @@ public class GameController {
             }
             getPlayers().get(getCurrPlayer()).addCardHand(card);
         }
-        if (type.equals(CardType.GOLD_CARD)) {
+        if(type.equals(CardType.GOLD_CARD)) {
             card = getGoldCardsDeck().drawCard();
             if(card == null){
                 gameModel.setCommandResult(CommandResult.CARD_NOT_PRESENT);

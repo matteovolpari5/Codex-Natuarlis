@@ -25,5 +25,4 @@ public class ChatView {
     public void addMessage(ChatMessage chatMessage) {
         chatMessages.add(chatMessage);
     }
-
 }
