@@ -1,5 +1,5 @@
 package it.polimi.ingsw.gc07.model_view;
-import it.polimi.ingsw.gc07.controller.Game;
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.conditions.CornerCoverageCondition;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
@@ -73,7 +73,7 @@ public class GameFieldView {
         cardsOrder[x][y] = orderPosition;
     }
 
-    public void printGameField(Game game) {
+    public void printGameField(GameController gameController) {
         //ricerca inizio righe/fine righe
         int startr = 0, endr = 80;
         for (int r = 0; r < 81; r++) {
@@ -119,13 +119,13 @@ public class GameFieldView {
             for (int r1 = 0; r1 < 5; r1++) {
                 for (int c = startc; c < endc + 1; c++) {
                     if (r1 == 0 || r1 == 4) {
-                        printFirstLastRow(c, startc, game, r);
+                        printFirstLastRow(c, startc, gameController, r);
                     } else if (r1 == 1) {
-                        printSecondRow(c, startc, game, r);
+                        printSecondRow(c, startc, gameController, r);
                     } else if (r1 == 2) {
-                        printThirdRow(c, startc, game, r);
+                        printThirdRow(c, startc, gameController, r);
                     } else {
-                        printFourthRow(c, startc, game, r);
+                        printFourthRow(c, startc, gameController, r);
                     }
                 }
                 System.out.print("\n");
@@ -162,7 +162,7 @@ public class GameFieldView {
         }
     }
 
-    public void printFirstLastRow(int c, int startc, Game game, int r) {
+    public void printFirstLastRow(int c, int startc, GameController gameController, int r) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "+--+");
         }
@@ -179,7 +179,7 @@ public class GameFieldView {
 
     // TODO come passo il GameField per getPlacementScore??
     // TODO posso aggiungere metodo getScoringCondition nelle classi? (sv: vedere prova che ho fatto)
-    public void printSecondRow(int c, int startc, Game game, int r) {
+    public void printSecondRow(int c, int startc, GameController gameController, int r) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");
         }
@@ -188,7 +188,7 @@ public class GameFieldView {
             if (card != null) {
                 int points = 0;
                 if (!card.getType().equals(CardType.STARTER_CARD)) {
-                    points = card.getPlacementScore(game.getPlayersGameField().get(game.getPlayers().get(game.getCurrPlayer()).getNickname()), r, c);
+                    points = card.getPlacementScore(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()), r, c);
                 }
                 boolean cardway = cardsFace[r][c];
                 if (cardway) {
@@ -358,7 +358,7 @@ public class GameFieldView {
         }
     }
 
-    public void printThirdRow(int c, int startc, Game game, int r) {
+    public void printThirdRow(int c, int startc, GameController gameController, int r) {
         if (c == startc) {
             if (r > 9) {
                 System.out.print(ANSI_BLACK_BACKGROUND + "|" + r + "|");
@@ -405,7 +405,7 @@ public class GameFieldView {
     }
 
     // TODO posso aggiungere metodo getScoringCondition nelle classi? (sv: vedere prova che ho fatto)
-    public void printFourthRow(int c, int startc, Game game, int r) {
+    public void printFourthRow(int c, int startc, GameController gameController, int r) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");
         }

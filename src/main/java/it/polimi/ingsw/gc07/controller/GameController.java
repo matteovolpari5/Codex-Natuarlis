@@ -68,11 +68,11 @@ public class GameController {
         return gameModel.getState();
     }
 
-    Map<String, GameField> getPlayersGameField() {
+    public Map<String, GameField> getPlayersGameField() {
         return gameModel.getPlayersGameField();
     }
 
-    List<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return gameModel.getPlayers();
     }
 
@@ -80,7 +80,7 @@ public class GameController {
         return gameModel.getWinners();
     }
 
-    synchronized int getCurrPlayer() {
+    public synchronized int getCurrPlayer() {
         return gameModel.getCurrPlayer();
     }
 
