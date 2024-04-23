@@ -29,7 +29,7 @@ public class GameFieldView {
     /**
      * Constructor of the game field view.
      */
-    public GameFieldView(PlaceableCard starterCard) {
+    public GameFieldView() {
         this.starterCard = null;
         this.cardsContent = null;
         this.cardsFace = null;
