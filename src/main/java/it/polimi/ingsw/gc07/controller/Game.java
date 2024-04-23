@@ -322,7 +322,7 @@ public class Game {
                     //TODO settare il player rimasto come vincitore
                     System.out.println("il player rimanente è il vincitore");
                 }
-            }, 60*1000); //timeout of 1 minuto
+            }, 30*1000); //timeout of 1 minuto
         }).start();
         new Thread(() -> {
             for (int i = 0; i < 60; i++) {
@@ -334,10 +334,10 @@ public class Game {
                 if (getNumPlayersConnected() > 1) {
                     timeout.cancel(); // it stops the timeout
                     timeout.purge();
+                    System.out.println("si continua...");
                     break;
                 }
             }
-            System.out.println("si continua...");
         }).start();
     }
     void drawDeckCard(String nickname, CardType type) {
