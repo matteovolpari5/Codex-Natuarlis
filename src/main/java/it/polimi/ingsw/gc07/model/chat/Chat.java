@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc07.model.chat;
 
+import it.polimi.ingsw.gc07.listeners.ChatListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +14,25 @@ public class Chat {
      * It contains both public and private chatMessages.
      */
     private final List<ChatMessage> chatMessages;
+    /**
+     * List of chat listeners.
+     */
+    private final List<ChatListener> chatListeners;
 
     /**
      * Constructor method for Chat.
      */
     public Chat() {
         this.chatMessages = new ArrayList<>();
+        this.chatListeners = new ArrayList<>();
+    }
+
+    /**
+     * Method to add a chat listener.
+     * @param chatListener new chat lister
+     */
+    public void addListener(ChatListener chatListener) {
+        chatListeners.add(chatListener);
     }
 
     /**

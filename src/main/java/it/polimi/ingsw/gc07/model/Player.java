@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
+import it.polimi.ingsw.gc07.listeners.PlayerListener;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
@@ -51,6 +52,10 @@ public class Player {
      * Attribute telling if the player is stalled.
      */
     private boolean isStalled;
+    /**
+     * List of player listeners.
+     */
+    private final List<PlayerListener> playerListeners;
 
     /**
      * Constructor of class player
@@ -67,6 +72,7 @@ public class Player {
         this.currentHand = new ArrayList<>();
         this.secretObjective = null;
         this.isStalled = false;
+        this.playerListeners = new ArrayList<>();
     }
 
     /**
@@ -83,6 +89,15 @@ public class Player {
         this.currentHand = new ArrayList<>(existingPlayer.currentHand);
         this.secretObjective = existingPlayer.secretObjective;
         this.isStalled = existingPlayer.isStalled;
+        this.playerListeners = new ArrayList<>(existingPlayer.playerListeners);
+    }
+
+    /**
+     * Method to add a player listener.
+     * @param playerListener new player listener
+     */
+    public void addListener(PlayerListener playerListener) {
+        playerListeners.add(playerListener);
     }
 
     /**

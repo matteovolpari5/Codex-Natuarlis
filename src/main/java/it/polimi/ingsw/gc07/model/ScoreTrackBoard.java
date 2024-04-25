@@ -1,5 +1,9 @@
 package it.polimi.ingsw.gc07.model;
 
+import it.polimi.ingsw.gc07.listeners.ScoreTrackBoardListener;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -11,12 +15,25 @@ public class ScoreTrackBoard {
      * Map that link each player with his personal score.
      */
     private final Map<String, Integer> playersScore;
+    /**
+     * List of score track board listeners.
+     */
+    private final List<ScoreTrackBoardListener> scoreTrackBoardListeners;
 
     /**
      * Constructor method for an empty ScoreTrackBoard.
      */
     public ScoreTrackBoard() {
-        playersScore = new HashMap<>();
+        this.playersScore = new HashMap<>();
+        this.scoreTrackBoardListeners = new ArrayList<>();
+    }
+
+    /**
+     * Method to add a new score track board listener.
+     * @param scoreTrackBoardListener new score track board listener
+     */
+    public void addListener(ScoreTrackBoardListener scoreTrackBoardListener) {
+        scoreTrackBoardListeners.add(scoreTrackBoardListener);
     }
 
     /**

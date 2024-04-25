@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.controller.GameState;
+import it.polimi.ingsw.gc07.listeners.GameListener;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.Chat;
@@ -81,6 +82,10 @@ public class GameModel {
      * Command result.
      */
     private CommandResult commandResult;
+    /**
+     * List of game listeners.
+     */
+    private final List<GameListener> gameListeners;
 
     /**
      * Constructor of a GameModel with only the first player.
@@ -106,6 +111,15 @@ public class GameModel {
         this.additionalRound = false;
         this.chat = new Chat();
         this.commandResult = null;
+        this.gameListeners = new ArrayList<>();
+    }
+
+    /**
+     * Method to add a game listener.
+     * @param gameListener game listener
+     */
+    public void addListener(GameListener gameListener) {
+        gameListeners.add(gameListener);
     }
 
     public int getId() {

@@ -53,9 +53,9 @@ public abstract class DrawableDeck<T> extends PlayingDeck<T> {
      * @return first covered card of the deck
      */
     T revealDeckCard() throws CardNotPresentException {
-        if(content.empty()){
+        if(getContent().empty()){
             throw new CardNotPresentException();
         }
-        return content.peek();
+        return getContent().peek();
     }
 }

@@ -1,7 +1,11 @@
 package it.polimi.ingsw.gc07.model;
 
+import it.polimi.ingsw.gc07.listeners.GameFieldListener;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class representing the game field of a single player,
@@ -15,7 +19,6 @@ public class GameField {
      * or null if the place is empty.
      */
     private final PlaceableCard[][] cardsContent;
-
     /**
      * Matrix of dimension 81x81, the biggest possible dimension
      * for a player's game field.
@@ -23,7 +26,6 @@ public class GameField {
      * true: the card has been placed face down
      */
     private final Boolean[][] cardsFace;
-
     /**
      * Constant value representing the max dimension of a player's
      * game field.
@@ -31,22 +33,23 @@ public class GameField {
      * from position (40,40), which is the position of the starter card.
      */
     private static final int dim = 81;
-
     /**
      * Matrix of dimension 81x81, biggest possible dimension for a player's
      * game field. Represent the placement's order of the cards.
      */
     private final int [][] cardsOrder;
-
     /**
      * Integer attribute that show the number of cards played in the game field
      */
     private int numPlayedCards;
-
     /**
      * Attribute to save the starter card before the player places it.
      */
     private final PlaceableCard starterCard;
+    /**
+     * List of game field listeners.
+     */
+    private final List<GameFieldListener> gameFieldListeners;
 
     /**
      * Constructor of the game field: builds an empty game field.
@@ -72,6 +75,7 @@ public class GameField {
         }
         this.numPlayedCards = 0;
         this.starterCard = starterCard;
+        this.gameFieldListeners = new ArrayList<>();
     }
 
     /**
@@ -98,6 +102,15 @@ public class GameField {
         }
         this.numPlayedCards = existingGameField.numPlayedCards;
         this.starterCard = existingGameField.starterCard;
+        this.gameFieldListeners = existingGameField.gameFieldListeners;
+    }
+
+    /**
+     * Method to add a game field listener.
+     * @param gameFieldListener new game field listener
+     */
+    public void addListener(GameFieldListener gameFieldListener) {
+        gameFieldListeners.add(gameFieldListener);
     }
 
     /**
