@@ -63,7 +63,7 @@ class PlaceCardCommandTest {
 
     @Test
     void placeCardSuccess() {
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         int i=0;
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand())
         {
@@ -80,7 +80,7 @@ class PlaceCardCommandTest {
     void placeCardNoCoveredCorner() {
         DrawableCard myResourceCard;
         int i=0;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -96,7 +96,7 @@ class PlaceCardCommandTest {
     @Test
     void placeCardNotLegitCorner() {
         DrawableCard myResourceCard;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         int i=0;
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
@@ -127,7 +127,7 @@ class PlaceCardCommandTest {
     void placeCardMultipleCornersCovered() {
         DrawableCard myResourceCard;
         int i=0;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -157,7 +157,7 @@ class PlaceCardCommandTest {
     void placeCardAlreadyPresent() {
         int i=0;
         DrawableCard myResourceCard;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -187,7 +187,7 @@ class PlaceCardCommandTest {
     void placeCardOutOfBound() {
         int i=0;
         DrawableCard myResourceCard;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -205,7 +205,7 @@ class PlaceCardCommandTest {
     void placeCardConditionNotMet() {
         int i=0;
         DrawableCard myResourceCard;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 78) {
                 myResourceCard = c;
@@ -223,7 +223,7 @@ class PlaceCardCommandTest {
     void placeCardConditionMetAndPointsScored(){
         DrawableCard myResourceCard;
         int i=0;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -264,7 +264,7 @@ class PlaceCardCommandTest {
     void placeCardTwentyPointsReached(){
         int i=0;
         DrawableCard myResourceCard;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         gameController.getScoreTrackBoard().incrementScore("Player3",19);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
@@ -305,7 +305,7 @@ class PlaceCardCommandTest {
     @Test
     void placeCardOverTwentyNinePoints(){
         DrawableCard myResourceCard;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         int i=0;
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
@@ -348,7 +348,7 @@ class PlaceCardCommandTest {
     void PlaceCardNotCurrPlayer()
     {
         DrawableCard myResourceCard;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(1).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(1).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(1).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(1).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         int i=0;
         for (DrawableCard c : gameController.getPlayers().get(1).getCurrentHand()) {
             if (c.getId() == 79) {
@@ -367,7 +367,7 @@ class PlaceCardCommandTest {
         gameController.setState(GameState.GAME_STARTING);
         DrawableCard myResourceCard;
         int i=0;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -383,7 +383,7 @@ class PlaceCardCommandTest {
     @Test
     void placeCardOutOfHandBounds() {
         DrawableCard myResourceCard;
-        gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).placeCard(gameController.getPlayerGameFields().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;

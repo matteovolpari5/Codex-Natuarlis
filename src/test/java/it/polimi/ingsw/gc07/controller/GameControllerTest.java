@@ -58,13 +58,13 @@ class GameControllerTest {
         }
         GameField gameField1 = new GameField(myStarterCard1);
         gameController.getPlayers().add(firstPlayer);
-        gameController.getPlayersGameField().put("Player1", gameField1);
+        gameController.getPlayerGameFields().put("Player1", gameField1);
         gameController.getScoreTrackBoard().addPlayer("Player1");
         assertNotNull(myStarterCard1);
         gameField1.placeCard(myStarterCard1, 40, 40, false);
         GameField gameField2 = new GameField(myStarterCard1);
         gameController.getPlayers().add(secondPlayer);
-        gameController.getPlayersGameField().put("Player2", gameField2);
+        gameController.getPlayerGameFields().put("Player2", gameField2);
         gameController.getScoreTrackBoard().addPlayer("Player2");
         assertNotNull(myStarterCard2);
         gameField2.placeCard(myStarterCard2, 40, 40, false);
@@ -375,7 +375,7 @@ class GameControllerTest {
             }
         }
         assertEquals(1, gameController.getWinners().size());
-        assertEquals("Player1", gameController.getWinners().getFirst().getNickname());
+        assertEquals("Player1", gameController.getWinners().getFirst());
     }
 
     @Test
@@ -401,13 +401,13 @@ class GameControllerTest {
         }
         GameField gameField1 = new GameField(myStarterCard1);
         gameController.getPlayers().add(firstPlayer);
-        gameController.getPlayersGameField().put("Player1", gameField1);
+        gameController.getPlayerGameFields().put("Player1", gameField1);
         gameController.getScoreTrackBoard().addPlayer("Player1");
         assertNotNull(myStarterCard1);
         gameField1.placeCard(myStarterCard1, 40, 40, false);
         GameField gameField2 = new GameField(myStarterCard1);
         gameController.getPlayers().add(secondPlayer);
-        gameController.getPlayersGameField().put("Player2", gameField2);
+        gameController.getPlayerGameFields().put("Player2", gameField2);
         gameController.getScoreTrackBoard().addPlayer("Player2");
         assertNotNull(myStarterCard2);
         gameField2.placeCard(myStarterCard2, 40, 40, false);
@@ -451,7 +451,9 @@ class GameControllerTest {
         gameController.changeCurrPlayer();
         gameController.changeCurrPlayer();
         gameController.changeCurrPlayer();
-        assertTrue(gameController.getWinners().containsAll(gameController.getPlayers()));
+        for(Player p: gameController.getPlayers()) {
+            assertTrue(gameController.getWinners().contains(p.getNickname()));
+        }
     }
 
     @Test

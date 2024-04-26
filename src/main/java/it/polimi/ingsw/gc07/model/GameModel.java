@@ -33,11 +33,11 @@ public class GameModel {
     /**
      * Map of players and their game field.
      */
-    private final Map<String, GameField> playersGameField;
+    private final Map<String, GameField> playerGameFields;
     /**
-     * List of winner/s of the game.
+     * List of winner(s) of the game.
      */
-    private final List<Player> winners;
+    private final List<String> winners;
     /**
      * Integer value representing the position of the current player.
      */
@@ -98,7 +98,7 @@ public class GameModel {
         assert(playersNumber >= 2 && playersNumber <= 4): "Wrong players number";
         this.playersNumber = playersNumber;
         this.players = new ArrayList<>();
-        this.playersGameField = new HashMap<>();
+        this.playerGameFields = new HashMap<>();
         this.winners = new ArrayList<>();
         this.currPlayer = 0;
         this.hasCurrPlayerPlaced = false;
@@ -142,11 +142,11 @@ public class GameModel {
         return players;
     }
 
-    public Map<String, GameField> getPlayersGameField() {
-        return playersGameField;
+    public Map<String, GameField> getPlayerGameFields() {
+        return playerGameFields;
     }
 
-    public List<Player> getWinners() {
+    public List<String> getWinners() {
         return winners;
     }
 

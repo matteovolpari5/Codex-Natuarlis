@@ -1,11 +1,12 @@
 package it.polimi.ingsw.gc07.listeners;
 
-import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.updates.ChatMessageUpdate;
 
 public interface ChatListener {
     /**
      * Method used to notify the player he has received a new chat chatMessage.
-     * @param chatMessage new chatMessage
+     * @param chatMessageUpdate chat message update
      */
-    void showNewMessage(ChatMessage chatMessage);
+    void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate);
+    // TODO l'implementazione è chatMessageUpdate.execute
 }

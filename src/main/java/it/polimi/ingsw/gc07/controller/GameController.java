@@ -66,15 +66,15 @@ public class GameController {
         return gameModel.getState();
     }
 
-    public Map<String, GameField> getPlayersGameField() {
-        return gameModel.getPlayersGameField();
+    public Map<String, GameField> getPlayerGameFields() {
+        return gameModel.getPlayerGameFields();
     }
 
     public List<Player> getPlayers() {
         return gameModel.getPlayers();
     }
 
-    List<Player> getWinners(){
+    List<String> getWinners(){
         return gameModel.getWinners();
     }
 
@@ -179,7 +179,7 @@ public class GameController {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        if(getPlayersGameField().containsKey(newPlayer.getNickname())) {
+        if(getPlayerGameFields().containsKey(newPlayer.getNickname())) {
             gameModel.setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
             return;
         }
@@ -195,7 +195,7 @@ public class GameController {
         PlaceableCard starterCard = getStarterCardsDeck().drawCard();
         GameField gameField = new GameField(starterCard);
         getPlayers().add(newPlayer);
-        getPlayersGameField().put(newPlayer.getNickname(), gameField);
+        getPlayerGameFields().put(newPlayer.getNickname(), gameField);
         getScoreTrackBoard().addPlayer(newPlayer.getNickname());
         if (isFull()) {
             setup();
@@ -206,7 +206,7 @@ public class GameController {
 
     public void disconnectPlayer(String nickname) {
         // this command can always be used
-        if(!getPlayersGameField().containsKey(nickname)){
+        if(!getPlayerGameFields().containsKey(nickname)){
             gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
@@ -414,7 +414,7 @@ public class GameController {
             return;
         }
         card = player.getCurrentHand().get(pos);
-        CommandResult result = getPlayersGameField().get(nickname).placeCard(card,x,y,way);
+        CommandResult result = getPlayerGameFields().get(nickname).placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS)) {
             setHasCurrPlayerPlaced();
             getPlayers().get(getCurrPlayer()).removeCardHand(card);
@@ -429,7 +429,7 @@ public class GameController {
                     // i.e. check only the indexes
                     try {
                         resultStall = getPlayers().get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
-                                .isPlaceable(new GameField(getPlayersGameField().get(nickname)), i, j, true);
+                                .isPlaceable(new GameField(getPlayerGameFields().get(nickname)), i, j, true);
                         if (resultStall.equals(CommandResult.SUCCESS)) {
                             isStalled = false;
                         }
@@ -451,20 +451,20 @@ public class GameController {
             return;
         }
         // check player has not already placed the starter card
-        if(getPlayersGameField().get(nickname).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
+        if(getPlayerGameFields().get(nickname).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
             gameModel.setCommandResult(CommandResult.CARD_ALREADY_PRESENT);
             return;
         }
         // no check for current player, starter cards can be placed in any order
 
-        assert(getPlayersGameField().containsKey(nickname)): "The player is not in the game";
-        gameModel.setCommandResult(getPlayersGameField().get(nickname).placeCard(
-                getPlayersGameField().get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way)
+        assert(getPlayerGameFields().containsKey(nickname)): "The player is not in the game";
+        gameModel.setCommandResult(getPlayerGameFields().get(nickname).placeCard(
+                getPlayerGameFields().get(nickname).getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way)
         );
 
         boolean changeState = true;
-        for(String p: getPlayersGameField().keySet()) {
-            if(!getPlayersGameField().get(p).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
+        for(String p: getPlayerGameFields().keySet()) {
+            if(!getPlayerGameFields().get(p).isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
                 // someone has to place the starter card
                 changeState = false;
             }
@@ -477,7 +477,7 @@ public class GameController {
     // TODO synchronized chi lo chiama?
     public void reconnectPlayer(String nickname) {
         // this command can always be used
-        if(!getPlayersGameField().containsKey(nickname)){
+        if(!getPlayerGameFields().containsKey(nickname)){
             gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
@@ -621,9 +621,9 @@ public class GameController {
      * Method that compute the winner/s of the game.
      * @return the list of players who won the game
      */
-    private List<Player> computeWinner() {
+    private List<String> computeWinner() {
         assert(getState().equals(GameState.GAME_ENDED)) : "The game state is not correct";
-        List<Player> winners = new ArrayList<>();
+        List<String> winners = new ArrayList<>();
         int deltaPoints;
         int max = 0;
         int realizedObjectives;
@@ -633,28 +633,28 @@ public class GameController {
             ObjectiveCard objectiveCard;
             objectiveCard = getObjectiveCardsDeck().revealFaceUpCard(0);
             assert(objectiveCard != null): "The common objective must be present";
-            realizedObjectives = objectiveCard.numTimesScoringConditionMet(getPlayersGameField().get(getPlayers().get(i).getNickname()));
+            realizedObjectives = objectiveCard.numTimesScoringConditionMet(getPlayerGameFields().get(getPlayers().get(i).getNickname()));
             //points counter for the 1st common objective
-            deltaPoints = objectiveCard.getObjectiveScore(getPlayersGameField().get(getPlayers().get(i).getNickname()));
+            deltaPoints = objectiveCard.getObjectiveScore(getPlayerGameFields().get(getPlayers().get(i).getNickname()));
 
             objectiveCard = getObjectiveCardsDeck().revealFaceUpCard(1);
             assert(objectiveCard != null): "The common objective must be present";
-            realizedObjectives += objectiveCard.numTimesScoringConditionMet(getPlayersGameField().get(getPlayers().get(i).getNickname()));
+            realizedObjectives += objectiveCard.numTimesScoringConditionMet(getPlayerGameFields().get(getPlayers().get(i).getNickname()));
             //points counter for the 2nd common objective
-            deltaPoints += objectiveCard.getObjectiveScore(getPlayersGameField().get(getPlayers().get(i).getNickname()));
+            deltaPoints += objectiveCard.getObjectiveScore(getPlayerGameFields().get(getPlayers().get(i).getNickname()));
 
-            realizedObjectives += getPlayers().get(i).getSecretObjective().numTimesScoringConditionMet(getPlayersGameField().get(getPlayers().get(i).getNickname()));
+            realizedObjectives += getPlayers().get(i).getSecretObjective().numTimesScoringConditionMet(getPlayerGameFields().get(getPlayers().get(i).getNickname()));
             //points counter for the secret objective
-            deltaPoints += getPlayers().get(i).getSecretObjective().getObjectiveScore(getPlayersGameField().get(getPlayers().get(i).getNickname()));
+            deltaPoints += getPlayers().get(i).getSecretObjective().getObjectiveScore(getPlayerGameFields().get(getPlayers().get(i).getNickname()));
             getScoreTrackBoard().incrementScore(getPlayers().get(i).getNickname(), deltaPoints);
             if (max <= getScoreTrackBoard().getScore(playersCopy.get(i).getNickname())) {
                 max = getScoreTrackBoard().getScore(playersCopy.get(i).getNickname());
                 if (realizedObjectives >= maxRealizedObjective) {
                     if (realizedObjectives == maxRealizedObjective) {
-                        winners.add(playersCopy.get(i));
+                        winners.add(playersCopy.get(i).getNickname());
                     } else {
                         winners.clear();
-                        winners.add(playersCopy.get(i));
+                        winners.add(playersCopy.get(i).getNickname());
                         maxRealizedObjective = realizedObjectives;
                     }
                 }
@@ -712,9 +712,9 @@ public class GameController {
     private void addPoints(String nickname, int x, int y) {
         assert(getState().equals(GameState.PLAYING)): "Wrong game state";
         assert(getPlayers().get(getCurrPlayer()).getNickname().equals(nickname)): "Not the current player";
-        assert (getPlayersGameField().get(nickname).isCardPresent(x, y)) : "No card present in the provided position";
+        assert (getPlayerGameFields().get(nickname).isCardPresent(x, y)) : "No card present in the provided position";
         int deltaPoints;
-        deltaPoints = getPlayersGameField().get(nickname).getPlacedCard(x, y).getPlacementScore(getPlayersGameField().get(nickname), x, y);
+        deltaPoints = getPlayerGameFields().get(nickname).getPlacedCard(x, y).getPlacementScore(getPlayerGameFields().get(nickname), x, y);
         if(deltaPoints + getScoreTrackBoard().getScore(nickname) >= 20){
             setTwentyPointsReached();
             if((deltaPoints + getScoreTrackBoard().getScore(nickname)) > 29){

@@ -9,5 +9,5 @@ public interface GameCommand extends Serializable {
      * Method to execute the game command.
      * @param gameController game controller
      */
-    public abstract void execute(GameController gameController);
+    void execute(GameController gameController);
 }

@@ -44,12 +44,17 @@ public class PlayerView {
         this.currentHand = null;
         this.isStalled = false;
     }
+
+    public String getNickname() {
+        return this.nickname;
+    }
+
     /**
      * Setter for attribute isStalled.
      * @param isStalled boolean value for isStalled
      */
     public void setIsStalled(boolean isStalled) {
-        this.isStalled=isStalled;
+        this.isStalled = isStalled;
     }
     /**
      * Setter for the method isConnected.

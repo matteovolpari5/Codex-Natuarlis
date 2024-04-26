@@ -10,10 +10,10 @@ public interface GamesManagerCommand extends Serializable {
      * Used to find the VirtualView who made the request.
      * @return nickname
      */
-    public abstract String getNickname();
+    String getNickname();
 
     /**
      * Method to execute the game command.
      */
-    public abstract void execute(GamesManager gamesManager);
+    void execute(GamesManager gamesManager);
 }
