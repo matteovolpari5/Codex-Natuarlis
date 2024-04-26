@@ -12,30 +12,22 @@ public class ScoreTrackBoardView {
      * Map that link each player with his personal score.
      */
     private final Map<String, Integer> playersScore;
-    private final Map<String, TokenColor> playersToken;
-
-    private final List<String> playersNickname;
 
     /**
      * Constructor method for an empty ScoreTrackBoard.
      */
     public ScoreTrackBoardView() {
-        playersNickname = new ArrayList<>();
         playersScore = new HashMap<>();
-        playersToken = new HashMap<>();
     }
 
     /**
      * Method that allows to insert a new Player to the ScoreTrackBoard,
      * initializing it's score to 0.
      * @param nickname player to add
-     * @param color token color choose by the player
      */
-    public void addPlayer(String nickname, TokenColor color) {
+    public void addPlayerToBoard(String nickname) {
         assert(!playersScore.containsKey(nickname)): "The player is already present";
         playersScore.put(nickname, 0);
-        playersToken.put(nickname, color);
-        playersNickname.add(nickname);
     }
 
     /**

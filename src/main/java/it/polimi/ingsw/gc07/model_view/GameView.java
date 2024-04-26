@@ -213,7 +213,39 @@ public class GameView {
         }
     }
 
+    /**
+     * Method that allows to set game model info.
+     * @param id id
+     * @param playersNumber players number
+     * @param state state
+     * @param winners winners
+     * @param currPlayer current player
+     */
+    public void setGameModel(int id, int playersNumber, GameState state, List<String> winners, int currPlayer) {
+        this.id = id;
+        this.playersNumber = playersNumber;
+        this.state = state;
+        this.winners = winners;
+        this.currPlayer = currPlayer;
+    }
 
+    /**
+     * Method that allows to add a new player view.
+     * @param playerView new player view
+     */
+    public void addPlayerView(PlayerView playerView) {
+        playerViews.add(playerView);
+        // nickname set in the constructor
+        scoreTrackBoardView.addPlayerToBoard(playerView.getNickname());
+    }
+
+    /**
+     * Method to set a command result.
+     * @param commandResult command result
+     */
+    public void setCommandResult(CommandResult commandResult) {
+        this.commandResult = commandResult;
+    }
 
 
 
@@ -221,25 +253,6 @@ public class GameView {
     // to check or add
 
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setPlayersNumber(int playersNumber) {
-        this.playersNumber = playersNumber;
-    }
-
-    public void setState(GameState state) {
-        this.state = state;
-    }
-
-    public void setWinners(List<String> winners) {
-        this.winners = winners;
-    }
-
-    public void setCurrPlayer(int currPlayer) {
-        this.currPlayer = currPlayer;
-    }
 
     public void setTwentyPointsReached(boolean twentyPointsReached) {
         this.twentyPointsReached = twentyPointsReached;
@@ -249,21 +262,5 @@ public class GameView {
         this.additionalRound = additionalRound;
     }
 
-    public void setCommandResult(CommandResult commandResult) {
-        this.commandResult = commandResult;
-    }
 
-    public void addGameFieldView(GameFieldView gameFieldView) {
-        // TODO
-        //playerGameFieldViews.put(    ,gameFieldView);
-        // come prima, non ho il nickname!!!
-    }
-
-    public void addPlayer(String nickname, TokenColor color) {
-        scoreTrackBoardView.addPlayer(nickname, color);
-    }
-
-    public void addPlayerView(PlayerView playerView) {
-        playerViews.add(playerView);
-    }
 }

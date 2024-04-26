@@ -1,28 +1,38 @@
 package it.polimi.ingsw.gc07.listeners;
 
-import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
-
-import java.util.List;
+import it.polimi.ingsw.gc07.updates.CommandResultUpdate;
+import it.polimi.ingsw.gc07.updates.GameModelUpdate;
+import it.polimi.ingsw.gc07.updates.PlayerJoinedUpdate;
 
 public interface GameListener {
-    void notifyId(int id);
+    /**
+     * Method used to notify a game model update.
+     * @param gameModelUpdate game model update
+     */
+    void receiveGameModelUpdate(GameModelUpdate gameModelUpdate);
 
-    void notifyPlayersNumber(int playersNumber);
+    /**
+     * Method used to notify that a player has joined.
+     * @param playerJoinedUpdate playerJoinedUpdate
+     */
+    void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate);
 
-    void updateState(GameState gameState);
+    /**
+     * Method used to notify a command result update.
+     * @param commandResultUpdate command result update
+     */
+    void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate);
 
-    void notifyWinners(List<String> winners);
 
-    void updateCurrPlayer(int currPlayer);
 
+    // PROVA A RENDRE DEI GAME STATE
+    //
     void notifyTwentyPointsReached(boolean twentyPointsReached);
-
+    //
     void notifyAdditionalRound(boolean additionalRound);
 
+    // command result update
     void updateCommandResult(CommandResult commandResult);
 
-    // TODO penso che potrei accorparle in playerJoined(nickname)
-    void addPlayerView();
-    void addGameFieldView();
 }

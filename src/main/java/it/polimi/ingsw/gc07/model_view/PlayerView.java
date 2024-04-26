@@ -55,6 +55,10 @@ public class PlayerView {
         return this.nickname;
     }
 
+    public TokenColor getTokenColor() {
+        return this.tokenColor;
+    }
+
     /**
      * Setter for attribute isStalled.
      * @param isStalled boolean value for isStalled
