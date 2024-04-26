@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.listeners;
 
-import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.updates.CommandResultUpdate;
 import it.polimi.ingsw.gc07.updates.GameModelUpdate;
 import it.polimi.ingsw.gc07.updates.PlayerJoinedUpdate;
@@ -23,16 +22,4 @@ public interface GameListener {
      * @param commandResultUpdate command result update
      */
     void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate);
-
-
-
-    // PROVA A RENDRE DEI GAME STATE
-    //
-    void notifyTwentyPointsReached(boolean twentyPointsReached);
-    //
-    void notifyAdditionalRound(boolean additionalRound);
-
-    // command result update
-    void updateCommandResult(CommandResult commandResult);
-
 }

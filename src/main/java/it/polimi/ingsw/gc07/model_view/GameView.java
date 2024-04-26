@@ -7,7 +7,6 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -220,13 +219,18 @@ public class GameView {
      * @param state state
      * @param winners winners
      * @param currPlayer current player
+     * @param twentyPointsReached twentyPointsReached
+     * @param additionalRound additionalRound
      */
-    public void setGameModel(int id, int playersNumber, GameState state, List<String> winners, int currPlayer) {
+    public void setGameModel(int id, int playersNumber, GameState state, List<String> winners,
+                             int currPlayer, boolean twentyPointsReached, boolean additionalRound) {
         this.id = id;
         this.playersNumber = playersNumber;
         this.state = state;
         this.winners = winners;
         this.currPlayer = currPlayer;
+        this.twentyPointsReached = twentyPointsReached;
+        this.additionalRound = additionalRound;
     }
 
     /**
@@ -246,21 +250,4 @@ public class GameView {
     public void setCommandResult(CommandResult commandResult) {
         this.commandResult = commandResult;
     }
-
-
-
-
-    // to check or add
-
-
-
-    public void setTwentyPointsReached(boolean twentyPointsReached) {
-        this.twentyPointsReached = twentyPointsReached;
-    }
-
-    public void setAdditionalRound(boolean additionalRound) {
-        this.additionalRound = additionalRound;
-    }
-
-
 }

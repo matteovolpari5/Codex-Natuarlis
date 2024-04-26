@@ -108,6 +108,14 @@ public class Player {
     }
 
     /**
+     * Getter method for playerListeners.
+     * @return list of player listeners
+     */
+    public List<PlayerListener> getListeners() {
+        return this.playerListeners;
+    }
+
+    /**
      * Getter for nickname.
      * @return this.nickname
      */

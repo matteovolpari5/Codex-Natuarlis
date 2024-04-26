@@ -1,10 +1,6 @@
 package it.polimi.ingsw.gc07.model_view;
 
-import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ScoreTrackBoardView {

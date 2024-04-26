@@ -1,7 +1,9 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.controller.GameState;
+import it.polimi.ingsw.gc07.listeners.GameFieldListener;
 import it.polimi.ingsw.gc07.listeners.GameListener;
+import it.polimi.ingsw.gc07.listeners.PlayerListener;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.Chat;
@@ -10,6 +12,7 @@ import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.util.*;
 
@@ -203,5 +206,36 @@ public class GameModel {
 
     public CommandResult getCommandResult() {
         return commandResult;
+    }
+
+    public void addPlayer(Player newPlayer) {
+        players.add(newPlayer);
+
+        // if not the first player
+        if(players.size() > 1) {
+            // add previously added listeners to new player
+            for(PlayerListener listener: players.getFirst().getListeners()) {
+                newPlayer.addListener(listener);
+            }
+            for(GameFieldListener listener: players.getFirst().getGameField().getListeners()) {
+                newPlayer.getGameField().addListener(listener);
+            }
+        }
+    }
+
+    public void addRMIListener(VirtualView client) {
+        // TODO voglio tenere separati listener RMI e socket?
+        //  se si devo creare due liste in tutte le classi
+        gameListeners.add(client);
+        chat.addListener(client);
+        resourceCardsDeck.addListener(client);
+        goldCardsDeck.addListener(client);
+        starterCardsDeck.addListener(client);
+        objectiveCardsDeck.addListener(client);
+        scoreTrackBoard.addListener(client);
+        for(Player p: players) {
+            p.addListener(client);
+            p.getGameField().addListener(client);
+        }
     }
 }

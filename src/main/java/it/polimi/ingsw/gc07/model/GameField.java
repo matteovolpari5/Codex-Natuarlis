@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.listeners.GameFieldListener;
+import it.polimi.ingsw.gc07.listeners.PlayerListener;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 
@@ -111,6 +112,14 @@ public class GameField {
      */
     public void addListener(GameFieldListener gameFieldListener) {
         gameFieldListeners.add(gameFieldListener);
+    }
+
+    /**
+     * Getter method for playerListeners.
+     * @return list of player listeners
+     */
+    public List<GameFieldListener> getListeners() {
+        return this.gameFieldListeners;
     }
 
     /**

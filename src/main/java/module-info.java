@@ -28,4 +28,5 @@ module it.polimi.ingsw.gc07 {
     opens it.polimi.ingsw.gc07.game_commands to javafx.fxml;
     exports it.polimi.ingsw.gc07.listeners;
     exports it.polimi.ingsw.gc07.updates;
+    exports it.polimi.ingsw.gc07.network;
 }

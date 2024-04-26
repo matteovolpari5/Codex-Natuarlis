@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.util.*;
 
@@ -17,16 +18,15 @@ public class GameController {
      * Reference to game model.
      */
     private final GameModel gameModel;
+
     /**
      * Timeout for the reconnection.
      */
     private final Timer timeout;
-
     /**
      * Timeout for keeping track of players' connection.
      */
     private final Map<String, Timer> playersTimer;
-
 
     /**
      * Constructor of a GameController with only the first player.
@@ -138,6 +138,10 @@ public class GameController {
         gameCommand.execute(this);
     }
 
+    public void addRMIListener(VirtualView client) {
+        gameModel.addRMIListener(client);
+    }
+
     // ----------------------
     // command pattern methods
     // ----------------------
@@ -199,7 +203,7 @@ public class GameController {
         newPlayer.setSecretObjective(getObjectiveCardsDeck().drawCard());
         newPlayer.setStarterCard(getStarterCardsDeck().drawCard());
 
-        getPlayers().add(newPlayer);
+        gameModel.addPlayer(newPlayer);
         getScoreTrackBoard().addPlayer(newPlayer.getNickname());
 
         if (isFull()) {
