@@ -1,10 +1,11 @@
 package it.polimi.ingsw.gc07.listeners;
 
+import it.polimi.ingsw.gc07.updates.ScoreUpdate;
+
 public interface ScoreTrackBoardListener {
     /**
-     * Method used to notify players that the score of a players is changed.
-     * @param nickname player's nickname
-     * @param newScore new score
+     * Method used to show the client an updated score.
+     * @param scoreUpdate score update
      */
-    void showUpdatedScore(String nickname, int newScore);
+    void receiveScoreUpdate(ScoreUpdate scoreUpdate);
 }

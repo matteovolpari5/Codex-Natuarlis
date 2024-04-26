@@ -10,9 +10,7 @@ import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GameView {
     /**
@@ -69,6 +67,7 @@ public class GameView {
      */
     private final List<PlayerView> playerViews;
 
+    //TODO
     // RMIclient / SocketClient contiene il riferimento a game view
     // riceve un update con listener, chiama metodo su gameview per salvare
     // nella copia locale l'aggiornamento
@@ -84,8 +83,6 @@ public class GameView {
         this.chatView = new ChatView();
         this.playerViews = new ArrayList<>();
     }
-
-    // ok
 
     /**
      * Method that adds a new chat message to the ChatView.
@@ -140,9 +137,10 @@ public class GameView {
      * Starter cards of other players will be visible once placed.
      * @param starterCard starter card
      */
-    public void setStarterCard(PlaceableCard starterCard) {
+    public void setStarterCard(String nickname, PlaceableCard starterCard) {
+        assert(nickname.equals(ownerNickname)): "Shouldn't have received the update.";
         for(PlayerView playerView: playerViews) {
-            if(playerView.getNickname().equals(ownerNickname)) {
+            if(playerView.getNickname().equals(nickname)) {
                 playerView.setStarterCard(starterCard);
             }
         }
@@ -166,9 +164,54 @@ public class GameView {
         }
     }
 
+    /**
+     * Method that allows to set a new score for the player.
+     * @param nickname nickname
+     * @param newScore score
+     */
+    public void setNewScore(String nickname, int newScore) {
+        scoreTrackBoardView.setNewScore(nickname, newScore);
+    }
 
+    /**
+     * Method to set a value for isStalled.
+     * @param nickname nickname
+     * @param isStalled isStalled value
+     */
+    public void setIsStalled(String nickname, boolean isStalled) {
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(nickname)) {
+                p.setIsStalled(isStalled);
+            }
+        }
+    }
 
+    /**
+     * Method to set a value for isConnected.
+     * @param nickname nickname
+     * @param isConnected isConnected value
+     */
+    public void setIsConnected(String nickname, boolean isConnected) {
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(nickname)) {
+                p.setIsConnected(isConnected);
+            }
+        }
+    }
 
+    /**
+     * Method to set the card hand of a player.
+     * @param nickname nickname
+     * @param newHand card hand
+     */
+    public void setCardHand(String nickname, List<DrawableCard> newHand) {
+        assert(nickname.equals(ownerNickname)): "Shouldn't have received the update.";
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(nickname)) {
+                p.setCardHand(newHand);
+            }
+        }
+    }
 
 
 
@@ -216,43 +259,11 @@ public class GameView {
         // come prima, non ho il nickname!!!
     }
 
-
     public void addPlayer(String nickname, TokenColor color) {
         scoreTrackBoardView.addPlayer(nickname, color);
     }
 
-    public void setNewScore(String nickname, int newScore) {
-        scoreTrackBoardView.setNewScore(nickname, newScore);
-    }
-
-
-
-
     public void addPlayerView(PlayerView playerView) {
         playerViews.add(playerView);
-    }
-
-    public void setIsStalled(String nickname, boolean isStalled) {
-        for(PlayerView p: playerViews) {
-            if(p.getNickname().equals(nickname)) {
-                p.setIsStalled(isStalled);
-            }
-        }
-    }
-
-    public void setIsConnected(String nickname, boolean isConnected) {
-        for(PlayerView p: playerViews) {
-            if(p.getNickname().equals(nickname)) {
-                p.setIsConnected(isConnected);
-            }
-        }
-    }
-
-    public void setCardHand(String nickname, List<DrawableCard> newHand) {
-        for(PlayerView p: playerViews) {
-            if(p.getNickname().equals(nickname)) {
-                p.setCardHand(newHand);
-            }
-        }
     }
 }

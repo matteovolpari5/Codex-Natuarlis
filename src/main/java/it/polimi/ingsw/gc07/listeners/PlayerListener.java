@@ -1,27 +1,25 @@
 package it.polimi.ingsw.gc07.listeners;
 
-import it.polimi.ingsw.gc07.model.cards.DrawableCard;
-
-import java.util.List;
+import it.polimi.ingsw.gc07.updates.CardHandUpdate;
+import it.polimi.ingsw.gc07.updates.ConnectionUpdate;
+import it.polimi.ingsw.gc07.updates.StallUpdate;
 
 public interface PlayerListener {
     /**
-     * Method used to notify if a player is stalled.
-     * @param nickname nickname of the player
-     * @param isStalled boolean value for isStalled
+     * Method used to send a stall update.
+     * @param stallUpdate stall update
      */
-    void notifyIsStalled(String nickname, boolean isStalled);
+    void receiveStallUpdate(StallUpdate stallUpdate);
 
     /**
-     * Method used to notify if a player is connected.
-     * @param nickname nickname
-     * @param isConnected boolean value for isConnected
+     * Method used to send a connection update.
+     * @param connectionUpdate connection update
      */
-    void notifyIsConnected(String nickname, boolean isConnected);
+    void receiveConnectionUpdate(ConnectionUpdate connectionUpdate);
 
     /**
-     * Method used to update the card hand.
-     * @param cardHand new cardHand
+     * Method used to send a card hand update.
+     * @param cardHandUpdate card hand update
      */
-    void updateCardHand(String nickname, List<DrawableCard> cardHand);
+    void receiveCardHandUpdate(CardHandUpdate cardHandUpdate);
 }

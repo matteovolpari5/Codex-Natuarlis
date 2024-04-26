@@ -6,6 +6,10 @@ import it.polimi.ingsw.gc07.model_view.GameView;
 // TODO must be used only with the owner of the game view, not with every listener
 public class StarterCardUpdate implements Update {
     /**
+     * Player's nickname.
+     */
+    private final String nickname;
+    /**
      * Starter card.
      */
     private final PlaceableCard starterCard;
@@ -14,7 +18,8 @@ public class StarterCardUpdate implements Update {
      * Constructor of StarterCardUpdate.
      * @param starterCard starter card to show
      */
-    public StarterCardUpdate(PlaceableCard starterCard) {
+    public StarterCardUpdate(String nickname, PlaceableCard starterCard) {
+        this.nickname = nickname;
         this.starterCard = starterCard;
     }
 
@@ -24,6 +29,6 @@ public class StarterCardUpdate implements Update {
      */
     @Override
     public void execute(GameView gameView) {
-        gameView.setStarterCard(starterCard);
+        gameView.setStarterCard(nickname, starterCard);
     }
 }
