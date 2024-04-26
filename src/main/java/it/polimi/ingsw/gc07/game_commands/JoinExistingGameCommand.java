@@ -6,7 +6,7 @@ import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 /**
  * Concrete command to add a pending player to an existing game.
  */
-public class JoinExistingGameCommand extends GamesManagerCommand {
+public class JoinExistingGameCommand implements GamesManagerCommand {
     /**
      * Nickname of the player to add.
      */

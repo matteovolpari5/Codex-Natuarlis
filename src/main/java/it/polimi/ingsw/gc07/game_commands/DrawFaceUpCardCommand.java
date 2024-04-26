@@ -6,7 +6,7 @@ import it.polimi.ingsw.gc07.model.enumerations.CardType;
 /**
  * Concrete command to draw one of two faceUp cards of a given type.
  */
-public class DrawFaceUpCardCommand extends GameCommand {
+public class DrawFaceUpCardCommand implements GameCommand {
     /**
      * Nickname of the player.
      */

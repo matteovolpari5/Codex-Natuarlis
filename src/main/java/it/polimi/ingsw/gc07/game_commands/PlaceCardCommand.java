@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc07.controller.GameController;
 /**
  * Concrete command to place a card.
  */
-public class PlaceCardCommand extends GameCommand {
+public class PlaceCardCommand implements GameCommand {
     /**
      * Nickname of the player that will place the card.
      */

@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc07.controller.GameController;
 /**
  * Concrete command to add a private message to the chat.
  */
-public class AddChatPrivateMessageCommand extends GameCommand {
+public class AddChatPrivateMessageCommand implements GameCommand {
     /**
      * Content of the private message.
      */

@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc07.controller.GameController;
 /**
  * Concrete command to place the starter card in a certain way.
  */
-public class PlaceStarterCardCommand extends GameCommand {
+public class PlaceStarterCardCommand implements GameCommand {
     /**
      * Nickname of the player.
      */

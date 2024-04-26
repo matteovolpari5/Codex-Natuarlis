@@ -6,7 +6,7 @@ import it.polimi.ingsw.gc07.controller.GamesManager;
  * Concrete command used to add a player to a list of pending players, that will be able
  * to enter a new or existing game.
  */
-public class AddPlayerToPendingCommand extends GamesManagerCommand {
+public class AddPlayerToPendingCommand implements GamesManagerCommand {
     /**
      * Nickname of the player to add.
      */

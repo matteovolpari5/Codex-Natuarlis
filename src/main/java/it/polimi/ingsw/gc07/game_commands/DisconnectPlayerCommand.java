@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc07.controller.GameController;
 /**
  * Concrete command to disconnect a player from the game.
  */
-public class DisconnectPlayerCommand extends GameCommand {
+public class DisconnectPlayerCommand implements GameCommand {
     /**
      * Nickname of the player that has disconnected.
      */

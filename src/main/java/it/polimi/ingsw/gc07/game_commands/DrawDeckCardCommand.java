@@ -3,7 +3,7 @@ package it.polimi.ingsw.gc07.game_commands;
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
-public class DrawDeckCardCommand extends GameCommand {
+public class DrawDeckCardCommand implements GameCommand {
     /**
      *  Nickname of the player.
      */
