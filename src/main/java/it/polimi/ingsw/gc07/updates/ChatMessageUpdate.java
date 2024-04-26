@@ -19,6 +19,7 @@ public class ChatMessageUpdate implements Update {
 
     /**
      * Execute method of the concrete update: adds the message to ChatView.
+     * @param gameView game view to update
      */
     @Override
     public void execute(GameView gameView) {

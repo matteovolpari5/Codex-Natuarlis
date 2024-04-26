@@ -21,6 +21,7 @@ public class CommonObjectiveUpdate implements Update {
 
     /**
      * Execute method of the concrete update: sets common objective cards.
+     * @param gameView game view to update
      */
     @Override
     public void execute(GameView gameView) {

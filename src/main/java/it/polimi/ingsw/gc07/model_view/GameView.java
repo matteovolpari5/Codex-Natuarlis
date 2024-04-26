@@ -46,11 +46,6 @@ public class GameView {
      * Command result.
      */
     private CommandResult commandResult;
-
-    /**
-     * Map of players and their game field views.
-     */
-    private Map<String, GameFieldView> playerGameFieldViews;
     /**
      * ScoreTrackBoardView reference.
      */
@@ -78,12 +73,76 @@ public class GameView {
      */
     public GameView() {
         this.winners = null;
-        this.playerGameFieldViews = new HashMap<>();
         this.scoreTrackBoardView = new ScoreTrackBoardView();
         this.deckView = new DeckView();
         this.chatView = new ChatView();
         this.playerViews = new ArrayList<>();
     }
+
+    // ok
+
+    /**
+     * Method that adds a new chat message to the ChatView.
+     * @param chatMessage new chat message
+     */
+    public void addMessage(ChatMessage chatMessage) {
+        chatView.addMessage(chatMessage);
+    }
+
+    /**
+     * Method that allows to set the common objective.
+     * @param commonObjective common objective
+     */
+    public void setCommonObjective(List<ObjectiveCard> commonObjective) {
+        deckView.setCommonObjective(commonObjective);
+    }
+
+    /**
+     * Method that allows to set the card on top of resource cards deck.
+     * @param topResourceDeck card on top of resource card deck
+     */
+    public void setTopResourceCard(DrawableCard topResourceDeck) {
+        deckView.setTopResourceDeck(topResourceDeck);
+    }
+
+    /**
+     * Method that allows to set the card on top of gold cards deck.
+     * @param topGoldDeck card on top of gold cards deck
+     */
+    public void setTopGoldCard(GoldCard topGoldDeck) {
+        deckView.setTopGoldDeck(topGoldDeck);
+    }
+
+    /**
+     * Method that allows to set the revealed resource cards.
+     * @param faceUpResourceCard revealed resource cards
+     */
+    public void setResourceFaceUpCards(List<DrawableCard> faceUpResourceCard) {
+        deckView.setFaceUpResourceCard(faceUpResourceCard);
+    }
+
+    /**
+     * Method that allows to set the revealed gold cards.
+     * @param faceUpGoldCard revealed gold cards
+     */
+    public void setGoldFaceUpCards(List<GoldCard> faceUpGoldCard) {
+        deckView.setFaceUpGoldCard(faceUpGoldCard);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // to check or add
+
 
     public void setId(int id) {
         this.id = id;
@@ -144,29 +203,8 @@ public class GameView {
         scoreTrackBoardView.setNewScore(nickname, newScore);
     }
 
-    public void setCommonObjective(List<ObjectiveCard> commonObjective) {
-        deckView.setCommonObjective(commonObjective);
-    }
 
-    public void setGoldFaceUpCards(List<GoldCard> faceUpGoldCard) {
-        deckView.setFaceUpGoldCard(faceUpGoldCard);
-    }
 
-    public void setResourceFaceUpCards(List<DrawableCard> faceUpResourceCard) {
-        deckView.setFaceUpResourceCard(faceUpResourceCard);
-    }
-
-    public void setTopGoldCard(GoldCard topGoldDeck) {
-        deckView.setTopGoldDeck(topGoldDeck);
-    }
-
-    public void setTopResourceCard(DrawableCard topResourceDeck) {
-        deckView.setTopResourceDeck(topResourceDeck);
-    }
-
-    public void addMessage(ChatMessage chatMessage) {
-        chatView.addMessage(chatMessage);
-    }
 
     public void addPlayerView(PlayerView playerView) {
         playerViews.add(playerView);

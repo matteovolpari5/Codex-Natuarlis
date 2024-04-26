@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.model_view;
 
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.List;
@@ -11,6 +12,10 @@ public class PlayerView {
      * Player's nickname.
      */
     private final String nickname;
+    /**
+     * Game field view.
+     */
+    private final GameFieldView gameField;
     /**
      * Color of the player's token.
      */
@@ -38,6 +43,7 @@ public class PlayerView {
      */
     public PlayerView(String nickname, TokenColor tokenColor, ObjectiveCard secretObjective) {
         this.nickname = nickname;
+        this.gameField = new GameFieldView();
         this.tokenColor = tokenColor;
         this.secretObjective = secretObjective;
         this.isConnected = true;
@@ -69,5 +75,13 @@ public class PlayerView {
      */
     public void setCardHand(List<DrawableCard> currentHand) {
         this.currentHand = currentHand;
+    }
+
+    public void setStarterCard(PlaceableCard starterCard) {
+        gameField.setStarterCard(starterCard);
+    }
+
+    public void addCard(int x, int y, PlaceableCard card, boolean way, int orderPosition) {
+        gameField.addCard(x, y, card, way, orderPosition);
     }
 }
