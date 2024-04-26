@@ -28,7 +28,8 @@ class GameFieldTest {
     @Test
     void placeCard() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         assertEquals(gameField.getPlacedCard(40, 40), myStarterCard);
         myResourceCard = resourceCardsDeck.drawCard();
@@ -39,7 +40,8 @@ class GameFieldTest {
     @Test
     void isCardPresent() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if (c.getId() == 15){
@@ -65,7 +67,8 @@ class GameFieldTest {
     @Test
     void getPlacedCard() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 49){
@@ -93,7 +96,8 @@ class GameFieldTest {
     @Test
     void removePlacedCard() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 49){
@@ -125,7 +129,8 @@ class GameFieldTest {
     @Test
     void getCardWay() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 41, 41, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, true);
@@ -140,7 +145,8 @@ class GameFieldTest {
     @Test
     void getCardsOrder() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 41, 41, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, false);
@@ -158,7 +164,8 @@ class GameFieldTest {
     @Test
     void getNumPlayedCards() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 41, 41, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, false);

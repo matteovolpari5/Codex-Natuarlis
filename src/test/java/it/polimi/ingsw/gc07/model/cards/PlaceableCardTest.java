@@ -26,7 +26,8 @@ class PlaceableCardTest {
     @Test
     public void onlyStarterCardScore () {
         myStarterCard=starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         assertEquals(0, myStarterCard.getPlacementScore(gameField, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2));
     }
@@ -34,7 +35,8 @@ class PlaceableCardTest {
     @Test
     public void starterCardScore() {
         myStarterCard=starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 41, 41, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 42, 42, false);

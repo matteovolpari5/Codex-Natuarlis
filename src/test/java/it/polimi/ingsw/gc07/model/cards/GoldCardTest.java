@@ -28,7 +28,8 @@ class GoldCardTest {
     @Test
     void isGoldPlaceableNoLegitCorner() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 49){
@@ -59,7 +60,8 @@ class GoldCardTest {
     @Test
     void isGoldPlaceableNoCoveredCorner() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 58){
@@ -90,7 +92,8 @@ class GoldCardTest {
     @Test
     void isGoldPlaceableMultipleCorner() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 58){
@@ -121,7 +124,8 @@ class GoldCardTest {
     @Test
     void isGoldPlaceableIndexOut() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 58){
@@ -152,7 +156,8 @@ class GoldCardTest {
     @Test
     void isGoldPlaceableCardAlreadyPresent() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 58){
@@ -182,7 +187,8 @@ class GoldCardTest {
     @Test
     void isGoldPlaceableCondition() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 58){
@@ -214,7 +220,8 @@ class GoldCardTest {
     @Test
     void getGoldPlacementScore() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 49){
@@ -246,7 +253,8 @@ class GoldCardTest {
     @Test
     void getGoldCornerPlacementScore() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 45){
@@ -277,7 +285,8 @@ class GoldCardTest {
     @Test
     void getGoldItemsPlacementScore() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 42){

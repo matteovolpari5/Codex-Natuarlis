@@ -45,7 +45,7 @@ public class GameField {
     /**
      * Attribute to save the starter card before the player places it.
      */
-    private final PlaceableCard starterCard;
+    private PlaceableCard starterCard;
     /**
      * List of game field listeners.
      */
@@ -54,7 +54,7 @@ public class GameField {
     /**
      * Constructor of the game field: builds an empty game field.
      */
-    public GameField(PlaceableCard starterCard) {
+    public GameField() {
         this.cardsContent = new PlaceableCard[dim][dim];
         for(int i=0; i < dim; i++){
             for(int j=0; j < dim; j++){
@@ -74,7 +74,7 @@ public class GameField {
             }
         }
         this.numPlayedCards = 0;
-        this.starterCard = starterCard;
+        this.starterCard = null;
         this.gameFieldListeners = new ArrayList<>();
     }
 
@@ -119,6 +119,13 @@ public class GameField {
      */
     public static int getDim() {
         return GameField.dim;
+    }
+
+    /**
+     * Setter method for player's starter card.
+     */
+    public void setStarterCard(PlaceableCard starterCard) {
+        this.starterCard = starterCard;
     }
 
     /**

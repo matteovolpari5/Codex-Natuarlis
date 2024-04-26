@@ -56,18 +56,19 @@ class GameControllerTest {
                 myStarterCard2 = p;
             }
         }
-        GameField gameField1 = new GameField(myStarterCard1);
+        firstPlayer.getGameField().setStarterCard(myStarterCard1);
         gameController.getPlayers().add(firstPlayer);
-        gameController.getPlayerGameFields().put("Player1", gameField1);
         gameController.getScoreTrackBoard().addPlayer("Player1");
         assertNotNull(myStarterCard1);
-        gameField1.placeCard(myStarterCard1, 40, 40, false);
-        GameField gameField2 = new GameField(myStarterCard1);
+        secondPlayer.getGameField().setStarterCard(myStarterCard1);
         gameController.getPlayers().add(secondPlayer);
-        gameController.getPlayerGameFields().put("Player2", gameField2);
         gameController.getScoreTrackBoard().addPlayer("Player2");
         assertNotNull(myStarterCard2);
-        gameField2.placeCard(myStarterCard2, 40, 40, false);
+
+        gameController.setState(GameState.PLACING_STARTER_CARDS);
+        gameController.placeStarterCard("Player1", false);
+        gameController.placeStarterCard("Player2", false);
+        gameController.setState(GameState.PLAYING);
 
         List<ObjectiveCard> publicObjective = new ArrayList<>();
         for (DrawableCard c: gameController.getResourceCardsDeck().getContent()){
@@ -399,18 +400,19 @@ class GameControllerTest {
                 myStarterCard2 = p;
             }
         }
-        GameField gameField1 = new GameField(myStarterCard1);
+
+        firstPlayer.getGameField().setStarterCard(myStarterCard1);
         gameController.getPlayers().add(firstPlayer);
-        gameController.getPlayerGameFields().put("Player1", gameField1);
         gameController.getScoreTrackBoard().addPlayer("Player1");
         assertNotNull(myStarterCard1);
-        gameField1.placeCard(myStarterCard1, 40, 40, false);
-        GameField gameField2 = new GameField(myStarterCard1);
+        firstPlayer.getGameField().placeCard(myStarterCard1, 40, 40, false);
+
+        secondPlayer.getGameField().setStarterCard(myStarterCard1);
         gameController.getPlayers().add(secondPlayer);
-        gameController.getPlayerGameFields().put("Player2", gameField2);
         gameController.getScoreTrackBoard().addPlayer("Player2");
         assertNotNull(myStarterCard2);
-        gameField2.placeCard(myStarterCard2, 40, 40, false);
+        secondPlayer.getGameField().placeCard(myStarterCard2, 40, 40, false);
+
         gameController.setState(GameState.PLAYING);
         firstPlayer.addCardHand(gameController.getResourceCardsDeck().drawCard());
         secondPlayer.addCardHand(gameController.getResourceCardsDeck().drawCard());
@@ -451,6 +453,7 @@ class GameControllerTest {
         gameController.changeCurrPlayer();
         gameController.changeCurrPlayer();
         gameController.changeCurrPlayer();
+
         for(Player p: gameController.getPlayers()) {
             assertTrue(gameController.getWinners().contains(p.getNickname()));
         }
