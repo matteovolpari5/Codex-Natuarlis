@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model.chat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * Public messages are instances of this class.
  * ChatMessage is immutable.
  */
-public class ChatMessage {
+public class ChatMessage implements Serializable {
     /**
      * String containing the body of the message.
      */

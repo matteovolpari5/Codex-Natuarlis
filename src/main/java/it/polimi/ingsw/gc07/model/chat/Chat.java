@@ -1,7 +1,10 @@
 package it.polimi.ingsw.gc07.model.chat;
 
 import it.polimi.ingsw.gc07.listeners.ChatListener;
+import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.updates.ChatMessageUpdate;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +46,16 @@ public class Chat {
      */
     public void addPublicMessage(String content, String sender, List<String> players) {
         assert(players.contains(sender)): "The sender is not among the players";
-        chatMessages.add(new ChatMessage(content, sender, true));
+
+        ChatMessage newMessage = new ChatMessage(content, sender, true);
+        chatMessages.add(newMessage);
+
+        System.out.println(chatListeners.size());
+
+        // TODO prova listener
+        for(ChatListener l: chatListeners) {
+            l.receiveChatMessageUpdate(new ChatMessageUpdate(newMessage));
+        }
     }
 
     /**
