@@ -81,7 +81,7 @@ public class PlayerView {
         gameField.setStarterCard(starterCard);
     }
 
-    public void addCard(int x, int y, PlaceableCard card, boolean way, int orderPosition) {
-        gameField.addCard(x, y, card, way, orderPosition);
+    public void addCard(PlaceableCard card, int x, int y, boolean way, int orderPosition) {
+        gameField.addCard(card, x, y, way, orderPosition);
     }
 }

@@ -1,22 +1,18 @@
 package it.polimi.ingsw.gc07.listeners;
 
-import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
+import it.polimi.ingsw.gc07.updates.PlacedCardUpdate;
+import it.polimi.ingsw.gc07.updates.StarterCardUpdate;
 
 public interface GameFieldListener {
     /**
-     * Method used to show a player his starter card.
-     * @param card starter card
+     * Method used to show the client his starter card.
+     * @param starterCardUpdate starter card update
      */
-    // TODO devo inviare l'aggiornamento solo al player giusto, non devo informare tutti!
-    void showStarterCard(PlaceableCard card);
+    void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate);
 
     /**
-     * Method used to notify the player that a new card was placed.
-     * @param x x
-     * @param y y
-     * @param card new card placed
-     * @param way way
-     * @param orderPosition order position
+     * Method used to notify players that a card has been placed.
+     * @param placedCardUpdate placed card update
      */
-    void showNewCard(int x, int y, PlaceableCard card, boolean way, int orderPosition);
+    void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate);
 }

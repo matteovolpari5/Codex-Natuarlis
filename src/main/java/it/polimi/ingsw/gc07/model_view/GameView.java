@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
@@ -14,6 +15,10 @@ import java.util.List;
 import java.util.Map;
 
 public class GameView {
+    /**
+     * Nickname of the owner of the game view.
+     */
+    private final String ownerNickname;
     /**
      * ID of the game.
      */
@@ -71,7 +76,8 @@ public class GameView {
     /**
      * Constructor of the class GameView
      */
-    public GameView() {
+    public GameView(String ownerNickname) {
+        this.ownerNickname = ownerNickname; // TODO set by the client (who has the nickname)
         this.winners = null;
         this.scoreTrackBoardView = new ScoreTrackBoardView();
         this.deckView = new DeckView();
@@ -129,8 +135,36 @@ public class GameView {
         deckView.setFaceUpGoldCard(faceUpGoldCard);
     }
 
+    /**
+     * Method that allows to set the starter card for the owner of the game view.
+     * Starter cards of other players will be visible once placed.
+     * @param starterCard starter card
+     */
+    public void setStarterCard(PlaceableCard starterCard) {
+        for(PlayerView playerView: playerViews) {
+            if(playerView.getNickname().equals(ownerNickname)) {
+                playerView.setStarterCard(starterCard);
+            }
+        }
+    }
 
-
+    /**
+     * Method that allows to set a new card in the game field.
+     * @param nickname nickname of the player who placed the card
+     * @param card card
+     * @param x x
+     * @param y y
+     * @param way way
+     * @param orderPosition order position
+     */
+    public void addCard(String nickname, PlaceableCard card, int x, int y, boolean way, int orderPosition) {
+        // add the card to the specified game field view specified
+        for(PlayerView playerView: playerViews) {
+            if(playerView.getNickname().equals(nickname)) {
+                playerView.addCard(card, x, y, way, orderPosition);
+            }
+        }
+    }
 
 
 
@@ -182,18 +216,6 @@ public class GameView {
         // come prima, non ho il nickname!!!
     }
 
-    // problema: gameField non ha il nickname, se invia aggiornamento, non so di chi sia!
-    /*
-    // TODO change
-    public void setStarterCard(PlaceableCard starterCard) {
-        gameFieldView.setStarterCard(starterCard);
-    }
-
-    // TODO change
-    public void addCard(int x, int y, PlaceableCard card, boolean way, int orderPosition) {
-        gameFieldView.addCard(x, y, card, way, orderPosition);
-    }
-     */
 
     public void addPlayer(String nickname, TokenColor color) {
         scoreTrackBoardView.addPlayer(nickname, color);

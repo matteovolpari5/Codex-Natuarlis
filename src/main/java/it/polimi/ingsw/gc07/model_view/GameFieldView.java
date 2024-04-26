@@ -45,13 +45,13 @@ public class GameFieldView {
 
     /**
      * Method to add a new card to the game field view.
+     * @param card new card
      * @param x x
      * @param y y
-     * @param card new card
      * @param way way
      * @param orderPosition order position
      */
-    public void addCard(int x, int y, PlaceableCard card, boolean way, int orderPosition) {
+    public void addCard(PlaceableCard card, int x, int y, boolean way, int orderPosition) {
         cardsContent[x][y] = card;
         cardsFace[x][y] = way;
         cardsOrder[x][y] = orderPosition;
