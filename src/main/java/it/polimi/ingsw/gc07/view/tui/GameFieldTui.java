@@ -11,7 +11,7 @@ import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import java.util.List;
 
 public class GameFieldTui {
-    /*
+/*
     public final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
     public final String ANSI_RED_BACKGROUND = "\u001B[41m";
     public final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
@@ -136,7 +136,7 @@ public class GameFieldTui {
             if (card != null) {
                 int points = 0;
                 if (!card.getType().equals(CardType.STARTER_CARD)) {
-                    points = card.getPlacementScore(gameController.getPlayersGameField().get(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname()), r, c);
+                    points = card.getPlacementScore(gameController.getPlayers().get(gameController.getCurrPlayer()).getGameField(), r, c);
                 }
                 boolean cardway = cardsFace[r][c];
                 if (cardway) {
@@ -529,5 +529,6 @@ public class GameFieldTui {
             System.out.print(ANSI_BLACK_BACKGROUND + "           ");
         }
     }
-     */
+
+ */
 }
