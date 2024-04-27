@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
+import it.polimi.ingsw.gc07.game_commands.GameCommand;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
@@ -14,6 +15,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
+/**
+ * Class that manages the whole communication with a specific client
+ */
 public class SocketClientHandler implements VirtualView {
     private final GamesManager gamesManager;
     private GameController gameController;
@@ -30,7 +34,7 @@ public class SocketClientHandler implements VirtualView {
         new Thread(this::manageGamesManagerCommand).start();
     }
 
-    public void manageGamesManagerCommand(){
+    private void manageGamesManagerCommand(){
 
         GamesManagerCommand command;
 
@@ -40,7 +44,9 @@ public class SocketClientHandler implements VirtualView {
                 synchronized (gamesManager){
                     gamesManager.setAndExecuteCommand(command);
                     CommandResult result = gamesManager.getCommandResultManager().getCommandResult();
-                    //TODO per mostrare l'esito al client basta: output.writeObject(result).flush();  output.reset(); output.flush(); ?
+                    //TODO i listener sono stati invocati dal model in seguito alla modifica causata dal command
+                    //TODO ad un certo punto nell'esecuzione del command si arriva all'invocazione dei metodi sottostanti per notificare
+                    //TODO quindi non bisogna notificare l'utente adesso
                     if(result.equals(CommandResult.SUCCESS)){
                         break;
                     }
@@ -53,15 +59,18 @@ public class SocketClientHandler implements VirtualView {
                         this.gameController = gamesManager.getGameById(gameId);
 
                         //TODO output.write->.reset()->.flush()
-                        output.writeBytes("Benvenuto"); //TODO oppure .writeChars(...);
-
-                        output.flush();
-                         //TODO necessario anche se non è un oggetto?
+                        //output.writeBytes("Benvenuto"); //TODO oppure .writeChars(...);
+                        //output.flush();
+                        // TODO necessario anche se non è un oggetto?
                         break;
+                    }else{
+                        //TODO come gestire se il command ha avuto esito negativo? In rmi non viene controllato da nessuno l'esito del command
                     }
                 }
                 //TODO l'esempio a questo punto invoca il metodo broadcastUpdate(...) di .server
                 //TODO decidere come gestire a seconda dei listener
+                //TODO AGGIRONAMENTO: nell'esempio la propagazione dell'aggiornamento dello stato del modello parte dalla classe di rete, nel nostro caso
+                //TODO deve partire dal modello, quindi in questa classe non bisogna far partire alcun update
             } catch (Exception e){
                 //TODO gestire eccezione
                 break;
@@ -75,9 +84,10 @@ public class SocketClientHandler implements VirtualView {
         while(true){
             try{
                 command = (GameCommand) input.readObject();
-                synchronized (game){
-                    game.setAndExecuteCommand(command);
-                    CommandResult result = game.getCommandResultManager().getCommandResult();
+                synchronized (gameController){
+                    gameController.setAndExecuteCommand(command);
+                    CommandResult result = gameController.getCommandResult();
+                    //TODO come prima: in rmi nessuno controlla l'esito del command
                     if(result.equals(CommandResult.SUCCESS)){
                         //TODO mostrare esito
                     }else{
@@ -105,93 +115,161 @@ public class SocketClientHandler implements VirtualView {
     }
     @Override
     public void setServerGame(VirtualServerGame serverGame) throws RemoteException {
-
+        //TODO non utilizzato in socket, potrebbe
     }
     @Override
     public String getNickname() throws RemoteException {
+        //TODO in rmi è utilizzato per assegnare al client lo stub del server una volta che entra in una partita
+        //TODO in socket non necessario
         return null;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // TODO aggiunti perchè altrimenti non compila
 
 
-
     @Override
     public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) {
-
+        //TODO il messaggio è creato dal model, dato che la comunicazione con il client è gestita da questa classe, il model invoca il metodo di questa classe
+        try {
+            output.writeObject(chatMessageUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void receiveCommonObjectiveUpdate(CommonObjectiveUpdate commonObjectiveUpdate) {
-
+        try {
+            output.writeObject(commonObjectiveUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void receiveDeckUpdate(DeckUpdate deckUpdate) {
-
+        try {
+            output.writeObject(deckUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) {
-
+        try {
+            output.writeObject(starterCardUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) {
-
+        try {
+            output.writeObject(placedCardUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) {
-
+        try {
+            output.writeObject(gameModelUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate) {
-
+        try {
+            output.writeObject(playerJoinedUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) {
-
+        try {
+            output.writeObject(commandResultUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void receiveStallUpdate(StallUpdate stallUpdate) {
-
+        try {
+            output.writeObject(stallUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) {
-
+        try {
+            output.writeObject(connectionUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) {
-
+        try {
+            output.writeObject(cardHandUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void receiveScoreUpdate(ScoreUpdate scoreUpdate) {
-
+        try {
+            output.writeObject(scoreUpdate);
+            output.flush();
+            output.reset();
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

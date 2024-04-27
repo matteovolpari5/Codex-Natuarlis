@@ -18,5 +18,5 @@ public interface VirtualServerGamesManager extends Remote {
      * @param gamesManagerCommand games manager command to set and execute
      * @throws RemoteException remote exception
      */
-    void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException //TODO sollevare invece networkException, nei metodi di rmi e socket rilanciarle come remoteexception o ioexception;
+    void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException; //TODO sollevare invece networkException, nei metodi di rmi e socket rilanciarle come remoteexception o ioexception;
 }

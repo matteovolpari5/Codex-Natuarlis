@@ -1,7 +1,9 @@
 package it.polimi.ingsw.gc07.model_view;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
-public class GameFieldView {
+import java.io.Serializable;
+
+public class GameFieldView implements Serializable {
     /**
      * Player's starter card.
      */

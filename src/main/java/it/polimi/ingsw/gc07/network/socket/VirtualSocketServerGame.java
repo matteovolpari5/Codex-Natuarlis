@@ -17,3 +17,5 @@ public class VirtualSocketServerGame implements VirtualServerGame {
 
     }
 }
+
+//TODO da eliminare

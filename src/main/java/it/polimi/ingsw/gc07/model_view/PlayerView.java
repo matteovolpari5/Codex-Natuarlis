@@ -5,9 +5,10 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PlayerView {
+public class PlayerView implements Serializable {
     /**
      * Player's nickname.
      */

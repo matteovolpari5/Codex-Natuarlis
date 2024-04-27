@@ -19,9 +19,7 @@ public class SocketClient implements VirtualView {
     private final Socket mySocket;
     private final ObjectInputStream input;
     private VirtualSocketServerGamesManager myServer;
-    private VirtualServerGame gameServer; //TODO dovrebbe essere VirtualSocketServerGame e non VirtualServerGame, tuttavia nell'interfaccia utilizza il secondo,
-                                         //TODO dato che VirtualView è usata anche in RMI crea errori, per non causare problemi in RMI qui viene posta a VirtualServerGame
-                                         //TODO tenere solo uno dei due
+
 
     public SocketClient(Socket mySocket, String nickname) throws IOException {
         this.nickname = nickname;
@@ -29,9 +27,10 @@ public class SocketClient implements VirtualView {
         this.input = new ObjectInputStream(mySocket.getInputStream());
         ObjectOutputStream output = new ObjectOutputStream(mySocket.getOutputStream());
         this.myServer = new VirtualSocketServerGamesManager(output);
+        this.run();
     }
 
-    public void run(){  //TODO dovrebbe essere private
+    private void run(){
         new Thread(() -> {
             try{
                 runVirtualServer();
@@ -44,10 +43,10 @@ public class SocketClient implements VirtualView {
 
     private void runVirtualServer() throws IOException, ClassNotFoundException {
         //gestisce i messaggi ottenuti dal server
-        GenericMessage message;
+        Update update;
         while (true){
-            message = (GenenricMessage)input.readObject();
-            //TODO (...)
+            update = (Update) input.readObject();
+
         }
     }
 
@@ -308,11 +307,11 @@ public class SocketClient implements VirtualView {
 
     @Override
     public void setServerGame(VirtualServerGame gameServer) throws RemoteException {
-        this.gameServer = gameServer;
-        this.gamesManagerServer = null; //TODO in questo modo quando entra in una partita non può più comunicare con gamesManager
+        //TODO per socket non serve
     }
     @Override
     public String getNickname() throws RemoteException {
+        //TODO per socket non serve
         return null;
     }
 
