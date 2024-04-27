@@ -3,9 +3,10 @@ package it.polimi.ingsw.gc07.listeners;
 import it.polimi.ingsw.gc07.updates.PlacedCardUpdate;
 import it.polimi.ingsw.gc07.updates.StarterCardUpdate;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface GameFieldListener {
+public interface GameFieldListener extends Remote {
     /**
      * Method used to show the client his starter card.
      * @param starterCardUpdate starter card update

@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc07.listeners.ChatListener;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.ChatMessageUpdate;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,12 @@ public class Chat {
 
         // TODO prova listener
         for(ChatListener l: chatListeners) {
-            l.receiveChatMessageUpdate(new ChatMessageUpdate(newMessage));
+            try {
+                l.receiveChatMessageUpdate(new ChatMessageUpdate(newMessage));
+            }catch(RemoteException e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
         }
     }
 
