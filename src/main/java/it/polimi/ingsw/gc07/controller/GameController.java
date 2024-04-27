@@ -126,10 +126,6 @@ public class GameController {
         gameModel.setCurrPlayer(num);
     }
 
-    synchronized Chat getChat() {
-        return gameModel.getChat();
-    }
-
     public CommandResult getCommandResult() {
         return gameModel.getCommandResult();
     }
@@ -163,8 +159,8 @@ public class GameController {
             gameModel.setCommandResult(CommandResult.WRONG_RECEIVER);
             return;
         }
-        // adds message to the chat
-        getChat().addPrivateMessage(content, sender, receiver, playersNicknames);
+        // add message to the chat
+        gameModel.addChatPrivateMessage(content, sender, receiver);
         gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
@@ -177,7 +173,7 @@ public class GameController {
             return;
         }
         // add message to chat
-        getChat().addPublicMessage(content, sender, playersNicknames);
+        gameModel.addChatPublicMessage(content, sender);
         gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 

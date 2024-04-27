@@ -43,17 +43,14 @@ public class Chat {
      * Method to add a new public message to the chat.
      * @param content content of the message
      * @param sender sender nickname
-     * @param players list of players in the game
      */
-    public void addPublicMessage(String content, String sender, List<String> players) {
-        assert(players.contains(sender)): "The sender is not among the players";
-
+    public void addPublicMessage(String content, String sender) {
         ChatMessage newMessage = new ChatMessage(content, sender, true);
         chatMessages.add(newMessage);
 
         System.out.println(chatListeners.size());
 
-        // TODO prova listener
+        // TODO prova listener - modificare
         for(ChatListener l: chatListeners) {
             try {
                 l.receiveChatMessageUpdate(new ChatMessageUpdate(newMessage));
@@ -69,12 +66,11 @@ public class Chat {
      * @param content content of the message
      * @param sender sender nickname
      * @param receiver receiver nickname
-     * @param players list of players in the game
      */
-    public void addPrivateMessage(String content, String sender, String receiver, List<String> players) {
-        assert(players.contains(sender)): "The sender is not among the players";
-        assert(players.contains(receiver)): "The receiver is not among the players";
+    public void addPrivateMessage(String content, String sender, String receiver) {
         chatMessages.add(new PrivateChatMessage(content, sender, false, receiver));
+
+        // TODO listener
     }
 
     /**

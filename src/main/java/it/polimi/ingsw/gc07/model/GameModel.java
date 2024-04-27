@@ -196,10 +196,6 @@ public class GameModel {
         this.additionalRound = additionalRound;
     }
 
-    public Chat getChat() {
-        return chat;
-    }
-
     public void setCommandResult(CommandResult commandResult) {
         this.commandResult = commandResult;
     }
@@ -237,5 +233,13 @@ public class GameModel {
             p.addListener(client);
             p.getGameField().addListener(client);
         }
+    }
+
+    public void addChatPublicMessage(String content, String sender) {
+        chat.addPublicMessage(content, sender);
+    }
+
+    public void addChatPrivateMessage(String content, String sender, String receiver) {
+        chat.addPrivateMessage(content, sender, receiver);
     }
 }
