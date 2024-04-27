@@ -1,13 +1,14 @@
 package it.polimi.ingsw.gc07.model.chat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Class representing a message.
  * Public messages are instances of this class.
- * Message is immutable.
+ * ChatMessage is immutable.
  */
-public class Message {
+public class ChatMessage implements Serializable {
     /**
      * String containing the body of the message.
      */
@@ -20,6 +21,7 @@ public class Message {
      * Date and time the message was sent.
      */
     private final Date dateTime;
+
     /**
      * Boolean attribute, that tells if the message is public.
      * If true, the message is public, i.e. visible by all the players in the same game.
@@ -27,12 +29,12 @@ public class Message {
     private final boolean isPublic;
 
     /**
-     * Constructor for Message.
+     * Constructor for ChatMessage.
      * @param content content of the message
      * @param senderNickname nickname of the sender
      * @param isPublic boolean value, tells if the message is public (true) or not (false)
      */
-    public Message(String content, String senderNickname, boolean isPublic) {
+    public ChatMessage(String content, String senderNickname, boolean isPublic) {
         this.content = content;
         this.senderNickname = senderNickname;
         this.dateTime = new Date(System.currentTimeMillis());
@@ -41,7 +43,7 @@ public class Message {
     }
 
     /**
-     * Getter for the Message's content (immutable).
+     * Getter for the ChatMessage's content (immutable).
      * @return content of the message
      */
     public String getContent(){
@@ -49,8 +51,8 @@ public class Message {
     }
 
     /**
-     * Getter for the Message's sender (immutable).
-     * @return nickname of the Message's sender
+     * Getter for the ChatMessage's sender (immutable).
+     * @return nickname of the ChatMessage's sender
      */
     public String getSender(){
         return senderNickname;
@@ -64,6 +66,13 @@ public class Message {
         return new Date(dateTime.getTime());
     }
 
+    /**
+     * Getter method for isPublic attribute.
+     * @return attribute isPublic
+     */
+    public boolean getIsPublic() {
+        return isPublic;
+    }
     /**
      * Method that checks if the message is for a certain receiver.
      * @param receiver nickname of the receiver

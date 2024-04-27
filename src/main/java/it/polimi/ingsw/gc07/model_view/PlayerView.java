@@ -2,9 +2,9 @@ package it.polimi.ingsw.gc07.model_view;
 
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerView {
@@ -13,86 +13,79 @@ public class PlayerView {
      */
     private final String nickname;
     /**
+     * Game field view.
+     */
+    private final GameFieldView gameField;
+    /**
      * Color of the player's token.
      */
-    private TokenColor tokenColor;
+    private final TokenColor tokenColor;
+    /**
+     * Player's secret objective, it is an objective card.
+     */
+    private final ObjectiveCard secretObjective;
     /**
      * Boolean value representing if the player is connected.
      */
     private boolean isConnected;
     /**
-     * List of cards the player currently has. update needs to be sent only to the single player
-     */
-    private List<DrawableCard> currentHand;
-    /**
-     * Player's secret objective, it is an objective card.
-     */
-    private ObjectiveCard secretObjective;
-    /**
      * Attribute telling if the player is stalled.
      */
     private boolean isStalled;
+    /**
+     * List of cards the player currently has. update needs to be sent only to the single player
+     */
+    private List<DrawableCard> currentHand;
 
     /**
      * Constructor of class player
      * @param nickname player's nickname
      */
-    public PlayerView(String nickname) {
+    public PlayerView(String nickname, TokenColor tokenColor, ObjectiveCard secretObjective) {
         this.nickname = nickname;
-        this.tokenColor = null;
+        this.gameField = new GameFieldView();
+        this.tokenColor = tokenColor;
+        this.secretObjective = secretObjective;
         this.isConnected = true;
-        this.currentHand = new ArrayList<>();
-        this.secretObjective = null;
+        this.currentHand = null;
         this.isStalled = false;
     }
-    /**
-     * Setter for tokenColor.
-     * @param tokenColor token color
-     */
-    public void setTokenColor(TokenColor tokenColor) {
-        this.tokenColor = tokenColor;
+
+    public String getNickname() {
+        return this.nickname;
+    }
+
+    public TokenColor getTokenColor() {
+        return this.tokenColor;
     }
 
     /**
-     *  setter for attribute isStalled
+     * Setter for attribute isStalled.
+     * @param isStalled boolean value for isStalled
      */
-    public void setIsStalled(boolean isStalled)
-    {
-        this.isStalled=isStalled;
+    public void setIsStalled(boolean isStalled) {
+        this.isStalled = isStalled;
     }
-
     /**
      * Setter for the method isConnected.
      * @param isConnected: true if the player is connected
      */
-    public void setIsConnected(boolean isConnected){
+    public void setIsConnected(boolean isConnected) {
         this.isConnected = isConnected;
     }
-
     /**
-     * Method that removes a card from the hand of a player.
-     * @param card: card that the player play
+     * Method that allows to set the currentHand.
+     * @param currentHand new current hand
      */
-    public void removeCardHand(DrawableCard card) {
-        currentHand.remove(card);
-        this.currentHand = new ArrayList<>(currentHand);
+    public void setCardHand(List<DrawableCard> currentHand) {
+        this.currentHand = currentHand;
     }
 
-    /**
-     * Method that adds a card from the hand of a player.
-     * @param card: card that the player draw
-     */
-    public void addCardHand(DrawableCard card) {
-        currentHand.add(card);
-        this.currentHand = new ArrayList<>(currentHand);
+    public void setStarterCard(PlaceableCard starterCard) {
+        gameField.setStarterCard(starterCard);
     }
 
-    /**
-     * setter method for secretObjective attribute
-     * @param secretObjective card that has to be set
-     */
-    public void setSecretObjective(ObjectiveCard secretObjective) {
-        this.secretObjective = secretObjective;
+    public void addCard(PlaceableCard card, int x, int y, boolean way, int orderPosition) {
+        gameField.addCard(card, x, y, way, orderPosition);
     }
-
 }

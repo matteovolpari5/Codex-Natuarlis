@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.model.CommandResult;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
@@ -24,7 +24,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableNoCoveredCorner() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){
@@ -37,7 +38,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableIndexOut() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){
@@ -50,7 +52,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableMultipleCorner1() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){
@@ -63,7 +66,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableMultipleCorner2() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){
@@ -76,7 +80,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableMultipleCorner3() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){
@@ -89,7 +94,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableMultipleCorner4() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){
@@ -102,7 +108,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableCardAlreadyPresent() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){
@@ -115,7 +122,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableNoLegitCorner1() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){
@@ -140,7 +148,8 @@ class DrawableCardTest {
     @Test
     void getResourcePlacementScore() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 9){
@@ -158,7 +167,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableNoLegitCorner2() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){
@@ -183,7 +193,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableNoLegitCorner3() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 8){
@@ -208,7 +219,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableNoLegitCorner4() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 2){
@@ -237,7 +249,8 @@ class DrawableCardTest {
                 myStarterCard = c;
             }
         }
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, true);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){
@@ -254,7 +267,8 @@ class DrawableCardTest {
                 myStarterCard = c;
             }
         }
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, true);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){
@@ -267,7 +281,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableNoLegitCorner7() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 3){
@@ -286,7 +301,8 @@ class DrawableCardTest {
     @Test
     void isResourcePlaceableNoLegitCorner9() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 4){
@@ -310,7 +326,8 @@ class DrawableCardTest {
                 myStarterCard = c;
             }
         }
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, true);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if(c.getId() == 1){

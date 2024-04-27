@@ -1,7 +1,9 @@
 package it.polimi.ingsw.gc07.model;
 
+import it.polimi.ingsw.gc07.listeners.PlayerListener;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.List;
@@ -15,6 +17,10 @@ public class Player {
      * Player's nickname.
      */
     private final String nickname;
+    /**
+     * Player's game field;
+     */
+    private final GameField gameField;
     /**
      * Color of the player's token.
      */
@@ -51,6 +57,10 @@ public class Player {
      * Attribute telling if the player is stalled.
      */
     private boolean isStalled;
+    /**
+     * List of player listeners.
+     */
+    private final List<PlayerListener> playerListeners;
 
     /**
      * Constructor of class player
@@ -59,6 +69,7 @@ public class Player {
      */
     public Player(String nickname, boolean connectionType, boolean interfaceType) {
         this.nickname = nickname;
+        this.gameField = new GameField();
         this.tokenColor = null;
         this.isFirst = false;   // will be set true only for the first player
         this.connectionType = connectionType;
@@ -67,6 +78,7 @@ public class Player {
         this.currentHand = new ArrayList<>();
         this.secretObjective = null;
         this.isStalled = false;
+        this.playerListeners = new ArrayList<>();
     }
 
     /**
@@ -75,6 +87,7 @@ public class Player {
      */
     public Player(Player existingPlayer) {
         this.nickname = existingPlayer.nickname;
+        this.gameField = new GameField(existingPlayer.gameField);
         this.tokenColor = existingPlayer.tokenColor;
         this.isFirst = existingPlayer.isFirst;
         this.connectionType = existingPlayer.connectionType;
@@ -83,6 +96,23 @@ public class Player {
         this.currentHand = new ArrayList<>(existingPlayer.currentHand);
         this.secretObjective = existingPlayer.secretObjective;
         this.isStalled = existingPlayer.isStalled;
+        this.playerListeners = new ArrayList<>(existingPlayer.playerListeners);
+    }
+
+    /**
+     * Method to add a player listener.
+     * @param playerListener new player listener
+     */
+    public void addListener(PlayerListener playerListener) {
+        playerListeners.add(playerListener);
+    }
+
+    /**
+     * Getter method for playerListeners.
+     * @return list of player listeners
+     */
+    public List<PlayerListener> getListeners() {
+        return this.playerListeners;
     }
 
     /**
@@ -91,6 +121,22 @@ public class Player {
      */
     public String getNickname() {
         return nickname;
+    }
+
+    /**
+     * Getter for game field.
+     * @return game field
+     */
+    public GameField getGameField() {
+        return this.gameField;
+    }
+
+    /**
+     * Setter method for player's starter card.
+     * @param starterCard starter card
+     */
+    public void setStarterCard(PlaceableCard starterCard) {
+        this.gameField.setStarterCard(starterCard);
     }
 
     /**

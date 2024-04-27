@@ -65,7 +65,9 @@ public class LayoutCondition implements Condition{
      */
     @Override
     public int numTimesMet(GameField gameField) throws NullPointerException {
+        // create a copy, since the method modifies it
         myGamefield = new GameField(gameField);
+
         // check valid game field
         assert(gameField != null): "No GameField passed as parameter";
         int dim = GameField.getDim();

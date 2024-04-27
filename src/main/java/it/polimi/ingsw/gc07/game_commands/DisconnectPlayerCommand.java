@@ -1,9 +1,11 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.game_commands;
+
+import it.polimi.ingsw.gc07.controller.GameController;
 
 /**
  * Concrete command to disconnect a player from the game.
  */
-public class DisconnectPlayerCommand extends GameCommand {
+public class DisconnectPlayerCommand implements GameCommand {
     /**
      * Nickname of the player that has disconnected.
      */
@@ -18,10 +20,10 @@ public class DisconnectPlayerCommand extends GameCommand {
     }
 
     /**
-     * Method to disconnect a player from the game.
+     * Method to disconnect a player from the gameController.
      */
     @Override
-    public void execute(Game game) {
-        game.disconnectPlayer(nickname);
+    public void execute(GameController gameController) {
+        gameController.disconnectPlayer(nickname);
     }
 }

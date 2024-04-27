@@ -1,11 +1,13 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
-import it.polimi.ingsw.gc07.controller.*;
+import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.updates.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -15,11 +17,13 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     private final String nickname;
     private final VirtualServerGamesManager serverGamesManager;
     private VirtualServerGame serverGame;
+    private final GameView gameView;
 
     public RmiClient(VirtualServerGamesManager serverGamesManager, String nickname) throws RemoteException {
         this.nickname = nickname;
         this.serverGamesManager = serverGamesManager;
         this.serverGame = null;
+        this.gameView = new GameView(nickname);
     }
 
     public void connectToGamesManager(boolean connectionType, boolean interfaceType) {
@@ -315,5 +319,113 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     System.out.println("The provided character doesn't refer to any action");
             }
         }
+    }
+
+    /**
+     * Method used to notify the player he has received a new chat chatMessage.
+     * @param chatMessageUpdate chat message update
+     */
+    @Override
+    public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) {
+        chatMessageUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to notify the client the common objective.
+     * @param commonObjectiveUpdate common objective update
+     */
+    @Override
+    public void receiveCommonObjectiveUpdate(CommonObjectiveUpdate commonObjectiveUpdate) {
+        commonObjectiveUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to notify the client of a deck update.
+     * @param deckUpdate deck update
+     */
+    @Override
+    public void receiveDeckUpdate(DeckUpdate deckUpdate) {
+        deckUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to show the client his starter card.
+     * @param starterCardUpdate starter card update
+     */
+    @Override
+    public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) {
+        starterCardUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to notify players that a card has been placed.
+     * @param placedCardUpdate placed card update
+     */
+    @Override
+    public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) {
+        placedCardUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to notify a game model update.
+     * @param gameModelUpdate game model update
+     */
+    @Override
+    public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) {
+        gameModelUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to notify that a player has joined.
+     * @param playerJoinedUpdate playerJoinedUpdate
+     */
+    @Override
+    public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate) {
+        playerJoinedUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to notify a command result update.
+     * @param commandResultUpdate command result update
+     */
+    @Override
+    public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) {
+        commandResultUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to send a stall update.
+     * @param stallUpdate stall update
+     */
+    @Override
+    public void receiveStallUpdate(StallUpdate stallUpdate) {
+        stallUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to send a connection update.
+     * @param connectionUpdate connection update
+     */
+    @Override
+    public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) {
+        connectionUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to send a card hand update.
+     * @param cardHandUpdate card hand update
+     */
+    @Override
+    public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) {
+        cardHandUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to show the client an updated score.
+     * @param scoreUpdate score update
+     */
+    @Override
+    public void receiveScoreUpdate(ScoreUpdate scoreUpdate) {
+        scoreUpdate.execute(gameView);
     }
 }

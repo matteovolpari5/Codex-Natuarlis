@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.model.CommandResult;
+import it.polimi.ingsw.gc07.game_commands.AddPlayerToPendingCommand;
+import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +39,7 @@ class AddPlayerToPendingCommandTest {
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResultManager().getCommandResult());
 
-        // make Player1 join a new game
+        // make Player1 join a new gameController
         gamesManager.setAndExecuteCommand(new JoinNewGameCommand("Player1", TokenColor.GREEN, 3));
         assertEquals(CommandResult.CREATE_SERVER_GAME, gamesManager.getCommandResultManager().getCommandResult());
 

@@ -1,39 +1,21 @@
 package it.polimi.ingsw.gc07.listeners;
 
-import it.polimi.ingsw.gc07.model.cards.DrawableCard;
-import it.polimi.ingsw.gc07.model.cards.GoldCard;
-import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.updates.CommonObjectiveUpdate;
+import it.polimi.ingsw.gc07.updates.DeckUpdate;
 
-import java.util.List;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-public interface DeckListener {
+public interface DeckListener extends Remote {
     /**
-     * Method used to notify the client that the card on top the resource cards deck changed.
-     * @param card new card on top of the deck
-     */
-    void topResourceCardChanged(DrawableCard card);
-
-    /**
-     * Method used to notify the client that the card on top the gold cards deck changed.
-     * @param card new card on top of the deck
-     */
-    void topGoldCardChanged(GoldCard card);
+     * Method used to notify the client the common objective.
+     * @param commonObjectiveUpdate common objective update
+    */
+    void receiveCommonObjectiveUpdate(CommonObjectiveUpdate commonObjectiveUpdate) throws RemoteException;
 
     /**
-     * Method used to notify the client that the resource face up cards changed.
-     * @param faceUpCards new list of face up cards
+     * Method used to notify the client of a deck update.
+     * @param deckUpdate deck update
      */
-    void resourceFaceUpCardsChanged(List<DrawableCard> faceUpCards);
-
-    /**
-     * Method used to notify the client that the gold face up cards changed.
-     * @param faceUpCards new list of face up cards
-     */
-    void goldFaceUpCardsChanged(List<GoldCard> faceUpCards);
-
-    /**
-     * Method used to notify the client that the objective face up cards changed.
-     * @param faceUpCards new list of face up cards
-     */
-    void commonObjectiveCardsRevealed(List<ObjectiveCard> faceUpCards);
+    void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException;
 }

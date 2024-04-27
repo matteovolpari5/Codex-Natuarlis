@@ -50,7 +50,8 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         neededItems.add(GameResource.PLANT);
         neededItems.add(GameResource.ANIMAL);
@@ -64,7 +65,8 @@ class ItemsConditionTest {
     @Test
     public void onlyStarterCardTemporaryResources() {
         PlaceableCard myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         neededItems.add(GameResource.PLANT);
         neededItems.add(GameResource.ANIMAL);
@@ -85,7 +87,8 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         neededItems.add(GameResource.PLANT);
         neededItems.add(GameResource.INSECT);
@@ -103,7 +106,8 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         // 2 INSECT, 1 PLANT
 
@@ -170,7 +174,8 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         // 2 INSECT, 1 PLANT
 
@@ -232,7 +237,8 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         // 2 INSECT, 1 PLANT
 
@@ -289,7 +295,8 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField(myStarterCard);
+        GameField gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
 
         PlaceableCard card = null;

@@ -38,9 +38,9 @@ class ChatTest {
         players.add(sender);
         players.add(receiver1);
         players.add(receiver2);
-        chat.addPublicMessage("TestMessage1", sender, players);
-        chat.addPublicMessage("TestMessage2", sender, players);
-        chat.addPublicMessage("TestMessage3", sender, players);
+        chat.addPublicMessage("TestMessage1", sender);
+        chat.addPublicMessage("TestMessage2", sender);
+        chat.addPublicMessage("TestMessage3", sender);
         assertEquals(3, chat.getContent(receiver1).size());
         assertEquals(3, chat.getContent(receiver2).size());
         assertEquals("TestMessage3", chat.getLastMessage(receiver1).getContent());
@@ -56,9 +56,9 @@ class ChatTest {
         players.add(sender);
         players.add(receiver1);
         players.add(receiver2);
-        chat.addPublicMessage("TestMessage1", sender, players);
-        chat.addPrivateMessage("TestMessage2", sender, receiver1, players);
-        chat.addPrivateMessage("TestMessage3", sender, receiver1, players);
+        chat.addPublicMessage("TestMessage1", sender);
+        chat.addPrivateMessage("TestMessage2", sender, receiver1);
+        chat.addPrivateMessage("TestMessage3", sender, receiver1);
         assertEquals(3, chat.getContent(receiver1).size());
         assertEquals("TestMessage3", chat.getLastMessage(receiver1).getContent());
         assertEquals(1, chat.getContent(receiver2).size());

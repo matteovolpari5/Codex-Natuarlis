@@ -1,8 +1,9 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.game_commands;
 
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
-public class DrawDeckCardCommand extends GameCommand {
+public class DrawDeckCardCommand implements GameCommand {
     /**
      *  Nickname of the player.
      */
@@ -27,7 +28,7 @@ public class DrawDeckCardCommand extends GameCommand {
      * Method that allows a player to draw one card from a GoldCardDeck or a ResourceCardDeck.
      */
     @Override
-    public void execute(Game game) {
-        game.drawDeckCard(nickname, type);
+    public void execute(GameController gameController) {
+        gameController.drawDeckCard(nickname, type);
     }
 }

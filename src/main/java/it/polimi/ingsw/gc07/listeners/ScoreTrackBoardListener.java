@@ -1,10 +1,14 @@
 package it.polimi.ingsw.gc07.listeners;
 
-public interface ScoreTrackBoardListener {
+import it.polimi.ingsw.gc07.updates.ScoreUpdate;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface ScoreTrackBoardListener extends Remote {
     /**
-     * Method used to notify players that the score of a players is changed.
-     * @param nickname player's nickname
-     * @param newScore new score
+     * Method used to show the client an updated score.
+     * @param scoreUpdate score update
      */
-    void showUpdatedScore(String nickname, int newScore);
+    void receiveScoreUpdate(ScoreUpdate scoreUpdate) throws RemoteException;
 }

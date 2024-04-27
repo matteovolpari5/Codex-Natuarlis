@@ -6,21 +6,20 @@ public class GameFieldView {
      * Player's starter card.
      */
     private PlaceableCard starterCard;
-
     /**
      * Each cell of the matrix contains a placeable card, or null if the place is empty.
      */
-    private PlaceableCard[][] cardsContent;
+    private final PlaceableCard[][] cardsContent;
     /**
      * Each cell of the matrix contains a boolean value:
      * false: the card has been placed face up
      * true: the card has been placed face down
      */
-    private Boolean[][] cardsFace;
+    private final Boolean[][] cardsFace;
     /**
      * Matrix representing the placement order of cards.
      */
-    private int [][] cardsOrder;
+    private final int [][] cardsOrder;
     /**
      * Constant value representing the max dimension of a player's game field.
      */
@@ -29,28 +28,12 @@ public class GameFieldView {
     /**
      * Constructor of the game field view.
      */
-    public GameFieldView(PlaceableCard starterCard) {
+    public GameFieldView() {
         this.starterCard = null;
         this.cardsContent = null;
         this.cardsFace = null;
         this.cardsOrder = null;
     }
-
-    /**
-     * Getter method for the game field content.
-     */
-    public PlaceableCard[][] getCardsContent() {return cardsContent;}
-
-    /**
-     * Setter method for the game field content.
-     * @param cardsContent new game field
-     */
-    public void setCardsContent(PlaceableCard[][] cardsContent) {this.cardsContent = cardsContent;}
-
-    /**
-     * Getter method for the starter card.
-     */
-    public PlaceableCard getStarterCard() {return starterCard;}
 
     /**
      * Setter method for the starter card.
@@ -61,26 +44,16 @@ public class GameFieldView {
     }
 
     /**
-     * Getter method for the card's face.
+     * Method to add a new card to the game field view.
+     * @param card new card
+     * @param x x
+     * @param y y
+     * @param way way
+     * @param orderPosition order position
      */
-    public Boolean[][] getCardsFace() {return cardsFace;}
-
-    /**
-     * Setter method for the card's face.
-     * @param cardsFace new matrix of card's face.
-     */
-    public void setCardsFace(Boolean[][] cardsFace) {this.cardsFace = cardsFace;}
-
-    /**
-     * Getter method for the card's order.
-     */
-    public int[][] getCardsOrder() {return cardsOrder;}
-
-    /**
-     * Setter method for the card's order.
-     * @param cardsOrder new matrix of card's order.
-     */
-    public void setCardsOrder(int[][] cardsOrder) {this.cardsOrder = cardsOrder;}
-
-    //TODO: robe per stampare
+    public void addCard(PlaceableCard card, int x, int y, boolean way, int orderPosition) {
+        cardsContent[x][y] = card;
+        cardsFace[x][y] = way;
+        cardsOrder[x][y] = orderPosition;
+    }
 }

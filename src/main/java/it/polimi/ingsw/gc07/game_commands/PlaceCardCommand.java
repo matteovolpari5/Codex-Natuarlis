@@ -1,11 +1,11 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.game_commands;
 
-import it.polimi.ingsw.gc07.model.cards.DrawableCard;
+import it.polimi.ingsw.gc07.controller.GameController;
 
 /**
  * Concrete command to place a card.
  */
-public class PlaceCardCommand extends GameCommand {
+public class PlaceCardCommand implements GameCommand {
     /**
      * Nickname of the player that will place the card.
      */
@@ -49,7 +49,7 @@ public class PlaceCardCommand extends GameCommand {
      * the method that computes the points scored by placing the card.
      */
     @Override
-    public void execute(Game game) {
-        game.placeCard(nickname, pos, x, y, way);
+    public void execute(GameController gameController) {
+        gameController.placeCard(nickname, pos, x, y, way);
     }
 }

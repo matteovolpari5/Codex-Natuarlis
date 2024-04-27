@@ -1,9 +1,11 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.game_commands;
+
+import it.polimi.ingsw.gc07.controller.GameController;
 
 /**
  * Concrete command to place the starter card in a certain way.
  */
-public class PlaceStarterCardCommand extends GameCommand{
+public class PlaceStarterCardCommand implements GameCommand {
     /**
      * Nickname of the player.
      */
@@ -28,7 +30,7 @@ public class PlaceStarterCardCommand extends GameCommand{
      * Method to place the starter card in a certain way.
      */
     @Override
-    public void execute(Game game) {
-        game.placeStarterCard(nickname, way);
+    public void execute(GameController gameController) {
+        gameController.placeStarterCard(nickname, way);
     }
 }

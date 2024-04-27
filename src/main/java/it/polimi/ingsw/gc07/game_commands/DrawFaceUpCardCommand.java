@@ -1,11 +1,12 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.game_commands;
 
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 /**
  * Concrete command to draw one of two faceUp cards of a given type.
  */
-public class DrawFaceUpCardCommand extends GameCommand {
+public class DrawFaceUpCardCommand implements GameCommand {
     /**
      * Nickname of the player.
      */
@@ -37,7 +38,7 @@ public class DrawFaceUpCardCommand extends GameCommand {
      * Method that allows a player to draw one of two faceUp cards of a given type.
      */
     @Override
-    public void execute(Game game) {
-        game.drawFaceUpCard(nickname, type, pos);
+    public void execute(GameController gameController) {
+        gameController.drawFaceUpCard(nickname, type, pos);
     }
 }

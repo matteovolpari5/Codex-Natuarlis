@@ -40,7 +40,8 @@ class ObjectiveCardTest {
                 }
             }
             assertNotNull(myStarterCard);
-            gameField = new GameField(myStarterCard);
+            gameField = new GameField();
+            gameField.setStarterCard(myStarterCard);
             gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
     }
     @Test

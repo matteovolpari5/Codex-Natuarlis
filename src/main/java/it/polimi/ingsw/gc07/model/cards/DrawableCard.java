@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
-import it.polimi.ingsw.gc07.model.CommandResult;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.GameItem;

@@ -1,12 +1,12 @@
 package it.polimi.ingsw.gc07.network.socket;
 
-import it.polimi.ingsw.gc07.controller.Game;
-import it.polimi.ingsw.gc07.controller.GameCommand;
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
-import it.polimi.ingsw.gc07.controller.GamesManagerCommand;
-import it.polimi.ingsw.gc07.model.CommandResult;
+import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.updates.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,14 +16,14 @@ import java.rmi.RemoteException;
 
 public class SocketClientHandler implements VirtualView {
     private final GamesManager gamesManager;
-    private Game game;
+    private GameController gameController;
     private final Socket mySocket;
     private final ObjectInputStream input;
     private final ObjectOutputStream output;
 
     public SocketClientHandler(GamesManager gamesManager, Socket mySocket) throws IOException {
         this.gamesManager = gamesManager;
-        this.game = null;
+        this.gameController = null;
         this.mySocket = mySocket;
         this.input = new ObjectInputStream(mySocket.getInputStream());
         this.output = new ObjectOutputStream(mySocket.getOutputStream());
@@ -50,7 +50,7 @@ public class SocketClientHandler implements VirtualView {
                         if(gameId < 0){
                             throw new RuntimeException();
                         }
-                        this.game = gamesManager.getGameById(gameId);
+                        this.gameController = gamesManager.getGameById(gameId);
 
                         //TODO output.write->.reset()->.flush()
                         output.writeBytes("Benvenuto"); //TODO oppure .writeChars(...);
@@ -110,6 +110,88 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public String getNickname() throws RemoteException {
         return null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // TODO aggiunti perchè altrimenti non compila
+
+
+
+    @Override
+    public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) {
+
+    }
+
+    @Override
+    public void receiveCommonObjectiveUpdate(CommonObjectiveUpdate commonObjectiveUpdate) {
+
+    }
+
+    @Override
+    public void receiveDeckUpdate(DeckUpdate deckUpdate) {
+
+    }
+
+    @Override
+    public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) {
+
+    }
+
+    @Override
+    public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) {
+
+    }
+
+    @Override
+    public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) {
+
+    }
+
+    @Override
+    public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate) {
+
+    }
+
+    @Override
+    public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) {
+
+    }
+
+    @Override
+    public void receiveStallUpdate(StallUpdate stallUpdate) {
+
+    }
+
+    @Override
+    public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) {
+
+    }
+
+    @Override
+    public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) {
+
+    }
+
+    @Override
+    public void receiveScoreUpdate(ScoreUpdate scoreUpdate) {
+
     }
 }
 

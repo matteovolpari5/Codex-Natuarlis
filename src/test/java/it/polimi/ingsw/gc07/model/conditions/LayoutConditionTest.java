@@ -37,7 +37,8 @@ class LayoutConditionTest {
     public void onlyStarterCard() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         GameResource[][] layout = new GameResource[LayoutCondition.getRows()][LayoutCondition.getColumns()];
         layout[0][0] = GameResource.INSECT;
@@ -60,7 +61,8 @@ class LayoutConditionTest {
     public void condition3x3() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
 
         PlaceableCard card = null;
@@ -138,7 +140,8 @@ class LayoutConditionTest {
     public void condition4x2() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
 
         PlaceableCard card = null;
@@ -209,7 +212,8 @@ class LayoutConditionTest {
         // checks that the same is card is not reused
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
 
         PlaceableCard card = null;
@@ -272,7 +276,8 @@ class LayoutConditionTest {
         // the condition is met multiple times
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
 
         PlaceableCard card = null;
@@ -428,7 +433,8 @@ class LayoutConditionTest {
 
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, 40, 40, false);
 
         PlaceableCard card = null;

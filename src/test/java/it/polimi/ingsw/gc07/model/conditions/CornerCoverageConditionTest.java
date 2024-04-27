@@ -42,7 +42,8 @@ class CornerCoverageConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         assertEquals(0, condition.numTimesMet(new GameField(gameField)));
     }
@@ -55,7 +56,8 @@ class CornerCoverageConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         DrawableCard myResourceCard = resourceCardsDeck.drawCard();
         assertNotNull(myResourceCard);
@@ -67,7 +69,8 @@ class CornerCoverageConditionTest {
     public void twoCornersCovered() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         DrawableCard myResourceCard = resourceCardsDeck.drawCard();
         assertNotNull(myResourceCard);
@@ -84,7 +87,8 @@ class CornerCoverageConditionTest {
     public void threeCornersCovered() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 39, 39, true);
         gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, true);
@@ -99,7 +103,8 @@ class CornerCoverageConditionTest {
     public void fourCornersCovered() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         gameField.placeCard(resourceCardsDeck.drawCard(), 39, 39, true);
         gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, true);
@@ -115,7 +120,8 @@ class CornerCoverageConditionTest {
     public void topBorder() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for(int i = 39; i >= 0; i--){
             int j;
@@ -132,7 +138,8 @@ class CornerCoverageConditionTest {
     public void bottomBorder() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for(int i = 41; i < GameField.getDim(); i++){
             int j;
@@ -149,7 +156,8 @@ class CornerCoverageConditionTest {
     public void rightBorder() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for(int j = 41; j < GameField.getDim(); j++){
             int i;
@@ -166,7 +174,8 @@ class CornerCoverageConditionTest {
     public void leftBorder() {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
-        gameField = new GameField(myStarterCard);
+        gameField = new GameField();
+        gameField.setStarterCard(myStarterCard);
         gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for(int j = 39; j >= 0; j--){
             int i;

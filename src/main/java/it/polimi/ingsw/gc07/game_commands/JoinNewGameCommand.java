@@ -1,11 +1,12 @@
-package it.polimi.ingsw.gc07.controller;
+package it.polimi.ingsw.gc07.game_commands;
 
+import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 /**
  * Concrete command to add a pending player to a new game.
  */
-public class JoinNewGameCommand extends GamesManagerCommand {
+public class JoinNewGameCommand implements GamesManagerCommand {
     /**
      * Nickname of the player to add.
      */

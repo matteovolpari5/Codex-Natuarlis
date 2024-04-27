@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.network.socket;
 
-import it.polimi.ingsw.gc07.controller.GameCommand;
-import it.polimi.ingsw.gc07.controller.GamesManagerCommand;
+import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
