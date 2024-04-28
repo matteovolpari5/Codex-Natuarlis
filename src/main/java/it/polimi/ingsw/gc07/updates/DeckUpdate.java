@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.updates;
 
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
+import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model_view.GameView;
 
 import java.util.List;
@@ -23,6 +24,10 @@ public class DeckUpdate implements Update {
      * List of revealed gold cards.
      */
     private final List<GoldCard> goldFaceUpCards;
+    /**
+     * Common objective cards.
+     */
+    private final List<ObjectiveCard> commonObjective;
 
     /**
      * Constructor of DeckUpdate.
@@ -31,11 +36,12 @@ public class DeckUpdate implements Update {
      * @param resourceFaceUpCards revealed resource cards
      * @param goldFaceUpCards revealed gold cards
      */
-    public DeckUpdate(DrawableCard topResourceCard, GoldCard topGoldCard, List<DrawableCard> resourceFaceUpCards, List<GoldCard> goldFaceUpCards) {
+    public DeckUpdate(DrawableCard topResourceCard, GoldCard topGoldCard, List<DrawableCard> resourceFaceUpCards, List<GoldCard> goldFaceUpCards, List<ObjectiveCard> commonObjective) {
         this.topResourceCard = topResourceCard;
         this.topGoldCard = topGoldCard;
         this.resourceFaceUpCards = resourceFaceUpCards;
         this.goldFaceUpCards = goldFaceUpCards;
+        this.commonObjective = commonObjective;
     }
 
     /**
@@ -48,5 +54,6 @@ public class DeckUpdate implements Update {
         gameView.setTopGoldCard(topGoldCard);
         gameView.setResourceFaceUpCards(resourceFaceUpCards);
         gameView.setGoldFaceUpCards(goldFaceUpCards);
+        gameView.setCommonObjective(commonObjective);
     }
 }

@@ -11,5 +11,4 @@ public interface ChatListener extends Remote {
      * @param chatMessageUpdate chat message update
      */
     void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) throws RemoteException;
-    // TODO l'implementazione è chatMessageUpdate.execute
 }

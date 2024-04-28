@@ -141,18 +141,6 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void receiveCommonObjectiveUpdate(CommonObjectiveUpdate commonObjectiveUpdate) {
-        try {
-            output.writeObject(commonObjectiveUpdate);
-            output.flush();
-            output.reset();
-            output.flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public void receiveDeckUpdate(DeckUpdate deckUpdate) {
         try {
             output.writeObject(deckUpdate);

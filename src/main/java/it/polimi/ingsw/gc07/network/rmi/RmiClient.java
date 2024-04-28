@@ -331,15 +331,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     /**
-     * Method used to notify the client the common objective.
-     * @param commonObjectiveUpdate common objective update
-     */
-    @Override
-    public void receiveCommonObjectiveUpdate(CommonObjectiveUpdate commonObjectiveUpdate) {
-        commonObjectiveUpdate.execute(gameView);
-    }
-
-    /**
      * Method used to notify the client of a deck update.
      * @param deckUpdate deck update
      */

@@ -242,4 +242,15 @@ public class GameModel {
     public void addChatPrivateMessage(String content, String sender, String receiver) {
         chat.addPrivateMessage(content, sender, receiver);
     }
+
+    public void setUpResourceCardsDeck() {
+        resourceCardsDeck.setUpDeck();
+    }
+    public void setUpGoldCardsDeck() {
+        goldCardsDeck.setUpDeck();
+
+    }
+    public void setUpObjectiveCardsDeck() {
+        objectiveCardsDeck.setUpDeck();
+    }
 }

@@ -4,7 +4,6 @@ import it.polimi.ingsw.gc07.game_commands.GameCommand;
 import it.polimi.ingsw.gc07.model.*;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.*;
-import it.polimi.ingsw.gc07.model.chat.Chat;
 import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
@@ -305,7 +304,7 @@ public class GameController {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        if(!getPlayers().get(getCurrPlayer()).getNickname().equals(nickname)){
+        if(!getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)){
             gameModel.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
         }
@@ -325,7 +324,7 @@ public class GameController {
                 gameModel.setCommandResult(CommandResult.CARD_NOT_PRESENT);
                 return;
             }
-            getPlayers().get(getCurrPlayer()).addCardHand(card);
+            getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
         }
         if(type.equals(CardType.GOLD_CARD)) {
             card = getGoldCardsDeck().drawCard();
@@ -333,7 +332,7 @@ public class GameController {
                 gameModel.setCommandResult(CommandResult.CARD_NOT_PRESENT);
                 return;
             }
-            getPlayers().get(getCurrPlayer()).addCardHand(card);
+            getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
         }
         changeCurrPlayer();
         gameModel.setCommandResult(CommandResult.SUCCESS);
@@ -344,7 +343,7 @@ public class GameController {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        if(!getPlayers().get(getCurrPlayer()).getNickname().equals(nickname)){
+        if(!getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)){
             gameModel.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
         }
@@ -364,7 +363,7 @@ public class GameController {
                 gameModel.setCommandResult(CommandResult.CARD_NOT_PRESENT);
                 return;
             }
-            getPlayers().get(getCurrPlayer()).addCardHand(card);
+            getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
 
             // check if the card has been replaced or replace
             if(getResourceCardsDeck().revealFaceUpCard(1) == null) {
@@ -380,7 +379,7 @@ public class GameController {
                 gameModel.setCommandResult(CommandResult.CARD_NOT_PRESENT);
                 return;
             }
-            getPlayers().get(getCurrPlayer()).addCardHand(card);
+            getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
 
             // check if the card has been replaced or replace
             if(getGoldCardsDeck().revealFaceUpCard(1) == null) {
@@ -401,7 +400,7 @@ public class GameController {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        if(!getPlayers().get(getCurrPlayer()).getNickname().equals(nickname)) {
+        if(!getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)) {
             gameModel.setCommandResult(CommandResult.WRONG_PLAYER);
             return;
         }
@@ -422,7 +421,7 @@ public class GameController {
         CommandResult result = player.getGameField().placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS)) {
             setHasCurrPlayerPlaced();
-            getPlayers().get(getCurrPlayer()).removeCardHand(card);
+            getPlayers().get(gameModel.getCurrPlayer()).removeCardHand(card);
             addPoints(nickname, x, y);    // the card has just been placed
 
             // check if the player is stalled
@@ -444,7 +443,7 @@ public class GameController {
                     }
                 }
             }
-            getPlayers().get(getCurrPlayer()).setIsStalled(isStalled);
+            getPlayers().get(gameModel.getCurrPlayer()).setIsStalled(isStalled);
         }
         gameModel.setCommandResult(result);
     }
@@ -592,13 +591,13 @@ public class GameController {
      */
      void changeCurrPlayer () {
         assert(getState().equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
-        if(getCurrPlayer() == getPlayers().size()-1)
-            setCurrentPlayer(0);
+        if(gameModel.getCurrPlayer() == getPlayers().size()-1)
+            gameModel.setCurrPlayer(0);
         else
-            setCurrentPlayer(getCurrPlayer()+1);
+            gameModel.setCurrPlayer(gameModel.getCurrPlayer()+1);
         setHasNotCurrPlayerPlaced();
         if(gameModel.getTwentyPointsReached()) {
-            if(getPlayers().get(getCurrPlayer()).isFirst() && gameModel.getAdditionalRound()) {
+            if(getPlayers().get(gameModel.getCurrPlayer()).isFirst() && gameModel.getAdditionalRound()) {
                 setState(GameState.GAME_ENDED);
                 getWinners().addAll(computeWinner());
                 // the game is ended
@@ -610,14 +609,14 @@ public class GameController {
                 //GamesManager.getGamesManager().deleteGame(this.id);
                 //return;
             }
-            else if(getPlayers().get(getCurrPlayer()).isFirst()) {
+            else if(getPlayers().get(gameModel.getCurrPlayer()).isFirst()) {
                 gameModel.setAdditionalRound(true);
             }
         }
-        if(!getPlayers().get(getCurrPlayer()).isConnected()) {
+        if(!getPlayers().get(gameModel.getCurrPlayer()).isConnected()) {
             changeCurrPlayer();
         }
-        if(getPlayers().get(getCurrPlayer()).getIsStalled()) {
+        if(getPlayers().get(gameModel.getCurrPlayer()).getIsStalled()) {
             boolean found = false;
             for(Player p: getPlayers()) {
                 if(!p.getIsStalled())
@@ -694,30 +693,17 @@ public class GameController {
     private void setup() {
         assert(getState().equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
         // choose randomly the first player
-        Random random= new Random();
-        setCurrentPlayer(random.nextInt(gameModel.getPlayersNumber()));
-        getPlayers().get(getCurrPlayer()).setFirst();
+        Random random = new Random();
+        gameModel.setCurrPlayer(random.nextInt(gameModel.getPlayersNumber()));
+        getPlayers().get(gameModel.getCurrPlayer()).setFirst();
         setHasNotCurrPlayerPlaced();
 
         // draw card can't return null, since the game hasn't already started
 
-        //place 2 gold cards
-        List<GoldCard> setUpGoldCardsFaceUp = new ArrayList<>();
-        setUpGoldCardsFaceUp.add(getGoldCardsDeck().drawCard());
-        setUpGoldCardsFaceUp.add(getGoldCardsDeck().drawCard());
-        getGoldCardsDeck().setFaceUpCards(setUpGoldCardsFaceUp);
-
-        //place 2 resource card
-        List<DrawableCard> setUpResourceCardsFaceUp = new ArrayList<>();
-        setUpResourceCardsFaceUp.add(getResourceCardsDeck().drawCard());
-        setUpResourceCardsFaceUp.add(getResourceCardsDeck().drawCard());
-        getResourceCardsDeck().setFaceUpCards(setUpResourceCardsFaceUp);
-
-        // place common objective cards
-        List<ObjectiveCard> setUpObjectiveCardsFaceUp = new ArrayList<>();
-        setUpObjectiveCardsFaceUp.add(getObjectiveCardsDeck().drawCard());
-        setUpObjectiveCardsFaceUp.add(getObjectiveCardsDeck().drawCard());
-        getObjectiveCardsDeck().setFaceUpCards(setUpObjectiveCardsFaceUp);
+        // set up decks
+        gameModel.setUpResourceCardsDeck();
+        gameModel.setUpGoldCardsDeck();
+        gameModel.setUpObjectiveCardsDeck();
     }
 
     /**
@@ -728,7 +714,7 @@ public class GameController {
      */
     private void addPoints(String nickname, int x, int y) {
         assert(getState().equals(GameState.PLAYING)): "Wrong game state";
-        assert(getPlayers().get(getCurrPlayer()).getNickname().equals(nickname)): "Not the current player";
+        assert(getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)): "Not the current player";
         Player player;
         try {
             player = getPlayers().get(getPlayerByNickname(nickname));

@@ -55,6 +55,10 @@ public class Deck<T> {
         deckListeners.add(deckListener);
     }
 
+    List<DeckListener> getListeners() {
+        return deckListeners;
+    }
+
     /**
      * Getter method for deck content, used in tests.
      * @return content of the deck
