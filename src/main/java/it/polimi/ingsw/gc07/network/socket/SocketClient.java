@@ -61,11 +61,14 @@ public class SocketClient  {
         Update update;
         while (true){ //TODO dalla documentazione non trovo un modo di utilizzare il risultato di readObject() come condizione del while, chiedere se così va bene
             try {
-                update = (Update) input.readObject();
+                update = (Update) input.readObject(); //TODO chiedere per cast, in generale come avviene la deserializzazione visto che readObject()restituisce
+                //TODO Object e bisogna fare il cast al tipo che si sa di ricevere, in questo caso non so quale è il tipo specifico di update: anche dinamicamente
+                //TODO è Update? se si non viene invocato il metodo dell'interfaccia al posto di quello della classe specifica?
+                //TODO inoltre facendo così il cast si avrebbe un'istanza che dinamicamente è "interfaccia"?
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            update.execute(gameView); //TODO chiedere per cast; se all'iterazione successiva non è stato scritto alcun nuovo oggetto, alla riga 52 cosa succede?
+            update.execute(gameView); //TODO se all'iterazione successiva non è stato scritto alcun nuovo oggetto, alla riga 52 cosa succede?
         }
     }
 
