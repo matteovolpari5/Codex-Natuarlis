@@ -84,7 +84,8 @@ public class ClientMain {
                 String host = args[0];
                 int port = Integer.parseInt(args[1]);
                 Socket sc = new Socket(host, port);
-                new SocketClient(sc, nickname);
+                SocketClient socketClient= new SocketClient(nickname, sc);
+                socketClient.connectToGamesManager(connectionType, interfaceType);
             }
         }catch(RemoteException e) {
             e.printStackTrace();

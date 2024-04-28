@@ -1,8 +1,10 @@
 package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.controller.*;
+import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
@@ -14,18 +16,20 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class SocketClient implements VirtualView {
+public class SocketClient  {
     private final String nickname;
     private final Socket mySocket;
     private final ObjectInputStream input;
     private VirtualSocketServerGamesManager myServer;
+    private final GameView gameView;
 
 
-    public SocketClient(Socket mySocket, String nickname) throws IOException {
+    public SocketClient(String nickname, Socket mySocket) throws IOException {
         this.nickname = nickname;
         this.mySocket = mySocket;
-        this.input = new ObjectInputStream(mySocket.getInputStream());
-        ObjectOutputStream output = new ObjectOutputStream(mySocket.getOutputStream());
+        this.gameView = new GameView(nickname);
+        this.input = new ObjectInputStream(this.mySocket.getInputStream());
+        ObjectOutputStream output = new ObjectOutputStream(this.mySocket.getOutputStream());
         this.myServer = new VirtualSocketServerGamesManager(output);
         this.run();
     }
@@ -33,26 +37,44 @@ public class SocketClient implements VirtualView {
     private void run(){
         new Thread(() -> {
             try{
-                runVirtualServer();
+                manageReceivedMessage();
             } catch (Exception e){
                 throw new RuntimeException(e);
             }
         }).start();
-        runCliJoinGame();
     }
 
-    private void runVirtualServer() throws IOException, ClassNotFoundException {
+    //TODO oppure se non deve condividere il metodo allora valutare se ricevere nel costruttore il tipo di interfaccia, run() esegue alla fine connectToGamesManager()
+    //TODO e in ClientMain avere solo "new SocketClient(nickname, sc);" con aggiunta del tipo di interfaccia; connectToGamesManger() diventa quindi private
+    public void connectToGamesManager(boolean connectionType, boolean interfaceType) {
+        try {
+            myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
+        } catch (RemoteException e) {
+            // TODO
+            throw new RuntimeException(e);
+        }
+        //TODO controllo esito command?
+        this.runCliJoinGame();
+    }
+    private void manageReceivedMessage() { //TODO runVirtualServer() nell'esempio, non capisco perchè sia chiamato così
         //gestisce i messaggi ottenuti dal server
         Update update;
-        while (true){
-            update = (Update) input.readObject();
-
+        while (true){ //TODO dalla documentazione non trovo un modo di utilizzare il risultato di readObject() come condizione del while, chiedere se così va bene
+            try {
+                update = (Update) input.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            update.execute(gameView); //TODO chiedere per cast; se all'iterazione successiva non è stato scritto alcun nuovo oggetto, alla riga 52 cosa succede?
         }
     }
+
 
     public void runCliJoinGame() {
         boolean joiningGame = true;
         Scanner scan = new Scanner(System.in);
+        String tokenColorString;
+        TokenColor tokenColor;
         while(joiningGame) {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to join an existing game"); // JoinExistingGameCommand
@@ -72,8 +94,7 @@ public class SocketClient implements VirtualView {
 
                     System.out.println("Insert token color (green, red, yellow or blue): ");
                     System.out.print("> ");
-                    String tokenColorString = scan.nextLine();
-                    TokenColor tokenColor;
+                    tokenColorString = scan.nextLine();
                     switch(tokenColorString) {
                         case "green":
                             tokenColor = TokenColor.GREEN;
@@ -94,8 +115,11 @@ public class SocketClient implements VirtualView {
                     System.out.println("Insert game id: ");
                     int gameId = scan.nextInt();
                     scan.nextLine();
-                    GamesManagerCommand gamesManagerCommand = new JoinExistingGameCommand(nickname, tokenColor, gameId);
-                    myServer.setAndExecuteCommand(gamesManagerCommand); //TODO eccezione
+                    try {
+                        myServer.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                     joiningGame = false;
                     break;
 
@@ -126,9 +150,11 @@ public class SocketClient implements VirtualView {
                     int playersNumber = scan.nextInt();
                     scan.nextLine();
                     // TODO potremmo fare già qua il controllo su players number per efficienza
-                    gamesManagerCommand = new JoinNewGameCommand(nickname, tokenColor, playersNumber);
-                    myServer.setAndExecuteCommand(gamesManagerCommand); //TODO eccezione
+                    try {
                         myServer.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                     joiningGame = false;
                     break;
                 default:
@@ -136,12 +162,16 @@ public class SocketClient implements VirtualView {
             }
         }
         // game joined
-        //TODO valutare: connectToGameServer();
         runCliGame();
     }
 
     private void runCliGame() {
         Scanner scan = new Scanner(System.in);
+        String content;
+        String cardTypeString;
+        CardType cardType;
+        int wayInput;
+        boolean way;
         while(true) {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to write a private message"); // AddChatPrivateMessage
@@ -160,9 +190,9 @@ public class SocketClient implements VirtualView {
                     String receiver = scan.nextLine();
                     System.out.println("Insert the message content:");
                     System.out.print("> ");
-                    String content = scan.nextLine();
+                    content = scan.nextLine();
                     try {
-                        serverGame.setAndExecuteCommand(new AddChatPrivateMessageCommand(content, nickname, receiver));
+                        myServer.setAndExecuteCommand(new AddChatPrivateMessageCommand(content, nickname, receiver));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -174,7 +204,7 @@ public class SocketClient implements VirtualView {
                     System.out.print("> ");
                     content = scan.nextLine();
                     try {
-                        serverGame.setAndExecuteCommand(new AddChatPublicMessageCommand(content, nickname));
+                        myServer.setAndExecuteCommand(new AddChatPublicMessageCommand(content, nickname));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -183,7 +213,7 @@ public class SocketClient implements VirtualView {
                     break;
                 case "e":
                     try {
-                        serverGame.setAndExecuteCommand(new DisconnectPlayerCommand(nickname));
+                        myServer.setAndExecuteCommand(new DisconnectPlayerCommand(nickname));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -193,18 +223,17 @@ public class SocketClient implements VirtualView {
                 case "r":
                     System.out.println("Select a card type ('g' for gold or 'r' for resource): ");
                     System.out.print("> ");
-                    String cardTypeString = scan.nextLine();
-                    CardType cardType;
+                    cardTypeString = scan.nextLine();
                     if(cardTypeString.equals("r")) {
                         cardType = CardType.RESOURCE_CARD;
                     }else if(cardTypeString.equals("g")) {
                         cardType = CardType.GOLD_CARD;
                     }else {
                         System.out.println("No such card type");
-                        continue;
+                        continue; //TODO perchè non break?
                     }
                     try {
-                        serverGame.setAndExecuteCommand(new DrawDeckCardCommand(nickname, cardType));
+                        myServer.setAndExecuteCommand(new DrawDeckCardCommand(nickname, cardType));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -221,7 +250,7 @@ public class SocketClient implements VirtualView {
                         cardType = CardType.GOLD_CARD;
                     }else {
                         System.out.println("No such card type");
-                        continue;
+                        continue; //TODO perchè non break?
                     }
                     System.out.println("Select the position of the card to draw: ");
                     System.out.print("> ");
@@ -230,7 +259,7 @@ public class SocketClient implements VirtualView {
                     //TODO possiamo introdurre un controllo per evitare una chiamata
                     // inutile se la posizione eccede il range possibile
                     try {
-                        serverGame.setAndExecuteCommand(new DrawFaceUpCardCommand(nickname, cardType, pos));
+                        myServer.setAndExecuteCommand(new DrawFaceUpCardCommand(nickname, cardType, pos));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -238,7 +267,7 @@ public class SocketClient implements VirtualView {
                     }
                     break;
                 case "y":
-                    // String nickname, int pos, int x, int y, boolean way) {
+                    // String nickname, int pos, int x, int y, boolean way
                     // pos
                     System.out.println("Select the position of the card you want to place: ");
                     System.out.print("> ");
@@ -258,20 +287,19 @@ public class SocketClient implements VirtualView {
                     // way
                     System.out.println("Select 0 to place the card face up, 1 to place the card face down: ");
                     System.out.print("> ");
-                    int wayInput = scan.nextInt();
+                    wayInput = scan.nextInt();
                     scan.nextLine();
-                    boolean way;
                     if(wayInput == 1) {
                         way = true;
                     }else if(wayInput == 0) {
                         way = false;
                     }else {
                         System.out.println("The provided value for way is not correct");
-                        continue;
+                        continue; //TODO perchè non break?
                     }
                     // create and execute command
                     try {
-                        serverGame.setAndExecuteCommand(new PlaceCardCommand(nickname, cardPos, x, y, way));
+                        myServer.setAndExecuteCommand(new PlaceCardCommand(nickname, cardPos, x, y, way));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -289,10 +317,10 @@ public class SocketClient implements VirtualView {
                         way = false;
                     }else {
                         System.out.println("The provided value is not correct");
-                        continue;
+                        continue; //TODO perchè non break?
                     }
                     try {
-                        serverGame.setAndExecuteCommand(new PlaceStarterCardCommand(nickname, way));
+                        myServer.setAndExecuteCommand(new PlaceStarterCardCommand(nickname, way));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -303,94 +331,5 @@ public class SocketClient implements VirtualView {
                     System.out.println("The provided character doesn't refer to any action");
             }
         }
-    }
-
-    @Override
-    public void setServerGame(VirtualServerGame gameServer) throws RemoteException {
-        //TODO per socket non serve
-    }
-    @Override
-    public String getNickname() throws RemoteException {
-        //TODO per socket non serve
-        return null;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // TODO aggiunti perchè altrimenti non compila
-
-    @Override
-    public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) {
-
-    }
-
-    @Override
-    public void receiveCommonObjectiveUpdate(CommonObjectiveUpdate commonObjectiveUpdate) {
-
-    }
-
-    @Override
-    public void receiveDeckUpdate(DeckUpdate deckUpdate) {
-
-    }
-
-    @Override
-    public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) {
-
-    }
-
-    @Override
-    public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) {
-
-    }
-
-    @Override
-    public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) {
-
-    }
-
-    @Override
-    public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate) {
-
-    }
-
-    @Override
-    public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) {
-
-    }
-
-    @Override
-    public void receiveStallUpdate(StallUpdate stallUpdate) {
-
-    }
-
-    @Override
-    public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) {
-
-    }
-
-    @Override
-    public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) {
-
-    }
-
-    @Override
-    public void receiveScoreUpdate(ScoreUpdate scoreUpdate) {
-
     }
 }

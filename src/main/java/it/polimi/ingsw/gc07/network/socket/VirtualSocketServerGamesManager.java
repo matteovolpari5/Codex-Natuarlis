@@ -9,7 +9,9 @@ import it.polimi.ingsw.gc07.network.VirtualView;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
-
+/**
+ * Class used to abstract the network from the client side, this class manages the communication from client to server
+ */
 public class VirtualSocketServerGamesManager implements VirtualServerGamesManager, VirtualServerGame {
     private final ObjectOutputStream output;
 
@@ -18,7 +20,7 @@ public class VirtualSocketServerGamesManager implements VirtualServerGamesManage
     }
     @Override
     public void connect(VirtualView client) throws RemoteException {
-
+        //TODO non utilizzato in socket
     }
 
     @Override
@@ -27,7 +29,8 @@ public class VirtualSocketServerGamesManager implements VirtualServerGamesManage
             output.writeObject(gameCommand);
             output.flush();
             output.reset();
-        } catch (IOException e){
+            output.flush();
+        } catch (IOException e){ //TODO forse cogola intede che il metodo nella signature ha throws NetworkException e a questo punto fa catch e solleva IO oppure Remote ?
             throw new RuntimeException();
         }
     }
@@ -38,10 +41,11 @@ public class VirtualSocketServerGamesManager implements VirtualServerGamesManage
             output.writeObject(gamesManagerCommand);
             output.flush();
             output.reset();
+            output.flush();
         } catch (IOException e){
             throw new RemoteException();
         }
     }
 
-    //TODO metodo disconnect() ?
+    //TODO metodo disconnect()?
 }
