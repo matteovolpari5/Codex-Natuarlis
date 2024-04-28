@@ -240,4 +240,16 @@ public class DrawableCard extends PlaceableCard {
         }
         return 0;
     }
+
+    //METHOD USED TO HELP PRINT IN TUI VIEW
+
+    /**
+     * getter method for points wrote on the card
+     * @return points
+     */
+    @Override
+    public int getPoints()
+    {
+        return placementScore;
+    }
 }

@@ -12,6 +12,8 @@ import java.util.ArrayList;
  * Condition regarding the presence of some given items on the game field.
  */
 public class ItemsCondition implements Condition {
+
+
     /**
      * List of GameItems that need to be found on the game field in order satisfy the condition.
      */
@@ -154,5 +156,13 @@ public class ItemsCondition implements Condition {
         }
 
         return numTimes;
+    }
+
+    /**
+     * getter method for attribute neededItems
+     * @return neededItems
+     */
+    public List<GameItem> getNeededItems() {
+        return neededItems;
     }
 }

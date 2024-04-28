@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
+import it.polimi.ingsw.gc07.model.conditions.Condition;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
@@ -149,6 +150,32 @@ public class PlaceableCard extends Card {
      */
     public int getPlacementScore(GameField gameField, int x, int y) {
         assert (gameField.isCardPresent(x, y)) : "There isn't a Card in position (x,y)";
+        return 0;
+    }
+
+    //METHOD USED TO HELP PRINT IN TUI VIEW
+
+    /**
+     * getter method for placementCondition
+     * @return placementCondition
+     */
+    public Condition getPlacementCondition() {
+        return null;
+    }
+
+    /**
+     * getter method for scoringCondition
+     * @return scoringCondition
+     */
+    public Condition getScoringCondition() {
+        return null;
+    }
+
+    /**
+     * getter method for points wrote on the card
+     * @return points
+     */
+    public int getPoints() {
         return 0;
     }
 }

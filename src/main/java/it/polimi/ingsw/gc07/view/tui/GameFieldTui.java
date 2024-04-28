@@ -11,7 +11,7 @@ import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import java.util.List;
 
 public class GameFieldTui {
-/*
+
     public final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
     public final String ANSI_RED_BACKGROUND = "\u001B[41m";
     public final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
@@ -71,7 +71,7 @@ public class GameFieldTui {
                     } else if (r1 == 1) {
                         printSecondRow(c, startc, gameController, r,cardsContent,  cardsFace,  cardsOrder);
                     } else if (r1 == 2) {
-                        printThirdRow(c, startc, gameController, r,cardsContent,  cardsFace,  cardsOrder);
+                        printThirdRow(c, startc, gameController, r,cardsContent,  cardsFace);
                     } else {
                         printFourthRow(c, startc, gameController, r,cardsContent,  cardsFace,  cardsOrder);
                     }
@@ -125,8 +125,6 @@ public class GameFieldTui {
         }
     }
 
-    // TODO come passo il GameField per getPlacementScore??
-    // TODO posso aggiungere metodo getScoringCondition nelle classi? (sv: vedere prova che ho fatto)
     public void printSecondRow(int c, int startc, GameController gameController, int r, PlaceableCard[][] cardsContent, boolean[][] cardsFace, int[][] cardsOrder) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");
@@ -136,7 +134,7 @@ public class GameFieldTui {
             if (card != null) {
                 int points = 0;
                 if (!card.getType().equals(CardType.STARTER_CARD)) {
-                    points = card.getPlacementScore(gameController.getPlayers().get(gameController.getCurrPlayer()).getGameField(), r, c);
+                    points = card.getPoints();
                 }
                 boolean cardway = cardsFace[r][c];
                 if (cardway) {
@@ -306,7 +304,7 @@ public class GameFieldTui {
         }
     }
 
-    public void printThirdRow(int c, int startc, GameController gameController, int r, PlaceableCard[][] cardsContent, boolean[][] cardsFace, int[][] cardsOrder) {
+    public void printThirdRow(int c, int startc, GameController gameController, int r, PlaceableCard[][] cardsContent, boolean[][] cardsFace) {
         if (c == startc) {
             if (r > 9) {
                 System.out.print(ANSI_BLACK_BACKGROUND + "|" + r + "|");
@@ -352,7 +350,6 @@ public class GameFieldTui {
         }
     }
 
-    // TODO posso aggiungere metodo getScoringCondition nelle classi? (sv: vedere prova che ho fatto)
     public void printFourthRow(int c, int startc, GameController gameController, int r, PlaceableCard[][] cardsContent, boolean[][] cardsFace, int[][] cardsOrder) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");
@@ -529,6 +526,4 @@ public class GameFieldTui {
             System.out.print(ANSI_BLACK_BACKGROUND + "           ");
         }
     }
-
- */
 }
