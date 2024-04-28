@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc07.model.decks;
+import it.polimi.ingsw.gc07.listeners.DeckListener;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
+import it.polimi.ingsw.gc07.updates.DeckUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,13 @@ public class PlayingDeck<T> extends Deck<T> {
     public PlayingDeck(PlayingDeck<T> existingDeck){
         super(existingDeck);
         this.faceUpCards = new ArrayList<>(existingDeck.faceUpCards);
+    }
+
+    public void setUpDeck() {
+        addFaceUpCard(drawCard());
+        addFaceUpCard(drawCard());
+
+        // TODO listener
     }
 
     /**

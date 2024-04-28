@@ -22,7 +22,7 @@ public class GoldCardsDeck extends DrawableDeck<GoldCard> {
      * Copy constructor of GoldCardsDeck.
      * @param existingDeck existing deck
      */
-    public GoldCardsDeck(GoldCardsDeck existingDeck){
+    public GoldCardsDeck(GoldCardsDeck existingDeck) {
         super(existingDeck);
     }
 

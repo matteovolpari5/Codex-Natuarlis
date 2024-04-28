@@ -1,10 +1,8 @@
 package it.polimi.ingsw.gc07.model.chat;
 
 import it.polimi.ingsw.gc07.listeners.ChatListener;
-import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.ChatMessageUpdate;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,12 +43,10 @@ public class Chat {
      * @param sender sender nickname
      */
     public void addPublicMessage(String content, String sender) {
+        // create and add message
         ChatMessage newMessage = new ChatMessage(content, sender, true);
         chatMessages.add(newMessage);
-
-        System.out.println(chatListeners.size());
-
-        // TODO prova listener - modificare
+        // inform listeners
         for(ChatListener l: chatListeners) {
             try {
                 l.receiveChatMessageUpdate(new ChatMessageUpdate(newMessage));
@@ -68,9 +64,20 @@ public class Chat {
      * @param receiver receiver nickname
      */
     public void addPrivateMessage(String content, String sender, String receiver) {
-        chatMessages.add(new PrivateChatMessage(content, sender, false, receiver));
+        // create and add message
+        PrivateChatMessage newMessage = new PrivateChatMessage(content, sender, false, receiver);
+        chatMessages.add(newMessage);
+        // inform listeners
 
-        // TODO listener
+        ChatMessageUpdate update = new ChatMessageUpdate(newMessage);
+        for(ChatListener l: chatListeners) {
+            try {
+                l.receiveChatMessageUpdate(update);
+            }catch(RemoteException e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
     }
 
     /**

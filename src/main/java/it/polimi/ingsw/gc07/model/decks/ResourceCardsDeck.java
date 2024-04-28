@@ -22,7 +22,7 @@ public class ResourceCardsDeck extends DrawableDeck<DrawableCard> {
      * Copy constructor of ResourceCardsDeck.
      * @param existingDeck existing deck
      */
-    public ResourceCardsDeck(ResourceCardsDeck existingDeck){
+    public ResourceCardsDeck(ResourceCardsDeck existingDeck) {
         super(existingDeck);
     }
 
