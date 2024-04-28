@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc07.listeners.PlayerListener;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
+import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.List;
@@ -136,7 +137,7 @@ public class Player {
      * @param starterCard starter card
      */
     public void setStarterCard(PlaceableCard starterCard) {
-        this.gameField.setStarterCard(starterCard);
+        this.gameField.setStarterCard(nickname, starterCard);
     }
 
     /**
@@ -258,5 +259,13 @@ public class Player {
     public ObjectiveCard getSecretObjective() {
         // card is immutable, I can return it
         return secretObjective;
+    }
+
+    public PlaceableCard getStarterCard() {
+        return gameField.getStarterCard();
+    }
+
+    public CommandResult placeCard(PlaceableCard card, int x, int y, boolean way) {
+        return gameField.placeCard(nickname, card, x, y, way);
     }
 }

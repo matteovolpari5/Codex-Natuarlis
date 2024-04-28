@@ -64,7 +64,7 @@ class PlaceCardCommandTest {
     @Test
     void placeCardSuccess() {
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-        currPlayer.getGameField().placeCard( currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        currPlayer.placeCard( currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         int i=0;
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand())
         {
@@ -83,7 +83,7 @@ class PlaceCardCommandTest {
         DrawableCard myResourceCard;
         int i=0;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-        currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        currPlayer.placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -101,7 +101,7 @@ class PlaceCardCommandTest {
     void placeCardNotLegitCorner() {
         DrawableCard myResourceCard;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-        currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        currPlayer.placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         int i=0;
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
@@ -134,7 +134,7 @@ class PlaceCardCommandTest {
         DrawableCard myResourceCard;
         int i=0;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-        currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        currPlayer.placeCard(currPlayer.getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -165,7 +165,7 @@ class PlaceCardCommandTest {
         int i=0;
         DrawableCard myResourceCard;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-       currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+       currPlayer.placeCard(currPlayer.getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -196,7 +196,7 @@ class PlaceCardCommandTest {
         int i=0;
         DrawableCard myResourceCard;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-        currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        currPlayer.placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -215,7 +215,7 @@ class PlaceCardCommandTest {
         int i=0;
         DrawableCard myResourceCard;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-        currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        currPlayer.placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 78) {
                 myResourceCard = c;
@@ -234,7 +234,7 @@ class PlaceCardCommandTest {
         DrawableCard myResourceCard;
         int i=0;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-        currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        currPlayer.placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -276,7 +276,7 @@ class PlaceCardCommandTest {
         int i=0;
         DrawableCard myResourceCard;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-       currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+       currPlayer.placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         gameController.getScoreTrackBoard().incrementScore("Player3",19);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
@@ -318,7 +318,7 @@ class PlaceCardCommandTest {
     void placeCardOverTwentyNinePoints(){
         DrawableCard myResourceCard;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-        currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        currPlayer.placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         int i=0;
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
@@ -362,7 +362,7 @@ class PlaceCardCommandTest {
     void PlaceCardNotCurrPlayer() {
         DrawableCard myResourceCard;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-        currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        currPlayer.placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         int i=0;
         for (DrawableCard c : gameController.getPlayers().get(1).getCurrentHand()) {
             if (c.getId() == 79) {
@@ -382,7 +382,7 @@ class PlaceCardCommandTest {
         DrawableCard myResourceCard;
         int i=0;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-        currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        currPlayer.placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;
@@ -399,7 +399,7 @@ class PlaceCardCommandTest {
     void placeCardOutOfHandBounds() {
         DrawableCard myResourceCard;
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
-        currPlayer.getGameField().placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        currPlayer.placeCard(currPlayer.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         for (DrawableCard c : gameController.getPlayers().get(gameController.getCurrPlayer()).getCurrentHand()) {
             if (c.getId() == 35) {
                 myResourceCard = c;

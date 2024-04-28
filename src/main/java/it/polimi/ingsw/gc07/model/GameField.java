@@ -1,10 +1,12 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.listeners.GameFieldListener;
-import it.polimi.ingsw.gc07.listeners.PlayerListener;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.updates.PlacedCardUpdate;
+import it.polimi.ingsw.gc07.updates.StarterCardUpdate;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,7 +105,8 @@ public class GameField {
         }
         this.numPlayedCards = existingGameField.numPlayedCards;
         this.starterCard = existingGameField.starterCard;
-        this.gameFieldListeners = existingGameField.gameFieldListeners;
+        // don't copy listeners
+        this.gameFieldListeners = new ArrayList<>();
     }
 
     /**
@@ -133,8 +136,19 @@ public class GameField {
     /**
      * Setter method for player's starter card.
      */
-    public void setStarterCard(PlaceableCard starterCard) {
+    public void setStarterCard(String nickname, PlaceableCard starterCard) {
         this.starterCard = starterCard;
+
+        // send update
+        StarterCardUpdate update = new StarterCardUpdate(nickname, starterCard);
+        for(GameFieldListener l: gameFieldListeners) {
+            try {
+                l.receiveStarterCardUpdate(update);
+            }catch(RemoteException e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
     }
 
     /**
@@ -153,15 +167,27 @@ public class GameField {
      * @param way way
      * @return result of the placement
      */
-    public CommandResult placeCard(PlaceableCard card, int x, int y, boolean way) {
+    public CommandResult placeCard(String nickname, PlaceableCard card, int x, int y, boolean way) {
         CommandResult result = card.isPlaceable(new GameField(this), x, y, way);
-        if(result.equals(CommandResult.SUCCESS)){
+        if(result.equals(CommandResult.SUCCESS)) {
             // PlaceableCard is immutable, I can insert the card I receive
             cardsContent[x][y] = card;
             cardsFace[x][y] = way;
             numPlayedCards++;
             cardsOrder[x][y] = numPlayedCards;
         }
+
+        // send update
+        PlacedCardUpdate update = new PlacedCardUpdate(nickname, card, x, y, way, numPlayedCards);
+        for(GameFieldListener l: gameFieldListeners) {
+            try {
+                l.receivePlacedCardUpdate(update);
+            }catch(RemoteException e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
+        
         return result;
     }
 

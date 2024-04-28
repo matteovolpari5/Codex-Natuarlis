@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.model.GameField;
+import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
@@ -16,8 +17,8 @@ class ObjectiveCardTest {
     ObjectiveCard myObjectiveCard;
     PlaceableCard myStarterCard;
     DrawableCard myResourceCard;
-    GameField gameField;
     PlayingDeck<ObjectiveCard> objectiveCardsDeck;
+    Player p;
 
 
     @BeforeEach
@@ -40,9 +41,10 @@ class ObjectiveCardTest {
                 }
             }
             assertNotNull(myStarterCard);
-            gameField = new GameField();
-            gameField.setStarterCard(myStarterCard);
-            gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
+
+            p = new Player("p", true, true);
+            p.setStarterCard(myStarterCard);
+            p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
     }
     @Test
     public void OneTimeLayoutConditionMet () {
@@ -50,21 +52,21 @@ class ObjectiveCardTest {
             if (c.getId() == 1) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 41, true);
+                p.placeCard(myResourceCard, 39, 41, true);
             }
             if (c.getId() == 2) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 38, 42, true);
+                p.placeCard(myResourceCard, 38, 42, true);
             }
             if (c.getId() == 3) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 37, 43, true);
+                p.placeCard(myResourceCard, 37, 43, true);
             }
         }
-        assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
-        assertEquals(2, myObjectiveCard.getObjectiveScore(new GameField(gameField)));
+        assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
+        assertEquals(2, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
 
     }
     @Test
@@ -73,36 +75,36 @@ class ObjectiveCardTest {
             if (c.getId() == 1) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 41, true);
+                p.placeCard(myResourceCard, 39, 41, true);
             }
             if (c.getId() == 2) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 38, 42, true);
+                p.placeCard(myResourceCard, 38, 42, true);
             }
             if (c.getId() == 3) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 37, 43, true);
+                p.placeCard(myResourceCard, 37, 43, true);
             }
             if (c.getId() == 4) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 41, 39, true);
+                p.placeCard(myResourceCard, 41, 39, true);
             }
             if (c.getId() == 5) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 42, 38, true);
+                p.placeCard(myResourceCard, 42, 38, true);
             }
             if (c.getId() == 6) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 43, 37, true);
+                p.placeCard(myResourceCard, 43, 37, true);
             }
         }
-        assertEquals(4, myObjectiveCard.getObjectiveScore(new GameField(gameField)));
-        assertEquals(2, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
+        assertEquals(4, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
+        assertEquals(2, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
     }
     @Test
     public void NoLayoutConditionMet () {
@@ -110,21 +112,21 @@ class ObjectiveCardTest {
             if (c.getId() == 1) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 41, true);
+                p.placeCard(myResourceCard, 39, 41, true);
             }
             if (c.getId() == 2) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 38, 42, true);
+                p.placeCard(myResourceCard, 38, 42, true);
             }
             if (c.getId() == 13) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 37, 43, true);
+                p.placeCard(myResourceCard, 37, 43, true);
             }
         }
-        assertEquals(0, myObjectiveCard.getObjectiveScore(new GameField(gameField)));
-        assertEquals(0, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
+        assertEquals(0, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
+        assertEquals(0, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
     }
     @Test
     public void NotReusableCardLayout () {
@@ -132,31 +134,31 @@ class ObjectiveCardTest {
             if (c.getId() == 1) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 41, true);
+                p.placeCard(myResourceCard, 39, 41, true);
             }
             if (c.getId() == 2) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 38, 42, true);
+                p.placeCard(myResourceCard, 38, 42, true);
             }
             if (c.getId() == 3) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 37, 43, true);
+                p.placeCard(myResourceCard, 37, 43, true);
             }
             if (c.getId() == 4) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 36, 44, true);
+                p.placeCard(myResourceCard, 36, 44, true);
             }
             if (c.getId() == 5) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 35, 45, true);
+                p.placeCard(myResourceCard, 35, 45, true);
             }
         }
-        assertEquals(2, myObjectiveCard.getObjectiveScore(new GameField(gameField)));
-        assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
+        assertEquals(2, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
+        assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
     }
     @Test
     public void OneTimeLayoutConditionL () {
@@ -170,19 +172,19 @@ class ObjectiveCardTest {
             if (c.getId() == 11) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 39, true);
+                p.placeCard(myResourceCard, 39, 39, true);
             }
         }
         for (DrawableCard c : resourceCardsDeck.getContent()) {
             if (c.getId() == 8) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 38, 38, true);
+                p.placeCard(myResourceCard, 38, 38, true);
             }
             if (c.getId() == 24) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 37, 39, true);
+                p.placeCard(myResourceCard, 37, 39, true);
             }
         }
         for (DrawableCard c : resourceCardsDeck.getContent())
@@ -190,11 +192,11 @@ class ObjectiveCardTest {
             if (c.getId() == 9) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 36, 38, true);
+                p.placeCard(myResourceCard, 36, 38, true);
             }
         }
-        assertEquals(3, myObjectiveCard.getObjectiveScore(new GameField(gameField)));
-        assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
+        assertEquals(3, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
+        assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
     }
     @Test
     public void TwoTimesLayoutConditionL () {
@@ -208,34 +210,34 @@ class ObjectiveCardTest {
             if (c.getId() == 11) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 39, true);
+                p.placeCard(myResourceCard, 39, 39, true);
             }
             if (c.getId() == 7) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 41, 41, true);
+                p.placeCard(myResourceCard, 41, 41, true);
             }
         }
         for (DrawableCard c : resourceCardsDeck.getContent()) {
             if (c.getId() == 8) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 38, 38, true);
+                p.placeCard(myResourceCard, 38, 38, true);
             }
             if (c.getId() == 24) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 37, 39, true);
+                p.placeCard(myResourceCard, 37, 39, true);
             }
             if (c.getId() == 5) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 42, 42, true);
+                p.placeCard(myResourceCard, 42, 42, true);
             }
             if (c.getId() == 6) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 43, 41, true);
+                p.placeCard(myResourceCard, 43, 41, true);
             }
         }
         for (DrawableCard c : resourceCardsDeck.getContent())
@@ -243,16 +245,16 @@ class ObjectiveCardTest {
             if (c.getId() == 9) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 36, 38, true);
+                p.placeCard(myResourceCard, 36, 38, true);
             }
             if (c.getId() == 14) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 44, 42, true);
+                p.placeCard(myResourceCard, 44, 42, true);
             }
         }
-        assertEquals(6, myObjectiveCard.getObjectiveScore(new GameField(gameField)));
-        assertEquals(2, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
+        assertEquals(6, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
+        assertEquals(2, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
     }
     @Test
     public void NoLayoutConditionL () {
@@ -266,19 +268,19 @@ class ObjectiveCardTest {
             if (c.getId() == 11) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 39, true);
+                p.placeCard(myResourceCard, 39, 39, true);
             }
         }
         for (DrawableCard c : resourceCardsDeck.getContent()) {
             if (c.getId() == 18) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 38, 38, true);
+                p.placeCard(myResourceCard, 38, 38, true);
             }
             if (c.getId() == 24) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 37, 39, true);
+                p.placeCard(myResourceCard, 37, 39, true);
             }
         }
         for (DrawableCard c : resourceCardsDeck.getContent())
@@ -286,11 +288,11 @@ class ObjectiveCardTest {
             if (c.getId() == 9) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 36, 38, true);
+                p.placeCard(myResourceCard, 36, 38, true);
             }
         }
-        assertEquals(0, myObjectiveCard.getObjectiveScore(new GameField(gameField)));
-        assertEquals(0, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
+        assertEquals(0, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
+        assertEquals(0, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
     }
     @Test
     public void NotReusableCardLayoutL () {
@@ -304,24 +306,24 @@ class ObjectiveCardTest {
             if (c.getId() == 11) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 39, true);
+                p.placeCard(myResourceCard, 39, 39, true);
             }
             if (c.getId() == 12) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 41, true);
+                p.placeCard(myResourceCard, 39, 41, true);
             }
         }
         for (DrawableCard c : resourceCardsDeck.getContent()) {
             if (c.getId() == 2) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 38, 38, true);
+                p.placeCard(myResourceCard, 38, 38, true);
             }
             if (c.getId() == 31) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 37, 39, true);
+                p.placeCard(myResourceCard, 37, 39, true);
             }
         }
         for (DrawableCard c : resourceCardsDeck.getContent())
@@ -329,16 +331,16 @@ class ObjectiveCardTest {
             if (c.getId() == 9) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 36, 38, true);
+                p.placeCard(myResourceCard, 36, 38, true);
             }
             if (c.getId() == 4) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 38, 40, true);
+                p.placeCard(myResourceCard, 38, 40, true);
             }
         }
-        assertEquals(3, myObjectiveCard.getObjectiveScore(new GameField(gameField)));
-        assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
+        assertEquals(3, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
+        assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
     }
     @Test
     public void OneTimeItemCondition () {
@@ -352,26 +354,26 @@ class ObjectiveCardTest {
             if (c.getId() == 1) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 39, false);
+                p.placeCard(myResourceCard, 39, 39, false);
             }
             if (c.getId() == 2) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 41, false);
+                p.placeCard(myResourceCard, 39, 41, false);
             }
             if (c.getId() == 3) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 41, 39, false);
+                p.placeCard(myResourceCard, 41, 39, false);
             }
             if (c.getId() == 11) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 42, 38, false);
+                p.placeCard(myResourceCard, 42, 38, false);
             }
         }
-        assertEquals(2, myObjectiveCard.getObjectiveScore(new GameField(gameField)));
-        assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
+        assertEquals(2, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
+        assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
     }
     @Test
     public void TwoTimesItemCondition () {
@@ -385,26 +387,26 @@ class ObjectiveCardTest {
             if (c.getId() == 1) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 39, false);
+                p.placeCard(myResourceCard, 39, 39, false);
             }
             if (c.getId() == 2) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 41, false);
+                p.placeCard(myResourceCard, 39, 41, false);
             }
             if (c.getId() == 3) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 41, 39, false);
+                p.placeCard(myResourceCard, 41, 39, false);
             }
             if (c.getId() == 4) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 41, 41, false);
+                p.placeCard(myResourceCard, 41, 41, false);
             }
         }
-        assertEquals(4, myObjectiveCard.getObjectiveScore(new GameField(gameField)));
-        assertEquals(2, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
+        assertEquals(4, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
+        assertEquals(2, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
     }
     @Test
     public void NoItemConditionMet () {
@@ -418,25 +420,25 @@ class ObjectiveCardTest {
             if (c.getId() == 1) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 39, false);
+                p.placeCard(myResourceCard, 39, 39, false);
             }
             if (c.getId() == 12) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 39, 41, false);
+                p.placeCard(myResourceCard, 39, 41, false);
             }
             if (c.getId() == 13) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 41, 39, false);
+                p.placeCard(myResourceCard, 41, 39, false);
             }
             if (c.getId() == 11) {
                 myResourceCard = c;
                 assertNotNull(myResourceCard);
-                gameField.placeCard(myResourceCard, 41, 41, false);
+                p.placeCard(myResourceCard, 41, 41, false);
             }
         }
-        assertEquals(0, myObjectiveCard.getObjectiveScore(new GameField(gameField)));
-        assertEquals(0, myObjectiveCard.numTimesScoringConditionMet(new GameField(gameField)));
+        assertEquals(0, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
+        assertEquals(0, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
     }
 }

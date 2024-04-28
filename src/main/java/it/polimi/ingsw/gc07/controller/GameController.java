@@ -418,7 +418,7 @@ public class GameController {
             return;
         }
         card = player.getCurrentHand().get(pos);
-        CommandResult result = player.getGameField().placeCard(card,x,y,way);
+        CommandResult result = player.placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS)) {
             setHasCurrPlayerPlaced();
             getPlayers().get(gameModel.getCurrPlayer()).removeCardHand(card);
@@ -472,8 +472,8 @@ public class GameController {
         }
         // no check for current player, starter cards can be placed in any order
 
-        gameModel.setCommandResult(player.getGameField().placeCard(
-                player.getGameField().getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way)
+        gameModel.setCommandResult(player.placeCard(
+                player.getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way)
         );
 
         boolean changeState = true;

@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc07.model.conditions;
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.GameItem;
+import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
@@ -23,6 +24,7 @@ class ItemsConditionTest {
     private Deck<PlaceableCard> starterCardsDeck;
     ItemsCondition condition;
     List<GameItem> neededItems;
+    Player p;
 
     @BeforeEach
     void setUp() {
@@ -37,6 +39,7 @@ class ItemsConditionTest {
         assertNotNull(starterCardsDeck);
         condition = null;
         neededItems = new ArrayList<>();
+        p = new Player("p", true, true);
     }
 
     // checks the case of only the starter card placed face down
@@ -50,14 +53,13 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         neededItems.add(GameResource.PLANT);
         neededItems.add(GameResource.ANIMAL);
         neededItems.add(GameResource.FUNGI);
         condition = new ItemsCondition(neededItems);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
     }
 
     // checks the case of only the starter card placed face up
@@ -65,15 +67,14 @@ class ItemsConditionTest {
     @Test
     public void onlyStarterCardTemporaryResources() {
         PlaceableCard myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
         neededItems.add(GameResource.PLANT);
         neededItems.add(GameResource.ANIMAL);
         neededItems.add(GameResource.FUNGI);
         neededItems.add(GameResource.INSECT);
         condition = new ItemsCondition(neededItems);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
     }
 
     // checks the case of only the starter card placed face down
@@ -87,14 +88,13 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         neededItems.add(GameResource.PLANT);
         neededItems.add(GameResource.INSECT);
         neededItems.add(GameResource.INSECT);
         condition = new ItemsCondition(neededItems);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
     }
 
     @Test
@@ -106,9 +106,8 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         // 2 INSECT, 1 PLANT
 
         PlaceableCard card = null;
@@ -118,7 +117,7 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 39, 39, false);
+        p.placeCard(card, 39, 39, false);
         // 4 INSECT, 1 PLANT
 
         card = null;
@@ -128,14 +127,14 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 39, 41, true);
+        p.placeCard(card, 39, 41, true);
         // 4 INSECT, 1 FUNGI
 
         neededItems.add(GameResource.INSECT);
         neededItems.add(GameResource.INSECT);
         neededItems.add(GameResource.FUNGI);
         condition = new ItemsCondition(neededItems);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.INSECT);
@@ -143,7 +142,7 @@ class ItemsConditionTest {
         neededItems.add(GameResource.INSECT);
         neededItems.add(GameResource.FUNGI);
         condition = new ItemsCondition(neededItems);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
 
         card = null;
         for(PlaceableCard c: goldCardsDeck.getContent()){
@@ -152,9 +151,9 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 41, 41, false);
+        p.placeCard(card, 41, 41, false);
         // 4 INSECT, 1 FUNGI
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.INSECT);
@@ -162,7 +161,7 @@ class ItemsConditionTest {
         neededItems.add(GameResource.INSECT);
         neededItems.add(GameResource.FUNGI);
         condition = new ItemsCondition(neededItems);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
     }
 
     @Test
@@ -174,9 +173,8 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         // 2 INSECT, 1 PLANT
 
         PlaceableCard card = null;
@@ -186,7 +184,7 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 39, 39, false);
+        p.placeCard(card, 39, 39, false);
         // 4 INSECT, 1 PLANT
 
         card = null;
@@ -196,7 +194,7 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 39, 41, true);
+        p.placeCard(card, 39, 41, true);
         // 4 INSECT, 1 FUNGI
 
         card = null;
@@ -206,13 +204,13 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 41, 41, false);
+        p.placeCard(card, 41, 41, false);
         // 4 INSECT, 1 FUNGI
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.PLANT);
         condition = new ItemsCondition(neededItems);
-        assertEquals(0, condition.numTimesMet(gameField));
+        assertEquals(0, condition.numTimesMet(p.getGameField()));
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.PLANT);
@@ -220,12 +218,12 @@ class ItemsConditionTest {
         neededItems.add(GameResource.INSECT);
         neededItems.add(GameResource.FUNGI);
         condition = new ItemsCondition(neededItems);
-        assertEquals(0, condition.numTimesMet(gameField));
+        assertEquals(0, condition.numTimesMet(p.getGameField()));
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.ANIMAL);
         condition = new ItemsCondition(neededItems);
-        assertEquals(0, condition.numTimesMet(gameField));
+        assertEquals(0, condition.numTimesMet(p.getGameField()));
     }
 
     @Test
@@ -237,9 +235,8 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
         // 2 INSECT, 1 PLANT
 
         PlaceableCard card = null;
@@ -249,7 +246,7 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 39, 39, false);
+        p.placeCard(card, 39, 39, false);
         // 4 INSECT, 1 PLANT
 
         card = null;
@@ -259,7 +256,7 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 39, 41, true);
+        p.placeCard(card, 39, 41, true);
         // 4 INSECT, 1 FUNGI
 
         card = null;
@@ -269,21 +266,21 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 41, 41, false);
+        p.placeCard(card, 41, 41, false);
         // 4 INSECT, 1 FUNGI
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.INSECT);
         neededItems.add(GameResource.INSECT);
         condition = new ItemsCondition(neededItems);
-        assertEquals(2, condition.numTimesMet(gameField));
+        assertEquals(2, condition.numTimesMet(p.getGameField()));
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.INSECT);
         neededItems.add(GameResource.INSECT);
         neededItems.add(GameResource.FUNGI);
         condition = new ItemsCondition(neededItems);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
     }
 
     @Test
@@ -295,9 +292,8 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(myStarterCard);
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
 
         PlaceableCard card = null;
         for(PlaceableCard c: resourceCardsDeck.getContent()){
@@ -306,13 +302,13 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 41, 39, false);
+        p.placeCard(card, 41, 39, false);
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.FUNGI);
         neededItems.add(GameResource.ANIMAL);
         condition = new ItemsCondition(neededItems);
-        assertEquals(2, condition.numTimesMet(gameField));
+        assertEquals(2, condition.numTimesMet(p.getGameField()));
 
         card = null;
         for(PlaceableCard c: goldCardsDeck.getContent()){
@@ -321,7 +317,7 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 41, 41, false);
+        p.placeCard(card, 41, 41, false);
 
         card = null;
         for(PlaceableCard c: resourceCardsDeck.getContent()){
@@ -330,28 +326,28 @@ class ItemsConditionTest {
             }
         }
         assertNotNull(card);
-        gameField.placeCard(card, 42, 38, true);
+        p.placeCard(card, 42, 38, true);
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.FUNGI);
         neededItems.add(GameResource.ANIMAL);
         condition = new ItemsCondition(neededItems);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.ANIMAL);
         condition = new ItemsCondition(neededItems);
-        assertEquals(2, condition.numTimesMet(gameField));
+        assertEquals(2, condition.numTimesMet(p.getGameField()));
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.FUNGI);
         condition = new ItemsCondition(neededItems);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
 
         neededItems = new ArrayList<>();
         neededItems.add(GameObject.QUILL);
         condition = new ItemsCondition(neededItems);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
 
         neededItems = new ArrayList<>();
         neededItems.add(GameResource.ANIMAL);
@@ -359,6 +355,6 @@ class ItemsConditionTest {
         neededItems.add(GameResource.FUNGI);
         neededItems.add(GameObject.QUILL);
         condition = new ItemsCondition(neededItems);
-        assertEquals(1, condition.numTimesMet(gameField));
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
     }
 }

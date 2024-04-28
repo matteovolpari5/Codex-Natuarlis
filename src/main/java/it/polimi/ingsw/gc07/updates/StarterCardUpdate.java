@@ -3,7 +3,6 @@ package it.polimi.ingsw.gc07.updates;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model_view.GameView;
 
-// TODO must be used only with the owner of the game view, not with every listener
 public class StarterCardUpdate implements Update {
     /**
      * Player's nickname.

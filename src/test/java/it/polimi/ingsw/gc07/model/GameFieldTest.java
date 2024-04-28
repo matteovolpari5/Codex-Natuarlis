@@ -18,58 +18,58 @@ class GameFieldTest {
     PlaceableCard myStarterCard;
     DrawableCard myResourceCard;
     DrawableCard myGoldCard;
+    Player p;
+
     @BeforeEach
     void setUp() {
         resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
         starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
+        p = new Player("p", true, true);
     }
 
     @Test
     void placeCard() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, 40, 40, false);
-        assertEquals(gameField.getPlacedCard(40, 40), myStarterCard);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, false);
+        assertEquals(p.getGameField().getPlacedCard(40, 40), myStarterCard);
         myResourceCard = resourceCardsDeck.drawCard();
-        gameField.placeCard(myResourceCard, 40, 41, true);
-        assertNull(gameField.getPlacedCard(40, 41));
+        p.placeCard(myResourceCard, 40, 41, true);
+        assertNull(p.getGameField().getPlacedCard(40, 41));
     }
 
     @Test
     void isCardPresent() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, 40, 40, false);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if (c.getId() == 15){
                 myResourceCard = c;
-                gameField.placeCard(myResourceCard, 41, 41, false);
+                p.placeCard(myResourceCard, 41, 41, false);
             }
             if (c.getId() == 18){
                 myResourceCard = c;
-                gameField.placeCard(myResourceCard, 39, 41, false);
+                p.placeCard(myResourceCard, 39, 41, false);
             }
             if (c.getId() == 1){
                 myResourceCard = c;
-                gameField.placeCard(myResourceCard, 39, 39, false);
+                p.placeCard(myResourceCard, 39, 39, false);
             }
             if (c.getId() == 39){
                 myResourceCard = c;
-                gameField.placeCard(myResourceCard, 41, 39, false);
+                p.placeCard(myResourceCard, 41, 39, false);
             }
         }
-        assertTrue(gameField.isCardPresent(41, 41));
+        assertTrue(p.getGameField().isCardPresent(41, 41));
     }
 
     @Test
     void getPlacedCard() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, 40, 40, false);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 49){
                 myGoldCard = c;
@@ -77,28 +77,27 @@ class GameFieldTest {
         }
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if (c.getId() == 11){
-                gameField.placeCard(c, 41, 41, false);
+                p.placeCard(c, 41, 41, false);
             }
             if (c.getId() == 10){
-                gameField.placeCard(c, 39, 41, false);
+                p.placeCard(c, 39, 41, false);
             }
             if (c.getId() == 20){
-                gameField.placeCard(c, 39, 39, false);
+                p.placeCard(c, 39, 39, false);
             }
             if (c.getId() == 4){
                 myResourceCard = c;
-                gameField.placeCard(myResourceCard, 41, 39, true);
+                p.placeCard(myResourceCard, 41, 39, true);
             }
         }
-        assertEquals(myResourceCard, gameField.getPlacedCard(41, 39));
+        assertEquals(myResourceCard, p.getGameField().getPlacedCard(41, 39));
     }
 
     @Test
     void removePlacedCard() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, 40, 40, false);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, false);
         for(DrawableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 49){
                 myGoldCard = c;
@@ -107,52 +106,50 @@ class GameFieldTest {
         for(DrawableCard c: resourceCardsDeck.getContent()){
             if (c.getId() == 2){
                 myResourceCard = c;
-                gameField.placeCard(myResourceCard, 41, 41, false);
+                p.placeCard(myResourceCard, 41, 41, false);
             }
             if (c.getId() == 3){
                 myResourceCard = c;
-                gameField.placeCard(myResourceCard, 39, 41, false);
+                p.placeCard(myResourceCard, 39, 41, false);
             }
             if (c.getId() == 1){
                 myResourceCard = c;
-                gameField.placeCard(myResourceCard, 39, 39, false);
+                p.placeCard(myResourceCard, 39, 39, false);
             }
             if (c.getId() == 4){
                 myResourceCard = c;
-                gameField.placeCard(myResourceCard, 41, 39, false);
+                p.placeCard(myResourceCard, 41, 39, false);
             }
         }
-        gameField.removePlacedCard(41, 39);
-        assertFalse(gameField.isCardPresent(41, 39));
+        p.getGameField().removePlacedCard(41, 39);
+        assertFalse(p.getGameField().isCardPresent(41, 39));
     }
 
     @Test
     void getCardWay() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, 40, 40, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 41, 41, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, true);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 41, 39, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 39, 39, true);
-        assertEquals(true, gameField.getCardWay(39,41));
-        assertEquals(false, gameField.getCardWay(41,41));
-        assertEquals(true, gameField.getCardWay(39,39));
-        assertEquals(false, gameField.getCardWay(41,39));
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, false);
+        p.placeCard(resourceCardsDeck.drawCard(), 41, 41, false);
+        p.placeCard(resourceCardsDeck.drawCard(), 39, 41, true);
+        p.placeCard(resourceCardsDeck.drawCard(), 41, 39, false);
+        p.placeCard(resourceCardsDeck.drawCard(), 39, 39, true);
+        assertEquals(true, p.getGameField().getCardWay(39,41));
+        assertEquals(false, p.getGameField().getCardWay(41,41));
+        assertEquals(true, p.getGameField().getCardWay(39,39));
+        assertEquals(false, p.getGameField().getCardWay(41,39));
     }
 
     @Test
     void getCardsOrder() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, 40, 40, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 41, 41, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 41, 39, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 39, 39, false);
-        int [][] cardOrder = gameField.getCardsOrder();
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, false);
+        p.placeCard(resourceCardsDeck.drawCard(), 41, 41, false);
+        p.placeCard(resourceCardsDeck.drawCard(), 39, 41, false);
+        p.placeCard(resourceCardsDeck.drawCard(), 41, 39, false);
+        p.placeCard(resourceCardsDeck.drawCard(), 39, 39, false);
+        int [][] cardOrder = p.getGameField().getCardsOrder();
         assertEquals(1, cardOrder[40][40]);
         assertEquals(2, cardOrder[41][41]);
         assertEquals(3, cardOrder[39][41]);
@@ -164,13 +161,12 @@ class GameFieldTest {
     @Test
     void getNumPlayedCards() {
         myStarterCard = starterCardsDeck.drawCard();
-        GameField gameField = new GameField();
-        gameField.setStarterCard(myStarterCard);
-        gameField.placeCard(myStarterCard, 40, 40, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 41, 41, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 39, 41, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 41, 39, false);
-        gameField.placeCard(resourceCardsDeck.drawCard(), 39, 39, false);
-        assertEquals(5, gameField.getNumPlayedCards());
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, false);
+        p.placeCard(resourceCardsDeck.drawCard(), 41, 41, false);
+        p.placeCard(resourceCardsDeck.drawCard(), 39, 41, false);
+        p.placeCard(resourceCardsDeck.drawCard(), 41, 39, false);
+        p.placeCard(resourceCardsDeck.drawCard(), 39, 39, false);
+        assertEquals(5, p.getGameField().getNumPlayedCards());
     }
 }
