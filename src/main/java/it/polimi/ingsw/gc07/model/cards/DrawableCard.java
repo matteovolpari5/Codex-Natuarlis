@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.model.cards;
 
-import it.polimi.ingsw.gc07.model.conditions.Condition;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
@@ -241,14 +240,13 @@ public class DrawableCard extends PlaceableCard {
         }
         return 0;
     }
-    @Override
-    public Condition getPlacementCondition() {
-        return null;
-    }
-    @Override
-    public Condition getScoringCondition() {
-        return null;
-    }
+
+    //METHOD USED TO HELP PRINT IN TUI VIEW
+
+    /**
+     * getter method for points wrote on the card
+     * @return points
+     */
     @Override
     public int getPoints()
     {
