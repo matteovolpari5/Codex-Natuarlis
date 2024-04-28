@@ -85,4 +85,14 @@ public final class GoldCard extends DrawableCard {
             return cardScore * scoringCondition.numTimesMet(gameField);
         }
     }
+
+    @Override
+    public Condition getPlacementCondition() {
+        return placementCondition;
+    }
+
+    @Override
+    public Condition getScoringCondition() {
+        return scoringCondition;
+    }
 }

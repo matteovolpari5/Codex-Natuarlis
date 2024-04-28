@@ -34,6 +34,22 @@ public final class ObjectiveCard extends Card {
     }
 
     /**
+     * getter method for attribute scoringCondition
+     * @return scoringCondition
+     */
+    public Condition getScoringCondition() {
+        return scoringCondition;
+    }
+
+    /**
+     * getter method for attribute objectiveScore
+     * @return objectiveScore
+     */
+    public int getPoints(){
+        return objectiveScore;
+    }
+
+    /**
      * Method returning the score gained thanks to the objective card.
      * @param gameField game field
      * @return score

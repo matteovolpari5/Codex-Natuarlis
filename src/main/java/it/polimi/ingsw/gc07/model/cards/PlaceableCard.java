@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
+import it.polimi.ingsw.gc07.model.conditions.Condition;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
@@ -149,6 +150,18 @@ public class PlaceableCard extends Card {
      */
     public int getPlacementScore(GameField gameField, int x, int y) {
         assert (gameField.isCardPresent(x, y)) : "There isn't a Card in position (x,y)";
+        return 0;
+    }
+
+    public Condition getPlacementCondition() {
+        return null;
+    }
+
+    public Condition getScoringCondition() {
+        return null;
+    }
+
+    public int getPoints() {
         return 0;
     }
 }
