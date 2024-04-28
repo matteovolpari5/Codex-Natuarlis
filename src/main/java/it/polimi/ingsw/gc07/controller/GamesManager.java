@@ -33,7 +33,7 @@ public class GamesManager {
     /**
      * Instance of GamesManager.
      */
-    private static GamesManager myGamesManager = null;
+    private final static GamesManager myGamesManager = new GamesManager();
 
     /**
      * GamesManger is created once the server is started.
@@ -49,12 +49,16 @@ public class GamesManager {
      * Method to get the only available instance of GamesManager (Singleton pattern).
      * @return instance of games manager
      */
-    public static synchronized GamesManager getGamesManager() {
-        if(myGamesManager == null) {
-            return new GamesManager();
-        } else {
-            return myGamesManager;
-        }
+    public static GamesManager getGamesManager() {
+        return myGamesManager;
+    }
+
+    /**
+     * Only for test purposes, return a new instance of GamesManager, not using Singleton.
+     * @return new games manager
+     */
+    static GamesManager getNewGamesManager() {
+        return new GamesManager();
     }
 
     /**

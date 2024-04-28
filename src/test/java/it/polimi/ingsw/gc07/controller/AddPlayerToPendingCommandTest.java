@@ -14,7 +14,7 @@ class AddPlayerToPendingCommandTest {
 
     @BeforeEach
     void setUp() {
-        gamesManager = GamesManager.getGamesManager();
+        gamesManager = GamesManager.getNewGamesManager();
     }
 
     @Test

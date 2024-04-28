@@ -187,7 +187,7 @@ public class GameField {
                 throw new RuntimeException();
             }
         }
-        
+
         return result;
     }
 
@@ -248,16 +248,6 @@ public class GameField {
             }
         }
         return cardsOrderCopy;
-    }
-
-    /**
-     * Getter that returns when the card was placed.
-     * @param x x position in the matrix
-     * @param y y position in the matrix
-     * @return an integer that represents when a card has been placed
-     */
-    public int getCardsOrder(int x,int y) {
-        return cardsOrder[x][y];
     }
 
     /**
