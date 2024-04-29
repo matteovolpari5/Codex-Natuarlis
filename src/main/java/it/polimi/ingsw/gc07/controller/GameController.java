@@ -78,6 +78,10 @@ public class GameController {
         return playerNicknames;
     }
 
+    int getPlayersNumber() {
+        return gameModel.getPlayersNumber();
+    }
+
     List<String> getWinners(){
         return gameModel.getWinners();
     }

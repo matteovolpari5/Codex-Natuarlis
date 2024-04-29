@@ -56,6 +56,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to join an existing game"); // JoinExistingGameCommand
             System.out.println("- w to join an new game"); // JoinNewGameCommand
+            System.out.println("- e to see existing games"); // DisplayGamesCommand
             System.out.print("> ");
             String command = scan.nextLine();
             switch(command){
@@ -137,6 +138,17 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     }
                     joiningGame = false;
                     break;
+
+                case "e":
+                    // display existing games
+                    try {
+                        serverGamesManager.setAndExecuteCommand(new DisplayGamesCommand(nickname));
+                    } catch (RemoteException e) {
+                        // TODO
+                        throw new RuntimeException(e);
+                    }
+                    break;
+
                 default:
                     System.out.println("The provided character doesn't refer to any action");
             }
@@ -419,5 +431,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     @Override
     public void receiveScoreUpdate(ScoreUpdate scoreUpdate) {
         scoreUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to show the client existing games
+     * @param existingGamesUpdate existing games update
+     */
+    @Override
+    public void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) {
+        existingGamesUpdate.execute(gameView);
     }
 }

@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GameView {
     /**
@@ -258,5 +259,14 @@ public class GameView {
      */
     public void setCommandResult(CommandResult commandResult) {
         this.commandResult = commandResult;
+    }
+
+    public void displayExistingGames(Map<Integer, Integer> existingGames) {
+        // TODO display con view
+
+        // only for debugging
+        for(Integer id: existingGames.keySet()) {
+            System.out.println("Id: " + id + " - " + "Number of players: " + existingGames.get(id));
+        }
     }
 }

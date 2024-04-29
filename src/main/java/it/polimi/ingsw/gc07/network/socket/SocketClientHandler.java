@@ -260,6 +260,11 @@ public class SocketClientHandler implements VirtualView {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException {
+        // TODO
+    }
 }
 
 //TODO riassunto:

@@ -81,10 +81,12 @@ public class ClientMain {
             }else {
                 // Socket
                 //TODO per adesso la porta e l'host è data da linea di comando, stabilire se bisogna cambiarlo
-                String host = args[0];
-                int port = Integer.parseInt(args[1]);
+                //String host = args[0];
+                //int port = Integer.parseInt(args[1]);
+                String host = "127.0.0.1";
+                int port = 0;
                 Socket sc = new Socket(host, port);
-                SocketClient socketClient= new SocketClient(nickname, sc);
+                SocketClient socketClient = new SocketClient(nickname, sc);
                 socketClient.connectToGamesManager(connectionType, interfaceType);
             }
         }catch(RemoteException e) {

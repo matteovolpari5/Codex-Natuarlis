@@ -1,10 +1,13 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
+import it.polimi.ingsw.gc07.game_commands.DisplayGamesCommand;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -57,17 +60,29 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     @Override
     public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
         gamesManager.setAndExecuteCommand(gamesManagerCommand);
-        if(gamesManager.getCommandResult().equals(CommandResult.SET_SERVER_GAME) ||
-                gamesManager.getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
+        if(
+                gamesManager.getCommandResult().equals(CommandResult.SET_SERVER_GAME) ||
+                gamesManager.getCommandResult().equals(CommandResult.CREATE_SERVER_GAME) ||
+                gamesManager.getCommandResult().equals(CommandResult.DISPLAY_GAMES)
+        ) {
+            // get virtual view
             String commandNickname = gamesManagerCommand.getNickname();
-            int gameId = gamesManager.getGameIdWithPlayer(commandNickname);
-            if(gameId < 0) {
-                throw new RuntimeException();
-            }
             VirtualView virtualView = getVirtualView(commandNickname);
             if(virtualView == null) {
                 throw new RuntimeException();
             }
+            // if display games
+            if(gamesManager.getCommandResult().equals(CommandResult.DISPLAY_GAMES)) {
+                ExistingGamesUpdate update = new ExistingGamesUpdate(gamesManager.getFreeGamesDetails());
+                virtualView.receiveExistingGamesUpdate(update);
+                return;
+            }
+            // get game id
+            int gameId = gamesManager.getGameIdWithPlayer(commandNickname);
+            if(gameId < 0) {
+                throw new RuntimeException();
+            }
+            // set server game
             if(gamesManager.getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
                 rmiServerGames.put(gameId, new RmiServerGame(gamesManager.getGameById(gameId)));
             }

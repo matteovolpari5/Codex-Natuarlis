@@ -21,7 +21,8 @@ public class ServerMain {
 
         // create Socket server for gamesManager
         //TODO per adesso la porta è data da linea di comando, stabilire se bisogna cambiarlo
-        int port = Integer.parseInt(args[0]);   // TODO penso args[0]
+        //int port = Integer.parseInt(args[0]);   // TODO penso args[0]
+        int port = 0;
         ServerSocket sc = null;
         try{
             sc = new ServerSocket(port);
