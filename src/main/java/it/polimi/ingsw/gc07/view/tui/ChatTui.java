@@ -13,7 +13,7 @@ public class ChatTui {
             if(m.getIsPublic())
                 System.out.println("["+m.getDateTime()+"] " + "<"+ m.getSender()+"> :"+  m.getContent());
             else
-                System.out.println("["+m.getDateTime()+"] " + "<"+ m.getSender()+ "to you> :"+  m.getContent());
+                System.out.println("["+m.getDateTime()+"] " + "<"+ m.getSender()+ " to " +m.getReceiverNickname()+" > :"+  m.getContent());
         }
     }
 }
