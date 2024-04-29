@@ -117,14 +117,6 @@ public class GameModel {
         this.gameListeners = new ArrayList<>();
     }
 
-    /**
-     * Method to add a game listener.
-     * @param gameListener game listener
-     */
-    public void addListener(GameListener gameListener) {
-        gameListeners.add(gameListener);
-    }
-
     public int getId() {
         return id;
     }
@@ -135,6 +127,8 @@ public class GameModel {
 
     public void setState(GameState state) {
         this.state = state;
+
+        sendGameModelUpdate();
     }
 
     public int getPlayersNumber() {
@@ -211,6 +205,18 @@ public class GameModel {
 
     public CommandResult getCommandResult() {
         return commandResult;
+    }
+
+    private void sendGameModelUpdate() {
+        GameModelUpdate update = new GameModelUpdate(id, playersNumber, state, new ArrayList<>(winners), currPlayer, twentyPointsReached, additionalRound);
+        for(GameListener l: gameListeners) {
+            try {
+                l.receiveGameModelUpdate(update);
+            }catch(RemoteException e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
     }
 
     public void addPlayer(Player newPlayer) {
@@ -347,7 +353,6 @@ public class GameModel {
         int realizedObjectives;
         int maxRealizedObjective = 0;
 
-        List<Player> playersCopy = new ArrayList<>(players);
         for (int i = 0; i >= 0 && i < players.size(); i++) {
             GameField gameField = players.get(i).getGameField();
 
@@ -364,18 +369,18 @@ public class GameModel {
             //points counter for the 2nd common objective
             deltaPoints += objectiveCard.getObjectiveScore(gameField);
 
-            realizedObjectives += getPlayers().get(i).getSecretObjective().numTimesScoringConditionMet(gameField);
+            realizedObjectives += players.get(i).getSecretObjective().numTimesScoringConditionMet(gameField);
             //points counter for the secret objective
-            deltaPoints += getPlayers().get(i).getSecretObjective().getObjectiveScore(gameField);
-            incrementScore(getPlayers().get(i).getNickname(), deltaPoints);
-            if (max <= getScore(playersCopy.get(i).getNickname())) {
-                max = getScore(playersCopy.get(i).getNickname());
+            deltaPoints += players.get(i).getSecretObjective().getObjectiveScore(gameField);
+            incrementScore(players.get(i).getNickname(), deltaPoints);
+            if (max <= getScore(players.get(i).getNickname())) {
+                max = getScore(players.get(i).getNickname());
                 if (realizedObjectives >= maxRealizedObjective) {
                     if (realizedObjectives == maxRealizedObjective) {
-                        winners.add(playersCopy.get(i).getNickname());
+                        winners.add(players.get(i).getNickname());
                     } else {
                         winners.clear();
-                        winners.add(playersCopy.get(i).getNickname());
+                        winners.add(players.get(i).getNickname());
                         maxRealizedObjective = realizedObjectives;
                     }
                 }

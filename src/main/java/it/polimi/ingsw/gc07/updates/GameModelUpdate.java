@@ -7,6 +7,8 @@ import it.polimi.ingsw.gc07.model_view.PlayerView;
 import java.util.List;
 
 // TODO id e playersNumber costanti, si possono inviare all'inizio?
+// potrei inviarli quando un client si connette, oltre al player joined,
+// mando un GameInfoUpdate
 public class GameModelUpdate implements Update {
     /**
      * Game id.
