@@ -44,7 +44,7 @@ public class Deck<T> {
         this.type = existingDeck.type;
         this.content = new Stack<>();
         this.content.addAll(existingDeck.content);
-        this.deckListeners = new ArrayList<>(existingDeck.deckListeners);
+        this.deckListeners = new ArrayList<>(); // don't copy listeners
     }
 
     /**

@@ -15,6 +15,7 @@ import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.updates.CommandResultUpdate;
 import it.polimi.ingsw.gc07.updates.GameModelUpdate;
 import it.polimi.ingsw.gc07.updates.PlayerJoinedUpdate;
 
@@ -27,13 +28,13 @@ public class GameModel {
      */
     private final int id;
     /**
-     * State of the game.
-     */
-    private GameState state;
-    /**
      * Number of players in the game, chose by the first player.
      */
     private final int playersNumber;
+    /**
+     * State of the game.
+     */
+    private GameState state;
     /**
      * List of players.
      */
@@ -41,7 +42,7 @@ public class GameModel {
     /**
      * List of winner(s) of the game.
      */
-    private final List<String> winners;
+    private List<String> winners;
     /**
      * Integer value representing the position of the current player.
      */
@@ -98,9 +99,9 @@ public class GameModel {
                 GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
                 Deck<PlaceableCard> starterCardsDeck) {
         this.id = id;
-        this.state = GameState.GAME_STARTING;
         assert(playersNumber >= 2 && playersNumber <= 4): "Wrong players number";
         this.playersNumber = playersNumber;
+        this.state = GameState.GAME_STARTING;
         this.players = new ArrayList<>();
         this.winners = new ArrayList<>();
         this.currPlayer = 0;
@@ -121,26 +122,26 @@ public class GameModel {
         return id;
     }
 
-    public GameState getState() {
-        return state;
-    }
-
-    public void setState(GameState state) {
-        this.state = state;
-
-        sendGameModelUpdate();
-    }
-
     public int getPlayersNumber() {
         return playersNumber;
     }
 
-    public List<String> getPlayerNicknames() {
-        return players.stream().map(Player::getNickname).toList();
+    public void setState(GameState state) {
+        this.state = state;
+        // update listeners
+        sendGameModelUpdate();
+    }
+
+    public GameState getState() {
+        return state;
     }
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public List<String> getPlayerNicknames() {
+        return players.stream().map(Player::getNickname).toList();
     }
 
     public List<String> getWinners() {
@@ -149,6 +150,8 @@ public class GameModel {
 
     public void setCurrPlayer(int currPlayer) {
         this.currPlayer = currPlayer;
+        // update listeners
+        sendGameModelUpdate();
     }
 
     public int getCurrPlayer() {
@@ -189,6 +192,8 @@ public class GameModel {
 
     public void setTwentyPointsReached(boolean twentyPointsReached) {
         this.twentyPointsReached = twentyPointsReached;
+        // update listeners
+        sendGameModelUpdate();
     }
 
     public boolean getAdditionalRound() {
@@ -197,10 +202,23 @@ public class GameModel {
 
     public void setAdditionalRound(boolean additionalRound) {
         this.additionalRound = additionalRound;
+        // update listeners
+        sendGameModelUpdate();
     }
 
     public void setCommandResult(CommandResult commandResult) {
         this.commandResult = commandResult;
+
+        // update listeners
+        CommandResultUpdate update = new CommandResultUpdate(commandResult);
+        for(GameListener l: gameListeners) {
+            try {
+                l.receiveCommandResultUpdate(update);
+            }catch(RemoteException e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
     }
 
     public CommandResult getCommandResult() {
@@ -266,15 +284,24 @@ public class GameModel {
         for(Player p: players) {
             playerViews.add(new PlayerView(p.getNickname(), p.getTokenColor(), p.getSecretObjective()));
         }
-        PlayerJoinedUpdate update = new PlayerJoinedUpdate(playerViews);
+        PlayerJoinedUpdate playerUpdate = new PlayerJoinedUpdate(playerViews);
         for(GameListener l: gameListeners) {
             try {
-                l.receivePlayerJoinedUpdate(update);
+                l.receivePlayerJoinedUpdate(playerUpdate);
             }catch(RemoteException e) {
                 // TODO
                 e.printStackTrace();
                 throw new RuntimeException();
             }
+        }
+        // send first game update to player
+        GameModelUpdate gameUpdate = new GameModelUpdate(id, playersNumber, state, new ArrayList<>(winners), currPlayer, twentyPointsReached, additionalRound);
+        try {
+            client.receiveGameModelUpdate(gameUpdate);
+        }catch(RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 
@@ -331,7 +358,7 @@ public class GameModel {
 
     public boolean hasPlayerWithTokenColor(TokenColor tokenColor) {
         boolean found = false;
-        for(Player p: getPlayers()){
+        for(Player p: players){
             if(p.getTokenColor().equals(tokenColor)){
                 found = true;
             }
@@ -343,8 +370,9 @@ public class GameModel {
      * Method that compute the winner/s of the game.
      * @return the list of players who won the game
      */
-    public List<String> computeWinner() {
-        List<String> winners = new ArrayList<>();
+    public void computeWinner() {
+        assert(state.equals(GameState.GAME_ENDED)) : "The game state is not correct";
+        List<String> computedWinners = new ArrayList<>();
         int deltaPoints;
         int max = 0;
         int realizedObjectives;
@@ -374,23 +402,26 @@ public class GameModel {
                 max = getScore(players.get(i).getNickname());
                 if (realizedObjectives >= maxRealizedObjective) {
                     if (realizedObjectives == maxRealizedObjective) {
-                        winners.add(players.get(i).getNickname());
+                        computedWinners.add(players.get(i).getNickname());
                     } else {
-                        winners.clear();
-                        winners.add(players.get(i).getNickname());
+                        computedWinners.clear();
+                        computedWinners.add(players.get(i).getNickname());
                         maxRealizedObjective = realizedObjectives;
                     }
                 }
             }
         }
-        return winners;
+
+        this.winners = computedWinners;
+        // update listeners
+        sendGameModelUpdate();
     }
 
     public void addPoints(Player player, int x, int y) {
         int deltaPoints;
         deltaPoints = player.getGameField().getPlacedCard(x, y).getPlacementScore(player.getGameField(), x, y);
         if(deltaPoints + getScore(player.getNickname()) >= 20) {
-            twentyPointsReached = true;
+            setTwentyPointsReached(true); // setter updated listeners
             if((deltaPoints + getScore(player.getNickname())) > 29) {
                 setScore(player.getNickname(), 29);
             }
