@@ -118,6 +118,7 @@ public class GameController {
         return gameModel.getStarterCardsDeck();
     }
 
+    // used in tests
     synchronized void setTwentyPointsReached() {
         gameModel.setTwentyPointsReached(true);
     }
@@ -144,14 +145,14 @@ public class GameController {
 
     public void addChatPrivateMessage(String content, String sender, String receiver) {
         // no state check, this command be used all the time
-        List<String> playersNicknames = getPlayers().stream().map(Player::getNickname).toList();
+        List<String> playerNicknames = gameModel.getPlayerNicknames();
         // check valid sender
-        if(!playersNicknames.contains(sender)) {
+        if(!playerNicknames.contains(sender)) {
             gameModel.setCommandResult(CommandResult.WRONG_SENDER);
             return;
         }
         // check valid receiver
-        if(!playersNicknames.contains(receiver)) {
+        if(!playerNicknames.contains(receiver)) {
             gameModel.setCommandResult(CommandResult.WRONG_RECEIVER);
             return;
         }
@@ -166,9 +167,9 @@ public class GameController {
 
     public void addChatPublicMessage(String content, String sender) {
         // no state check, this command be used all the time
-        List<String> playersNicknames = getPlayers().stream().map(Player::getNickname).toList();
+        List<String> playerNicknames = gameModel.getPlayerNicknames();
         // check valid sender
-        if(!playersNicknames.contains(sender)){
+        if(!playerNicknames.contains(sender)){
             gameModel.setCommandResult(CommandResult.WRONG_SENDER);
             return;
         }
@@ -192,15 +193,7 @@ public class GameController {
         playersTimer.put(newPlayer.getNickname(), timeout);
         startTimeoutReconnection(timeout, newPlayer.getNickname());
 
-        // draw card can't return null, since the game hasn't already started
-        newPlayer.addCardHand(getResourceCardsDeck().drawCard());
-        newPlayer.addCardHand(getResourceCardsDeck().drawCard());
-        newPlayer.addCardHand(getGoldCardsDeck().drawCard());
-        newPlayer.setSecretObjective(getObjectiveCardsDeck().drawCard());
-        newPlayer.setStarterCard(getStarterCardsDeck().drawCard());
-
         gameModel.addPlayer(newPlayer);
-        //gameModel.addPlayerToScoreTrackBoard(newPlayer.getNickname());
 
         if (isFull()) {
             setup();
@@ -218,14 +211,13 @@ public class GameController {
         try{
             playersTimer.get(nickname).cancel();
             playersTimer.get(nickname).purge();
-            int pos = getPlayerByNickname(nickname);
-            if(!getPlayers().get(pos).isConnected())
-            {
+            int pos = getPlayerPosByNickname(nickname);
+            if(!getPlayers().get(pos).isConnected()) {
                 gameModel.setCommandResult(CommandResult.PLAYER_ALREADY_DISCONNECTED);
                 return;
             }
             getPlayers().get(pos).setIsConnected(false);
-            int numPlayersConnected = getNumPlayersConnected();
+            int numPlayersConnected = gameModel.getNumPlayersConnected();
             if (numPlayersConnected == 1){
                 setState(GameState.WAITING_RECONNECTION);
                 // TODO start the timer, when it ends, the only player left wins
@@ -267,13 +259,13 @@ public class GameController {
                     throw new RuntimeException();
                 }
                 synchronized (this){
-                    if (getNumPlayersConnected() == 1) {
+                    if (gameModel.getNumPlayersConnected() == 1) {
                         timeout.cancel();
                         timeout.purge();
                         //TODO vedere cosa succede se uno si riconnette
                     }
 
-                    if (getNumPlayersConnected() > 1) {
+                    if (gameModel.getNumPlayersConnected() > 1) {
                         timeout.cancel(); // it stops the timeout
                         timeout.purge();
                         System.out.println("si continua...");
@@ -298,8 +290,9 @@ public class GameController {
     }
 
     public void notifyClientConnected(String nickname){
-
+        // TODO
     }
+
     public void drawDeckCard(String nickname, CardType type) {
         if(!getState().equals(GameState.PLAYING)) {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
@@ -395,8 +388,8 @@ public class GameController {
     }
 
     public void placeCard(String nickname, int pos, int x, int y, boolean way) {
-        Player player = null;
-        DrawableCard card = null;
+        Player player;
+        DrawableCard card;
         if(!getState().equals(GameState.PLAYING)){
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
@@ -410,7 +403,7 @@ public class GameController {
             return;
         }
         try {
-            player = getPlayers().get(getPlayerByNickname(nickname));
+            player = getPlayers().get(getPlayerPosByNickname(nickname));
         } catch (PlayerNotPresentException e) {
             throw new RuntimeException(e);
         }
@@ -433,7 +426,7 @@ public class GameController {
                     // check if the firs card (a casual card), is placeable on the back,
                     // i.e. check only the indexes
                     try {
-                        resultStall = getPlayers().get(getPlayerByNickname(nickname)).getCurrentHand().getFirst()
+                        resultStall = getPlayers().get(getPlayerPosByNickname(nickname)).getCurrentHand().getFirst()
                                 .isPlaceable(new GameField(player.getGameField()), i, j, true);
                         if (resultStall.equals(CommandResult.SUCCESS)) {
                             isStalled = false;
@@ -462,7 +455,7 @@ public class GameController {
         // check player has not already placed the starter card
         Player player;
         try {
-            player = getPlayers().get(getPlayerByNickname(nickname));
+            player = getPlayers().get(getPlayerPosByNickname(nickname));
         } catch (PlayerNotPresentException e) {
             // already checked
             throw new RuntimeException(e);
@@ -497,7 +490,7 @@ public class GameController {
             return;
         }
         try{
-            int pos = getPlayerByNickname(nickname);
+            int pos = getPlayerPosByNickname(nickname);
             if(getPlayers().get(pos).isConnected()) {
                 gameModel.setCommandResult(CommandResult.PLAYER_ALREADY_CONNECTED);
                 return;
@@ -529,29 +522,13 @@ public class GameController {
     // utils
     // ----------------------
 
-    private int getNumPlayersConnected() {
-        int numPlayersConnected = 0;
-        for (Player p: getPlayers()){
-            if (p.isConnected()){
-                numPlayersConnected++;
-            }
-        }
-        return numPlayersConnected;
-    }
-
     /**
      * Method telling if a player is in a game.
      * @param nickname nickname of the player
      * @return true if the player is in the game
      */
     synchronized boolean hasPlayer(String nickname) {
-        boolean found = false;
-        for(Player p: getPlayers()){
-            if(p.getNickname().equals(nickname)){
-                found = true;
-            }
-        }
-        return found;
+        return gameModel.hasPlayer(nickname);
     }
 
     /**
@@ -560,13 +537,7 @@ public class GameController {
      * @return true if there is a player with the given token color
      */
     synchronized boolean hasPlayerWithTokenColor(TokenColor tokenColor) {
-        boolean found = false;
-        for(Player p: getPlayers()){
-            if(p.getTokenColor().equals(tokenColor)){
-                found = true;
-            }
-        }
-        return found;
+        return gameModel.hasPlayerWithTokenColor(tokenColor);
     }
 
     /**
@@ -575,7 +546,7 @@ public class GameController {
      * @return position of the player in the List players
      * @throws PlayerNotPresentException: thrown if the nickname is not present in the list players.
      */
-    private int getPlayerByNickname(String nickname) throws PlayerNotPresentException {
+    private int getPlayerPosByNickname(String nickname) throws PlayerNotPresentException {
         for (int i = 0; i < gameModel.getPlayersNumber(); i++){
             if(getPlayers().get(i).getNickname().equals(nickname)){
                 return i;
@@ -590,6 +561,7 @@ public class GameController {
      * if a player is disconnect from the game he loose the turn,
      * if a player is stalled he will be skipped.
      */
+    // TODO spostare nel model? l'ho lasciato qua per timer
      void changeCurrPlayer () {
         assert(getState().equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
         if(gameModel.getCurrPlayer() == getPlayers().size()-1)
@@ -607,8 +579,8 @@ public class GameController {
                 // per permettere ai giocatori di scrivere in chat
 
                 // when the timer is ended
-                //GamesManager.getGamesManager().deleteGame(this.id);
-                //return;
+                // GamesManager.getGamesManager().deleteGame(this.id);
+                // return;
             }
             else if(getPlayers().get(gameModel.getCurrPlayer()).isFirst()) {
                 gameModel.setAdditionalRound(true);
@@ -638,46 +610,7 @@ public class GameController {
      */
     private List<String> computeWinner() {
         assert(getState().equals(GameState.GAME_ENDED)) : "The game state is not correct";
-        List<String> winners = new ArrayList<>();
-        int deltaPoints;
-        int max = 0;
-        int realizedObjectives;
-        int maxRealizedObjective = 0;
-        List<Player> playersCopy = new ArrayList<>(getPlayers());
-        for (int i = 0; i >= 0 && i < getPlayers().size(); i++) {
-            GameField gameField = getPlayers().get(i).getGameField();
-
-            ObjectiveCard objectiveCard;
-            objectiveCard = getObjectiveCardsDeck().revealFaceUpCard(0);
-            assert(objectiveCard != null): "The common objective must be present";
-            realizedObjectives = objectiveCard.numTimesScoringConditionMet(gameField);
-            //points counter for the 1st common objective
-            deltaPoints = objectiveCard.getObjectiveScore(gameField);
-
-            objectiveCard = getObjectiveCardsDeck().revealFaceUpCard(1);
-            assert(objectiveCard != null): "The common objective must be present";
-            realizedObjectives += objectiveCard.numTimesScoringConditionMet(gameField);
-            //points counter for the 2nd common objective
-            deltaPoints += objectiveCard.getObjectiveScore(gameField);
-
-            realizedObjectives += getPlayers().get(i).getSecretObjective().numTimesScoringConditionMet(gameField);
-            //points counter for the secret objective
-            deltaPoints += getPlayers().get(i).getSecretObjective().getObjectiveScore(gameField);
-            gameModel.incrementScore(getPlayers().get(i).getNickname(), deltaPoints);
-            if (max <= gameModel.getScore(playersCopy.get(i).getNickname())) {
-                max = gameModel.getScore(playersCopy.get(i).getNickname());
-                if (realizedObjectives >= maxRealizedObjective) {
-                    if (realizedObjectives == maxRealizedObjective) {
-                        winners.add(playersCopy.get(i).getNickname());
-                    } else {
-                        winners.clear();
-                        winners.add(playersCopy.get(i).getNickname());
-                        maxRealizedObjective = realizedObjectives;
-                    }
-                }
-            }
-        }
-        return winners;
+        return gameModel.computeWinner();
     }
 
     /**
@@ -718,26 +651,13 @@ public class GameController {
         assert(getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)): "Not the current player";
         Player player;
         try {
-            player = getPlayers().get(getPlayerByNickname(nickname));
+            player = getPlayers().get(getPlayerPosByNickname(nickname));
         } catch (PlayerNotPresentException e) {
             // the curr player must be in the game
             throw new RuntimeException(e);
         }
-        assert (player.getGameField().isCardPresent(x, y)) : "No card present in the provided position";
-        int deltaPoints;
-        deltaPoints = player.getGameField().getPlacedCard(x, y).getPlacementScore(player.getGameField(), x, y);
-        if(deltaPoints + gameModel.getScore(nickname) >= 20){
-            setTwentyPointsReached();
-            if((deltaPoints + gameModel.getScore(nickname)) > 29){
-               gameModel.setScore(nickname, 29);
-            }
-            else{
-                gameModel.incrementScore(nickname, deltaPoints);
-            }
-        }
-        else
-        {
-            gameModel.incrementScore(nickname, deltaPoints);
-        }
+        assert(player.getGameField().isCardPresent(x, y)) : "No card present in the provided position";
+
+        gameModel.addPoints(player, x, y);
     }
 }

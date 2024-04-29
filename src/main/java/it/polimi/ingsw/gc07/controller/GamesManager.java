@@ -136,7 +136,6 @@ public class GamesManager {
                      if(p.getNickname().equals(nickname)) {
                          assert(!p.isConnected());
                          gameController.reconnectPlayer(nickname);
-                         // TODO remove player from pending players
                      }
                  }
              }

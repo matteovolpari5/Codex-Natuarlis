@@ -12,6 +12,7 @@ import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.util.*;
@@ -136,6 +137,10 @@ public class GameModel {
         return playersNumber;
     }
 
+    public List<String> getPlayerNicknames() {
+        return players.stream().map(Player::getNickname).toList();
+    }
+
     public List<Player> getPlayers() {
         return players;
     }
@@ -208,6 +213,15 @@ public class GameModel {
         players.add(newPlayer);
         scoreTrackBoard.addPlayer(newPlayer.getNickname());
 
+        // set card hand
+        newPlayer.addCardHand(resourceCardsDeck.drawCard());
+        newPlayer.addCardHand(resourceCardsDeck.drawCard());
+        newPlayer.addCardHand(goldCardsDeck.drawCard());
+        // set secrete objective
+        newPlayer.setSecretObjective(objectiveCardsDeck.drawCard());
+        // set starter card
+        newPlayer.setStarterCard(starterCardsDeck.drawCard());
+
         // if not the first player
         if(players.size() > 1) {
             // add previously added listeners to new player
@@ -255,10 +269,6 @@ public class GameModel {
         objectiveCardsDeck.setUpDeck();
     }
 
-    public void addPlayerToScoreTrackBoard(String nickname) {
-        scoreTrackBoard.addPlayer(nickname);
-    }
-
     public int getScore(String nickname) {
         return scoreTrackBoard.getScore(nickname);
     }
@@ -269,5 +279,100 @@ public class GameModel {
 
     public void incrementScore(String nickname, int deltaScore) {
         scoreTrackBoard.incrementScore(nickname, deltaScore);
+    }
+
+    public int getNumPlayersConnected() {
+        int numPlayersConnected = 0;
+        for (Player p: players){
+            if (p.isConnected()){
+                numPlayersConnected++;
+            }
+        }
+        return numPlayersConnected;
+    }
+
+    public boolean hasPlayer(String nickname) {
+        boolean found = false;
+        for(Player p: players){
+            if(p.getNickname().equals(nickname)){
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    public boolean hasPlayerWithTokenColor(TokenColor tokenColor) {
+        boolean found = false;
+        for(Player p: getPlayers()){
+            if(p.getTokenColor().equals(tokenColor)){
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    /**
+     * Method that compute the winner/s of the game.
+     * @return the list of players who won the game
+     */
+    public List<String> computeWinner() {
+        List<String> winners = new ArrayList<>();
+        int deltaPoints;
+        int max = 0;
+        int realizedObjectives;
+        int maxRealizedObjective = 0;
+
+        List<Player> playersCopy = new ArrayList<>(players);
+        for (int i = 0; i >= 0 && i < players.size(); i++) {
+            GameField gameField = players.get(i).getGameField();
+
+            ObjectiveCard objectiveCard;
+            objectiveCard = getObjectiveCardsDeck().revealFaceUpCard(0);
+            assert(objectiveCard != null): "The common objective must be present";
+            realizedObjectives = objectiveCard.numTimesScoringConditionMet(gameField);
+            //points counter for the 1st common objective
+            deltaPoints = objectiveCard.getObjectiveScore(gameField);
+
+            objectiveCard = getObjectiveCardsDeck().revealFaceUpCard(1);
+            assert(objectiveCard != null): "The common objective must be present";
+            realizedObjectives += objectiveCard.numTimesScoringConditionMet(gameField);
+            //points counter for the 2nd common objective
+            deltaPoints += objectiveCard.getObjectiveScore(gameField);
+
+            realizedObjectives += getPlayers().get(i).getSecretObjective().numTimesScoringConditionMet(gameField);
+            //points counter for the secret objective
+            deltaPoints += getPlayers().get(i).getSecretObjective().getObjectiveScore(gameField);
+            incrementScore(getPlayers().get(i).getNickname(), deltaPoints);
+            if (max <= getScore(playersCopy.get(i).getNickname())) {
+                max = getScore(playersCopy.get(i).getNickname());
+                if (realizedObjectives >= maxRealizedObjective) {
+                    if (realizedObjectives == maxRealizedObjective) {
+                        winners.add(playersCopy.get(i).getNickname());
+                    } else {
+                        winners.clear();
+                        winners.add(playersCopy.get(i).getNickname());
+                        maxRealizedObjective = realizedObjectives;
+                    }
+                }
+            }
+        }
+        return winners;
+    }
+
+    public void addPoints(Player player, int x, int y) {
+        int deltaPoints;
+        deltaPoints = player.getGameField().getPlacedCard(x, y).getPlacementScore(player.getGameField(), x, y);
+        if(deltaPoints + getScore(player.getNickname()) >= 20) {
+            twentyPointsReached = true;
+            if((deltaPoints + getScore(player.getNickname())) > 29) {
+                setScore(player.getNickname(), 29);
+            }
+            else {
+                incrementScore(player.getNickname(), deltaPoints);
+            }
+        }
+        else {
+            incrementScore(player.getNickname(), deltaPoints);
+        }
     }
 }
