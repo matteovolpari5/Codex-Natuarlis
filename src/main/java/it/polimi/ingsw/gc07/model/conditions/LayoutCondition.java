@@ -131,11 +131,7 @@ public class LayoutCondition implements Condition{
     }
 
     /**
-     * METHOD USED TO SIMPLIFY TUI VIEW
-     */
-
-    /**
-     * getter method used to reduce the matrix 4x3 to a matrix 3x3, used to print the layout
+     * Getter method used to reduce the matrix 4x3 to a matrix 3x3, used to print the layout
      * @return the layout of the condition
      */
     public GameResource[][] getCardsColor() {

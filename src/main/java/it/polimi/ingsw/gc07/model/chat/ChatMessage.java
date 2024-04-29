@@ -90,7 +90,7 @@ public class ChatMessage implements Serializable {
      * getter method for attribute receiverNickname
      * @return receiverNickname
      */
-    public String getReceiverNickname() {
+    public String getReceiver() {
         return null;
     }
 }

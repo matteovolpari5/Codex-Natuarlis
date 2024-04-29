@@ -10,7 +10,6 @@ import it.polimi.ingsw.gc07.updates.CardHandUpdate;
 import it.polimi.ingsw.gc07.updates.ConnectionUpdate;
 import it.polimi.ingsw.gc07.updates.StallUpdate;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ArrayList;
@@ -241,17 +240,8 @@ public class Player {
     public void removeCardHand(DrawableCard card) {
         currentHand.remove(card);
         this.currentHand = new ArrayList<>(currentHand);
-
         // send update
-        CardHandUpdate update = new CardHandUpdate(nickname, new ArrayList<>(currentHand));
-        for(PlayerListener l: playerListeners) {
-            try {
-                l.receiveCardHandUpdate(update);
-            }catch(RemoteException e) {
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-        }
+        sendCardHandUpdate();
     }
 
     /**
@@ -261,8 +251,11 @@ public class Player {
     public void addCardHand(DrawableCard card) {
         currentHand.add(card);
         this.currentHand = new ArrayList<>(currentHand);
-
         // send update
+        sendCardHandUpdate();
+    }
+
+    private void sendCardHandUpdate() {
         CardHandUpdate update = new CardHandUpdate(nickname, new ArrayList<>(currentHand));
         for(PlayerListener l: playerListeners) {
             try {
