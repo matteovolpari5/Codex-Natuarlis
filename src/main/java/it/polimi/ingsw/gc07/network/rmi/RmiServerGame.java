@@ -7,22 +7,15 @@ import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RmiServerGame extends UnicastRemoteObject implements VirtualServerGame {
     /**
      * Game controller of the server.
      */
     private final GameController gameController;
-    /**
-     * Virtual views of clients in the game.
-     */
-    private final List<VirtualView> clients;
 
     public RmiServerGame(GameController gameController) throws RemoteException {
         this.gameController = gameController;
-        this.clients = new ArrayList<>();
     }
 
     /**
@@ -32,8 +25,7 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
      */
     @Override
     public synchronized void connect(VirtualView client) throws RemoteException {
-        clients.add(client);
-        gameController.addRMIListener(client);
+        gameController.addListener(client);
         System.err.println("New client connected");
     }
 

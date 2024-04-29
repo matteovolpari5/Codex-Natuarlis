@@ -57,8 +57,8 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     @Override
     public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
         gamesManager.setAndExecuteCommand(gamesManagerCommand);
-        if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.SET_SERVER_GAME) ||
-                gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
+        if(gamesManager.getCommandResult().equals(CommandResult.SET_SERVER_GAME) ||
+                gamesManager.getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
             String commandNickname = gamesManagerCommand.getNickname();
             int gameId = gamesManager.getGameIdWithPlayer(commandNickname);
             if(gameId < 0) {
@@ -68,14 +68,14 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             if(virtualView == null) {
                 throw new RuntimeException();
             }
-            if(gamesManager.getCommandResultManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
+            if(gamesManager.getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
                 rmiServerGames.put(gameId, new RmiServerGame(gamesManager.getGameById(gameId)));
             }
             virtualView.setServerGame(rmiServerGames.get(gameId));
         }
 
         // only for testing
-        System.out.println(gamesManager.getCommandResultManager().getCommandResult());
+        System.out.println(gamesManager.getCommandResult());
     }
 
     /**

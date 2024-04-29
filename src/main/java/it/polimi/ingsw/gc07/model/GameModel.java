@@ -247,10 +247,7 @@ public class GameModel {
         // in order to update also the newly created listener
     }
 
-    public void addRMIListener(VirtualView client) {
-        // TODO voglio tenere separati listener RMI e socket?
-        //  se si devo creare due liste in tutte le classi
-
+    public void addListener(VirtualView client) {
         // called as soon as a player joins a game
         gameListeners.add(client);
         chat.addListener(client);

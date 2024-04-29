@@ -136,8 +136,8 @@ public class GameController {
         gameCommand.execute(this);
     }
 
-    public void addRMIListener(VirtualView client) {
-        gameModel.addRMIListener(client);
+    public void addListener(VirtualView client) {
+        gameModel.addListener(client);
     }
 
     // ----------------------
