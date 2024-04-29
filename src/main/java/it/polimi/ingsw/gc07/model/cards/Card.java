@@ -2,10 +2,12 @@ package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
+import java.io.Serializable;
+
 /**
  * Abstract class that represents the generic cards of the game
  */
-public abstract class Card {
+public abstract class Card implements Serializable {
     /**
      * Attribute that shows the id of the card
      */

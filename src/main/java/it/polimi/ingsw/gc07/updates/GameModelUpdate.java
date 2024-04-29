@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.updates;
 
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.model_view.GameView;
+import it.polimi.ingsw.gc07.model_view.PlayerView;
 
 import java.util.List;
 

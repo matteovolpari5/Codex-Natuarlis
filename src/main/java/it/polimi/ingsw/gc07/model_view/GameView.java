@@ -64,7 +64,7 @@ public class GameView {
      * List of PlayerViews.
      * Same order of the list of players on the server.
      */
-    private final List<PlayerView> playerViews;
+    private List<PlayerView> playerViews;
 
     //TODO
     // RMIclient / SocketClient contiene il riferimento a game view
@@ -235,14 +235,21 @@ public class GameView {
 
     /**
      * Method that allows to add a new player view.
-     * @param playerView new player view
+     * @param playerViews new list of player views
      */
-    public void addPlayerView(PlayerView playerView) {
-        playerViews.add(playerView);
-        // nickname set in the constructor
-        scoreTrackBoardView.addPlayerToBoard(playerView.getNickname());
+    public void setPlayerViews(List<PlayerView> playerViews) {
+        for(PlayerView pv: playerViews) {
+            if(!this.playerViews.contains(pv)) {
+                this.playerViews.add(pv);
+                scoreTrackBoardView.addPlayerToBoard(pv.getNickname());
+            }
+        }
 
-        System.out.println("A new player joined the game");
+        // only for debugging
+        for(PlayerView pv: this.playerViews) {
+            System.out.println(pv.getNickname());
+        }
+
     }
 
     /**

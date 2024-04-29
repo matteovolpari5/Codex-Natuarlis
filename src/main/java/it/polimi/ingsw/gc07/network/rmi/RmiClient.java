@@ -367,12 +367,13 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     /**
-     * Method used to notify that a player has joined.
-     * @param playerJoinedUpdate playerJoinedUpdate
+     * Method used to notify a player joined update.
+     * @param playerJoinedUpate player joined update
+     * @throws RemoteException remote exception
      */
     @Override
-    public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate) {
-        playerJoinedUpdate.execute(gameView);
+    public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpate) throws RemoteException {
+        playerJoinedUpate.execute(gameView);
     }
 
     /**

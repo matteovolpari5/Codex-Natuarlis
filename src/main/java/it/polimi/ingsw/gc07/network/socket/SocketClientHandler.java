@@ -189,9 +189,9 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate) {
+    public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpate) throws RemoteException {
         try {
-            output.writeObject(playerJoinedUpdate);
+            output.writeObject(playerJoinedUpate);
             output.flush();
             output.reset();
             output.flush();

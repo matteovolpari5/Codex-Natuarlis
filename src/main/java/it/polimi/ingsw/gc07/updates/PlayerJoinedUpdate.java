@@ -3,26 +3,22 @@ package it.polimi.ingsw.gc07.updates;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.model_view.PlayerView;
 
+import java.util.List;
+
 public class PlayerJoinedUpdate implements Update {
     /**
-     * New PlayerView.
+     * List of player views.
+     * It is necessary to send the whole list, because the new player
+     * doesn't know previous players.
      */
-    private final PlayerView playerView;
+    private final List<PlayerView> playerViews;
 
-    /**
-     * Constructor of PlayerJoinedUpdate.
-     * @param playerView playerView
-     */
-    public PlayerJoinedUpdate(PlayerView playerView) {
-        this.playerView = playerView;
+    public PlayerJoinedUpdate(List<PlayerView> playerViews) {
+        this.playerViews = playerViews;
     }
 
-    /**
-     * Execute method of the concrete update: allows to notify that a player has joined.
-     * @param gameView gameView game view to update
-     */
     @Override
     public void execute(GameView gameView) {
-        gameView.addPlayerView(playerView);
+        gameView.setPlayerViews(playerViews);
     }
 }

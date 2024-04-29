@@ -11,18 +11,21 @@ public interface GameListener extends Remote {
     /**
      * Method used to notify a game model update.
      * @param gameModelUpdate game model update
+     * @throws RemoteException remote exception
      */
     void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) throws RemoteException;
 
     /**
-     * Method used to notify that a player has joined.
-     * @param playerJoinedUpdate playerJoinedUpdate
+     * Method used to notify a player joined the game.
+     * @param playerJoinedUpate player joined update
+     * @throws RemoteException remote exception
      */
-    void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate) throws RemoteException;
+    void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpate) throws RemoteException;
 
     /**
      * Method used to notify a command result update.
      * @param commandResultUpdate command result update
+     * @throws RemoteException remote exception
      */
     void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) throws RemoteException;
 }

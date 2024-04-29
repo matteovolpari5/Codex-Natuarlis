@@ -15,6 +15,7 @@ import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.updates.GameModelUpdate;
 import it.polimi.ingsw.gc07.updates.PlayerJoinedUpdate;
 
 import java.rmi.RemoteException;
@@ -235,6 +236,9 @@ public class GameModel {
                 newPlayer.getGameField().addListener(listener);
             }
         }
+
+        // update sent in addRMIListener,
+        // in order to update also the newly created listener
     }
 
     public void addRMIListener(VirtualView client) {
@@ -252,6 +256,22 @@ public class GameModel {
         for(Player p: players) {
             p.addListener(client);
             p.getGameField().addListener(client);
+        }
+
+        // update listeners
+        List<PlayerView> playerViews = new ArrayList<>();
+        for(Player p: players) {
+            playerViews.add(new PlayerView(p.getNickname(), p.getTokenColor(), p.getSecretObjective()));
+        }
+        PlayerJoinedUpdate update = new PlayerJoinedUpdate(playerViews);
+        for(GameListener l: gameListeners) {
+            try {
+                l.receivePlayerJoinedUpdate(update);
+            }catch(RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
         }
     }
 
