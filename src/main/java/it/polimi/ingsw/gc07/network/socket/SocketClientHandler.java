@@ -38,12 +38,12 @@ public class SocketClientHandler implements VirtualView {
 
         GamesManagerCommand command;
 
-        while(true){
-            try{
+        while(true) {
+            try {
                 command = (GamesManagerCommand) input.readObject();
                 synchronized (gamesManager){
                     gamesManager.setAndExecuteCommand(command);
-                    CommandResult result = gamesManager.getCommandResultManager().getCommandResult();
+                    CommandResult result = gamesManager.getCommandResult();
                     //TODO i listener sono stati invocati dal model in seguito alla modifica causata dal command
                     //TODO ad un certo punto nell'esecuzione del command si arriva all'invocazione dei metodi sottostanti per notificare
                     //TODO quindi non bisogna notificare l'utente adesso
@@ -76,6 +76,7 @@ public class SocketClientHandler implements VirtualView {
                 break;
             }
         }
+        gameController.addListener(this);
         manageGameCommand();
     }
 

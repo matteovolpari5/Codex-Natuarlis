@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model.chat;
 
 import it.polimi.ingsw.gc07.listeners.ChatListener;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.updates.ChatMessageUpdate;
 
 import java.rmi.RemoteException;
@@ -46,6 +47,7 @@ public class Chat {
         // create and add message
         ChatMessage newMessage = new ChatMessage(content, sender, true);
         chatMessages.add(newMessage);
+
         // inform listeners
         for(ChatListener l: chatListeners) {
             try {
@@ -67,8 +69,8 @@ public class Chat {
         // create and add message
         PrivateChatMessage newMessage = new PrivateChatMessage(content, sender, false, receiver);
         chatMessages.add(newMessage);
-        // inform listeners
 
+        // inform listeners
         ChatMessageUpdate update = new ChatMessageUpdate(newMessage);
         for(ChatListener l: chatListeners) {
             try {

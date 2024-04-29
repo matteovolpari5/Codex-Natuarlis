@@ -25,10 +25,10 @@ class GamesManagerTest {
         assertNull(gm.getGameById(0));
 
         gm.joinNewGame("player1", TokenColor.GREEN, 2);
-        assertEquals(CommandResult.CREATE_SERVER_GAME, gm.getCommandResultManager().getCommandResult());
+        assertEquals(CommandResult.CREATE_SERVER_GAME, gm.getCommandResult());
 
         gm.joinExistingGame("player2", TokenColor.RED, 0);
-        assertEquals(CommandResult.SET_SERVER_GAME, gm.getCommandResultManager().getCommandResult());
+        assertEquals(CommandResult.SET_SERVER_GAME, gm.getCommandResult());
 
         assertNotNull(gm.getGameById(0));
 

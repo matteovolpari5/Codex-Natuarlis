@@ -53,6 +53,7 @@ public class GameController {
     /**
      * Setter for the state of the game.
      */
+    // used in tests
     synchronized void setState(GameState state) {
         gameModel.setState(state);
     }
@@ -135,8 +136,8 @@ public class GameController {
         gameCommand.execute(this);
     }
 
-    public void addRMIListener(VirtualView client) {
-        gameModel.addRMIListener(client);
+    public void addListener(VirtualView client) {
+        gameModel.addListener(client);
     }
 
     // ----------------------
@@ -180,7 +181,7 @@ public class GameController {
 
     // TODO synchronized chi lo chiama?
     public void addPlayer(Player newPlayer) {
-        if(!getState().equals(GameState.GAME_STARTING)) {
+        if(!gameModel.getState().equals(GameState.GAME_STARTING)) {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
@@ -197,7 +198,7 @@ public class GameController {
 
         if (isFull()) {
             setup();
-            setState(GameState.PLACING_STARTER_CARDS);
+            gameModel.setState(GameState.PLACING_STARTER_CARDS);
         }
         gameModel.setCommandResult(CommandResult.SUCCESS);
     }
@@ -219,12 +220,12 @@ public class GameController {
             getPlayers().get(pos).setIsConnected(false);
             int numPlayersConnected = gameModel.getNumPlayersConnected();
             if (numPlayersConnected == 1){
-                setState(GameState.WAITING_RECONNECTION);
+                gameModel.setState(GameState.WAITING_RECONNECTION);
                 // TODO start the timer, when it ends, the only player left wins
                 startTimeoutGameEnd();
             }
             else if (numPlayersConnected == 0) {
-                setState(GameState.NO_PLAYERS_CONNECTED);
+                gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
                 // TODO start the timer, when it ends, the game ends without winner
                 startTimeoutGameEnd();
             }
@@ -294,7 +295,7 @@ public class GameController {
     }
 
     public void drawDeckCard(String nickname, CardType type) {
-        if(!getState().equals(GameState.PLAYING)) {
+        if(!gameModel.getState().equals(GameState.PLAYING)) {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
@@ -333,7 +334,7 @@ public class GameController {
     }
 
     public void drawFaceUpCard(String nickname, CardType type, int pos) {
-        if(!getState().equals(GameState.PLAYING)) {
+        if(!gameModel.getState().equals(GameState.PLAYING)) {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
@@ -390,7 +391,7 @@ public class GameController {
     public void placeCard(String nickname, int pos, int x, int y, boolean way) {
         Player player;
         DrawableCard card;
-        if(!getState().equals(GameState.PLAYING)){
+        if(!gameModel.getState().equals(GameState.PLAYING)){
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
@@ -446,7 +447,7 @@ public class GameController {
 
     public void placeStarterCard(String nickname, boolean way) {
         // check right state
-        if(!getState().equals(GameState.PLACING_STARTER_CARDS)) {
+        if(!gameModel.getState().equals(GameState.PLACING_STARTER_CARDS)) {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
@@ -480,7 +481,7 @@ public class GameController {
             }
         }
         if(changeState) {
-            setState(GameState.PLAYING);
+            gameModel.setState(GameState.PLAYING);
         }
     }
 
@@ -505,12 +506,12 @@ public class GameController {
                 }
             }
             if (numPlayersConnected == 1) {
-                setState(GameState.WAITING_RECONNECTION);
+                gameModel.setState(GameState.WAITING_RECONNECTION);
                 // TODO start the timer, when it ends, the only player connected wins
             }
             else if (numPlayersConnected > 1) {
                 // players can re-start to play
-                setState(GameState.PLAYING);
+                gameModel.setState(GameState.PLAYING);
             }
         } catch (PlayerNotPresentException e) {
             gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
@@ -565,7 +566,7 @@ public class GameController {
      */
     // TODO spostare nel model? l'ho lasciato qua per timer
      void changeCurrPlayer () {
-        assert(getState().equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
+        assert(gameModel.getState().equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
         if(gameModel.getCurrPlayer() == getPlayers().size()-1)
             gameModel.setCurrPlayer(0);
         else
@@ -573,7 +574,7 @@ public class GameController {
         setHasNotCurrPlayerPlaced();
         if(gameModel.getTwentyPointsReached()) {
             if(getPlayers().get(gameModel.getCurrPlayer()).isFirst() && gameModel.getAdditionalRound()) {
-                setState(GameState.GAME_ENDED);
+                gameModel.setState(GameState.GAME_ENDED);
                 getWinners().addAll(computeWinner());
                 // the game is ended
 
@@ -600,7 +601,7 @@ public class GameController {
             if(found)
                 changeCurrPlayer();
             else {
-                setState(GameState.GAME_ENDED);
+                gameModel.setState(GameState.GAME_ENDED);
                 getWinners().addAll(computeWinner());
             }
         }
@@ -611,7 +612,7 @@ public class GameController {
      * @return the list of players who won the game
      */
     private List<String> computeWinner() {
-        assert(getState().equals(GameState.GAME_ENDED)) : "The game state is not correct";
+        assert(gameModel.getState().equals(GameState.GAME_ENDED)) : "The game state is not correct";
         return gameModel.computeWinner();
     }
 
@@ -627,7 +628,7 @@ public class GameController {
      * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
      */
     private void setup() {
-        assert(getState().equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
+        assert(gameModel.getState().equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
         // choose randomly the first player
         Random random = new Random();
         gameModel.setCurrPlayer(random.nextInt(gameModel.getPlayersNumber()));
@@ -649,7 +650,7 @@ public class GameController {
      * @param y where the card is placed in the matrix
      */
     private void addPoints(String nickname, int x, int y) {
-        assert(getState().equals(GameState.PLAYING)): "Wrong game state";
+        assert(gameModel.getState().equals(GameState.PLAYING)): "Wrong game state";
         assert(getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)): "Not the current player";
         Player player;
         try {

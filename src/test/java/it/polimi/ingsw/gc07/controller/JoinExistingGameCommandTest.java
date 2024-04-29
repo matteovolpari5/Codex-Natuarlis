@@ -24,7 +24,7 @@ class JoinExistingGameCommandTest {
     @Test
     void JoinExistingGameSuccess() {
         gamesManager.setAndExecuteCommand(new JoinExistingGameCommand("P2", TokenColor.RED, 0));
-        assertEquals(CommandResult.SET_SERVER_GAME, gamesManager.getCommandResultManager().getCommandResult());
+        assertEquals(CommandResult.SET_SERVER_GAME, gamesManager.getCommandResult());
         assertNull(gamesManager.getPendingPlayer("P2"));
         boolean found;
         found = false;
@@ -41,7 +41,7 @@ class JoinExistingGameCommandTest {
     @Test
     void JoinExistingGameFail() {
         gamesManager.setAndExecuteCommand(new JoinExistingGameCommand("P2", TokenColor.RED, 1));
-        assertEquals(CommandResult.GAME_NOT_PRESENT, gamesManager.getCommandResultManager().getCommandResult());
+        assertEquals(CommandResult.GAME_NOT_PRESENT, gamesManager.getCommandResult());
         assertNotNull(gamesManager.getPendingPlayer("P2"));
         boolean found;
         found = false;

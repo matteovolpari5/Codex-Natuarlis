@@ -4,7 +4,6 @@ import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
-import it.polimi.ingsw.gc07.model.CommandResultManager;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -29,7 +28,7 @@ public class GamesManager {
     /**
      * Command result manager for games manager.
      */
-    private final CommandResultManager commandResultManager;
+    private CommandResult commandResult;
     /**
      * Instance of GamesManager.
      */
@@ -42,7 +41,7 @@ public class GamesManager {
     private GamesManager() {
         gameControllers = new ArrayList<>();
         pendingPlayers = new ArrayList<>();
-        commandResultManager = new CommandResultManager();
+        commandResult = null;
     }
 
     /**
@@ -86,8 +85,8 @@ public class GamesManager {
      * Getter for the command result manager.
      * @return command result manager of the games manager
      */
-    public CommandResultManager getCommandResultManager() {
-        return commandResultManager;
+    public CommandResult getCommandResult() {
+        return commandResult;
     }
 
     /**
@@ -143,10 +142,10 @@ public class GamesManager {
             Player newPlayer = new Player(nickname, connectionType, interfaceType);
             pendingPlayers.add(newPlayer);
          }else {
-             commandResultManager.setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
+             commandResult = CommandResult.PLAYER_ALREADY_PRESENT;
              return;
          }
-         commandResultManager.setCommandResult(CommandResult.SUCCESS);
+         commandResult = CommandResult.SUCCESS;
     }
 
     private boolean checkReconnection(String nickname) {
@@ -186,7 +185,7 @@ public class GamesManager {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         if(player == null){
-            commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            commandResult = CommandResult.PLAYER_NOT_PRESENT;
             return;
         }
         boolean found = false;
@@ -195,12 +194,12 @@ public class GamesManager {
                 found = true;
                 // check gameController state WAITING_PLAYERS
                 if(!gameController.getState().equals(GameState.GAME_STARTING)) {
-                    commandResultManager.setCommandResult(CommandResult.GAME_FULL);
+                    commandResult = CommandResult.GAME_FULL;
                     return;
                 }
                 // check token color unique
                 if(gameController.hasPlayerWithTokenColor(tokenColor)) {
-                    commandResultManager.setCommandResult(CommandResult.TOKEN_COLOR_ALREADY_TAKEN);
+                    commandResult = CommandResult.TOKEN_COLOR_ALREADY_TAKEN;
                     return;
                 }
                 player.setTokenColor(tokenColor);
@@ -209,20 +208,18 @@ public class GamesManager {
             }
         }
         if(!found){
-            commandResultManager.setCommandResult(CommandResult.GAME_NOT_PRESENT);
+            commandResult = CommandResult.GAME_NOT_PRESENT;
             return;
         }
         // join successful, but it is necessary to set the game for the client
-        //TODO va bene per Socket ???
-        // altrimenti possiamo mettere una seconda bandierina booleana che indica se serve settare il game
-        commandResultManager.setCommandResult(CommandResult.SET_SERVER_GAME);
+        commandResult = CommandResult.SET_SERVER_GAME;
     }
 
      public void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         if(player == null) {
-            commandResultManager.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
+            commandResult = CommandResult.PLAYER_NOT_PRESENT;
             return;
         }
         int gameId;
@@ -230,7 +227,7 @@ public class GamesManager {
             gameId = createGame(playersNumber);
         }
         catch(WrongNumberOfPlayersException e){
-            commandResultManager.setCommandResult(CommandResult.WRONG_PLAYERS_NUMBER);
+            commandResult = CommandResult.WRONG_PLAYERS_NUMBER;
             return;
         }
         for(GameController gameController : gameControllers) {
@@ -242,9 +239,7 @@ public class GamesManager {
             pendingPlayers.remove(player);
         }
         // join successful, but it is necessary to set the game for the client
-        //TODO va bene per Socket ???
-        // altrimenti possiamo mettere una seconda bandierina booleana che indica se creare settare il game
-        commandResultManager.setCommandResult(CommandResult.CREATE_SERVER_GAME);
+        commandResult = CommandResult.CREATE_SERVER_GAME;
     }
 
     /**

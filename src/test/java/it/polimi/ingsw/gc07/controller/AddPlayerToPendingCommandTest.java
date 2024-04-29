@@ -20,31 +20,31 @@ class AddPlayerToPendingCommandTest {
     @Test
     void addPlayerSuccessful() {
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
-        assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResultManager().getCommandResult());
+        assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player2", true, true));
-        assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResultManager().getCommandResult());
+        assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
     }
 
     @Test
     void addPlayerUnsuccessful() {
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
-        assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResultManager().getCommandResult());
+        assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
-        assertEquals(CommandResult.PLAYER_ALREADY_PRESENT, gamesManager.getCommandResultManager().getCommandResult());
+        assertEquals(CommandResult.PLAYER_ALREADY_PRESENT, gamesManager.getCommandResult());
     }
 
     @Test
     void addPlayerUnsuccessfulWithJoin() {
         // add Player1 to pending players
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
-        assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResultManager().getCommandResult());
+        assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
 
         // make Player1 join a new gameController
         gamesManager.setAndExecuteCommand(new JoinNewGameCommand("Player1", TokenColor.GREEN, 3));
-        assertEquals(CommandResult.CREATE_SERVER_GAME, gamesManager.getCommandResultManager().getCommandResult());
+        assertEquals(CommandResult.CREATE_SERVER_GAME, gamesManager.getCommandResult());
 
         // try to add Player1 to pending players
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
-        assertEquals(CommandResult.PLAYER_ALREADY_PRESENT, gamesManager.getCommandResultManager().getCommandResult());
+        assertEquals(CommandResult.PLAYER_ALREADY_PRESENT, gamesManager.getCommandResult());
     }
 }
