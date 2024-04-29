@@ -13,8 +13,11 @@ import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.updates.PlayerJoinedUpdate;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class GameModel {
@@ -237,6 +240,8 @@ public class GameModel {
     public void addRMIListener(VirtualView client) {
         // TODO voglio tenere separati listener RMI e socket?
         //  se si devo creare due liste in tutte le classi
+
+        // called as soon as a player joins a game
         gameListeners.add(client);
         chat.addListener(client);
         resourceCardsDeck.addListener(client);

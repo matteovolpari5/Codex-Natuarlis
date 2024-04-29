@@ -6,7 +6,12 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.updates.CardHandUpdate;
+import it.polimi.ingsw.gc07.updates.ConnectionUpdate;
+import it.polimi.ingsw.gc07.updates.StallUpdate;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -188,19 +193,28 @@ public class Player {
     }
 
     /**
-     *  getter for attribute isStalled
+     * Getter for attribute isStalled.
      */
-    public boolean getIsStalled()
-    {
+    public boolean getIsStalled() {
         return this.isStalled;
     }
 
     /**
-     *  setter for attribute isStalled
+     * Setter for attribute isStalled.
      */
-    public void setIsStalled(boolean isStalled)
-    {
-        this.isStalled=isStalled;
+    public void setIsStalled(boolean isStalled) {
+        this.isStalled = isStalled;
+
+        // send update
+        StallUpdate update = new StallUpdate(nickname, isStalled);
+        for(PlayerListener l: playerListeners) {
+            try {
+                l.receiveStallUpdate(update);
+            } catch (RemoteException e) {
+                // TODO
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**
@@ -217,6 +231,18 @@ public class Player {
      */
     public void setIsConnected(boolean isConnected){
         this.isConnected = isConnected;
+
+        // send update
+        ConnectionUpdate update = new ConnectionUpdate(nickname, isConnected);
+        for(PlayerListener l: playerListeners) {
+            try {
+                l.receiveConnectionUpdate(update);
+            }catch(RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
     }
     /**
      * Getter for cards in player's hand.
@@ -233,6 +259,17 @@ public class Player {
     public void removeCardHand(DrawableCard card) {
         currentHand.remove(card);
         this.currentHand = new ArrayList<>(currentHand);
+
+        // send update
+        CardHandUpdate update = new CardHandUpdate(nickname, new ArrayList<>(currentHand));
+        for(PlayerListener l: playerListeners) {
+            try {
+                l.receiveCardHandUpdate(update);
+            }catch(RemoteException e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
     }
 
     /**
@@ -242,6 +279,17 @@ public class Player {
     public void addCardHand(DrawableCard card) {
         currentHand.add(card);
         this.currentHand = new ArrayList<>(currentHand);
+
+        // send update
+        CardHandUpdate update = new CardHandUpdate(nickname, new ArrayList<>(currentHand));
+        for(PlayerListener l: playerListeners) {
+            try {
+                l.receiveCardHandUpdate(update);
+            }catch(RemoteException e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
     }
 
     /**

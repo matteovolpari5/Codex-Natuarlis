@@ -437,7 +437,9 @@ public class GameController {
                     }
                 }
             }
-            getPlayers().get(gameModel.getCurrPlayer()).setIsStalled(isStalled);
+            if(isStalled) {
+                getPlayers().get(gameModel.getCurrPlayer()).setIsStalled(isStalled);
+            }
         }
         gameModel.setCommandResult(result);
     }

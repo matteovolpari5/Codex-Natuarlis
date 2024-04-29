@@ -241,6 +241,8 @@ public class GameView {
         playerViews.add(playerView);
         // nickname set in the constructor
         scoreTrackBoardView.addPlayerToBoard(playerView.getNickname());
+
+        System.out.println("A new player joined the game");
     }
 
     /**
