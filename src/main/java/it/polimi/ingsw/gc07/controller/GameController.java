@@ -97,6 +97,7 @@ public class GameController {
         return gameModel.getHasCurrPlayerPlaced();
     }
 
+    // used in tests
     ScoreTrackBoard getScoreTrackBoard() {
         return gameModel.getScoreTrackBoard();
     }
@@ -199,7 +200,7 @@ public class GameController {
         newPlayer.setStarterCard(getStarterCardsDeck().drawCard());
 
         gameModel.addPlayer(newPlayer);
-        getScoreTrackBoard().addPlayer(newPlayer.getNickname());
+        //gameModel.addPlayerToScoreTrackBoard(newPlayer.getNickname());
 
         if (isFull()) {
             setup();
@@ -662,9 +663,9 @@ public class GameController {
             realizedObjectives += getPlayers().get(i).getSecretObjective().numTimesScoringConditionMet(gameField);
             //points counter for the secret objective
             deltaPoints += getPlayers().get(i).getSecretObjective().getObjectiveScore(gameField);
-            getScoreTrackBoard().incrementScore(getPlayers().get(i).getNickname(), deltaPoints);
-            if (max <= getScoreTrackBoard().getScore(playersCopy.get(i).getNickname())) {
-                max = getScoreTrackBoard().getScore(playersCopy.get(i).getNickname());
+            gameModel.incrementScore(getPlayers().get(i).getNickname(), deltaPoints);
+            if (max <= gameModel.getScore(playersCopy.get(i).getNickname())) {
+                max = gameModel.getScore(playersCopy.get(i).getNickname());
                 if (realizedObjectives >= maxRealizedObjective) {
                     if (realizedObjectives == maxRealizedObjective) {
                         winners.add(playersCopy.get(i).getNickname());
@@ -725,18 +726,18 @@ public class GameController {
         assert (player.getGameField().isCardPresent(x, y)) : "No card present in the provided position";
         int deltaPoints;
         deltaPoints = player.getGameField().getPlacedCard(x, y).getPlacementScore(player.getGameField(), x, y);
-        if(deltaPoints + getScoreTrackBoard().getScore(nickname) >= 20){
+        if(deltaPoints + gameModel.getScore(nickname) >= 20){
             setTwentyPointsReached();
-            if((deltaPoints + getScoreTrackBoard().getScore(nickname)) > 29){
-                getScoreTrackBoard().setScore(nickname, 29);
+            if((deltaPoints + gameModel.getScore(nickname)) > 29){
+               gameModel.setScore(nickname, 29);
             }
             else{
-                getScoreTrackBoard().incrementScore(nickname, deltaPoints);
+                gameModel.incrementScore(nickname, deltaPoints);
             }
         }
         else
         {
-            getScoreTrackBoard().incrementScore(nickname, deltaPoints);
+            gameModel.incrementScore(nickname, deltaPoints);
         }
     }
 }

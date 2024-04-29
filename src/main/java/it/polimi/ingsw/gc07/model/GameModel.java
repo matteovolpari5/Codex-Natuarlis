@@ -206,6 +206,7 @@ public class GameModel {
 
     public void addPlayer(Player newPlayer) {
         players.add(newPlayer);
+        scoreTrackBoard.addPlayer(newPlayer.getNickname());
 
         // if not the first player
         if(players.size() > 1) {
@@ -252,5 +253,21 @@ public class GameModel {
     }
     public void setUpObjectiveCardsDeck() {
         objectiveCardsDeck.setUpDeck();
+    }
+
+    public void addPlayerToScoreTrackBoard(String nickname) {
+        scoreTrackBoard.addPlayer(nickname);
+    }
+
+    public int getScore(String nickname) {
+        return scoreTrackBoard.getScore(nickname);
+    }
+
+    public void setScore(String nicknmae, int newScore) {
+        scoreTrackBoard.setScore(nicknmae, newScore);
+    }
+
+    public void incrementScore(String nickname, int deltaScore) {
+        scoreTrackBoard.incrementScore(nickname, deltaScore);
     }
 }
