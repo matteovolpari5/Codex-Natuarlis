@@ -18,8 +18,8 @@ public class GameFieldTui {
     public final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
     public final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
     public final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
 
     public void printGameField(GameController gameController, PlaceableCard[][] cardsContent, boolean[][] cardsFace, int[][] cardsOrder) {
         //ricerca inizio righe/fine righe

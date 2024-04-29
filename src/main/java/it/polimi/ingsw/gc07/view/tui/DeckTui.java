@@ -205,7 +205,7 @@ public class DeckTui {
         else {
             System.out.print(ANSI_BLACK_BACKGROUND + "|         |");
         }
-        System.out.print(" ");
+        System.out.print(ANSI_BLACK_BACKGROUND +" ");
         //print top of gold deck
         if (topGoldDeck!=null) {
             if (topGoldDeck.getBackCorners()[0]) {
@@ -426,7 +426,7 @@ public class DeckTui {
         else {
             System.out.print(ANSI_BLACK_BACKGROUND + "|         |");
         }
-        System.out.print(" ");
+        System.out.print(ANSI_BLACK_BACKGROUND +" ");
         //print second gold card//
         if(goldCard2!=null) {
             if (goldCard2.getFrontCorners()[3]) {
