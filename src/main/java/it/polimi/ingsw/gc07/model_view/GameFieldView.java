@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.model_view;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class GameFieldView implements Serializable {
     /**
@@ -32,9 +33,24 @@ public class GameFieldView implements Serializable {
      */
     public GameFieldView() {
         this.starterCard = null;
-        this.cardsContent = null;
-        this.cardsFace = null;
-        this.cardsOrder = null;
+        this.cardsContent = new PlaceableCard[dim][dim];
+        for(int i=0; i < dim; i++){
+            for(int j=0; j < dim; j++){
+                this.cardsContent[i][j] = null;
+            }
+        }
+        this.cardsFace = new Boolean[dim][dim];
+        for(int i = 0; i < dim; i++){
+            for(int j = 0; j < dim; j++){
+                this.cardsFace[i][j] = null;
+            }
+        }
+        this.cardsOrder = new int[dim][dim];
+        for(int i=0; i < dim; i++){
+            for(int j=0; j < dim; j++){
+                this.cardsOrder[i][j] = 0;
+            }
+        }
     }
 
     /**

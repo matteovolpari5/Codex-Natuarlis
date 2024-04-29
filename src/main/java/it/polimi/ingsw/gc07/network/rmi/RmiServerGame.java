@@ -5,7 +5,6 @@ import it.polimi.ingsw.gc07.game_commands.GameCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.BlockingDeque;
