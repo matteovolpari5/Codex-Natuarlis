@@ -11,9 +11,9 @@ public class ChatTui {
         for(ChatMessage m : chatMessages)
         {
             if(m.getIsPublic())
-                System.out.println("["+m.getDateTime()+"] " + "<"+ m.getSender()+"> :"+  m.getContent());
+                System.out.println("["+m.getDateTime().getHours()+":"+m.getDateTime().getMinutes()+"] " + "<"+ m.getSender()+"> :"+  m.getContent());
             else
-                System.out.println("["+m.getDateTime()+"] " + "<"+ m.getSender()+ "to you> :"+  m.getContent());
+                System.out.println("["+m.getDateTime().getHours()+":"+m.getDateTime().getMinutes()+"] " + "<"+ m.getSender()+ " to you> :"+  m.getContent());
         }
     }
 }

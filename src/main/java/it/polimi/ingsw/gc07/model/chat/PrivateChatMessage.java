@@ -31,4 +31,17 @@ public class PrivateChatMessage extends ChatMessage {
     public boolean isForReceiver(String receiver){
         return receiverNickname.equals(receiver);
     }
+
+    /**
+     * method to simplify print in tui view
+     */
+
+    /**
+     * getter method for attribute receiverNickname
+     * @return receiverNickname
+     */
+    @Override
+    public String getReceiverNickname() {
+        return receiverNickname;
+    }
 }

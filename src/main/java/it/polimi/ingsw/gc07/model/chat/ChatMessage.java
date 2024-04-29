@@ -81,4 +81,16 @@ public class ChatMessage implements Serializable {
     public boolean isForReceiver(String receiver){
         return true;
     }
+
+    /**
+     * method to simplify print in tui view
+     */
+
+    /**
+     * getter method for attribute receiverNickname
+     * @return receiverNickname
+     */
+    public String getReceiverNickname() {
+        return null;
+    }
 }

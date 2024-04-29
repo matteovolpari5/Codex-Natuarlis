@@ -9,6 +9,8 @@ import it.polimi.ingsw.gc07.model.enumerations.GameResource;
  * i.e. the permanent resource on the back of GoldCards and ResourceCards.
  */
 public class LayoutCondition implements Condition{
+
+
     /**
      * Matrix of dimension 4x3, the biggest dimension for a layout condition
      * that can be found on playing cards.
@@ -127,4 +129,57 @@ public class LayoutCondition implements Condition{
 
         return numTimes;
     }
+
+    /**
+     * METHOD USED TO SIMPLIFY TUI VIEW
+     */
+
+    /**
+     * getter method used to reduce the matrix 4x3 to a matrix 3x3, used to print the layout
+     * @return the layout of the condition
+     */
+    public GameResource[][] getCardsColor() {
+        GameResource[][] newCardsColor = new GameResource[3][3];
+        int row = 0;
+        for (int j = 0; j < 3; j++) {
+            if (cardsColor[0][j] != null) {
+                row = 1;
+            }
+        }
+        if (row == 1) {
+            for (int j = 0; j < 3; j++) {
+                if (cardsColor[1][j] != null) {
+                    row = 2;
+                }
+            }
+        }
+        if(row == 2){
+            for (int j = 0; j < 3; j++) {
+                if (cardsColor[2][j] != null) {
+                    row = 3;
+                }
+            }
+        }
+        if(row==3)
+        {
+            for (int j = 0; j < 3; j++) {
+                if (cardsColor[3][j] != null) {
+                    row = 4;
+                }
+            }
+        }
+        int iapp=0;
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 3; j++){
+                if(i!=row){
+                    newCardsColor[iapp][j] = cardsColor[i][j];
+                }
+            }
+            if(i!=row){
+                iapp++;
+            }
+        }
+        return newCardsColor;
+    }
+
 }
