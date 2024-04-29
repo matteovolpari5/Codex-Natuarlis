@@ -14,7 +14,9 @@ import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GamesManager {
     /**
@@ -66,6 +68,16 @@ public class GamesManager {
      */
     List<GameController> getGames() {
         return gameControllers;
+    }
+
+    public Map<Integer, Integer> getFreeGamesDetails() {
+        Map<Integer, Integer> gameDetails = new HashMap<>();
+        for(GameController g: gameControllers) {
+            if(g.getState().equals(GameState.GAME_STARTING)) {
+                gameDetails.put(g.getId(), g.getPlayersNumber());
+            }
+        }
+        return gameDetails;
     }
 
     /**
@@ -297,6 +309,9 @@ public class GamesManager {
         return id;
     }
 
+    public void displayExistingGames() {
+        commandResult = CommandResult.DISPLAY_GAMES;
+    }
 
 
 
@@ -307,12 +322,6 @@ public class GamesManager {
     // TODO gestire questi
     // -----------------------------
 
-    // probabilmente observer (?), probabilmente non void
-    // quindi no game command
-    public void displayExistingGames() {
-        // TODO
-        // probabilmente non void
-    }
 
     // TODO: chi lo chiama?
     // probabilmente chiamato da gamesmanager stesso periodicamente,

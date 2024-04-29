@@ -28,5 +28,4 @@ public interface GameListener extends Remote {
      * @throws RemoteException remote exception
      */
     void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) throws RemoteException;
-    // TODO mettiamo insieme a gameModelUpdate ?
 }

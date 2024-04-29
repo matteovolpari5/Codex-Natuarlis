@@ -105,8 +105,7 @@ public class GameField {
         }
         this.numPlayedCards = existingGameField.numPlayedCards;
         this.starterCard = existingGameField.starterCard;
-        // don't copy listeners
-        this.gameFieldListeners = new ArrayList<>();
+        this.gameFieldListeners = new ArrayList<>(); // don't copy listeners
     }
 
     /**

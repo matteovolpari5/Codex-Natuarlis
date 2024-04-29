@@ -88,24 +88,6 @@ public class Player {
     }
 
     /**
-     * Copy constructor of class Player.
-     * @param existingPlayer player to copy
-     */
-    public Player(Player existingPlayer) {
-        this.nickname = existingPlayer.nickname;
-        this.gameField = new GameField(existingPlayer.gameField);
-        this.tokenColor = existingPlayer.tokenColor;
-        this.isFirst = existingPlayer.isFirst;
-        this.connectionType = existingPlayer.connectionType;
-        this.interfaceType = existingPlayer.interfaceType;
-        this.isConnected = existingPlayer.isConnected;
-        this.currentHand = new ArrayList<>(existingPlayer.currentHand);
-        this.secretObjective = existingPlayer.secretObjective;
-        this.isStalled = existingPlayer.isStalled;
-        this.playerListeners = new ArrayList<>(existingPlayer.playerListeners);
-    }
-
-    /**
      * Method to add a player listener.
      * @param playerListener new player listener
      */

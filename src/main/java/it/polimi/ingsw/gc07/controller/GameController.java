@@ -70,12 +70,8 @@ public class GameController {
         return gameModel.getPlayers();
     }
 
-    public List<String> getPlayerNicknames() {
-        List<String> playerNicknames = new ArrayList<>();
-        for(Player p: gameModel.getPlayers()) {
-            playerNicknames.add(p.getNickname());
-        }
-        return playerNicknames;
+    int getPlayersNumber() {
+        return gameModel.getPlayersNumber();
     }
 
     List<String> getWinners(){
@@ -128,6 +124,7 @@ public class GameController {
         gameModel.setCurrPlayer(num);
     }
 
+    // used in tests
     public CommandResult getCommandResult() {
         return gameModel.getCommandResult();
     }
@@ -185,7 +182,7 @@ public class GameController {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        if(getPlayerNicknames().contains(newPlayer.getNickname())) {
+        if(gameModel.getPlayerNicknames().contains(newPlayer.getNickname())) {
             gameModel.setCommandResult(CommandResult.PLAYER_ALREADY_PRESENT);
             return;
         }
@@ -205,7 +202,7 @@ public class GameController {
 
     public void disconnectPlayer(String nickname) {
         // this command can always be used
-        if(!getPlayerNicknames().contains(nickname)) {
+        if(!gameModel.getPlayerNicknames().contains(nickname)) {
             gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
@@ -451,7 +448,7 @@ public class GameController {
             gameModel.setCommandResult(CommandResult.WRONG_STATE);
             return;
         }
-        if(!getPlayerNicknames().contains(nickname)) {
+        if(!gameModel.getPlayerNicknames().contains(nickname)) {
             gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
@@ -488,7 +485,7 @@ public class GameController {
     // TODO synchronized chi lo chiama?
     public void reconnectPlayer(String nickname) {
         // this command can always be used
-        if(!getPlayerNicknames().contains(nickname)) {
+        if(!gameModel.getPlayerNicknames().contains(nickname)) {
             gameModel.setCommandResult(CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
@@ -575,7 +572,7 @@ public class GameController {
         if(gameModel.getTwentyPointsReached()) {
             if(getPlayers().get(gameModel.getCurrPlayer()).isFirst() && gameModel.getAdditionalRound()) {
                 gameModel.setState(GameState.GAME_ENDED);
-                getWinners().addAll(computeWinner());
+                gameModel.computeWinner();
                 // the game is ended
 
                 //TODO faccio partire un timer di qualche minuto
@@ -602,18 +599,9 @@ public class GameController {
                 changeCurrPlayer();
             else {
                 gameModel.setState(GameState.GAME_ENDED);
-                getWinners().addAll(computeWinner());
+                gameModel.computeWinner();
             }
         }
-    }
-
-    /**
-     * Method that compute the winner/s of the game.
-     * @return the list of players who won the game
-     */
-    private List<String> computeWinner() {
-        assert(gameModel.getState().equals(GameState.GAME_ENDED)) : "The game state is not correct";
-        return gameModel.computeWinner();
     }
 
     /**
