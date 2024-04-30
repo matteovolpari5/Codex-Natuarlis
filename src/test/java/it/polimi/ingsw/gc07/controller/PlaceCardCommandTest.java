@@ -3,6 +3,8 @@ package it.polimi.ingsw.gc07.controller;
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.game_commands.DrawDeckCardCommand;
 import it.polimi.ingsw.gc07.game_commands.PlaceCardCommand;
+import it.polimi.ingsw.gc07.model.cards.GoldCard;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
@@ -25,8 +27,8 @@ class PlaceCardCommandTest {
         // create a gameController
         int id = 0;
         int playersNumber = 3;
-        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
-        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        DrawableDeck<GoldCard> goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
         PlayingDeck<ObjectiveCard> objectiveCardsDeck = DecksBuilder.buildObjectiveCardsDeck();
         Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
 

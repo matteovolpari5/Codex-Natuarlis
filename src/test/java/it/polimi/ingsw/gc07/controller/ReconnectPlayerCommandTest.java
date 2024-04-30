@@ -1,6 +1,9 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
+import it.polimi.ingsw.gc07.model.cards.DrawableCard;
+import it.polimi.ingsw.gc07.model.cards.GoldCard;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -17,9 +20,9 @@ class ReconnectPlayerCommandTest {
         // create a gameController
         int id = 0;
         int playersNumber = 2;
-        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         resourceCardsDeck.shuffle();
-        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        DrawableDeck<GoldCard> goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
         goldCardsDeck.shuffle();
         PlayingDeck<ObjectiveCard> objectiveCardsDeck = DecksBuilder.buildObjectiveCardsDeck();
         objectiveCardsDeck.shuffle();
@@ -47,9 +50,9 @@ class ReconnectPlayerCommandTest {
         // create another gameController
         int id = 1;
         int playersNumber = 2;
-        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         resourceCardsDeck.shuffle();
-        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        DrawableDeck<GoldCard> goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
         goldCardsDeck.shuffle();
         PlayingDeck<ObjectiveCard> objectiveCardsDeck = DecksBuilder.buildObjectiveCardsDeck();
         objectiveCardsDeck.shuffle();

@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.model.Player;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GoldCardTest {
     private Deck<PlaceableCard> starterCardsDeck;
-    private ResourceCardsDeck resourceCardsDeck;
-    private GoldCardsDeck goldCardsDeck;
+    private DrawableDeck<DrawableCard> resourceCardsDeck;
+    private DrawableDeck<GoldCard> goldCardsDeck;
     PlaceableCard myStarterCard;
     DrawableCard myResourceCard;
     DrawableCard myGoldCard;
