@@ -7,12 +7,15 @@ import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class RmiServerGamesManager extends UnicastRemoteObject implements VirtualServerGamesManager {
     /**
@@ -27,6 +30,10 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * Map containing the RmiServerGame of every game.
      */
     private final Map<Integer, RmiServerGame> rmiServerGames;
+    /**
+     * Queue containing commands to execute.
+     */
+    private final BlockingDeque<GamesManagerCommand> commandsQueue;
 
     /**
      * Constructor of class RmiServerGamesManager.
@@ -34,6 +41,25 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     private RmiServerGamesManager() throws RemoteException {
         this.clients = new ArrayList<>();
         this.rmiServerGames = new HashMap<>();
+        this.commandsQueue = new LinkedBlockingDeque<>();
+        startCommandExecutor();
+    }
+
+    private void startCommandExecutor() {
+        new Thread(() -> {
+            while(true) {
+                try {
+                    GamesManagerCommand command = commandsQueue.take();
+                    GamesManager.getGamesManager().setAndExecuteCommand(command);
+
+                    // only for testing
+                    System.out.println(GamesManager.getGamesManager().getCommandResult());
+                }catch(InterruptedException e) {
+                    System.err.println("Channel closed");
+                    break;
+                }
+            }
+        }).start();
     }
 
     public static synchronized RmiServerGamesManager getRmiServerGamesManager() {
@@ -68,38 +94,64 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     @Override
     public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
         GamesManager gamesManager = GamesManager.getGamesManager();
-        gamesManager.setAndExecuteCommand(gamesManagerCommand);
-        if(
-                gamesManager.getCommandResult().equals(CommandResult.SET_SERVER_GAME) ||
-                gamesManager.getCommandResult().equals(CommandResult.CREATE_SERVER_GAME) ||
-                gamesManager.getCommandResult().equals(CommandResult.DISPLAY_GAMES)
-        ) {
-            // get virtual view
-            String commandNickname = gamesManagerCommand.getNickname();
-            VirtualView virtualView = getVirtualView(commandNickname);
+        // add command to queue
+        try {
+            // blocking queues are thread safe
+            commandsQueue.put(gamesManagerCommand);
+        }catch(InterruptedException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RemoteException();
+        }
+    }
+
+    public void setServerGame(String nickname, int gameId) {
+        assert(GamesManager.getGamesManager().getCommandResult().equals(CommandResult.SET_SERVER_GAME)): "Wrong method call";
+        assert(rmiServerGames.containsKey(gameId));
+        try {
+            VirtualView virtualView = getVirtualView(nickname);
             if(virtualView == null) {
                 throw new RuntimeException();
             }
-            // if display games
-            if(gamesManager.getCommandResult().equals(CommandResult.DISPLAY_GAMES)) {
-                ExistingGamesUpdate update = new ExistingGamesUpdate(gamesManager.getFreeGamesDetails());
-                virtualView.receiveExistingGamesUpdate(update);
-                return;
-            }
-            // get game id
-            int gameId = gamesManager.getGameIdWithPlayer(commandNickname);
-            if(gameId < 0) {
+            virtualView.setServerGame(rmiServerGames.get(gameId));
+        }catch(RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    public void createServerGame(String nickname, int gameId) {
+        assert(GamesManager.getGamesManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)): "Wrong method call";
+        try {
+            VirtualView virtualView = getVirtualView(nickname);
+            if(virtualView == null) {
                 throw new RuntimeException();
             }
-            // set server game
-            if(gamesManager.getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)) {
-                rmiServerGames.put(gameId, new RmiServerGame(gamesManager.getGameById(gameId)));
-            }
+            rmiServerGames.put(gameId, new RmiServerGame(GamesManager.getGamesManager().getGameById(gameId)));
             virtualView.setServerGame(rmiServerGames.get(gameId));
+        }catch(RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException();
         }
+    }
 
-        // only for testing
-        System.out.println(gamesManager.getCommandResult());
+    public void displayGames(String nickname) {
+        assert(GamesManager.getGamesManager().getCommandResult().equals(CommandResult.DISPLAY_GAMES)): "Wrong method call";
+        try {
+            // get virtual view
+            VirtualView virtualView = getVirtualView(nickname);
+            if(virtualView == null) {
+                throw new RuntimeException();
+            }
+            ExistingGamesUpdate update = new ExistingGamesUpdate(GamesManager.getGamesManager().getFreeGamesDetails());
+            virtualView.receiveExistingGamesUpdate(update);
+        }catch(RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 
     /**

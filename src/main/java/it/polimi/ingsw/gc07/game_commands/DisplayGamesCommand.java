@@ -31,6 +31,6 @@ public class DisplayGamesCommand implements GamesManagerCommand {
      */
     @Override
     public void execute(GamesManager gamesManager) {
-        gamesManager.displayExistingGames();
+        gamesManager.displayExistingGames(nickname);
     }
 }

@@ -13,6 +13,7 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,11 +28,11 @@ public class GamesManager {
     /**
      * List of game controllers.
      */
-    private final List<GameController> gameControllers;
+    private List<GameController> gameControllers;
     /**
      * List of players who have not chosen a game.
      */
-    private final List<Player> pendingPlayers;
+    private List<Player> pendingPlayers;
     /**
      * Command result manager for games manager.
      */
@@ -62,8 +63,10 @@ public class GamesManager {
      * Only for test purposes, return a new instance of GamesManager, not using Singleton.
      * @return new games manager
      */
-    static GamesManager getNewGamesManager() {
-        return new GamesManager();
+    public void resetGamesManager() {
+        gameControllers = new ArrayList<>();
+        pendingPlayers = new ArrayList<>();
+        commandResult = null;
     }
 
     /**
@@ -143,25 +146,25 @@ public class GamesManager {
         return -1;
     }
 
-     public void addPlayerToPending(String nickname, boolean connectionType, boolean interfaceType) {
-         // this command can always be used
-         if(checkReconnection(nickname)) {
-             for(GameController gameController: gameControllers) {
-                 for(Player p: gameController.getPlayers()) {
-                     if(p.getNickname().equals(nickname)) {
-                         assert(!p.isConnected());
-                         gameController.reconnectPlayer(nickname);
-                     }
-                 }
-             }
-         }else if(checkNicknameUnique(nickname)){
+    public void addPlayerToPending(String nickname, boolean connectionType, boolean interfaceType) {
+        // this command can always be used
+        if(checkReconnection(nickname)) {
+            for(GameController gameController: gameControllers) {
+                for(Player p: gameController.getPlayers()) {
+                    if(p.getNickname().equals(nickname)) {
+                        assert(!p.isConnected());
+                        gameController.reconnectPlayer(nickname);
+                    }
+                }
+            }
+        }else if(checkNicknameUnique(nickname)){
             Player newPlayer = new Player(nickname, connectionType, interfaceType);
             pendingPlayers.add(newPlayer);
-         }else {
-             commandResult = CommandResult.PLAYER_ALREADY_PRESENT;
-             return;
-         }
-         commandResult = CommandResult.SUCCESS;
+        }else {
+            commandResult = CommandResult.PLAYER_ALREADY_PRESENT;
+            return;
+        }
+        commandResult = CommandResult.SUCCESS;
     }
 
     private boolean checkReconnection(String nickname) {
@@ -227,11 +230,15 @@ public class GamesManager {
             commandResult = CommandResult.GAME_NOT_PRESENT;
             return;
         }
-        // join successful, but it is necessary to set the game for the client
         commandResult = CommandResult.SET_SERVER_GAME;
+        // join successful, but it is necessary to set the game for the client
+        if(player.getConnectionType()) {
+            // RMI client
+            RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameId);
+        }
     }
 
-     public void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
+    public void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         if(player == null) {
@@ -254,8 +261,13 @@ public class GamesManager {
             }
             pendingPlayers.remove(player);
         }
-        // join successful, but it is necessary to set the game for the client
         commandResult = CommandResult.CREATE_SERVER_GAME;
+
+        // join successful, but it is necessary to set the game for the client
+        if(player.getConnectionType()) {
+            // RMI client
+            RmiServerGamesManager.getRmiServerGamesManager().createServerGame(nickname, gameId);
+        }
     }
 
     /**
@@ -313,12 +325,10 @@ public class GamesManager {
         return id;
     }
 
-    public void displayExistingGames() {
+    public void displayExistingGames(String nickname) {
         commandResult = CommandResult.DISPLAY_GAMES;
+        RmiServerGamesManager.getRmiServerGamesManager().displayGames(nickname);
     }
-
-
-
 
 
 

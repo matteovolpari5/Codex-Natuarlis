@@ -3,11 +3,19 @@ package it.polimi.ingsw.gc07.controller;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GamesManagerTest {
+    GamesManager gm;
+
+    @BeforeEach
+    void setUp() {
+        gm = GamesManager.getGamesManager();
+        gm.resetGamesManager();
+    }
 
     @Test
     void singletonTest() {
@@ -18,9 +26,8 @@ class GamesManagerTest {
 
     @Test
     void testJoinNewGame() {
-        GamesManager gm = GamesManager.getGamesManager();
-        gm.addPlayerToPending("player1", true, true);
-        gm.addPlayerToPending("player2", true, true);
+        gm.addPlayerToPending("player1", false, true);
+        gm.addPlayerToPending("player2", false, true);
 
         assertNull(gm.getGameById(0));
 
@@ -38,9 +45,8 @@ class GamesManagerTest {
 
     @Test
     void checkReconnection() {
-        GamesManager gm = GamesManager.getGamesManager();
-        gm.addPlayerToPending("player1", true, true);
-        gm.addPlayerToPending("player2", true, true);
+        gm.addPlayerToPending("player1", false, true);
+        gm.addPlayerToPending("player2", false, true);
         gm.joinNewGame("player1", TokenColor.GREEN, 2);
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
