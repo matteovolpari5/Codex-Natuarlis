@@ -2,14 +2,15 @@ package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.game_commands.AddChatPrivateMessageCommand;
+import it.polimi.ingsw.gc07.model.cards.DrawableCard;
+import it.polimi.ingsw.gc07.model.cards.GoldCard;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
-import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,9 +24,9 @@ class AddChatPrivateMessageCommandTest {
         // create a gameController
         int id = 0;
         int playersNumber = 3;
-        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         resourceCardsDeck.shuffle();
-        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        DrawableDeck<GoldCard> goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
         goldCardsDeck.shuffle();
         PlayingDeck<ObjectiveCard> objectiveCardsDeck = DecksBuilder.buildObjectiveCardsDeck();
         objectiveCardsDeck.shuffle();

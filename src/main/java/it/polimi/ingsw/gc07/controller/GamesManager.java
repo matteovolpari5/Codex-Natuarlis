@@ -2,15 +2,16 @@ package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
+import it.polimi.ingsw.gc07.model.cards.DrawableCard;
+import it.polimi.ingsw.gc07.model.cards.GoldCard;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
-import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 
 import java.util.ArrayList;
@@ -19,6 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 public class GamesManager {
+    /**
+     * Instance of GamesManager.
+     */
+    private static volatile GamesManager myGamesManager = null;
     /**
      * List of game controllers.
      */
@@ -31,10 +36,6 @@ public class GamesManager {
      * Command result manager for games manager.
      */
     private CommandResult commandResult;
-    /**
-     * Instance of GamesManager.
-     */
-    private final static GamesManager myGamesManager = new GamesManager();
 
     /**
      * GamesManger is created once the server is started.
@@ -50,7 +51,10 @@ public class GamesManager {
      * Method to get the only available instance of GamesManager (Singleton pattern).
      * @return instance of games manager
      */
-    public static GamesManager getGamesManager() {
+    public static synchronized GamesManager getGamesManager() {
+        if(myGamesManager == null) {
+            myGamesManager = new GamesManager();
+        }
         return myGamesManager;
     }
 
@@ -268,9 +272,9 @@ public class GamesManager {
         int id = findFirstFreeId();
 
         // create and shuffle decks
-        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         resourceCardsDeck.shuffle();
-        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        DrawableDeck<GoldCard> goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
         goldCardsDeck.shuffle();
         PlayingDeck<ObjectiveCard> objectiveCardDeck = DecksBuilder.buildObjectiveCardsDeck();
         objectiveCardDeck.shuffle();

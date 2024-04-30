@@ -3,10 +3,11 @@ package it.polimi.ingsw.gc07.model.conditions;
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
+import it.polimi.ingsw.gc07.model.cards.DrawableCard;
+import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
-import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +15,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LayoutConditionTest {
-    private ResourceCardsDeck resourceCardsDeck;
-    private GoldCardsDeck goldCardsDeck;
+    private DrawableDeck<DrawableCard> resourceCardsDeck;
+    private  DrawableDeck<GoldCard> goldCardsDeck;
     private Deck<PlaceableCard> starterCardsDeck;
     LayoutCondition condition;
     PlaceableCard myStarterCard;

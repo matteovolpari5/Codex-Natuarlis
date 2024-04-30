@@ -14,9 +14,8 @@ import it.polimi.ingsw.gc07.model.conditions.CornerCoverageCondition;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
 import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
-import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameObject;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
@@ -313,7 +312,7 @@ public abstract class DecksBuilder {
      * Method that build a resource cards deck from the JSON file resourceCardsDeck.json
      * @return resource cards deck
      */
-    public static ResourceCardsDeck buildResourceCardsDeck() {
+    public static DrawableDeck<DrawableCard> buildResourceCardsDeck() {
         Stack<DrawableCard> deckContent = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/resourceCardsDeck.json");
         JsonElement fileElement;
@@ -342,14 +341,14 @@ public abstract class DecksBuilder {
             DrawableCard card = new DrawableCard(id, type, frontCorners, frontCornersContent, backCorners, backCornersContent, placementScore, permanentResources);
             deckContent.add(card);
         }
-        return new ResourceCardsDeck(CardType.RESOURCE_CARD, deckContent);
+        return new DrawableDeck<DrawableCard>(CardType.RESOURCE_CARD, deckContent);
     }
 
     /**
      * Method that build a gold cards deck from the JSON file goldCardsDeck.json
      * @return resource cards deck
      */
-    public static GoldCardsDeck buildGoldCardsDeck() {
+    public static DrawableDeck<GoldCard> buildGoldCardsDeck() {
         Stack<GoldCard> deckContent = new Stack<>();
         File input = new File("src/main/resources/it/polimi/ingsw/gc07/goldCardsDeck.json");
         JsonElement fileElement;
@@ -401,6 +400,6 @@ public abstract class DecksBuilder {
                     placementScore, permanentResources, placementCondition, scoringCondition);
             deckContent.add(card);
         }
-        return new GoldCardsDeck(CardType.GOLD_CARD, deckContent);
+        return new DrawableDeck<GoldCard>(CardType.GOLD_CARD, deckContent);
     }
 }

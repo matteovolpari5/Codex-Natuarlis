@@ -12,12 +12,12 @@ import java.util.List;
  * GamesManager server used in socket based communication, this class manage the ServerSocket opened on the port used by clients to communicate
  * When a new connection with a client is created, a new SocketClientHandler is associated with the Socket used for the communication with the client
  */
-public class SocketGamesManagerServer {
+public class SocketServer {
     private final ServerSocket mySocket;
     private final List<SocketClientHandler> clients;
 
 
-    public SocketGamesManagerServer(ServerSocket mySocket){
+    public SocketServer(ServerSocket mySocket){
         this.mySocket = mySocket;
         this.clients = new ArrayList<>();
     }

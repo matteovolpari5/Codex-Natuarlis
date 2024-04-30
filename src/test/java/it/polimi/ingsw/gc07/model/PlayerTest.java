@@ -1,9 +1,8 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
-import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +45,7 @@ class PlayerTest {
 
     @Test
     public void checkAddCardHand() {
-        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         resourceCardsDeck.shuffle();
 
         assertEquals(0, player.getCurrentHand().size());
@@ -68,7 +67,7 @@ class PlayerTest {
 
     @Test
     public void removeAddCardHand() {
-        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         resourceCardsDeck.shuffle();
 
         assertEquals(0, player.getCurrentHand().size());

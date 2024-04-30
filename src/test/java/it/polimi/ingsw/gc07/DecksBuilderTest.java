@@ -5,9 +5,8 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
-import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.GameObject;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
 import org.junit.jupiter.api.Test;
@@ -32,14 +31,14 @@ class DecksBuilderTest {
     @Test
     void checkResourceCardsDeckDimension() {
         int deckDim = 40;
-        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         assertEquals(deckDim, resourceCardsDeck.getContent().size());
     }
 
     @Test
     void checkGoldCardsDeckDimension() {
         int deckDim = 40;
-        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        DrawableDeck<GoldCard> goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
         assertEquals(deckDim, goldCardsDeck.getContent().size());
     }
 
@@ -89,7 +88,7 @@ class DecksBuilderTest {
 
     @Test
     void checkResourceCardContent() {
-        ResourceCardsDeck resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
         DrawableCard card = null;
         for(DrawableCard c:  resourceCardsDeck.getContent()) {
             if(c.getId() == 1) {
@@ -121,7 +120,7 @@ class DecksBuilderTest {
 
     @Test
     void checkGoldCardContent() {
-        GoldCardsDeck goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+        DrawableDeck<GoldCard> goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
         GoldCard card = null;
         for(GoldCard c: goldCardsDeck.getContent()) {
             if(c.getId() == 41) {

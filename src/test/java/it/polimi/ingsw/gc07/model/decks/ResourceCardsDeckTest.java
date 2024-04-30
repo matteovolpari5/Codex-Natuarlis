@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceCardsDeckTest {
-    ResourceCardsDeck deck;
+    DrawableDeck<DrawableCard> deck;
     @BeforeEach
     void setUp() {
         deck = DecksBuilder.buildResourceCardsDeck();

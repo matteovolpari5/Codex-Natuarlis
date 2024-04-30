@@ -1,12 +1,9 @@
 package it.polimi.ingsw.gc07.network.socket;
 
-import it.polimi.ingsw.gc07.controller.*;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameView;
-import it.polimi.ingsw.gc07.network.VirtualServerGame;
-import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
 
 import java.io.IOException;
@@ -20,7 +17,7 @@ public class SocketClient  {
     private final String nickname;
     private final Socket mySocket;
     private final ObjectInputStream input;
-    private VirtualSocketServerGamesManager myServer;
+    private VirtualSocketServer myServer;
     private final GameView gameView;
 
 
@@ -30,7 +27,7 @@ public class SocketClient  {
         this.gameView = new GameView(nickname);
         this.input = new ObjectInputStream(this.mySocket.getInputStream());
         ObjectOutputStream output = new ObjectOutputStream(this.mySocket.getOutputStream());
-        this.myServer = new VirtualSocketServerGamesManager(output);
+        this.myServer = new VirtualSocketServer(output);
         this.run();
     }
 

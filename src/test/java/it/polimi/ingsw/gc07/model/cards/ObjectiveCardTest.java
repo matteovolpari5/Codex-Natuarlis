@@ -4,8 +4,8 @@ import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.decks.Deck;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
-import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ObjectiveCardTest {
-    ResourceCardsDeck resourceCardsDeck;
+    DrawableDeck<DrawableCard> resourceCardsDeck;
     ObjectiveCard myObjectiveCard;
     PlaceableCard myStarterCard;
     DrawableCard myResourceCard;

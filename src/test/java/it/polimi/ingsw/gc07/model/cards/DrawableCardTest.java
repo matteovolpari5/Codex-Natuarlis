@@ -2,17 +2,16 @@ package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.model.Player;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DrawableCardTest {
     private Deck<PlaceableCard> starterCardsDeck;
-    private ResourceCardsDeck resourceCardsDeck;
+    private DrawableDeck<DrawableCard> resourceCardsDeck;
     PlaceableCard myStarterCard;
     DrawableCard myResourceCard;
     Player p;
