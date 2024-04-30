@@ -23,11 +23,12 @@ public class SocketServer {
     }
 
     public void runServer() throws IOException {
+        System.out.println("SocketServer> Socket server running");
         //TODO slide 21 utilizza executor per gestire i thread, in questo caso
         //TODO socketClientHandler implements Runnable e run() diventerebbe l'attuale manageCommand()
         Socket clientSocket = null;
         while((clientSocket = this.mySocket.accept()) != null){
-            System.out.println("Received client connection");
+            System.out.println("SocketServer> Received client connection");
             SocketClientHandler handler = new SocketClientHandler(GamesManager.getGamesManager(), clientSocket);
             synchronized (this.clients){
                 clients.add(handler);
