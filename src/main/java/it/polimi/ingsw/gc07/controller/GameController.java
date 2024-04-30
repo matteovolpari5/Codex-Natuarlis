@@ -207,72 +207,89 @@ public class GameController {
 
     public void disconnectPlayer(String nickname) {
         // this command can always be used
+        assert(!gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED)): "Impossible state";
         if(!gameModel.getPlayerNicknames().contains(nickname)) {
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
-        try{
-            /*
-            playersTimer.get(nickname).cancel();
-            playersTimer.get(nickname).purge();
-             */
-
-            int pos = getPlayerPosByNickname(nickname);
-            if(!getPlayers().get(pos).isConnected()) {
-                gameModel.setCommandResult(nickname, CommandResult.PLAYER_ALREADY_DISCONNECTED);
-                return;
-            }
-            getPlayers().get(pos).setIsConnected(false);
-
-            /*
-            if(gameModel.getState().equals(GameState.GAME_STARTING)) {
-                // TODO gestire
-            }
-
-            if(gameModel.getState().equals(GameState.PLACING_STARTER_CARDS)) {
-                // TODO gestire
-            }
-
-            // TODO
-            // if the player is the current one and has disconnected
-            if(     gameModel.getState().equals(GameState.PLAYING) &&
-                    gameModel.getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)
-            ) {
-                if(!getHasCurrPlayerPlaced()) {
-                    // if he has not placed a card
-                    //TODO
-                    // non ha fatto nulla in questo turno, glielo facciamo saltare?
-                }else {
-                    // if he has placed a card
-                    //TODO
-                    // ha giocato, ma non pescato
-                    // su slack parlavano di due possibilità, o pescare una carta casuale,
-                    // oppure annullare il piazzamento e cambiare turno
-                }
-            }
-             */
-            int numPlayersConnected = gameModel.getNumPlayersConnected();
-            if (numPlayersConnected == 1) {
-                gameModel.setState(GameState.WAITING_RECONNECTION);
-                // TODO start the timer, when it ends, the only player left wins
-                /*
-                startTimeoutGameEnd();
-                 */
-            }
-            else if (numPlayersConnected == 0) {
-                gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
-                // TODO start the timer, when it ends, the game ends without winner
-                /*
-                startTimeoutGameEnd();
-
-                 */
-            }
-        }
-        catch(PlayerNotPresentException e){
+        int pos;
+        try {
+            pos = getPlayerPosByNickname(nickname);
+        }catch(PlayerNotPresentException e) {
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
+        if(!getPlayers().get(pos).isConnected()) {
+            gameModel.setCommandResult(nickname, CommandResult.PLAYER_ALREADY_DISCONNECTED);
+            return;
+        }
+
+        /*
+        playersTimer.get(nickname).cancel();
+        playersTimer.get(nickname).purge();
+        */
+
+        // set player disconnected
+        getPlayers().get(pos).setIsConnected(false);
+
+        // TODO
+        // if the player is the current one and has disconnected
+        if(gameModel.getState().equals(GameState.PLAYING) && gameModel.getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)) {
+            if(!getHasCurrPlayerPlaced()) {
+                // if he has not placed a card
+                //TODO
+                // non ha fatto nulla in questo turno, glielo faccio saltare
+            }else {
+                // if he has placed a card
+                //TODO
+                // ha giocato, ma non pescato
+                // pescare una carta a caso
+            }
+        }
+
+        if(gameModel.getState().equals(GameState.PLAYING) || gameModel.getState().equals(GameState.WAITING_RECONNECTION)) {
+            checkNumPlayersConnected();
+        }
+        // for other game states, I don't have to change state
+
         gameModel.setCommandResult(nickname, CommandResult.SUCCESS);
+    }
+
+    // TODO synchronized chi lo chiama?
+    public void reconnectPlayer(String nickname) {
+        // this command can always be used
+        assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
+        int pos;
+        try{
+            pos = getPlayerPosByNickname(nickname);
+        }catch (PlayerNotPresentException e) {
+            gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
+            return;
+        }
+        assert(!getPlayers().get(pos).isConnected()): "Player already connected";
+
+        // set player connected
+        getPlayers().get(pos).setIsConnected(true);
+
+        if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
+            checkNumPlayersConnected();
+        }
+    }
+
+    private void checkNumPlayersConnected() {
+        int numPlayersConnected = gameModel.getNumPlayersConnected();
+        if (numPlayersConnected == 0) {
+            gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
+            // TODO start the timer, when it ends, the game ends without winner
+            //startTimeoutGameEnd();
+        }else if(numPlayersConnected == 1) {
+            gameModel.setState(GameState.WAITING_RECONNECTION);
+            // TODO start the timer, when it ends, the only player left wins
+            //startTimeoutGameEnd();
+        }
+        else {
+            gameModel.setState(GameState.PLAYING);
+        }
     }
 
     /*
@@ -535,34 +552,6 @@ public class GameController {
             gameModel.setState(GameState.PLAYING);
         }
     }
-
-    // TODO synchronized chi lo chiama?
-    public void reconnectPlayer(String nickname) {
-        // this command can always be used
-        assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
-        try{
-            int pos = getPlayerPosByNickname(nickname);
-            assert(!getPlayers().get(pos).isConnected()): "Player already connected";
-            getPlayers().get(pos).setIsConnected(true);
-            int numPlayersConnected = 0;
-            for (Player p : getPlayers()){
-                if (p.isConnected()){
-                    numPlayersConnected++;
-                }
-            }
-            if (numPlayersConnected == 1) {
-                gameModel.setState(GameState.WAITING_RECONNECTION);
-                // TODO start the timer, when it ends, the only player connected wins
-            }
-            else if (numPlayersConnected > 1) {
-                // players can re-start to play
-                gameModel.setState(GameState.PLAYING);
-            }
-        } catch (PlayerNotPresentException e) {
-            throw new RuntimeException();
-        }
-    }
-
 
     // ----------------------
     // utils
