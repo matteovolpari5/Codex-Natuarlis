@@ -268,10 +268,10 @@ public class SocketClientHandler implements VirtualView {
 }
 
 //TODO riassunto:
-//ServerMain crea socket lato server sulla porta specificata, successivamente crea SocketGamesManagerServer passandogli anche il socket e lo esegue.
-//SocketGamesManagerServer quando si collega un client crea un SocketClientHandler a cui si assegnano input e output stream del socket della connesione con il client e avvia in un altro thread il SocketClientHandler.
+//ServerMain crea socket lato server sulla porta specificata, successivamente crea SocketServer passandogli anche il socket e lo esegue.
+//SocketServer quando si collega un client crea un SocketClientHandler a cui si assegnano input e output stream del socket della connesione con il client e avvia in un altro thread il SocketClientHandler.
 //SocketClientHandler in manageCommand() gestisce i messaggi inviati dal client.
 
-//ClientMain collega il client al socket lato server sulla porta specificata, la connessione viene accettata da .accept() in SocketGamesManagerServer.
+//ClientMain collega il client al socket lato server sulla porta specificata, la connessione viene accettata da .accept() in SocketServer.
 //Una volta stabilita la connessione ClientMain crea SocketClient passando input e output stream e lo esegue.
-//Quando SocketClient viene creato crea VirtualSocketServerGamesManager che si occupa di gestire l'output, quindi la comunicazione in uscita verso gamesManager
+//Quando SocketClient viene creato crea VirtualSocketServer che si occupa di gestire l'output, quindi la comunicazione in uscita verso gamesManager

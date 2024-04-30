@@ -4,13 +4,14 @@ import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.listeners.GameFieldListener;
 import it.polimi.ingsw.gc07.listeners.GameListener;
 import it.polimi.ingsw.gc07.listeners.PlayerListener;
+import it.polimi.ingsw.gc07.model.cards.DrawableCard;
+import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.Chat;
 import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.GoldCardsDeck;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
-import it.polimi.ingsw.gc07.model.decks.ResourceCardsDeck;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.PlayerView;
@@ -58,11 +59,11 @@ public class GameModel {
     /**
      * Deck of resource cards.
      */
-    private final ResourceCardsDeck resourceCardsDeck;
+    private final DrawableDeck<DrawableCard> resourceCardsDeck;
     /**
      * Deck of gold cards.
      */
-    private final GoldCardsDeck goldCardsDeck;
+    private final DrawableDeck<GoldCard> goldCardsDeck;
     /**
      * Deck of objective cards.
      */
@@ -95,8 +96,8 @@ public class GameModel {
     /**
      * Constructor of a GameModel with only the first player.
      */
-    public GameModel(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
-                GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
+    public GameModel(int id, int playersNumber, DrawableDeck<DrawableCard> resourceCardsDeck,
+                     DrawableDeck<GoldCard> goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
                 Deck<PlaceableCard> starterCardsDeck) {
         this.id = id;
         assert(playersNumber >= 2 && playersNumber <= 4): "Wrong players number";
@@ -107,8 +108,8 @@ public class GameModel {
         this.currPlayer = 0;
         this.hasCurrPlayerPlaced = false;
         this.scoreTrackBoard = new ScoreTrackBoard();
-        this.resourceCardsDeck = new ResourceCardsDeck(resourceCardsDeck);
-        this.goldCardsDeck = new GoldCardsDeck(goldCardsDeck);
+        this.resourceCardsDeck = new DrawableDeck<DrawableCard>(resourceCardsDeck);
+        this.goldCardsDeck = new DrawableDeck<GoldCard>(goldCardsDeck);
         this.objectiveCardsDeck = new PlayingDeck<>(objectiveCardsDeck);
         this.starterCardsDeck = new Deck<>(starterCardsDeck);
         this.twentyPointsReached = false;
@@ -170,11 +171,11 @@ public class GameModel {
         return scoreTrackBoard;
     }
 
-    public ResourceCardsDeck getResourceCardsDeck() {
+    public DrawableDeck<DrawableCard> getResourceCardsDeck() {
         return resourceCardsDeck;
     }
 
-    public GoldCardsDeck getGoldCardsDeck() {
+    public DrawableDeck<GoldCard> getGoldCardsDeck() {
         return goldCardsDeck;
     }
 

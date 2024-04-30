@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.main;
 
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
-import it.polimi.ingsw.gc07.network.socket.SocketGamesManagerServer;
+import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -30,6 +30,6 @@ public class ServerMain {
             throw new RuntimeException();
         }
         System.out.println("Main server ready");
-        new SocketGamesManagerServer(sc).runServer();
+        new SocketServer(sc).runServer();
     }
 }

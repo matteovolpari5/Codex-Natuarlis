@@ -30,8 +30,8 @@ public class GameController {
     /**
      * Constructor of a GameController with only the first player.
      */
-    public GameController(int id, int playersNumber, ResourceCardsDeck resourceCardsDeck,
-                          GoldCardsDeck goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
+    public GameController(int id, int playersNumber, DrawableDeck<DrawableCard> resourceCardsDeck,
+                          DrawableDeck<GoldCard> goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
                           Deck<PlaceableCard> starterCardsDeck) {
         this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
         this.timeout = new Timer();
@@ -99,11 +99,11 @@ public class GameController {
         return gameModel.getScoreTrackBoard();
     }
 
-    ResourceCardsDeck getResourceCardsDeck() {
+    DrawableDeck<DrawableCard> getResourceCardsDeck() {
         return gameModel.getResourceCardsDeck();
     }
 
-    GoldCardsDeck getGoldCardsDeck() {
+    DrawableDeck<GoldCard> getGoldCardsDeck() {
         return gameModel.getGoldCardsDeck();
     }
 

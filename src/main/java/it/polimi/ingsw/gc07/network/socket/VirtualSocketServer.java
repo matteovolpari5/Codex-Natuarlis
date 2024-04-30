@@ -12,10 +12,10 @@ import java.rmi.RemoteException;
 /**
  * Class used to abstract the network from the client side, this class manages the communication from client to server
  */
-public class VirtualSocketServerGamesManager implements VirtualServerGamesManager, VirtualServerGame {
+public class VirtualSocketServer implements VirtualServerGamesManager, VirtualServerGame {
     private final ObjectOutputStream output;
 
-    public VirtualSocketServerGamesManager(ObjectOutputStream output){
+    public VirtualSocketServer(ObjectOutputStream output){
         this.output = output;
     }
     @Override

@@ -8,7 +8,7 @@ import java.util.Stack;
  * Class representing decks used during the game from which a player can draw.
  * Resource cards deck and gold cards deck are a DrawableDeck object.
  */
-public abstract class DrawableDeck<T> extends PlayingDeck<T> {
+public class DrawableDeck<T> extends PlayingDeck<T> {
     /**
      * Constructor of DrawableDeck
      * @param type cards type
