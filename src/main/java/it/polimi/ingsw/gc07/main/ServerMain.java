@@ -16,7 +16,7 @@ public class ServerMain {
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
         Registry registry = LocateRegistry.createRegistry(1234);
         registry.rebind(name, serverGamesManager);
-        System.out.println("GamesManager bound");
+        System.out.println("RMI Server running");
 
         // create Socket server for gamesManager
         //TODO per adesso la porta è data da linea di comando, stabilire se bisogna cambiarlo

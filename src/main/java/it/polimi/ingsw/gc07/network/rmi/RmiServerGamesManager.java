@@ -65,12 +65,14 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         if(myRmiServerGamesManager == null) {
             try {
                 myRmiServerGamesManager = new RmiServerGamesManager();
+                System.out.println("creating new");
             }catch(RemoteException e) {
                 // TODO
                 e.printStackTrace();
                 throw new RuntimeException();
             }
         }
+        System.out.println("Passing");
         return myRmiServerGamesManager;
     }
 
@@ -133,6 +135,8 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             e.printStackTrace();
             throw new RuntimeException();
         }
+        System.out.println("created server game");
+        System.out.println(rmiServerGames.get(gameId));
     }
 
     public void displayGames(String nickname) {

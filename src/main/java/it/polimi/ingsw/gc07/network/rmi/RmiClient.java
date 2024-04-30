@@ -38,6 +38,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     @Override
     public void setServerGame(VirtualServerGame serverGame) throws RemoteException {
         this.serverGame = serverGame;
+
+        // game joined
+        connectToGameServer();
+        new Thread(this::runCliGame).start();
     }
 
     @Override
@@ -153,9 +157,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     System.out.println("The provided character doesn't refer to any action");
             }
         }
-        // game joined
-        connectToGameServer();
-        runCliGame();
     }
 
     private void connectToGameServer() {
