@@ -521,6 +521,7 @@ public class GameController {
             }
         }
         if(emptyDeck) {
+            gameModel.setTwentyPointsReached(true);
             changeCurrPlayer();
         }
         gameModel.setCommandResult(nickname, result);
