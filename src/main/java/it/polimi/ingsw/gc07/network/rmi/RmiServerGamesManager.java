@@ -16,9 +16,9 @@ import java.util.Map;
 
 public class RmiServerGamesManager extends UnicastRemoteObject implements VirtualServerGamesManager {
     /**
-     * Games manager controller.
+     * Instance of RmiServerGamesManager.
      */
-    private final GamesManager gamesManager;
+    private static volatile RmiServerGamesManager myRmiServerGamesManager = null;
     /**
      * Virtual views of connected clients.
      */
@@ -30,13 +30,23 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
 
     /**
      * Constructor of class RmiServerGamesManager.
-     * @param gamesManager games manager
-     * @throws RemoteException remote exception
      */
-    public RmiServerGamesManager(GamesManager gamesManager) throws RemoteException {
-        this.gamesManager = gamesManager;
+    private RmiServerGamesManager() throws RemoteException {
         this.clients = new ArrayList<>();
         this.rmiServerGames = new HashMap<>();
+    }
+
+    public static synchronized RmiServerGamesManager getRmiServerGamesManager() {
+        if(myRmiServerGamesManager == null) {
+            try {
+                myRmiServerGamesManager = new RmiServerGamesManager();
+            }catch(RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
+        return myRmiServerGamesManager;
     }
 
     /**
@@ -57,6 +67,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      */
     @Override
     public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
+        GamesManager gamesManager = GamesManager.getGamesManager();
         gamesManager.setAndExecuteCommand(gamesManagerCommand);
         if(
                 gamesManager.getCommandResult().equals(CommandResult.SET_SERVER_GAME) ||

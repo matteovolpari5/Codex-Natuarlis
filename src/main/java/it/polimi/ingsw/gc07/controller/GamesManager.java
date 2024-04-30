@@ -20,6 +20,10 @@ import java.util.Map;
 
 public class GamesManager {
     /**
+     * Instance of GamesManager.
+     */
+    private static volatile GamesManager myGamesManager = null;
+    /**
      * List of game controllers.
      */
     private final List<GameController> gameControllers;
@@ -31,10 +35,6 @@ public class GamesManager {
      * Command result manager for games manager.
      */
     private CommandResult commandResult;
-    /**
-     * Instance of GamesManager.
-     */
-    private final static GamesManager myGamesManager = new GamesManager();
 
     /**
      * GamesManger is created once the server is started.
@@ -50,7 +50,10 @@ public class GamesManager {
      * Method to get the only available instance of GamesManager (Singleton pattern).
      * @return instance of games manager
      */
-    public static GamesManager getGamesManager() {
+    public static synchronized GamesManager getGamesManager() {
+        if(myGamesManager == null) {
+            myGamesManager = new GamesManager();
+        }
         return myGamesManager;
     }
 
