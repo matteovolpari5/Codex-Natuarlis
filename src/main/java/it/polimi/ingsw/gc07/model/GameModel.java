@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.controller.GameState;
+import it.polimi.ingsw.gc07.listeners.DeckListener;
 import it.polimi.ingsw.gc07.listeners.GameFieldListener;
 import it.polimi.ingsw.gc07.listeners.GameListener;
 import it.polimi.ingsw.gc07.listeners.PlayerListener;
@@ -17,6 +18,7 @@ import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.CommandResultUpdate;
+import it.polimi.ingsw.gc07.updates.DeckUpdate;
 import it.polimi.ingsw.gc07.updates.GameModelUpdate;
 import it.polimi.ingsw.gc07.updates.PlayerJoinedUpdate;
 
@@ -238,36 +240,83 @@ public class GameModel {
         }
     }
 
+    private void sendDeckUpdate() {
+        DeckUpdate update = new DeckUpdate(resourceCardsDeck.revealTopCard(), goldCardsDeck.revealTopCard(),
+                resourceCardsDeck.getFaceUpCards(), goldCardsDeck.getFaceUpCards(),
+                objectiveCardsDeck.getFaceUpCards());
+    }
+
+    public void setUpResourceCardsDeck() {
+        resourceCardsDeck.setUpDeck();
+        // update listeners
+        sendDeckUpdate();
+    }
+
+    public void setUpGoldCardsDeck() {
+        goldCardsDeck.setUpDeck();
+        // update listeners
+        sendDeckUpdate();
+
+    }
+
+    public void setUpObjectiveCardsDeck() {
+        objectiveCardsDeck.setUpDeck();
+        // update listeners
+        sendDeckUpdate();
+    }
+
     public DrawableCard drawResourceCard() {
-        return resourceCardsDeck.drawCard();
+        DrawableCard card = resourceCardsDeck.drawCard();
+        // update listeners
+        sendDeckUpdate();
+        return card;
     }
 
     public GoldCard drawGoldCard() {
-        return goldCardsDeck.drawCard();
+        GoldCard card = goldCardsDeck.drawCard();
+        // update listeners
+        sendDeckUpdate();
+        return card;
     }
 
     public ObjectiveCard drawObjectiveCard() {
-        return objectiveCardsDeck.drawCard();
+        ObjectiveCard card = objectiveCardsDeck.drawCard();
+        // update listeners
+        sendDeckUpdate();
+        return card;
     }
 
     public PlaceableCard drawStarterCard() {
-        return starterCardsDeck.drawCard();
+        PlaceableCard card = starterCardsDeck.drawCard();
+        // update listeners
+        sendDeckUpdate();
+        return card;
     }
 
     public DrawableCard drawFaceUpResourceCard(int pos) {
-        return resourceCardsDeck.drawFaceUpCard(pos);
+        DrawableCard card = resourceCardsDeck.drawFaceUpCard(pos);
+        // update listeners
+        sendDeckUpdate();
+        return card;
     }
 
-    public DrawableCard drawFaceUpGoldCard(int pos) {
-        return goldCardsDeck.drawFaceUpCard(pos);
+    public GoldCard drawFaceUpGoldCard(int pos) {
+        GoldCard card = goldCardsDeck.drawFaceUpCard(pos);
+        // update listeners
+        sendDeckUpdate();
+        return card;
     }
 
     public void addFaceUpResourceCard(DrawableCard card) {
         resourceCardsDeck.addFaceUpCard(card);
+        // update listeners
+        sendDeckUpdate();
     }
 
     public void addFaceUpGoldCard(GoldCard card) {
         goldCardsDeck.addFaceUpCard(card);
+        // update listeners
+        sendDeckUpdate();
     }
 
     public DrawableCard revealFaceUpResourceCard(int pos) {
@@ -335,15 +384,10 @@ public class GameModel {
                 throw new RuntimeException();
             }
         }
-        // send first game update to player
-        GameModelUpdate gameUpdate = new GameModelUpdate(id, playersNumber, state, new ArrayList<>(winners), currPlayer, penultimateRound, additionalRound);
-        try {
-            client.receiveGameModelUpdate(gameUpdate);
-        }catch(RemoteException e) {
-            // TODO
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
+
+        // send first game and deck update to player
+        sendGameModelUpdate();
+        sendDeckUpdate();
     }
 
     public void addChatPublicMessage(String content, String sender) {
@@ -352,17 +396,6 @@ public class GameModel {
 
     public void addChatPrivateMessage(String content, String sender, String receiver) {
         chat.addPrivateMessage(content, sender, receiver);
-    }
-
-    public void setUpResourceCardsDeck() {
-        resourceCardsDeck.setUpDeck();
-    }
-    public void setUpGoldCardsDeck() {
-        goldCardsDeck.setUpDeck();
-
-    }
-    public void setUpObjectiveCardsDeck() {
-        objectiveCardsDeck.setUpDeck();
     }
 
     public int getScore(String nickname) {

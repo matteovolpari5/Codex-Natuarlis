@@ -52,9 +52,9 @@ public class DrawableDeck<T> extends PlayingDeck<T> {
      * Returns the first covered card of the deck, without removing it.
      * @return first covered card of the deck
      */
-    T revealDeckCard() throws CardNotPresentException {
+    public T revealTopCard() {
         if(getContent().empty()){
-            throw new CardNotPresentException();
+            return null;
         }
         return getContent().peek();
     }
