@@ -1,8 +1,13 @@
 package it.polimi.ingsw.gc07.model.chat;
 
+import it.polimi.ingsw.gc07.controller.GamesManager;
+import it.polimi.ingsw.gc07.listeners.ChatListener;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,5 +68,25 @@ class ChatTest {
         assertEquals("TestMessage3", chat.getLastMessage(receiver1).getContent());
         assertEquals(1, chat.getContent(receiver2).size());
         assertEquals("TestMessage1", chat.getLastMessage(receiver2).getContent());
+    }
+
+    @Test
+    public void testListener() {
+        ChatListener listener1;
+        try {
+            listener1 = new RmiClient(null, "Nickname1");
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        ChatListener listener2;
+        try {
+            listener2 = new RmiClient(null, "Nickname2");
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        chat.addListener(listener1);
+        chat.addListener(listener2);
+        chat.addPublicMessage("content", "Player1");
+        chat.addPrivateMessage("content", "Player1", "Player2");
     }
 }

@@ -33,15 +33,11 @@ public class PrivateChatMessage extends ChatMessage {
     }
 
     /**
-     * method to simplify print in tui view
-     */
-
-    /**
      * getter method for attribute receiverNickname
      * @return receiverNickname
      */
     @Override
-    public String getReceiverNickname() {
+    public String getReceiver() {
         return receiverNickname;
     }
 }

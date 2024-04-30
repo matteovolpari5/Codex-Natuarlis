@@ -187,9 +187,11 @@ public class GameController {
             return;
         }
 
+        /*
         Timer timeout = new Timer();
         playersTimer.put(newPlayer.getNickname(), timeout);
         startTimeoutReconnection(timeout, newPlayer.getNickname());
+         */
 
         gameModel.addPlayer(newPlayer);
 
@@ -219,12 +221,17 @@ public class GameController {
             if (numPlayersConnected == 1){
                 gameModel.setState(GameState.WAITING_RECONNECTION);
                 // TODO start the timer, when it ends, the only player left wins
+                /*
                 startTimeoutGameEnd();
+                 */
             }
             else if (numPlayersConnected == 0) {
                 gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
                 // TODO start the timer, when it ends, the game ends without winner
+                /*
                 startTimeoutGameEnd();
+
+                 */
             }
         }
         catch(PlayerNotPresentException e){
@@ -234,6 +241,7 @@ public class GameController {
         gameModel.setCommandResult(CommandResult.SUCCESS);
     }
 
+    /*
     private void startTimeoutGameEnd(){
         new Thread(() ->{
             timeout.schedule(new TimerTask() {
@@ -290,6 +298,7 @@ public class GameController {
     public void notifyClientConnected(String nickname){
         // TODO
     }
+     */
 
     public void drawDeckCard(String nickname, CardType type) {
         if(!gameModel.getState().equals(GameState.PLAYING)) {

@@ -1,8 +1,9 @@
 package it.polimi.ingsw.gc07.game_commands;
 
 import it.polimi.ingsw.gc07.controller.GameController;
-
+ /*
 public class NotifyClientConnected implements GameCommand {
+
     String nickname;
     public NotifyClientConnected(String nickname){
         this.nickname = nickname;
@@ -11,4 +12,7 @@ public class NotifyClientConnected implements GameCommand {
     public void execute(GameController gameController) {
         gameController.notifyClientConnected(nickname);
     }
+
 }
+
+  */
