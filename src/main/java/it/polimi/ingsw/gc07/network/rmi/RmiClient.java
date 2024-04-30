@@ -49,9 +49,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         return nickname;
     }
 
-    //TODO
-    // 1 fare display games
-    // 2 creare dei metodi / classi per richiedere le cose, così è un pastrugno
+    //TODO creare dei metodi / classi per richiedere le cose, così è un pastrugno
 
     public void runCliJoinGame() {
         boolean joiningGame = true;

@@ -135,8 +135,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             e.printStackTrace();
             throw new RuntimeException();
         }
-        System.out.println("created server game");
-        System.out.println(rmiServerGames.get(gameId));
     }
 
     public void displayGames(String nickname) {
