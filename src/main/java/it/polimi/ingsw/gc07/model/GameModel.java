@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.controller.GameState;
-import it.polimi.ingsw.gc07.listeners.DeckListener;
 import it.polimi.ingsw.gc07.listeners.GameFieldListener;
 import it.polimi.ingsw.gc07.listeners.GameListener;
 import it.polimi.ingsw.gc07.listeners.PlayerListener;
@@ -244,6 +243,15 @@ public class GameModel {
         DeckUpdate update = new DeckUpdate(resourceCardsDeck.revealTopCard(), goldCardsDeck.revealTopCard(),
                 resourceCardsDeck.getFaceUpCards(), goldCardsDeck.getFaceUpCards(),
                 objectiveCardsDeck.getFaceUpCards());
+        for(GameListener l: gameListeners) {
+            try {
+                l.receiveDeckUpdate(update);
+            }catch(RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
     }
 
     public void setUpResourceCardsDeck() {
@@ -359,10 +367,6 @@ public class GameModel {
         // called as soon as a player joins a game
         gameListeners.add(client);
         chat.addListener(client);
-        resourceCardsDeck.addListener(client);
-        goldCardsDeck.addListener(client);
-        starterCardsDeck.addListener(client);
-        objectiveCardsDeck.addListener(client);
         scoreTrackBoard.addListener(client);
         for(Player p: players) {
             p.addListener(client);

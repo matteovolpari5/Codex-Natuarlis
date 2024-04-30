@@ -59,6 +59,7 @@ public class GameFieldView implements Serializable {
      */
     public void setStarterCard(PlaceableCard starterCard) {
         this.starterCard = starterCard;
+        System.out.println("The starter card was set");
     }
 
     /**
@@ -73,5 +74,6 @@ public class GameFieldView implements Serializable {
         cardsContent[x][y] = card;
         cardsFace[x][y] = way;
         cardsOrder[x][y] = orderPosition;
+        System.out.println("Card with id " + card.getId() + " placed in pos " + x + "-" + y + " card order " + orderPosition);
     }
 }

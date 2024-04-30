@@ -34,5 +34,5 @@ public interface GameListener extends Remote {
      * Method used to notify the client of a deck update.
      * @param deckUpdate deck update
      */
-    void receiveDecksUpdate(DeckUpdate deckUpdate) throws RemoteException;
+    void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException;
 }

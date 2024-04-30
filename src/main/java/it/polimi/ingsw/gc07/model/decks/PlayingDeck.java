@@ -13,7 +13,7 @@ public class PlayingDeck<T> extends Deck<T> {
     /**
      * List containing face up cards that players can draw.
      */
-    List<T> faceUpCards;
+    private List<T> faceUpCards;
 
     /**
      * Constructor class PlayingDeck.
@@ -57,6 +57,17 @@ public class PlayingDeck<T> extends Deck<T> {
      */
     public void addFaceUpCard(T faceUpCard) {
         this.faceUpCards.add(faceUpCard);
+    }
+
+    /**
+     * Method that removes a face up card.
+     * Friendly, because it is used only by subclasses.
+     * @param pos position of the face up card
+     * @return removed card
+     */
+    T removeFaceUpCard(int pos) {
+        assert(pos >= 0 && pos < faceUpCards.size()): "Index out of bound";
+        return faceUpCards.remove(pos);
     }
 
     /**

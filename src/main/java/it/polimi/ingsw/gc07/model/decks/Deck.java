@@ -1,5 +1,4 @@
 package it.polimi.ingsw.gc07.model.decks;
-import it.polimi.ingsw.gc07.listeners.DeckListener;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 import java.util.*;
@@ -19,10 +18,6 @@ public class Deck<T> {
      *  Cards drawn by the player are removed from the deck.
      */
     private final Stack<T> content;
-    /**
-     * List of deck listeners.
-     */
-    private final List<DeckListener> deckListeners;
 
     /**
      *  Constructor class Deck.
@@ -33,7 +28,6 @@ public class Deck<T> {
         this.type = type;
         this.content = new Stack<>();
         this.content.addAll(content);
-        this.deckListeners = new ArrayList<>();
     }
 
     /**
@@ -44,19 +38,6 @@ public class Deck<T> {
         this.type = existingDeck.type;
         this.content = new Stack<>();
         this.content.addAll(existingDeck.content);
-        this.deckListeners = new ArrayList<>(); // don't copy listeners
-    }
-
-    /**
-     * Method to add a new deck listener.
-     * @param deckListener new deck listener
-     */
-    public void addListener(DeckListener deckListener) {
-        deckListeners.add(deckListener);
-    }
-
-    List<DeckListener> getListeners() {
-        return deckListeners;
     }
 
     /**

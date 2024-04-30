@@ -8,25 +8,25 @@ import java.util.List;
 
 public class DeckView {
     /**
-     * Attribute that represents common objective cards.
+     * Attribute that represents the card on top of the resource deck.
      */
-    private List<ObjectiveCard> commonObjective;
-    /**
-     * Attribute that represents the revealed gold cards.
-     */
-    private List<GoldCard> faceUpGoldCard;
-    /**
-     * Attribute that represents the revealed resource cards.
-     */
-    private List<DrawableCard> faceUpResourceCard;
+    private DrawableCard topResourceDeck;
     /**
      * Attribute that represent the cards on top of the gold deck.
      */
     private GoldCard topGoldDeck;
     /**
-     * Attribute that represents the card on top of the resource deck.
+     * Attribute that represents the revealed resource cards.
      */
-    private DrawableCard topResourceDeck;
+    private List<DrawableCard> faceUpResourceCard;
+    /**
+     * Attribute that represents the revealed gold cards.
+     */
+    private List<GoldCard> faceUpGoldCard;
+    /**
+     * Attribute that represents common objective cards.
+     */
+    private List<ObjectiveCard> commonObjective;
 
     /**
      * Constructor method for DeckView.
@@ -40,27 +40,12 @@ public class DeckView {
     }
 
     /**
-     * Setter for attribute commonObjective.
-     * @param commonObjective common objective cards
+     * Setter for attribute topResourceDeck.
+     * @param topResourceDeck new top card of the resource deck
      */
-    public void setCommonObjective(List<ObjectiveCard> commonObjective) {
-        this.commonObjective = commonObjective;
-    }
-
-    /**
-     * Setter for attribute faceUpGoldCard.
-     * @param faceUpGoldCard new face up cards
-     */
-    public void setFaceUpGoldCard(List<GoldCard> faceUpGoldCard) {
-        this.faceUpGoldCard = faceUpGoldCard;
-    }
-
-    /**
-     * Setter for attribute faceUpResourceCard.
-     * @param faceUpResourceCard new face up cards
-     */
-    public void setFaceUpResourceCard(List<DrawableCard> faceUpResourceCard) {
-        this.faceUpResourceCard = faceUpResourceCard;
+    public void setTopResourceDeck(DrawableCard topResourceDeck) {
+        this.topResourceDeck = topResourceDeck;
+        System.out.println("New top resource: " + this.topResourceDeck.getId());
     }
 
     /**
@@ -72,13 +57,27 @@ public class DeckView {
     }
 
     /**
-     * Setter for attribute topResourceDeck.
-     * @param topResourceDeck new top card of the resource deck
+     * Setter for attribute faceUpResourceCard.
+     * @param faceUpResourceCard new face up cards
      */
-    public void setTopResourceDeck(DrawableCard topResourceDeck) {
-        this.topResourceDeck = topResourceDeck;
+    public void setFaceUpResourceCard(List<DrawableCard> faceUpResourceCard) {
+        this.faceUpResourceCard = faceUpResourceCard;
     }
 
-    // TODO meotodi per stampare le modifiche
+    /**
+     * Setter for attribute faceUpGoldCard.
+     * @param faceUpGoldCard new face up cards
+     */
+    public void setFaceUpGoldCard(List<GoldCard> faceUpGoldCard) {
+        this.faceUpGoldCard = faceUpGoldCard;
+    }
+
+    /**
+     * Setter for attribute commonObjective.
+     * @param commonObjective common objective cards
+     */
+    public void setCommonObjective(List<ObjectiveCard> commonObjective) {
+        this.commonObjective = commonObjective;
+    }
 }
 

@@ -34,15 +34,15 @@ public class DrawableDeck<T> extends PlayingDeck<T> {
      * @return face up card in position cardPos
      */
     public T drawFaceUpCard(int cardPos) {
-        if(cardPos < 0 || cardPos >= faceUpCards.size()) {
+        if(cardPos < 0 || cardPos >= getFaceUpCards().size()) {
             return null;
         }
         // save the card to return
-        T resultCard = faceUpCards.remove(cardPos);
+        T resultCard = removeFaceUpCard(cardPos);
         // Substitute the face up card
         T newFaceUpCard = this.drawCard();
         if(newFaceUpCard != null) {
-            faceUpCards.add(newFaceUpCard);
+            addFaceUpCard(newFaceUpCard);
         }
         // card is immutable, I can return it
         return resultCard;

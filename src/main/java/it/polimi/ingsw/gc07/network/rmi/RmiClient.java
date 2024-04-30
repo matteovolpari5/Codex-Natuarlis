@@ -342,15 +342,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     /**
-     * Method used to notify the client of a deck update.
-     * @param deckUpdate deck update
-     */
-    @Override
-    public void receiveDeckUpdate(DeckUpdate deckUpdate) {
-        deckUpdate.execute(gameView);
-    }
-
-    /**
      * Method used to show the client his starter card.
      * @param starterCardUpdate starter card update
      */
@@ -446,7 +437,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * @param deckUpdate deck update
      */
     @Override
-    public void receiveDecksUpdate(DeckUpdate deckUpdate) throws RemoteException {
+    public void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException {
         deckUpdate.execute(gameView);
     }
 }
