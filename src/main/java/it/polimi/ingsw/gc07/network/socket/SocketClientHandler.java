@@ -265,6 +265,11 @@ public class SocketClientHandler implements VirtualView {
     public void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException {
         // TODO
     }
+
+    @Override
+    public void receiveDecksUpdate(DeckUpdate deckUpdate) throws RemoteException {
+        // TODO
+    }
 }
 
 //TODO riassunto:

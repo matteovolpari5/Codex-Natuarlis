@@ -106,14 +106,17 @@ public class GameController {
         return gameModel.getScoreTrackBoard();
     }
 
+    // used in tests
     DrawableDeck<DrawableCard> getResourceCardsDeck() {
         return gameModel.getResourceCardsDeck();
     }
 
+    // used in tests
     DrawableDeck<GoldCard> getGoldCardsDeck() {
         return gameModel.getGoldCardsDeck();
     }
 
+    // used by tests
     PlayingDeck<ObjectiveCard> getObjectiveCardsDeck() {
         return gameModel.getObjectiveCardsDeck();
     }
@@ -123,8 +126,8 @@ public class GameController {
     }
 
     // used in tests
-    synchronized void setTwentyPointsReached() {
-        gameModel.setTwentyPointsReached(true);
+    synchronized void setPenultimateRound() {
+        gameModel.setPenultimateRound(true);
     }
 
     synchronized void setCurrentPlayer(int num) {
@@ -350,7 +353,7 @@ public class GameController {
         }
         DrawableCard card;
         if(type.equals(CardType.RESOURCE_CARD)) {
-            card = getResourceCardsDeck().drawCard();
+            card = gameModel.drawResourceCard();
             if(card == null) {
                 gameModel.setCommandResult(nickname, CommandResult.CARD_NOT_PRESENT);
                 return;
@@ -358,7 +361,7 @@ public class GameController {
             getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
         }
         if(type.equals(CardType.GOLD_CARD)) {
-            card = getGoldCardsDeck().drawCard();
+            card = gameModel.drawGoldCard();
             if(card == null){
                 gameModel.setCommandResult(nickname, CommandResult.CARD_NOT_PRESENT);
                 return;
@@ -386,76 +389,50 @@ public class GameController {
             gameModel.setCommandResult(nickname, CommandResult.NOT_PLACED_YET);
             return;
         }
-        if(!emptyDeck)
-        {
-            DrawableCard card;
-            if(type.equals(CardType.RESOURCE_CARD)) {
-                card = getResourceCardsDeck().drawFaceUpCard(pos);
-                if(card == null) {
-                    if(getResourceCardsDeck().revealFaceUpCard(0)==null&&getGoldCardsDeck().revealFaceUpCard(0)==null)
-                    {
-                        emptyDeck=true;
-                        gameModel.setCommandResult(nickname, CommandResult.CARD_NOT_PRESENT);
-                        changeCurrPlayer();
+
+        assert(!emptyDeck): "Place card changes current player";
+
+        DrawableCard card;
+        if(type.equals(CardType.RESOURCE_CARD)) {
+            card = gameModel.drawFaceUpResourceCard(pos);
+            if(card == null) {
+                gameModel.setCommandResult(nickname, CommandResult.CARD_NOT_PRESENT);
+                return;
+            } else{
+                getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
+                // check if the card has been replaced or replace
+                if(gameModel.revealFaceUpResourceCard(1) == null) {
+                    GoldCard newFaceUpCard = gameModel.drawGoldCard();
+                    if(newFaceUpCard != null) {
+                        gameModel.addFaceUpGoldCard(newFaceUpCard);
                     }
-                    else
-                    {
-                        gameModel.setCommandResult(nickname, CommandResult.CARD_NOT_PRESENT);
-                    }
-                }
-                else{
-                    getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
-                    // check if the card has been replaced or replace
-                    if(getResourceCardsDeck().revealFaceUpCard(1) == null) {
-                        GoldCard newFaceUpCard = getGoldCardsDeck().drawCard();
-                        if(newFaceUpCard != null) {
-                            getGoldCardsDeck().addFaceUpCard(newFaceUpCard);
-                        }
-                    }
-                    if(getResourceCardsDeck().revealFaceUpCard(0)==null&&getGoldCardsDeck().revealFaceUpCard(0)==null)
-                    {
-                        emptyDeck=true;
-                    }
-                    gameModel.setCommandResult(nickname, CommandResult.SUCCESS);
-                    changeCurrPlayer();
-                }
-            }
-            else if(type.equals(CardType.GOLD_CARD)) {
-                card = getGoldCardsDeck().drawFaceUpCard(pos);
-                if(card == null) {
-                    if(getResourceCardsDeck().revealFaceUpCard(0)==null&&getGoldCardsDeck().revealFaceUpCard(0)==null)
-                    {
-                        emptyDeck=true;
-                        gameModel.setCommandResult(nickname, CommandResult.CARD_NOT_PRESENT);
-                        changeCurrPlayer();
-                    }
-                    else
-                    {
-                        gameModel.setCommandResult(nickname, CommandResult.CARD_NOT_PRESENT);
-                    }
-                }
-                else{
-                    getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
-                    // check if the card has been replaced or replace
-                    if(getGoldCardsDeck().revealFaceUpCard(1) == null) {
-                        DrawableCard newFaceUpCard = getResourceCardsDeck().drawCard();
-                        if(newFaceUpCard != null) {
-                            getResourceCardsDeck().addFaceUpCard(newFaceUpCard);
-                        }
-                    }
-                    if(getResourceCardsDeck().revealFaceUpCard(0)==null&&getGoldCardsDeck().revealFaceUpCard(0)==null)
-                    {
-                        emptyDeck=true;
-                    }
-                    gameModel.setCommandResult(nickname, CommandResult.SUCCESS);
-                    changeCurrPlayer();
                 }
             }
         }
-        else{
-            //gameModel.setCommandResult(nickname, CommandResult.CARD_NOT_PRESENT);
-            changeCurrPlayer();
+        else if(type.equals(CardType.GOLD_CARD)) {
+            card = gameModel.drawFaceUpGoldCard(pos);
+            if(card == null) {
+                gameModel.setCommandResult(nickname, CommandResult.CARD_NOT_PRESENT);
+                return;
+            }
+            else{
+                getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
+                // check if the card has been replaced or replace
+                if(gameModel.revealFaceUpGoldCard(1) == null) {
+                    DrawableCard newFaceUpCard = gameModel.drawResourceCard();
+                    if(newFaceUpCard != null) {
+                        gameModel.addFaceUpResourceCard(newFaceUpCard);
+                    }
+                }
+            }
         }
+
+        // if success
+        if(gameModel.revealFaceUpResourceCard(0) == null && gameModel.revealFaceUpGoldCard(0) == null)  {
+            emptyDeck = true;
+        }
+        gameModel.setCommandResult(nickname, CommandResult.SUCCESS);
+        changeCurrPlayer();
     }
 
     public void placeCard(String nickname, int pos, int x, int y, boolean way) {
@@ -513,7 +490,7 @@ public class GameController {
             }
         }
         if(emptyDeck) {
-            gameModel.setTwentyPointsReached(true);
+            gameModel.setPenultimateRound(true);
             changeCurrPlayer();
         }
         gameModel.setCommandResult(nickname, result);
@@ -638,7 +615,7 @@ public class GameController {
         else
             gameModel.setCurrPlayer(gameModel.getCurrPlayer()+1);
         setHasNotCurrPlayerPlaced();
-        if(gameModel.getTwentyPointsReached()) {
+        if(gameModel.getPenultimateRound()) {
             if(getPlayers().get(gameModel.getCurrPlayer()).isFirst() && gameModel.getAdditionalRound()) {
                 gameModel.setState(GameState.GAME_ENDED);
                 gameModel.computeWinner();
