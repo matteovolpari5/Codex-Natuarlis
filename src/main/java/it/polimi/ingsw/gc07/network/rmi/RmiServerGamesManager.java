@@ -7,7 +7,6 @@ import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -93,7 +92,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      */
     @Override
     public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
-        GamesManager gamesManager = GamesManager.getGamesManager();
         // add command to queue
         try {
             // blocking queues are thread safe
@@ -167,5 +165,17 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             }
         }
         return null;
+    }
+
+    public void deleteServerGame(int gameId) {
+        RmiServerGame rmiServerGame = null;
+        for(int id: rmiServerGames.keySet()) {
+            if(id == gameId) {
+                rmiServerGame = rmiServerGames.get(id);
+            }
+        }
+        if(rmiServerGame != null){
+            rmiServerGames.remove(gameId);
+        }
     }
 }

@@ -330,22 +330,10 @@ public class GamesManager {
         RmiServerGamesManager.getRmiServerGamesManager().displayGames(nickname);
     }
 
-
-
-    // -----------------------------
-    // TODO gestire questi
-    // -----------------------------
-
-
-    // TODO: chi lo chiama?
-    // probabilmente chiamato da gamesmanager stesso periodicamente,
-    // non creo command (per ora)
-    // oppure chiamato dal metodo che setta game state a GAME_ENDED
-    // se invio l'info sul vincitore al client, posso eliminare il game
-    public void deleteGame(int id) {
+    public void deleteGame(int gameId) {
         GameController gameController = null;
         for(GameController g: gameControllers) {
-            if(g.getId() == id) {
+            if(g.getId() == gameId) {
                 gameController = g;
             }
         }
@@ -353,5 +341,4 @@ public class GamesManager {
             gameControllers.remove(gameController);
         }
     }
-
 }

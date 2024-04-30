@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 
 import java.util.*;
 
@@ -651,6 +652,7 @@ public class GameController {
 
                 // delete game from GamesManager
                 GamesManager.getGamesManager().deleteGame(this.getId()); // TODO spostare, se non voglio eliminare subito
+                RmiServerGamesManager.getRmiServerGamesManager().deleteServerGame(this.getId()); // TODO spostare, se non voglio eliminare subito
                 return;
                 // the game is ended
 
