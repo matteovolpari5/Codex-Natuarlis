@@ -5,6 +5,10 @@ import it.polimi.ingsw.gc07.model_view.GameView;
 
 public class CommandResultUpdate implements Update {
     /**
+     * Nickname of the player who performed an action.
+     */
+    private final String nickname;
+    /**
      * Command result.
      */
     private final CommandResult commandResult;
@@ -13,7 +17,8 @@ public class CommandResultUpdate implements Update {
      * Constructor of CommandResultUpdate.
      * @param commandResult command result
      */
-    public CommandResultUpdate(CommandResult commandResult) {
+    public CommandResultUpdate(String nickname, CommandResult commandResult) {
+        this.nickname = nickname;
         this.commandResult = commandResult;
     }
 
@@ -23,6 +28,6 @@ public class CommandResultUpdate implements Update {
      */
     @Override
     public void execute(GameView gameView) {
-        gameView.setCommandResult(commandResult);
+        gameView.setCommandResult(nickname, commandResult);
     }
 }

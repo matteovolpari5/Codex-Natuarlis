@@ -206,11 +206,11 @@ public class GameModel {
         sendGameModelUpdate();
     }
 
-    public void setCommandResult(CommandResult commandResult) {
+    public void setCommandResult(String nickname, CommandResult commandResult) {
         this.commandResult = commandResult;
 
         // update listeners
-        CommandResultUpdate update = new CommandResultUpdate(commandResult);
+        CommandResultUpdate update = new CommandResultUpdate(nickname, commandResult);
         for(GameListener l: gameListeners) {
             try {
                 l.receiveCommandResultUpdate(update);

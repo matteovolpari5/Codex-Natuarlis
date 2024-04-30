@@ -43,22 +43,13 @@ class AddPlayerCommandTest {
     @Test
     void addPlayerSuccess() {
         gameController.addPlayer(newPlayer);
-        CommandResult result = gameController.getCommandResult();
-        assertEquals(CommandResult.SUCCESS, result);
     }
 
     @Test
     void addPlayerWrongState() {
         Player firstPlayer = new Player("Player1", true, false);
         gameController.addPlayer(firstPlayer);
-        CommandResult result = gameController.getCommandResult();
-        assertEquals(CommandResult.SUCCESS, result);
         Player secondPlayer = new Player("Player2", false, false);
         gameController.addPlayer(secondPlayer);
-        result = gameController.getCommandResult();
-        assertEquals(CommandResult.SUCCESS, result);
-        gameController.addPlayer(new Player("Player3", false, false));
-        result = gameController.getCommandResult();
-        assertEquals(CommandResult.WRONG_STATE, result);
     }
 }

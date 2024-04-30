@@ -257,8 +257,12 @@ public class GameView {
      * Method to set a command result.
      * @param commandResult command result
      */
-    public void setCommandResult(CommandResult commandResult) {
+    public void setCommandResult(String nickname, CommandResult commandResult) {
         this.commandResult = commandResult;
+
+
+        // TODO
+        // il nickname server solo per stampare l'aggiornamento alla persona giusta
     }
 
     public void displayExistingGames(Map<Integer, Integer> existingGames) {

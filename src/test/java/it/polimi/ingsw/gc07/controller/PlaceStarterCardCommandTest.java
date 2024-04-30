@@ -33,16 +33,10 @@ class PlaceStarterCardCommandTest {
         Player p1 = new Player("P1", true, true);
         p1.setTokenColor(TokenColor.GREEN);
         gameController.addPlayer(p1);
-        CommandResult result = gameController.getCommandResult();
-        if(!result.equals(CommandResult.SUCCESS))
-            throw new RuntimeException();
         // add second player
         Player p2 = new Player("P2", true, true);
         p2.setTokenColor(TokenColor.BLUE);
         gameController.addPlayer(p2);
-        result = gameController.getCommandResult();
-        if(!result.equals(CommandResult.SUCCESS))
-            throw new RuntimeException();
         gameController.setCurrentPlayer(0);
         gameController.getPlayers().get(1).setIsStalled(true);
     }
