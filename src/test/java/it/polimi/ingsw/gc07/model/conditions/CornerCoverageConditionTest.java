@@ -7,14 +7,15 @@ import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
+import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CornerCoverageConditionTest {
-    private ResourceCardsDeck resourceCardsDeck;
-    private GoldCardsDeck goldCardsDeck;
+    private DrawableDeck<DrawableCard> resourceCardsDeck;
+    private  DrawableDeck<GoldCard>  goldCardsDeck;
     private Deck<PlaceableCard> starterCardsDeck;
     CornerCoverageCondition condition;
     PlaceableCard myStarterCard;

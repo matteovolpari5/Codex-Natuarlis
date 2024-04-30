@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc07.game_commands.AddPlayerToPendingCommand;
 import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,8 @@ class AddPlayerToPendingCommandTest {
 
     @BeforeEach
     void setUp() {
-        gamesManager = GamesManager.getNewGamesManager();
+        gamesManager = GamesManager.getGamesManager();
+        gamesManager.resetGamesManager();
     }
 
     @Test
@@ -36,7 +38,7 @@ class AddPlayerToPendingCommandTest {
     @Test
     void addPlayerUnsuccessfulWithJoin() {
         // add Player1 to pending players
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", false, true));
         assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
 
         // make Player1 join a new gameController
@@ -44,7 +46,7 @@ class AddPlayerToPendingCommandTest {
         assertEquals(CommandResult.CREATE_SERVER_GAME, gamesManager.getCommandResult());
 
         // try to add Player1 to pending players
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", false, true));
         assertEquals(CommandResult.PLAYER_ALREADY_PRESENT, gamesManager.getCommandResult());
     }
 }

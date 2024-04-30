@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model.decks;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
+import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GoldCardsDeckTest {
-    GoldCardsDeck deck;
+    private DrawableDeck<GoldCard> deck;
     @BeforeEach
     void setUp() {
         deck = DecksBuilder.buildGoldCardsDeck();

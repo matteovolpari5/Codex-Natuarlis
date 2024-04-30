@@ -270,4 +270,9 @@ public class SocketClientHandler implements VirtualView {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void receiveDecksUpdate(DeckUpdate deckUpdate) throws RemoteException {
+        // TODO
+    }
 }

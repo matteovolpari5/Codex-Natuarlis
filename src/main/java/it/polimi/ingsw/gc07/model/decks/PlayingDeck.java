@@ -37,8 +37,6 @@ public class PlayingDeck<T> extends Deck<T> {
     public void setUpDeck() {
         addFaceUpCard(drawCard());
         addFaceUpCard(drawCard());
-
-        // TODO listener
     }
 
     /**
@@ -47,6 +45,10 @@ public class PlayingDeck<T> extends Deck<T> {
      */
     public void setFaceUpCards(List<T> faceUpCards) {
         this.faceUpCards = new ArrayList<>(faceUpCards);
+    }
+
+    public List<T> getFaceUpCards() {
+        return new ArrayList<>(faceUpCards);
     }
 
     /**
