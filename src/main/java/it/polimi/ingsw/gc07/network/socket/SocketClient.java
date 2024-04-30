@@ -6,9 +6,7 @@ import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.updates.*;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.Scanner;
@@ -16,19 +14,43 @@ import java.util.Scanner;
 public class SocketClient  {
     private final String nickname;
     private final Socket mySocket;
+    private final GameView gameView;
     private final ObjectInputStream input;
     private VirtualSocketServer myServer;
-    private final GameView gameView;
+
 
 
     public SocketClient(String nickname, Socket mySocket) throws IOException {
+        System.out.println("SocketClient-costruttore>>>>>>>>>");
+        InputStream temp_input;
+        OutputStream temp_output;
+
         this.nickname = nickname;
+        System.out.println("SocketClient> nickname ok");
+
         this.mySocket = mySocket;
+        System.out.println("SocketClient> mySocket ok");
+
         this.gameView = new GameView(nickname);
-        this.input = new ObjectInputStream(this.mySocket.getInputStream());
-        ObjectOutputStream output = new ObjectOutputStream(this.mySocket.getOutputStream());
+        System.out.println("SocketClient> gameView ok");
+
+        temp_output = this.mySocket.getOutputStream();
+        System.out.println("SocketClient> temp_output ok");
+        ObjectOutputStream output = new ObjectOutputStream(temp_output);
+        System.out.println("SocketClient> ObjectOutputStream output ok");
+        //output.flush();
+
+        temp_input = this.mySocket.getInputStream();
+        System.out.println("SocketClient> temp_input ok");
+        this.input = new ObjectInputStream(temp_input);
+        System.out.println("SocketClient> ObjectInputStream input ok");
+
         this.myServer = new VirtualSocketServer(output);
+        System.out.println("SocketClient> myServer output ok");
+
+        System.out.println("SocketClient> invocazione run()");
         this.run();
+        System.out.println("SocketClient> fine costruttore, dopo run()");
     }
 
     private void run(){
@@ -44,33 +66,38 @@ public class SocketClient  {
     //TODO oppure se non deve condividere il metodo allora valutare se ricevere nel costruttore il tipo di interfaccia, run() esegue alla fine connectToGamesManager()
     //TODO e in ClientMain avere solo "new SocketClient(nickname, sc);" con aggiunta del tipo di interfaccia; connectToGamesManger() diventa quindi private
     public void connectToGamesManager(boolean connectionType, boolean interfaceType) {
+        System.out.println("SocketClient-connectToGamesManager>>>>>>>>>");
         try {
             myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
+            System.out.println("SocketClient> eseguo AddPlayerToPendingCommand");
         } catch (RemoteException e) {
             // TODO
             throw new RuntimeException(e);
         }
         //TODO controllo esito command?
+        System.out.println("SocketClient> passo a runCliJoinGame()");
         this.runCliJoinGame();
     }
-    private void manageReceivedMessage() { //TODO runVirtualServer() nell'esempio, non capisco perchè sia chiamato così
-        //gestisce i messaggi ottenuti dal server
+    private void manageReceivedMessage() {
+        System.out.println("Client_Thread-manageReceiveMessage>>>>>>>>>");
         Update update;
         while (true){ //TODO dalla documentazione non trovo un modo di utilizzare il risultato di readObject() come condizione del while, chiedere se così va bene
             try {
-                update = (Update) input.readObject(); //TODO chiedere per cast, in generale come avviene la deserializzazione visto che readObject()restituisce
-                //TODO Object e bisogna fare il cast al tipo che si sa di ricevere, in questo caso non so quale è il tipo specifico di update: anche dinamicamente
-                //TODO è Update? se si non viene invocato il metodo dell'interfaccia al posto di quello della classe specifica?
-                //TODO inoltre facendo così il cast si avrebbe un'istanza che dinamicamente è "interfaccia"?
+                System.out.println("Client_Thread> ascolto");
+                update = (Update) input.readObject();
+                System.out.println("Client_Thread> leggo un update");
+                update.execute(gameView);
+                System.out.println("Client_Thread> eseguo l'update");
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            update.execute(gameView); //TODO se all'iterazione successiva non è stato scritto alcun nuovo oggetto, alla riga 52 cosa succede?
+            //TODO se all'iterazione successiva non è stato scritto alcun nuovo oggetto, alla riga 52 cosa succede?
         }
     }
 
 
     public void runCliJoinGame() {
+        System.out.println("SocketClient-runCliJoinGame>>>>>>>>>");
         boolean joiningGame = true;
         Scanner scan = new Scanner(System.in);
         String tokenColorString;

@@ -84,7 +84,7 @@ public class ClientMain {
                 //String host = args[0];
                 //int port = Integer.parseInt(args[1]);
                 String host = "127.0.0.1";
-                int port = 0;
+                int port = 65000;
                 Socket sc = new Socket(host, port);
                 SocketClient socketClient = new SocketClient(nickname, sc);
                 socketClient.connectToGamesManager(connectionType, interfaceType);

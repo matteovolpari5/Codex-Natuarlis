@@ -9,9 +9,7 @@ import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
@@ -26,29 +24,54 @@ public class SocketClientHandler implements VirtualView {
     private final ObjectOutputStream output;
 
     public SocketClientHandler(GamesManager gamesManager, Socket mySocket) throws IOException {
+        System.out.println("SCH-costruttore>>>>>>>>>");
+        InputStream temp_input;
+        OutputStream temp_output;
+
         this.gamesManager = gamesManager;
+        System.out.println("SCH> gamesManager ok");
+
         this.gameController = null;
+        System.out.println("SCH> GameController ok");
+
         this.mySocket = mySocket;
-        this.input = new ObjectInputStream(mySocket.getInputStream());
-        this.output = new ObjectOutputStream(mySocket.getOutputStream());
+        System.out.println("SCH> mySocket ok");
+
+        temp_output = this.mySocket.getOutputStream();
+        System.out.println("SCH> temp_output ok");
+
+        this.output = new ObjectOutputStream(temp_output);
+        System.out.println("SCH> ObjectOutputStream output ok");
+        output.flush();
+
+        temp_input = this.mySocket.getInputStream();
+        System.out.println("SCH> temp_input ok");
+
+        this.input = new ObjectInputStream(temp_input);
+        System.out.println("SCH> ObjectInputStream input ok");
+
         new Thread(this::manageGamesManagerCommand).start();
     }
 
     private void manageGamesManagerCommand(){
-
+        System.out.println("SCH-manageGamesManagerCommand>>>>>>>>>");
         GamesManagerCommand command;
 
         while(true) {
+            System.out.println("SCH> ascolto");
             try {
                 command = (GamesManagerCommand) input.readObject();
+                System.out.println("SCH> ho letto un command ricevuto");
                 synchronized (gamesManager){
                     gamesManager.setAndExecuteCommand(command);
+                    System.out.println("SCH> l'ho eseguito");
                     CommandResult result = gamesManager.getCommandResult();
+                    System.out.println("SCH> leggo il command result");
                     //TODO i listener sono stati invocati dal model in seguito alla modifica causata dal command
                     //TODO ad un certo punto nell'esecuzione del command si arriva all'invocazione dei metodi sottostanti per notificare
                     //TODO quindi non bisogna notificare l'utente adesso
                     if(result.equals(CommandResult.SUCCESS)){
-                        break;
+                        System.out.println("SCH> successo");
                     }
                     if(result.equals(CommandResult.CREATE_SERVER_GAME) || result.equals(CommandResult.SET_SERVER_GAME)){
                         String commandNickname = command.getNickname();
@@ -57,7 +80,8 @@ public class SocketClientHandler implements VirtualView {
                             throw new RuntimeException();
                         }
                         this.gameController = gamesManager.getGameById(gameId);
-
+                        gameController.addListener(this);
+                        System.out.println("SCH> eseguito ultimo command");
                         //TODO output.write->.reset()->.flush()
                         //output.writeBytes("Benvenuto"); //TODO oppure .writeChars(...);
                         //output.flush();
@@ -76,18 +100,23 @@ public class SocketClientHandler implements VirtualView {
                 break;
             }
         }
-        gameController.addListener(this);
+        System.out.println("SCH> passo a manageGameCommand()");
         manageGameCommand();
     }
 
     private void manageGameCommand(){
+        System.out.println("SCH-manageGameCommand()>>>>>>>>>");
         GameCommand command;
         while(true){
+            System.out.println("SCH> ascolto");
             try{
                 command = (GameCommand) input.readObject();
+                System.out.println("SCH> ho letto un command ricevuto");
                 synchronized (gameController){
                     gameController.setAndExecuteCommand(command);
+                    System.out.println("SCH> l'ho eseguito");
                     CommandResult result = gameController.getCommandResult();
+                    System.out.println("SCH> leggo il command result");
                     //TODO come prima: in rmi nessuno controlla l'esito del command
                     if(result.equals(CommandResult.SUCCESS)){
                         //TODO mostrare esito
@@ -109,7 +138,7 @@ public class SocketClientHandler implements VirtualView {
             output.close();
             mySocket.close();
         }catch (IOException e){
-            System.out.println("Error while closing connection");
+            System.out.println("SCH> Error while closing connection");
             e.printStackTrace();
             throw new RuntimeException();
         }
@@ -127,15 +156,17 @@ public class SocketClientHandler implements VirtualView {
 
     // TODO aggiunti perchè altrimenti non compila
 
+    private void receiveUpdate(Update update) throws IOException{
+        output.writeObject(update);
+        output.reset();
+        output.flush();
+    }
+
 
     @Override
     public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) {
-        //TODO il messaggio è creato dal model, dato che la comunicazione con il client è gestita da questa classe, il model invoca il metodo di questa classe
         try {
-            output.writeObject(chatMessageUpdate);
-            output.flush();
-            output.reset();
-            output.flush();
+            receiveUpdate(chatMessageUpdate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -144,10 +175,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void receiveDeckUpdate(DeckUpdate deckUpdate) {
         try {
-            output.writeObject(deckUpdate);
-            output.flush();
-            output.reset();
-            output.flush();
+            receiveUpdate(deckUpdate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -156,10 +184,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) {
         try {
-            output.writeObject(starterCardUpdate);
-            output.flush();
-            output.reset();
-            output.flush();
+            receiveUpdate(starterCardUpdate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -168,10 +193,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) {
         try {
-            output.writeObject(placedCardUpdate);
-            output.flush();
-            output.reset();
-            output.flush();
+            receiveUpdate(placedCardUpdate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -180,10 +202,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) {
         try {
-            output.writeObject(gameModelUpdate);
-            output.flush();
-            output.reset();
-            output.flush();
+            receiveUpdate(gameModelUpdate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -192,10 +211,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpate) throws RemoteException {
         try {
-            output.writeObject(playerJoinedUpate);
-            output.flush();
-            output.reset();
-            output.flush();
+            receiveUpdate(playerJoinedUpate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -204,10 +220,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) {
         try {
-            output.writeObject(commandResultUpdate);
-            output.flush();
-            output.reset();
-            output.flush();
+            receiveUpdate(commandResultUpdate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -216,10 +229,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void receiveStallUpdate(StallUpdate stallUpdate) {
         try {
-            output.writeObject(stallUpdate);
-            output.flush();
-            output.reset();
-            output.flush();
+            receiveUpdate(stallUpdate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -228,10 +238,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) {
         try {
-            output.writeObject(connectionUpdate);
-            output.flush();
-            output.reset();
-            output.flush();
+            receiveUpdate(connectionUpdate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -240,10 +247,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) {
         try {
-            output.writeObject(cardHandUpdate);
-            output.flush();
-            output.reset();
-            output.flush();
+            receiveUpdate(cardHandUpdate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -252,10 +256,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void receiveScoreUpdate(ScoreUpdate scoreUpdate) {
         try {
-            output.writeObject(scoreUpdate);
-            output.flush();
-            output.reset();
-            output.flush();
+            receiveUpdate(scoreUpdate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -263,15 +264,10 @@ public class SocketClientHandler implements VirtualView {
 
     @Override
     public void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException {
-        // TODO
+        try {
+            receiveUpdate(existingGamesUpdate);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
-
-//TODO riassunto:
-//ServerMain crea socket lato server sulla porta specificata, successivamente crea SocketServer passandogli anche il socket e lo esegue.
-//SocketServer quando si collega un client crea un SocketClientHandler a cui si assegnano input e output stream del socket della connesione con il client e avvia in un altro thread il SocketClientHandler.
-//SocketClientHandler in manageCommand() gestisce i messaggi inviati dal client.
-
-//ClientMain collega il client al socket lato server sulla porta specificata, la connessione viene accettata da .accept() in SocketServer.
-//Una volta stabilita la connessione ClientMain crea SocketClient passando input e output stream e lo esegue.
-//Quando SocketClient viene creato crea VirtualSocketServer che si occupa di gestire l'output, quindi la comunicazione in uscita verso gamesManager
