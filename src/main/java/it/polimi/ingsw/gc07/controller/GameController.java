@@ -34,14 +34,6 @@ public class GameController {
     private boolean emptyDeck;
 
     /**
-     * getter method for attribute emptyDeck
-     * @return emptyDeck
-     */
-    public boolean isEmptyDeck() {
-        return emptyDeck;
-    }
-
-    /**
      * Constructor of a GameController with only the first player.
      */
     public GameController(int id, int playersNumber, DrawableDeck<DrawableCard> resourceCardsDeck,
