@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.listeners;
 
 import it.polimi.ingsw.gc07.updates.CommandResultUpdate;
+import it.polimi.ingsw.gc07.updates.DeckUpdate;
 import it.polimi.ingsw.gc07.updates.GameModelUpdate;
 import it.polimi.ingsw.gc07.updates.PlayerJoinedUpdate;
 
@@ -28,4 +29,10 @@ public interface GameListener extends Remote {
      * @throws RemoteException remote exception
      */
     void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) throws RemoteException;
+
+    /**
+     * Method used to notify the client of a deck update.
+     * @param deckUpdate deck update
+     */
+    void receiveDecksUpdate(DeckUpdate deckUpdate) throws RemoteException;
 }

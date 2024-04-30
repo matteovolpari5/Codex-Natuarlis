@@ -446,7 +446,7 @@ class GameControllerTest {
                 break;
             }
         }
-        gameController.setTwentyPointsReached();
+        gameController.setPenultimateRound();
         gameController.changeCurrPlayer();
         gameController.changeCurrPlayer();
         gameController.changeCurrPlayer();
@@ -480,7 +480,7 @@ class GameControllerTest {
         gameController.changeCurrPlayer();
         assertEquals(0, gameController.getCurrPlayer());
         //Testing the final phase
-        gameController.setTwentyPointsReached();
+        gameController.setPenultimateRound();
         gameController.getPlayers().get(1).setIsStalled(false);
         gameController.changeCurrPlayer();
         gameController.changeCurrPlayer();

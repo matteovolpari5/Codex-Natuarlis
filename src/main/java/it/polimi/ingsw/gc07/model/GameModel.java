@@ -75,7 +75,7 @@ public class GameModel {
     /**
      * Boolean attribute, true if a player has reached 20 points.
      */
-    private boolean twentyPointsReached;
+    private boolean penultimateRound;
     /**
      * Boolean attribute, if it is the additional round of the game.
      */
@@ -108,11 +108,11 @@ public class GameModel {
         this.currPlayer = 0;
         this.hasCurrPlayerPlaced = false;
         this.scoreTrackBoard = new ScoreTrackBoard();
-        this.resourceCardsDeck = new DrawableDeck<DrawableCard>(resourceCardsDeck);
-        this.goldCardsDeck = new DrawableDeck<GoldCard>(goldCardsDeck);
+        this.resourceCardsDeck = new DrawableDeck<>(resourceCardsDeck);
+        this.goldCardsDeck = new DrawableDeck<>(goldCardsDeck);
         this.objectiveCardsDeck = new PlayingDeck<>(objectiveCardsDeck);
         this.starterCardsDeck = new Deck<>(starterCardsDeck);
-        this.twentyPointsReached = false;
+        this.penultimateRound = false;
         this.additionalRound = false;
         this.chat = new Chat();
         this.commandResult = null;
@@ -187,12 +187,12 @@ public class GameModel {
         return starterCardsDeck;
     }
 
-    public boolean getTwentyPointsReached() {
-        return twentyPointsReached;
+    public boolean getPenultimateRound() {
+        return penultimateRound;
     }
 
-    public void setTwentyPointsReached(boolean twentyPointsReached) {
-        this.twentyPointsReached = twentyPointsReached;
+    public void setPenultimateRound(boolean penultimateRound) {
+        this.penultimateRound = penultimateRound;
         // update listeners
         sendGameModelUpdate();
     }
@@ -227,7 +227,7 @@ public class GameModel {
     }
 
     private void sendGameModelUpdate() {
-        GameModelUpdate update = new GameModelUpdate(id, playersNumber, state, new ArrayList<>(winners), currPlayer, twentyPointsReached, additionalRound);
+        GameModelUpdate update = new GameModelUpdate(id, playersNumber, state, new ArrayList<>(winners), currPlayer, penultimateRound, additionalRound);
         for(GameListener l: gameListeners) {
             try {
                 l.receiveGameModelUpdate(update);
@@ -238,18 +238,58 @@ public class GameModel {
         }
     }
 
+    public DrawableCard drawResourceCard() {
+        return resourceCardsDeck.drawCard();
+    }
+
+    public GoldCard drawGoldCard() {
+        return goldCardsDeck.drawCard();
+    }
+
+    public ObjectiveCard drawObjectiveCard() {
+        return objectiveCardsDeck.drawCard();
+    }
+
+    public PlaceableCard drawStarterCard() {
+        return starterCardsDeck.drawCard();
+    }
+
+    public DrawableCard drawFaceUpResourceCard(int pos) {
+        return resourceCardsDeck.drawFaceUpCard(pos);
+    }
+
+    public DrawableCard drawFaceUpGoldCard(int pos) {
+        return goldCardsDeck.drawFaceUpCard(pos);
+    }
+
+    public void addFaceUpResourceCard(DrawableCard card) {
+        resourceCardsDeck.addFaceUpCard(card);
+    }
+
+    public void addFaceUpGoldCard(GoldCard card) {
+        goldCardsDeck.addFaceUpCard(card);
+    }
+
+    public DrawableCard revealFaceUpResourceCard(int pos) {
+        return resourceCardsDeck.revealFaceUpCard(pos);
+    }
+
+    public GoldCard revealFaceUpGoldCard(int pos) {
+        return goldCardsDeck.revealFaceUpCard(pos);
+    }
+
     public void addPlayer(Player newPlayer) {
         players.add(newPlayer);
         scoreTrackBoard.addPlayer(newPlayer.getNickname());
 
         // set card hand
-        newPlayer.addCardHand(resourceCardsDeck.drawCard());
-        newPlayer.addCardHand(resourceCardsDeck.drawCard());
-        newPlayer.addCardHand(goldCardsDeck.drawCard());
+        newPlayer.addCardHand(drawResourceCard());
+        newPlayer.addCardHand(drawResourceCard());
+        newPlayer.addCardHand(drawGoldCard());
         // set secrete objective
-        newPlayer.setSecretObjective(objectiveCardsDeck.drawCard());
+        newPlayer.setSecretObjective(drawObjectiveCard());
         // set starter card
-        newPlayer.setStarterCard(starterCardsDeck.drawCard());
+        newPlayer.setStarterCard(drawStarterCard());
 
         // if not the first player
         if(players.size() > 1) {
@@ -296,7 +336,7 @@ public class GameModel {
             }
         }
         // send first game update to player
-        GameModelUpdate gameUpdate = new GameModelUpdate(id, playersNumber, state, new ArrayList<>(winners), currPlayer, twentyPointsReached, additionalRound);
+        GameModelUpdate gameUpdate = new GameModelUpdate(id, playersNumber, state, new ArrayList<>(winners), currPlayer, penultimateRound, additionalRound);
         try {
             client.receiveGameModelUpdate(gameUpdate);
         }catch(RemoteException e) {
@@ -383,13 +423,13 @@ public class GameModel {
             GameField gameField = players.get(i).getGameField();
 
             ObjectiveCard objectiveCard;
-            objectiveCard = getObjectiveCardsDeck().revealFaceUpCard(0);
+            objectiveCard = objectiveCardsDeck.revealFaceUpCard(0);
             assert(objectiveCard != null): "The common objective must be present";
             realizedObjectives = objectiveCard.numTimesScoringConditionMet(gameField);
             //points counter for the 1st common objective
             deltaPoints = objectiveCard.getObjectiveScore(gameField);
 
-            objectiveCard = getObjectiveCardsDeck().revealFaceUpCard(1);
+            objectiveCard = objectiveCardsDeck.revealFaceUpCard(1);
             assert(objectiveCard != null): "The common objective must be present";
             realizedObjectives += objectiveCard.numTimesScoringConditionMet(gameField);
             //points counter for the 2nd common objective
@@ -422,7 +462,7 @@ public class GameModel {
         int deltaPoints;
         deltaPoints = player.getGameField().getPlacedCard(x, y).getPlacementScore(player.getGameField(), x, y);
         if(deltaPoints + getScore(player.getNickname()) >= 20) {
-            setTwentyPointsReached(true); // setter updated listeners
+            setPenultimateRound(true); // setter updated listeners
             if((deltaPoints + getScore(player.getNickname())) > 29) {
                 setScore(player.getNickname(), 29);
             }

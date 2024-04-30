@@ -37,8 +37,6 @@ public class PlayingDeck<T> extends Deck<T> {
     public void setUpDeck() {
         addFaceUpCard(drawCard());
         addFaceUpCard(drawCard());
-
-        // TODO listener
     }
 
     /**

@@ -297,7 +297,7 @@ classDiagram
         - goldCardsDeck: GoldCardsDeck
         - objectiveCardsDeck: PlayingDeck~ObjectiveCard~
         - starterCardsDeck: Deck~PlaceableCard~
-        - twentyPointsReached: boolean
+        - penultimateRound: boolean
         - additionalRound : boolean
         - chat: Chat
         - gameCommand: GameCommand
@@ -318,7 +318,7 @@ classDiagram
         ~ getGoldCardsDeck() GoldCardsDeck
         ~ getObjectiveCardsDeck() PlayingDeck<ObjectiveCard>
         ~ getStarterCardsDeck() Deck<PlaceableCard>
-        ~ setTwentyPointsReached(boolean twentyPointsReached)
+        ~ setTwentyPointsReached(boolean penultimateRound)
         ~ getTwentyPointsReached() boolean
         ~ getAdditionalRound() boolean
         ~ getChat() Chat

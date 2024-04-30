@@ -434,11 +434,20 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     /**
-     * Method used to show the client existing games
+     * Method used to show the client existing games.
      * @param existingGamesUpdate existing games update
      */
     @Override
     public void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) {
         existingGamesUpdate.execute(gameView);
+    }
+
+    /**
+     * Method used to show the client a deck update.
+     * @param deckUpdate deck update
+     */
+    @Override
+    public void receiveDecksUpdate(DeckUpdate deckUpdate) throws RemoteException {
+        deckUpdate.execute(gameView);
     }
 }
