@@ -512,3 +512,90 @@ classDiagram
         + displayExistingGames(nickname: String)
         + deleteGame(id: int)
     }
+
+    %% GAME_COMMANDS
+    class AddChatPrivateMessageCommand{
+        - content: String
+        - sender: String
+        - receiver: String
+        + AddChatPrivateMessageCommand(content: String, sender: String, receiver:String)
+        + execute(gameController: GameController)
+    }
+    class AddChatPublicMessageCommand{
+        - content: String
+        - sender: String
+        + AddChatPublicMessageCommand(content: String, sender: String)
+        + execute(gameController: GameController)
+    }
+    class AddPlayerToPendingCommand{
+        - nickname: String
+        - connectionType: boolean
+        - interfaceType: boolean
+        + AddPlayerToPendingCommand(nickname: String, connectionType: boolean, interfaceType: boolean )
+        + getNickname() string
+        + execute(gamesManager: GamesManager)
+    }
+    class DisconnectPlayerCommand{
+        ~ nickname: String
+        + DisconnectPlayerCommand (nickname: String)
+        + execute(gameController: GameController)
+    }
+    class DisplayGamesCommand{
+        - nickname: String
+        + DisplayGamesCommand (nickname: String)
+        + getNickname() String
+        + execute(gamesManager: GamesManager)
+    }
+    class DrawDeckCardCommand{
+        - nickname: String
+        - type: CardType
+        + DrawDeckCardCommand (nickname: String, type: CardType)
+        + execute(gameController: GameController)
+    }
+    class DrawFaceUpCardCommand{
+        - nickname: String
+        - type: CardType
+        - pos: int
+        + DrawFaceUpCardCommand (nickname: String, type: CardType, pos: int)
+        + execute(gameController: GameController)
+    }
+    class GameCommand{
+        <<interface>>
+        ~ execute(gameController: GameController)
+    }
+    class GamesManagerCommand{
+        <<interface>>
+        ~ getNickname() String
+        ~ execute(gamesManager: GamesManager)
+    }
+    class JoinExistingGameCommand{
+        - nickname: String
+        - tokenColor: TokenColor
+        - gameId: int
+        + JoinExistingGameCommand(nickname: String, tokenColor: TokenColor , gameId: int)
+        + getNickname() String
+        + execute(gamesManager: GamesManager)
+    }
+    class JoinNewGameCommand{
+        - nickname: String
+        - tokenColor: TokenColor
+        - playersNumber: int
+        + JoinNewGameCommand(nickname: String, tokenColor: TokenColor, playersNumber: int)
+        + getNickname(): String
+        + execute(gamesManager: GamesManager)
+    }
+    class PlaceCardCommand{
+        - nickname: String
+        - pos: int
+        - x: int
+        - y: int
+        - way: boolean
+        + PlaceCardCommand(nickname: String, pos: int, x: int, y:int,way: boolean)
+        + execute(gameController: GameController)
+    }
+    class PlaceStarterCardCommand{
+        - nickname: String
+        - way: boolean
+        + PlaceStarterCardCommand(nickname: String, way: boolean)
+        + execute(gameController: GameController)
+    }
