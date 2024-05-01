@@ -15,7 +15,7 @@ public class StallUpdate implements Update {
     /**
      * Constructor of StallUpdate.
      * @param nickname nickname
-     * @param isStalled isStalle value
+     * @param isStalled isStalled value
      */
     public StallUpdate(String nickname, boolean isStalled) {
         this.nickname = nickname;

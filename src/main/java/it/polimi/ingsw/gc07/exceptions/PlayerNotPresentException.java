@@ -1,8 +1,10 @@
 package it.polimi.ingsw.gc07.exceptions;
 
+/**
+ * Exception meaning that the specified player is not present.
+ */
 public class PlayerNotPresentException extends Exception{
-    public PlayerNotPresentException() {
-    }
+    public PlayerNotPresentException() {}
 
     public PlayerNotPresentException(String message) {
         super(message);

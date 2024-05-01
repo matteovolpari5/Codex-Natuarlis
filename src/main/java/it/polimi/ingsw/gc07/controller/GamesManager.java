@@ -61,7 +61,6 @@ public class GamesManager {
 
     /**
      * Only for test purposes, return a new instance of GamesManager, not using Singleton.
-     * @return new games manager
      */
     public void resetGamesManager() {
         gameControllers = new ArrayList<>();
@@ -174,6 +173,7 @@ public class GamesManager {
             for(Player p: gameController.getPlayers()) {
                 if(p.getNickname().equals(nickname) && !p.isConnected()) {
                     reconnection = true;
+                    break;
                 }
             }
         }
@@ -195,6 +195,7 @@ public class GamesManager {
         for(Player p: pendingPlayers) {
             if(p.getNickname().equals(nickname)) {
                 unique = false;
+                break;
             }
         }
         return unique;

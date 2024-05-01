@@ -5,7 +5,6 @@ import it.polimi.ingsw.gc07.model_view.GameView;
 
 import java.util.List;
 
-// TODO: da mandare solo alla game view il cui owner è pari al nickname
 public class CardHandUpdate implements Update {
     /**
      * Player's nickname.

@@ -1,5 +1,4 @@
 package it.polimi.ingsw.gc07.model.decks;
-import it.polimi.ingsw.gc07.exceptions.CardNotPresentException;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
 import java.util.Stack;
