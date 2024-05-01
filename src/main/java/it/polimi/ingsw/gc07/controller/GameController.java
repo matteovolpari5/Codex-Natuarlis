@@ -459,9 +459,11 @@ public class GameController {
             }
         }
 
-        // if success
+        // check if decks are empty
         if(gameModel.revealFaceUpResourceCard(0) == null && gameModel.revealFaceUpGoldCard(0) == null)  {
+            // both decks are empty
             gameModel.setEmptyDecks(true);
+            gameModel.setPenultimateRound(true);
         }
         gameModel.setCommandResult(nickname, CommandResult.SUCCESS);
         changeCurrPlayer();
@@ -518,11 +520,10 @@ public class GameController {
                 }
             }
             if(isStalled) {
-                getPlayers().get(gameModel.getCurrPlayer()).setIsStalled(isStalled);
+                getPlayers().get(gameModel.getCurrPlayer()).setIsStalled(true);
             }
         }
         if(gameModel.getEmptyDecks()) {
-            gameModel.setPenultimateRound(true);    // TODO penso non vada bene, sovrascrive sempre (anche additional round)
             changeCurrPlayer();
         }
         gameModel.setCommandResult(nickname, result);

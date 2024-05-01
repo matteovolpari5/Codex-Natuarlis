@@ -459,7 +459,6 @@ public class GameModel {
 
     /**
      * Method that compute the winner/s of the game.
-     * @return the list of players who won the game
      */
     public void computeWinner() {
         assert(state.equals(GameState.GAME_ENDED)) : "The game state is not correct";
