@@ -29,11 +29,6 @@ public class GameController {
     private final Map<String, Timer> playersTimer;
 
     /**
-     * attribute that signal if the deck and their face up cards are empty
-     */
-    private boolean emptyDeck;
-
-    /**
      * Constructor of a GameController with only the first player.
      */
     public GameController(int id, int playersNumber, DrawableDeck<DrawableCard> resourceCardsDeck,
@@ -42,7 +37,6 @@ public class GameController {
         this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
         this.timeout = new Timer();
         this.playersTimer = new HashMap<>();
-        this.emptyDeck=false;
     }
 
     // ------------------------------
@@ -202,6 +196,13 @@ public class GameController {
         if (isFull()) {
             setup();
             gameModel.setState(GameState.PLACING_STARTER_CARDS);
+
+            // place starter card randomly to players disconnected during GAME_STARTING
+            for(Player p: getPlayers()) {
+                if(!p.isConnected()) {
+                    placeStarterCardRandomly(p.getNickname());
+                }
+            }
         }
     }
 
@@ -232,23 +233,38 @@ public class GameController {
         // set player disconnected
         getPlayers().get(pos).setIsConnected(false);
 
-        // TODO
-        // if the player is the current one and has disconnected
+        // if the player is the current one
         if(gameModel.getState().equals(GameState.PLAYING) && gameModel.getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)) {
             if(!getHasCurrPlayerPlaced()) {
                 // if he has not placed a card
-                //TODO
-                // non ha fatto nulla in questo turno, glielo faccio saltare
+                changeCurrPlayer();
             }else {
-                // if he has placed a card
-                //TODO
-                // ha giocato, ma non pescato
-                // pescare una carta a caso
+                // if he has placed a card (but not drawn one)
+                Random random = new Random();
+                if(gameModel.revealFaceUpResourceCard(0) == null) {
+                    // only gold cards left
+                    drawFaceUpCard(nickname, CardType.GOLD_CARD, 0);
+                }else if(gameModel.revealFaceUpGoldCard(0) == null) {
+                    // only resource cards left
+                    drawFaceUpCard(nickname, CardType.RESOURCE_CARD, 0);
+                }else {
+                    // both decks are not empty
+                    if(random.nextBoolean()) {
+                        drawFaceUpCard(nickname, CardType.RESOURCE_CARD, 0);
+                    }else {
+                        drawFaceUpCard(nickname, CardType.GOLD_CARD, 0);
+                    }
+                }
             }
         }
 
+        // during PLACING_STARTER_CARDS, place starter card randomly
+        if(gameModel.getState().equals(GameState.PLACING_STARTER_CARDS)) {
+            placeStarterCardRandomly(nickname);
+        }
+
         if(gameModel.getState().equals(GameState.PLAYING) || gameModel.getState().equals(GameState.WAITING_RECONNECTION)) {
-            checkNumPlayersConnected();
+            changeGameState();
         }
         // for other game states, I don't have to change state
 
@@ -272,13 +288,13 @@ public class GameController {
         getPlayers().get(pos).setIsConnected(true);
 
         if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
-            checkNumPlayersConnected();
+            changeGameState();
         }
     }
 
-    private void checkNumPlayersConnected() {
+    private void changeGameState() {
         int numPlayersConnected = gameModel.getNumPlayersConnected();
-        if (numPlayersConnected == 0) {
+        if(numPlayersConnected == 0) {
             gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
             // TODO start the timer, when it ends, the game ends without winner
             //startTimeoutGameEnd();
@@ -286,8 +302,7 @@ public class GameController {
             gameModel.setState(GameState.WAITING_RECONNECTION);
             // TODO start the timer, when it ends, the only player left wins
             //startTimeoutGameEnd();
-        }
-        else {
+        }else {
             gameModel.setState(GameState.PLAYING);
         }
     }
@@ -407,7 +422,7 @@ public class GameController {
             return;
         }
 
-        assert(!emptyDeck): "Place card changes current player";
+        assert(!gameModel.getEmptyDecks()): "Place card changes current player";
 
         DrawableCard card;
         if(type.equals(CardType.RESOURCE_CARD)) {
@@ -446,7 +461,7 @@ public class GameController {
 
         // if success
         if(gameModel.revealFaceUpResourceCard(0) == null && gameModel.revealFaceUpGoldCard(0) == null)  {
-            emptyDeck = true;
+            gameModel.setEmptyDecks(true);
         }
         gameModel.setCommandResult(nickname, CommandResult.SUCCESS);
         changeCurrPlayer();
@@ -506,8 +521,8 @@ public class GameController {
                 getPlayers().get(gameModel.getCurrPlayer()).setIsStalled(isStalled);
             }
         }
-        if(emptyDeck) {
-            gameModel.setPenultimateRound(true);
+        if(gameModel.getEmptyDecks()) {
+            gameModel.setPenultimateRound(true);    // TODO penso non vada bene, sovrascrive sempre (anche additional round)
             changeCurrPlayer();
         }
         gameModel.setCommandResult(nickname, result);
@@ -549,8 +564,16 @@ public class GameController {
             }
         }
         if(changeState) {
-            gameModel.setState(GameState.PLAYING);
+            changeGameState();
         }
+    }
+
+    public void placeStarterCardRandomly(String nickname) {
+        // compute way
+        Random random = new Random();
+        boolean way = random.nextBoolean();
+        // place starter card
+        placeStarterCard(nickname, way);
     }
 
     // ----------------------
@@ -593,7 +616,7 @@ public class GameController {
     /**
      * Method that change the current player, if it's the last turn and all the players
      * played the same amount of turn it computes the winner;
-     * if a player is disconnect from the game he loose the turn,
+     * if a player is disconnect from the game he loses the turn,
      * if a player is stalled he will be skipped.
      */
     // TODO spostare nel model? l'ho lasciato qua per timer

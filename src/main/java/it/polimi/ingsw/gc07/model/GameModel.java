@@ -93,6 +93,10 @@ public class GameModel {
      * List of game listeners.
      */
     private final List<GameListener> gameListeners;
+    /**
+     * Attribute that tells if decks and their face up cards are empty.
+     */
+    private boolean emptyDecks;
 
     /**
      * Constructor of a GameModel with only the first player.
@@ -118,6 +122,7 @@ public class GameModel {
         this.chat = new Chat();
         this.commandResult = null;
         this.gameListeners = new ArrayList<>();
+        this.emptyDecks = false;
     }
 
     public int getId() {
@@ -225,6 +230,14 @@ public class GameModel {
 
     public CommandResult getCommandResult() {
         return commandResult;
+    }
+
+    public void setEmptyDecks(boolean value) {
+        this.emptyDecks = value;
+    }
+
+    public boolean getEmptyDecks() {
+        return this.emptyDecks;
     }
 
     private void sendGameModelUpdate() {
