@@ -88,6 +88,11 @@ public class SocketClientHandler implements VirtualView {
                         //output.flush();
                         // TODO necessario anche se non è un oggetto?
                         break;
+                    }else if(result.equals(CommandResult.DISPLAY_GAMES)) {
+                        // create update
+                        ExistingGamesUpdate update = new ExistingGamesUpdate(GamesManager.getGamesManager().getFreeGamesDetails());
+                        // send update
+                        receiveUpdate(update);
                     }else{
                         //TODO come gestire se il command ha avuto esito negativo? In rmi non viene controllato da nessuno l'esito del command
                     }
