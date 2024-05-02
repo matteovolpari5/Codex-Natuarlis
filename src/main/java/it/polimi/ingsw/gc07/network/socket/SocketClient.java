@@ -106,19 +106,12 @@ public class SocketClient  {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to join an existing game"); // JoinExistingGameCommand
             System.out.println("- w to join an new game"); // JoinNewGameCommand
+            System.out.println("- e to see existing games"); // DisplayGamesCommand
             System.out.print("> ");
             String command = scan.nextLine();
             switch(command){
                 case "q":
                     // join existing game
-
-                    //TODO display existing games
-                    // penso così:
-                    // 1) inserisce un comando e manda la richiesta di entrare in un gioco esistente
-                    // 2) il server riceve questa richiesta e chiama un metodo della virtual view che mostra i giochi esistenti
-                    // 3) il client fa queste cose sotto
-                    // 4) il server deve controllare di nuovo se il gioco è disponibile
-
                     System.out.println("Insert token color (green, red, yellow or blue): ");
                     System.out.print("> ");
                     tokenColorString = scan.nextLine();
@@ -184,6 +177,17 @@ public class SocketClient  {
                     }
                     joiningGame = false;
                     break;
+
+                case "e":
+                    // display existing games
+                    try {
+                        myServer.setAndExecuteCommand(new DisplayGamesCommand(nickname));
+                    } catch (RemoteException e) {
+                        // TODO
+                        throw new RuntimeException(e);
+                    }
+                    break;
+
                 default:
                     System.out.println("The provided character doesn't refer to any action");
             }

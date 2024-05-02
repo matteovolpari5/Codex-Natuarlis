@@ -35,4 +35,5 @@ public class SocketServer {
             }
         }
     }
+    //TODO metodo per eliminare elementi da clients
 }
