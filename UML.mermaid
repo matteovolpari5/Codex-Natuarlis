@@ -45,8 +45,6 @@ classDiagram
     %% CONTROLLER
     class GameController {
         - gameModel: GameModel
-        - timer: timeout
-        - playersTimer: Map~String, Timer~
         + GameController(id: int, playersNumber:int , resourceCardsDeck: DrawableDeck~DrawableCard~ ,goldCardsDeck: DrawableDeck~GoldCard~ , objectiveCardsDeck: PlayingDeck~ObjectiveCard~ ,starterCardsDeck: Deck~PlaceableCard~ )
         ~ getId() int
         ~ setState(state: GameState)
@@ -551,6 +549,7 @@ classDiagram
         + hasPlayer(nickname: String) boolean
         + hasPlayerWithTokenColor(tokenColor: TokenColor) boolean
         + computeWinner()
+        + setWinner(nickname: String)
         + addPoints(player: Player, x:int,y:int)
     }
 
