@@ -67,9 +67,6 @@ public class SocketClientHandler implements VirtualView {
                     System.out.println("SCH> l'ho eseguito");
                     CommandResult result = gamesManager.getCommandResult();
                     System.out.println("SCH> leggo il command result");
-                    //TODO i listener sono stati invocati dal model in seguito alla modifica causata dal command
-                    //TODO ad un certo punto nell'esecuzione del command si arriva all'invocazione dei metodi sottostanti per notificare
-                    //TODO quindi non bisogna notificare l'utente adesso
                     if(result.equals(CommandResult.SUCCESS)){
                         System.out.println("SCH> successo");
                     }
@@ -82,6 +79,9 @@ public class SocketClientHandler implements VirtualView {
                         }
                         this.gameController = gamesManager.getGameById(gameId);
                         gameController.addListener(this);
+                        //TODO il client legge l'input e poi se true esegue cli di game altrimenti continua a eseguire cli di gamesManager
+                        //TODO verificare result quali valori può assumere e determinare dove inserire output.writeBoolean(false);
+                        output.writeBoolean(true);
                         System.out.println("SCH> eseguito ultimo command");
                         //TODO output.write->.reset()->.flush()
                         //output.writeBytes("Benvenuto"); //TODO oppure .writeChars(...);
@@ -97,10 +97,6 @@ public class SocketClientHandler implements VirtualView {
                         //TODO come gestire se il command ha avuto esito negativo? In rmi non viene controllato da nessuno l'esito del command
                     }
                 }
-                //TODO l'esempio a questo punto invoca il metodo broadcastUpdate(...) di .server
-                //TODO decidere come gestire a seconda dei listener
-                //TODO AGGIRONAMENTO: nell'esempio la propagazione dell'aggiornamento dello stato del modello parte dalla classe di rete, nel nostro caso
-                //TODO deve partire dal modello, quindi in questa classe non bisogna far partire alcun update
             } catch (Exception e){
                 //TODO gestire eccezione
                 break;
@@ -160,7 +156,6 @@ public class SocketClientHandler implements VirtualView {
         return null;
     }
 
-    // TODO aggiunti perchè altrimenti non compila
 
     private void receiveUpdate(Update update) throws IOException{
         output.writeObject(update);
@@ -275,5 +270,10 @@ public class SocketClientHandler implements VirtualView {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void notifyJoinNotSuccessful() throws RemoteException {
+
     }
 }
