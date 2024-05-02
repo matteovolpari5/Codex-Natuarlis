@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameView;
+import it.polimi.ingsw.gc07.network.PingSender;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
@@ -14,7 +15,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class RmiClient extends UnicastRemoteObject implements VirtualView {
+public class RmiClient extends UnicastRemoteObject implements VirtualView, PingSender {
     /**
      * Nickname of the player associated to the RmiClient.
      */
@@ -70,6 +71,16 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
         // game joined
         connectToGameServer();
+
+
+
+        startGamePing();
+
+
+
+
+
+
         new Thread(this::runCliGame).start();
     }
 
@@ -90,6 +101,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * Method used from RmiServerGamesManager to restart the cli if the joining was not successful.
      */
     public void notifyJoinNotSuccessful() throws RemoteException {
+        System.out.println("Joining game not successful.");
         new Thread(this::runCliJoinGame).start();
     }
 
@@ -102,6 +114,34 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public String getNickname() throws RemoteException {
         return nickname;
     }
+
+    @Override
+    public void startGamesManagerPing() {
+
+    }
+
+    @Override
+    public void startGamePing() {
+        new Thread(()->{
+            while(true) {
+                try {
+                    serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    Thread.sleep(1000); // wait one second between two ping
+                } catch (InterruptedException e) {
+                    // TODO
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+
+                //todo ricezione del pong
+            }
+        }).start();
+    }
+
 
     //TODO creare dei metodi / classi per richiedere le cose, così è un pastrugno
     public void runCliJoinGame() {

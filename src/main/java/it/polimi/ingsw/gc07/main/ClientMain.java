@@ -1,7 +1,9 @@
 package it.polimi.ingsw.gc07.main;
 
+import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketClient;
 
 import java.io.*;
@@ -65,11 +67,16 @@ public class ClientMain {
 
             if(connectionType == true) {
                 // RMI
-                Registry registry = LocateRegistry.getRegistry(ip, 1234);
+                Registry registry = null;
+                try {
+                    registry = LocateRegistry.getRegistry(ip, 1234);
+                } catch (RemoteException ex) {
+                    throw new RuntimeException(ex);
+                }
                 VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
 
-                RmiClient newRmiClient = new RmiClient(rmiServerGamesManager, nickname);
                 try {
+                    RmiClient newRmiClient = new RmiClient(rmiServerGamesManager, nickname);
                     rmiServerGamesManager.connect(newRmiClient);
                     newRmiClient.connectToGamesManagerServer(connectionType, interfaceType);
                     newRmiClient.runCliJoinGame();

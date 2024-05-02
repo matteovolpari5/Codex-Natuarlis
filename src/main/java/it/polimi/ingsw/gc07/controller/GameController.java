@@ -8,7 +8,7 @@ import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.network.ClientPingSender;
+import it.polimi.ingsw.gc07.network.PingReceiver;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 
@@ -20,7 +20,7 @@ public class GameController {
      */
     private final GameModel gameModel;
 
-    private Map<String, Boolean > playersPing;
+    private final PingReceiver pingReceiver;
 
     /**
      * Constructor of a GameController with only the first player.
@@ -29,7 +29,7 @@ public class GameController {
                           DrawableDeck<GoldCard> goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
                           Deck<PlaceableCard> starterCardsDeck) {
         this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
-        this.playersPing = new HashMap<>();
+        this.pingReceiver = new PingReceiver(this);
     }
 
     // ------------------------------
@@ -62,6 +62,16 @@ public class GameController {
 
     public List<Player> getPlayers() {
         return gameModel.getPlayers();
+    }
+
+    public boolean isPlayerConnected(String nickname) {
+        for(Player p: gameModel.getPlayers()) {
+            if(p.getNickname().equals(nickname)) {
+                if(p.isConnected())
+                    return true;
+            }
+        }
+        return false;
     }
 
     int getPlayersNumber() {
@@ -134,6 +144,10 @@ public class GameController {
         gameModel.addListener(client);
     }
 
+    public void receivePing(String nickname) {
+        pingReceiver.receivePing(nickname);
+    }
+
     // ----------------------
     // command pattern methods
     // ----------------------
@@ -178,10 +192,8 @@ public class GameController {
         assert(gameModel.getState().equals(GameState.GAME_STARTING)): "Wrong state";
         assert(!gameModel.getPlayerNicknames().contains(newPlayer.getNickname())): "Player already present";
 
-        playersPing.put(newPlayer.getNickname(), true);
-        ClientPingSender pingSender = new ClientPingSender(this);
-        pingSender.startComunication(newPlayer.getNickname());
         gameModel.addPlayer(newPlayer);
+        pingReceiver.addPlayer(newPlayer.getNickname());
 
         if (isFull()) {
             setup();
@@ -269,6 +281,7 @@ public class GameController {
         try{
             pos = getPlayerPosByNickname(nickname);
         }catch (PlayerNotPresentException e) {
+            System.out.println("qua");
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
@@ -304,7 +317,7 @@ public class GameController {
             synchronized (this) {
                 onePlayer = gameModel.getState().equals(GameState.WAITING_RECONNECTION);
             }
-            for (int i = 0; i < 60; i++) {
+            for (int i = 0; i < 5; i++) {
                 try {
                     Thread.sleep(1000); // wait one second for each iteration
                 } catch (InterruptedException e) {
@@ -543,10 +556,6 @@ public class GameController {
         if(changeState) {
             changeGameState();
         }
-    }
-
-    public void sendPing(String nickname){
-
     }
 
     public void placeStarterCardRandomly(String nickname) {

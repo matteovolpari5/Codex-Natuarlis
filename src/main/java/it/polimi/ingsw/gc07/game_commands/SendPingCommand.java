@@ -10,8 +10,9 @@ public class SendPingCommand implements GameCommand {
     public SendPingCommand(String nickname){
         this.nickname = nickname;
     }
+
     @Override
     public void execute(GameController gameController) {
-        gameController.sendPing(nickname);
+        gameController.receivePing(nickname);
     }
 }

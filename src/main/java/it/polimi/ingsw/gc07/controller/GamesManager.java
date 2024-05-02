@@ -13,6 +13,7 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 
 import java.util.ArrayList;
@@ -156,7 +157,7 @@ public class GamesManager {
         commandResult = CommandResult.SUCCESS;
     }
 
-    private boolean checkReconnection(String nickname) {
+    public boolean checkReconnection(String nickname) {
         boolean reconnection = false;
         for(GameController gameController: gameControllers) {
             // if a game has a player with the same nickname and disconnected
