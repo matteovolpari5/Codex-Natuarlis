@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.ClientPingSender;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 
@@ -19,6 +20,7 @@ public class GameController {
      */
     private final GameModel gameModel;
 
+    private Map<String, Boolean > playersPing;
 
     /**
      * Constructor of a GameController with only the first player.
@@ -27,6 +29,7 @@ public class GameController {
                           DrawableDeck<GoldCard> goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
                           Deck<PlaceableCard> starterCardsDeck) {
         this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
+        this.playersPing = new HashMap<>();
     }
 
     // ------------------------------
@@ -175,12 +178,9 @@ public class GameController {
         assert(gameModel.getState().equals(GameState.GAME_STARTING)): "Wrong state";
         assert(!gameModel.getPlayerNicknames().contains(newPlayer.getNickname())): "Player already present";
 
-        /*
-        Timer timeout = new Timer();
-        playersTimer.put(newPlayer.getNickname(), timeout);
-        startTimeoutReconnection(timeout, newPlayer.getNickname());
-         */
-
+        playersPing.put(newPlayer.getNickname(), true);
+        ClientPingSender pingSender = new ClientPingSender(this);
+        pingSender.startComunication(newPlayer.getNickname());
         gameModel.addPlayer(newPlayer);
 
         if (isFull()) {
@@ -543,6 +543,10 @@ public class GameController {
         if(changeState) {
             changeGameState();
         }
+    }
+
+    public void sendPing(String nickname){
+
     }
 
     public void placeStarterCardRandomly(String nickname) {
