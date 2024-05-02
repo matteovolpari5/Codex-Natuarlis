@@ -271,4 +271,9 @@ public class SocketClientHandler implements VirtualView {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void notifyJoinNotSuccessful() throws RemoteException {
+
+    }
 }

@@ -87,6 +87,13 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     /**
+     * Method used from RmiServerGamesManager to restart the cli if the joining was not successful.
+     */
+    public void notifyJoinNotSuccessful() throws RemoteException {
+        new Thread(this::runCliJoinGame).start();
+    }
+
+    /**
      * Getter method for nickname
      * @return nickname
      * @throws RemoteException remote exception
@@ -98,9 +105,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     //TODO creare dei metodi / classi per richiedere le cose, così è un pastrugno
     public void runCliJoinGame() {
-        boolean joiningGame = true;
+        boolean triedJoining = false;
         Scanner scan = new Scanner(System.in);
-        while(joiningGame) {
+        while(!triedJoining) {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to join an existing game"); // JoinExistingGameCommand
             System.out.println("- w to join an new game"); // JoinNewGameCommand
@@ -151,7 +158,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                         // TODO
                         throw new RuntimeException(e);
                     }
-                    joiningGame = false;
+                    triedJoining = true;
                     break;
 
                 case "w":
@@ -186,7 +193,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                         // TODO
                         throw new RuntimeException(e);
                     }
-                    joiningGame = false;
+                    triedJoining = true;
                     break;
 
                 case "e":

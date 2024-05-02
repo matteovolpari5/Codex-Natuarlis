@@ -608,14 +608,10 @@ public class GameController {
             if(getPlayers().get(gameModel.getCurrPlayer()).isFirst() && gameModel.getAdditionalRound()) {
                 gameModel.setState(GameState.GAME_ENDED);
                 gameModel.computeWinner();
-
                 // delete game from GamesManager
                 endGame();
                 return;
                 // the game is ended
-
-                //TODO faccio partire un timer di qualche minuto
-                // per permettere ai giocatori di scrivere in chat
             }
             else if(getPlayers().get(gameModel.getCurrPlayer()).isFirst()) {
                 gameModel.setAdditionalRound(true);
@@ -635,6 +631,7 @@ public class GameController {
             else {
                 gameModel.setState(GameState.GAME_ENDED);
                 gameModel.computeWinner();
+                endGame();
             }
         }
     }
