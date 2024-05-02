@@ -73,6 +73,7 @@ public class SocketClientHandler implements VirtualView {
                     if(result.equals(CommandResult.SUCCESS)){
                         System.out.println("SCH> successo");
                     }
+                    System.out.println(result);
                     if(result.equals(CommandResult.CREATE_SERVER_GAME) || result.equals(CommandResult.SET_SERVER_GAME)){
                         String commandNickname = command.getNickname();
                         int gameId = gamesManager.getGameIdWithPlayer(commandNickname);

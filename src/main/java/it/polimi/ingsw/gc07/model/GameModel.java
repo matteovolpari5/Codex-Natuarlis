@@ -507,6 +507,11 @@ public class GameModel {
         sendGameModelUpdate();
     }
 
+    public void setWinner(String nickname){
+        winners.add(nickname);
+        // update listeners
+        sendGameModelUpdate();
+    }
     public void addPoints(Player player, int x, int y) {
         int deltaPoints;
         deltaPoints = player.getGameField().getPlacedCard(x, y).getPlacementScore(player.getGameField(), x, y);
