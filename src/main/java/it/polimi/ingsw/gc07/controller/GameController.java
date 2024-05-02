@@ -341,24 +341,6 @@ public class GameController {
             }
         }).start();
     }
-/*
-    private void startTimeoutReconnection(Timer timeout, String nickname){
-        new Thread(() -> {
-            timeout.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    synchronized (this){
-                        disconnectPlayer(nickname);
-                    }
-                }
-            }, 60*1000); //timeout of 1 minuto
-        }).start();
-    }
-
-    public void notifyClientConnected(String nickname){
-        // TODO
-    }
-     */
 
     public void drawDeckCard(String nickname, CardType type) {
         if(!gameModel.getState().equals(GameState.PLAYING)) {
@@ -628,8 +610,7 @@ public class GameController {
                 gameModel.computeWinner();
 
                 // delete game from GamesManager
-                GamesManager.getGamesManager().deleteGame(this.getId()); // TODO spostare, se non voglio eliminare subito
-                RmiServerGamesManager.getRmiServerGamesManager().deleteServerGame(this.getId()); // TODO spostare, se non voglio eliminare subito
+                endGame();
                 return;
                 // the game is ended
 
@@ -656,6 +637,25 @@ public class GameController {
                 gameModel.computeWinner();
             }
         }
+    }
+
+    /**
+     * Method that starts a timer when the game is ended, when the timer expires
+     * it deletes the game from GamesManager.
+     */
+    private void endGame(){
+        Timer timeoutGameEnded = new Timer();
+        new Thread(() -> {
+            timeoutGameEnded.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    synchronized (this){
+                        GamesManager.getGamesManager().deleteGame(getId());
+                        RmiServerGamesManager.getRmiServerGamesManager().deleteServerGame(getId());
+                    }
+                }
+            }, 120*1000); //timer of 2 minutes
+        }).start();
     }
 
     /**
