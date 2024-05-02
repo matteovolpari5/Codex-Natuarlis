@@ -98,11 +98,11 @@ public class SocketClient  {
 
     public void runCliJoinGame() {
         System.out.println("SocketClient-runCliJoinGame>>>>>>>>>");
-        boolean joiningGame = true;
+        boolean triedJoining = false;
         Scanner scan = new Scanner(System.in);
         String tokenColorString;
         TokenColor tokenColor;
-        while(joiningGame) {
+        while(!triedJoining) {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to join an existing game"); // JoinExistingGameCommand
             System.out.println("- w to join an new game"); // JoinNewGameCommand
@@ -140,7 +140,7 @@ public class SocketClient  {
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
-                    joiningGame = false;
+                    triedJoining = true;
                     break;
 
 
@@ -175,7 +175,7 @@ public class SocketClient  {
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
-                    joiningGame = false;
+                    triedJoining = true;
                     break;
 
                 case "e":
