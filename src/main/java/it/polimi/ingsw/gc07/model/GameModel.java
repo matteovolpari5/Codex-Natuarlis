@@ -419,8 +419,8 @@ public class GameModel {
         return scoreTrackBoard.getScore(nickname);
     }
 
-    public void setScore(String nicknmae, int newScore) {
-        scoreTrackBoard.setScore(nicknmae, newScore);
+    public void setScore(String nickname, int newScore) {
+        scoreTrackBoard.setScore(nickname, newScore);
     }
 
     public void incrementScore(String nickname, int deltaScore) {
