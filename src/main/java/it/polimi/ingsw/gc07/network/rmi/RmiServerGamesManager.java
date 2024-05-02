@@ -224,4 +224,13 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             rmiServerGames.remove(gameId);
         }
     }
+
+
+
+
+    public List<VirtualView> getVirtualViews() {
+        return clients;
+    }
+
+
 }

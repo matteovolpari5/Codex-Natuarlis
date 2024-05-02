@@ -29,6 +29,7 @@ public class PingReceiver {
     private void checkPing(String nickname) {
         int missedPing = 0;
         while(true) {
+            /*
             if(playersPing.get(nickname)) {
                 missedPing = 0;
                 if(!gameController.isPlayerConnected(nickname)) {
@@ -50,6 +51,7 @@ public class PingReceiver {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
+             */
 
 
 

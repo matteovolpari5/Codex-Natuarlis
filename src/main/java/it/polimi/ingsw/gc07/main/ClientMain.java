@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.main;
 
 import it.polimi.ingsw.gc07.controller.GamesManager;
+import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
@@ -63,6 +64,11 @@ public class ClientMain {
                 }else {
                     System.out.println("No such interface type");
                 }
+            }
+
+            System.out.println("Virtual views before");
+            for(VirtualView v: RmiServerGamesManager.getRmiServerGamesManager().getVirtualViews()) {
+                System.out.println(v.getNickname());
             }
 
             if(connectionType == true) {
