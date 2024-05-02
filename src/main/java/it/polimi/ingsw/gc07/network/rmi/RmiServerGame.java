@@ -20,12 +20,22 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
      */
     private final BlockingDeque<GameCommand> commandsQueue;
 
+    /**
+     * Constructor of RmiServerGame.
+     * @param gameController game controller of the game
+     * @throws RemoteException remote exception
+     */
     public RmiServerGame(GameController gameController) throws RemoteException {
         this.gameController = gameController;
         this.commandsQueue = new LinkedBlockingDeque<>();
         startCommandExecutor();
     }
 
+    /**
+     * Method that starts the command executor, a thread that takes tasks
+     * from the blocking queue and executes them.
+     * Used to make RMI asynchronous.
+     */
     private void startCommandExecutor() {
         new Thread(() -> {
             while(true) {

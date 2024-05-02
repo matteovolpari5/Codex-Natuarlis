@@ -22,7 +22,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      */
     private static volatile RmiServerGamesManager myRmiServerGamesManager = null;
     /**
-     * Virtual views of connected clients.
+     * Virtual views of managed clients.
      */
     private final List<VirtualView> clients;
     /**
@@ -44,6 +44,11 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         startCommandExecutor();
     }
 
+    /**
+     * Method that starts the command executor, a thread that takes tasks
+     * from the blocking queue and executes them.
+     * Used to make RMI asynchronous.
+     */
     private void startCommandExecutor() {
         new Thread(() -> {
             while(true) {
@@ -61,18 +66,21 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         }).start();
     }
 
+    /**
+     * Method used to get the only existing instance of RmiServerGamesManager,
+     * which uses the Singleton pattern.
+     * @return RmiServerGamesManager instance
+     */
     public static synchronized RmiServerGamesManager getRmiServerGamesManager() {
         if(myRmiServerGamesManager == null) {
             try {
                 myRmiServerGamesManager = new RmiServerGamesManager();
-                System.out.println("creating new");
             }catch(RemoteException e) {
                 // TODO
                 e.printStackTrace();
                 throw new RuntimeException();
             }
         }
-        System.out.println("Passing");
         return myRmiServerGamesManager;
     }
 
@@ -105,6 +113,11 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         }
     }
 
+    /**
+     * Method that allows to set a RmiServerGame for the client.
+     * @param nickname player's nickname
+     * @param gameId game id
+     */
     public void setServerGame(String nickname, int gameId) {
         assert(GamesManager.getGamesManager().getCommandResult().equals(CommandResult.SET_SERVER_GAME)): "Wrong method call";
         assert(rmiServerGames.containsKey(gameId));
@@ -114,6 +127,8 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
                 throw new RuntimeException();
             }
             virtualView.setServerGame(rmiServerGames.get(gameId));
+            // remove virtual view from clients
+            clients.remove(virtualView);
         }catch(RemoteException e) {
             // TODO
             e.printStackTrace();
@@ -121,6 +136,12 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         }
     }
 
+    /**
+     * Method that allows to create a new RmiServerGame, used when the player joins a new game.
+     * Creates a new RmiServerGame and calls setServerGame to set it.
+     * @param nickname player's nickname
+     * @param gameId game id
+     */
     public void createServerGame(String nickname, int gameId) {
         assert(GamesManager.getGamesManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)): "Wrong method call";
         try {
@@ -137,6 +158,10 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         }
     }
 
+    /**
+     * Method used to display existing games to a player who requests it.
+     * @param nickname player's nickname
+     */
     public void displayGames(String nickname) {
         assert(GamesManager.getGamesManager().getCommandResult().equals(CommandResult.DISPLAY_GAMES)): "Wrong method call";
         try {
@@ -169,6 +194,10 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         return null;
     }
 
+    /**
+     * Method used to delete the game server from the map once the game is ended.
+     * @param gameId game id of the game to remove
+     */
     public void deleteServerGame(int gameId) {
         RmiServerGame rmiServerGame = null;
         for(int id: rmiServerGames.keySet()) {

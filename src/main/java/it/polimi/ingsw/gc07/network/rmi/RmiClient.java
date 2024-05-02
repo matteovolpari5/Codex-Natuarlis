@@ -11,14 +11,33 @@ import it.polimi.ingsw.gc07.updates.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
+    /**
+     * Nickname of the player associated to the RmiClient.
+     */
     private final String nickname;
+    /**
+     * Reference to RmiServerGamesManager, the general server.
+     */
     private final VirtualServerGamesManager serverGamesManager;
+    /**
+     * Reference to RmiServerGame, the game specific server.
+     */
     private VirtualServerGame serverGame;
+    /**
+     * Player's local copy of the game model.
+     */
     private final GameView gameView;
 
+    /**
+     * Constructor of RmiClient.
+     * @param serverGamesManager general server
+     * @param nickname client's nickname
+     * @throws RemoteException remote exception
+     */
     public RmiClient(VirtualServerGamesManager serverGamesManager, String nickname) throws RemoteException {
         this.nickname = nickname;
         this.serverGamesManager = serverGamesManager;
@@ -26,7 +45,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         this.gameView = new GameView(nickname);
     }
 
-    public void connectToGamesManager(boolean connectionType, boolean interfaceType) {
+    /**
+     * Method that allows the client to connect with RMIServerGamesManager, the general server.
+     * @param connectionType connection type
+     * @param interfaceType interface type
+     */
+    public void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
         try {
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
@@ -35,6 +59,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         }
     }
 
+    /**
+     * Method that allows to set a RmiServerGame, the game specific server, for the client.
+     * @param serverGame RmiServerGame
+     * @throws RemoteException remote exception
+     */
     @Override
     public void setServerGame(VirtualServerGame serverGame) throws RemoteException {
         this.serverGame = serverGame;
@@ -44,13 +73,30 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         new Thread(this::runCliGame).start();
     }
 
+    /**
+     * Method that allows the client to connect with RMIServerGame, the game specific server.
+     */
+    private void connectToGameServer() {
+        try {
+            serverGame.connect(this);
+        }catch(RemoteException e) {
+            //TODO manager remote exception
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    /**
+     * Getter method for nickname
+     * @return nickname
+     * @throws RemoteException remote exception
+     */
     @Override
     public String getNickname() throws RemoteException {
         return nickname;
     }
 
     //TODO creare dei metodi / classi per richiedere le cose, così è un pastrugno
-
     public void runCliJoinGame() {
         boolean joiningGame = true;
         Scanner scan = new Scanner(System.in);
@@ -64,14 +110,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             switch(command){
                 case "q":
                     // join existing game
-
-                    //TODO display existing games
-                    // penso così:
-                    // 1) inserisce un comando e manda la richiesta di entrare in un gioco esistente
-                    // 2) il server riceve questa richiesta e chiama un metodo della virtual view che mostra i giochi esistenti
-                    // 3) il client fa queste cose sotto
-                    // 4) il server deve controllare di nuovo se il gioco è disponibile
-
                     System.out.println("Insert token color (green, red, yellow or blue): ");
                     System.out.print("> ");
                     String tokenColorString = scan.nextLine();
@@ -94,8 +132,19 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                             continue;
                     }
                     System.out.println("Insert game id: ");
-                    int gameId = scan.nextInt();
-                    scan.nextLine();
+                    int gameId;
+                    try {
+                        gameId = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        scan.nextLine();
+                        System.out.println("No such game id, insert a number");
+                        continue;
+                    }
+                    if(gameId < 0) {
+                        System.out.println("No such game id");
+                        continue;
+                    }
                     try {
                         serverGamesManager.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
                     } catch (RemoteException e) {
@@ -104,7 +153,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     }
                     joiningGame = false;
                     break;
-
 
                 case "w":
                     // join new game
@@ -154,16 +202,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 default:
                     System.out.println("The provided character doesn't refer to any action");
             }
-        }
-    }
-
-    private void connectToGameServer() {
-        try {
-            serverGame.connect(this);
-        }catch(RemoteException e) {
-            //TODO manager remote exception
-            e.printStackTrace();
-            throw new RuntimeException();
         }
     }
 

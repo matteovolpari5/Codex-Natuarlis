@@ -66,12 +66,12 @@ public class ClientMain {
             if(connectionType == true) {
                 // RMI
                 Registry registry = LocateRegistry.getRegistry(ip, 1234);
-                VirtualServerGamesManager server = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
+                VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
 
-                RmiClient newRmiClient = new RmiClient(server, nickname);
+                RmiClient newRmiClient = new RmiClient(rmiServerGamesManager, nickname);
                 try {
-                    server.connect(newRmiClient);
-                    newRmiClient.connectToGamesManager(connectionType, interfaceType);
+                    rmiServerGamesManager.connect(newRmiClient);
+                    newRmiClient.connectToGamesManagerServer(connectionType, interfaceType);
                     newRmiClient.runCliJoinGame();
                 }catch(RemoteException e) {
                     //TODO
