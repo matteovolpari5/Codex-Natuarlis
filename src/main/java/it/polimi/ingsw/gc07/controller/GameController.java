@@ -19,14 +19,6 @@ public class GameController {
      */
     private final GameModel gameModel;
 
-    /**
-     * Timeout for the reconnection.
-     */
-    private final Timer timeout;
-    /**
-     * Timeout for keeping track of players' connection.
-     */
-    private final Map<String, Timer> playersTimer;
 
     /**
      * Constructor of a GameController with only the first player.
@@ -35,8 +27,6 @@ public class GameController {
                           DrawableDeck<GoldCard> goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
                           Deck<PlaceableCard> starterCardsDeck) {
         this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
-        this.timeout = new Timer();
-        this.playersTimer = new HashMap<>();
     }
 
     // ------------------------------
@@ -297,57 +287,61 @@ public class GameController {
         if(numPlayersConnected == 0) {
             gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
             // TODO start the timer, when it ends, the game ends without winner
-            //startTimeoutGameEnd();
+            startTimeoutGameEnd();
         }else if(numPlayersConnected == 1) {
             gameModel.setState(GameState.WAITING_RECONNECTION);
             // TODO start the timer, when it ends, the only player left wins
-            //startTimeoutGameEnd();
+            startTimeoutGameEnd();
         }else {
             gameModel.setState(GameState.PLAYING);
         }
     }
 
-    /*
-    private void startTimeoutGameEnd(){
-        new Thread(() ->{
-            timeout.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    synchronized (this){
-                        timeout.cancel();
-                        timeout.purge();
-                        //TODO settare il player rimasto come vincitore
-                        System.out.println("il player rimanente è il vincitore");
-                    }
 
-                }
-            }, 30*1000); //timeout of 1 minuto
-        }).start();
+    private void startTimeoutGameEnd(){
         new Thread(() -> {
+            boolean onePlayer;
+            synchronized (this) {
+                onePlayer = gameModel.getState().equals(GameState.WAITING_RECONNECTION);
+            }
             for (int i = 0; i < 60; i++) {
                 try {
                     Thread.sleep(1000); // wait one second for each iteration
                 } catch (InterruptedException e) {
                     throw new RuntimeException();
                 }
-                synchronized (this){
-                    if (gameModel.getNumPlayersConnected() == 1) {
-                        timeout.cancel();
-                        timeout.purge();
-                        //TODO vedere cosa succede se uno si riconnette
+                synchronized (this) {
+                    if (gameModel.getNumPlayersConnected() == 1 && !onePlayer) {
+                        // restart the timer if one player reconnects
+                        i = 0;
+                        gameModel.setState(GameState.WAITING_RECONNECTION);
+                        onePlayer = true;
                     }
-
+                    if (gameModel.getNumPlayersConnected() == 0 && onePlayer) {
+                        //restart the timer if nobody is connected
+                        i = 0;
+                        gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
+                        onePlayer = false;
+                    }
                     if (gameModel.getNumPlayersConnected() > 1) {
-                        timeout.cancel(); // it stops the timeout
-                        timeout.purge();
-                        System.out.println("si continua...");
+                        gameModel.setState(GameState.PLAYING);
                         break;
+                    }
+                }
+            }
+            synchronized ((this)){
+                gameModel.setState(GameState.GAME_ENDED);
+                if (onePlayer) {
+                    for (Player p : gameModel.getPlayers()) {
+                        if (p.isConnected()) {
+                            gameModel.setWinner(p.getNickname());
+                        }
                     }
                 }
             }
         }).start();
     }
-
+/*
     private void startTimeoutReconnection(Timer timeout, String nickname){
         new Thread(() -> {
             timeout.schedule(new TimerTask() {
