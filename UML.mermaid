@@ -244,15 +244,32 @@ classDiagram
     %% LISTENERS
     %% -----------------------------
 
-
-
-
-
-
-
-
-
-
+    class ChatListener {
+        <<interface>>
+        ~ receiveChatMessageUpdate( chatMessageUpdate: ChatMessageUpdate)
+    }
+    class GameFieldListener {
+        <<interface>>
+        ~ receiveStarterCardUpdate(starterCardUpdate: StarterCardUpdate)
+        ~ receivePlacedCardUpdate(placedCardUpdate: PlacedCardUpdate)
+    }
+    class GameListener {
+        <<interface>>
+        ~ receiveGameModelUpdate(gameModelUpdate: GameModelUpdate)
+        ~ receivePlayerJoinedUpdate( playerJoinedUpdate: PlayerJoinedUpdate)
+        ~ receiveCommandResultUpdate(commandResultUpdate: CommandResultUpdate)
+        ~ receiveDeckUpdate(deckUpdate: DeckUpdate)
+    }
+    class PlayerListener {
+        <<interface>>
+        ~ receiveStallUpdate(stallUpdate: StallUpdate)
+        ~ receiveConnectionUpdate(connectionUpdate: ConnectionUpdate)
+        ~ receiveCardHandUpdate(cardHandUpdate: CardHandUpdate)
+    }
+    class ScoreTrackBoardListener {
+        <<interface>>
+        ~ receiveScoreUpdate( scoreUpdate: ScoreUpdate)
+    }
 
     %%-----------------------------------------------------
     %% MODEL
@@ -608,9 +625,89 @@ classDiagram
 %% MODEL_VIEW
 %% -----------------------------
 
-
-
-
+    class ChatView {
+        - chatMessages: List~ChatMessage~
+        + ChatView()
+        + addMessage(chatMessage: ChatMessage)
+    }
+    class DeckView {
+        - topResourceDeck: DrawableCard
+        - topGoldDeck: GoldDeck
+        - faceUpResourceCard: List~DrawableCard~
+        - faceUpGoldCard: List~GoldCard~
+        - commonObjective: List~ObjectiveCard~
+        + DeckView()
+        + setTopResourceDeck(topResourceDeck:DrawableCard)
+        + setTopGoldDeck(topGoldDeck:GoldCard)
+        + setFaceUpResourceDeck(faceUpResourceCard: List~DrawableCard~)
+        + setFaceUpGoldDeck(faceUpGoldCard: List~GoldCard~)
+        + setCommonObjective(commonObjective: List~ObjectiveCard~)
+    }
+    class GameFieldView {
+        - starterCard: PlaceableCard
+        - cardsContent: PlaceableCard[][]
+        - cardsFace: Boolean[][]
+        - cardsOrder: int[][]
+        - dim: int
+        + GameFieldView()
+        + setStarterCard(starterCard: PlaceableCard)
+        + addCard(card: PlaceableCard,x: int,y:int,way: boolean, orderPosition: int)
+    }
+    class GameView {
+        - ownerNickname: String
+        - id: int
+        - state: GameState
+        - playersNumber: int
+        - winners: List~String~
+        - currPlayer: int
+        - twentyPointsReached: boolean
+        - additionalRound: boolean
+        - commandResult: CommandResult
+        - scoreTrackBoardView: ScoreTrackBoardView
+        - deckView: DeckView
+        - chatView: ChatView
+        - playersView: List~PlayerView~
+        + GameView()
+        + addMessage(chatMessage: ChatMessage)
+        + setCommonObjective(commonObjective List~ObjectiveCard~)
+        + setTopResourceCard(topResourceDeck DrawableCard)
+        + setTopGoldCard(topGoldDeck GoldCard)
+        + setResourceFaceUpCards(faceUpResourceCard: List~DrawableCard~ )
+        + setGoldFaceUpCards(faceUpGoldCard: List~GoldCard~ )
+        + setStarterCard(nickname: String, starterCard: PlaceableCard)
+        + addCard(nickname: String,card: PlaceableCard,x: int, y:int, way: boolean, orderPosition: int)
+        + setNewScore(nickname: String, newScore: int)
+        + setIsStalled(nickname: String,isStalled: boolean)
+        + setIsConnected(nickname: String, isConnected: boolean)
+        + setCardHand(nickname: String,newHand: List~DrawableCard~)
+        + setGameModel(id: int, playersNumber: int,state: GameState,winners: List~String~, currPlayer: int, twentyPointsReached: boolean,additionalRound: boolean)
+        + setPlayersView(playersViews: List~PlayerView~)
+        + setCommandResult(nickname: String,commandResult: CommandResult)
+        + displayExistingGame(existingGames: Map~Integer,Integer~)
+    }
+    class PlayerView{
+        - nickname: String
+        - gameField: GameFieldView
+        - tokenColor: TokenColor
+        - secretObjective: ObjectiveCard
+        - isConnected: boolean
+        - isStalled: boolean
+        - currentHand: List~DrawableCard~
+        + PlayerView(nickname: String,tokenColor: TokenColor,secretObjective: ObjectiveCard)
+        + getNickname() String
+        + getTokenColor() TokenColor
+        + setIsStalled(isStalled: boolean)
+        + setIsConnected(isConnected: boolean)
+        + setCardHand(currentHand: List~DrawableCard~)
+        + setStarterCard(starterCard: PlaceableCard)
+        + addCard(card:Placeablecard,x:int,y:int,way: boolean,orderPosition: int)
+    }
+    class ScoreTrackBoardView{
+        - playersScore: Map~String,Integer~
+        + ScoreTrackBoardView()
+        + addPlayerToBoard(nickname:String)
+        + setNewScore(nickname:String, newScore: int)
+    }
 
 %% -----------------------------
 %% NETWORK
@@ -618,18 +715,99 @@ classDiagram
 
 
 
+
+
+
+
 %% -----------------------------
 %% UPDATES
 %% -----------------------------
 
-
-
-
-
-
-
-
-
+    class CardHandUpdate{
+        - nickname: String
+        - cardHand: List~DrawableCard~
+        + CardHandUpdate(nickname: String, cardHand: List~DrawableCard~)
+        + execute(gameView: GameView)
+    }
+    class ChatMessageUpdate{
+        - chatMessage: ChatMessage
+        + ChatMessageUpdate(chatMessage: ChatMessage)
+        + execute(gameView: GameView)
+    }
+    class CommandResultUpdate{
+        - nickname: String
+        - commandResult: CommandResult
+        + CommandResultUpdate(nickname: String, commandResult: CommandResult)
+        + execute(gameView: GameView)
+    }
+    class ConnectionUpdate{
+        - nickname: String
+        - isConnected: boolean
+        + ConnectionUpdate(nickname: String, isConnected: boolean)
+        + execute(gameView: GameView)
+    }
+    class DeckUpdate{
+        - topResourceCard: DrawableCard
+        - topGoldCard: GoldCard
+        - resourceFaceUpCards: List~DrawableCard~
+        - goldFaceUpCards: List~GoldCard~
+        - commonObjective: List~ObjectiveCard~
+        + DeckUpdate(topResourceCard: DrawableCard,topGoldCard: GoldCard,resourceFaceUpCards: List~DrawableCard~,goldFaceUpCards: List~GoldCard~,commonObjective: List~ObjectiveCard~)
+        + execute(gameView: GameView)
+    }
+    class ExistingGamesUpdate{
+        - existingGame: Map~Integer,Integer~
+        + ExistingGamesUpdate(existingGame: Map~Integer,Integer~)
+        + execute(gameView: GameView)
+    }
+    class GameModelUpdate{
+        - id: int
+        - playersNumber: int
+        - state: GameState
+        - winners: List~String~
+        - currPlayer: int
+        - twentyPointsReached: boolean
+        - additionalRound: boolean
+        + GameModelUpdate(id: int,playersNumber: int,state: GameState,winners: List~String~,currPlayer: int,twentyPointsReached: boolean,additionalRound: boolean)
+        + execute(gameView: GameView)
+    }
+    class PlacedCardUpdate{
+        - nickname: String
+        - card: PlaceableCard
+        - x: int
+        - y: int
+        - way: boolean
+        - orderPosition: int
+        + PlacedCardUpdate(nickname: String,card: PlaceableCard,x: int,y: int,way: boolean,orderPosition: int)
+        + execute(gameView: GameView)
+    }
+    class PlayerJoinedUpdate{
+        - playersViews: List~PlayerView~
+        + PlayerJoinedUpdate(playersViews: List~PlayerView~)
+        + execute(gameView: GameView)
+    }
+    class ScoreUpdate{
+        - nickname: String
+        - newScore: int
+        + ScoreUpdate(nickname: String, newScore: int)
+        + execute(gameView: GameView)
+    }
+    class StallUpdate{
+        - nickname: String
+        - isStalled: boolean
+        + ScoreUpdate(nickname: String, isStalled: boolean)
+        + execute(gameView: GameView)
+    }
+    class StarterCardUpdate{
+        - nickname: String
+        - starterCard: PlaceableCard
+        + StarterCardUpdate(nickname: String, starterCard: PlaceableCard)
+        + execute(gameView: GameView)
+    }
+    class Update{
+        <<interface>>
+        + execute(gameView: GameView)
+    }
     class DecksBuilder{
         <<abstract>>
         - extractFrontCorners(cardJsonObject : JsonObject) boolean[4]
