@@ -14,7 +14,6 @@ import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
-import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -197,6 +196,7 @@ public class GamesManager {
         Player player = getPendingPlayer(nickname);
         if(player == null){
             commandResult = CommandResult.PLAYER_NOT_PRESENT;
+            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
             return;
         }
         boolean found = false;
@@ -206,11 +206,13 @@ public class GamesManager {
                 // check gameController state WAITING_PLAYERS
                 if(!gameController.getState().equals(GameState.GAME_STARTING)) {
                     commandResult = CommandResult.GAME_FULL;
+                    RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
                     return;
                 }
                 // check token color unique
                 if(gameController.hasPlayerWithTokenColor(tokenColor)) {
                     commandResult = CommandResult.TOKEN_COLOR_ALREADY_TAKEN;
+                    RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
                     return;
                 }
                 player.setTokenColor(tokenColor);
@@ -220,8 +222,10 @@ public class GamesManager {
         }
         if(!found){
             commandResult = CommandResult.GAME_NOT_PRESENT;
+            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
             return;
         }
+
         commandResult = CommandResult.SET_SERVER_GAME;
         // join successful, but it is necessary to set the game for the client
         if(player.getConnectionType()) {
@@ -235,6 +239,7 @@ public class GamesManager {
         Player player = getPendingPlayer(nickname);
         if(player == null) {
             commandResult = CommandResult.PLAYER_NOT_PRESENT;
+            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
             return;
         }
         int gameId;
@@ -243,6 +248,7 @@ public class GamesManager {
         }
         catch(WrongNumberOfPlayersException e){
             commandResult = CommandResult.WRONG_PLAYERS_NUMBER;
+            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
             return;
         }
         for(GameController gameController : gameControllers) {

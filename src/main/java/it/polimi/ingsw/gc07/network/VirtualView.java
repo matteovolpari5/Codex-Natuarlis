@@ -10,4 +10,5 @@ public interface VirtualView extends Remote, ChatListener, GameFieldListener, Ga
     void setServerGame(VirtualServerGame serverGame) throws RemoteException;
     String getNickname() throws RemoteException;
     void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException;
+    void notifyJoinNotSuccessful() throws RemoteException;
 }
