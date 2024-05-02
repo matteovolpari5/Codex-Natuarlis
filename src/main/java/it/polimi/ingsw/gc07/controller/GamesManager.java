@@ -14,6 +14,7 @@ import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
+import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,16 +75,6 @@ public class GamesManager {
      */
     List<GameController> getGames() {
         return gameControllers;
-    }
-
-    public Map<Integer, Integer> getFreeGamesDetails() {
-        Map<Integer, Integer> gameDetails = new HashMap<>();
-        for(GameController g: gameControllers) {
-            if(g.getState().equals(GameState.GAME_STARTING)) {
-                gameDetails.put(g.getId(), g.getPlayersNumber());
-            }
-        }
-        return gameDetails;
     }
 
     /**
@@ -328,7 +319,25 @@ public class GamesManager {
 
     public void displayExistingGames(String nickname) {
         commandResult = CommandResult.DISPLAY_GAMES;
-        RmiServerGamesManager.getRmiServerGamesManager().displayGames(nickname);
+
+        Player player = getPendingPlayer(nickname);
+        if(player == null) {
+            commandResult = CommandResult.PLAYER_NOT_PRESENT;
+            return;
+        }
+        if(player.getConnectionType()) {
+            RmiServerGamesManager.getRmiServerGamesManager().displayGames(nickname);
+        }
+    }
+
+    public Map<Integer, Integer> getFreeGamesDetails() {
+        Map<Integer, Integer> gameDetails = new HashMap<>();
+        for(GameController g: gameControllers) {
+            if(g.getState().equals(GameState.GAME_STARTING)) {
+                gameDetails.put(g.getId(), g.getPlayersNumber());
+            }
+        }
+        return gameDetails;
     }
 
     public void deleteGame(int gameId) {
