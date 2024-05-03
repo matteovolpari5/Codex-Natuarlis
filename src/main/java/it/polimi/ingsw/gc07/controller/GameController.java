@@ -228,19 +228,27 @@ public class GameController {
             return;
         }
 
+
+        Player player = getPlayers().get(pos);
+
         // set player disconnected
-        getPlayers().get(pos).setIsConnected(false);
+        player.setIsConnected(false);
 
         // remove listener
-        try {
-            gameModel.removeListener(RmiServerGamesManager.getRmiServerGamesManager().getVirtualView(nickname));
-            RmiServerGamesManager.getRmiServerGamesManager().removeVirtualView(nickname);
-        }catch(RemoteException e) {
+        if(player.getConnectionType()) {
+            // RMI
+            try {
+                gameModel.removeListener(RmiServerGamesManager.getRmiServerGamesManager().getVirtualView(nickname));
+                RmiServerGamesManager.getRmiServerGamesManager().removeVirtualView(nickname);
+            }catch(RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }else {
             // TODO
-            e.printStackTrace();
-            throw new RuntimeException();
+            // stesso ma con socket
         }
-
 
         // if the player is the current one
         if(gameModel.getState().equals(GameState.PLAYING) && gameModel.getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)) {
@@ -349,8 +357,9 @@ public class GameController {
                     }
                 }
             }
-            synchronized ((this)){
+            synchronized(this) {
                 gameModel.setState(GameState.GAME_ENDED);
+                System.out.println("Game ended");
                 if (onePlayer) {
                     for (Player p : gameModel.getPlayers()) {
                         if (p.isConnected()) {
@@ -358,6 +367,7 @@ public class GameController {
                         }
                     }
                 }
+                endGame();
             }
         }).start();
     }
@@ -666,12 +676,14 @@ public class GameController {
             timeoutGameEnded.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    synchronized (this){
-                        GamesManager.getGamesManager().deleteGame(getId());
-                        RmiServerGamesManager.getRmiServerGamesManager().deleteServerGame(getId());
+                    synchronized(this) {
+                        // delete Rmi virtual views and rmiServerGame
+                        RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
+
+                        // TODO socket ???
                     }
                 }
-            }, 120*1000); //timer of 2 minutes
+            }, 3*1000); //timer of 3 sec
         }).start();
     }
 

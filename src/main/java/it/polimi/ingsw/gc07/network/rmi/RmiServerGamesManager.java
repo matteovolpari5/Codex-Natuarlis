@@ -1,12 +1,15 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
+import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -20,7 +23,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     /**
      * Instance of RmiServerGamesManager.
      */
-    private static volatile RmiServerGamesManager myRmiServerGamesManager = null;
+    private static RmiServerGamesManager myRmiServerGamesManager;
     /**
      * Virtual views of managed clients.
      */
@@ -100,7 +103,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         System.out.println();
         System.out.println("--------------------------");
         System.out.println("Virtual views after");
-        for(VirtualView v: RmiServerGamesManager.getRmiServerGamesManager().getVirtualViews()) {
+        for(VirtualView v: clients) {
             System.out.println(v.getNickname());
         }
         System.out.println("--------------------------");
@@ -224,21 +227,35 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * Method used to delete the game server from the map once the game is ended.
      * @param gameId game id of the game to remove
      */
-    public void deleteServerGame(int gameId) {
+    public void deleteGame(int gameId) {
+        GamesManager gamesManager = GamesManager.getGamesManager();
+        GameController gameController = gamesManager.getGameById(gameId);
+
+        // delete virtual views
+        for(Player p: gameController.getPlayers()) {
+            try {
+                if(p.getConnectionType()) {
+                    removeVirtualView(p.getNickname());
+                    System.out.println("Delete virtual view of: "+p.getNickname());
+                }
+            }catch(RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
+
+        // delete server game
         RmiServerGame rmiServerGame = null;
         for(int id: rmiServerGames.keySet()) {
             if(id == gameId) {
                 rmiServerGame = rmiServerGames.get(id);
+                System.out.println("Delete rmi server game: " + gameId);
             }
         }
         if(rmiServerGame != null){
             rmiServerGames.remove(gameId);
         }
-    }
-
-    // TODO remove, used only for debugging
-    public List<VirtualView> getVirtualViews() {
-        return clients;
     }
 
     public void removeVirtualView(String nickname) throws RemoteException {

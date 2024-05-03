@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.main;
 
-import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
@@ -75,17 +74,6 @@ public class ClientMain {
                     throw new RuntimeException(ex);
                 }
                 VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
-
-                System.out.println();
-                System.out.println();
-                System.out.println("--------------------------");
-                System.out.println("Virtual views before");
-                System.out.println("Size: " + RmiServerGamesManager.getRmiServerGamesManager().getVirtualViews().size());
-                for(VirtualView v: RmiServerGamesManager.getRmiServerGamesManager().getVirtualViews()) {
-                    System.out.println("One virtula view is:");
-                    System.out.print(v.getNickname());
-                }
-                System.out.println("--------------------------");
 
                 try {
                     RmiClient newRmiClient = new RmiClient(rmiServerGamesManager, nickname);

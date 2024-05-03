@@ -24,7 +24,7 @@ public class GamesManager {
     /**
      * Instance of GamesManager.
      */
-    private static volatile GamesManager myGamesManager = null;
+    private static GamesManager myGamesManager;
     /**
      * List of game controllers.
      */
