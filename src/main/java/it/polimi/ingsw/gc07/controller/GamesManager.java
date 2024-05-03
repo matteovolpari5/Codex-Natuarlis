@@ -147,6 +147,8 @@ public class GamesManager {
                         if(p.getConnectionType()) {
                             // Rmi client
                             RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameController.getId());
+                        }else {
+                            // TODO socket
                         }
                     }
                 }

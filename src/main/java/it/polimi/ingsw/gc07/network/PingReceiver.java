@@ -27,7 +27,7 @@ public class PingReceiver {
     }
 
     private void checkPing(String nickname) {
-        /*
+
         int missedPing = 0;
         while(true) {
             if(playersPing.get(nickname)) {
@@ -49,11 +49,9 @@ public class PingReceiver {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
+        }
 
 
-
-
-         */
-            // TODO invio pong
+        // TODO invio pong
     }
 }

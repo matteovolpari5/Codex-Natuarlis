@@ -233,6 +233,7 @@ public class GameController {
 
         // set player disconnected
         player.setIsConnected(false);
+        System.out.println("Disconnected " + nickname);
 
         // remove listener
         if(player.getConnectionType()) {
@@ -296,7 +297,6 @@ public class GameController {
         try{
             pos = getPlayerPosByNickname(nickname);
         }catch (PlayerNotPresentException e) {
-            System.out.println("qua");
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
@@ -683,7 +683,8 @@ public class GameController {
                         // TODO socket ???
                     }
                 }
-            }, 3*1000); //timer of 3 sec
+            }, 200*1000); //timer of 200 sec
+            System.out.println("Game ended");
         }).start();
     }
 
