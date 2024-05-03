@@ -24,7 +24,7 @@ public class ChatView {
      */
     public void addMessage(ChatMessage chatMessage) {
         chatMessages.add(chatMessage);
-        System.out.println("You received a message: ");
+        System.out.println("You received a messxage: ");
         System.out.println(chatMessage.getContent());
     }
 }

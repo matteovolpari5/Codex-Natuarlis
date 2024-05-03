@@ -38,6 +38,10 @@ public class ScoreTrackBoard {
         scoreTrackBoardListeners.add(scoreTrackBoardListener);
     }
 
+    public void removeListener(ScoreTrackBoardListener scoreTrackBoardListener) {
+        scoreTrackBoardListeners.remove(scoreTrackBoardListener);
+    }
+
     /**
      * Method that allows to insert a new Player to the ScoreTrackBoard,
      * initializing it's score to 0.

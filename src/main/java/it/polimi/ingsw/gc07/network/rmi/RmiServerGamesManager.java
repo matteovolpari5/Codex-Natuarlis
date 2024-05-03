@@ -93,6 +93,17 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     public synchronized void connect(VirtualView client) throws RemoteException {
         clients.add(client);
         System.err.println("New client connected");
+
+
+
+        System.out.println();
+        System.out.println();
+        System.out.println("--------------------------");
+        System.out.println("Virtual views after");
+        for(VirtualView v: RmiServerGamesManager.getRmiServerGamesManager().getVirtualViews()) {
+            System.out.println(v.getNickname());
+        }
+        System.out.println("--------------------------");
     }
 
     /**
@@ -225,12 +236,13 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         }
     }
 
-
-
-
+    // TODO remove, used only for debugging
     public List<VirtualView> getVirtualViews() {
         return clients;
     }
 
-
+    public void removeVirtualView(String nickname) throws RemoteException {
+        VirtualView virtualView = getVirtualView(nickname);
+        clients.remove(virtualView);
+    }
 }

@@ -94,6 +94,10 @@ public class Player {
         playerListeners.add(playerListener);
     }
 
+    public void removeListener(PlayerListener playerListener) {
+        playerListeners.remove(playerListener);
+    }
+
     /**
      * Getter method for playerListeners.
      * @return list of player listeners

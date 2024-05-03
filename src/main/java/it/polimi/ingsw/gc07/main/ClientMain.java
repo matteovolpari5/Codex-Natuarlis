@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.main;
 
-import it.polimi.ingsw.gc07.controller.GamesManager;
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
@@ -9,7 +9,6 @@ import it.polimi.ingsw.gc07.network.socket.SocketClient;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -19,6 +18,7 @@ import java.util.Scanner;
 public class ClientMain {
     public static void main(String[] args) {
         try {
+
             Scanner scan = new Scanner(System.in);
             System.out.println("Insert nickname: ");
             System.out.print("> ");
@@ -66,13 +66,8 @@ public class ClientMain {
                 }
             }
 
-            System.out.println("Virtual views before");
-            for(VirtualView v: RmiServerGamesManager.getRmiServerGamesManager().getVirtualViews()) {
-                System.out.println(v.getNickname());
-            }
-
-            if(connectionType == true) {
-                // RMI
+            if(connectionType) {
+                // RMI connection
                 Registry registry = null;
                 try {
                     registry = LocateRegistry.getRegistry(ip, 1234);
@@ -80,6 +75,17 @@ public class ClientMain {
                     throw new RuntimeException(ex);
                 }
                 VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
+
+                System.out.println();
+                System.out.println();
+                System.out.println("--------------------------");
+                System.out.println("Virtual views before");
+                System.out.println("Size: " + RmiServerGamesManager.getRmiServerGamesManager().getVirtualViews().size());
+                for(VirtualView v: RmiServerGamesManager.getRmiServerGamesManager().getVirtualViews()) {
+                    System.out.println("One virtula view is:");
+                    System.out.print(v.getNickname());
+                }
+                System.out.println("--------------------------");
 
                 try {
                     RmiClient newRmiClient = new RmiClient(rmiServerGamesManager, nickname);
@@ -92,7 +98,7 @@ public class ClientMain {
                     throw new RuntimeException();
                 }
             }else {
-                // Socket
+                // Socket connection
                 //TODO per adesso la porta e l'host è data da linea di comando, stabilire se bisogna cambiarlo
                 //String host = args[0];
                 //int port = Integer.parseInt(args[1]);
@@ -102,20 +108,11 @@ public class ClientMain {
                 SocketClient socketClient = new SocketClient(nickname, sc);
                 socketClient.connectToGamesManager(connectionType, interfaceType);
             }
-        }catch(RemoteException e) {
+
+        }catch(NotBoundException | IOException e) {
             e.printStackTrace();
             throw new RuntimeException();
-            //TODO manage remote exception
-        }catch(NotBoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-            //TODO manage not bound exception
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-            //TODO sollevata dal costruttore di Socket
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-            //TODO sollevata dal costruttore di Socket
+            //TODO manage exception
         }
     }
 }

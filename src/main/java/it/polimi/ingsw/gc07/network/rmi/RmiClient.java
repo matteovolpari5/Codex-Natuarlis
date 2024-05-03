@@ -68,19 +68,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
     @Override
     public void setServerGame(VirtualServerGame serverGame) throws RemoteException {
         this.serverGame = serverGame;
-
         // game joined
         connectToGameServer();
-
-
-
         startGamePing();
-
-
-
-
-
-
         new Thread(this::runCliGame).start();
     }
 
@@ -117,7 +107,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
 
     @Override
     public void startGamesManagerPing() {
-
+        // TODO
     }
 
     @Override
@@ -253,8 +243,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
     }
 
     private void runCliGame() {
+        boolean continueRunning = true;
         Scanner scan = new Scanner(System.in);
-        while(true) {
+        while(continueRunning) {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to write a private message"); // AddChatPrivateMessage
             System.out.println("- w to write a public message"); // AddChatPublicMessage
@@ -301,6 +292,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                         e.printStackTrace();
                         throw new RuntimeException(e);
                     }
+                    System.out.println("\nYou successfully disconnected !");
+                    continueRunning = false;
                     break;
                 case "r":
                     System.out.println("Select a card type ('g' for gold or 'r' for resource): ");

@@ -377,11 +377,6 @@ public class GameModel {
     }
 
     public void addListener(VirtualView client) {
-        /*
-
-
-
-
         // called as soon as a player joins a game
         gameListeners.add(client);
         chat.addListener(client);
@@ -410,10 +405,16 @@ public class GameModel {
         // send first game and deck update to player
         sendGameModelUpdate();
         sendDeckUpdate();
+    }
 
-
-
-         */
+    public void removeListener(VirtualView client) {
+        gameListeners.remove(client);
+        chat.removeListener(client);
+        scoreTrackBoard.removeListener(client);
+        for(Player p: players) {
+            p.removeListener(client);
+            p.getGameField().removeListener(client);
+        }
     }
 
     public void addChatPublicMessage(String content, String sender) {

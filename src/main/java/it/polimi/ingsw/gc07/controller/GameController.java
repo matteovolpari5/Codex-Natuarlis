@@ -12,6 +12,7 @@ import it.polimi.ingsw.gc07.network.PingReceiver;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class GameController {
@@ -227,13 +228,19 @@ public class GameController {
             return;
         }
 
-        /*
-        playersTimer.get(nickname).cancel();
-        playersTimer.get(nickname).purge();
-        */
-
         // set player disconnected
         getPlayers().get(pos).setIsConnected(false);
+
+        // remove listener
+        try {
+            gameModel.removeListener(RmiServerGamesManager.getRmiServerGamesManager().getVirtualView(nickname));
+            RmiServerGamesManager.getRmiServerGamesManager().removeVirtualView(nickname);
+        }catch(RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+
 
         // if the player is the current one
         if(gameModel.getState().equals(GameState.PLAYING) && gameModel.getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)) {

@@ -27,20 +27,18 @@ public class PingReceiver {
     }
 
     private void checkPing(String nickname) {
+        /*
         int missedPing = 0;
         while(true) {
-            /*
             if(playersPing.get(nickname)) {
                 missedPing = 0;
                 if(!gameController.isPlayerConnected(nickname)) {
                     gameController.reconnectPlayer(nickname);
-                    System.out.println("Reconnected " + nickname);
                 }
             }else {
                 missedPing ++;
                 if(missedPing >= maxMissedPings && gameController.isPlayerConnected(nickname)) {
                     gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
-                    System.out.println("Disconnected " + nickname);
                 }
             }
             playersPing.put(nickname, false);
@@ -51,11 +49,11 @@ public class PingReceiver {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
-             */
 
 
 
+
+         */
             // TODO invio pong
-        }
     }
 }

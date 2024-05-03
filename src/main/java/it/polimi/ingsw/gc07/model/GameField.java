@@ -116,6 +116,10 @@ public class GameField {
         gameFieldListeners.add(gameFieldListener);
     }
 
+    public void removeListener(GameFieldListener gameFieldListener) {
+        gameFieldListeners.remove(gameFieldListener);
+    }
+
     /**
      * Getter method for playerListeners.
      * @return list of player listeners

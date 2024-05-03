@@ -37,6 +37,10 @@ public class Chat {
         chatListeners.add(chatListener);
     }
 
+    public void removeListener(ChatListener chatListener) {
+        chatListeners.remove(chatListener);
+    }
+
     /**
      * Method to add a new public message to the chat.
      * @param content content of the message
