@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.PingReceiver;
 import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 
 import java.rmi.RemoteException;
@@ -290,7 +291,20 @@ public class GameController {
     }
 
     // TODO synchronized chi lo chiama?
-    public void reconnectPlayer(String nickname) {
+    public void reconnectPlayer(String nickname, VirtualView client, boolean connectionType, boolean interfaceType) {
+        Player p;
+        try {
+            p = getPlayers().get(getPlayerPosByNickname(nickname));
+        } catch (PlayerNotPresentException e) {
+            throw new RuntimeException();
+        }
+        p.setConnectionType(connectionType);
+        p.setInterfaceType(interfaceType);
+        reconnectPlayer(nickname, client);
+    }
+
+    // TODO synchronized chi lo chiama?
+    public void reconnectPlayer(String nickname, VirtualView client) {
         // this command can always be used
         assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
         int pos;
@@ -300,10 +314,31 @@ public class GameController {
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
-        assert(!getPlayers().get(pos).isConnected()): "Player already connected";
+        Player player = getPlayers().get(pos);
+        assert(!player.isConnected()): "Player already connected";
 
         // set player connected
-        getPlayers().get(pos).setIsConnected(true);
+        player.setIsConnected(true);
+
+        if(player.getConnectionType()) {
+            // if new connection type is RMI
+            try {
+                RmiServerGamesManager rmiServerGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
+                RmiClient newRmiClient = new RmiClient(nickname, rmiServerGamesManager);
+                rmiServerGamesManager.connect(newRmiClient);
+                RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, getId());
+                // TODO probabilmente quando si disconnettono (perdonono connessione) devo bloccargli la cli!
+            } catch (RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+            // add virtual view to rmiServerGamesManager
+        }else {
+            // TODO socket !!!
+
+
+        }
 
         if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
             changeGameState();

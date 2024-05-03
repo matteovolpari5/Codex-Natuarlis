@@ -1,7 +1,11 @@
 package it.polimi.ingsw.gc07.network;
 
 import it.polimi.ingsw.gc07.controller.GameController;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGame;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.Thread;
@@ -21,29 +25,41 @@ public class PingReceiver {
         new Thread(() -> checkPing(nickname)).start();
     }
 
-    public void receivePing(String nickname) {
+    public synchronized void receivePing(String nickname) {
         assert(playersPing.containsKey(nickname));
         playersPing.put(nickname, true);
     }
 
     private void checkPing(String nickname) {
-
         int missedPing = 0;
         while(true) {
-            if(playersPing.get(nickname)) {
-                missedPing = 0;
-                if(!gameController.isPlayerConnected(nickname)) {
-                    gameController.reconnectPlayer(nickname);
+            synchronized(this) {
+                if(playersPing.get(nickname)) {
+                    missedPing = 0;
+
+                    /*
+                    if(!gameController.isPlayerConnected(nickname)) {
+                        try {
+                            RmiClient client = new RmiClient(nickname, RmiServerGamesManager.getRmiServerGamesManager());
+                            gameController.reconnectPlayer(nickname, client);
+                        } catch (RemoteException e) {
+                            // TODO
+                            e.printStackTrace();
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    */
+
+                }else {
+                    missedPing ++;
+                    if(missedPing >= maxMissedPings && gameController.isPlayerConnected(nickname)) {
+                        gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
+                    }
                 }
-            }else {
-                missedPing ++;
-                if(missedPing >= maxMissedPings && gameController.isPlayerConnected(nickname)) {
-                    gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
-                }
+                playersPing.put(nickname, false);
             }
-            playersPing.put(nickname, false);
             try {
-                Thread.sleep(2000); // wait one second between two ping
+                Thread.sleep(1000); // wait one second between two ping
             } catch (InterruptedException e) {
                 // TODO
                 e.printStackTrace();

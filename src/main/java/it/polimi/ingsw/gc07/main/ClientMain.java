@@ -88,13 +88,16 @@ public class ClientMain {
 
                 }while(check.equals(NicknameCheck.EXISTING_NICKNAME));
 
-                RmiClient newRmiClient = new RmiClient(nickname, rmiServerGamesManager);
-                // add virtual view to rmiServerGamesManager
-                rmiServerGamesManager.connect(newRmiClient);
-                newRmiClient.connectToGamesManagerServer(connectionType, interfaceType);
-
                 if(check.equals(NicknameCheck.NEW_NICKNAME)) {
+                    RmiClient newRmiClient = new RmiClient(nickname, rmiServerGamesManager);
+                    // add virtual view to rmiServerGamesManager
+                    rmiServerGamesManager.connect(newRmiClient);
+                    newRmiClient.connectToGamesManagerServer(connectionType, interfaceType);
                     newRmiClient.runCliJoinGame();
+                }else {
+                    // NicknameCheck.RECONNECTION
+                    RmiClient newRmiClient = new RmiClient(nickname, rmiServerGamesManager);
+                    newRmiClient.reconnectPlayer(nickname, connectionType, interfaceType);
                 }
             }else {
                 // Socket connection

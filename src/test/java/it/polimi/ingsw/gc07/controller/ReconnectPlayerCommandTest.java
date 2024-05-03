@@ -40,7 +40,7 @@ class ReconnectPlayerCommandTest {
     void reconnectPlayerSuccess()
     {
         gameController.getPlayers().getFirst().setIsConnected(false);
-        gameController.reconnectPlayer("Player1");
+        gameController.reconnectPlayer("Player1", null,  true, false);
     }
 
     @Test
@@ -70,7 +70,7 @@ class ReconnectPlayerCommandTest {
     void alreadyConnected()
     {
         gameController.getPlayers().getFirst().setIsConnected(false);
-        gameController.reconnectPlayer("Player1");
+        gameController.reconnectPlayer("Player1", null,  true, false);
     }
 
 }

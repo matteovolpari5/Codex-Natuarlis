@@ -14,6 +14,7 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 
 import java.util.ArrayList;
@@ -139,6 +140,8 @@ public class GamesManager {
     public void addPlayerToPending(String nickname, boolean connectionType, boolean interfaceType) {
         // this command can always be used
         if(checkReconnection(nickname)) {
+            /*
+            // tutto fatto nella reconnect
             for(GameController gameController: gameControllers) {
                 for(Player p: gameController.getPlayers()) {
                     if(p.getNickname().equals(nickname)) {
@@ -147,12 +150,15 @@ public class GamesManager {
                         if(p.getConnectionType()) {
                             // Rmi client
                             RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameController.getId());
+
                         }else {
                             // TODO socket
                         }
                     }
                 }
             }
+            */
+            throw new RuntimeException();
         }else if(checkNicknameUnique(nickname)) {
             Player newPlayer = new Player(nickname, connectionType, interfaceType);
             pendingPlayers.add(newPlayer);
@@ -175,6 +181,14 @@ public class GamesManager {
             }
         }
         return reconnection;
+    }
+
+    public void reconnectPlayer(String nickname, VirtualView client, boolean connectionType, boolean interfaceType) {
+        for(GameController g: gameControllers) {
+            if(g.hasPlayer(nickname)) {
+                g.reconnectPlayer(nickname, client, connectionType, interfaceType);
+            }
+        }
     }
 
     /**

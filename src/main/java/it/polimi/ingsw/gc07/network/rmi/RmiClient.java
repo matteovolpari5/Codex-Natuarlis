@@ -62,6 +62,16 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         }
     }
 
+    public void reconnectPlayer(String nickname, boolean connectionType, boolean interfaceType) {
+        try {
+            serverGamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(nickname, this, connectionType, interfaceType));
+        } catch (RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Method that allows to set a RmiServerGame, the game specific server, for the client.
      * @param serverGame RmiServerGame

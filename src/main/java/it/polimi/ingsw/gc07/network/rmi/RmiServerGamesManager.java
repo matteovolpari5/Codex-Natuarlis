@@ -95,6 +95,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     @Override
     public synchronized void connect(VirtualView client) throws RemoteException {
         clients.add(client);
+        System.out.println("Rmi server games manager connects " + client.getNickname());
         System.err.println("New client connected");
     }
 

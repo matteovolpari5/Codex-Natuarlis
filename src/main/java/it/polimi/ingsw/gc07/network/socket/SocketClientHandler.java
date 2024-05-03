@@ -274,6 +274,6 @@ public class SocketClientHandler implements VirtualView {
 
     @Override
     public void notifyJoinNotSuccessful() throws RemoteException {
-
+        // TODO
     }
 }

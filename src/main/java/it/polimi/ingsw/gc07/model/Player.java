@@ -39,13 +39,13 @@ public class Player {
      * true: RMI
      * false: socket
      */
-    private final boolean connectionType;
+    private boolean connectionType;
     /**
      * Player's connection type.
      * true: GUI
      * false: TUI
      */
-    private final boolean interfaceType;
+    private boolean interfaceType;
     /**
      * Boolean value representing if the player is connected.
      */
@@ -161,12 +161,20 @@ public class Player {
         return isFirst;
     }
 
+    public void setConnectionType(boolean connectionType) {
+        this.connectionType = connectionType;
+    }
+
     /**
      * Getter for the connection type.
      * @return true = RMI, false = SOCKET
      */
     public boolean getConnectionType(){
         return this.connectionType;
+    }
+
+    public void setInterfaceType(boolean interfaceType) {
+        this.interfaceType = interfaceType;
     }
 
     /**
