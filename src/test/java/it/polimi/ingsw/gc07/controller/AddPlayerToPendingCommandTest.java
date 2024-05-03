@@ -31,8 +31,9 @@ class AddPlayerToPendingCommandTest {
     void addPlayerUnsuccessful() {
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
-        assertEquals(CommandResult.PLAYER_ALREADY_PRESENT, gamesManager.getCommandResult());
+        assertThrows(RuntimeException.class, () -> {
+                gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
+        });
     }
 
     @Test
@@ -46,7 +47,8 @@ class AddPlayerToPendingCommandTest {
         assertEquals(CommandResult.CREATE_SERVER_GAME, gamesManager.getCommandResult());
 
         // try to add Player1 to pending players
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", false, true));
-        assertEquals(CommandResult.PLAYER_ALREADY_PRESENT, gamesManager.getCommandResult());
+        assertThrows(RuntimeException.class, () -> {
+            gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", false, true));
+        });
     }
 }

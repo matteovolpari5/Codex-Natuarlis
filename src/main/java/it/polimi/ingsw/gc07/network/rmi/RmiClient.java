@@ -36,15 +36,16 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
     /**
      * Constructor of RmiClient.
      * @param serverGamesManager general server
-     * @param nickname client's nickname
+     * @param nickname nickname
      * @throws RemoteException remote exception
      */
-    public RmiClient(VirtualServerGamesManager serverGamesManager, String nickname) throws RemoteException {
+    public RmiClient(String nickname, VirtualServerGamesManager serverGamesManager) throws RemoteException {
         this.nickname = nickname;
         this.serverGamesManager = serverGamesManager;
         this.serverGame = null;
         this.gameView = new GameView(nickname);
     }
+
 
     /**
      * Method that allows the client to connect with RMIServerGamesManager, the general server.
@@ -56,6 +57,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
             // TODO
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -107,7 +109,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
 
     @Override
     public void startGamesManagerPing() {
-        // TODO
+        //TODO
+        // start the ping for the first phase, in the games manager
     }
 
     @Override
@@ -131,7 +134,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
             }
         }).start();
     }
-
 
     //TODO creare dei metodi / classi per richiedere le cose, così è un pastrugno
     public void runCliJoinGame() {
@@ -242,7 +244,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         }
     }
 
-    private void runCliGame() {
+    public void runCliGame() {
         boolean continueRunning = true;
         Scanner scan = new Scanner(System.in);
         while(continueRunning) {

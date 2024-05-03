@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.network.socket;
 
+import it.polimi.ingsw.gc07.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.GameCommand;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
@@ -45,6 +46,12 @@ public class VirtualSocketServer implements VirtualServerGamesManager, VirtualSe
         } catch (IOException e){
             throw new RemoteException();
         }
+    }
+
+    @Override
+    public NicknameCheck checkNickname(String nickname) throws RemoteException {
+        return null;
+        // TODO
     }
 
     //TODO metodo disconnect()?

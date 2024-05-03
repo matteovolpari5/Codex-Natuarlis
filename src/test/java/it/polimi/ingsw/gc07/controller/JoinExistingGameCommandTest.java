@@ -6,8 +6,13 @@ import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,10 +21,21 @@ class JoinExistingGameCommandTest {
 
     @BeforeEach
     void setUp() {
+        RmiServerGamesManager rmiServerGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
         gamesManager = GamesManager.getGamesManager();
         gamesManager.resetGamesManager();
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P1", false, true));
+        try {
+            rmiServerGamesManager.connect(new RmiClient("P1", rmiServerGamesManager));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P2", false, true));
+        try {
+            rmiServerGamesManager.connect(new RmiClient("P2", rmiServerGamesManager));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
         gamesManager.setAndExecuteCommand(new JoinNewGameCommand("P1", TokenColor.GREEN, 4));
     }
     @Test

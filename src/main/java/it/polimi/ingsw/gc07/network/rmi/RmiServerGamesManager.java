@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
+import it.polimi.ingsw.gc07.NicknameCheck;
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
@@ -9,7 +10,6 @@ import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -96,17 +96,11 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     public synchronized void connect(VirtualView client) throws RemoteException {
         clients.add(client);
         System.err.println("New client connected");
+    }
 
-
-
-        System.out.println();
-        System.out.println();
-        System.out.println("--------------------------");
-        System.out.println("Virtual views after");
-        for(VirtualView v: clients) {
-            System.out.println(v.getNickname());
-        }
-        System.out.println("--------------------------");
+    @Override
+    public NicknameCheck checkNickname(String nickname) throws RemoteException {
+        return GamesManager.getGamesManager().checkNickname(nickname);
     }
 
     /**
@@ -236,7 +230,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             try {
                 if(p.getConnectionType()) {
                     removeVirtualView(p.getNickname());
-                    System.out.println("Delete virtual view of: "+p.getNickname());
                 }
             }catch(RemoteException e) {
                 // TODO
@@ -250,7 +243,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         for(int id: rmiServerGames.keySet()) {
             if(id == gameId) {
                 rmiServerGame = rmiServerGames.get(id);
-                System.out.println("Delete rmi server game: " + gameId);
             }
         }
         if(rmiServerGame != null){

@@ -1,9 +1,8 @@
 package it.polimi.ingsw.gc07.main;
 
-import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.NicknameCheck;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
-import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketClient;
 
 import java.io.*;
@@ -13,21 +12,20 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ClientMain {
     public static void main(String[] args) {
         try {
-
             Scanner scan = new Scanner(System.in);
-            System.out.println("Insert nickname: ");
-            System.out.print("> ");
-            String nickname = scan.nextLine();
 
-            System.out.println("Insert IP: ");
-            System.out.print("> ");
-            String ip = scan.nextLine();
-            //TODO check IP
-            // deve avere un formato che vada bene
+            String ip;
+            do {
+                System.out.println("Insert IP: ");
+                System.out.print("> ");
+                ip = scan.nextLine();
+            }while(!checkValidIp(ip));
 
             boolean wrongInput = true;
             boolean connectionType = false;
@@ -75,15 +73,28 @@ public class ClientMain {
                 }
                 VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
 
-                try {
-                    RmiClient newRmiClient = new RmiClient(rmiServerGamesManager, nickname);
-                    rmiServerGamesManager.connect(newRmiClient);
-                    newRmiClient.connectToGamesManagerServer(connectionType, interfaceType);
-                    newRmiClient.runCliJoinGame();
-                }catch(RemoteException e) {
+                String nickname;
+                NicknameCheck check;
+                do{
+                    System.out.println("Insert nickname: ");
+                    System.out.print("> ");
+                    nickname = scan.nextLine();
+
+                    // check RMI
+                    check = rmiServerGamesManager.checkNickname(nickname);
+
                     //TODO
-                    e.printStackTrace();
-                    throw new RuntimeException();
+                    // check if a socket client has that name
+
+                }while(check.equals(NicknameCheck.EXISTING_NICKNAME));
+
+                RmiClient newRmiClient = new RmiClient(nickname, rmiServerGamesManager);
+                // add virtual view to rmiServerGamesManager
+                rmiServerGamesManager.connect(newRmiClient);
+                newRmiClient.connectToGamesManagerServer(connectionType, interfaceType);
+
+                if(check.equals(NicknameCheck.NEW_NICKNAME)) {
+                    newRmiClient.runCliJoinGame();
                 }
             }else {
                 // Socket connection
@@ -93,6 +104,11 @@ public class ClientMain {
                 String host = "127.0.0.1";
                 int port = 65000;
                 Socket sc = new Socket(host, port);
+
+                System.out.println("Insert nickname: ");
+                System.out.print("> ");
+                String nickname = scan.nextLine();
+
                 SocketClient socketClient = new SocketClient(nickname, sc);
                 socketClient.connectToGamesManager(connectionType, interfaceType);
             }
@@ -102,5 +118,12 @@ public class ClientMain {
             throw new RuntimeException();
             //TODO manage exception
         }
+    }
+
+    private static boolean checkValidIp(String ip) {
+        String regex = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(ip);
+        return matcher.matches();
     }
 }

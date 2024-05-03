@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.network;
 
+import it.polimi.ingsw.gc07.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 
 import java.rmi.Remote;
@@ -12,6 +13,9 @@ public interface VirtualServerGamesManager extends Remote {
      * @throws RemoteException remote exception
      */
     void connect(VirtualView client) throws RemoteException;
+
+    NicknameCheck checkNickname(String nickname) throws RemoteException;
+
 
     /**
      * Method to set a command and execute games manager command.

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
+import it.polimi.ingsw.gc07.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
@@ -143,15 +144,19 @@ public class GamesManager {
                     if(p.getNickname().equals(nickname)) {
                         assert(!p.isConnected());
                         gameController.reconnectPlayer(nickname);
+                        if(p.getConnectionType()) {
+                            // Rmi client
+                            RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameController.getId());
+                        }
                     }
                 }
             }
-        }else if(checkNicknameUnique(nickname)){
+        }else if(checkNicknameUnique(nickname)) {
             Player newPlayer = new Player(nickname, connectionType, interfaceType);
             pendingPlayers.add(newPlayer);
         }else {
-            commandResult = CommandResult.PLAYER_ALREADY_PRESENT;
-            return;
+            // already checked
+            throw new RuntimeException();
         }
         commandResult = CommandResult.SUCCESS;
     }
@@ -178,7 +183,7 @@ public class GamesManager {
     private boolean checkNicknameUnique(String nickname) {
         boolean unique = true;
         for(GameController g: gameControllers) {
-            if(g.hasPlayer(nickname)){
+            if(g.hasPlayer(nickname)) {
                 unique = false;
             }
         }
@@ -189,6 +194,16 @@ public class GamesManager {
             }
         }
         return unique;
+    }
+
+    public NicknameCheck checkNickname(String nickname) {
+        if(checkReconnection(nickname)) {
+            return NicknameCheck.RECONNECTION;
+        }else if(!checkNicknameUnique(nickname)) {
+            return NicknameCheck.EXISTING_NICKNAME;
+        }else {
+            return NicknameCheck.NEW_NICKNAME;
+        }
     }
 
     public void joinExistingGame(String nickname, TokenColor tokenColor, int gameId) {

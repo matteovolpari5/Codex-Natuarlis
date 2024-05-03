@@ -7,8 +7,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface VirtualView extends Remote, ChatListener, GameFieldListener, GameListener, PlayerListener, ScoreTrackBoardListener {
-    void setServerGame(VirtualServerGame serverGame) throws RemoteException;
     String getNickname() throws RemoteException;
+    void setServerGame(VirtualServerGame serverGame) throws RemoteException;
     void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException;
     void notifyJoinNotSuccessful() throws RemoteException;
 }

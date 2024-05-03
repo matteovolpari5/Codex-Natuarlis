@@ -17,6 +17,7 @@ class JoinNewGameCommandTest {
     @BeforeEach
     void setUp() {
         gamesManager = GamesManager.getGamesManager();
+        gamesManager.resetGamesManager();
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", false, false));
     }
 

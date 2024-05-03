@@ -405,6 +405,8 @@ public class GameModel {
         // send first game and deck update to player
         sendGameModelUpdate();
         sendDeckUpdate();
+
+        System.out.println("Number of listeners: " + gameListeners.size());
     }
 
     public void removeListener(VirtualView client) {
@@ -415,6 +417,8 @@ public class GameModel {
             p.removeListener(client);
             p.getGameField().removeListener(client);
         }
+
+        System.out.println("Number of listeners: " + gameListeners.size());
     }
 
     public void addChatPublicMessage(String content, String sender) {
