@@ -8,8 +8,6 @@ classDiagram
     Deck~T~ o-- Card
     Deck~T~ <|-- PlayingDeck~T~
     PlayingDeck~T~ <|-- DrawableDeck~T~
-    DrawableDeck~T~ <|-- ResourceCardsDeck
-    DrawableDeck~T~ <|-- GoldCardsDeck
     Condition <|-- LayoutCondition
     Condition <|-- ItemsCondition
     Condition <|-- CornerCoverageCondition
@@ -31,16 +29,20 @@ classDiagram
     %%GameController --> Player
     %%GameController --> Chat
     %%GameController --> GameField
-    GamesManager --> Game
     GameCommand <|-- AddChatPrivateMessageCommand
     GameCommand <|-- AddChatPublicMessageCommand
-    GameCommand <|-- AddPlayerCommand
+    GamesManagerCommand <|-- AddPlayerToPendingCommand
     GameCommand <|-- DisconnectPlayerCommand
-    GameCommand <|-- PlaceCardCommand
-    GameCommand <|-- ReconnectPlayerCommand
-    GameCommand <|-- DrawFaceUpCardCommand
-    GameCommand <|-- PlaceStarterCardCommand
+    GamesManagerCommand <|-- DisplayGamesCommand
     GameCommand <|-- DrawDeckCardCommand
+    GameCommand <|-- DrawFaceUpCardCommand
+    GamesManagerCommand <|-- JoinExistingGameCommand
+    GamesManagerCommand <|-- JoinNewGameCommand
+    GameCommand <|-- PlaceCardCommand
+    GameCommand <|-- PlaceStarterCardCommand
+    GamesManagerCommand <|-- ReconnectPlayerCommand
+    GameCommand <|-- SendPingCommand
+
 
     %% CONTROLLER
     class GameController {
