@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.network;
 
 import it.polimi.ingsw.gc07.controller.GameController;
+import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGame;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
@@ -33,23 +34,27 @@ public class PingReceiver {
     private void checkPing(String nickname) {
         int missedPing = 0;
         while(true) {
+            /*
             synchronized(this) {
                 if(playersPing.get(nickname)) {
                     missedPing = 0;
-
-                    /*
                     if(!gameController.isPlayerConnected(nickname)) {
-                        try {
-                            RmiClient client = new RmiClient(nickname, RmiServerGamesManager.getRmiServerGamesManager());
-                            gameController.reconnectPlayer(nickname, client);
-                        } catch (RemoteException e) {
-                            // TODO
-                            e.printStackTrace();
-                            throw new RuntimeException(e);
+                        Player player = gameController.getPlayerByNickname(nickname);
+                        assert (player != null);
+                        if (player.getConnectionType()) {
+                            // RMI
+                            try {
+                                RmiClient client = new RmiClient(nickname, RmiServerGamesManager.getRmiServerGamesManager());
+                                gameController.reconnectPlayer(nickname, client);
+                            } catch (RemoteException e) {
+                                // TODO
+                                e.printStackTrace();
+                                throw new RuntimeException(e);
+                            }
+                        } else {
+                            // TODO socket
                         }
                     }
-                    */
-
                 }else {
                     missedPing ++;
                     if(missedPing >= maxMissedPings && gameController.isPlayerConnected(nickname)) {
@@ -65,6 +70,7 @@ public class PingReceiver {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
+            */
         }
 
 

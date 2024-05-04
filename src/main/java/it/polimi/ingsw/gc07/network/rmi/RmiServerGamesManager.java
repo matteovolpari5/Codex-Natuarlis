@@ -48,6 +48,24 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     }
 
     /**
+     * Method used to get the only existing instance of RmiServerGamesManager,
+     * which uses the Singleton pattern.
+     * @return RmiServerGamesManager instance
+     */
+    public static synchronized RmiServerGamesManager getRmiServerGamesManager() {
+        if(myRmiServerGamesManager == null) {
+            try {
+                myRmiServerGamesManager = new RmiServerGamesManager();
+            }catch(RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
+        return myRmiServerGamesManager;
+    }
+
+    /**
      * Method that starts the command executor, a thread that takes tasks
      * from the blocking queue and executes them.
      * Used to make RMI asynchronous.
@@ -70,24 +88,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     }
 
     /**
-     * Method used to get the only existing instance of RmiServerGamesManager,
-     * which uses the Singleton pattern.
-     * @return RmiServerGamesManager instance
-     */
-    public static synchronized RmiServerGamesManager getRmiServerGamesManager() {
-        if(myRmiServerGamesManager == null) {
-            try {
-                myRmiServerGamesManager = new RmiServerGamesManager();
-            }catch(RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-        }
-        return myRmiServerGamesManager;
-    }
-
-    /**
      * Method that allows a client to connect with the RMI server.
      * @param client client to connect
      * @throws RemoteException remote exception
@@ -95,7 +95,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     @Override
     public synchronized void connect(VirtualView client) throws RemoteException {
         clients.add(client);
-        System.out.println("Rmi server games manager connects " + client.getNickname());
         System.err.println("New client connected");
     }
 

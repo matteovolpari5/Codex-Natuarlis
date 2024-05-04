@@ -217,32 +217,30 @@ public class GameController {
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
-        int pos;
-        try {
-            pos = getPlayerPosByNickname(nickname);
-        }catch(PlayerNotPresentException e) {
+        Player player = getPlayerByNickname(nickname);
+        if(player == null) {
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
-        if(!getPlayers().get(pos).isConnected()) {
+        if(!player.isConnected()) {
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_ALREADY_DISCONNECTED);
             return;
         }
-
-
-        Player player = getPlayers().get(pos);
-
-        // set player disconnected
-        player.setIsConnected(false);
-        System.out.println("Disconnected " + nickname);
 
         // remove listener
         if(player.getConnectionType()) {
             // RMI
             try {
                 gameModel.removeListener(RmiServerGamesManager.getRmiServerGamesManager().getVirtualView(nickname));
-                RmiServerGamesManager.getRmiServerGamesManager().removeVirtualView(nickname);
             }catch(RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+
+            try {
+                RmiServerGamesManager.getRmiServerGamesManager().removeVirtualView(nickname);
+            } catch (RemoteException e) {
                 // TODO
                 e.printStackTrace();
                 throw new RuntimeException();
@@ -251,6 +249,10 @@ public class GameController {
             // TODO
             // stesso ma con socket
         }
+
+        // set player disconnected
+        player.setIsConnected(false);
+        System.out.println("Disconnected " + nickname);
 
         // if the player is the current one
         if(gameModel.getState().equals(GameState.PLAYING) && gameModel.getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)) {
@@ -293,11 +295,8 @@ public class GameController {
     // TODO synchronized chi lo chiama?
     public void reconnectPlayer(String nickname, VirtualView client, boolean connectionType, boolean interfaceType) {
         Player p;
-        try {
-            p = getPlayers().get(getPlayerPosByNickname(nickname));
-        } catch (PlayerNotPresentException e) {
-            throw new RuntimeException();
-        }
+        p = getPlayerByNickname(nickname);
+        assert(p != null);
         p.setConnectionType(connectionType);
         p.setInterfaceType(interfaceType);
         reconnectPlayer(nickname, client);
@@ -307,14 +306,11 @@ public class GameController {
     public void reconnectPlayer(String nickname, VirtualView client) {
         // this command can always be used
         assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
-        int pos;
-        try{
-            pos = getPlayerPosByNickname(nickname);
-        }catch (PlayerNotPresentException e) {
+        Player player = getPlayerByNickname(nickname);
+        if(player == null) {
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
-        Player player = getPlayers().get(pos);
         assert(!player.isConnected()): "Player already connected";
 
         // set player connected
@@ -323,9 +319,7 @@ public class GameController {
         if(player.getConnectionType()) {
             // if new connection type is RMI
             try {
-                RmiServerGamesManager rmiServerGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
-                RmiClient newRmiClient = new RmiClient(nickname, rmiServerGamesManager);
-                rmiServerGamesManager.connect(newRmiClient);
+                RmiServerGamesManager.getRmiServerGamesManager().connect(client);
                 RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, getId());
                 // TODO probabilmente quando si disconnettono (perdonono connessione) devo bloccargli la cli!
             } catch (RemoteException e) {
@@ -511,7 +505,6 @@ public class GameController {
     }
 
     public void placeCard(String nickname, int pos, int x, int y, boolean way) {
-        Player player;
         DrawableCard card;
         if(!gameModel.getState().equals(GameState.PLAYING)){
             gameModel.setCommandResult(nickname, CommandResult.WRONG_STATE);
@@ -525,11 +518,9 @@ public class GameController {
             gameModel.setCommandResult(nickname, CommandResult.CARD_ALREADY_PLACED);
             return;
         }
-        try {
-            player = getPlayers().get(getPlayerPosByNickname(nickname));
-        } catch (PlayerNotPresentException e) {
-            throw new RuntimeException(e);
-        }
+        Player player = getPlayerByNickname(nickname);
+        assert(player != null);
+
         if(pos < 0 || pos >= player.getCurrentHand().size()) {
             gameModel.setCommandResult(nickname, CommandResult.CARD_NOT_PRESENT);
             return;
@@ -548,15 +539,11 @@ public class GameController {
                 for (int j = 0; j < GameField.getDim() && isStalled; j++) {
                     // check if the firs card (a casual card), is placeable on the back,
                     // i.e. check only the indexes
-                    try {
-                        resultStall = getPlayers().get(getPlayerPosByNickname(nickname)).getCurrentHand().getFirst()
-                                .isPlaceable(new GameField(player.getGameField()), i, j, true);
-                        if (resultStall.equals(CommandResult.SUCCESS)) {
-                            isStalled = false;
-                        }
-                    } catch (PlayerNotPresentException e) {
-                        // the current player must be present
-                        throw new RuntimeException();
+
+                    resultStall = player.getCurrentHand().getFirst().isPlaceable(
+                            new GameField(player.getGameField()), i, j, true);
+                    if (resultStall.equals(CommandResult.SUCCESS)) {
+                        isStalled = false;
                     }
                 }
             }
@@ -581,13 +568,8 @@ public class GameController {
             return;
         }
         // check player has not already placed the starter card
-        Player player;
-        try {
-            player = getPlayers().get(getPlayerPosByNickname(nickname));
-        } catch (PlayerNotPresentException e) {
-            // already checked
-            throw new RuntimeException(e);
-        }
+        Player player = getPlayerByNickname(nickname);
+        assert(player != null);
         if(player.getGameField().isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
             gameModel.setCommandResult(nickname, CommandResult.CARD_ALREADY_PRESENT);
             return;
@@ -653,6 +635,15 @@ public class GameController {
             }
         }
         throw new PlayerNotPresentException();
+    }
+
+    public Player getPlayerByNickname(String nickname) {
+        for(Player p: gameModel.getPlayers()) {
+            if(p.getNickname().equals(nickname)) {
+                return p;
+            }
+        }
+        return null;
     }
 
     /**
@@ -759,13 +750,8 @@ public class GameController {
     private void addPoints(String nickname, int x, int y) {
         assert(gameModel.getState().equals(GameState.PLAYING)): "Wrong game state";
         assert(getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)): "Not the current player";
-        Player player;
-        try {
-            player = getPlayers().get(getPlayerPosByNickname(nickname));
-        } catch (PlayerNotPresentException e) {
-            // the curr player must be in the game
-            throw new RuntimeException(e);
-        }
+        Player player = getPlayerByNickname(nickname);
+        assert(player != null);
         assert(player.getGameField().isCardPresent(x, y)) : "No card present in the provided position";
 
         gameModel.addPoints(player, x, y);
