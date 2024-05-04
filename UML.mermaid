@@ -47,7 +47,7 @@ classDiagram
     %% CONTROLLER
     class GameController {
         - gameModel: GameModel
-        + GameController(id: int, playersNumber:int , resourceCardsDeck: DrawableDeck~DrawableCard~ ,goldCardsDeck: DrawableDeck~GoldCard~ , objectiveCardsDeck: PlayingDeck~ObjectiveCard~ ,starterCardsDeck: Deck~PlaceableCard~ )
+        + GameController(id: int, playersNumber:int , resourceCardsDeck: DrawableDeck~DrawableCard~ ,\ngoldCardsDeck: DrawableDeck~GoldCard~ , objectiveCardsDeck: PlayingDeck~ObjectiveCard~ ,\nstarterCardsDeck: Deck~PlaceableCard~ )
         ~ getId() int
         ~ setState(state: GameState)
         ~ getState() GameState
@@ -352,7 +352,7 @@ classDiagram
     }
     class PrivateMessage{
         - RECEIVERNICKNAME: String
-        + PrivateMessage(content: String, senderNickname: String, isPublic: boolean, receiverNickname: String)
+        + PrivateMessage(content: String, senderNickname: String, isPublic: boolean, \n receiverNickname: String)
     }
 
     %% --------------------------------
@@ -518,7 +518,7 @@ classDiagram
         - commandResult: CommandResult
         - gameListeners: List~GameListener~
         - emptyDecks: boolean
-        + GameModel(id: int,playersNumber: int,resourceCardsDeck: DrawableDeck~DrawableCard~,goldCardsDeck: DrawableDeck~GoldCard~,objectiveCardsDeck: PlayingDeck~ObjectiveCard~, starterCardsDeck: Deck~PlaceableCard~)
+        + GameModel(id: int,playersNumber: int,resourceCardsDeck: DrawableDeck~DrawableCard~,\ngoldCardsDeck: DrawableDeck~GoldCard~,objectiveCardsDeck: PlayingDeck~ObjectiveCard~, \nstarterCardsDeck: Deck~PlaceableCard~)
         + getId() int
         + getPlayersNumber() int
         + setState(state: GameState)
@@ -682,7 +682,7 @@ classDiagram
         + setIsStalled(nickname: String,isStalled: boolean)
         + setIsConnected(nickname: String, isConnected: boolean)
         + setCardHand(nickname: String,newHand: List~DrawableCard~)
-        + setGameModel(id: int, playersNumber: int,state: GameState,winners: List~String~, currPlayer: int, twentyPointsReached: boolean,additionalRound: boolean)
+        + setGameModel(id: int, playersNumber: int,state: GameState,\nwinners: List~String~, currPlayer: int, twentyPointsReached: boolean,\nadditionalRound: boolean)
         + setPlayersView(playersViews: List~PlayerView~)
         + setCommandResult(nickname: String,commandResult: CommandResult)
         + displayExistingGame(existingGames: Map~Integer,Integer~)
@@ -899,7 +899,7 @@ classDiagram
         - resourceFaceUpCards: List~DrawableCard~
         - goldFaceUpCards: List~GoldCard~
         - commonObjective: List~ObjectiveCard~
-        + DeckUpdate(topResourceCard: DrawableCard,topGoldCard: GoldCard,resourceFaceUpCards: List~DrawableCard~,goldFaceUpCards: List~GoldCard~,commonObjective: List~ObjectiveCard~)
+        + DeckUpdate(topResourceCard: DrawableCard,topGoldCard: GoldCard,\nresourceFaceUpCards: List~DrawableCard~,goldFaceUpCards: List~GoldCard~,\ncommonObjective: List~ObjectiveCard~)
         + execute(gameView: GameView)
     }
     class ExistingGamesUpdate{
@@ -915,7 +915,7 @@ classDiagram
         - currPlayer: int
         - twentyPointsReached: boolean
         - additionalRound: boolean
-        + GameModelUpdate(id: int,playersNumber: int,state: GameState,winners: List~String~,currPlayer: int,twentyPointsReached: boolean,additionalRound: boolean)
+        + GameModelUpdate(id: int,playersNumber: int,state: GameState,\nwinners: List~String~,currPlayer: int,twentyPointsReached: boolean,\nadditionalRound: boolean)
         + execute(gameView: GameView)
     }
     class PlacedCardUpdate{
@@ -925,7 +925,7 @@ classDiagram
         - y: int
         - way: boolean
         - orderPosition: int
-        + PlacedCardUpdate(nickname: String,card: PlaceableCard,x: int,y: int,way: boolean,orderPosition: int)
+        + PlacedCardUpdate(nickname: String,card: PlaceableCard,x: int,y: int,\nway: boolean,orderPosition: int)
         + execute(gameView: GameView)
     }
     class PlayerJoinedUpdate{
