@@ -138,9 +138,9 @@ public class SocketClientHandler implements VirtualView {
                     System.out.println("SCH> l'ho eseguito");
                     CommandResult result = gameController.getCommandResult();
                     System.out.println("SCH> leggo il command result");
-                    /*if(result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
+                    if(result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
                         closeConnection(mySocket,input,output);
-                    }*/
+                    }
                     //TODO come prima: in rmi nessuno controlla l'esito del command
                     if(result.equals(CommandResult.SUCCESS)){
                         //TODO mostrare esito
@@ -296,5 +296,10 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void notifyJoinNotSuccessful() throws RemoteException {
         // TODO
+    }
+
+    @Override
+    public void setGameController(int gameId) {
+        this.gameController = gamesManager.getGameById(gameId);
     }
 }

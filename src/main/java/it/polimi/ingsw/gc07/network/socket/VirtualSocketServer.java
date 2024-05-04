@@ -19,10 +19,10 @@ public class VirtualSocketServer implements VirtualServerGamesManager, VirtualSe
     public VirtualSocketServer(ObjectOutputStream output, String nickname, String status, boolean interfaceType){
         this.output = output;
         try {
-            output.writeChars(nickname);
+            output.writeObject(nickname);
             output.reset();
             output.flush();
-            output.writeChars(status);
+            output.writeObject(status);
             output.reset();
             output.flush();
             if(status.equals("reconnection")){

@@ -102,17 +102,10 @@ public class ClientMain {
                 int port = 65000;
                 Socket sc = new Socket(host, port);
                 if(check.equals(NicknameCheck.NEW_NICKNAME)) {
-                    SocketClient socketClient = new SocketClient(nickname, sc,  "new", interfaceType);
+                    new SocketClient(nickname, sc,  "new", interfaceType);
                 }else {
                     // NicknameCheck.RECONNECTION
-                    SocketClient socketClient = new SocketClient(nickname, sc,  "reconnected", interfaceType);
-
-
-
-
-
-                    RmiClient newRmiClient = new RmiClient(nickname, rmiServerGamesManager);
-                    newRmiClient.reconnectPlayer(nickname, connectionType, interfaceType);
+                    new SocketClient(nickname, sc,  "reconnected", interfaceType);
                 }
             }
 

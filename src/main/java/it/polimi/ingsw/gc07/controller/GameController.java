@@ -304,7 +304,7 @@ public class GameController {
         }
         // for other game states, I don't have to change state
 
-        gameModel.setCommandResult(nickname, CommandResult.SUCCESS); //TODO DISCONNECTION_SUCCESSFUL
+        gameModel.setCommandResult(nickname, CommandResult.DISCONNECTION_SUCCESSFUL);
     }
 
     // TODO synchronized chi lo chiama?
@@ -346,10 +346,9 @@ public class GameController {
         }else {
             // if new connection type is Socket
             //TODO serve un metodo di VirtualView per assegnare il gameController a SocketClientHandler
-
-
+            client.setGameController(getId());
+            addListener(client); //TODO duale di invocazione in RmiServerGame
         }
-
         if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
             changeGameState();
         }

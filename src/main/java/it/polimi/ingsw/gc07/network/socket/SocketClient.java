@@ -38,7 +38,7 @@ public class SocketClient  {
         System.out.println("SocketClient> temp_output ok");
         ObjectOutputStream output = new ObjectOutputStream(temp_output);
         System.out.println("SocketClient> ObjectOutputStream output ok");
-        //output.flush();
+        output.flush();
 
         temp_input = this.mySocket.getInputStream();
         System.out.println("SocketClient> temp_input ok");
@@ -51,7 +51,12 @@ public class SocketClient  {
         System.out.println("SocketClient> invocazione run()");
         this.run();
         System.out.println("SocketClient> fine costruttore, dopo run()");
-        connectToGamesManagerServer(false, interfaceType);
+        if(status.equals("new")){
+            connectToGamesManagerServer(false, interfaceType);
+        }
+        else if(status.equals("reconnection")){
+            runCliGame();
+        }
     }
 
     private void run(){
@@ -64,8 +69,6 @@ public class SocketClient  {
         }).start();
     }
 
-    //TODO oppure se non deve condividere il metodo allora valutare se ricevere nel costruttore il tipo di interfaccia, run() esegue alla fine connectToGamesManager()
-    //TODO e in ClientMain avere solo "new SocketClient(nickname, sc);" con aggiunta del tipo di interfaccia; connectToGamesManger() diventa quindi private
     private void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
         System.out.println("SocketClient-connectToGamesManager>>>>>>>>>");
         try {
@@ -80,15 +83,7 @@ public class SocketClient  {
         this.runCliJoinGame();
     }
 
-    public void reconnectPlayer(String nickname, boolean connectionType, boolean interfaceType) {
-        try {
-            myServer.setAndExecuteCommand(new ReconnectPlayerCommand(nickname, null, connectionType, interfaceType));
-        } catch (RemoteException e) {
-            // TODO
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
+
 
     private void manageReceivedMessage() {
         System.out.println("Client_Thread-manageReceiveMessage>>>>>>>>>");
@@ -103,7 +98,6 @@ public class SocketClient  {
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            //TODO se all'iterazione successiva non è stato scritto alcun nuovo oggetto, alla riga 52 cosa succede?
         }
     }
 
@@ -273,7 +267,7 @@ public class SocketClient  {
                         cardType = CardType.GOLD_CARD;
                     }else {
                         System.out.println("No such card type");
-                        continue; //TODO perchè non break?
+                        continue;
                     }
                     try {
                         myServer.setAndExecuteCommand(new DrawDeckCardCommand(nickname, cardType));
@@ -293,7 +287,7 @@ public class SocketClient  {
                         cardType = CardType.GOLD_CARD;
                     }else {
                         System.out.println("No such card type");
-                        continue; //TODO perchè non break?
+                        continue;
                     }
                     System.out.println("Select the position of the card to draw: ");
                     System.out.print("> ");
@@ -338,7 +332,7 @@ public class SocketClient  {
                         way = false;
                     }else {
                         System.out.println("The provided value for way is not correct");
-                        continue; //TODO perchè non break?
+                        continue;
                     }
                     // create and execute command
                     try {
@@ -360,7 +354,7 @@ public class SocketClient  {
                         way = false;
                     }else {
                         System.out.println("The provided value is not correct");
-                        continue; //TODO perchè non break?
+                        continue;
                     }
                     try {
                         myServer.setAndExecuteCommand(new PlaceStarterCardCommand(nickname, way));

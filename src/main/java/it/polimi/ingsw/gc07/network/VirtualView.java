@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.network;
 
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.listeners.*;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
@@ -11,4 +12,5 @@ public interface VirtualView extends Remote, ChatListener, GameFieldListener, Ga
     void setServerGame(VirtualServerGame serverGame) throws RemoteException;
     void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException;
     void notifyJoinNotSuccessful() throws RemoteException;
+    void setGameController(int gameId);
 }

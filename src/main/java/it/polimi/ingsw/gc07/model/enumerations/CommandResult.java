@@ -10,6 +10,7 @@ public enum CommandResult {
     PLAYER_NOT_PRESENT("The player is not present"),
     PLAYER_ALREADY_CONNECTED("The player is already connected"),
     PLAYER_ALREADY_DISCONNECTED("The player is already disconnected"),
+    DISCONNECTION_SUCCESSFUL("The player has been successfully disconnected"),
     WRONG_PLAYER("It's not your turn"),
     WRONG_CARD_TYPE("The card is of the wrong type"),
     CARD_NOT_PRESENT("The required card is not present"),

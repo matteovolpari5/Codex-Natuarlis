@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
@@ -106,6 +107,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         System.out.println("Joining game not successful.");
         new Thread(this::runCliJoinGame).start();
     }
+
+    @Override
+    public void setGameController(int gameId) {
+        //TODO serve per socket
+    }
+
 
     /**
      * Getter method for nickname
