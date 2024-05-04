@@ -8,8 +8,6 @@ classDiagram
     Deck~T~ o-- Card
     Deck~T~ <|-- PlayingDeck~T~
     PlayingDeck~T~ <|-- DrawableDeck~T~
-    DrawableDeck~T~ <|-- ResourceCardsDeck
-    DrawableDeck~T~ <|-- GoldCardsDeck
     Condition <|-- LayoutCondition
     Condition <|-- ItemsCondition
     Condition <|-- CornerCoverageCondition
@@ -31,245 +29,6 @@ classDiagram
     %%GameController --> Player
     %%GameController --> Chat
     %%GameController --> GameField
-    GamesManager --> Game
-    GameCommand <|-- AddChatPrivateMessageCommand
-    GameCommand <|-- AddChatPublicMessageCommand
-    GameCommand <|-- AddPlayerCommand
-    GameCommand <|-- DisconnectPlayerCommand
-    GameCommand <|-- PlaceCardCommand
-    GameCommand <|-- ReconnectPlayerCommand
-    GameCommand <|-- DrawFaceUpCardCommand
-    GameCommand <|-- PlaceStarterCardCommand
-    GameCommand <|-- DrawDeckCardCommand
-
-    %% CONTROLLER
-    class GameController {
-        - gameModel: GameModel
-        + GameController(id: int, playersNumber:int , resourceCardsDeck: DrawableDeck~DrawableCard~ ,goldCardsDeck: DrawableDeck~GoldCard~ , objectiveCardsDeck: PlayingDeck~ObjectiveCard~ ,starterCardsDeck: Deck~PlaceableCard~ )
-        ~ getId() int
-        ~ setState(state: GameState)
-        ~ getState() GameState
-        + getPlayers() List~Player~
-        ~ getPlayersNumber() int
-        ~ getWinners() List~String~
-        + getCurrPlayer() int
-        ~ setHasCurrPlayerPlaced()
-        ~ setHasNotCurrPlayerPlaced()
-        ~ getHasCurrPlayerPlaced() boolean
-        ~ getScoreTrackBoard() ScoreTrackBoard
-        ~ getResourceCardsDeck() DrawableDeck~DrawableCard~
-        ~ getGoldCardsDeck() DrawableDeck~GoldCard~
-        ~ getObjectiveCardsDeck() PlayingDeck~ObjectiveCard~
-        ~ getStarterCardsDeck() Deck~PlaceableCard~
-        ~ setPenultimateRound()
-        ~ setCurrentPlayer(num: int)
-        + getCommandResult() CommandResult
-        + setAndExecuteCommand(gameCommand: GameCommand)
-        + addListener(client: VirtualView)
-        + addChatPrivateMessage(content: String, sender: String, receiver: String)
-        + addChatPublicMessage(content: String, sender: String )
-        + addPlayer(newPlayer: Player)
-        + disconnectPlayer(nickname: String)
-        + reconnectPlayer(nickname: String)
-        + changeGameState()
-        + drawDeckCard(nickname: String, type: CardType)
-        + drawFaceUpCard(nickname: String, type: CardType, pos: int)
-        + placeCard(nickname: String,  pos: int,  x: int, y : int, way: boolean)
-        + placeStarterCard(nickname: String, way: boolean)
-        + placeStarterCardRandomly(nickname: String)
-        ~ hasPlayer(nickname: String) boolean
-        ~ hasPlayerWithTokenColor(tokenColor: TokenColor) boolean
-        - getPlayerPosByNickname(nickname: String) int
-        ~ changeCurrPlayer ()
-        - endGame()
-        - isFull() boolean
-        - setup()
-        - addPoints(nickname: String, x:int, y:int)
-    }
-
-    class GamesManager{
-        - myGamesManager: GamesManagerà
-        - gameControllers: List~GameController~
-        - pendingPlayers:  List~Player~
-        - commandResult: CommandResult
-        - GamesManager()
-        + getGamesManager() GamesManager
-        + resetGamesManager()
-        ~ getGames() List~GameController~
-        + getFreeGamesDetails() Map~Integer, Integer~
-        + getGameById(id: int) GameController
-        + getCommandResult() CommandResult
-        + setAndExecuteCommand(gamesManagerCommand: GamesManagerCommand)
-        ~ getPendingPlayer(nickname: String) Player
-        + getGameIdWithPlayer(nickname: String) int
-        + addPlayerToPending( nickname: String, connectionType: boolean, interfaceType: boolean )
-        - checkReconnection(nickname: String) boolean
-        - checkNicknameUnique(nickname: String) boolean
-        + joinExistingGame( nickname: String, tokenColor: TokenColor, gameId: int)
-        + joinNewGame(nickname: String, tokenColor: TokenColor, playersNumber: int)
-        - createGame (playersNumber: int) int
-        - findFirstFreeId() int
-        + displayExistingGames(nickname: String)
-        + deleteGame(id: int)
-    }
-
-    class GameState{
-        <<enumeration>>
-        GAME_STARTING
-        PLACING_STARTER_CARDS
-        PLAYING
-        WAITING_RECONNECTION
-        NO_PLAYERS_CONNECTED
-        GAME_ENDED
-    }
-
-    %% GAME_COMMANDS
-    class AddChatPrivateMessageCommand{
-        - content: String
-        - sender: String
-        - receiver: String
-        + AddChatPrivateMessageCommand(content: String, sender: String, receiver:String)
-        + execute(gameController: GameController)
-    }
-    class AddChatPublicMessageCommand{
-        - content: String
-        - sender: String
-        + AddChatPublicMessageCommand(content: String, sender: String)
-        + execute(gameController: GameController)
-    }
-    class AddPlayerToPendingCommand{
-        - nickname: String
-        - connectionType: boolean
-        - interfaceType: boolean
-        + AddPlayerToPendingCommand(nickname: String, connectionType: boolean, interfaceType: boolean )
-        + getNickname() string
-        + execute(gamesManager: GamesManager)
-    }
-    class DisconnectPlayerCommand{
-        ~ nickname: String
-        + DisconnectPlayerCommand (nickname: String)
-        + execute(gameController: GameController)
-    }
-    class DisplayGamesCommand{
-        - nickname: String
-        + DisplayGamesCommand (nickname: String)
-        + getNickname() String
-        + execute(gamesManager: GamesManager)
-    }
-    class DrawDeckCardCommand{
-        - nickname: String
-        - type: CardType
-        + DrawDeckCardCommand (nickname: String, type: CardType)
-        + execute(gameController: GameController)
-    }
-    class DrawFaceUpCardCommand{
-        - nickname: String
-        - type: CardType
-        - pos: int
-        + DrawFaceUpCardCommand (nickname: String, type: CardType, pos: int)
-        + execute(gameController: GameController)
-    }
-    class GameCommand{
-        <<interface>>
-        ~ execute(gameController: GameController)
-    }
-    class GamesManagerCommand{
-        <<interface>>
-        ~ getNickname() String
-        ~ execute(gamesManager: GamesManager)
-    }
-    class JoinExistingGameCommand{
-        - nickname: String
-        - tokenColor: TokenColor
-        - gameId: int
-        + JoinExistingGameCommand(nickname: String, tokenColor: TokenColor , gameId: int)
-        + getNickname() String
-        + execute(gamesManager: GamesManager)
-    }
-    class JoinNewGameCommand{
-        - nickname: String
-        - tokenColor: TokenColor
-        - playersNumber: int
-        + JoinNewGameCommand(nickname: String, tokenColor: TokenColor, playersNumber: int)
-        + getNickname(): String
-        + execute(gamesManager: GamesManager)
-    }
-    class PlaceCardCommand{
-        - nickname: String
-        - pos: int
-        - x: int
-        - y: int
-        - way: boolean
-        + PlaceCardCommand(nickname: String, pos: int, x: int, y:int,way: boolean)
-        + execute(gameController: GameController)
-    }
-    class PlaceStarterCardCommand{
-        - nickname: String
-        - way: boolean
-        + PlaceStarterCardCommand(nickname: String, way: boolean)
-        + execute(gameController: GameController)
-    }
-    class ChatListener {
-        <<interface>>
-        ~ receiveChatMessageUpdate(chatMessageUpdate: ChatMessageUpdate)
-    }
-    class DeckListener {
-        <<interface>>
-        ~ receiveStarterCardUpdate(starterCardUpdate StarterCardUpdate)
-        ~ receivePlacedCardUpdate(placedCardUpdate PlacedCardUpdate)
-    }
-    class GameFieldListener{
-        <<interface>>
-        ~ receiveStarterCardUpdate(starterCardUpdate StarterCardUpdate)
-        ~ receivePlacedCardUpdate(placedCardUpdate PlacedCardUpdate)
-    }
-    class GameListener{
-        <<interface>>
-        ~ receiveGameModelUpdate(gameModelUpdate GameModelUpdate)
-        ~ receivePlayerJoinedUpdate(playerJoinedUpdate PlayerJoinedUpdate)
-        ~ receiveCommandResultUpdate(commandResultUpdate CommandResultUpdate)
-    }
-    class PlayerListener {
-        <<interface>>
-        ~ receiveStallUpdate(stallUpdate StallUpdate)
-        ~ receiveConnectionUpdate(connectionUpdate ConnectionUpdate)
-        ~ receiveCardHandUpdate(cardHandUpdate CardHandUpdate)
-    }
-    class ScoreTrackBoardListener {
-        <<interface>>
-        ~ receiveScoreUpdate(scoreUpdate ScoreUpdate)
-    }
-
-    %% -----------------------------
-    %% LISTENERS
-    %% -----------------------------
-
-    class ChatListener {
-        <<interface>>
-        ~ receiveChatMessageUpdate( chatMessageUpdate: ChatMessageUpdate)
-    }
-    class GameFieldListener {
-        <<interface>>
-        ~ receiveStarterCardUpdate(starterCardUpdate: StarterCardUpdate)
-        ~ receivePlacedCardUpdate(placedCardUpdate: PlacedCardUpdate)
-    }
-    class GameListener {
-        <<interface>>
-        ~ receiveGameModelUpdate(gameModelUpdate: GameModelUpdate)
-        ~ receivePlayerJoinedUpdate( playerJoinedUpdate: PlayerJoinedUpdate)
-        ~ receiveCommandResultUpdate(commandResultUpdate: CommandResultUpdate)
-        ~ receiveDeckUpdate(deckUpdate: DeckUpdate)
-    }
-    class PlayerListener {
-        <<interface>>
-        ~ receiveStallUpdate(stallUpdate: StallUpdate)
-        ~ receiveConnectionUpdate(connectionUpdate: ConnectionUpdate)
-        ~ receiveCardHandUpdate(cardHandUpdate: CardHandUpdate)
-    }
-    class ScoreTrackBoardListener {
-        <<interface>>
-        ~ receiveScoreUpdate( scoreUpdate: ScoreUpdate)
-    }
 
     %%-----------------------------------------------------
     %% MODEL
@@ -350,7 +109,7 @@ classDiagram
     }
     class PrivateMessage{
         - RECEIVERNICKNAME: String
-        + PrivateMessage(content: String, senderNickname: String, isPublic: boolean, receiverNickname: String)
+        + PrivateMessage(content: String, senderNickname: String, isPublic: boolean, \n receiverNickname: String)
     }
 
     %% --------------------------------
@@ -516,7 +275,7 @@ classDiagram
         - commandResult: CommandResult
         - gameListeners: List~GameListener~
         - emptyDecks: boolean
-        + GameModel(id: int,playersNumber: int,resourceCardsDeck: DrawableDeck~DrawableCard~,goldCardsDeck: DrawableDeck~GoldCard~,objectiveCardsDeck: PlayingDeck~ObjectiveCard~, starterCardsDeck: Deck~PlaceableCard~)
+        + GameModel(id: int,playersNumber: int,resourceCardsDeck: DrawableDeck~DrawableCard~,\ngoldCardsDeck: DrawableDeck~GoldCard~,objectiveCardsDeck: PlayingDeck~ObjectiveCard~, \nstarterCardsDeck: Deck~PlaceableCard~)
         + getId() int
         + getPlayersNumber() int
         + setState(state: GameState)
@@ -680,7 +439,7 @@ classDiagram
         + setIsStalled(nickname: String,isStalled: boolean)
         + setIsConnected(nickname: String, isConnected: boolean)
         + setCardHand(nickname: String,newHand: List~DrawableCard~)
-        + setGameModel(id: int, playersNumber: int,state: GameState,winners: List~String~, currPlayer: int, twentyPointsReached: boolean,additionalRound: boolean)
+        + setGameModel(id: int, playersNumber: int,state: GameState,\nwinners: List~String~, currPlayer: int, twentyPointsReached: boolean,\nadditionalRound: boolean)
         + setPlayersView(playersViews: List~PlayerView~)
         + setCommandResult(nickname: String,commandResult: CommandResult)
         + displayExistingGame(existingGames: Map~Integer,Integer~)
@@ -709,105 +468,6 @@ classDiagram
         + setNewScore(nickname:String, newScore: int)
     }
 
-%% -----------------------------
-%% NETWORK
-%% -----------------------------
-
-
-
-
-
-
-
-%% -----------------------------
-%% UPDATES
-%% -----------------------------
-
-    class CardHandUpdate{
-        - nickname: String
-        - cardHand: List~DrawableCard~
-        + CardHandUpdate(nickname: String, cardHand: List~DrawableCard~)
-        + execute(gameView: GameView)
-    }
-    class ChatMessageUpdate{
-        - chatMessage: ChatMessage
-        + ChatMessageUpdate(chatMessage: ChatMessage)
-        + execute(gameView: GameView)
-    }
-    class CommandResultUpdate{
-        - nickname: String
-        - commandResult: CommandResult
-        + CommandResultUpdate(nickname: String, commandResult: CommandResult)
-        + execute(gameView: GameView)
-    }
-    class ConnectionUpdate{
-        - nickname: String
-        - isConnected: boolean
-        + ConnectionUpdate(nickname: String, isConnected: boolean)
-        + execute(gameView: GameView)
-    }
-    class DeckUpdate{
-        - topResourceCard: DrawableCard
-        - topGoldCard: GoldCard
-        - resourceFaceUpCards: List~DrawableCard~
-        - goldFaceUpCards: List~GoldCard~
-        - commonObjective: List~ObjectiveCard~
-        + DeckUpdate(topResourceCard: DrawableCard,topGoldCard: GoldCard,resourceFaceUpCards: List~DrawableCard~,goldFaceUpCards: List~GoldCard~,commonObjective: List~ObjectiveCard~)
-        + execute(gameView: GameView)
-    }
-    class ExistingGamesUpdate{
-        - existingGame: Map~Integer,Integer~
-        + ExistingGamesUpdate(existingGame: Map~Integer,Integer~)
-        + execute(gameView: GameView)
-    }
-    class GameModelUpdate{
-        - id: int
-        - playersNumber: int
-        - state: GameState
-        - winners: List~String~
-        - currPlayer: int
-        - twentyPointsReached: boolean
-        - additionalRound: boolean
-        + GameModelUpdate(id: int,playersNumber: int,state: GameState,winners: List~String~,currPlayer: int,twentyPointsReached: boolean,additionalRound: boolean)
-        + execute(gameView: GameView)
-    }
-    class PlacedCardUpdate{
-        - nickname: String
-        - card: PlaceableCard
-        - x: int
-        - y: int
-        - way: boolean
-        - orderPosition: int
-        + PlacedCardUpdate(nickname: String,card: PlaceableCard,x: int,y: int,way: boolean,orderPosition: int)
-        + execute(gameView: GameView)
-    }
-    class PlayerJoinedUpdate{
-        - playersViews: List~PlayerView~
-        + PlayerJoinedUpdate(playersViews: List~PlayerView~)
-        + execute(gameView: GameView)
-    }
-    class ScoreUpdate{
-        - nickname: String
-        - newScore: int
-        + ScoreUpdate(nickname: String, newScore: int)
-        + execute(gameView: GameView)
-    }
-    class StallUpdate{
-        - nickname: String
-        - isStalled: boolean
-        + ScoreUpdate(nickname: String, isStalled: boolean)
-        + execute(gameView: GameView)
-    }
-    class StarterCardUpdate{
-        - nickname: String
-        - starterCard: PlaceableCard
-        + StarterCardUpdate(nickname: String, starterCard: PlaceableCard)
-        + execute(gameView: GameView)
-    }
-    class Update{
-        <<interface>>
-        + execute(gameView: GameView)
-    }
     class DecksBuilder{
         <<abstract>>
         - extractFrontCorners(cardJsonObject : JsonObject) boolean[4]
