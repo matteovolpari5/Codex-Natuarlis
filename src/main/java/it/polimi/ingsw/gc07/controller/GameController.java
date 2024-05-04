@@ -12,6 +12,7 @@ import it.polimi.ingsw.gc07.network.PingReceiver;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
+import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -246,8 +247,22 @@ public class GameController {
                 throw new RuntimeException();
             }
         }else {
-            // TODO
-            // stesso ma con socket
+            // Socket
+            try {
+                gameModel.removeListener(SocketServer.getSocketServer().getVirtualView(nickname));
+            }catch(RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+
+            try {
+                SocketServer.getSocketServer().removeVirtualView(nickname);
+            } catch (RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
         }
 
         // set player disconnected
@@ -289,7 +304,7 @@ public class GameController {
         }
         // for other game states, I don't have to change state
 
-        gameModel.setCommandResult(nickname, CommandResult.SUCCESS);
+        gameModel.setCommandResult(nickname, CommandResult.SUCCESS); //TODO DISCONNECTION_SUCCESSFUL
     }
 
     // TODO synchronized chi lo chiama?
@@ -329,7 +344,8 @@ public class GameController {
             }
             // add virtual view to rmiServerGamesManager
         }else {
-            // TODO socket !!!
+            // if new connection type is Socket
+            //TODO serve un metodo di VirtualView per assegnare il gameController a SocketClientHandler
 
 
         }

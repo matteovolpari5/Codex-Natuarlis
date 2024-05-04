@@ -20,7 +20,7 @@ public class SocketClient  {
 
 
 
-    public SocketClient(String nickname, Socket mySocket) throws IOException {
+    public SocketClient(String nickname, Socket mySocket, String status, boolean interfaceType) throws IOException {
         System.out.println("SocketClient-costruttore>>>>>>>>>");
         InputStream temp_input;
         OutputStream temp_output;
@@ -45,12 +45,13 @@ public class SocketClient  {
         this.input = new ObjectInputStream(temp_input);
         System.out.println("SocketClient> ObjectInputStream input ok");
 
-        this.myServer = new VirtualSocketServer(output);
+        this.myServer = new VirtualSocketServer(output, nickname, status, interfaceType);
         System.out.println("SocketClient> myServer output ok");
 
         System.out.println("SocketClient> invocazione run()");
         this.run();
         System.out.println("SocketClient> fine costruttore, dopo run()");
+        connectToGamesManagerServer(false, interfaceType);
     }
 
     private void run(){
@@ -65,7 +66,7 @@ public class SocketClient  {
 
     //TODO oppure se non deve condividere il metodo allora valutare se ricevere nel costruttore il tipo di interfaccia, run() esegue alla fine connectToGamesManager()
     //TODO e in ClientMain avere solo "new SocketClient(nickname, sc);" con aggiunta del tipo di interfaccia; connectToGamesManger() diventa quindi private
-    public void connectToGamesManager(boolean connectionType, boolean interfaceType) {
+    private void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
         System.out.println("SocketClient-connectToGamesManager>>>>>>>>>");
         try {
             myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
@@ -78,6 +79,17 @@ public class SocketClient  {
         System.out.println("SocketClient> passo a runCliJoinGame()");
         this.runCliJoinGame();
     }
+
+    public void reconnectPlayer(String nickname, boolean connectionType, boolean interfaceType) {
+        try {
+            myServer.setAndExecuteCommand(new ReconnectPlayerCommand(nickname, null, connectionType, interfaceType));
+        } catch (RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     private void manageReceivedMessage() {
         System.out.println("Client_Thread-manageReceiveMessage>>>>>>>>>");
         Update update;

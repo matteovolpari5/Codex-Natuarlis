@@ -16,8 +16,23 @@ import java.rmi.RemoteException;
 public class VirtualSocketServer implements VirtualServerGamesManager, VirtualServerGame {
     private final ObjectOutputStream output;
 
-    public VirtualSocketServer(ObjectOutputStream output){
+    public VirtualSocketServer(ObjectOutputStream output, String nickname, String status, boolean interfaceType){
         this.output = output;
+        try {
+            output.writeChars(nickname);
+            output.reset();
+            output.flush();
+            output.writeChars(status);
+            output.reset();
+            output.flush();
+            if(status.equals("reconnection")){
+                output.writeBoolean(interfaceType);
+                output.reset();
+                output.flush();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     @Override
     public void connect(VirtualView client) throws RemoteException {

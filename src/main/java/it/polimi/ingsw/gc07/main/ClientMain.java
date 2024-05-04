@@ -63,30 +63,25 @@ public class ClientMain {
                 }
             }
 
+            Registry registry = null;
+            try {
+                registry = LocateRegistry.getRegistry(ip, 1234);
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
+            VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
+
+            String nickname;
+            NicknameCheck check;
+            do{
+                System.out.println("Insert nickname: ");
+                System.out.print("> ");
+                nickname = scan.nextLine();
+                check = rmiServerGamesManager.checkNickname(nickname);
+            }while(check.equals(NicknameCheck.EXISTING_NICKNAME));
+
             if(connectionType) {
                 // RMI connection
-                Registry registry = null;
-                try {
-                    registry = LocateRegistry.getRegistry(ip, 1234);
-                } catch (RemoteException ex) {
-                    throw new RuntimeException(ex);
-                }
-                VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
-
-                String nickname;
-                NicknameCheck check;
-                do{
-                    System.out.println("Insert nickname: ");
-                    System.out.print("> ");
-                    nickname = scan.nextLine();
-
-                    // check RMI
-                    check = rmiServerGamesManager.checkNickname(nickname);
-
-                    //TODO
-                    // check if a socket client has that name
-
-                }while(check.equals(NicknameCheck.EXISTING_NICKNAME));
 
                 if(check.equals(NicknameCheck.NEW_NICKNAME)) {
                     RmiClient newRmiClient = new RmiClient(nickname, rmiServerGamesManager);
@@ -101,19 +96,24 @@ public class ClientMain {
                 }
             }else {
                 // Socket connection
-                //TODO per adesso la porta e l'host è data da linea di comando, stabilire se bisogna cambiarlo
-                //String host = args[0];
-                //int port = Integer.parseInt(args[1]);
+
+                //TODO va bene inventarsi una porta?
                 String host = "127.0.0.1";
                 int port = 65000;
                 Socket sc = new Socket(host, port);
+                if(check.equals(NicknameCheck.NEW_NICKNAME)) {
+                    SocketClient socketClient = new SocketClient(nickname, sc,  "new", interfaceType);
+                }else {
+                    // NicknameCheck.RECONNECTION
+                    SocketClient socketClient = new SocketClient(nickname, sc,  "reconnected", interfaceType);
 
-                System.out.println("Insert nickname: ");
-                System.out.print("> ");
-                String nickname = scan.nextLine();
 
-                SocketClient socketClient = new SocketClient(nickname, sc);
-                socketClient.connectToGamesManager(connectionType, interfaceType);
+
+
+
+                    RmiClient newRmiClient = new RmiClient(nickname, rmiServerGamesManager);
+                    newRmiClient.reconnectPlayer(nickname, connectionType, interfaceType);
+                }
             }
 
         }catch(NotBoundException | IOException e) {

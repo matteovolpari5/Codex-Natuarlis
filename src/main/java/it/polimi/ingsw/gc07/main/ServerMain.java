@@ -30,6 +30,8 @@ public class ServerMain {
             throw new RuntimeException();
         }
         System.out.println("ServerMain> Main server ready");
-        new SocketServer(sc).runServer();
+        SocketServer socketServer= SocketServer.getSocketServer();
+        socketServer.initializeSocketServer(sc);
+       socketServer.runServer();
     }
 }

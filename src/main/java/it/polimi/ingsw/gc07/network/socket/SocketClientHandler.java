@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.game_commands.GameCommand;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
+import it.polimi.ingsw.gc07.game_commands.ReconnectPlayerCommand;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
@@ -22,6 +23,7 @@ public class SocketClientHandler implements VirtualView {
     private final Socket mySocket;
     private final ObjectInputStream input;
     private final ObjectOutputStream output;
+    private  String myClientNickname;
 
     public SocketClientHandler(GamesManager gamesManager, Socket mySocket) throws IOException {
         System.out.println("SCH-costruttore>>>>>>>>>");
@@ -50,9 +52,26 @@ public class SocketClientHandler implements VirtualView {
         this.input = new ObjectInputStream(temp_input);
         System.out.println("SCH> ObjectInputStream input ok");
 
-        new Thread(this::manageGamesManagerCommand).start();
+        new Thread(this::manageSetUp).start();
     }
 
+    private void manageSetUp(){
+        try {
+            this.myClientNickname = (String) input.readObject();
+            String status = (String) input.readObject();
+            if(status.equals("new")){
+                manageGamesManagerCommand();
+            }else if(status.equals("reconnection")){
+                boolean interfaceType = input.readBoolean();
+                synchronized (gamesManager){
+                    gamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(myClientNickname, this, false, interfaceType));
+                }
+                manageGameCommand();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private void manageGamesManagerCommand(){
         System.out.println("SCH-manageGamesManagerCommand>>>>>>>>>");
         GamesManagerCommand command;
@@ -119,6 +138,9 @@ public class SocketClientHandler implements VirtualView {
                     System.out.println("SCH> l'ho eseguito");
                     CommandResult result = gameController.getCommandResult();
                     System.out.println("SCH> leggo il command result");
+                    /*if(result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
+                        closeConnection(mySocket,input,output);
+                    }*/
                     //TODO come prima: in rmi nessuno controlla l'esito del command
                     if(result.equals(CommandResult.SUCCESS)){
                         //TODO mostrare esito
@@ -128,6 +150,7 @@ public class SocketClientHandler implements VirtualView {
                 }
             } catch (Exception e){
                 //TODO gestire eccezione
+                closeConnection(mySocket,input,output);
                 break;
             }
         }
@@ -151,9 +174,7 @@ public class SocketClientHandler implements VirtualView {
     }
     @Override
     public String getNickname() throws RemoteException {
-        //TODO in rmi è utilizzato per assegnare al client lo stub del server una volta che entra in una partita
-        //TODO in socket non necessario
-        return null;
+        return myClientNickname;
     }
 
 
