@@ -29,12 +29,13 @@ public class PingReceiver {
     public synchronized void receivePing(String nickname) {
         assert(playersPing.containsKey(nickname));
         playersPing.put(nickname, true);
+        System.out.println("ping inviato");
     }
 
     private void checkPing(String nickname) {
         int missedPing = 0;
         while(true) {
-            /*
+
             synchronized(this) {
                 if(playersPing.get(nickname)) {
                     missedPing = 0;
@@ -70,7 +71,7 @@ public class PingReceiver {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
-            */
+
         }
 
 
