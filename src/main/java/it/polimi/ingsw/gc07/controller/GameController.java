@@ -346,7 +346,11 @@ public class GameController {
         }else {
             // if new connection type is Socket
             //TODO serve un metodo di VirtualView per assegnare il gameController a SocketClientHandler
-            client.setGameController(getId());
+            try {
+                client.setGameController(getId());
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
             addListener(client); //TODO duale di invocazione in RmiServerGame
         }
         if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
