@@ -1,11 +1,29 @@
 classDiagram
-%% -----------------------------
-%% NETWORK
-%% -----------------------------
+    %% -----------------------------
+    %% Network
+    %% -----------------------------
 
-%% -----------------------------
-%% rmi
-%% -----------------------------
+    %% -----------------------------
+    %% Rmi
+    %% -----------------------------
+
+    ChatListener <|-- VirtualView
+    GameFieldListener <|-- VirtualView
+    GameListener <|-- VirtualView
+    PlayerListener <|-- VirtualView
+    ScoreTrackBoardListener <|-- VirtualView
+    DeckListener <|-- VirtualView
+
+
+    VirtualView <|-- RmiClient
+    VirtualView  <-- SocketClientHandler
+
+    VirtualServerGame <|-- RmiServerGame
+    VirtualServerGame <|-- VirtualSocketServer
+
+    VirtualServerGamesManager <|-- RmiServerGamesManager
+    VirtualServerGamesManager <|-- VirtualSocketServer
+
     class RmiClient{
         - nickname: String
         - serverGamesManager: VirtualServerGamesManager
@@ -62,9 +80,9 @@ classDiagram
         + deleteGame(gameId: int)
         + removeVirtualView(nickname: String)
     }
-%% -----------------------------
-%% socket
-%% -----------------------------
+    %% -----------------------------
+    %% Socket
+    %% -----------------------------
     class SocketClient{
         - nickname: String
         - mySocket: Socket
@@ -152,101 +170,9 @@ classDiagram
         ~ notifyJoinNotSuccessful()
     }
 
-
-
-%% -----------------------------
-%% UPDATES
-%% -----------------------------
-
-    class CardHandUpdate{
-        - nickname: String
-        - cardHand: List~DrawableCard~
-        + CardHandUpdate(nickname: String, cardHand: List~DrawableCard~)
-        + execute(gameView: GameView)
-    }
-    class ChatMessageUpdate{
-        - chatMessage: ChatMessage
-        + ChatMessageUpdate(chatMessage: ChatMessage)
-        + execute(gameView: GameView)
-    }
-    class CommandResultUpdate{
-        - nickname: String
-        - commandResult: CommandResult
-        + CommandResultUpdate(nickname: String, commandResult: CommandResult)
-        + execute(gameView: GameView)
-    }
-    class ConnectionUpdate{
-        - nickname: String
-        - isConnected: boolean
-        + ConnectionUpdate(nickname: String, isConnected: boolean)
-        + execute(gameView: GameView)
-    }
-    class DeckUpdate{
-        - topResourceCard: DrawableCard
-        - topGoldCard: GoldCard
-        - resourceFaceUpCards: List~DrawableCard~
-        - goldFaceUpCards: List~GoldCard~
-        - commonObjective: List~ObjectiveCard~
-        + DeckUpdate(topResourceCard: DrawableCard,topGoldCard: GoldCard,\nresourceFaceUpCards: List~DrawableCard~,goldFaceUpCards: List~GoldCard~,\ncommonObjective: List~ObjectiveCard~)
-        + execute(gameView: GameView)
-    }
-    class ExistingGamesUpdate{
-        - existingGame: Map~Integer,Integer~
-        + ExistingGamesUpdate(existingGame: Map~Integer,Integer~)
-        + execute(gameView: GameView)
-    }
-    class GameModelUpdate{
-        - id: int
-        - playersNumber: int
-        - state: GameState
-        - winners: List~String~
-        - currPlayer: int
-        - twentyPointsReached: boolean
-        - additionalRound: boolean
-        + GameModelUpdate(id: int,playersNumber: int,state: GameState,\nwinners: List~String~,currPlayer: int,twentyPointsReached: boolean,\nadditionalRound: boolean)
-        + execute(gameView: GameView)
-    }
-    class PlacedCardUpdate{
-        - nickname: String
-        - card: PlaceableCard
-        - x: int
-        - y: int
-        - way: boolean
-        - orderPosition: int
-        + PlacedCardUpdate(nickname: String,card: PlaceableCard,x: int,y: int,\nway: boolean,orderPosition: int)
-        + execute(gameView: GameView)
-    }
-    class PlayerJoinedUpdate{
-        - playersViews: List~PlayerView~
-        + PlayerJoinedUpdate(playersViews: List~PlayerView~)
-        + execute(gameView: GameView)
-    }
-    class ScoreUpdate{
-        - nickname: String
-        - newScore: int
-        + ScoreUpdate(nickname: String, newScore: int)
-        + execute(gameView: GameView)
-    }
-    class StallUpdate{
-        - nickname: String
-        - isStalled: boolean
-        + ScoreUpdate(nickname: String, isStalled: boolean)
-        + execute(gameView: GameView)
-    }
-    class StarterCardUpdate{
-        - nickname: String
-        - starterCard: PlaceableCard
-        + StarterCardUpdate(nickname: String, starterCard: PlaceableCard)
-        + execute(gameView: GameView)
-    }
-    class Update{
-        <<interface>>
-        + execute(gameView: GameView)
-    }
-
-%% -----------------------------
-%% LISTENERS
-%% -----------------------------
+    %% -----------------------------
+    %% Listeners
+    %% -----------------------------
 
     class ChatListener {
         <<interface>>
