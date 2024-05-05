@@ -21,80 +21,74 @@ public class SocketClient  {
 
 
     public SocketClient(String nickname, Socket mySocket, String status, boolean interfaceType) throws IOException {
-        System.out.println("SocketClient-costruttore>>>>>>>>>");
+        System.out.println("SC> costruttore");
         InputStream temp_input;
         OutputStream temp_output;
 
         this.nickname = nickname;
-        System.out.println("SocketClient> nickname ok");
-
         this.mySocket = mySocket;
-        System.out.println("SocketClient> mySocket ok");
-
         this.gameView = new GameView(nickname);
-        System.out.println("SocketClient> gameView ok");
 
         temp_output = this.mySocket.getOutputStream();
-        System.out.println("SocketClient> temp_output ok");
         ObjectOutputStream output = new ObjectOutputStream(temp_output);
-        System.out.println("SocketClient> ObjectOutputStream output ok");
         output.flush();
 
         temp_input = this.mySocket.getInputStream();
-        System.out.println("SocketClient> temp_input ok");
         this.input = new ObjectInputStream(temp_input);
-        System.out.println("SocketClient> ObjectInputStream input ok");
 
         this.myServer = new VirtualSocketServer(output, nickname, status, interfaceType);
-        System.out.println("SocketClient> myServer output ok");
 
-        System.out.println("SocketClient> invocazione run()");
-        this.run();
-        System.out.println("SocketClient> fine costruttore, dopo run()");
+        //this.run();
+        System.out.println(status);
         if(status.equals("new")){
             connectToGamesManagerServer(false, interfaceType);
-        }
-        else if(status.equals("reconnection")){
+        } else if(status.equals("reconnected")){
+            new Thread(() -> {
+                try{
+                    manageReceivedUpdate();
+                } catch (Exception e){
+                    throw new RuntimeException(e);
+                }
+            }).start();
             runCliGame();
         }
     }
 
-    private void run(){
+    /*private void run(){
+        System.out.println("SC> run");
         new Thread(() -> {
             try{
-                manageReceivedMessage();
+                manageReceivedUpdate();
             } catch (Exception e){
                 throw new RuntimeException(e);
             }
         }).start();
-    }
+    }*/
 
     private void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
-        System.out.println("SocketClient-connectToGamesManager>>>>>>>>>");
+        System.out.println("SC> connectToGMS");
         try {
             myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
-            System.out.println("SocketClient> eseguo AddPlayerToPendingCommand");
         } catch (RemoteException e) {
             // TODO
             throw new RuntimeException(e);
         }
         //TODO controllo esito command?
-        System.out.println("SocketClient> passo a runCliJoinGame()");
         this.runCliJoinGame();
     }
 
 
 
-    private void manageReceivedMessage() {
-        System.out.println("Client_Thread-manageReceiveMessage>>>>>>>>>");
+    private void manageReceivedUpdate() {
+        System.out.println("SC-T> manageReceivedMessage");
         Update update;
         while (true){ //TODO dalla documentazione non trovo un modo di utilizzare il risultato di readObject() come condizione del while, chiedere se così va bene
             try {
-                System.out.println("Client_Thread> ascolto");
+                System.out.println("SC-T> ascolto");
                 update = (Update) input.readObject();
-                System.out.println("Client_Thread> leggo un update");
+                System.out.println("SC-T> leggo un update");
                 update.execute(gameView);
-                System.out.println("Client_Thread> eseguo l'update");
+                System.out.println("SC-T> eseguo l'update");
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -103,12 +97,12 @@ public class SocketClient  {
 
 
     public void runCliJoinGame() {
-        System.out.println("SocketClient-runCliJoinGame>>>>>>>>>");
-        boolean triedJoining = false;
+        System.out.println("SC> runCliJoinGame");
+        boolean gameJoined = false;
         Scanner scan = new Scanner(System.in);
         String tokenColorString;
         TokenColor tokenColor;
-        while(!triedJoining) {
+        while(!gameJoined) {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to join an existing game"); // JoinExistingGameCommand
             System.out.println("- w to join an new game"); // JoinNewGameCommand
@@ -146,9 +140,7 @@ public class SocketClient  {
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
-                    triedJoining = true;
                     break;
-
 
                 case "w":
                     // join new game
@@ -178,10 +170,9 @@ public class SocketClient  {
                     // TODO potremmo fare già qua il controllo su players number per efficienza
                     try {
                         myServer.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
-                    } catch (RemoteException e) {
+                    } catch (RemoteException  e) {
                         throw new RuntimeException(e);
                     }
-                    triedJoining = true;
                     break;
 
                 case "e":
@@ -197,12 +188,37 @@ public class SocketClient  {
                 default:
                     System.out.println("The provided character doesn't refer to any action");
             }
+            String result;
+            try {
+                result = (String) input.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            if(result.equals("Game joined.")){
+                gameJoined = true;
+                new Thread(() -> {
+                    try{
+                        manageReceivedUpdate();
+                    } catch (Exception e){
+                        throw new RuntimeException(e);
+                    }
+                }).start();
+            }else if(result.equals("Display successful.")){
+                Update update;
+                try {
+                    update = (Update) input.readObject();
+                    update.execute(gameView);
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
         // game joined
         runCliGame();
     }
 
     private void runCliGame() {
+        System.out.println("SC> runCliGame");
         Scanner scan = new Scanner(System.in);
         String content;
         String cardTypeString;

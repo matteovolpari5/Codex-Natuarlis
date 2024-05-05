@@ -104,12 +104,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
      * Method used from RmiServerGamesManager to restart the cli if the joining was not successful.
      */
     public void notifyJoinNotSuccessful() throws RemoteException {
-        System.out.println("Joining game not successful.");
+        System.out.println("Action not successful.");
         new Thread(this::runCliJoinGame).start();
     }
 
     @Override
-    public void setGameController(int gameId) {
+    public void setGameController(int gameId) throws RemoteException {
         //TODO serve per socket
     }
 

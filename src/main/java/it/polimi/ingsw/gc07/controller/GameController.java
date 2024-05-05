@@ -328,8 +328,7 @@ public class GameController {
         }
         assert(!player.isConnected()): "Player already connected";
 
-        // set player connected
-        player.setIsConnected(true);
+        //TODO rispostare qui "player.setIsConnected(true);"
 
         if(player.getConnectionType()) {
             // if new connection type is RMI
@@ -346,9 +345,16 @@ public class GameController {
         }else {
             // if new connection type is Socket
             //TODO serve un metodo di VirtualView per assegnare il gameController a SocketClientHandler
-            client.setGameController(getId());
-            addListener(client); //TODO duale di invocazione in RmiServerGame
+            try {
+                client.setGameController(getId());
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         }
+
+        // set player connected
+        player.setIsConnected(true);
+
         if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
             changeGameState();
         }

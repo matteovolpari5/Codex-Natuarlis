@@ -16,7 +16,9 @@ import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
+import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -228,6 +230,7 @@ public class GamesManager {
         if(player == null){
             commandResult = CommandResult.PLAYER_NOT_PRESENT;
             RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
+            SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
             return;
         }
         boolean found = false;
@@ -238,14 +241,21 @@ public class GamesManager {
                 if(!gameController.getState().equals(GameState.GAME_STARTING)) {
                     commandResult = CommandResult.GAME_FULL;
                     RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
+                    SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
                     return;
                 }
                 // check token color unique
                 if(gameController.hasPlayerWithTokenColor(tokenColor)) {
                     commandResult = CommandResult.TOKEN_COLOR_ALREADY_TAKEN;
                     RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
+                    SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
                     return;
                 }
+                try {//TODO
+                    SocketServer.getSocketServer().getVirtualView(nickname).setGameController(gameId);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }//TODO
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player);
                 pendingPlayers.remove(player);
@@ -254,6 +264,7 @@ public class GamesManager {
         if(!found){
             commandResult = CommandResult.GAME_NOT_PRESENT;
             RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
+            SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
             return;
         }
 
@@ -262,6 +273,8 @@ public class GamesManager {
         if(player.getConnectionType()) {
             // RMI client
             RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameId);
+        }else{
+            //TODO rispostare qui
         }
     }
 
@@ -271,6 +284,8 @@ public class GamesManager {
         if(player == null) {
             commandResult = CommandResult.PLAYER_NOT_PRESENT;
             RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
+            SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
+
             return;
         }
         int gameId;
@@ -279,11 +294,21 @@ public class GamesManager {
         }
         catch(WrongNumberOfPlayersException e){
             commandResult = CommandResult.WRONG_PLAYERS_NUMBER;
-            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
+            if(player.getConnectionType()){
+                RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
+            }else{
+                SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
+            }
             return;
         }
         for(GameController gameController : gameControllers) {
             if(gameController.getId() == gameId) {
+                //TODO
+                try {
+                    SocketServer.getSocketServer().getVirtualView(nickname).setGameController(gameId);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }//TODO
                 // no need to check the token color for the first player of the gameController
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player);
@@ -296,6 +321,8 @@ public class GamesManager {
         if(player.getConnectionType()) {
             // RMI client
             RmiServerGamesManager.getRmiServerGamesManager().createServerGame(nickname, gameId);
+        }else{
+            //TODO rispostare qui
         }
     }
 
@@ -360,10 +387,14 @@ public class GamesManager {
         Player player = getPendingPlayer(nickname);
         if(player == null) {
             commandResult = CommandResult.PLAYER_NOT_PRESENT;
+            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);//TODO mancavano .notifyJoinNotSuccessful(), perchè?
+            SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
             return;
         }
         if(player.getConnectionType()) {
             RmiServerGamesManager.getRmiServerGamesManager().displayGames(nickname);
+        }else{
+            SocketServer.getSocketServer().displayGames(nickname);
         }
     }
 

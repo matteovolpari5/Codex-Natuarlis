@@ -17,6 +17,7 @@ public class VirtualSocketServer implements VirtualServerGamesManager, VirtualSe
     private final ObjectOutputStream output;
 
     public VirtualSocketServer(ObjectOutputStream output, String nickname, String status, boolean interfaceType){
+        System.out.println("VSS> Costruttore");
         this.output = output;
         try {
             output.writeObject(nickname);
@@ -25,7 +26,7 @@ public class VirtualSocketServer implements VirtualServerGamesManager, VirtualSe
             output.writeObject(status);
             output.reset();
             output.flush();
-            if(status.equals("reconnection")){
+            if(status.equals("reconnected")){
                 output.writeBoolean(interfaceType);
                 output.reset();
                 output.flush();
@@ -41,6 +42,7 @@ public class VirtualSocketServer implements VirtualServerGamesManager, VirtualSe
 
     @Override
     public void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException {
+        System.out.println("VSS> SetAndExecuteGC");
         try{
             output.writeObject(gameCommand);
             output.flush();
@@ -53,6 +55,7 @@ public class VirtualSocketServer implements VirtualServerGamesManager, VirtualSe
 
     @Override
     public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
+        System.out.println("VSS> SetAndExecuteGMC");
         try{
             output.writeObject(gamesManagerCommand);
             output.flush();

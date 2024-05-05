@@ -29,7 +29,7 @@ public class ServerMain {
             System.out.println("Unable to start the main server: unavailable port");
             throw new RuntimeException();
         }
-        System.out.println("ServerMain> Main server ready");
+        System.out.println("Main Socket server ready");
         SocketServer socketServer= SocketServer.getSocketServer();
         socketServer.initializeSocketServer(sc);
        socketServer.runServer();
