@@ -12,5 +12,5 @@ public interface VirtualView extends Remote, ChatListener, GameFieldListener, Ga
     void setServerGame(VirtualServerGame serverGame) throws RemoteException;
     void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException;
     void notifyJoinNotSuccessful() throws RemoteException;
-    void setGameController(int gameId);
+    void setGameController(int gameId) throws RemoteException;
 }
