@@ -14,22 +14,29 @@ import java.lang.Thread;
 public class PingReceiver {
     private final GameController gameController;
     private final Map<String, Boolean> playersPing;
+    private final Map<String, VirtualView> playerVirtualViews;
     private static final int maxMissedPings = 2;
 
     public PingReceiver(GameController gameController) {
         this.gameController = gameController;
         this.playersPing = new HashMap<>();
+        this.playerVirtualViews = new HashMap<>();
     }
 
-    public void addPlayer(String nickname) {
+    public synchronized void addPlayer(VirtualView virtualView, String nickname) {
         this.playersPing.put(nickname, true);
+        this.playerVirtualViews.put(nickname, virtualView);
         new Thread(() -> checkPing(nickname)).start();
     }
 
-    public synchronized void receivePing(String nickname) {
+    public synchronized void receivePing(VirtualView virtualView, String nickname) {
         assert(playersPing.containsKey(nickname));
         playersPing.put(nickname, true);
-        System.out.println("ping inviato");
+        if(!playerVirtualViews.get(nickname).equals(virtualView)) {
+            System.out.println("CAMBIATA VIRTUALVIEW");
+            playerVirtualViews.put(nickname, virtualView);
+        }
+        System.out.println("ping inviato " +  nickname);
     }
 
     private void checkPing(String nickname) {
@@ -40,6 +47,7 @@ public class PingReceiver {
                 if(playersPing.get(nickname)) {
                     missedPing = 0;
                     if(!gameController.isPlayerConnected(nickname)) {
+                        /*
                         Player player = gameController.getPlayerByNickname(nickname);
                         assert (player != null);
                         if (player.getConnectionType()) {
@@ -55,11 +63,13 @@ public class PingReceiver {
                         } else {
                             // TODO socket
                         }
+                        */
                     }
                 }else {
                     missedPing ++;
                     if(missedPing >= maxMissedPings && gameController.isPlayerConnected(nickname)) {
-                        gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
+                        System.out.println("Disconnection detected");
+                        gameController.disconnectPlayer(nickname, playerVirtualViews.get(nickname)); // TODO metodo deve synchronized
                     }
                 }
                 playersPing.put(nickname, false);

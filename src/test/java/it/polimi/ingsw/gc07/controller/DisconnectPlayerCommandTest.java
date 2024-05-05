@@ -34,26 +34,26 @@ class DisconnectPlayerCommandTest {
         starterCardsDecks.shuffle();
         gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
         Player firstPlayer = new Player("Player1", true, false);
-        gameController.addPlayer(firstPlayer);
+        gameController.addPlayer(null, firstPlayer);
         Player secondPlayer = new Player("Player2", false, false);
-        gameController.addPlayer(secondPlayer);
+        gameController.addPlayer(null, secondPlayer);
     }
 
     @Test
     void disconnectPlayerSuccess() {
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player1"));
+        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player1", null));
         CommandResult result = gameController.getCommandResult();
-        assertEquals(CommandResult.SUCCESS, result);
+        assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
     }
 
     @Test
     void playerAlreadyDisconnected() {
         // disconnect player
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player2"));
+        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player2", null));
         CommandResult result = gameController.getCommandResult();
-        assertEquals(CommandResult.SUCCESS, result);
+        assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
         // try to disconnect the same player
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player2"));
+        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player2", null));
         result = gameController.getCommandResult();
         assertEquals(CommandResult.PLAYER_ALREADY_DISCONNECTED, result);
     }
@@ -61,7 +61,7 @@ class DisconnectPlayerCommandTest {
     @Test
     void disconnectPlayerNotPresent() {
         // disconnect player not present in the gameController
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("AnOtherPlayer"));
+        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("AnOtherPlayer", null));
         CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, result);
     }

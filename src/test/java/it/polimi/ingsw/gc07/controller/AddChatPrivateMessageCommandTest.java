@@ -36,13 +36,13 @@ class AddChatPrivateMessageCommandTest {
 
         // add first player
         Player firstPlayer = new Player("Player1", true, false);
-        gameController.addPlayer(firstPlayer);
+        gameController.addPlayer(null, firstPlayer);
         // add second player
         Player secondPlayer = new Player("Player2", false, false);
-        gameController.addPlayer(secondPlayer);
+        gameController.addPlayer(null, secondPlayer);
         // add third player
         Player thirdPlayer = new Player("Player3", false, false);
-        gameController.addPlayer(thirdPlayer);
+        gameController.addPlayer(null, thirdPlayer);
     }
 
     @Test

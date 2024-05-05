@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
-import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
@@ -33,6 +32,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
      * Player's local copy of the game model.
      */
     private final GameView gameView;
+    /**
+     * Send ping attribute.
+     */
+    private boolean viewAlive;
 
     /**
      * Constructor of RmiClient.
@@ -45,6 +48,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         this.serverGamesManager = serverGamesManager;
         this.serverGame = null;
         this.gameView = new GameView(nickname);
+        this.viewAlive = true;
     }
 
 
@@ -133,9 +137,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
     @Override
     public void startGamePing() {
         new Thread(()->{
-            while(true) {
+            while(viewAlive) {
                 try {
-                    serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
+                    serverGame.setAndExecuteCommand(new SendPingCommand(nickname, this));
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
@@ -202,7 +206,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                         continue;
                     }
                     try {
-                        serverGamesManager.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
+                        serverGamesManager.setAndExecuteCommand(new JoinExistingGameCommand(this, nickname, tokenColor, gameId));
                     } catch (RemoteException e) {
                         // TODO
                         throw new RuntimeException(e);
@@ -237,7 +241,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     scan.nextLine();
                     // TODO potremmo fare già qua il controllo su players number per efficienza
                     try {
-                        serverGamesManager.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
+                        serverGamesManager.setAndExecuteCommand(new JoinNewGameCommand(this, nickname, tokenColor, playersNumber));
                     } catch (RemoteException e) {
                         // TODO
                         throw new RuntimeException(e);
@@ -262,9 +266,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
     }
 
     public void runCliGame() {
-        boolean continueRunning = true;
         Scanner scan = new Scanner(System.in);
-        while(continueRunning) {
+        while(viewAlive) {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to write a private message"); // AddChatPrivateMessage
             System.out.println("- w to write a public message"); // AddChatPublicMessage
@@ -305,14 +308,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     break;
                 case "e":
                     try {
-                        serverGame.setAndExecuteCommand(new DisconnectPlayerCommand(nickname));
+                        serverGame.setAndExecuteCommand(new DisconnectPlayerCommand(nickname, this));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
                         throw new RuntimeException(e);
                     }
                     System.out.println("\nYou successfully disconnected !");
-                    continueRunning = false;
+                    viewAlive = false;
                     break;
                 case "r":
                     System.out.println("Select a card type ('g' for gold or 'r' for resource): ");
@@ -427,6 +430,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     System.out.println("The provided character doesn't refer to any action");
             }
         }
+        System.exit(0);
     }
 
     /**

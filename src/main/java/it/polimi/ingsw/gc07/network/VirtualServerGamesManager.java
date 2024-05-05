@@ -16,7 +16,6 @@ public interface VirtualServerGamesManager extends Remote {
 
     NicknameCheck checkNickname(String nickname) throws RemoteException;
 
-
     /**
      * Method to set a command and execute games manager command.
      * @param gamesManagerCommand games manager command to set and execute

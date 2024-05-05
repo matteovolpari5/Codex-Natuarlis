@@ -254,4 +254,8 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         VirtualView virtualView = getVirtualView(nickname);
         clients.remove(virtualView);
     }
+
+    public void removeVirtualView(VirtualView virtualView) throws RemoteException {
+        clients.remove(virtualView);
+    }
 }

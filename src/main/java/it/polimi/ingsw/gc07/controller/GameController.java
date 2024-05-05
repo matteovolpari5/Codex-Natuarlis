@@ -10,7 +10,6 @@ import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.PingReceiver;
 import it.polimi.ingsw.gc07.network.VirtualView;
-import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
@@ -147,8 +146,8 @@ public class GameController {
         gameModel.addListener(client);
     }
 
-    public void receivePing(String nickname) {
-        pingReceiver.receivePing(nickname);
+    public void receivePing(String nickname, VirtualView virtualView) {
+        pingReceiver.receivePing(virtualView, nickname);
     }
 
     // ----------------------
@@ -191,12 +190,12 @@ public class GameController {
     }
 
     // TODO synchronized chi lo chiama?
-    public void addPlayer(Player newPlayer) {
+    public void addPlayer(VirtualView virtualView, Player newPlayer) {
         assert(gameModel.getState().equals(GameState.GAME_STARTING)): "Wrong state";
         assert(!gameModel.getPlayerNicknames().contains(newPlayer.getNickname())): "Player already present";
 
         gameModel.addPlayer(newPlayer);
-        pingReceiver.addPlayer(newPlayer.getNickname());
+        pingReceiver.addPlayer(virtualView, newPlayer.getNickname());
 
         if (isFull()) {
             setup();
@@ -211,7 +210,7 @@ public class GameController {
         }
     }
 
-    public void disconnectPlayer(String nickname) {
+    public void disconnectPlayer(String nickname, VirtualView virtualView) {
         // this command can always be used
         assert(!gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED)): "Impossible state";
         if(!gameModel.getPlayerNicknames().contains(nickname)) {
@@ -231,16 +230,9 @@ public class GameController {
         // remove listener
         if(player.getConnectionType()) {
             // RMI
+            gameModel.removeListener(virtualView);
             try {
-                gameModel.removeListener(RmiServerGamesManager.getRmiServerGamesManager().getVirtualView(nickname));
-            }catch(RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-
-            try {
-                RmiServerGamesManager.getRmiServerGamesManager().removeVirtualView(nickname);
+                RmiServerGamesManager.getRmiServerGamesManager().removeVirtualView(virtualView);
             } catch (RemoteException e) {
                 // TODO
                 e.printStackTrace();
@@ -249,7 +241,7 @@ public class GameController {
         }else {
             // Socket
             try {
-                gameModel.removeListener(SocketServer.getSocketServer().getVirtualView(nickname));
+                gameModel.removeListener(SocketServer.getSocketServer().getVirtualView(nickname));   // TODO problematico !!!!!
             }catch(RemoteException e) {
                 // TODO
                 e.printStackTrace();
