@@ -18,17 +18,14 @@ classDiagram
     LayoutCondition --> GameResource
     ItemsCondition --> GameItem
     GameField --> PlaceableCard
-    %%Player --> PlaceableCard
     Player --> TokenColor
-    %%Player --> ObjectiveCard
     ScoreTrackBoard --> Player
-    %%GameController --> DrawableDeck
-    %%GameController --> Deck
-    %%GameController --> PlayingDeck
-    %%GameController --> ScoreTrackBoard
-    %%GameController --> Player
-    %%GameController --> Chat
-    %%GameController --> GameField
+    GameView --> ChatView
+    GameView --> DeckView
+    GameView --> GameFieldView
+    GameView --> PlayerView
+    GameView --> ScoreTrackBoardView
+
 
     %%-----------------------------------------------------
     %% MODEL

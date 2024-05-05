@@ -243,3 +243,38 @@ classDiagram
         <<interface>>
         + execute(gameView: GameView)
     }
+
+%% -----------------------------
+%% LISTENERS
+%% -----------------------------
+
+    class ChatListener {
+        <<interface>>
+        ~ receiveChatMessageUpdate(chatMessageUpdate: ChatMessageUpdate)
+    }
+    class DeckListener {
+        <<interface>>
+        ~ receiveStarterCardUpdate(starterCardUpdate StarterCardUpdate)
+        ~ receivePlacedCardUpdate(placedCardUpdate PlacedCardUpdate)
+    }
+    class GameFieldListener{
+        <<interface>>
+        ~ receiveStarterCardUpdate(starterCardUpdate StarterCardUpdate)
+        ~ receivePlacedCardUpdate(placedCardUpdate PlacedCardUpdate)
+    }
+    class GameListener{
+        <<interface>>
+        ~ receiveGameModelUpdate(gameModelUpdate GameModelUpdate)
+        ~ receivePlayerJoinedUpdate(playerJoinedUpdate PlayerJoinedUpdate)
+        ~ receiveCommandResultUpdate(commandResultUpdate CommandResultUpdate)
+    }
+    class PlayerListener {
+        <<interface>>
+        ~ receiveStallUpdate(stallUpdate StallUpdate)
+        ~ receiveConnectionUpdate(connectionUpdate ConnectionUpdate)
+        ~ receiveCardHandUpdate(cardHandUpdate CardHandUpdate)
+    }
+    class ScoreTrackBoardListener {
+        <<interface>>
+        ~ receiveScoreUpdate(scoreUpdate ScoreUpdate)
+    }
