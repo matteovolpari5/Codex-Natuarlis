@@ -37,15 +37,15 @@ class PlaceCardCommandTest {
         // add first player
         Player firstPlayer = new Player("Player1", true, false);
         firstPlayer.setTokenColor(TokenColor.BLUE);
-        gameController.addPlayer(firstPlayer);
+        gameController.addPlayer(null, firstPlayer);
         // add second player
         Player secondPlayer = new Player("Player2", false, false);
         secondPlayer.setTokenColor(TokenColor.GREEN);
-        gameController.addPlayer(secondPlayer);
+        gameController.addPlayer(null, secondPlayer);
         // add third player
         Player thirdPlayer = new Player("Player3", false, false);
         thirdPlayer.setTokenColor(TokenColor.YELLOW);
-        gameController.addPlayer(thirdPlayer);
+        gameController.addPlayer(null, thirdPlayer);
         gameController.setCurrentPlayer(2);
         gameController.getPlayers().get(0).setIsStalled(true);
         gameController.getPlayers().get(1).setIsStalled(true);

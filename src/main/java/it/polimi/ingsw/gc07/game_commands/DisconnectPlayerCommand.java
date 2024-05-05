@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.game_commands;
 
 import it.polimi.ingsw.gc07.controller.GameController;
+import it.polimi.ingsw.gc07.network.VirtualView;
 
 /**
  * Concrete command to disconnect a player from the game.
@@ -9,14 +10,17 @@ public class DisconnectPlayerCommand implements GameCommand {
     /**
      * Nickname of the player that has disconnected.
      */
-    String nickname;
+    private final String nickname;
+
+    private final VirtualView virtualView;
 
     /**
      * Constructor of the concrete command DisconnectPlayerCommand.
      * @param nickname nickname of the player that has disconnected
      */
-    public DisconnectPlayerCommand(String nickname) {
+    public DisconnectPlayerCommand(String nickname, VirtualView virtualView) {
         this.nickname = nickname;
+        this.virtualView = virtualView;
     }
 
     /**
@@ -24,6 +28,6 @@ public class DisconnectPlayerCommand implements GameCommand {
      */
     @Override
     public void execute(GameController gameController) {
-        gameController.disconnectPlayer(nickname);
+        gameController.disconnectPlayer(nickname, virtualView);
     }
 }

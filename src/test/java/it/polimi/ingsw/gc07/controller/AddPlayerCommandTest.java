@@ -40,14 +40,14 @@ class AddPlayerCommandTest {
 
     @Test
     void addPlayerSuccess() {
-        gameController.addPlayer(newPlayer);
+        gameController.addPlayer(null, newPlayer);
     }
 
     @Test
     void addPlayerWrongState() {
         Player firstPlayer = new Player("Player1", true, false);
-        gameController.addPlayer(firstPlayer);
+        gameController.addPlayer(null, firstPlayer);
         Player secondPlayer = new Player("Player2", false, false);
-        gameController.addPlayer(secondPlayer);
+        gameController.addPlayer(null, secondPlayer);
     }
 }

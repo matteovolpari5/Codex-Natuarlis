@@ -142,7 +142,7 @@ public class SocketClient  {
                     int gameId = scan.nextInt();
                     scan.nextLine();
                     try {
-                        myServer.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
+                        myServer.setAndExecuteCommand(new JoinExistingGameCommand(null, nickname, tokenColor, gameId));                // TODO nooooo null, l'ho messo per far compilare
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -177,7 +177,7 @@ public class SocketClient  {
                     scan.nextLine();
                     // TODO potremmo fare già qua il controllo su players number per efficienza
                     try {
-                        myServer.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
+                        myServer.setAndExecuteCommand(new JoinNewGameCommand(null, nickname, tokenColor, playersNumber));       // TODO nooooo null, l'ho messo per far compilare
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -250,7 +250,7 @@ public class SocketClient  {
                     break;
                 case "e":
                     try {
-                        myServer.setAndExecuteCommand(new DisconnectPlayerCommand(nickname));
+                        myServer.setAndExecuteCommand(new DisconnectPlayerCommand(nickname, null));         // TODO nooooo null, l'ho messo per far compilare
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();

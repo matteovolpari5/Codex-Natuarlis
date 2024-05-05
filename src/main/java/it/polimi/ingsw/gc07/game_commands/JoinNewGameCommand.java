@@ -2,11 +2,13 @@ package it.polimi.ingsw.gc07.game_commands;
 
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.VirtualView;
 
 /**
  * Concrete command to add a pending player to a new game.
  */
 public class JoinNewGameCommand implements GamesManagerCommand {
+    VirtualView virtualView;
     /**
      * Nickname of the player to add.
      */
@@ -27,7 +29,8 @@ public class JoinNewGameCommand implements GamesManagerCommand {
      * @param tokenColor token color
      * @param playersNumber players number
      */
-    public JoinNewGameCommand(String nickname, TokenColor tokenColor, int playersNumber) {
+    public JoinNewGameCommand(VirtualView virtualView, String nickname, TokenColor tokenColor, int playersNumber) {
+        this.virtualView = virtualView;
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.playersNumber = playersNumber;
@@ -48,6 +51,6 @@ public class JoinNewGameCommand implements GamesManagerCommand {
      */
     @Override
     public void execute(GamesManager gamesManager) {
-        gamesManager.joinNewGame(nickname, tokenColor, playersNumber);
+        gamesManager.joinNewGame(virtualView, nickname, tokenColor, playersNumber);
     }
 }
