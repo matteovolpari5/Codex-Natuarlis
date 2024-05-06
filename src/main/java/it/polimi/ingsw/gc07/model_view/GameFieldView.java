@@ -1,8 +1,11 @@
 package it.polimi.ingsw.gc07.model_view;
+import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
+import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameFieldView implements Serializable {
     /**
@@ -27,6 +30,9 @@ public class GameFieldView implements Serializable {
      * Constant value representing the max dimension of a player's game field.
      */
     private static final int dim = 81;
+    /**
+     * * List of GameFieldView listeners.
+     * */private final List<GameFieldViewListener> gameFieldViewListeners;
 
     /**
      * Constructor of the game field view.
@@ -51,6 +57,15 @@ public class GameFieldView implements Serializable {
                 this.cardsOrder[i][j] = 0;
             }
         }
+        this.gameFieldViewListeners = new ArrayList<>();
+    }
+
+    /**
+     * Method to register a game field view listener.
+     * @param gameFieldViewListener game field view listener
+     */
+    public void addListener(GameFieldViewListener gameFieldViewListener) {
+        gameFieldViewListeners.add(gameFieldViewListener);
     }
 
     /**
@@ -60,6 +75,8 @@ public class GameFieldView implements Serializable {
     public void setStarterCard(PlaceableCard starterCard) {
         this.starterCard = starterCard;
         System.out.println("The starter card was set");
+
+        // TODO non aggiorno TUI?
     }
 
     /**
@@ -75,5 +92,9 @@ public class GameFieldView implements Serializable {
         cardsFace[x][y] = way;
         cardsOrder[x][y] = orderPosition;
         System.out.println("Card with id " + card.getId() + " placed in pos " + x + "-" + y + " card order " + orderPosition);
+
+        for(GameFieldViewListener l: gameFieldViewListeners) {
+            l.receiveGameFieldUpdate(cardsContent, cardsFace, cardsOrder);
+        }
     }
 }

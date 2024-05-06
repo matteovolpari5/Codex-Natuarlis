@@ -1,16 +1,16 @@
 package it.polimi.ingsw.gc07.view.tui;
 
-import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.conditions.CornerCoverageCondition;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.enumerations.GameObject;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
+import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
 
 import java.util.List;
 
-public class GameFieldTui {
+public class GameFieldTui implements GameFieldViewListener {
 
     public final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
     public final String ANSI_RED_BACKGROUND = "\u001B[41m";
@@ -20,8 +20,12 @@ public class GameFieldTui {
     public final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     public final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+    @Override
+    public void receiveGameFieldUpdate(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        printGameField(cardsContent, cardsFace, cardsOrder);
+    }
 
-    public void printGameField(GameController gameController, PlaceableCard[][] cardsContent, boolean[][] cardsFace, int[][] cardsOrder) {
+    private void printGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         //ricerca inizio righe/fine righe
         int startr = 0, endr = 80;
         for (int r = 0; r < 81; r++) {
@@ -67,13 +71,13 @@ public class GameFieldTui {
             for (int r1 = 0; r1 < 5; r1++) {
                 for (int c = startc; c < endc + 1; c++) {
                     if (r1 == 0 || r1 == 4) {
-                        printFirstLastRow(c, startc, gameController, r, cardsContent);
+                        printFirstLastRow(c, startc, r, cardsContent);
                     } else if (r1 == 1) {
-                        printSecondRow(c, startc, gameController, r,cardsContent,  cardsFace,  cardsOrder);
+                        printSecondRow(c, startc, r,cardsContent,  cardsFace,  cardsOrder);
                     } else if (r1 == 2) {
-                        printThirdRow(c, startc, gameController, r,cardsContent,  cardsFace);
+                        printThirdRow(c, startc, r,cardsContent,  cardsFace);
                     } else {
-                        printFourthRow(c, startc, gameController, r,cardsContent,  cardsFace,  cardsOrder);
+                        printFourthRow(c, startc, r,cardsContent,  cardsFace,  cardsOrder);
                     }
                 }
                 System.out.print("\n");
@@ -110,7 +114,7 @@ public class GameFieldTui {
         }
     }
 
-    public void printFirstLastRow(int c, int startc, GameController gameController, int r, PlaceableCard[][] cardsContent) {
+    public void printFirstLastRow(int c, int startc, int r, PlaceableCard[][] cardsContent) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "+--+");
         }
@@ -125,7 +129,7 @@ public class GameFieldTui {
         }
     }
 
-    public void printSecondRow(int c, int startc, GameController gameController, int r, PlaceableCard[][] cardsContent, boolean[][] cardsFace, int[][] cardsOrder) {
+    public void printSecondRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");
         }
@@ -304,7 +308,7 @@ public class GameFieldTui {
         }
     }
 
-    public void printThirdRow(int c, int startc, GameController gameController, int r, PlaceableCard[][] cardsContent, boolean[][] cardsFace) {
+    public void printThirdRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace) {
         if (c == startc) {
             if (r > 9) {
                 System.out.print(ANSI_BLACK_BACKGROUND + "|" + r + "|");
@@ -350,7 +354,7 @@ public class GameFieldTui {
         }
     }
 
-    public void printFourthRow(int c, int startc, GameController gameController, int r, PlaceableCard[][] cardsContent, boolean[][] cardsFace, int[][] cardsOrder) {
+    public void printFourthRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");
         }

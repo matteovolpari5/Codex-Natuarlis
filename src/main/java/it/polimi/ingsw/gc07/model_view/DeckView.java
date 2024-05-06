@@ -3,7 +3,9 @@ package it.polimi.ingsw.gc07.model_view;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.model_view_listeners.DeckViewListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeckView {
@@ -28,6 +30,8 @@ public class DeckView {
      */
     private List<ObjectiveCard> commonObjective;
 
+    private final List<DeckViewListener> deckViewListeners;
+
     /**
      * Constructor method for DeckView.
      */
@@ -37,6 +41,24 @@ public class DeckView {
         this.faceUpResourceCard = null;
         this.topGoldDeck = null;
         this.topResourceDeck = null;
+        this.deckViewListeners = new ArrayList<>();
+    }
+
+    /**
+     * Method to register a deck view listener.
+     * @param deckViewListener deck view listener
+     */
+    public void addListener(DeckViewListener deckViewListener) {
+        deckViewListeners.add(deckViewListener);
+    }
+
+    /**
+     * Method used to send a deck update.
+     */
+    private void sendDecksUpdate() {
+        for(DeckViewListener l: deckViewListeners) {
+            l.receiveDecksUpdate(topResourceDeck, topGoldDeck, faceUpResourceCard, faceUpGoldCard, commonObjective);
+        }
     }
 
     /**
@@ -46,6 +68,7 @@ public class DeckView {
     public void setTopResourceDeck(DrawableCard topResourceDeck) {
         this.topResourceDeck = topResourceDeck;
         System.out.println("New top resource: " + this.topResourceDeck.getId());
+        sendDecksUpdate();
     }
 
     /**
@@ -54,6 +77,7 @@ public class DeckView {
      */
     public void setTopGoldDeck(GoldCard topGoldDeck) {
         this.topGoldDeck = topGoldDeck;
+        sendDecksUpdate();
     }
 
     /**
@@ -62,6 +86,7 @@ public class DeckView {
      */
     public void setFaceUpResourceCard(List<DrawableCard> faceUpResourceCard) {
         this.faceUpResourceCard = faceUpResourceCard;
+        sendDecksUpdate();
     }
 
     /**
@@ -70,6 +95,7 @@ public class DeckView {
      */
     public void setFaceUpGoldCard(List<GoldCard> faceUpGoldCard) {
         this.faceUpGoldCard = faceUpGoldCard;
+        sendDecksUpdate();
     }
 
     /**
@@ -78,6 +104,7 @@ public class DeckView {
      */
     public void setCommonObjective(List<ObjectiveCard> commonObjective) {
         this.commonObjective = commonObjective;
+        sendDecksUpdate();
     }
 }
 

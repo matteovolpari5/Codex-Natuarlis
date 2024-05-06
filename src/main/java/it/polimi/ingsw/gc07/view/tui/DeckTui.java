@@ -7,10 +7,11 @@ import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
 import it.polimi.ingsw.gc07.model.enumerations.GameObject;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
+import it.polimi.ingsw.gc07.model_view_listeners.DeckViewListener;
 
 import java.util.List;
 
-public class DeckTui {
+public class DeckTui implements DeckViewListener {
     public final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
     public final String ANSI_RED_BACKGROUND = "\u001B[41m";
     public final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
@@ -19,8 +20,12 @@ public class DeckTui {
     public final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     public final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-    public void printDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck,DrawableCard topResourceDeck)
-    {
+    @Override
+    public void receiveDecksUpdate(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
+        printDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
+    }
+
+    private void printDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck, DrawableCard topResourceDeck) {
         printFirstLastRowDeck();
         printSecondRowDeck(commonObjective.get(0),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
         printThirdRowDeck(commonObjective.get(0),topGoldDeck);
