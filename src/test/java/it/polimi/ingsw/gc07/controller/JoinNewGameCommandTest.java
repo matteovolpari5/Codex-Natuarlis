@@ -25,7 +25,7 @@ class JoinNewGameCommandTest {
     void joinNewGameSuccess(){
         playersNumber = 3;
         gamesManager.setAndExecuteCommand(new JoinNewGameCommand("Player1", TokenColor.RED, playersNumber));
-        assertEquals(CommandResult.CREATE_SERVER_GAME, gamesManager.getCommandResult());
+        assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
         assertNull(gamesManager.getPendingPlayer("Player1"));
         boolean found = false;
         for (GameController g: gamesManager.getGames()){

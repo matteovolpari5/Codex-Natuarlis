@@ -51,7 +51,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         this.viewAlive = true;
     }
 
-
     /**
      * Method that allows the client to connect with RMIServerGamesManager, the general server.
      * @param connectionType connection type
@@ -79,12 +78,18 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
 
     /**
      * Method that allows to set a RmiServerGame, the game specific server, for the client.
-     * @param serverGame RmiServerGame
+     * @param gameId game id
      * @throws RemoteException remote exception
      */
     @Override
-    public void setServerGame(VirtualServerGame serverGame) throws RemoteException {
-        this.serverGame = serverGame;
+    public void setServerGame(int gameId) throws RemoteException {
+        try {
+            this.serverGame = serverGamesManager.getGameServer(gameId);
+        }catch(RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
         // game joined
         connectToGameServer();
         startGamePing();
@@ -112,12 +117,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         new Thread(this::runCliJoinGame).start();
     }
 
-    @Override
-    public void setGameController(int gameId) throws RemoteException {
-        //TODO serve per socket
-    }
-
-
     /**
      * Getter method for nickname
      * @return nickname
@@ -139,7 +138,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         new Thread(()->{
             while(viewAlive) {
                 try {
-                    serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
+                    serverGame.setAndExecuteCommand(new SendPingControllerCommand(nickname));
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
@@ -271,11 +270,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to write a private message"); // AddChatPrivateMessage
             System.out.println("- w to write a public message"); // AddChatPublicMessage
-            System.out.println("- e to disconnect from the game"); // DisconnectPlayerCommand
-            System.out.println("- r to draw a card from a deck"); // DrawDeckCardCommand
-            System.out.println("- t to draw a face up card"); // DrawFaceUpCardCommand
-            System.out.println("- y to place a card"); // PlaceCardCommand
-            System.out.println("- u to place the starter card"); // PlaceStarterCardCommand
+            System.out.println("- e to disconnect from the game"); // DisconnectPlayerControllerCommand
+            System.out.println("- r to draw a card from a deck"); // DrawDeckCardControllerCommand
+            System.out.println("- t to draw a face up card"); // DrawFaceUpCardControllerCommand
+            System.out.println("- y to place a card"); // PlaceCardControllerCommand
+            System.out.println("- u to place the starter card"); // PlaceStarterCardControllerCommand
             System.out.print("> ");
             String command = scan.nextLine();
             switch(command){
@@ -287,7 +286,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     System.out.print("> ");
                     String content = scan.nextLine();
                     try {
-                        serverGame.setAndExecuteCommand(new AddChatPrivateMessageCommand(content, nickname, receiver));
+                        serverGame.setAndExecuteCommand(new AddChatPrivateMessageControllerCommand(content, nickname, receiver));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -299,7 +298,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     System.out.print("> ");
                     content = scan.nextLine();
                     try {
-                        serverGame.setAndExecuteCommand(new AddChatPublicMessageCommand(content, nickname));
+                        serverGame.setAndExecuteCommand(new AddChatPublicMessageControllerCommand(content, nickname));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -308,7 +307,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     break;
                 case "e":
                     try {
-                        serverGame.setAndExecuteCommand(new DisconnectPlayerCommand(nickname));
+                        serverGame.setAndExecuteCommand(new DisconnectPlayerControllerCommand(nickname));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -331,7 +330,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                         continue;
                     }
                     try {
-                        serverGame.setAndExecuteCommand(new DrawDeckCardCommand(nickname, cardType));
+                        serverGame.setAndExecuteCommand(new DrawDeckCardControllerCommand(nickname, cardType));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -357,7 +356,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     //TODO possiamo introdurre un controllo per evitare una chiamata
                     // inutile se la posizione eccede il range possibile
                     try {
-                        serverGame.setAndExecuteCommand(new DrawFaceUpCardCommand(nickname, cardType, pos));
+                        serverGame.setAndExecuteCommand(new DrawFaceUpCardControllerCommand(nickname, cardType, pos));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -398,7 +397,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     }
                     // create and execute command
                     try {
-                        serverGame.setAndExecuteCommand(new PlaceCardCommand(nickname, cardPos, x, y, way));
+                        serverGame.setAndExecuteCommand(new PlaceCardControllerCommand(nickname, cardPos, x, y, way));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -419,7 +418,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                         continue;
                     }
                     try {
-                        serverGame.setAndExecuteCommand(new PlaceStarterCardCommand(nickname, way));
+                        serverGame.setAndExecuteCommand(new PlaceStarterCardControllerCommand(nickname, way));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();

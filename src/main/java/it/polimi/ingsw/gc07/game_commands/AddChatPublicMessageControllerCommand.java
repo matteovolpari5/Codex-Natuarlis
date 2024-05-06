@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc07.controller.GameController;
 /**
  * Concrete command to add a public message to the chat.
  */
-public class AddChatPublicMessageCommand implements GameCommand {
+public class AddChatPublicMessageControllerCommand implements GameControllerCommand {
     /**
      * Content of the public message.
      */
@@ -16,17 +16,17 @@ public class AddChatPublicMessageCommand implements GameCommand {
     private final String sender;
 
     /**
-     * Constructor of the concrete command AddChatPublicMessageCommand.
+     * Constructor of the concrete command AddChatPublicMessageControllerCommand.
      * @param content content of the message
      * @param sender sender of the message
      */
-    public AddChatPublicMessageCommand(String content, String sender) {
+    public AddChatPublicMessageControllerCommand(String content, String sender) {
         this.content = content;
         this.sender = sender;
     }
 
     /**
-     * Method to execute the concrete command AddChatPublicMessageCommand.
+     * Method to execute the concrete command AddChatPublicMessageControllerCommand.
      */
     @Override
     public void execute(GameController gameController) {

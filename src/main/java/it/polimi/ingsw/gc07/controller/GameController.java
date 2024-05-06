@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.game_commands.GameCommand;
+import it.polimi.ingsw.gc07.game_commands.GameControllerCommand;
 import it.polimi.ingsw.gc07.model.*;
 import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.*;
@@ -138,8 +138,8 @@ public class GameController {
         return gameModel.getCommandResult();
     }
 
-    public synchronized void setAndExecuteCommand(GameCommand gameCommand) {
-        gameCommand.execute(this);
+    public synchronized void setAndExecuteCommand(GameControllerCommand gameControllerCommand) {
+        gameControllerCommand.execute(this);
     }
 
     public void addListener(String nickname, VirtualView client) {
@@ -230,10 +230,11 @@ public class GameController {
 
         VirtualView virtualView = pingReceiver.getVirtualView(nickname);
 
+        gameModel.removeListener(virtualView);
+
         // remove listener
         if(player.getConnectionType()) {
             // RMI
-            gameModel.removeListener(virtualView);
             try {
                 RmiServerGamesManager.getRmiServerGamesManager().removeVirtualView(virtualView);
             } catch (RemoteException e) {
@@ -242,17 +243,8 @@ public class GameController {
                 throw new RuntimeException();
             }
         }else {
-            // Socket
             try {
-                gameModel.removeListener(SocketServer.getSocketServer().getVirtualView(nickname));   // TODO problematico !!!!!
-            }catch(RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-
-            try {
-                SocketServer.getSocketServer().removeVirtualView(nickname);
+                SocketServer.getSocketServer().removeVirtualView(virtualView);
             } catch (RemoteException e) {
                 // TODO
                 e.printStackTrace();
@@ -339,7 +331,7 @@ public class GameController {
         }else {
             // if new connection type is Socket
             try {
-                client.setGameController(getId());
+                client.setServerGame(getId());
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

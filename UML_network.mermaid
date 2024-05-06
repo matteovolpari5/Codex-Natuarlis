@@ -59,7 +59,7 @@ classDiagram
         + RmiServerGame(gameController: GameController)
         - startCommandExecutor()
         + connect(client: VirtualView)
-        + setAndExecuteCommand(gameCommand: GameCommand)
+        + setAndExecuteCommand(gameControllerCommand: GameCommand)
     }
     class RmiServerGamesManager{
         - myRmiServerGamesManager: RmiServerGamesManager
@@ -132,7 +132,7 @@ classDiagram
     class VirtualSocketServer{
         - output: ObjectOutputStream
         + VirtualSocketServer(output: ObjectOutputStream)
-        + setAndExecuteCommand(gameCommand: GameCommand)
+        + setAndExecuteCommand(gameControllerCommand: GameCommand)
         + setAndExecuteCommand(gamesManagerCommand: GamesManagerCommand)
         + checkNickname(nickname: String)
     }
@@ -154,7 +154,7 @@ classDiagram
     class VirtualServerGame{
         <<interface>>
         ~ connect(client: VirtualView)
-        ~ setAndExecuteCommand(gameCommand: GameCommand)
+        ~ setAndExecuteCommand(gameControllerCommand: GameCommand)
     }
     class VirtualServerGamesManager{
         <<interface>>

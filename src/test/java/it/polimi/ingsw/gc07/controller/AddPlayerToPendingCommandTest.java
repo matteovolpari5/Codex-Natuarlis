@@ -44,7 +44,7 @@ class AddPlayerToPendingCommandTest {
 
         // make Player1 join a new gameController
         gamesManager.setAndExecuteCommand(new JoinNewGameCommand("Player1", TokenColor.GREEN, 3));
-        assertEquals(CommandResult.CREATE_SERVER_GAME, gamesManager.getCommandResult());
+        assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
 
         // try to add Player1 to pending players
         assertThrows(RuntimeException.class, () -> {

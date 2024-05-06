@@ -253,7 +253,7 @@ public class GamesManager {
                 }
                 if(!player.getConnectionType()){
                     try {
-                        SocketServer.getSocketServer().getVirtualView(nickname).setGameController(gameId);
+                        SocketServer.getSocketServer().getVirtualView(nickname).setServerGame(gameId);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -275,6 +275,7 @@ public class GamesManager {
             // RMI client
             RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameId);
         }
+        commandResult = CommandResult.SUCCESS;
     }
 
     public void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
@@ -304,7 +305,7 @@ public class GamesManager {
             if(gameController.getId() == gameId) {
                 if(!player.getConnectionType()){
                     try {
-                        SocketServer.getSocketServer().getVirtualView(nickname).setGameController(gameId);
+                        SocketServer.getSocketServer().getVirtualView(nickname).setServerGame(gameId);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -321,6 +322,8 @@ public class GamesManager {
             // RMI client
             RmiServerGamesManager.getRmiServerGamesManager().createServerGame(nickname, gameId);
         }
+
+        commandResult = CommandResult.SUCCESS;
     }
 
     /**

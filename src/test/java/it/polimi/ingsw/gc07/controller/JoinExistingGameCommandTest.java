@@ -41,7 +41,7 @@ class JoinExistingGameCommandTest {
     @Test
     void JoinExistingGameSuccess() {
         gamesManager.setAndExecuteCommand(new JoinExistingGameCommand("P2", TokenColor.RED, 0));
-        assertEquals(CommandResult.SET_SERVER_GAME, gamesManager.getCommandResult());
+        assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
         assertNull(gamesManager.getPendingPlayer("P2"));
         boolean found;
         found = false;

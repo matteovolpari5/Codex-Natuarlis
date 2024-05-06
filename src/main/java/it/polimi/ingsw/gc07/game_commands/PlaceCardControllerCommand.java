@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc07.controller.GameController;
 /**
  * Concrete command to place a card.
  */
-public class PlaceCardCommand implements GameCommand {
+public class PlaceCardControllerCommand implements GameControllerCommand {
     /**
      * Nickname of the player that will place the card.
      */
@@ -28,14 +28,14 @@ public class PlaceCardCommand implements GameCommand {
     private final boolean way;
 
     /**
-     * Constructor of the concrete command PlaceCardCommand.
+     * Constructor of the concrete command PlaceCardControllerCommand.
      * @param nickname nickname
      * @param pos position in hand
      * @param x row
      * @param y column
      * @param way way
      */
-    public PlaceCardCommand(String nickname, int pos, int x, int y, boolean way) {
+    public PlaceCardControllerCommand(String nickname, int pos, int x, int y, boolean way) {
         this.nickname = nickname;
         this.pos = pos;
         this.x = x;

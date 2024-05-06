@@ -6,7 +6,7 @@ import it.polimi.ingsw.gc07.model.enumerations.CardType;
 /**
  * Concrete command to draw one of two faceUp cards of a given type.
  */
-public class DrawFaceUpCardCommand implements GameCommand {
+public class DrawFaceUpCardControllerCommand implements GameControllerCommand {
     /**
      * Nickname of the player.
      */
@@ -23,12 +23,12 @@ public class DrawFaceUpCardCommand implements GameCommand {
     private final int pos;
 
     /**
-     * Constructor of the concrete command DrawFaceUpCardCommand.
+     * Constructor of the concrete command DrawFaceUpCardControllerCommand.
      * @param nickname nickname
      * @param type type
      * @param pos pos
      */
-    public DrawFaceUpCardCommand(String nickname, CardType type, int pos) {
+    public DrawFaceUpCardControllerCommand(String nickname, CardType type, int pos) {
         this.nickname = nickname;
         this.type = type;
         this.pos = pos;

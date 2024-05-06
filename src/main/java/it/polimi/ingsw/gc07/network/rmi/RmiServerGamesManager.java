@@ -6,6 +6,7 @@ import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
@@ -103,6 +104,12 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         return GamesManager.getGamesManager().checkNickname(nickname);
     }
 
+    @Override
+    public VirtualServerGame getGameServer(int gameId) throws RemoteException {
+        assert(rmiServerGames.containsKey(gameId));
+        return rmiServerGames.get(gameId);
+    }
+
     /**
      * Method that allows the client to execute a games manager command.
      * @param gamesManagerCommand games manager command to set and execute
@@ -127,14 +134,13 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * @param gameId game id
      */
     public void setServerGame(String nickname, int gameId) {
-
         assert(rmiServerGames.containsKey(gameId));
         try {
             VirtualView virtualView = getVirtualView(nickname);
             if(virtualView == null) {
                 throw new RuntimeException();
             }
-            virtualView.setServerGame(rmiServerGames.get(gameId));
+            virtualView.setServerGame(gameId);
         }catch(RemoteException e) {
             // TODO
             e.printStackTrace();
@@ -155,7 +161,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
                 throw new RuntimeException();
             }
             rmiServerGames.put(gameId, new RmiServerGame(GamesManager.getGamesManager().getGameById(gameId)));
-            virtualView.setServerGame(rmiServerGames.get(gameId));
+            virtualView.setServerGame(gameId);
         }catch(RemoteException e) {
             // TODO
             e.printStackTrace();
@@ -207,7 +213,8 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * @return virtual view
      * @throws RemoteException remote exception
      */
-    public VirtualView getVirtualView(String nickname) throws RemoteException {
+    // TODO: attenzione, se la virtual view è morta, becco eccezione nella chiamata getNickname
+    private VirtualView getVirtualView(String nickname) throws RemoteException {
         for(VirtualView client : clients) {
             if(client.getNickname().equals(nickname)) {
                 return client;
@@ -249,6 +256,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         }
     }
 
+    // TODO: attenzione, se la virtual view è morta, becco eccezione nella chiamata getNickname
     public void removeVirtualView(String nickname) throws RemoteException {
         VirtualView virtualView = getVirtualView(nickname);
         clients.remove(virtualView);

@@ -3,7 +3,7 @@ package it.polimi.ingsw.gc07.game_commands;
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.model.enumerations.CardType;
 
-public class DrawDeckCardCommand implements GameCommand {
+public class DrawDeckCardControllerCommand implements GameControllerCommand {
     /**
      *  Nickname of the player.
      */
@@ -15,11 +15,11 @@ public class DrawDeckCardCommand implements GameCommand {
     private final CardType type;
 
     /**
-     * Constructor of the concrete command DrawDeckCardCommand.
+     * Constructor of the concrete command DrawDeckCardControllerCommand.
      * @param nickname nickname of the player
      * @param type deck's type
      */
-    public DrawDeckCardCommand(String nickname, CardType type) {
+    public DrawDeckCardControllerCommand(String nickname, CardType type) {
         this.type = type;
         this.nickname = nickname;
     }

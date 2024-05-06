@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardCommand;
+import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardControllerCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
@@ -44,7 +44,7 @@ class PlaceStarterCardCommandTest {
 
     @Test
     void PlaceStarterCardSuccess() {
-        gameController.setAndExecuteCommand(new PlaceStarterCardCommand(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname(), true));
+        gameController.setAndExecuteCommand(new PlaceStarterCardControllerCommand(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname(), true));
         CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
     }

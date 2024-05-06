@@ -36,6 +36,7 @@ public class SocketServer {
     public void initializeSocketServer(ServerSocket mySocket){
         this.mySocket = mySocket;
     }
+
     public void runServer() throws IOException {
         System.out.println("SS> Socket server running");
         //TODO slide 21 utilizza executor per gestire i thread, in questo caso
@@ -50,6 +51,7 @@ public class SocketServer {
         }
     }
 
+    // TODO: attenzione, se la virtual view è morta, becco eccezione nella chiamata getNickname
     public VirtualView getVirtualView(String nickname) throws RemoteException {
         for(VirtualView client : clients) {
             if(client.getNickname().equals(nickname)) {
@@ -59,8 +61,7 @@ public class SocketServer {
         return null;
     }
 
-    public void removeVirtualView(String nickname)throws RemoteException {
-        VirtualView virtualView = getVirtualView(nickname);
+    public void removeVirtualView(VirtualView virtualView)throws RemoteException {
         clients.remove(virtualView);
     }
 

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
 import it.polimi.ingsw.gc07.controller.GameController;
-import it.polimi.ingsw.gc07.game_commands.GameCommand;
-import it.polimi.ingsw.gc07.game_commands.SendPingCommand;
+import it.polimi.ingsw.gc07.game_commands.GameControllerCommand;
+import it.polimi.ingsw.gc07.game_commands.SendPingControllerCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
@@ -19,7 +19,7 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
     /**
      * Queue containing commands to execute.
      */
-    private final BlockingDeque<GameCommand> commandsQueue;
+    private final BlockingDeque<GameControllerCommand> commandsQueue;
 
     /**
      * Constructor of RmiServerGame.
@@ -41,11 +41,11 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
         new Thread(() -> {
             while(true) {
                 try {
-                    GameCommand command = commandsQueue.take();
+                    GameControllerCommand command = commandsQueue.take();
                     gameController.setAndExecuteCommand(command);
 
                     boolean print = true;
-                    if(command instanceof SendPingCommand) {
+                    if(command instanceof SendPingControllerCommand) {
                         print = false;
                     }
                     if(print) {
@@ -73,15 +73,15 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
 
     /**
      * Method that allows the client to execute a game command.
-     * @param gameCommand game command to set and execute
+     * @param gameControllerCommand game command to set and execute
      * @throws RemoteException remote exception
      */
     @Override
-    public synchronized void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException {
+    public synchronized void setAndExecuteCommand(GameControllerCommand gameControllerCommand) throws RemoteException {
         // TODO serve sincronizzato? non penso
         try {
             // blocking queues are thread safe
-            commandsQueue.put(gameCommand);
+            commandsQueue.put(gameControllerCommand);
         }catch(InterruptedException e) {
             // TODO
             e.printStackTrace();

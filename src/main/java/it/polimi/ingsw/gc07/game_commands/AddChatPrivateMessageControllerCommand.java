@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc07.controller.GameController;
 /**
  * Concrete command to add a private message to the chat.
  */
-public class AddChatPrivateMessageCommand implements GameCommand {
+public class AddChatPrivateMessageControllerCommand implements GameControllerCommand {
     /**
      * Content of the private message.
      */
@@ -25,14 +25,14 @@ public class AddChatPrivateMessageCommand implements GameCommand {
      * @param sender sender nickname
      * @param receiver receiver nickname
      */
-    public AddChatPrivateMessageCommand(String content, String sender, String receiver) {
+    public AddChatPrivateMessageControllerCommand(String content, String sender, String receiver) {
         this.content = content;
         this.sender = sender;
         this.receiver = receiver;
     }
 
     /**
-     * Method to execute the concrete command AddChatPrivateMessageCommand.
+     * Method to execute the concrete command AddChatPrivateMessageControllerCommand.
      */
     @Override
     public void execute(GameController gameController) {

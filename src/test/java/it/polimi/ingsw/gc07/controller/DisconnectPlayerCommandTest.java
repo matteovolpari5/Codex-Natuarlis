@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.game_commands.DisconnectPlayerCommand;
+import it.polimi.ingsw.gc07.game_commands.DisconnectPlayerControllerCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
@@ -41,7 +41,7 @@ class DisconnectPlayerCommandTest {
 
     @Test
     void disconnectPlayerSuccess() {
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player1"));
+        gameController.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player1"));
         CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
     }
@@ -49,11 +49,11 @@ class DisconnectPlayerCommandTest {
     @Test
     void playerAlreadyDisconnected() {
         // disconnect player
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player2"));
+        gameController.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player2"));
         CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
         // try to disconnect the same player
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player2"));
+        gameController.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player2"));
         result = gameController.getCommandResult();
         assertEquals(CommandResult.PLAYER_ALREADY_DISCONNECTED, result);
     }
@@ -61,7 +61,7 @@ class DisconnectPlayerCommandTest {
     @Test
     void disconnectPlayerNotPresent() {
         // disconnect player not present in the gameController
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("AnOtherPlayer"));
+        gameController.setAndExecuteCommand(new DisconnectPlayerControllerCommand("AnOtherPlayer"));
         CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, result);
     }

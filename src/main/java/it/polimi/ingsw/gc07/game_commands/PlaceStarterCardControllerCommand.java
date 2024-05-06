@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc07.controller.GameController;
 /**
  * Concrete command to place the starter card in a certain way.
  */
-public class PlaceStarterCardCommand implements GameCommand {
+public class PlaceStarterCardControllerCommand implements GameControllerCommand {
     /**
      * Nickname of the player.
      */
@@ -17,11 +17,11 @@ public class PlaceStarterCardCommand implements GameCommand {
     private final boolean way;
 
     /**
-     * Constructor of the concrete command PlaceStarterCardCommand.
+     * Constructor of the concrete command PlaceStarterCardControllerCommand.
      * @param nickname nickname
      * @param way way
      */
-    public PlaceStarterCardCommand(String nickname, boolean way) {
+    public PlaceStarterCardControllerCommand(String nickname, boolean way) {
         this.nickname = nickname;
         this.way = way;
     }

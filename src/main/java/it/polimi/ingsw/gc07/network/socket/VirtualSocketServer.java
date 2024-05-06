@@ -1,11 +1,6 @@
 package it.polimi.ingsw.gc07.network.socket;
 
-import it.polimi.ingsw.gc07.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.GameCommand;
-import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
-import it.polimi.ingsw.gc07.network.VirtualServerGame;
-import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
-import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -13,7 +8,7 @@ import java.rmi.RemoteException;
 /**
  * Class used to abstract the network from the client side, this class manages the communication from client to server
  */
-public class VirtualSocketServer implements VirtualServerGamesManager, VirtualServerGame {
+public class VirtualSocketServer {
     private final ObjectOutputStream output;
 
     public VirtualSocketServer(ObjectOutputStream output, String nickname, String status, boolean interfaceType){
@@ -36,17 +31,6 @@ public class VirtualSocketServer implements VirtualServerGamesManager, VirtualSe
         }
     }
 
-    @Override
-    public void connect(VirtualView client) throws RemoteException {
-        //TODO non utilizzato in socket
-    }
-
-    @Override
-    public void connect(String nickname, VirtualView client) throws RemoteException {
-        //TODO non utilizzato in socket
-    }
-
-    @Override
     public void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException {
         System.out.println("VSS> SetAndExecuteGC");
         try{
@@ -57,25 +41,6 @@ public class VirtualSocketServer implements VirtualServerGamesManager, VirtualSe
         } catch (IOException e){ //TODO forse cogola intede che il metodo nella signature ha throws NetworkException e a questo punto fa catch e solleva IO oppure Remote ?
             throw new RuntimeException();
         }
-    }
-
-    @Override
-    public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
-        System.out.println("VSS> SetAndExecuteGMC");
-        try{
-            output.writeObject(gamesManagerCommand);
-            output.flush();
-            output.reset();
-            output.flush();
-        } catch (IOException e){
-            throw new RemoteException();
-        }
-    }
-
-    @Override
-    public NicknameCheck checkNickname(String nickname) throws RemoteException {
-        return null;
-        // TODO
     }
 
     //TODO metodo disconnect()?

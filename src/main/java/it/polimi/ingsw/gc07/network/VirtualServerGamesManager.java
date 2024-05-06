@@ -16,10 +16,13 @@ public interface VirtualServerGamesManager extends Remote {
 
     NicknameCheck checkNickname(String nickname) throws RemoteException;
 
+    VirtualServerGame getGameServer(int gameId) throws RemoteException;
+
     /**
      * Method to set a command and execute games manager command.
      * @param gamesManagerCommand games manager command to set and execute
      * @throws RemoteException remote exception
      */
-    void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException; //TODO sollevare invece networkException, nei metodi di rmi e socket rilanciarle come remoteexception o ioexception;
+    void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException;
+    //TODO sollevare invece networkException, nei metodi di rmi e socket rilanciarle come remoteexception o ioexception;
 }

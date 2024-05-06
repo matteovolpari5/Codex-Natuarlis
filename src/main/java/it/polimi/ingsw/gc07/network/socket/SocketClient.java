@@ -229,11 +229,11 @@ public class SocketClient  {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to write a private message"); // AddChatPrivateMessage
             System.out.println("- w to write a public message"); // AddChatPublicMessage
-            System.out.println("- e to disconnect from the game"); // DisconnectPlayerCommand
-            System.out.println("- r to draw a card from a deck"); // DrawDeckCardCommand
-            System.out.println("- t to draw a face up card"); // DrawFaceUpCardCommand
-            System.out.println("- y to place a card"); // PlaceCardCommand
-            System.out.println("- u to place the starter card"); // PlaceStarterCardCommand
+            System.out.println("- e to disconnect from the game"); // DisconnectPlayerControllerCommand
+            System.out.println("- r to draw a card from a deck"); // DrawDeckCardControllerCommand
+            System.out.println("- t to draw a face up card"); // DrawFaceUpCardControllerCommand
+            System.out.println("- y to place a card"); // PlaceCardControllerCommand
+            System.out.println("- u to place the starter card"); // PlaceStarterCardControllerCommand
             System.out.print("> ");
             String command = scan.nextLine();
             switch(command){
@@ -245,7 +245,7 @@ public class SocketClient  {
                     System.out.print("> ");
                     content = scan.nextLine();
                     try {
-                        myServer.setAndExecuteCommand(new AddChatPrivateMessageCommand(content, nickname, receiver));
+                        myServer.setAndExecuteCommand(new AddChatPrivateMessageControllerCommand(content, nickname, receiver));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -257,7 +257,7 @@ public class SocketClient  {
                     System.out.print("> ");
                     content = scan.nextLine();
                     try {
-                        myServer.setAndExecuteCommand(new AddChatPublicMessageCommand(content, nickname));
+                        myServer.setAndExecuteCommand(new AddChatPublicMessageControllerCommand(content, nickname));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -266,7 +266,7 @@ public class SocketClient  {
                     break;
                 case "e":
                     try {
-                        myServer.setAndExecuteCommand(new DisconnectPlayerCommand(nickname));
+                        myServer.setAndExecuteCommand(new DisconnectPlayerControllerCommand(nickname));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -286,7 +286,7 @@ public class SocketClient  {
                         continue;
                     }
                     try {
-                        myServer.setAndExecuteCommand(new DrawDeckCardCommand(nickname, cardType));
+                        myServer.setAndExecuteCommand(new DrawDeckCardControllerCommand(nickname, cardType));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -312,7 +312,7 @@ public class SocketClient  {
                     //TODO possiamo introdurre un controllo per evitare una chiamata
                     // inutile se la posizione eccede il range possibile
                     try {
-                        myServer.setAndExecuteCommand(new DrawFaceUpCardCommand(nickname, cardType, pos));
+                        myServer.setAndExecuteCommand(new DrawFaceUpCardControllerCommand(nickname, cardType, pos));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -352,7 +352,7 @@ public class SocketClient  {
                     }
                     // create and execute command
                     try {
-                        myServer.setAndExecuteCommand(new PlaceCardCommand(nickname, cardPos, x, y, way));
+                        myServer.setAndExecuteCommand(new PlaceCardControllerCommand(nickname, cardPos, x, y, way));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();
@@ -373,7 +373,7 @@ public class SocketClient  {
                         continue;
                     }
                     try {
-                        myServer.setAndExecuteCommand(new PlaceStarterCardCommand(nickname, way));
+                        myServer.setAndExecuteCommand(new PlaceStarterCardControllerCommand(nickname, way));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();

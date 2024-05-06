@@ -2,11 +2,10 @@ package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
-import it.polimi.ingsw.gc07.game_commands.GameCommand;
+import it.polimi.ingsw.gc07.game_commands.GameControllerCommand;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.game_commands.ReconnectPlayerCommand;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
 
@@ -86,10 +85,10 @@ public class SocketClientHandler implements VirtualView {
 
     private void manageGameCommand(){
         System.out.println("SCH-T> manageGCommand");
-        GameCommand command;
+        GameControllerCommand command;
         while(true){
             try{
-                command = (GameCommand) input.readObject();
+                command = (GameControllerCommand) input.readObject();
                 synchronized (gameController){
                     gameController.setAndExecuteCommand(command);
                     CommandResult result = gameController.getCommandResult();
@@ -123,17 +122,14 @@ public class SocketClientHandler implements VirtualView {
             throw new RuntimeException();
         }
     }
-    @Override
-    public void setServerGame(VirtualServerGame serverGame) throws RemoteException {
-        //TODO non utilizzato in socket
-    }
+
     @Override
     public String getNickname() throws RemoteException {
         return myClientNickname;
     }
 
     @Override
-    public void setGameController(int gameId) throws RemoteException {
+    public void setServerGame(int gameId) throws RemoteException {
         if(myClientStatus.equals("new")){
             String result = "Game joined.";
             try {
