@@ -270,7 +270,6 @@ public class GamesManager {
             return;
         }
 
-        commandResult = CommandResult.SET_SERVER_GAME;
         // join successful, but it is necessary to set the game for the client
         if(player.getConnectionType()) {
             // RMI client
@@ -316,7 +315,6 @@ public class GamesManager {
             }
             pendingPlayers.remove(player);
         }
-        commandResult = CommandResult.CREATE_SERVER_GAME;
 
         // join successful, but it is necessary to set the game for the client
         if(player.getConnectionType()) {

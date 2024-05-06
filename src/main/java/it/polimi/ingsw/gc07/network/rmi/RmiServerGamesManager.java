@@ -127,7 +127,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * @param gameId game id
      */
     public void setServerGame(String nickname, int gameId) {
-        assert(GamesManager.getGamesManager().getCommandResult().equals(CommandResult.SET_SERVER_GAME)): "Wrong method call";
+
         assert(rmiServerGames.containsKey(gameId));
         try {
             VirtualView virtualView = getVirtualView(nickname);
@@ -149,7 +149,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * @param gameId game id
      */
     public void createServerGame(String nickname, int gameId) {
-        assert(GamesManager.getGamesManager().getCommandResult().equals(CommandResult.CREATE_SERVER_GAME)): "Wrong method call";
         try {
             VirtualView virtualView = getVirtualView(nickname);
             if(virtualView == null) {

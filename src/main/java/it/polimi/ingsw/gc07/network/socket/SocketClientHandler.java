@@ -125,7 +125,7 @@ public class SocketClientHandler implements VirtualView {
     }
     @Override
     public void setServerGame(VirtualServerGame serverGame) throws RemoteException {
-        //TODO non utilizzato in socket, potrebbe
+        //TODO non utilizzato in socket
     }
     @Override
     public String getNickname() throws RemoteException {
