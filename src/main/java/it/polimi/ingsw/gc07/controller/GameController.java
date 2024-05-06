@@ -259,6 +259,7 @@ public class GameController {
 
         // set player disconnected
         player.setIsConnected(false);
+        pingReceiver.notifyPlayerDisconnected(nickname);
         System.out.println("Disconnected " + nickname);
 
         // if the player is the current one
