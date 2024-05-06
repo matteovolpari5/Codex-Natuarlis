@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.listeners;
+package it.polimi.ingsw.gc07.model_listeners;
 
 import it.polimi.ingsw.gc07.updates.ScoreUpdate;
 

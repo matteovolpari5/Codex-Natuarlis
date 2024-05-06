@@ -1,9 +1,9 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.controller.GameState;
-import it.polimi.ingsw.gc07.listeners.GameFieldListener;
-import it.polimi.ingsw.gc07.listeners.GameListener;
-import it.polimi.ingsw.gc07.listeners.PlayerListener;
+import it.polimi.ingsw.gc07.model_listeners.GameFieldListener;
+import it.polimi.ingsw.gc07.model_listeners.GameListener;
+import it.polimi.ingsw.gc07.model_listeners.PlayerListener;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;

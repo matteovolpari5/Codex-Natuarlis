@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.network;
 
-import it.polimi.ingsw.gc07.controller.GameController;
-import it.polimi.ingsw.gc07.listeners.*;
+import it.polimi.ingsw.gc07.model_listeners.*;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
 import java.rmi.Remote;
