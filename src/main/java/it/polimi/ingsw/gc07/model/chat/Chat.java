@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model.chat;
 
-import it.polimi.ingsw.gc07.listeners.ChatListener;
+import it.polimi.ingsw.gc07.model_listeners.ChatListener;
 import it.polimi.ingsw.gc07.updates.ChatMessageUpdate;
 
 import java.rmi.RemoteException;

@@ -1,9 +1,7 @@
 package it.polimi.ingsw.gc07.model.chat;
 
-import it.polimi.ingsw.gc07.controller.GamesManager;
-import it.polimi.ingsw.gc07.listeners.ChatListener;
+import it.polimi.ingsw.gc07.model_listeners.ChatListener;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
-import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

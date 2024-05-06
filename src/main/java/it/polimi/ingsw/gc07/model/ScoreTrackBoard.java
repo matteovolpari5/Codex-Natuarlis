@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.listeners.ScoreTrackBoardListener;
+import it.polimi.ingsw.gc07.model_listeners.ScoreTrackBoardListener;
 import it.polimi.ingsw.gc07.updates.ScoreUpdate;
 
 import java.rmi.RemoteException;

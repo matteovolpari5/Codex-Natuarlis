@@ -55,7 +55,7 @@ public class SocketClientHandler implements VirtualView {
             }else if(myClientStatus.equals("reconnected")){
                 boolean interfaceType = input.readBoolean();
                 synchronized (gamesManager){
-                    gamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(myClientNickname, this, false, interfaceType));
+                    gamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(this, myClientNickname, false, interfaceType));
                 }
                 manageGameCommand();
             }
@@ -145,7 +145,7 @@ public class SocketClientHandler implements VirtualView {
             }
         }
         this.gameController = gamesManager.getGameById(gameId);
-        gameController.addListener(this);
+        gameController.addListener(myClientNickname, this);
     }
 
     private void receiveUpdate(Update update) throws IOException{

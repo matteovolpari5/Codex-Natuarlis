@@ -22,7 +22,7 @@ public class ClientMain {
 
             String ip;
             do {
-                System.out.println("Insert IP: ");
+                System.out.println("Insert server IP: ");
                 System.out.print("> ");
                 ip = scan.nextLine();
             }while(!checkValidIp(ip));
