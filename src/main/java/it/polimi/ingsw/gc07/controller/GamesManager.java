@@ -251,11 +251,13 @@ public class GamesManager {
                     SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
                     return;
                 }
-                try {//TODO
-                    SocketServer.getSocketServer().getVirtualView(nickname).setGameController(gameId);
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }//TODO
+                if(!player.getConnectionType()){
+                    try {
+                        SocketServer.getSocketServer().getVirtualView(nickname).setGameController(gameId);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player);
                 pendingPlayers.remove(player);
@@ -273,8 +275,6 @@ public class GamesManager {
         if(player.getConnectionType()) {
             // RMI client
             RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameId);
-        }else{
-            //TODO rispostare qui
         }
     }
 
@@ -303,12 +303,13 @@ public class GamesManager {
         }
         for(GameController gameController : gameControllers) {
             if(gameController.getId() == gameId) {
-                //TODO
-                try {
-                    SocketServer.getSocketServer().getVirtualView(nickname).setGameController(gameId);
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }//TODO
+                if(!player.getConnectionType()){
+                    try {
+                        SocketServer.getSocketServer().getVirtualView(nickname).setGameController(gameId);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 // no need to check the token color for the first player of the gameController
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player);
@@ -321,8 +322,6 @@ public class GamesManager {
         if(player.getConnectionType()) {
             // RMI client
             RmiServerGamesManager.getRmiServerGamesManager().createServerGame(nickname, gameId);
-        }else{
-            //TODO rispostare qui
         }
     }
 
