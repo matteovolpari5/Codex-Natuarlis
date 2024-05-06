@@ -67,8 +67,7 @@ class ReconnectPlayerCommandTest {
     }
 
     @Test
-    void alreadyConnected()
-    {
+    void alreadyConnected() {
         gameController.getPlayers().getFirst().setIsConnected(false);
         gameController.reconnectPlayer(null, "Player1", true, false);
     }

@@ -250,7 +250,7 @@ public class SocketClient  {
                     break;
                 case "e":
                     try {
-                        myServer.setAndExecuteCommand(new DisconnectPlayerCommand(nickname, null));         // TODO nooooo null, l'ho messo per far compilare
+                        myServer.setAndExecuteCommand(new DisconnectPlayerCommand(nickname));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();

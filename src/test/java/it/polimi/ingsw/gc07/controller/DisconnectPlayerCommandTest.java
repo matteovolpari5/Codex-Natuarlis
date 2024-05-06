@@ -41,7 +41,7 @@ class DisconnectPlayerCommandTest {
 
     @Test
     void disconnectPlayerSuccess() {
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player1", null));
+        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player1"));
         CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
     }
@@ -49,11 +49,11 @@ class DisconnectPlayerCommandTest {
     @Test
     void playerAlreadyDisconnected() {
         // disconnect player
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player2", null));
+        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player2"));
         CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
         // try to disconnect the same player
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player2", null));
+        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("Player2"));
         result = gameController.getCommandResult();
         assertEquals(CommandResult.PLAYER_ALREADY_DISCONNECTED, result);
     }
@@ -61,7 +61,7 @@ class DisconnectPlayerCommandTest {
     @Test
     void disconnectPlayerNotPresent() {
         // disconnect player not present in the gameController
-        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("AnOtherPlayer", null));
+        gameController.setAndExecuteCommand(new DisconnectPlayerCommand("AnOtherPlayer"));
         CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, result);
     }

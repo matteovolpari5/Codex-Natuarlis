@@ -211,7 +211,7 @@ public class GameController {
         }
     }
 
-    public void disconnectPlayer(String nickname, VirtualView virtualView) {
+    public void disconnectPlayer(String nickname) {
         // this command can always be used
         assert(!gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED)): "Impossible state";
         if(!gameModel.getPlayerNicknames().contains(nickname)) {
@@ -227,6 +227,8 @@ public class GameController {
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_ALREADY_DISCONNECTED);
             return;
         }
+
+        VirtualView virtualView = pingReceiver.getVirtualView(nickname);
 
         // remove listener
         if(player.getConnectionType()) {

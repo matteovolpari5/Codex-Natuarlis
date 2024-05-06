@@ -308,7 +308,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     break;
                 case "e":
                     try {
-                        serverGame.setAndExecuteCommand(new DisconnectPlayerCommand(nickname, this));
+                        serverGame.setAndExecuteCommand(new DisconnectPlayerCommand(nickname));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();

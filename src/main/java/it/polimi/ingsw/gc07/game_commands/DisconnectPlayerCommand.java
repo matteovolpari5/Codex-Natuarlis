@@ -12,15 +12,12 @@ public class DisconnectPlayerCommand implements GameCommand {
      */
     private final String nickname;
 
-    private final VirtualView virtualView;
-
     /**
      * Constructor of the concrete command DisconnectPlayerCommand.
      * @param nickname nickname of the player that has disconnected
      */
-    public DisconnectPlayerCommand(String nickname, VirtualView virtualView) {
+    public DisconnectPlayerCommand(String nickname) {
         this.nickname = nickname;
-        this.virtualView = virtualView;
     }
 
     /**
@@ -28,6 +25,6 @@ public class DisconnectPlayerCommand implements GameCommand {
      */
     @Override
     public void execute(GameController gameController) {
-        gameController.disconnectPlayer(nickname, virtualView);
+        gameController.disconnectPlayer(nickname);
     }
 }

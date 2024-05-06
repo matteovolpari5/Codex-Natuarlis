@@ -53,6 +53,11 @@ public class PingReceiver {
         this.playerVirtualViews.put(nickname, virtualView);
     }
 
+    public synchronized VirtualView getVirtualView(String nickname) {
+        assert(playerVirtualViews.containsKey(nickname));
+        return playerVirtualViews.get(nickname);
+    }
+
     /**
      * Method used to notify the ping receiver that a player disconnected
      * if he asked to do so (via TUI / GUI).
@@ -107,7 +112,7 @@ public class PingReceiver {
                     missedPing ++;
                     if(missedPing >= maxMissedPings && gameController.isPlayerConnected(nickname)) {
                         System.out.println("Disconnection detected " + nickname);
-                        gameController.disconnectPlayer(nickname, playerVirtualViews.get(nickname)); // TODO metodo deve synchronized
+                        gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
                     }
                 }
                 playersPing.put(nickname, false);
