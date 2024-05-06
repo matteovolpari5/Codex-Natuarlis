@@ -183,10 +183,10 @@ public class GamesManager {
         return reconnection;
     }
 
-    public void reconnectPlayer(String nickname, VirtualView client, boolean connectionType, boolean interfaceType) {
+    public void reconnectPlayer(VirtualView client, String nickname, boolean connectionType, boolean interfaceType) {
         for(GameController g: gameControllers) {
             if(g.hasPlayer(nickname)) {
-                g.reconnectPlayer(nickname, client, connectionType, interfaceType);
+                g.reconnectPlayer(client, nickname, connectionType, interfaceType);
             }
         }
     }
@@ -222,7 +222,7 @@ public class GamesManager {
         }
     }
 
-    public void joinExistingGame(VirtualView virtualView, String nickname, TokenColor tokenColor, int gameId) {
+    public void joinExistingGame(String nickname, TokenColor tokenColor, int gameId) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         if(player == null){
@@ -247,7 +247,7 @@ public class GamesManager {
                     return;
                 }
                 player.setTokenColor(tokenColor);
-                gameController.addPlayer(virtualView, player);
+                gameController.addPlayer(player);
                 pendingPlayers.remove(player);
             }
         }
@@ -265,7 +265,7 @@ public class GamesManager {
         }
     }
 
-    public void joinNewGame(VirtualView virtualView, String nickname, TokenColor tokenColor, int playersNumber) {
+    public void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         if(player == null) {
@@ -286,7 +286,7 @@ public class GamesManager {
             if(gameController.getId() == gameId) {
                 // no need to check the token color for the first player of the gameController
                 player.setTokenColor(tokenColor);
-                gameController.addPlayer(virtualView, player);
+                gameController.addPlayer(player);
             }
             pendingPlayers.remove(player);
         }

@@ -142,12 +142,13 @@ public class GameController {
         gameCommand.execute(this);
     }
 
-    public void addListener(VirtualView client) {
+    public void addListener(String nickname, VirtualView client) {
         gameModel.addListener(client);
+        pingReceiver.setVirtualView(nickname, client);
     }
 
-    public void receivePing(String nickname, VirtualView virtualView) {
-        pingReceiver.receivePing(virtualView, nickname);
+    public void receivePing(String nickname) {
+        pingReceiver.receivePing(nickname);
     }
 
     // ----------------------
@@ -190,12 +191,12 @@ public class GameController {
     }
 
     // TODO synchronized chi lo chiama?
-    public void addPlayer(VirtualView virtualView, Player newPlayer) {
+    public void addPlayer(Player newPlayer) {
         assert(gameModel.getState().equals(GameState.GAME_STARTING)): "Wrong state";
         assert(!gameModel.getPlayerNicknames().contains(newPlayer.getNickname())): "Player already present";
 
         gameModel.addPlayer(newPlayer);
-        pingReceiver.addPlayer(virtualView, newPlayer.getNickname());
+        pingReceiver.addPlayer(newPlayer.getNickname());
 
         if (isFull()) {
             setup();
@@ -301,17 +302,17 @@ public class GameController {
     }
 
     // TODO synchronized chi lo chiama?
-    public void reconnectPlayer(String nickname, VirtualView client, boolean connectionType, boolean interfaceType) {
+    public void reconnectPlayer(VirtualView client, String nickname, boolean connectionType, boolean interfaceType) {
         Player p;
         p = getPlayerByNickname(nickname);
         assert(p != null);
         p.setConnectionType(connectionType);
         p.setInterfaceType(interfaceType);
-        reconnectPlayer(nickname, client);
+        reconnectPlayer(client, nickname);
     }
 
     // TODO synchronized chi lo chiama?
-    public void reconnectPlayer(String nickname, VirtualView client) {
+    public void reconnectPlayer(VirtualView client, String nickname) {
         // this command can always be used
         assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
         Player player = getPlayerByNickname(nickname);
@@ -344,7 +345,7 @@ public class GameController {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-            addListener(client); //TODO duale di invocazione in RmiServerGame
+            addListener(nickname, client); //TODO duale di invocazione in RmiServerGame
         }
         if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
             changeGameState();

@@ -11,7 +11,7 @@ public interface VirtualServerGame extends Remote {
      * @param client client to connect
      * @throws RemoteException remote exception
      */
-    void connect(VirtualView client) throws RemoteException;
+    void connect(String nickname, VirtualView client) throws RemoteException;
 
     /**
      * Method to set a command and execute game command.

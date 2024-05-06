@@ -36,11 +36,11 @@ class JoinExistingGameCommandTest {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        gamesManager.setAndExecuteCommand(new JoinNewGameCommand(null, "P1", TokenColor.GREEN, 4));
+        gamesManager.setAndExecuteCommand(new JoinNewGameCommand("P1", TokenColor.GREEN, 4));
     }
     @Test
     void JoinExistingGameSuccess() {
-        gamesManager.setAndExecuteCommand(new JoinExistingGameCommand(null, "P2", TokenColor.RED, 0));
+        gamesManager.setAndExecuteCommand(new JoinExistingGameCommand("P2", TokenColor.RED, 0));
         assertEquals(CommandResult.SET_SERVER_GAME, gamesManager.getCommandResult());
         assertNull(gamesManager.getPendingPlayer("P2"));
         boolean found;
@@ -57,7 +57,7 @@ class JoinExistingGameCommandTest {
 
     @Test
     void JoinExistingGameFail() {
-        gamesManager.setAndExecuteCommand(new JoinExistingGameCommand(null, "P2", TokenColor.RED, 1));
+        gamesManager.setAndExecuteCommand(new JoinExistingGameCommand("P2", TokenColor.RED, 1));
         assertEquals(CommandResult.GAME_NOT_PRESENT, gamesManager.getCommandResult());
         assertNotNull(gamesManager.getPendingPlayer("P2"));
         boolean found;

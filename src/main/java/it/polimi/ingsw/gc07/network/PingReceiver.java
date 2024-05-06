@@ -42,13 +42,15 @@ public class PingReceiver {
 
     /**
      * Method used to add a player to monitor.
-     * @param virtualView player's virtual view
      * @param nickname player's virtual nickname
      */
-    public synchronized void addPlayer(VirtualView virtualView, String nickname) {
+    public synchronized void addPlayer(String nickname) {
         this.playersPing.put(nickname, true);
-        this.playerVirtualViews.put(nickname, virtualView);
         new Thread(() -> checkPing(nickname)).start();
+    }
+
+    public synchronized void setVirtualView(String nickname, VirtualView virtualView) {
+        this.playerVirtualViews.put(nickname, virtualView);
     }
 
     /**
@@ -63,15 +65,11 @@ public class PingReceiver {
 
     /**
      * Method used to receive a ping from a player with a certain nickname.
-     * @param virtualView virtual view
      * @param nickname nickname
      */
-    public synchronized void receivePing(VirtualView virtualView, String nickname) {
+    public synchronized void receivePing(String nickname) {
         assert(playersPing.containsKey(nickname));
         playersPing.put(nickname, true);
-        if(!playerVirtualViews.get(nickname).equals(virtualView)) {
-            playerVirtualViews.put(nickname, virtualView);
-        }
         System.out.println("ping inviato " +  nickname);
     }
 
@@ -95,7 +93,7 @@ public class PingReceiver {
                             // RMI
                             try {
                                 RmiClient client = new RmiClient(nickname, RmiServerGamesManager.getRmiServerGamesManager());
-                                gameController.reconnectPlayer(nickname, client);
+                                gameController.reconnectPlayer(client, nickname);
                             } catch (RemoteException e) {
                                 // TODO
                                 e.printStackTrace();

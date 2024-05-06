@@ -64,7 +64,7 @@ public class SocketClientHandler implements VirtualView {
             }else if(status.equals("reconnection")){
                 boolean interfaceType = input.readBoolean();
                 synchronized (gamesManager){
-                    gamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(myClientNickname, this, false, interfaceType));
+                    gamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(this, myClientNickname, false, interfaceType));
                 }
                 manageGameCommand();
             }
@@ -97,7 +97,7 @@ public class SocketClientHandler implements VirtualView {
                             throw new RuntimeException();
                         }
                         this.gameController = gamesManager.getGameById(gameId);
-                        gameController.addListener(this);
+                        gameController.addListener(commandNickname, this);
                         //TODO il client legge l'input e poi se true esegue cli di game altrimenti continua a eseguire cli di gamesManager
                         //TODO verificare result quali valori può assumere e determinare dove inserire output.writeBoolean(false);
                         output.writeBoolean(true);
