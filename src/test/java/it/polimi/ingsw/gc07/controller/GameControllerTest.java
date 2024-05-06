@@ -461,8 +461,8 @@ class GameControllerTest {
     void changeCurrPlayer() {
         Player firstPlayer = new Player("Player1", true, false);
         Player secondPlayer = new Player("Player2", false, false);
-        gameController.addPlayer(null, firstPlayer);
-        gameController.addPlayer(null, secondPlayer);
+        gameController.addPlayer(firstPlayer);
+        gameController.addPlayer(secondPlayer);
         gameController.setState(GameState.PLAYING);
         firstPlayer.setFirst();
         gameController.setCurrentPlayer(0);
@@ -492,8 +492,8 @@ class GameControllerTest {
     void changeCurrPlayerAllStalled(){
         Player firstPlayer = new Player("Player1", false, false);
         Player secondPlayer = new Player("Player2", false, true);
-        gameController.addPlayer(null, firstPlayer);
-        gameController.addPlayer(null, secondPlayer);
+        gameController.addPlayer(firstPlayer);
+        gameController.addPlayer(secondPlayer);
         gameController.setState(GameState.PLAYING);
         firstPlayer.setFirst();
         gameController.setCurrentPlayer(0);
@@ -510,8 +510,8 @@ class GameControllerTest {
         firstPlayer.setTokenColor(TokenColor.BLUE);
         Player secondPlayer = new Player("Player2", true, false);
         secondPlayer.setTokenColor(TokenColor.GREEN);
-        gameController.addPlayer(null, firstPlayer);
-        gameController.addPlayer(null, secondPlayer);
+        gameController.addPlayer(firstPlayer);
+        gameController.addPlayer(secondPlayer);
         // remove one card, to allow drawing cards
         firstPlayer.removeCardHand(firstPlayer.getCurrentHand().getFirst());
         secondPlayer.removeCardHand(secondPlayer.getCurrentHand().getFirst());
@@ -553,8 +553,8 @@ class GameControllerTest {
         firstPlayer.setTokenColor(TokenColor.BLUE);
         Player secondPlayer = new Player("Player2", true, false);
         secondPlayer.setTokenColor(TokenColor.GREEN);
-        gameController.addPlayer(null, firstPlayer);
-        gameController.addPlayer(null, secondPlayer);
+        gameController.addPlayer(firstPlayer);
+        gameController.addPlayer(secondPlayer);
         // remove one card, to allow drawing cards
         firstPlayer.removeCardHand(firstPlayer.getCurrentHand().getFirst());
         secondPlayer.removeCardHand(secondPlayer.getCurrentHand().getFirst());

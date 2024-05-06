@@ -35,8 +35,14 @@ public class VirtualSocketServer implements VirtualServerGamesManager, VirtualSe
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public void connect(VirtualView client) throws RemoteException {
+        //TODO non utilizzato in socket
+    }
+
+    @Override
+    public void connect(String nickname, VirtualView client) throws RemoteException {
         //TODO non utilizzato in socket
     }
 

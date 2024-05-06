@@ -69,7 +69,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
 
     public void reconnectPlayer(String nickname, boolean connectionType, boolean interfaceType) {
         try {
-            serverGamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(nickname, this, connectionType, interfaceType));
+            serverGamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(this, nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
             // TODO
             e.printStackTrace();
@@ -96,7 +96,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
      */
     private void connectToGameServer() {
         try {
-            serverGame.connect(this);
+            serverGame.connect(nickname, this);
         }catch(RemoteException e) {
             //TODO manager remote exception
             e.printStackTrace();
@@ -139,7 +139,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         new Thread(()->{
             while(viewAlive) {
                 try {
-                    serverGame.setAndExecuteCommand(new SendPingCommand(nickname, this));
+                    serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
@@ -206,7 +206,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                         continue;
                     }
                     try {
-                        serverGamesManager.setAndExecuteCommand(new JoinExistingGameCommand(this, nickname, tokenColor, gameId));
+                        serverGamesManager.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
                     } catch (RemoteException e) {
                         // TODO
                         throw new RuntimeException(e);
@@ -241,7 +241,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     scan.nextLine();
                     // TODO potremmo fare già qua il controllo su players number per efficienza
                     try {
-                        serverGamesManager.setAndExecuteCommand(new JoinNewGameCommand(this, nickname, tokenColor, playersNumber));
+                        serverGamesManager.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
                     } catch (RemoteException e) {
                         // TODO
                         throw new RuntimeException(e);
@@ -308,7 +308,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     break;
                 case "e":
                     try {
-                        serverGame.setAndExecuteCommand(new DisconnectPlayerCommand(nickname, this));
+                        serverGame.setAndExecuteCommand(new DisconnectPlayerCommand(nickname));
                     }catch (RemoteException e) {
                         // TODO gestire
                         e.printStackTrace();

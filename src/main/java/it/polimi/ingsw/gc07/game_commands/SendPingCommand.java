@@ -8,18 +8,13 @@ public class SendPingCommand implements GameCommand {
      * Nickname of the player that sends the ping.
      */
     private final String nickname;
-    /**
-     * Virtual view.
-     */
-    private final VirtualView virtualView;
 
-    public SendPingCommand(String nickname, VirtualView virtualView) {
+    public SendPingCommand(String nickname) {
         this.nickname = nickname;
-        this.virtualView = virtualView;
     }
 
     @Override
     public void execute(GameController gameController) {
-        gameController.receivePing(nickname, virtualView);
+        gameController.receivePing(nickname);
     }
 }

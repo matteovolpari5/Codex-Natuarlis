@@ -35,9 +35,9 @@ class AddChatPublicMessageCommandTest {
         gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
 
         Player firstPlayer = new Player("Player1", true, false);
-        gameController.addPlayer(null, firstPlayer);
+        gameController.addPlayer(firstPlayer);
         Player secondPlayer = new Player("Player2", false, false);
-        gameController.addPlayer(null, secondPlayer);
+        gameController.addPlayer(secondPlayer);
     }
 
     @Test

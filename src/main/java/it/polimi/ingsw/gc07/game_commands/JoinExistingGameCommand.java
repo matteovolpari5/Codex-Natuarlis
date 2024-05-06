@@ -8,7 +8,6 @@ import it.polimi.ingsw.gc07.network.VirtualView;
  * Concrete command to add a pending player to an existing game.
  */
 public class JoinExistingGameCommand implements GamesManagerCommand {
-    private final VirtualView virtualView;
     /**
      * Nickname of the player to add.
      */
@@ -29,8 +28,7 @@ public class JoinExistingGameCommand implements GamesManagerCommand {
      * @param tokenColor token color
      * @param gameId game ids
      */
-    public JoinExistingGameCommand(VirtualView virtualView, String nickname, TokenColor tokenColor, int gameId) {
-        this.virtualView = virtualView;
+    public JoinExistingGameCommand(String nickname, TokenColor tokenColor, int gameId) {
         this.nickname = nickname;
         this.tokenColor = tokenColor;
         this.gameId = gameId;
@@ -51,6 +49,6 @@ public class JoinExistingGameCommand implements GamesManagerCommand {
      */
     @Override
     public void execute(GamesManager gamesManager) {
-        gamesManager.joinExistingGame(virtualView, nickname, tokenColor, gameId);
+        gamesManager.joinExistingGame(nickname, tokenColor, gameId);
     }
 }
