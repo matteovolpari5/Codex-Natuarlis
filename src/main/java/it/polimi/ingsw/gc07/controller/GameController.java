@@ -295,26 +295,21 @@ public class GameController {
         gameModel.setCommandResult(nickname, CommandResult.DISCONNECTION_SUCCESSFUL);
     }
 
+    /**
+     * Method that reconnects a player from ClientMain.
+     * It allows the player to choose new connection and interface settings.
+     * @param nickname player's nickname
+     */
     // TODO synchronized chi lo chiama?
     public void reconnectPlayer(VirtualView client, String nickname, boolean connectionType, boolean interfaceType) {
-        Player p;
-        p = getPlayerByNickname(nickname);
-        assert(p != null);
-        p.setConnectionType(connectionType);
-        p.setInterfaceType(interfaceType);
-        reconnectPlayer(client, nickname);
-    }
-
-    // TODO synchronized chi lo chiama?
-    public void reconnectPlayer(VirtualView client, String nickname) {
         // this command can always be used
         assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
-        Player player = getPlayerByNickname(nickname);
-        if(player == null) {
-            gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
-            return;
-        }
+        Player player;
+        player = getPlayerByNickname(nickname);
+        assert(player != null);
         assert(!player.isConnected()): "Player already connected";
+        player.setConnectionType(connectionType);
+        player.setInterfaceType(interfaceType);
 
         if(player.getConnectionType()) {
             // if new connection type is RMI
@@ -344,7 +339,12 @@ public class GameController {
         }
     }
 
-    public void reconnectPlayerProva(String nickname) {
+    /**
+     * Method that reconnects a player after network malfunctioning, but keeps
+     * the old player setting.
+     * @param nickname player's nickname
+     */
+    public void reconnectPlayerOldSettings(String nickname) {
         assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
         Player player = getPlayerByNickname(nickname);
         if(player == null) {
