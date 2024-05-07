@@ -97,6 +97,7 @@ public class PingReceiver {
                         if (player.getConnectionType()) {
                             // RMI
                             // TODO remove
+                            /*
                             RmiClient client;
                             try {
                                 client = new RmiClient(nickname, RmiServerGamesManager.getRmiServerGamesManager());
@@ -105,7 +106,9 @@ public class PingReceiver {
                                 e.printStackTrace();
                                 throw new RuntimeException(e);
                             }
-                            gameController.reconnectPlayer(client, nickname);
+                            */
+                            //gameController.reconnectPlayer(client, nickname);
+                            gameController.reconnectPlayer(playerVirtualViews.get(nickname), nickname);
                         } else {
                             // TODO socket
                         }
