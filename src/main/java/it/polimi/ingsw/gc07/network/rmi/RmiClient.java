@@ -92,7 +92,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         }
         // game joined
         connectToGameServer();
-        startGamePing();
+        new Thread(this::startGamePing).start();
         new Thread(this::runCliGame).start();
     }
 
@@ -135,30 +135,28 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
 
     @Override
     public void startGamePing() {
-        new Thread(()->{
-            boolean runThread = true;
-            while(runThread) {
-                synchronized (this) {
-                    if (viewAlive) {
-                        try {
-                            System.out.println("Ho inviato un ping");
-                            serverGame.setAndExecuteCommand(new SendPingControllerCommand(nickname));
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else {
-                        runThread = false;
+        boolean runThread = true;
+        while(runThread) {
+            synchronized (this) {
+                if (viewAlive) {
+                    try {
+                        System.out.println("Ho inviato un ping");
+                        serverGame.setAndExecuteCommand(new SendPingControllerCommand(nickname));
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
                     }
-                }
-                try {
-                    Thread.sleep(1000); // wait one second between two ping
-                } catch (InterruptedException e) {
-                    // TODO
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
+                } else {
+                    runThread = false;
                 }
             }
-        }).start();
+            try {
+                Thread.sleep(1000); // wait one second between two ping
+            } catch (InterruptedException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     //TODO creare dei metodi / classi per richiedere le cose, così è un pastrugno
