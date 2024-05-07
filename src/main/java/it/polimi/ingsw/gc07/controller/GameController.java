@@ -378,6 +378,7 @@ public class GameController {
     private void startTimeoutGameEnd(){
         new Thread(() -> {
             boolean onePlayer;
+            boolean gameEnd = true;
             synchronized (this) {
                 onePlayer = gameModel.getState().equals(GameState.WAITING_RECONNECTION);
             }
@@ -402,21 +403,24 @@ public class GameController {
                     }
                     if (gameModel.getNumPlayersConnected() > 1) {
                         gameModel.setState(GameState.PLAYING);
+                        gameEnd = false;
                         break;
                     }
                 }
             }
-            synchronized(this) {
-                gameModel.setState(GameState.GAME_ENDED);
-                System.out.println("Game ended");
-                if (onePlayer) {
-                    for (Player p : gameModel.getPlayers()) {
-                        if (p.isConnected()) {
-                            gameModel.setWinner(p.getNickname());
+            if(gameEnd){
+                synchronized(this) {
+                    gameModel.setState(GameState.GAME_ENDED);
+                    System.out.println("Game ended");
+                    if (onePlayer) {
+                        for (Player p : gameModel.getPlayers()) {
+                            if (p.isConnected()) {
+                                gameModel.setWinner(p.getNickname());
+                            }
                         }
                     }
+                    endGame();
                 }
-                endGame();
             }
         }).start();
     }
