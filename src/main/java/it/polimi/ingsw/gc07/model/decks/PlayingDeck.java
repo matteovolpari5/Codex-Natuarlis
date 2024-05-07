@@ -1,5 +1,5 @@
 package it.polimi.ingsw.gc07.model.decks;
-import it.polimi.ingsw.gc07.model.enumerations.CardType;
+import it.polimi.ingsw.gc07.enumerations.CardType;
 
 import java.util.ArrayList;
 import java.util.List;

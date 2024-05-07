@@ -16,9 +16,9 @@ import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
-import it.polimi.ingsw.gc07.model.enumerations.CardType;
-import it.polimi.ingsw.gc07.model.enumerations.GameObject;
-import it.polimi.ingsw.gc07.model.enumerations.GameResource;
+import it.polimi.ingsw.gc07.enumerations.CardType;
+import it.polimi.ingsw.gc07.enumerations.GameObject;
+import it.polimi.ingsw.gc07.enumerations.GameResource;
 
 import java.io.File;
 import java.io.FileNotFoundException;

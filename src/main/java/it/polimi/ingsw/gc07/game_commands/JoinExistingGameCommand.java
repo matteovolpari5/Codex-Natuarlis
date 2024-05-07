@@ -1,8 +1,7 @@
 package it.polimi.ingsw.gc07.game_commands;
 
 import it.polimi.ingsw.gc07.controller.GamesManager;
-import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.enumerations.TokenColor;
 
 /**
  * Concrete command to add a pending player to an existing game.

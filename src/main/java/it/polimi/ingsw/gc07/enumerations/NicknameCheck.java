@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07;
+package it.polimi.ingsw.gc07.enumerations;
 
 public enum NicknameCheck {
     RECONNECTION,

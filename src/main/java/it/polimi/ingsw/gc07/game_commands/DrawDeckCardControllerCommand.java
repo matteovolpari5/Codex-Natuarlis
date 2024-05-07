@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.game_commands;
 
 import it.polimi.ingsw.gc07.controller.GameController;
-import it.polimi.ingsw.gc07.model.enumerations.CardType;
+import it.polimi.ingsw.gc07.enumerations.CardType;
 
 public class DrawDeckCardControllerCommand implements GameControllerCommand {
     /**

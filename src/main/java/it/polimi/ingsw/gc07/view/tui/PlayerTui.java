@@ -5,9 +5,8 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.conditions.CornerCoverageCondition;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
-import it.polimi.ingsw.gc07.model.enumerations.GameObject;
-import it.polimi.ingsw.gc07.model.enumerations.GameResource;
-import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
+import it.polimi.ingsw.gc07.enumerations.GameObject;
+import it.polimi.ingsw.gc07.enumerations.GameResource;
 
 import java.util.List;
 

@@ -3,10 +3,9 @@ package it.polimi.ingsw.gc07.view.tui;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.conditions.CornerCoverageCondition;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
-import it.polimi.ingsw.gc07.model.enumerations.CardType;
-import it.polimi.ingsw.gc07.model.enumerations.GameObject;
-import it.polimi.ingsw.gc07.model.enumerations.GameResource;
-import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
+import it.polimi.ingsw.gc07.enumerations.CardType;
+import it.polimi.ingsw.gc07.enumerations.GameObject;
+import it.polimi.ingsw.gc07.enumerations.GameResource;
 
 import java.util.List;
 

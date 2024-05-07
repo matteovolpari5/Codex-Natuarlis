@@ -3,7 +3,7 @@ package it.polimi.ingsw.gc07.model_view;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
-import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
 import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
 

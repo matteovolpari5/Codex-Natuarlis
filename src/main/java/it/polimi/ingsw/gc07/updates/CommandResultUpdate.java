@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.updates;
 
-import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model_view.GameView;
 
 public class CommandResultUpdate implements Update {

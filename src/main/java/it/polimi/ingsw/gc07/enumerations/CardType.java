@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.model.enumerations;
+package it.polimi.ingsw.gc07.enumerations;
 
 /**
  * Enum class representing card types.

@@ -3,7 +3,7 @@ package it.polimi.ingsw.gc07.model.conditions;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.GameItem;
-import it.polimi.ingsw.gc07.model.enumerations.CardType;
+import it.polimi.ingsw.gc07.enumerations.CardType;
 
 import java.util.List;
 import java.util.ArrayList;

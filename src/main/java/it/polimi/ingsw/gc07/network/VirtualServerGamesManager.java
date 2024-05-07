@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.network;
 
-import it.polimi.ingsw.gc07.NicknameCheck;
+import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 
 import java.rmi.Remote;

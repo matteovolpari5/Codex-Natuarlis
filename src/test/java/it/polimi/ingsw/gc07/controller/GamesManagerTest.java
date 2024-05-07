@@ -1,13 +1,9 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.model.enumerations.GameResource;
-import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.network.rmi.RmiClient;
+import it.polimi.ingsw.gc07.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.game_commands.*;
-import it.polimi.ingsw.gc07.model.enumerations.CardType;
-import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.enumerations.CardType;
+import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.updates.*;
 
