@@ -227,12 +227,7 @@ public class GamesManager {
     public void joinExistingGame(String nickname, TokenColor tokenColor, int gameId) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
-        if(player == null){
-            commandResult = CommandResult.PLAYER_NOT_PRESENT;
-            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
-            SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
-            return;
-        }
+        assert(player != null);
         boolean found = false;
         for(GameController gameController : gameControllers) {
             if(gameController.getId() == gameId) {
@@ -240,15 +235,13 @@ public class GamesManager {
                 // check gameController state WAITING_PLAYERS
                 if(!gameController.getState().equals(GameState.GAME_STARTING)) {
                     commandResult = CommandResult.GAME_FULL;
-                    RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
-                    SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
+                    notifyJoinNotSuccessful(player);
                     return;
                 }
                 // check token color unique
                 if(gameController.hasPlayerWithTokenColor(tokenColor)) {
                     commandResult = CommandResult.TOKEN_COLOR_ALREADY_TAKEN;
-                    RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
-                    SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
+                    notifyJoinNotSuccessful(player);
                     return;
                 }
                 if(!player.getConnectionType()){
@@ -265,8 +258,7 @@ public class GamesManager {
         }
         if(!found){
             commandResult = CommandResult.GAME_NOT_PRESENT;
-            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
-            SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
+            notifyJoinNotSuccessful(player);
             return;
         }
 
@@ -281,24 +273,14 @@ public class GamesManager {
     public void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
-        if(player == null) {
-            commandResult = CommandResult.PLAYER_NOT_PRESENT;
-            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
-            SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
-
-            return;
-        }
+        assert(player != null);
         int gameId;
         try{
             gameId = createGame(playersNumber);
         }
         catch(WrongNumberOfPlayersException e){
             commandResult = CommandResult.WRONG_PLAYERS_NUMBER;
-            if(player.getConnectionType()){
-                RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);
-            }else{
-                SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
-            }
+            notifyJoinNotSuccessful(player);
             return;
         }
         for(GameController gameController : gameControllers) {
@@ -324,6 +306,19 @@ public class GamesManager {
         }
 
         commandResult = CommandResult.SUCCESS;
+    }
+
+    /**
+     * Method to notify the client if the join was not successful.
+     * @param player player to notify
+     */
+    private void notifyJoinNotSuccessful(Player player) {
+        assert(player != null);
+        if(player.getConnectionType()){
+            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(player.getNickname());
+        }else{
+            SocketServer.getSocketServer().notifyJoinNotSuccessful(player.getNickname());
+        }
     }
 
     /**
@@ -385,12 +380,7 @@ public class GamesManager {
         commandResult = CommandResult.DISPLAY_GAMES;
 
         Player player = getPendingPlayer(nickname);
-        if(player == null) {
-            commandResult = CommandResult.PLAYER_NOT_PRESENT;
-            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(nickname);//TODO mancavano .notifyJoinNotSuccessful(), perchè?
-            SocketServer.getSocketServer().notifyJoinNotSuccessful(nickname);
-            return;
-        }
+        assert(player != null);
         if(player.getConnectionType()) {
             RmiServerGamesManager.getRmiServerGamesManager().displayGames(nickname);
         }else{
