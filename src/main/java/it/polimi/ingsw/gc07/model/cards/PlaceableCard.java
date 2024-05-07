@@ -153,7 +153,7 @@ public class PlaceableCard extends Card {
         return 0;
     }
 
-    //METHOD USED TO HELP PRINT IN TUI VIEW
+    //METHOD USED TO HELP PRINT IN Tui VIEW
 
     /**
      * getter method for placementCondition

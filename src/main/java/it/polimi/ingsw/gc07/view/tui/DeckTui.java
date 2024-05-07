@@ -11,21 +11,16 @@ import it.polimi.ingsw.gc07.model_view_listeners.DeckViewListener;
 
 import java.util.List;
 
-public class DeckTui implements DeckViewListener {
-    public final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+public interface DeckTui {
+    String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    String ANSI_RED_BACKGROUND = "\u001B[41m";
+    String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-    @Override
-    public void receiveDecksUpdate(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
-        printDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
-    }
-
-    private void printDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck, DrawableCard topResourceDeck) {
+    static void printDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck, DrawableCard topResourceDeck) {
         printFirstLastRowDeck();
         printSecondRowDeck(commonObjective.get(0),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
         printThirdRowDeck(commonObjective.get(0),topGoldDeck);
@@ -37,11 +32,11 @@ public class DeckTui implements DeckViewListener {
         printFourthRowDeck(commonObjective.get(1),faceUpResourceCard.get(0),faceUpResourceCard.get(1),topResourceDeck);
         printFirstLastRowDeck();
     }
-    private void printFirstLastRowDeck()
+    private static void printFirstLastRowDeck()
     {
         System.out.println(ANSI_YELLOW_BACKGROUND + "+---------+" +ANSI_BLACK_BACKGROUND + "             +---------+ +---------+ +---------+" );
     }
-    private void printSecondRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
+    private static void printSecondRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
     {
         System.out.print(ANSI_YELLOW_BACKGROUND+"|     ");
         if(objectiveCard.getScoringCondition() instanceof LayoutCondition)
@@ -262,7 +257,7 @@ public class DeckTui implements DeckViewListener {
         }
         System.out.println();
     }
-    private void printThirdRowDeck(ObjectiveCard objectiveCard, DrawableCard topGoldDeck)
+    private static void printThirdRowDeck(ObjectiveCard objectiveCard, DrawableCard topGoldDeck)
     {
         System.out.print(ANSI_YELLOW_BACKGROUND+"|  "+ANSI_BLACK_BACKGROUND+objectiveCard.getPoints()+ANSI_YELLOW_BACKGROUND+"  ");
         if(objectiveCard.getScoringCondition() instanceof ItemsCondition)
@@ -348,7 +343,7 @@ public class DeckTui implements DeckViewListener {
         }
         System.out.println();
     }
-    private void printFourthRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
+    private static void printFourthRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
     {
         System.out.print(ANSI_YELLOW_BACKGROUND+"|     ");
         if(objectiveCard.getScoringCondition() instanceof LayoutCondition)
@@ -571,7 +566,7 @@ public class DeckTui implements DeckViewListener {
         }
         System.out.println();
     }
-    public void printBackDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck,DrawableCard topResourceDeck)
+    private static void printBackDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck,DrawableCard topResourceDeck)
     {
         printFirstLastRowDeck();
         printBackSecondRowDeck(commonObjective.get(0),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
@@ -584,7 +579,7 @@ public class DeckTui implements DeckViewListener {
         printBackFourthRowDeck(commonObjective.get(1),faceUpResourceCard.get(0),faceUpResourceCard.get(1),topResourceDeck);
         printFirstLastRowDeck();
     }
-    private void printBackSecondRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
+    private static void printBackSecondRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
     {
         System.out.print(ANSI_YELLOW_BACKGROUND+"|     ");
         if(objectiveCard.getScoringCondition() instanceof LayoutCondition)
@@ -774,7 +769,7 @@ public class DeckTui implements DeckViewListener {
         }
         System.out.println();
     }
-    private void printBackThirdRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
+    private static void printBackThirdRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
     {
         System.out.print(ANSI_YELLOW_BACKGROUND+"|  "+ANSI_BLACK_BACKGROUND+objectiveCard.getPoints()+ANSI_YELLOW_BACKGROUND+"  ");
         if(objectiveCard.getScoringCondition() instanceof ItemsCondition)
@@ -902,7 +897,7 @@ public class DeckTui implements DeckViewListener {
         }
         System.out.println();
     }
-    private void printBackFourthRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
+    private static void printBackFourthRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
     {
         System.out.print(ANSI_YELLOW_BACKGROUND+"|     ");
         if(objectiveCard.getScoringCondition() instanceof LayoutCondition)

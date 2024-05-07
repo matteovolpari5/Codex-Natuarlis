@@ -48,7 +48,7 @@ public class ClientMain {
             wrongInput = true;
             boolean interfaceType = false;
             while(wrongInput) {
-                System.out.println("Insert interface type(1 = GUI, 0 = TUI)");
+                System.out.println("Insert interface type(1 = GUI, 0 = Tui)");
                 System.out.print("> ");
                 int interfaceTypeInt = scan.nextInt();
                 scan.nextLine();

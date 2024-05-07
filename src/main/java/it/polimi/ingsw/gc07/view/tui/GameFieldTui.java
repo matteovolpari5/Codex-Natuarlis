@@ -10,22 +10,17 @@ import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
 
 import java.util.List;
 
-public class GameFieldTui implements GameFieldViewListener {
+public interface GameFieldTui {
 
-    public final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    String ANSI_RED_BACKGROUND = "\u001B[41m";
+    String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-    @Override
-    public void receiveGameFieldUpdate(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
-        printGameField(cardsContent, cardsFace, cardsOrder);
-    }
-
-    private void printGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+    static void printGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         //ricerca inizio righe/fine righe
         int startr = 0, endr = 80;
         for (int r = 0; r < 81; r++) {
@@ -85,7 +80,7 @@ public class GameFieldTui implements GameFieldViewListener {
         }
     }
 
-    public void printIndexColumn(int startc, int endc) {
+    private static void printIndexColumn(int startc, int endc) {
         //stampa colonne
         for (int r = 0; r < 3; r++) {
             for (int c = startc; c < endc + 1; c++) {
@@ -114,7 +109,7 @@ public class GameFieldTui implements GameFieldViewListener {
         }
     }
 
-    public void printFirstLastRow(int c, int startc, int r, PlaceableCard[][] cardsContent) {
+    private static void printFirstLastRow(int c, int startc, int r, PlaceableCard[][] cardsContent) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "+--+");
         }
@@ -129,7 +124,7 @@ public class GameFieldTui implements GameFieldViewListener {
         }
     }
 
-    public void printSecondRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+    private static void printSecondRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");
         }
@@ -308,7 +303,7 @@ public class GameFieldTui implements GameFieldViewListener {
         }
     }
 
-    public void printThirdRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace) {
+    private static void printThirdRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace) {
         if (c == startc) {
             if (r > 9) {
                 System.out.print(ANSI_BLACK_BACKGROUND + "|" + r + "|");
@@ -354,7 +349,7 @@ public class GameFieldTui implements GameFieldViewListener {
         }
     }
 
-    public void printFourthRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+    private static void printFourthRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");
         }

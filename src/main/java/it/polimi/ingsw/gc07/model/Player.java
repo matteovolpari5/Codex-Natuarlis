@@ -43,7 +43,7 @@ public class Player {
     /**
      * Player's connection type.
      * true: GUI
-     * false: TUI
+     * false: Tui
      */
     private boolean interfaceType;
     /**
@@ -179,7 +179,7 @@ public class Player {
 
     /**
      * Getter method for the interface type.
-     * @return true = GUI, false = TUI
+     * @return true = GUI, false = Tui
      */
     public boolean getInterfaceType(){
         return this.interfaceType;

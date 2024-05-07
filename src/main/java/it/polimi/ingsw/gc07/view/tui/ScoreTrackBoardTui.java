@@ -7,28 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ScoreTrackBoardTui implements ScoreTrackBoardViewListener {
+public interface ScoreTrackBoardTui {
     /**
      * constant for color bg
      */
-    public final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-    public final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    String ANSI_RED_BACKGROUND = "\u001B[41m";
+    String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    String ANSI_BLUE_BACKGROUND = "\u001B[44m";
 
-    @Override
-    public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
-        printScoreTrackBoard(playerScores, playerTokenColors);
-    }
 
     /**
      * method that print in the console the complete track board
      */
-    private void printScoreTrackBoard(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
+    static void printScoreTrackBoard(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
         List<Integer> score = new ArrayList<>();
         List<String> color = new ArrayList<>();
         for (String s : playerScores.keySet()) {

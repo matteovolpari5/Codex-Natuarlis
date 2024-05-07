@@ -11,21 +11,16 @@ import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
 
 import java.util.List;
 
-public class PlayerTui implements PlayerViewListener {
-    public final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+public interface PlayerTui {
+    String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    String ANSI_RED_BACKGROUND = "\u001B[41m";
+    String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-    @Override
-    public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
-        printPlayerHand(hand, personalObjective);
-    }
-
-    private void printPlayerHand(List<DrawableCard> hand, ObjectiveCard personalObjective)
+    static void printPlayerHand(List<DrawableCard> hand, ObjectiveCard personalObjective)
     {
         printFirstLastRow();
         printSecondRow( hand, personalObjective);
@@ -33,11 +28,11 @@ public class PlayerTui implements PlayerViewListener {
         printFourthRow( hand, personalObjective);
         printFirstLastRow();
     }
-    private void printFirstLastRow()
+    private static void printFirstLastRow()
     {
         System.out.println(ANSI_YELLOW_BACKGROUND + "+---------+" +ANSI_BLACK_BACKGROUND + " +---------+ +---------+ +---------+");
     }
-    private void printSecondRow(List<DrawableCard> hand, ObjectiveCard objectiveCard)
+    private static void printSecondRow(List<DrawableCard> hand, ObjectiveCard objectiveCard)
     {
         System.out.print(ANSI_YELLOW_BACKGROUND+"|     ");
         if(objectiveCard.getScoringCondition() instanceof LayoutCondition)
@@ -150,7 +145,7 @@ public class PlayerTui implements PlayerViewListener {
         System.out.println();
 
     }
-    private void printThirdRow(ObjectiveCard objectiveCard){
+    private static void printThirdRow(ObjectiveCard objectiveCard){
         System.out.print(ANSI_YELLOW_BACKGROUND+"|  "+ANSI_BLACK_BACKGROUND+objectiveCard.getPoints()+ANSI_YELLOW_BACKGROUND+"  ");
         if(objectiveCard.getScoringCondition() instanceof ItemsCondition)
         {
@@ -215,7 +210,7 @@ public class PlayerTui implements PlayerViewListener {
         System.out.println(ANSI_BLACK_BACKGROUND + "|         | ");
     }
 
-    private void printFourthRow(List<DrawableCard> hand, ObjectiveCard objectiveCard){
+    private static void printFourthRow(List<DrawableCard> hand, ObjectiveCard objectiveCard){
         System.out.print(ANSI_YELLOW_BACKGROUND+"|     ");
         if(objectiveCard.getScoringCondition() instanceof LayoutCondition)
         {

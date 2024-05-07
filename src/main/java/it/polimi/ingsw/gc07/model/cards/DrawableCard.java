@@ -241,7 +241,7 @@ public class DrawableCard extends PlaceableCard {
         return 0;
     }
 
-    //METHOD USED TO HELP PRINT IN TUI VIEW
+    //METHOD USED TO HELP PRINT IN Tui VIEW
 
     /**
      * getter method for points wrote on the card

@@ -76,7 +76,7 @@ public class GameFieldView implements Serializable {
         this.starterCard = starterCard;
         System.out.println("The starter card was set");
 
-        // TODO non aggiorno TUI?
+        // TODO non aggiorno Tui?
     }
 
     /**

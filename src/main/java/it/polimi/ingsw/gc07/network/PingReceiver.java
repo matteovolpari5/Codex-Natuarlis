@@ -60,7 +60,7 @@ public class PingReceiver {
 
     /**
      * Method used to notify the ping receiver that a player disconnected
-     * if he asked to do so (via TUI / GUI).
+     * if he asked to do so (via Tui / GUI).
      * It is necessary to set his playersPing to false.
      * @param nickname nickname
      */
