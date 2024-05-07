@@ -4,8 +4,10 @@ import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerView implements Serializable {
@@ -37,6 +39,10 @@ public class PlayerView implements Serializable {
      * List of cards the player currently has. update needs to be sent only to the single player
      */
     private List<DrawableCard> currentHand;
+    /**
+     * List of player view listeners.
+     */
+    private final List<PlayerViewListener> playerViewListeners;
 
     /**
      * Constructor of class player
@@ -50,12 +56,29 @@ public class PlayerView implements Serializable {
         this.isConnected = true;
         this.currentHand = null;
         this.isStalled = false;
+        this.playerViewListeners = new ArrayList<>();
     }
 
+    /**
+     * Method used to register a new listener.
+     * @param playerViewListener player view listener
+     */
+    public void addListener(PlayerViewListener playerViewListener) {
+        playerViewListeners.add(playerViewListener);
+    }
+
+    /**
+     * Getter for player's nickname.
+     * @return player's nickname
+     */
     public String getNickname() {
         return this.nickname;
     }
 
+    /**
+     * Getter for token color.
+     * @return player's token color
+     */
     public TokenColor getTokenColor() {
         return this.tokenColor;
     }
@@ -80,6 +103,10 @@ public class PlayerView implements Serializable {
      */
     public void setCardHand(List<DrawableCard> currentHand) {
         this.currentHand = currentHand;
+        // update listeners
+        for(PlayerViewListener l: playerViewListeners) {
+            l.receiveCardHandUpdate(currentHand, secretObjective);
+        }
     }
 
     public void setStarterCard(PlaceableCard starterCard) {

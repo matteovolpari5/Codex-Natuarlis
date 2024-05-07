@@ -242,7 +242,7 @@ public class GameView {
         for(PlayerView pv: playerViews) {
             if(!this.playerViews.contains(pv)) {
                 this.playerViews.add(pv);
-                scoreTrackBoardView.addPlayerToBoard(pv.getNickname());
+                scoreTrackBoardView.addPlayerToBoard(pv.getNickname(), pv.getTokenColor());
             }
         }
 

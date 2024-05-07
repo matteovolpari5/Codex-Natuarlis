@@ -1,12 +1,13 @@
 package it.polimi.ingsw.gc07.view.tui;
 
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model_view_listeners.ScoreTrackBoardViewListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ScoreTrackBoardTui {
+public class ScoreTrackBoardTui implements ScoreTrackBoardViewListener {
     /**
      * constant for color bg
      */
@@ -19,22 +20,26 @@ public class ScoreTrackBoardTui {
     public final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+    @Override
+    public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
+        printScoreTrackBoard(playerScores, playerTokenColors);
+    }
+
     /**
      * method that print in the console the complete track board
      */
-    public void printScoreTrackBoard(Map<String, Integer> playersScore, Map<String, TokenColor> playersToken,List<String> playersNickname)
-    {
+    private void printScoreTrackBoard(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
         List<Integer> score = new ArrayList<>();
         List<String> color = new ArrayList<>();
-        for (String s : playersNickname) {
-            score.add(playersScore.get(s));
-            if (playersToken.get(s).equals(TokenColor.GREEN)) {
+        for (String s : playerScores.keySet()) {
+            score.add(playerScores.get(s));
+            if (playerTokenColors.get(s).equals(TokenColor.GREEN)) {
                 color.add(ANSI_GREEN_BACKGROUND);
-            } else if (playersToken.get(s).equals(TokenColor.BLUE)) {
+            } else if (playerTokenColors.get(s).equals(TokenColor.BLUE)) {
                 color.add(ANSI_BLUE_BACKGROUND);
-            } else if (playersToken.get(s).equals(TokenColor.RED)) {
+            } else if (playerTokenColors.get(s).equals(TokenColor.RED)) {
                 color.add(ANSI_RED_BACKGROUND);
-            } else if (playersToken.get(s).equals(TokenColor.YELLOW)) {
+            } else if (playerTokenColors.get(s).equals(TokenColor.YELLOW)) {
                 color.add(ANSI_YELLOW_BACKGROUND);
             }
         }

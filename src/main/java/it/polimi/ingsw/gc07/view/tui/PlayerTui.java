@@ -7,10 +7,11 @@ import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
 import it.polimi.ingsw.gc07.model.enumerations.GameObject;
 import it.polimi.ingsw.gc07.model.enumerations.GameResource;
+import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
 
 import java.util.List;
 
-public class PlayerTui {
+public class PlayerTui implements PlayerViewListener {
     public final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
     public final String ANSI_RED_BACKGROUND = "\u001B[41m";
     public final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
@@ -19,7 +20,12 @@ public class PlayerTui {
     public final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     public final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-    public void printPlayerHand(List<DrawableCard> hand, ObjectiveCard personalObjective)
+    @Override
+    public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
+        printPlayerHand(hand, personalObjective);
+    }
+
+    private void printPlayerHand(List<DrawableCard> hand, ObjectiveCard personalObjective)
     {
         printFirstLastRow();
         printSecondRow( hand, personalObjective);
