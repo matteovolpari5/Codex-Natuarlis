@@ -141,33 +141,11 @@ public class GamesManager {
 
     public void addPlayerToPending(String nickname, boolean connectionType, boolean interfaceType) {
         // this command can always be used
-        if(checkReconnection(nickname)) {
-            /*
-            // tutto fatto nella reconnect
-            for(GameController gameController: gameControllers) {
-                for(Player p: gameController.getPlayers()) {
-                    if(p.getNickname().equals(nickname)) {
-                        assert(!p.isConnected());
-                        gameController.reconnectPlayer(nickname);
-                        if(p.getConnectionType()) {
-                            // Rmi client
-                            RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameController.getId());
+        assert(!checkReconnection(nickname));
+        assert(checkNicknameUnique(nickname));
 
-                        }else {
-                            // TODO socket
-                        }
-                    }
-                }
-            }
-            */
-            throw new RuntimeException();
-        }else if(checkNicknameUnique(nickname)) {
-            Player newPlayer = new Player(nickname, connectionType, interfaceType);
-            pendingPlayers.add(newPlayer);
-        }else {
-            // already checked
-            throw new RuntimeException();
-        }
+        Player newPlayer = new Player(nickname, connectionType, interfaceType);
+        pendingPlayers.add(newPlayer);
         commandResult = CommandResult.SUCCESS;
     }
 

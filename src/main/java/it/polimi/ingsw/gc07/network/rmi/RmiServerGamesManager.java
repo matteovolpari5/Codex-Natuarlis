@@ -129,26 +129,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     }
 
     /**
-     * Method that allows to set a RmiServerGame for the client.
-     * @param nickname player's nickname
-     * @param gameId game id
-     */
-    public void setServerGame(String nickname, int gameId) {
-        assert(rmiServerGames.containsKey(gameId));
-        try {
-            VirtualView virtualView = getVirtualView(nickname);
-            if(virtualView == null) {
-                throw new RuntimeException();
-            }
-            virtualView.setServerGame(gameId);
-        }catch(RemoteException e) {
-            // TODO
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-    }
-
-    /**
      * Method that allows to create a new RmiServerGame, used when the player joins a new game.
      * Creates a new RmiServerGame and calls setServerGame to set it.
      * @param nickname player's nickname
@@ -167,6 +147,41 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             e.printStackTrace();
             throw new RuntimeException();
         }
+    }
+
+    /**
+     * Method that allows to set a RmiServerGame for the client.
+     * @param nickname player's nickname
+     * @param gameId game id
+     */
+    public void setServerGame(String nickname, int gameId) {
+        assert(rmiServerGames.containsKey(gameId));
+        try {
+            VirtualView virtualView = getVirtualView(nickname);
+            if(virtualView == null) {
+                throw new RuntimeException();
+            }
+            virtualView.setServerGame(gameId);
+        }catch(RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        try {
+            removeVirtualView(nickname);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // TODO: attenzione perchè lancia eccezione se la view è morta
+    public void removeVirtualView(String nickname) throws RemoteException {
+        VirtualView virtualView = getVirtualView(nickname);
+        clients.remove(virtualView);
+    }
+
+    public void removeVirtualView(VirtualView virtualView) throws RemoteException {
+        clients.remove(virtualView);
     }
 
     /**
@@ -254,15 +269,5 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         if(rmiServerGame != null){
             rmiServerGames.remove(gameId);
         }
-    }
-
-    // TODO: attenzione, se la virtual view è morta, becco eccezione nella chiamata getNickname
-    public void removeVirtualView(String nickname) throws RemoteException {
-        VirtualView virtualView = getVirtualView(nickname);
-        clients.remove(virtualView);
-    }
-
-    public void removeVirtualView(VirtualView virtualView) throws RemoteException {
-        clients.remove(virtualView);
     }
 }
