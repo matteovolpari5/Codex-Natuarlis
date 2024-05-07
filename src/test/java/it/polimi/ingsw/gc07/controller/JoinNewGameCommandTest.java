@@ -40,6 +40,6 @@ class JoinNewGameCommandTest {
 
     @Test
     void joinNewGameTwice(){
-
+        //TODO da fare
     }
 }
