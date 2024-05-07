@@ -50,9 +50,9 @@ public class GameView {
      */
     private CommandResult commandResult;
     /**
-     * ScoreTrackBoardView reference.
+     * BoardView reference.
      */
-    private final ScoreTrackBoardView scoreTrackBoardView;
+    private final BoardView boardView;
     /**
      * DeckView reference.
      */
@@ -78,7 +78,7 @@ public class GameView {
     public GameView(String ownerNickname) {
         this.ownerNickname = ownerNickname; // TODO set by the client (who has the nickname)
         this.winners = null;
-        this.scoreTrackBoardView = new ScoreTrackBoardView();
+        this.boardView = new BoardView();
         this.deckView = new DeckView();
         this.chatView = new ChatView();
         this.playerViews = new ArrayList<>();
@@ -170,7 +170,7 @@ public class GameView {
      * @param newScore score
      */
     public void setNewScore(String nickname, int newScore) {
-        scoreTrackBoardView.setNewScore(nickname, newScore);
+        boardView.setNewScore(nickname, newScore);
     }
 
     /**
@@ -242,7 +242,7 @@ public class GameView {
         for(PlayerView pv: playerViews) {
             if(!this.playerViews.contains(pv)) {
                 this.playerViews.add(pv);
-                scoreTrackBoardView.addPlayerToBoard(pv.getNickname(), pv.getTokenColor());
+                boardView.addPlayerToBoard(pv.getNickname(), pv.getTokenColor());
             }
         }
 

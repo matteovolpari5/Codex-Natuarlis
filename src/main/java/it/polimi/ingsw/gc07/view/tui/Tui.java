@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Tui implements ChatTui, DeckTui, GameFieldTui, PlayerTui, ScoreTrackBoardTui,
-        ChatViewListener, DeckViewListener, GameFieldViewListener, PlayerViewListener, ScoreTrackBoardViewListener {
+        ChatViewListener, DeckViewListener, GameFieldViewListener, PlayerViewListener, BoardViewListener {
     @Override
     public void receiveMessageUpdate(ChatMessage chatMessage) {
         ChatTui.printMessage(chatMessage);

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.model_listeners.ScoreTrackBoardListener;
+import it.polimi.ingsw.gc07.model_listeners.BoardListener;
 import it.polimi.ingsw.gc07.updates.ScoreUpdate;
 
 import java.rmi.RemoteException;
@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * Class representing the ScoreTrackBoard.
+ * Class representing the Board containing scores.
  */
-public class ScoreTrackBoard {
+public class Board {
     /**
      * Map that link each player with his personal score.
      */
@@ -20,30 +20,30 @@ public class ScoreTrackBoard {
     /**
      * List of score track board listeners.
      */
-    private final List<ScoreTrackBoardListener> scoreTrackBoardListeners;
+    private final List<BoardListener> boardListeners;
 
     /**
-     * Constructor method for an empty ScoreTrackBoard.
+     * Constructor method for an empty Board.
      */
-    public ScoreTrackBoard() {
+    public Board() {
         this.playersScore = new HashMap<>();
-        this.scoreTrackBoardListeners = new ArrayList<>();
+        this.boardListeners = new ArrayList<>();
     }
 
     /**
      * Method to add a new score track board listener.
-     * @param scoreTrackBoardListener new score track board listener
+     * @param boardListener new score track board listener
      */
-    public void addListener(ScoreTrackBoardListener scoreTrackBoardListener) {
-        scoreTrackBoardListeners.add(scoreTrackBoardListener);
+    public void addListener(BoardListener boardListener) {
+        boardListeners.add(boardListener);
     }
 
-    public void removeListener(ScoreTrackBoardListener scoreTrackBoardListener) {
-        scoreTrackBoardListeners.remove(scoreTrackBoardListener);
+    public void removeListener(BoardListener boardListener) {
+        boardListeners.remove(boardListener);
     }
 
     /**
-     * Method that allows to insert a new Player to the ScoreTrackBoard,
+     * Method that allows to insert a new Player to the Board,
      * initializing it's score to 0.
      * @param nickname player to add
      */
@@ -73,7 +73,7 @@ public class ScoreTrackBoard {
 
         // send update
         ScoreUpdate update = new ScoreUpdate(nickname, newScore);
-        for(ScoreTrackBoardListener l: scoreTrackBoardListeners) {
+        for(BoardListener l: boardListeners) {
             try {
                 l.receiveScoreUpdate(update);
             }catch(RemoteException e) {

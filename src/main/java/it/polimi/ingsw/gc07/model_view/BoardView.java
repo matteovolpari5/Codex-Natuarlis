@@ -1,14 +1,14 @@
 package it.polimi.ingsw.gc07.model_view;
 
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.model_view_listeners.ScoreTrackBoardViewListener;
+import it.polimi.ingsw.gc07.model_view_listeners.BoardViewListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ScoreTrackBoardView {
+public class BoardView {
     /**
      * Map containing players' scores.
      * Key: nickname
@@ -24,27 +24,27 @@ public class ScoreTrackBoardView {
     /**
      * List of score track board view listeners.
      */
-    private final List<ScoreTrackBoardViewListener> scoreTrackBoardViewListeners;
+    private final List<BoardViewListener> boardViewListeners;
 
     /**
-     * Constructor method for an empty ScoreTrackBoard.
+     * Constructor method for an empty Board.
      */
-    public ScoreTrackBoardView() {
+    public BoardView() {
         this.playerScores = new HashMap<>();
         this.playerTokenColors = new HashMap<>();
-        this.scoreTrackBoardViewListeners = new ArrayList<>();
+        this.boardViewListeners = new ArrayList<>();
     }
 
     /**
      * Method used to register a new listener.
-     * @param scoreTrackBoardViewListener new listener
+     * @param boardViewListener new listener
      */
-    public void addListener(ScoreTrackBoardViewListener scoreTrackBoardViewListener) {
-        scoreTrackBoardViewListeners.add(scoreTrackBoardViewListener);
+    public void addListener(BoardViewListener boardViewListener) {
+        boardViewListeners.add(boardViewListener);
     }
 
     /**
-     * Method that allows to insert a new Player to the ScoreTrackBoard,
+     * Method that allows to insert a new Player to the Board,
      * initializing it's score to 0.
      * @param nickname player to add
      */
@@ -74,7 +74,7 @@ public class ScoreTrackBoardView {
      * Private method used to send updates to listeners.
      */
     private void updateListeners() {
-        for(ScoreTrackBoardViewListener l: scoreTrackBoardViewListeners) {
+        for(BoardViewListener l: boardViewListeners) {
             l.receiveScoreUpdate(playerScores, playerTokenColors);
         }
     }

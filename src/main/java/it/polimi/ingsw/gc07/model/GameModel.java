@@ -56,7 +56,7 @@ public class GameModel {
     /**
      * Score track board of the game.
      */
-    private final ScoreTrackBoard scoreTrackBoard;
+    private final Board board;
     /**
      * Deck of resource cards.
      */
@@ -112,7 +112,7 @@ public class GameModel {
         this.winners = new ArrayList<>();
         this.currPlayer = 0;
         this.hasCurrPlayerPlaced = false;
-        this.scoreTrackBoard = new ScoreTrackBoard();
+        this.board = new Board();
         this.resourceCardsDeck = new DrawableDeck<>(resourceCardsDeck);
         this.goldCardsDeck = new DrawableDeck<>(goldCardsDeck);
         this.objectiveCardsDeck = new PlayingDeck<>(objectiveCardsDeck);
@@ -173,8 +173,8 @@ public class GameModel {
         this.hasCurrPlayerPlaced = hasCurrPlayerPlaced;
     }
 
-    public ScoreTrackBoard getScoreTrackBoard() {
-        return scoreTrackBoard;
+    public Board getScoreTrackBoard() {
+        return board;
     }
 
     public DrawableDeck<DrawableCard> getResourceCardsDeck() {
@@ -350,7 +350,7 @@ public class GameModel {
 
     public void addPlayer(Player newPlayer) {
         players.add(newPlayer);
-        scoreTrackBoard.addPlayer(newPlayer.getNickname());
+        board.addPlayer(newPlayer.getNickname());
 
         // set card hand
         newPlayer.addCardHand(drawResourceCard());
@@ -380,7 +380,7 @@ public class GameModel {
         // called as soon as a player joins a game
         gameListeners.add(client);
         chat.addListener(client);
-        scoreTrackBoard.addListener(client);
+        board.addListener(client);
         for(Player p: players) {
             p.addListener(client);
             p.getGameField().addListener(client);
@@ -412,7 +412,7 @@ public class GameModel {
     public void removeListener(VirtualView client) {
         gameListeners.remove(client);
         chat.removeListener(client);
-        scoreTrackBoard.removeListener(client);
+        board.removeListener(client);
         for(Player p: players) {
             p.removeListener(client);
             p.getGameField().removeListener(client);
@@ -430,15 +430,15 @@ public class GameModel {
     }
 
     public int getScore(String nickname) {
-        return scoreTrackBoard.getScore(nickname);
+        return board.getScore(nickname);
     }
 
     public void setScore(String nickname, int newScore) {
-        scoreTrackBoard.setScore(nickname, newScore);
+        board.setScore(nickname, newScore);
     }
 
     public void incrementScore(String nickname, int deltaScore) {
-        scoreTrackBoard.incrementScore(nickname, deltaScore);
+        board.incrementScore(nickname, deltaScore);
     }
 
     public int getNumPlayersConnected() {

@@ -101,7 +101,7 @@ public class GameController {
     }
 
     // used in tests
-    ScoreTrackBoard getScoreTrackBoard() {
+    Board getScoreTrackBoard() {
         return gameModel.getScoreTrackBoard();
     }
 
