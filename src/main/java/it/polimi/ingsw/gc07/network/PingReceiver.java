@@ -108,7 +108,9 @@ public class PingReceiver {
                             }
                             */
                             //gameController.reconnectPlayer(client, nickname);
-                            gameController.reconnectPlayer(playerVirtualViews.get(nickname), nickname);
+                            System.out.println("Try to reconnect");
+                            gameController.reconnectPlayerProva(nickname);
+                            gameController.addListener(nickname, playerVirtualViews.get(nickname));
                         } else {
                             // TODO socket
                         }

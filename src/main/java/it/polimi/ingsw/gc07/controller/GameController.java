@@ -320,6 +320,7 @@ public class GameController {
             // if new connection type is RMI
             try {
                 RmiServerGamesManager.getRmiServerGamesManager().connect(client);
+                System.out.println("Reconnected to games manager");
                 RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, getId());
                 // TODO probabilmente quando si disconnettono (perdonono connessione) devo bloccargli la cli!
             } catch (RemoteException e) {
@@ -336,6 +337,21 @@ public class GameController {
                 throw new RuntimeException(e);
             }
         }
+        // set player connected
+        player.setIsConnected(true);
+        if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
+            changeGameState();
+        }
+    }
+
+    public void reconnectPlayerProva(String nickname) {
+        assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
+        Player player = getPlayerByNickname(nickname);
+        if(player == null) {
+            gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
+            return;
+        }
+        assert(!player.isConnected()): "Player already connected";
         // set player connected
         player.setIsConnected(true);
         if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
