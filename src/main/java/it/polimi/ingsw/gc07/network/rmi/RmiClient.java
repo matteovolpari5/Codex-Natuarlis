@@ -136,11 +136,19 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
     @Override
     public void startGamePing() {
         new Thread(()->{
-            while(viewAlive) {
-                try {
-                    serverGame.setAndExecuteCommand(new SendPingControllerCommand(nickname));
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+            boolean runThread = true;
+            while(runThread) {
+                synchronized (this) {
+                    if (viewAlive) {
+                        try {
+                            System.out.println("Ho inviato un ping");
+                            serverGame.setAndExecuteCommand(new SendPingControllerCommand(nickname));
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        runThread = false;
+                    }
                 }
                 try {
                     Thread.sleep(1000); // wait one second between two ping
@@ -149,8 +157,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
-
-                //todo ricezione del pong
             }
         }).start();
     }
