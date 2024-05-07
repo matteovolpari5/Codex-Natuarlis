@@ -433,7 +433,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                     System.out.println("The provided character doesn't refer to any action");
             }
         }
-        //System.exit(0);
+        System.exit(0);
     }
 
     /**
