@@ -6,13 +6,12 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.model_view_listeners.*;
+import it.polimi.ingsw.gc07.view.Ui;
 
 import java.util.List;
 import java.util.Map;
 
-public class Tui implements ChatTui, DeckTui, GameFieldTui, PlayerTui, ScoreTrackBoardTui,
-        ChatViewListener, DeckViewListener, GameFieldViewListener, PlayerViewListener, BoardViewListener {
+public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, ScoreTrackBoardTui {
     @Override
     public void receiveMessageUpdate(ChatMessage chatMessage) {
         ChatTui.printMessage(chatMessage);

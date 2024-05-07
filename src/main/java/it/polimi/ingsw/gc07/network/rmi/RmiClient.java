@@ -9,6 +9,8 @@ import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
+import it.polimi.ingsw.gc07.view.gui.Gui;
+import it.polimi.ingsw.gc07.view.tui.Tui;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -57,6 +59,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
      * @param interfaceType interface type
      */
     public void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
+        if(interfaceType) {
+            // Gui
+            this.gameView.addViewListener(new Gui());
+        }else {
+            // Tui
+            this.gameView.addViewListener(new Tui());
+        }
+
         try {
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
@@ -140,7 +150,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
             synchronized (this) {
                 if (viewAlive) {
                     try {
-                        System.out.println("Ho inviato un ping");
                         serverGame.setAndExecuteCommand(new SendPingControllerCommand(nickname));
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);

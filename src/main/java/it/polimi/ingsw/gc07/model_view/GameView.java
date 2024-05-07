@@ -7,6 +7,7 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.view.Ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,21 +68,30 @@ public class GameView {
      */
     private List<PlayerView> playerViews;
 
-    //TODO
-    // RMIclient / SocketClient contiene il riferimento a game view
-    // riceve un update con listener, chiama metodo su gameview per salvare
-    // nella copia locale l'aggiornamento
-
     /**
      * Constructor of the class GameView
      */
     public GameView(String ownerNickname) {
-        this.ownerNickname = ownerNickname; // TODO set by the client (who has the nickname)
+        this.ownerNickname = ownerNickname;
         this.winners = null;
         this.boardView = new BoardView();
         this.deckView = new DeckView();
         this.chatView = new ChatView();
         this.playerViews = new ArrayList<>();
+    }
+
+    /**
+     * Method used to add a view listener to game view components.
+     * @param uiListener view listener
+     */
+    public void addViewListener(Ui uiListener) {
+        boardView.addListener(uiListener);
+        chatView.addListener(uiListener);
+        deckView.addListener(uiListener);
+        for(PlayerView playerView: playerViews) {
+            playerView.addListener(uiListener);
+        }
+        System.out.println("Added listeners");
     }
 
     /**

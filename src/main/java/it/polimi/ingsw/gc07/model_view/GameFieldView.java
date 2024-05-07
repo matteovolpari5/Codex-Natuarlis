@@ -31,8 +31,9 @@ public class GameFieldView implements Serializable {
      */
     private static final int dim = 81;
     /**
-     * * List of GameFieldView listeners.
-     * */private final List<GameFieldViewListener> gameFieldViewListeners;
+     * List of GameFieldView listeners.
+     */
+    private final List<GameFieldViewListener> gameFieldViewListeners;
 
     /**
      * Constructor of the game field view.

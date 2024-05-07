@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
 import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
 
 import java.io.Serializable;
@@ -65,6 +66,14 @@ public class PlayerView implements Serializable {
      */
     public void addListener(PlayerViewListener playerViewListener) {
         playerViewListeners.add(playerViewListener);
+    }
+
+    /**
+     * Method used to register a new listener to the game field.
+     * @param gameFieldViewListener game field view listener
+     */
+    public void addGameFieldListener(GameFieldViewListener gameFieldViewListener) {
+        gameField.addListener(gameFieldViewListener);
     }
 
     /**

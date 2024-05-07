@@ -30,4 +30,5 @@ module it.polimi.ingsw.gc07 {
     exports it.polimi.ingsw.gc07.updates;
     exports it.polimi.ingsw.gc07.network;
     exports it.polimi.ingsw.gc07.model_view_listeners;
+    exports it.polimi.ingsw.gc07.view;
 }
