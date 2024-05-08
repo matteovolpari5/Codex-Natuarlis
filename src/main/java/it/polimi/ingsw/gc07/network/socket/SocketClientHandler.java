@@ -6,6 +6,7 @@ import it.polimi.ingsw.gc07.game_commands.GameControllerCommand;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.game_commands.ReconnectPlayerCommand;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.game_commands.SendPingControllerCommand;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
 
@@ -91,24 +92,25 @@ public class SocketClientHandler implements VirtualView {
                 command = (GameControllerCommand) input.readObject();
                 synchronized (gameController){
                     gameController.setAndExecuteCommand(command);
-                    CommandResult result = gameController.getCommandResult();
-                    if(result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
-                        closeConnection(mySocket,input,output);
+                    CommandResult result = gameController.getCommandResult(); // TODO SendPingCommand non modifica commandResult
+                    if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
+                        //closeConnection(mySocket,input,output);
                     }
                     //TODO come prima: in rmi nessuno controlla l'esito del command
-                    if(result.equals(CommandResult.SUCCESS)){
+                    /*if(result.equals(CommandResult.SUCCESS)){
                         //TODO mostrare esito
                     }else{
                         //TODO mostrare errore
-                    }
+                    }*/
                 }
             } catch (Exception e){
                 //TODO gestire eccezione
-                closeConnection(mySocket,input,output);
-                break;
+                e.printStackTrace();
+                throw new RuntimeException();
+                //closeConnection(mySocket,input,output);
             }
         }
-        closeConnection(mySocket, input, output);
+        //closeConnection(mySocket, input, output);
     }
 
     public void closeConnection(Socket mySocket, ObjectInputStream input, ObjectOutputStream output){
@@ -145,6 +147,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     private void receiveUpdate(Update update) throws IOException{
+        System.out.println("INVIO UPDATE");
         output.writeObject(update);
         output.reset();
         output.flush();

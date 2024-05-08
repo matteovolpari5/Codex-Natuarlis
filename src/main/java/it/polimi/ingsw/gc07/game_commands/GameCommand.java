@@ -1,4 +1,6 @@
 package it.polimi.ingsw.gc07.game_commands;
 
-public interface GameCommand {
+import java.io.Serializable;
+
+public interface GameCommand extends Serializable {
 }

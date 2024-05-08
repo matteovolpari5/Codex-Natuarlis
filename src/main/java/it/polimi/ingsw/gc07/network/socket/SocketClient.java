@@ -80,15 +80,14 @@ public class SocketClient  {
 
 
     private void manageReceivedUpdate() {
-        System.out.println("SC-T> manageReceivedMessage");
+        System.out.println("SC-T> manageReceivedUpdate");
         Update update;
         while (true){ //TODO dalla documentazione non trovo un modo di utilizzare il risultato di readObject() come condizione del while, chiedere se così va bene
             try {
                 System.out.println("SC-T> ascolto");
                 update = (Update) input.readObject();
-                System.out.println("SC-T> leggo un update");
+                System.out.println("SC-T> ho letto un update, lo eseguo");
                 update.execute(gameView);
-                System.out.println("SC-T> eseguo l'update");
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -195,6 +194,7 @@ public class SocketClient  {
                 throw new RuntimeException(e);
             }
             if(result.equals("Game joined.")){
+                System.out.println("Game joined.");
                 gameJoined = true;
                 new Thread(() -> {
                     try{
@@ -226,7 +226,7 @@ public class SocketClient  {
         CardType cardType;
         int wayInput;
         boolean way;
-        while(true) {
+        while(viewAlive) {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to write a private message"); // AddChatPrivateMessage
             System.out.println("- w to write a public message"); // AddChatPublicMessage
@@ -273,6 +273,8 @@ public class SocketClient  {
                         e.printStackTrace();
                         throw new RuntimeException(e);
                     }
+                    System.out.println("\nYou successfully disconnected !");
+                    viewAlive = false;
                     break;
                 case "r":
                     System.out.println("Select a card type ('g' for gold or 'r' for resource): ");
@@ -388,6 +390,7 @@ public class SocketClient  {
     }
 
     public void startGamePing() {
+        System.out.println("SC-T2> startGamePing");
         boolean runThread = true;
         while(runThread) {
             synchronized (this) {

@@ -28,7 +28,7 @@ public class PingReceiver {
     /**
      * Number of missed pings to detect a disconnection.
      */
-    private static final int maxMissedPings = 2;
+    private static final int maxMissedPings = 10;
 
     /**
      * Constructor of PingReceiver.
@@ -95,9 +95,10 @@ public class PingReceiver {
                         Player player = gameController.getPlayerByNickname(nickname);
                         assert (player != null);
                         gameController.reconnectPlayerOldSettings(nickname);
+                        gameController.addListener(nickname, playerVirtualViews.get(nickname)); //TODO si aggiunge nuovamente il client a playerVirtualViews
                         if (player.getConnectionType()) {
                             // RMI
-                            gameController.addListener(nickname, playerVirtualViews.get(nickname)); //TODO si aggiunge nuovamente il client a playerVirtualViews
+                            //TODO due istruzioni presenti uguali sia per socket che per RMI
                             System.out.println("Try to reconnect");
                         } else {
                             // TODO socket
@@ -107,6 +108,7 @@ public class PingReceiver {
                     }
                 }else {
                     missedPing ++;
+                    System.out.println(missedPing);
                     if(missedPing >= maxMissedPings && gameController.isPlayerConnected(nickname)) {
                         System.out.println("Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
