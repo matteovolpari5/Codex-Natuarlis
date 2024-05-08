@@ -94,13 +94,15 @@ public class PingReceiver {
                         System.out.println("Reconnection detected " + nickname);
                         Player player = gameController.getPlayerByNickname(nickname);
                         assert (player != null);
+                        gameController.reconnectPlayerOldSettings(nickname);
                         if (player.getConnectionType()) {
                             // RMI
-                            gameController.reconnectPlayerOldSettings(nickname);
-                            gameController.addListener(nickname, playerVirtualViews.get(nickname));
+                            gameController.addListener(nickname, playerVirtualViews.get(nickname)); //TODO si aggiunge nuovamente il client a playerVirtualViews
                             System.out.println("Try to reconnect");
                         } else {
                             // TODO socket
+
+                            System.out.println("Try to reconnect");
                         }
                     }
                 }else {

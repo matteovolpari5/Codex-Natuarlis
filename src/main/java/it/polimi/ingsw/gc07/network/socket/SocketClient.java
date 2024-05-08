@@ -5,6 +5,8 @@ import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.updates.*;
+import it.polimi.ingsw.gc07.view.gui.Gui;
+import it.polimi.ingsw.gc07.view.tui.Tui;
 
 import java.io.*;
 import java.net.Socket;
@@ -17,6 +19,7 @@ public class SocketClient  {
     private final GameView gameView;
     private final ObjectInputStream input;
     private VirtualSocketServer myServer;
+    private boolean viewAlive;
 
 
 
@@ -37,36 +40,33 @@ public class SocketClient  {
         this.input = new ObjectInputStream(temp_input);
 
         this.myServer = new VirtualSocketServer(output, nickname, status, interfaceType);
+        this.viewAlive = true;
 
-        //this.run();
+        manageSetUp(status, interfaceType);
+
+    }
+
+    private void manageSetUp(String status, boolean interfaceType){
         System.out.println(status);
         if(status.equals("new")){
             connectToGamesManagerServer(false, interfaceType);
         } else if(status.equals("reconnected")){
-            new Thread(() -> {
-                try{
-                    manageReceivedUpdate();
-                } catch (Exception e){
-                    throw new RuntimeException(e);
-                }
-            }).start();
+            new Thread(this::manageReceivedUpdate).start();
+            new Thread(this::startGamePing).start();
             runCliGame();
         }
     }
 
-    /*private void run(){
-        System.out.println("SC> run");
-        new Thread(() -> {
-            try{
-                manageReceivedUpdate();
-            } catch (Exception e){
-                throw new RuntimeException(e);
-            }
-        }).start();
-    }*/
 
     private void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
         System.out.println("SC> connectToGMS");
+        /*if(interfaceType) {
+            // Gui
+            this.gameView.addViewListener(new Gui());
+        }else {
+            // Tui
+            this.gameView.addViewListener(new Tui());
+        }*/
         try {
             myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
@@ -214,6 +214,7 @@ public class SocketClient  {
             }
         }
         // game joined
+        new Thread(this::startGamePing).start();
         runCliGame();
     }
 
@@ -382,6 +383,30 @@ public class SocketClient  {
                     break;
                 default:
                     System.out.println("The provided character doesn't refer to any action");
+            }
+        }
+    }
+
+    public void startGamePing() {
+        boolean runThread = true;
+        while(runThread) {
+            synchronized (this) {
+                if (viewAlive) {
+                    try {
+                        myServer.setAndExecuteCommand(new SendPingControllerCommand(nickname));
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    runThread = false;
+                }
+            }
+            try {
+                Thread.sleep(1000); // wait one second between two ping
+            } catch (InterruptedException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }

@@ -52,7 +52,7 @@ public class SocketServer {
     }
 
     // TODO: attenzione, se la virtual view è morta, becco eccezione nella chiamata getNickname
-    public VirtualView getVirtualView(String nickname) throws RemoteException {
+    public synchronized VirtualView getVirtualView(String nickname) throws RemoteException {
         for(VirtualView client : clients) {
             if(client.getNickname().equals(nickname)) {
                 return client;
@@ -61,7 +61,7 @@ public class SocketServer {
         return null;
     }
 
-    public void removeVirtualView(VirtualView virtualView)throws RemoteException {
+    public synchronized void removeVirtualView(VirtualView virtualView)throws RemoteException {
         clients.remove(virtualView);
     }
 
