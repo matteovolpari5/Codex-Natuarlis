@@ -14,7 +14,10 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiver;
 import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiverGame;
+import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiverGamesManager;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
@@ -42,6 +45,8 @@ public class GamesManager {
      */
     private CommandResult commandResult;
 
+    private final PingReceiverGamesManager pingReceiver;
+
     /**
      * GamesManger is created once the server is started.
      * GamesManager implements Singleton pattern.
@@ -50,6 +55,7 @@ public class GamesManager {
         gameControllers = new ArrayList<>();
         pendingPlayers = new ArrayList<>();
         commandResult = null;
+        this.pingReceiver = new PingReceiverGamesManager(this);
     }
 
     /**
@@ -146,6 +152,7 @@ public class GamesManager {
 
         Player newPlayer = new Player(nickname, connectionType, interfaceType);
         pendingPlayers.add(newPlayer);
+        pingReceiver.addPlayer(nickname);
         commandResult = CommandResult.SUCCESS;
     }
 
@@ -386,5 +393,20 @@ public class GamesManager {
         if(gameController != null && gameController.getState().equals(GameState.GAME_ENDED)){
             gameControllers.remove(gameController);
         }
+    }
+    public void removeFromPending(String nickname) {
+        for (Player p: pendingPlayers){
+            if (p.getNickname().equals(nickname)){
+                pendingPlayers.remove(p);
+                System.out.println("player rimosso dai pending");
+                break;
+            }
+        }
+    }
+    public void addPingSender(String nickname, VirtualView client) {
+        pingReceiver.addPingSender(nickname, client);
+    }
+    public void receivePing(String nickname) {
+        pingReceiver.receivePing(nickname);
     }
 }

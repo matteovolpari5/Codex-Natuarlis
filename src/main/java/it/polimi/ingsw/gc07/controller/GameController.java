@@ -8,8 +8,9 @@ import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.network.PingReceiver;
+import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiver;
 import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiverGame;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
@@ -22,7 +23,7 @@ public class GameController {
      */
     private final GameModel gameModel;
 
-    private final PingReceiver pingReceiver;
+    private final PingReceiverGame pingReceiver;
 
     /**
      * Constructor of a GameController with only the first player.
@@ -31,7 +32,7 @@ public class GameController {
                           DrawableDeck<GoldCard> goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
                           Deck<PlaceableCard> starterCardsDeck) {
         this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
-        this.pingReceiver = new PingReceiver(this);
+        this.pingReceiver = new PingReceiverGame(this);
     }
 
     // ------------------------------
@@ -317,7 +318,7 @@ public class GameController {
         if(player.getConnectionType()) {
             // if new connection type is RMI
             try {
-                RmiServerGamesManager.getRmiServerGamesManager().connect(client);
+                RmiServerGamesManager.getRmiServerGamesManager().connect(nickname, client);
                 System.out.println("Reconnected to games manager");
                 RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, getId());
                 // TODO probabilmente quando si disconnettono (perdonono connessione) devo bloccargli la cli!
@@ -386,7 +387,7 @@ public class GameController {
             synchronized (this) {
                 onePlayer = gameModel.getState().equals(GameState.WAITING_RECONNECTION);
             }
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 5 && gameEnd; i++) {
                 try {
                     Thread.sleep(1000); // wait one second for each iteration
                 } catch (InterruptedException e) {
@@ -408,7 +409,6 @@ public class GameController {
                     if (gameModel.getNumPlayersConnected() > 1) {
                         gameModel.setState(GameState.PLAYING);
                         gameEnd = false;
-                        break;
                     }
                 }
             }

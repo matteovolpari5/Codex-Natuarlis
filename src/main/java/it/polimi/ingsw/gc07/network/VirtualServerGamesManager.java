@@ -12,7 +12,7 @@ public interface VirtualServerGamesManager extends Remote {
      * @param client client to connect
      * @throws RemoteException remote exception
      */
-    void connect(VirtualView client) throws RemoteException;
+    void connect(String nickname, VirtualView client) throws RemoteException;
 
     NicknameCheck checkNickname(String nickname) throws RemoteException;
 
