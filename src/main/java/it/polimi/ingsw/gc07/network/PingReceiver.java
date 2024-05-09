@@ -2,10 +2,7 @@ package it.polimi.ingsw.gc07.network;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.model.Player;
-import it.polimi.ingsw.gc07.network.rmi.RmiClient;
-import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 
-import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.Thread;

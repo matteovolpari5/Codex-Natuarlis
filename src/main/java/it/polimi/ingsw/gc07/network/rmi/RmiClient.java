@@ -151,7 +151,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
                 if (viewAlive) {
                     try {
                         serverGame.setAndExecuteCommand(new SendPingControllerCommand(nickname));
-                    } catch (RemoteException e) {
+                    }catch(RemoteException e) {
+                        // TODO
+                        e.printStackTrace();
                         throw new RuntimeException(e);
                     }
                 } else {
