@@ -27,74 +27,65 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
 
     @Override
     public void runCliJoinGame() {
-        boolean triedJoining = false;
         Scanner scan = new Scanner(System.in);
-        while(!triedJoining) {
-            System.out.println("Insert a character to perform an action:");
-            System.out.println("- q to join an existing game"); // JoinExistingGameCommand
-            System.out.println("- w to join an new game"); // JoinNewGameCommand
-            System.out.println("- e to see existing games"); // DisplayGamesCommand
-            System.out.print("> ");
-            String command = scan.nextLine();
+        System.out.println("Insert a character to perform an action:");
+        System.out.println("- q to join an existing game"); // JoinExistingGameCommand
+        System.out.println("- w to join an new game"); // JoinNewGameCommand
+        System.out.println("- e to see existing games"); // DisplayGamesCommand
+        System.out.print("> ");
+        String command = scan.nextLine();
 
-            String tokenColorString;
-            TokenColor tokenColor;
-
-            switch(command){
-                case "q":
-                    // join existing game
-                    System.out.println("Insert token color (green, red, yellow or blue): ");
-                    System.out.print("> ");
-                    tokenColorString = scan.nextLine();
-                    tokenColor = parseTokenColor(tokenColorString);
-                    if(tokenColor == null) {
-                        System.out.println("No such token color");
-                        continue;
-                    }
-                    System.out.println("Insert game id: ");
-                    int gameId;
-                    try {
-                        gameId = scan.nextInt();
-                        scan.nextLine();
-                    }catch(InputMismatchException e) {
-                        scan.nextLine();
-                        System.out.println("No such game id, insert a number");
-                        continue;
-                    }
-                    if(gameId < 0) {
-                        System.out.println("No such game id");
-                        continue;
-                    }
-                    client.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
-                    triedJoining = true;
-                    break;
-
-                case "w":
-                    // join new game
-                    System.out.println("Insert token color (green, red, yellow or blue): ");
-                    System.out.print("> ");
-                    tokenColorString = scan.nextLine();
-                    tokenColor = parseTokenColor(tokenColorString);
-                    if(tokenColor == null) {
-                        System.out.println("No such token color");
-                        continue;
-                    }
-                    System.out.println("Insert the number of players for the game: ");
-                    int playersNumber = scan.nextInt();
+        String tokenColorString;
+        TokenColor tokenColor;
+        switch(command){
+            case "q":
+                // join existing game
+                System.out.println("Insert token color (green, red, yellow or blue): ");
+                System.out.print("> ");
+                tokenColorString = scan.nextLine();
+                tokenColor = parseTokenColor(tokenColorString);
+                if(tokenColor == null) {
+                    System.out.println("No such token color");
+                }
+                System.out.println("Insert game id: ");
+                int gameId = -1;
+                try {
+                    gameId = scan.nextInt();
                     scan.nextLine();
-                    // TODO potremmo fare già qua il controllo su players number per efficienza
-                    client.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
-                    triedJoining = true;
-                    break;
+                }catch(InputMismatchException e) {
+                    scan.nextLine();
+                    System.out.println("No such game id, insert a number");
+                }
+                if(gameId < 0) {
+                    System.out.println("No such game id");
+                }
+                client.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
+                break;
 
-                case "e":
-                    // display existing games
-                    client.setAndExecuteCommand(new DisplayGamesCommand(nickname));
-                    break;
+            case "w":
+                // join new game
+                System.out.println("Insert token color (green, red, yellow or blue): ");
+                System.out.print("> ");
+                tokenColorString = scan.nextLine();
+                tokenColor = parseTokenColor(tokenColorString);
+                if(tokenColor == null) {
+                    System.out.println("No such token color");
+                }
+                System.out.println("Insert the number of players for the game: ");
+                int playersNumber = scan.nextInt();
+                scan.nextLine();
+                // TODO potremmo fare già qua il controllo su players number per efficienza
+                client.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
+                break;
 
-                default:
-                    System.out.println("The provided character doesn't refer to any action");
-            }
+            case "e":
+                // display existing games
+                GamesManagerCommand mycommand = new DisplayGamesCommand(nickname);
+                client.setAndExecuteCommand(mycommand);
+                break;
+
+            default:
+                System.out.println("The provided character doesn't refer to any action");
         }
     }
 
@@ -118,7 +109,6 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
             CardType cardType;
             int wayInput;
             boolean way;
-
             switch(command) {
                 case "q":
                     System.out.println("Insert the receiver nickname: ");

@@ -355,8 +355,6 @@ public class GamesManager {
     }
 
     public void displayExistingGames(String nickname) {
-        commandResult = CommandResult.DISPLAY_GAMES;
-
         Player player = getPendingPlayer(nickname);
         assert(player != null);
         if(player.getConnectionType()) {

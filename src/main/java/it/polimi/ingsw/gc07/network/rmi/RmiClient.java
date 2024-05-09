@@ -312,6 +312,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) {
         existingGamesUpdate.execute(gameView);
+        ui.runCliJoinGame();
     }
 
     /**
