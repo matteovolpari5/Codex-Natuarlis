@@ -319,7 +319,6 @@ public class GameController {
             // if new connection type is RMI
             try {
                 RmiServerGamesManager.getRmiServerGamesManager().connect(nickname, client);
-                System.out.println("Reconnected to games manager");
                 RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, getId());
                 // TODO probabilmente quando si disconnettono (perdonono connessione) devo bloccargli la cli!
             } catch (RemoteException e) {
@@ -735,10 +734,12 @@ public class GameController {
                         RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
 
                         // TODO socket ???
+
+                        // delete GameController
+                        GamesManager.getGamesManager().deleteGame(getId());
                     }
                 }
             }, 200*1000); //timer of 200 sec
-            System.out.println("Game ended");
         }).start();
     }
 

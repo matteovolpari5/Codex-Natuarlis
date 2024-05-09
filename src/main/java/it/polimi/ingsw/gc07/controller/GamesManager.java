@@ -262,8 +262,7 @@ public class GamesManager {
         int gameId;
         try{
             gameId = createGame(playersNumber);
-        }
-        catch(WrongNumberOfPlayersException e){
+        }catch(WrongNumberOfPlayersException e) {
             commandResult = CommandResult.WRONG_PLAYERS_NUMBER;
             notifyJoinNotSuccessful(player);
             return;
@@ -362,8 +361,6 @@ public class GamesManager {
     }
 
     public void displayExistingGames(String nickname) {
-        commandResult = CommandResult.DISPLAY_GAMES;
-
         Player player = getPendingPlayer(nickname);
         assert(player != null);
         if(player.getConnectionType()) {

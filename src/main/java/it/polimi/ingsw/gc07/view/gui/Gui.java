@@ -12,6 +12,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Gui implements Ui {
+
+    @Override
+    public void runCliJoinGame() {
+        // TODO
+        //  sarà così?
+    }
+
+    @Override
+    public void runCliGame() {
+        // TODO
+        //  sarà così?
+    }
+
     @Override
     public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
         // TODO

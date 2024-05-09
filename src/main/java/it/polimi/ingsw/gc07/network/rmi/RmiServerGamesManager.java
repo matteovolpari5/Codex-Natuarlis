@@ -5,7 +5,6 @@ import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.model.Player;
-import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
@@ -207,7 +206,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * @param nickname player's nickname
      */
     public void displayGames(String nickname) {
-        assert(GamesManager.getGamesManager().getCommandResult().equals(CommandResult.DISPLAY_GAMES)): "Wrong method call";
         try {
             // get virtual view
             VirtualView virtualView = getVirtualView(nickname);
