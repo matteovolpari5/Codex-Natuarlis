@@ -108,7 +108,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             // Tui
             this.ui = new Tui(nickname, this);
         }
-        this.gameView.addViewListener(ui);
+        // this.gameView.addViewListener(ui);
+        // TODO rimettere listener quando fixiamo
 
         try {
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));

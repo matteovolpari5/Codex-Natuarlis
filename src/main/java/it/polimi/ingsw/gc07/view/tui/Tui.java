@@ -9,13 +9,8 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.Client;
-import it.polimi.ingsw.gc07.network.VirtualServerGame;
-import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
-import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.view.Ui;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
@@ -41,29 +36,20 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
             System.out.println("- e to see existing games"); // DisplayGamesCommand
             System.out.print("> ");
             String command = scan.nextLine();
+
+            String tokenColorString;
+            TokenColor tokenColor;
+
             switch(command){
                 case "q":
                     // join existing game
                     System.out.println("Insert token color (green, red, yellow or blue): ");
                     System.out.print("> ");
-                    String tokenColorString = scan.nextLine();
-                    TokenColor tokenColor;
-                    switch(tokenColorString) {
-                        case "green":
-                            tokenColor = TokenColor.GREEN;
-                            break;
-                        case "red":
-                            tokenColor = TokenColor.RED;
-                            break;
-                        case "yellow":
-                            tokenColor = TokenColor.YELLOW;
-                            break;
-                        case "blue":
-                            tokenColor = TokenColor.BLUE;
-                            break;
-                        default:
-                            System.out.println("No such token color");
-                            continue;
+                    tokenColorString = scan.nextLine();
+                    tokenColor = parseTokenColor(tokenColorString);
+                    if(tokenColor == null) {
+                        System.out.println("No such token color");
+                        continue;
                     }
                     System.out.println("Insert game id: ");
                     int gameId;
@@ -88,22 +74,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
                     System.out.println("Insert token color (green, red, yellow or blue): ");
                     System.out.print("> ");
                     tokenColorString = scan.nextLine();
-                    switch(tokenColorString) {
-                        case "green":
-                            tokenColor = TokenColor.GREEN;
-                            break;
-                        case "red":
-                            tokenColor = TokenColor.RED;
-                            break;
-                        case "yellow":
-                            tokenColor = TokenColor.YELLOW;
-                            break;
-                        case "blue":
-                            tokenColor = TokenColor.BLUE;
-                            break;
-                        default:
-                            System.out.println("No such token color");
-                            continue;
+                    tokenColor = parseTokenColor(tokenColorString);
+                    if(tokenColor == null) {
+                        System.out.println("No such token color");
+                        continue;
                     }
                     System.out.println("Insert the number of players for the game: ");
                     int playersNumber = scan.nextInt();
@@ -138,14 +112,21 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
             System.out.println("- u to place the starter card"); // PlaceStarterCardControllerCommand
             System.out.print("> ");
             String command = scan.nextLine();
-            switch(command){
+
+            String content;
+            String cardTypeString;
+            CardType cardType;
+            int wayInput;
+            boolean way;
+
+            switch(command) {
                 case "q":
                     System.out.println("Insert the receiver nickname: ");
                     System.out.print("> ");
                     String receiver = scan.nextLine();
                     System.out.println("Insert the message content:");
                     System.out.print("> ");
-                    String content = scan.nextLine();
+                    content = scan.nextLine();
                     client.setAndExecuteCommand(new AddChatPrivateMessageControllerCommand(content, nickname, receiver));
                     break;
                 case "w":
@@ -162,8 +143,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
                 case "r":
                     System.out.println("Select a card type ('g' for gold or 'r' for resource): ");
                     System.out.print("> ");
-                    String cardTypeString = scan.nextLine();
-                    CardType cardType;
+                    cardTypeString = scan.nextLine();
                     if(cardTypeString.equals("r")) {
                         cardType = CardType.RESOURCE_CARD;
                     }else if(cardTypeString.equals("g")) {
@@ -215,9 +195,8 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
                     // way
                     System.out.println("Select 0 to place the card face up, 1 to place the card face down: ");
                     System.out.print("> ");
-                    int wayInput = scan.nextInt();
+                    wayInput = scan.nextInt();
                     scan.nextLine();
-                    boolean way;
                     if(wayInput == 1) {
                         way = true;
                     }else if(wayInput == 0) {
@@ -249,6 +228,16 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
             }
         }
         System.exit(0);
+    }
+
+    private TokenColor parseTokenColor(String tokenColorString) {
+        return switch (tokenColorString) {
+            case "green" -> TokenColor.GREEN;
+            case "red" -> TokenColor.RED;
+            case "yellow" -> TokenColor.YELLOW;
+            case "blue" -> TokenColor.BLUE;
+            default -> null;
+        };
     }
 
     @Override

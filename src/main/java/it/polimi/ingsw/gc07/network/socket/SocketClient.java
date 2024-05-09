@@ -88,7 +88,6 @@ public class SocketClient implements Client {
         }
     }
 
-
     private void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
         System.out.println("SC> connectToGMS");
         if(interfaceType) {
@@ -99,7 +98,8 @@ public class SocketClient implements Client {
             // Tui
             this.ui = new Tui(nickname, this);
         }
-        this.gameView.addViewListener(ui);
+        // this.gameView.addViewListener(ui);
+        // TODO per ora rimosso
         try {
             myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
@@ -113,6 +113,36 @@ public class SocketClient implements Client {
     public void runCliJoinGame() {
         assert(ui != null);
         ui.runCliJoinGame();
+
+        String result;
+        try {
+            result = (String) input.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("FOUND SOMETHING");
+        System.out.println(result);
+        if(result.equals("Game joined.")){
+            new Thread(() -> {
+                try{
+                    manageReceivedUpdate();
+                } catch (Exception e){
+                    throw new RuntimeException(e);
+                }
+            }).start();
+            // game joined
+            new Thread(this::startGamePing).start();
+            runCliGame();
+        }else if(result.equals("Display successful.")){
+            Update update;
+            try {
+                update = (Update) input.readObject();
+                update.execute(gameView);
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        runCliJoinGame();
     }
 
     private void manageReceivedUpdate() {
