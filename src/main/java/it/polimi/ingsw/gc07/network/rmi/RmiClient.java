@@ -1,23 +1,17 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
 import it.polimi.ingsw.gc07.game_commands.*;
-import it.polimi.ingsw.gc07.enumerations.CardType;
-import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameView;
-import it.polimi.ingsw.gc07.network.PingSender;
-import it.polimi.ingsw.gc07.network.VirtualServerGame;
-import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
-import it.polimi.ingsw.gc07.network.VirtualView;
+import it.polimi.ingsw.gc07.network.*;
 import it.polimi.ingsw.gc07.updates.*;
+import it.polimi.ingsw.gc07.view.Ui;
 import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.tui.Tui;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
-public class RmiClient extends UnicastRemoteObject implements VirtualView, PingSender {
+public class RmiClient extends UnicastRemoteObject implements Client, VirtualView, PingSender {
     /**
      * Nickname of the player associated to the RmiClient.
      */
@@ -37,7 +31,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
     /**
      * Send ping attribute.
      */
-    private boolean viewAlive;
+    private boolean clientAlive;
+    /**
+     * Player's ui.
+     */
+    private Ui ui;
 
     /**
      * Constructor of RmiClient.
@@ -50,7 +48,50 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         this.serverGamesManager = serverGamesManager;
         this.serverGame = null;
         this.gameView = new GameView(nickname);
-        this.viewAlive = true;
+        this.clientAlive = true;
+        this.ui = null;
+    }
+
+    /**
+     * Getter method for nickname
+     * @return nickname
+     * @throws RemoteException remote exception
+     */
+    @Override
+    public String getNickname() throws RemoteException {
+        return nickname;
+    }
+
+    @Override
+    public boolean isClientAlive() {
+        return clientAlive;
+    }
+
+    @Override
+    public void setClientAlive(boolean isAlive) {
+        this.clientAlive = isAlive;
+    }
+
+    @Override
+    public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
+        try {
+            serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
+        }catch(RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void setAndExecuteCommand(GameControllerCommand gameCommand) {
+        try {
+            serverGame.setAndExecuteCommand(gameCommand);
+        }catch(RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -61,11 +102,13 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
     public void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
         if(interfaceType) {
             // Gui
-            this.gameView.addViewListener(new Gui());
+            this.ui = new Gui();
+
         }else {
             // Tui
-            this.gameView.addViewListener(new Tui());
+            this.ui = new Tui(nickname, this);
         }
+        this.gameView.addViewListener(ui);
 
         try {
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
@@ -127,16 +170,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         new Thread(this::runCliJoinGame).start();
     }
 
-    /**
-     * Getter method for nickname
-     * @return nickname
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public String getNickname() throws RemoteException {
-        return nickname;
-    }
-
     @Override
     public void startGamesManagerPing() {
         //TODO
@@ -148,7 +181,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         boolean runThread = true;
         while(runThread) {
             synchronized (this) {
-                if (viewAlive) {
+                if (clientAlive) {
                     try {
                         serverGame.setAndExecuteCommand(new SendPingControllerCommand(nickname));
                     }catch(RemoteException e) {
@@ -170,281 +203,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, PingS
         }
     }
 
-    //TODO creare dei metodi / classi per richiedere le cose, così è un pastrugno
     public void runCliJoinGame() {
-        boolean triedJoining = false;
-        Scanner scan = new Scanner(System.in);
-        while(!triedJoining) {
-            System.out.println("Insert a character to perform an action:");
-            System.out.println("- q to join an existing game"); // JoinExistingGameCommand
-            System.out.println("- w to join an new game"); // JoinNewGameCommand
-            System.out.println("- e to see existing games"); // DisplayGamesCommand
-            System.out.print("> ");
-            String command = scan.nextLine();
-            switch(command){
-                case "q":
-                    // join existing game
-                    System.out.println("Insert token color (green, red, yellow or blue): ");
-                    System.out.print("> ");
-                    String tokenColorString = scan.nextLine();
-                    TokenColor tokenColor;
-                    switch(tokenColorString) {
-                        case "green":
-                            tokenColor = TokenColor.GREEN;
-                            break;
-                        case "red":
-                            tokenColor = TokenColor.RED;
-                            break;
-                        case "yellow":
-                            tokenColor = TokenColor.YELLOW;
-                            break;
-                        case "blue":
-                            tokenColor = TokenColor.BLUE;
-                            break;
-                        default:
-                            System.out.println("No such token color");
-                            continue;
-                    }
-                    System.out.println("Insert game id: ");
-                    int gameId;
-                    try {
-                        gameId = scan.nextInt();
-                        scan.nextLine();
-                    }catch(InputMismatchException e) {
-                        scan.nextLine();
-                        System.out.println("No such game id, insert a number");
-                        continue;
-                    }
-                    if(gameId < 0) {
-                        System.out.println("No such game id");
-                        continue;
-                    }
-                    try {
-                        serverGamesManager.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
-                    } catch (RemoteException e) {
-                        // TODO
-                        throw new RuntimeException(e);
-                    }
-                    triedJoining = true;
-                    break;
-
-                case "w":
-                    // join new game
-                    System.out.println("Insert token color (green, red, yellow or blue): ");
-                    System.out.print("> ");
-                    tokenColorString = scan.nextLine();
-                    switch(tokenColorString) {
-                        case "green":
-                            tokenColor = TokenColor.GREEN;
-                            break;
-                        case "red":
-                            tokenColor = TokenColor.RED;
-                            break;
-                        case "yellow":
-                            tokenColor = TokenColor.YELLOW;
-                            break;
-                        case "blue":
-                            tokenColor = TokenColor.BLUE;
-                            break;
-                        default:
-                            System.out.println("No such token color");
-                            continue;
-                    }
-                    System.out.println("Insert the number of players for the game: ");
-                    int playersNumber = scan.nextInt();
-                    scan.nextLine();
-                    // TODO potremmo fare già qua il controllo su players number per efficienza
-                    try {
-                        serverGamesManager.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
-                    } catch (RemoteException e) {
-                        // TODO
-                        throw new RuntimeException(e);
-                    }
-                    triedJoining = true;
-                    break;
-
-                case "e":
-                    // display existing games
-                    try {
-                        serverGamesManager.setAndExecuteCommand(new DisplayGamesCommand(nickname));
-                    } catch (RemoteException e) {
-                        // TODO
-                        throw new RuntimeException(e);
-                    }
-                    break;
-
-                default:
-                    System.out.println("The provided character doesn't refer to any action");
-            }
-        }
+        assert(ui != null);
+        ui.runCliJoinGame();
     }
 
     public void runCliGame() {
-        Scanner scan = new Scanner(System.in);
-        while(viewAlive) {
-            System.out.println("Insert a character to perform an action:");
-            System.out.println("- q to write a private message"); // AddChatPrivateMessage
-            System.out.println("- w to write a public message"); // AddChatPublicMessage
-            System.out.println("- e to disconnect from the game"); // DisconnectPlayerControllerCommand
-            System.out.println("- r to draw a card from a deck"); // DrawDeckCardControllerCommand
-            System.out.println("- t to draw a face up card"); // DrawFaceUpCardControllerCommand
-            System.out.println("- y to place a card"); // PlaceCardControllerCommand
-            System.out.println("- u to place the starter card"); // PlaceStarterCardControllerCommand
-            System.out.print("> ");
-            String command = scan.nextLine();
-            switch(command){
-                case "q":
-                    System.out.println("Insert the receiver nickname: ");
-                    System.out.print("> ");
-                    String receiver = scan.nextLine();
-                    System.out.println("Insert the message content:");
-                    System.out.print("> ");
-                    String content = scan.nextLine();
-                    try {
-                        serverGame.setAndExecuteCommand(new AddChatPrivateMessageControllerCommand(content, nickname, receiver));
-                    }catch (RemoteException e) {
-                        // TODO gestire
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                    break;
-                case "w":
-                    System.out.println("Insert the message content:");
-                    System.out.print("> ");
-                    content = scan.nextLine();
-                    try {
-                        serverGame.setAndExecuteCommand(new AddChatPublicMessageControllerCommand(content, nickname));
-                    }catch (RemoteException e) {
-                        // TODO gestire
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                    break;
-                case "e":
-                    try {
-                        serverGame.setAndExecuteCommand(new DisconnectPlayerControllerCommand(nickname));
-                    }catch (RemoteException e) {
-                        // TODO gestire
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                    System.out.println("\nYou successfully disconnected !");
-                    viewAlive = false;
-                    break;
-                case "r":
-                    System.out.println("Select a card type ('g' for gold or 'r' for resource): ");
-                    System.out.print("> ");
-                    String cardTypeString = scan.nextLine();
-                    CardType cardType;
-                    if(cardTypeString.equals("r")) {
-                        cardType = CardType.RESOURCE_CARD;
-                    }else if(cardTypeString.equals("g")) {
-                        cardType = CardType.GOLD_CARD;
-                    }else {
-                        System.out.println("No such card type");
-                        continue;
-                    }
-                    try {
-                        serverGame.setAndExecuteCommand(new DrawDeckCardControllerCommand(nickname, cardType));
-                    }catch (RemoteException e) {
-                        // TODO gestire
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                    break;
-                case "t":
-                    System.out.println("Select a card type ('g' for gold or 'r' for resource): ");
-                    System.out.print("> ");
-                    cardTypeString = scan.nextLine();
-                    if(cardTypeString.equals("r")) {
-                        cardType = CardType.RESOURCE_CARD;
-                    }else if(cardTypeString.equals("g")) {
-                        cardType = CardType.GOLD_CARD;
-                    }else {
-                        System.out.println("No such card type");
-                        continue;
-                    }
-                    System.out.println("Select the position of the card to draw: ");
-                    System.out.print("> ");
-                    int pos = scan.nextInt();
-                    scan.nextLine();
-                    //TODO possiamo introdurre un controllo per evitare una chiamata
-                    // inutile se la posizione eccede il range possibile
-                    try {
-                        serverGame.setAndExecuteCommand(new DrawFaceUpCardControllerCommand(nickname, cardType, pos));
-                    }catch (RemoteException e) {
-                        // TODO gestire
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                    break;
-                case "y":
-                    // String nickname, int pos, int x, int y, boolean way) {
-                    // pos
-                    System.out.println("Select the position of the card you want to place: ");
-                    System.out.print("> ");
-                    int cardPos = scan.nextInt();
-                    scan.nextLine();
-                    System.out.println("Insert a position of the game field where you want to place the card.");
-                    // x
-                    System.out.println("Insert x: ");
-                    System.out.print("> ");
-                    int x = scan.nextInt();
-                    scan.nextLine();
-                    // y
-                    System.out.println("Insert y: ");
-                    System.out.print("> ");
-                    int y = scan.nextInt();
-                    scan.nextLine();
-                    // way
-                    System.out.println("Select 0 to place the card face up, 1 to place the card face down: ");
-                    System.out.print("> ");
-                    int wayInput = scan.nextInt();
-                    scan.nextLine();
-                    boolean way;
-                    if(wayInput == 1) {
-                        way = true;
-                    }else if(wayInput == 0) {
-                        way = false;
-                    }else {
-                        System.out.println("The provided value for way is not correct");
-                        continue;
-                    }
-                    // create and execute command
-                    try {
-                        serverGame.setAndExecuteCommand(new PlaceCardControllerCommand(nickname, cardPos, x, y, way));
-                    }catch (RemoteException e) {
-                        // TODO gestire
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                    break;
-                case "u":
-                    System.out.println("Select 0 to place the starter card face up, 1 to place the starter card face down: ");
-                    System.out.print("> ");
-                    wayInput = scan.nextInt();
-                    scan.nextLine();
-                    if(wayInput == 1) {
-                        way = true;
-                    }else if(wayInput == 0) {
-                        way = false;
-                    }else {
-                        System.out.println("The provided value is not correct");
-                        continue;
-                    }
-                    try {
-                        serverGame.setAndExecuteCommand(new PlaceStarterCardControllerCommand(nickname, way));
-                    }catch (RemoteException e) {
-                        // TODO gestire
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                    break;
-                default:
-                    System.out.println("The provided character doesn't refer to any action");
-            }
-        }
-        System.exit(0);
+        assert(ui != null);
+        ui.runCliGame();
     }
 
     /**
