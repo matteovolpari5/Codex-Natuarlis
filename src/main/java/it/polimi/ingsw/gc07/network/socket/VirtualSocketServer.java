@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.game_commands.GameCommand;
+import it.polimi.ingsw.gc07.game_commands.SendPingControllerCommand;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -31,11 +32,9 @@ public class VirtualSocketServer {
         }
     }
 
-    public void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException {
-        System.out.println("VSS> SetAndExecuteGC");
+    public synchronized void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException {
         try{
             output.writeObject(gameCommand);
-            output.flush();
             output.reset();
             output.flush();
         } catch (IOException e){ //TODO forse cogola intede che il metodo nella signature ha throws NetworkException e a questo punto fa catch e solleva IO oppure Remote ?

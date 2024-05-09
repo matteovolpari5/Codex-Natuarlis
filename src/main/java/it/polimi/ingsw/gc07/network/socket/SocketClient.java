@@ -5,6 +5,8 @@ import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.updates.*;
+import it.polimi.ingsw.gc07.view.gui.Gui;
+import it.polimi.ingsw.gc07.view.tui.Tui;
 
 import java.io.*;
 import java.net.Socket;
@@ -17,6 +19,7 @@ public class SocketClient  {
     private final GameView gameView;
     private final ObjectInputStream input;
     private VirtualSocketServer myServer;
+    private boolean viewAlive;
 
 
 
@@ -37,36 +40,33 @@ public class SocketClient  {
         this.input = new ObjectInputStream(temp_input);
 
         this.myServer = new VirtualSocketServer(output, nickname, status, interfaceType);
+        this.viewAlive = true;
 
-        //this.run();
+        manageSetUp(status, interfaceType);
+
+    }
+
+    private void manageSetUp(String status, boolean interfaceType){
         System.out.println(status);
         if(status.equals("new")){
             connectToGamesManagerServer(false, interfaceType);
         } else if(status.equals("reconnected")){
-            new Thread(() -> {
-                try{
-                    manageReceivedUpdate();
-                } catch (Exception e){
-                    throw new RuntimeException(e);
-                }
-            }).start();
+            new Thread(this::manageReceivedUpdate).start();
+            new Thread(this::startGamePing).start();
             runCliGame();
         }
     }
 
-    /*private void run(){
-        System.out.println("SC> run");
-        new Thread(() -> {
-            try{
-                manageReceivedUpdate();
-            } catch (Exception e){
-                throw new RuntimeException(e);
-            }
-        }).start();
-    }*/
 
     private void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
         System.out.println("SC> connectToGMS");
+        /*if(interfaceType) {
+            // Gui
+            this.gameView.addViewListener(new Gui());
+        }else {
+            // Tui
+            this.gameView.addViewListener(new Tui());
+        }*/
         try {
             myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
@@ -80,15 +80,14 @@ public class SocketClient  {
 
 
     private void manageReceivedUpdate() {
-        System.out.println("SC-T> manageReceivedMessage");
+        System.out.println("SC-T> manageReceivedUpdate");
         Update update;
         while (true){ //TODO dalla documentazione non trovo un modo di utilizzare il risultato di readObject() come condizione del while, chiedere se così va bene
             try {
                 System.out.println("SC-T> ascolto");
                 update = (Update) input.readObject();
-                System.out.println("SC-T> leggo un update");
+                System.out.println("SC-T> ho letto un update, lo eseguo");
                 update.execute(gameView);
-                System.out.println("SC-T> eseguo l'update");
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -195,6 +194,7 @@ public class SocketClient  {
                 throw new RuntimeException(e);
             }
             if(result.equals("Game joined.")){
+                System.out.println("Game joined.");
                 gameJoined = true;
                 new Thread(() -> {
                     try{
@@ -214,6 +214,7 @@ public class SocketClient  {
             }
         }
         // game joined
+        new Thread(this::startGamePing).start();
         runCliGame();
     }
 
@@ -225,7 +226,7 @@ public class SocketClient  {
         CardType cardType;
         int wayInput;
         boolean way;
-        while(true) {
+        while(viewAlive) {
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to write a private message"); // AddChatPrivateMessage
             System.out.println("- w to write a public message"); // AddChatPublicMessage
@@ -272,6 +273,8 @@ public class SocketClient  {
                         e.printStackTrace();
                         throw new RuntimeException(e);
                     }
+                    System.out.println("\nYou successfully disconnected !");
+                    viewAlive = false;
                     break;
                 case "r":
                     System.out.println("Select a card type ('g' for gold or 'r' for resource): ");
@@ -382,6 +385,31 @@ public class SocketClient  {
                     break;
                 default:
                     System.out.println("The provided character doesn't refer to any action");
+            }
+        }
+    }
+
+    public void startGamePing() {
+        System.out.println("SC-T2> startGamePing");
+        boolean runThread = true;
+        while(runThread) {
+            synchronized (this) {
+                if (viewAlive) {
+                    try {
+                        myServer.setAndExecuteCommand(new SendPingControllerCommand(nickname));
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    runThread = false;
+                }
+            }
+            try {
+                Thread.sleep(1000); // wait one second between two ping
+            } catch (InterruptedException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }

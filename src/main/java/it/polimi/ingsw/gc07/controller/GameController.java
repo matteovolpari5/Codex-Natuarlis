@@ -331,12 +331,13 @@ public class GameController {
             // if new connection type is Socket
             try {
                 client.setServerGame(getId());
+                System.out.println("Reconnected to games manager");
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         }
         // set player connected
-        player.setIsConnected(true);
+        player.setIsConnected(true); //TODO sincronizzazione con thread di checkPing
         if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
             changeGameState();
         }
