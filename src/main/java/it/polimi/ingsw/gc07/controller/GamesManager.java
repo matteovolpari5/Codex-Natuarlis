@@ -255,8 +255,7 @@ public class GamesManager {
         int gameId;
         try{
             gameId = createGame(playersNumber);
-        }
-        catch(WrongNumberOfPlayersException e){
+        }catch(WrongNumberOfPlayersException e) {
             commandResult = CommandResult.WRONG_PLAYERS_NUMBER;
             notifyJoinNotSuccessful(player);
             return;
