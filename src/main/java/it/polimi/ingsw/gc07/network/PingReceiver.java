@@ -95,7 +95,7 @@ public class PingReceiver {
                         Player player = gameController.getPlayerByNickname(nickname);
                         assert (player != null);
                         gameController.reconnectPlayerOldSettings(nickname);
-                        gameController.addListener(nickname, playerVirtualViews.get(nickname)); //TODO si aggiunge nuovamente il client a playerVirtualViews
+                        gameController.addListener(playerVirtualViews.get(nickname));
                         if (player.getConnectionType()) {
                             // RMI
                             //TODO due istruzioni presenti uguali sia per socket che per RMI
