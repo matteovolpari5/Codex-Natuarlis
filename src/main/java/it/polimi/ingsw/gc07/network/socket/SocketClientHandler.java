@@ -141,7 +141,8 @@ public class SocketClientHandler implements VirtualView {
             }
         }
         this.gameController = gamesManager.getGameById(gameId);
-        gameController.addListener(myClientNickname, this);
+        gameController.addListener(this);
+        gameController.addPingSender(myClientNickname, this);
     }
 
     private void receiveUpdate(Update update) throws IOException{

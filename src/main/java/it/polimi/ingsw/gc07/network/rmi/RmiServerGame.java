@@ -67,7 +67,8 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
      */
     @Override
     public synchronized void connect(String nickname, VirtualView client) throws RemoteException {
-        gameController.addListener(nickname, client);
+        gameController.addListener(client);
+        gameController.addPingSender(nickname, client);
         System.err.println("New client connected");
     }
 

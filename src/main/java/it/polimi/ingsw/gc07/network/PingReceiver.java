@@ -49,7 +49,7 @@ public class PingReceiver {
         new Thread(() -> checkPing(nickname)).start();
     }
 
-    public synchronized void setVirtualView(String nickname, VirtualView virtualView) {
+    public synchronized void addPingSender(String nickname, VirtualView virtualView) {
         this.playerVirtualViews.put(nickname, virtualView);
     }
 

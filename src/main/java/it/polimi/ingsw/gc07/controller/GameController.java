@@ -142,9 +142,12 @@ public class GameController {
         gameControllerCommand.execute(this);
     }
 
-    public void addListener(String nickname, VirtualView client) {
+    public void addListener(VirtualView client) {
         gameModel.addListener(client);
-        pingReceiver.setVirtualView(nickname, client);
+    }
+
+    public void addPingSender(String nickname, VirtualView client) {
+        pingReceiver.addPingSender(nickname, client);
     }
 
     public void receivePing(String nickname) {
