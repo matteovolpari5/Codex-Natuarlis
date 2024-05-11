@@ -84,7 +84,7 @@ public class ClientMain {
                 // Rmi connection
                 // nickname of a new player
                 if(check.equals(NicknameCheck.NEW_NICKNAME)) {
-                    RmiClient newRmiClient = new RmiClient(nickname, rmiServerGamesManager);
+                    RmiClient newRmiClient = new RmiClient(nickname, interfaceType, rmiServerGamesManager);
                     // add virtual view to rmiServerGamesManager
                     rmiServerGamesManager.connect(nickname, newRmiClient);
                     newRmiClient.connectToGamesManagerServer(connectionType, interfaceType);
@@ -92,7 +92,7 @@ public class ClientMain {
                     newRmiClient.runCliJoinGame();
                 }else {
                     // nickname of a reconnected player
-                    RmiClient newRmiClient = new RmiClient(nickname, rmiServerGamesManager);
+                    RmiClient newRmiClient = new RmiClient(nickname, interfaceType, rmiServerGamesManager);
                     newRmiClient.reconnectPlayer(nickname, connectionType, interfaceType);
                 }
             }else {

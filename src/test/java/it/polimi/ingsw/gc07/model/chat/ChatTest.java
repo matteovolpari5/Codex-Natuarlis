@@ -72,13 +72,13 @@ class ChatTest {
     public void testListener() {
         ChatListener listener1;
         try {
-            listener1 = new RmiClient("P1", null);
+            listener1 = new RmiClient("P1", false,null);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
         ChatListener listener2;
         try {
-            listener2 = new RmiClient("P2", null);
+            listener2 = new RmiClient("P2", false, null);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

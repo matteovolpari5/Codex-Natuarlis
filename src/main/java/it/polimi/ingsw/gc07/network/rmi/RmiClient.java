@@ -43,13 +43,19 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * @param nickname nickname
      * @throws RemoteException remote exception
      */
-    public RmiClient(String nickname, VirtualServerGamesManager serverGamesManager) throws RemoteException {
+    public RmiClient(String nickname, boolean interfaceType, VirtualServerGamesManager serverGamesManager) throws RemoteException {
         this.nickname = nickname;
         this.serverGamesManager = serverGamesManager;
         this.serverGame = null;
         this.gameView = new GameView(nickname);
         this.clientAlive = true;
-        this.ui = null;
+        if(interfaceType) {
+            this.ui = new Gui();
+        }else {
+            this.ui = new Tui(nickname, this);
+        }
+        // this.gameView.addViewListener(ui);
+        // TODO rimettere listener quando fixiamo
     }
 
     /**
@@ -100,17 +106,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * @param interfaceType interface type
      */
     public void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
-        if(interfaceType) {
-            // Gui
-            this.ui = new Gui();
-
-        }else {
-            // Tui
-            this.ui = new Tui(nickname, this);
-        }
-        // this.gameView.addViewListener(ui);
-        // TODO rimettere listener quando fixiamo
-
         try {
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
             new Thread(this::startGamesManagerPing).start();

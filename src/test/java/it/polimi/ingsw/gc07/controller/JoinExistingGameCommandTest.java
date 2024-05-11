@@ -25,13 +25,13 @@ class JoinExistingGameCommandTest {
         gamesManager.resetGamesManager();
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P1", false, true));
         try {
-            rmiServerGamesManager.connect("P1", new RmiClient("P1", rmiServerGamesManager));
+            rmiServerGamesManager.connect("P1", new RmiClient("P1", false, rmiServerGamesManager));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P2", false, true));
         try {
-            rmiServerGamesManager.connect("P2",new RmiClient("P2", rmiServerGamesManager));
+            rmiServerGamesManager.connect("P2",new RmiClient("P2", false, rmiServerGamesManager));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
