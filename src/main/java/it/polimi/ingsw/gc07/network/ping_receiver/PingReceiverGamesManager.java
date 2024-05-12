@@ -22,7 +22,7 @@ public class PingReceiverGamesManager extends PingReceiver{
                     missedPing ++;
                     System.out.println(missedPing);
                     if(missedPing >= getMaxMissedPings()) {
-                        System.out.println("Disconnection detected " + nickname);
+                        System.out.println("PRGM> Disconnection detected " + nickname);
                         gamesManager.removeFromPending(nickname); // TODO metodo deve synchronized
                         break;
                     }

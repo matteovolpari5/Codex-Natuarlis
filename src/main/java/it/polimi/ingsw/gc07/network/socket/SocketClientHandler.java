@@ -2,11 +2,8 @@ package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
-import it.polimi.ingsw.gc07.game_commands.GameControllerCommand;
-import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
-import it.polimi.ingsw.gc07.game_commands.ReconnectPlayerCommand;
+import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.game_commands.SendPingControllerCommand;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
 
@@ -51,6 +48,7 @@ public class SocketClientHandler implements VirtualView {
             this.myClientNickname = (String) input.readObject();
             this.myClientStatus = (String) input.readObject();
             if(myClientStatus.equals("new")){
+                gamesManager.addPingSender(myClientNickname, this);
                 manageGamesManagerCommand();
             }else if(myClientStatus.equals("reconnected")){
                 boolean interfaceType = input.readBoolean();
@@ -70,6 +68,11 @@ public class SocketClientHandler implements VirtualView {
         while(true) {
             try {
                 command = (GamesManagerCommand) input.readObject();
+                if(command instanceof SendPingGamesManagerCommand){
+                    System.out.println("SCH-T> ricevuto ping GM");
+                }else{
+                    System.out.println("SCH-T> ricevuto command GM");
+                }
                 synchronized (gamesManager){
                     gamesManager.setAndExecuteCommand(command);
                     if(gameController != null){
@@ -133,7 +136,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void setServerGame(int gameId) throws RemoteException {
         if(myClientStatus.equals("new")){
-            String result = "Game joined.";
+            String result = "SCH-T> Esito: Game joined.";
             System.out.println(result);
             try {
                 output.writeObject(result);

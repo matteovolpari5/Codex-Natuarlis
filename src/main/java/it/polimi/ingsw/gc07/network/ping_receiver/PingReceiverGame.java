@@ -25,7 +25,7 @@ public class PingReceiverGame extends PingReceiver {
                 if(getPlayerPing().get(nickname)) {
                     missedPing = 0;
                     if(!gameController.isPlayerConnected(nickname)) {
-                        System.out.println("Reconnection detected " + nickname);
+                        System.out.println("PRG> Reconnection detected " + nickname);
                         Player player = gameController.getPlayerByNickname(nickname);
                         assert (player != null);
                         gameController.reconnectPlayerOldSettings(nickname);
@@ -33,18 +33,18 @@ public class PingReceiverGame extends PingReceiver {
                         if (player.getConnectionType()) {
                             // RMI
                             //TODO due istruzioni presenti uguali sia per socket che per RMI
-                            System.out.println("Try to reconnect");
+                            System.out.println("PRG> Try to reconnect");
                         } else {
                             // TODO socket
 
-                            System.out.println("Try to reconnect");
+                            System.out.println("PRG> Try to reconnect");
                         }
                     }
                 }else {
                     missedPing ++;
                     System.out.println(missedPing);
                     if(missedPing >= getMaxMissedPings() && gameController.isPlayerConnected(nickname)) {
-                        System.out.println("Disconnection detected " + nickname);
+                        System.out.println("PRG> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
                     }
                 }
