@@ -234,17 +234,10 @@ public class GameController {
 
         gameModel.removeListener(virtualView);
 
-        // remove listener
-        if(player.getConnectionType()) {
-            // RMI
-            try {
-                RmiServerGamesManager.getRmiServerGamesManager().removeVirtualView(virtualView);
-            } catch (RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-        }else {
+        // remove virtual view
+        if(!player.getConnectionType()) {
+            // Socket
+            // TODO da cambiare !!!
             try {
                 SocketServer.getSocketServer().removeVirtualView(virtualView);
             } catch (RemoteException e) {

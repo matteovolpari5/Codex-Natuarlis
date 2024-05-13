@@ -404,4 +404,8 @@ public class GamesManager {
     public void receivePing(String nickname) {
         pingReceiver.receivePing(nickname);
     }
+
+    public VirtualView getVirtualView(String nickname) {
+        return pingReceiver.getVirtualView(nickname);
+    }
 }

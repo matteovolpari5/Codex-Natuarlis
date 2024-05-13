@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.network.ping_receiver;
 
-import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.util.HashMap;

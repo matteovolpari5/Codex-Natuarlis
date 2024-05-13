@@ -43,8 +43,7 @@ class ReconnectPlayerCommandTest {
     }
 
     @Test
-    void reconnectToAWrongGame()
-    {
+    void reconnectToAWrongGame() {
         GameController gameController2;
         // create another gameController
         int id = 1;

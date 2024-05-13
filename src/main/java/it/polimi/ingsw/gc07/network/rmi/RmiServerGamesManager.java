@@ -1,10 +1,8 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
 import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
-import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
-import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
@@ -12,9 +10,7 @@ import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -24,10 +20,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * Instance of RmiServerGamesManager.
      */
     private static RmiServerGamesManager myRmiServerGamesManager;
-    /**
-     * Virtual views of managed clients.
-     */
-    private final List<VirtualView> clients;
     /**
      * Map containing the RmiServerGame of every game.
      */
@@ -41,7 +33,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * Constructor of class RmiServerGamesManager.
      */
     private RmiServerGamesManager() throws RemoteException {
-        this.clients = new ArrayList<>();
         this.rmiServerGames = new HashMap<>();
         this.commandsQueue = new LinkedBlockingDeque<>();
         startCommandExecutor();
@@ -94,7 +85,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      */
     @Override
     public synchronized void connect(String nickname, VirtualView client) throws RemoteException {
-        clients.add(client);
         GamesManager.getGamesManager().addPingSender(nickname, client);
         System.err.println("New client connected");
     }
@@ -136,7 +126,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      */
     public void createServerGame(String nickname, int gameId) {
         try {
-            VirtualView virtualView = getVirtualView(nickname);
+            VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
             if(virtualView == null) {
                 throw new RuntimeException();
             }
@@ -157,7 +147,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     public void setServerGame(String nickname, int gameId) {
         assert(rmiServerGames.containsKey(gameId));
         try {
-            VirtualView virtualView = getVirtualView(nickname);
+            VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
             if(virtualView == null) {
                 throw new RuntimeException();
             }
@@ -167,21 +157,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             e.printStackTrace();
             throw new RuntimeException();
         }
-        try {
-            removeVirtualView(nickname);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // TODO: attenzione perchè lancia eccezione se la view è morta
-    public void removeVirtualView(String nickname) throws RemoteException {
-        VirtualView virtualView = getVirtualView(nickname);
-        clients.remove(virtualView);
-    }
-
-    public void removeVirtualView(VirtualView virtualView) throws RemoteException {
-        clients.remove(virtualView);
     }
 
     /**
@@ -189,7 +164,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      */
     public void notifyJoinNotSuccessful(String nickname) {
         try {
-            VirtualView virtualView = getVirtualView(nickname);
+            VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
             if(virtualView == null) {
                 throw new RuntimeException();
             }
@@ -208,7 +183,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     public void displayGames(String nickname) {
         try {
             // get virtual view
-            VirtualView virtualView = getVirtualView(nickname);
+            VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
             if(virtualView == null) {
                 throw new RuntimeException();
             }
@@ -222,42 +197,10 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     }
 
     /**
-     * Method that finds the VirtualView associated with a client with a certain nickname.
-     * @param nickname client's nickname
-     * @return virtual view
-     * @throws RemoteException remote exception
-     */
-    // TODO: attenzione, se la virtual view è morta, becco eccezione nella chiamata getNickname
-    private VirtualView getVirtualView(String nickname) throws RemoteException {
-        for(VirtualView client : clients) {
-            if(client.getNickname().equals(nickname)) {
-                return client;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Method used to delete the game server from the map once the game is ended.
      * @param gameId game id of the game to remove
      */
     public void deleteGame(int gameId) {
-        GamesManager gamesManager = GamesManager.getGamesManager();
-        GameController gameController = gamesManager.getGameById(gameId);
-
-        // delete virtual views
-        for(Player p: gameController.getPlayers()) {
-            try {
-                if(p.getConnectionType()) {
-                    removeVirtualView(p.getNickname());
-                }
-            }catch(RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-        }
-
         // delete server game
         RmiServerGame rmiServerGame = null;
         for(int id: rmiServerGames.keySet()) {
