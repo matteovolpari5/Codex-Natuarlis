@@ -42,7 +42,7 @@ public class PingReceiverGame extends PingReceiver {
                     }
                 }else {
                     missedPing ++;
-                    System.out.println(missedPing);
+                    //System.out.println(missedPing);
                     if(missedPing >= getMaxMissedPings() && gameController.isPlayerConnected(nickname)) {
                         System.out.println("PRG> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized

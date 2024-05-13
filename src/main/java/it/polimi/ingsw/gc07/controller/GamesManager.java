@@ -237,6 +237,7 @@ public class GamesManager {
                     }
                 }
                 player.setTokenColor(tokenColor);
+                pingReceiver.stopGamesManagerPing(nickname);
                 gameController.addPlayer(player);
                 pendingPlayers.remove(player);
             }
@@ -392,13 +393,9 @@ public class GamesManager {
         }
     }
     public void removeFromPending(String nickname) {
-        for (Player p: pendingPlayers){
-            if (p.getNickname().equals(nickname)){
-                pendingPlayers.remove(p);
-                System.out.println("player rimosso dai pending");
-                break;
-            }
-        }
+        Player player = getPendingPlayer(nickname);
+        pendingPlayers.remove(player);
+        System.out.println("player rimosso dai pending");
     }
     public void addPingSender(String nickname, VirtualView client) {
         pingReceiver.addPingSender(nickname, client);

@@ -83,7 +83,6 @@ public class SocketClient implements Client, PingSender {
     public void runCliJoinGame() {
         assert(ui != null);
         ui.runCliJoinGame();
-
         String result;
         try {
             result = (String) input.readObject();
@@ -92,6 +91,11 @@ public class SocketClient implements Client, PingSender {
         }
         System.out.println(result);
         if(result.equals("Game joined.")){
+            System.out.println("entro");
+            synchronized(this){
+                clientAlive = false;
+                System.out.println("metto a false clientAlive");
+            }
             new Thread(() -> {
                 try{
                     manageReceivedUpdate();
@@ -171,18 +175,19 @@ public class SocketClient implements Client, PingSender {
     @Override
     public void startGamePing() {
         System.out.println("SC-T2> startGamePing");
-        boolean runThread = true;
-        while(runThread) {
+        synchronized (this){
+            clientAlive = true;
+        }
+        while(true) {
             synchronized (this) {
-                if (clientAlive) {
-                    try {
-                        myServer.setAndExecuteCommand(new SendPingControllerCommand(nickname));
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    runThread = false;
+                if (!clientAlive) {
+                    break;
                 }
+            }
+            try {
+                myServer.setAndExecuteCommand(new SendPingControllerCommand(nickname));
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping
@@ -196,20 +201,18 @@ public class SocketClient implements Client, PingSender {
 
     @Override
     public void startGamesManagerPing() {
-        boolean runThread = true;
-        while(runThread) {
+        while(true) {
             synchronized (this) {
-                if (clientAlive) {
-                    try {
-                        myServer.setAndExecuteCommand(new SendPingGamesManagerCommand(nickname));
-                    }catch(RemoteException e) {
-                        // TODO
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    runThread = false;
+                if (!clientAlive) {
+                    break;
                 }
+            }
+            try {
+                myServer.setAndExecuteCommand(new SendPingGamesManagerCommand(nickname));
+            }catch(RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException(e);
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping
@@ -219,5 +222,6 @@ public class SocketClient implements Client, PingSender {
                 throw new RuntimeException(e);
             }
         }
+        System.out.println("fine stampe ping");
     }
 }
