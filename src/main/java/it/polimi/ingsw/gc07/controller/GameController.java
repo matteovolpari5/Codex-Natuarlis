@@ -2,13 +2,11 @@ package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.game_commands.GameControllerCommand;
 import it.polimi.ingsw.gc07.model.*;
-import it.polimi.ingsw.gc07.exceptions.*;
 import it.polimi.ingsw.gc07.model.cards.*;
 import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiver;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiverGame;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
@@ -236,17 +234,10 @@ public class GameController {
 
         gameModel.removeListener(virtualView);
 
-        // remove listener
-        if(player.getConnectionType()) {
-            // RMI
-            try {
-                RmiServerGamesManager.getRmiServerGamesManager().removeVirtualView(virtualView);
-            } catch (RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-        }else {
+        // remove virtual view
+        if(!player.getConnectionType()) {
+            // Socket
+            // TODO da cambiare !!!
             try {
                 SocketServer.getSocketServer().removeVirtualView(virtualView);
             } catch (RemoteException e) {
@@ -377,7 +368,6 @@ public class GameController {
             gameModel.setState(GameState.PLAYING);
         }
     }
-
 
     private void startTimeoutGameEnd(){
         new Thread(() -> {
@@ -647,21 +637,6 @@ public class GameController {
      */
     synchronized boolean hasPlayerWithTokenColor(TokenColor tokenColor) {
         return gameModel.hasPlayerWithTokenColor(tokenColor);
-    }
-
-    /**
-     * Method that returns the position of the player in the List players.
-     * @param nickname: nickname of the player whose position is being searched
-     * @return position of the player in the List players
-     * @throws PlayerNotPresentException: thrown if the nickname is not present in the list players.
-     */
-    private int getPlayerPosByNickname(String nickname) throws PlayerNotPresentException {
-        for (int i = 0; i < gameModel.getPlayersNumber(); i++){
-            if(getPlayers().get(i).getNickname().equals(nickname)){
-                return i;
-            }
-        }
-        throw new PlayerNotPresentException();
     }
 
     public Player getPlayerByNickname(String nickname) {

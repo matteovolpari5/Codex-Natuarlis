@@ -23,20 +23,21 @@ class JoinExistingGameCommandTest {
         RmiServerGamesManager rmiServerGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
         gamesManager = GamesManager.getGamesManager();
         gamesManager.resetGamesManager();
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P1", false, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P1", true, true));
         try {
-            rmiServerGamesManager.connect("P1", new RmiClient("P1", false, rmiServerGamesManager));
+            rmiServerGamesManager.connect("P1", new RmiClient("P1", true, rmiServerGamesManager));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P2", false, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P2", true, true));
         try {
-            rmiServerGamesManager.connect("P2",new RmiClient("P2", false, rmiServerGamesManager));
+            rmiServerGamesManager.connect("P2",new RmiClient("P2", true, rmiServerGamesManager));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
         gamesManager.setAndExecuteCommand(new JoinNewGameCommand("P1", TokenColor.GREEN, 4));
     }
+
     @Test
     void JoinExistingGameSuccess() {
         gamesManager.setAndExecuteCommand(new JoinExistingGameCommand("P2", TokenColor.RED, 0));

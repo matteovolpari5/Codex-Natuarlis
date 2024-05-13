@@ -14,9 +14,7 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiver;
 import it.polimi.ingsw.gc07.network.VirtualView;
-import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiverGame;
 import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiverGamesManager;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketServer;
@@ -402,5 +400,9 @@ public class GamesManager {
     }
     public void receivePing(String nickname) {
         pingReceiver.receivePing(nickname);
+    }
+
+    public VirtualView getVirtualView(String nickname) {
+        return pingReceiver.getVirtualView(nickname);
     }
 }

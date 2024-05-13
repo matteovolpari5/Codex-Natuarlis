@@ -30,7 +30,7 @@ class AddPlayerToPendingCommandTest {
     void addPlayerUnsuccessful() {
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(AssertionError.class, () -> {
                 gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         });
     }
@@ -38,7 +38,7 @@ class AddPlayerToPendingCommandTest {
     @Test
     void addPlayerUnsuccessfulWithJoin() {
         // add Player1 to pending players
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", false, true));
+        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
 
         // make Player1 join a new gameController

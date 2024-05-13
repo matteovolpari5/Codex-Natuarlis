@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.network.ping_receiver;
 
 import it.polimi.ingsw.gc07.controller.GamesManager;
-import it.polimi.ingsw.gc07.model.Player;
 
 public class PingReceiverGamesManager extends PingReceiver{
     GamesManager gamesManager;

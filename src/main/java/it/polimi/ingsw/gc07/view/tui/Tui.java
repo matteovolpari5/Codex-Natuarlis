@@ -19,6 +19,8 @@ import java.util.Scanner;
 public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, ScoreTrackBoardTui {
     private final String nickname;
     private final Client client;
+    private final static int minPlayersNumber = 2;
+    private final static int maxPlayersNumber = 4;
 
     public Tui(String nickname, Client client) {
         this.nickname = nickname;
@@ -37,55 +39,77 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
 
         String tokenColorString;
         TokenColor tokenColor;
+        boolean correctInput;
         switch(command){
             case "q":
                 // join existing game
-                System.out.println("Insert token color (green, red, yellow or blue): ");
-                System.out.print("> ");
-                tokenColorString = scan.nextLine();
-                tokenColor = parseTokenColor(tokenColorString);
-                if(tokenColor == null) {
-                    System.out.println("No such token color");
-                }
-                System.out.println("Insert game id: ");
-                int gameId = -1;
-                try {
-                    gameId = scan.nextInt();
-                    scan.nextLine();
-                }catch(InputMismatchException e) {
-                    scan.nextLine();
-                    System.out.println("No such game id, insert a number");
-                }
-                if(gameId < 0) {
-                    System.out.println("No such game id");
-                }
+                do {
+                    System.out.println("Insert token color (green, red, yellow or blue): ");
+                    System.out.print("> ");
+                    tokenColorString = scan.nextLine();
+                    tokenColor = parseTokenColor(tokenColorString);
+                    if(tokenColor == null) {
+                        correctInput = false;
+                        System.out.println("No such token color");
+                    }else {
+                        correctInput = true;
+                    }
+                }while(!correctInput);
+
+                int gameId;
+                do {
+                    System.out.println("Insert game id: ");
+                    gameId = -1;
+                    correctInput = true;
+                    try {
+                        gameId = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        scan.nextLine(); // TODO ?
+                        correctInput = false;
+                        System.out.println("No such game id, insert a number");
+                    }
+                    if(gameId < 0) {
+                        System.out.println("No such game id");
+                        correctInput = false;
+                    }
+                }while(!correctInput);
+
                 client.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
                 break;
 
             case "w":
                 // join new game
-                System.out.println("Insert token color (green, red, yellow or blue): ");
-                System.out.print("> ");
-                tokenColorString = scan.nextLine();
-                tokenColor = parseTokenColor(tokenColorString);
-                if(tokenColor == null) {
-                    System.out.println("No such token color");
-                }
-                System.out.println("Insert the number of players for the game: ");
-                int playersNumber = scan.nextInt();
-                scan.nextLine();
-                // TODO potremmo fare già qua il controllo su players number per efficienza
+                do {
+                    System.out.println("Insert token color (green, red, yellow or blue): ");
+                    System.out.print("> ");
+                    tokenColorString = scan.nextLine();
+                    tokenColor = parseTokenColor(tokenColorString);
+                    correctInput = true;
+                    if(tokenColor == null) {
+                        correctInput = false;
+                        System.out.println("No such token color");
+                    }
+                }while(!correctInput);
+
+                int playersNumber;
+                do {
+                    System.out.println("Insert the number of players for the game: ");
+                    playersNumber = scan.nextInt();
+                    scan.nextLine();
+                }while(playersNumber < minPlayersNumber || playersNumber > maxPlayersNumber);
+
                 client.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
                 break;
 
             case "e":
                 // display existing games
-                GamesManagerCommand mycommand = new DisplayGamesCommand(nickname);
-                client.setAndExecuteCommand(mycommand);
+                client.setAndExecuteCommand(new DisplayGamesCommand(nickname));
                 break;
 
             default:
                 System.out.println("The provided character doesn't refer to any action");
+                runCliJoinGame();
         }
     }
 
