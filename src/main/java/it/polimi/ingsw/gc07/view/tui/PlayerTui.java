@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.view.tui;
 
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.conditions.CornerCoverageCondition;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
@@ -18,6 +19,219 @@ public interface PlayerTui {
     String ANSI_BLUE_BACKGROUND = "\u001B[44m";
     String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
+    static void printStarterCard(PlaceableCard card, boolean cardway) {
+        // first row //
+        System.out.print(ANSI_BLACK_BACKGROUND + "+---------+");
+        // second row //
+        if (cardway) {
+            if (card.getBackCorners()[0]) {
+                if (card.getBackCornersContent()[0] == null) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + "       ");
+                } else if (card.getBackCornersContent()[0].equals(GameResource.FUNGI)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_RED_BACKGROUND + "F" + ANSI_BLACK_BACKGROUND + "       ");
+                } else if (card.getBackCornersContent()[0].equals(GameResource.ANIMAL)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_BLUE_BACKGROUND + "A" + ANSI_BLACK_BACKGROUND + "       ");
+                } else if (card.getBackCornersContent()[0].equals(GameResource.PLANT)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_GREEN_BACKGROUND + "P" + ANSI_BLACK_BACKGROUND + "       ");
+                } else if (card.getBackCornersContent()[0].equals(GameResource.INSECT)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_PURPLE_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "       ");
+                } else if (card.getBackCornersContent()[0].equals(GameObject.QUILL)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "Q" + ANSI_BLACK_BACKGROUND + "       ");
+                } else if (card.getBackCornersContent()[0].equals(GameObject.INKWELL)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "       ");
+                } else if (card.getBackCornersContent()[0].equals(GameObject.MANUSCRIPT)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "M" + ANSI_BLACK_BACKGROUND + "       ");
+                }
+            } else {
+                System.out.print(ANSI_BLACK_BACKGROUND + "|        ");
+            }
+            if (card.getBackCorners()[1]) {
+                if (card.getBackCornersContent()[1] == null) {
+                    System.out.print(ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getBackCornersContent()[1].equals(GameResource.FUNGI)) {
+                    System.out.print(ANSI_RED_BACKGROUND + "F" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getBackCornersContent()[1].equals(GameResource.ANIMAL)) {
+                    System.out.print(ANSI_BLUE_BACKGROUND + "A" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getBackCornersContent()[1].equals(GameResource.PLANT)) {
+                    System.out.print(ANSI_GREEN_BACKGROUND + "P" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getBackCornersContent()[1].equals(GameResource.INSECT)) {
+                    System.out.print(ANSI_PURPLE_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getBackCornersContent()[1].equals(GameObject.QUILL)) {
+                    System.out.print(ANSI_YELLOW_BACKGROUND + "Q" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getBackCornersContent()[1].equals(GameObject.INKWELL)) {
+                    System.out.print(ANSI_YELLOW_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getBackCornersContent()[1].equals(GameObject.MANUSCRIPT)) {
+                    System.out.print(ANSI_YELLOW_BACKGROUND + "M" + ANSI_BLACK_BACKGROUND + "|");
+                }
+            } else {
+                System.out.print(ANSI_BLACK_BACKGROUND + " |");
+            }
+        }
+        else {
+            if (card.getFrontCorners()[0]) {
+                if (card.getFrontCornersContent()[0] == null) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + "  ");
+                } else if (card.getFrontCornersContent()[0].equals(GameResource.FUNGI)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_RED_BACKGROUND + "F" + ANSI_BLACK_BACKGROUND + "  ");
+                } else if (card.getFrontCornersContent()[0].equals(GameResource.ANIMAL)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_BLUE_BACKGROUND + "A" + ANSI_BLACK_BACKGROUND + "  ");
+                } else if (card.getFrontCornersContent()[0].equals(GameResource.PLANT)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_GREEN_BACKGROUND + "P" + ANSI_BLACK_BACKGROUND + "  ");
+                } else if (card.getFrontCornersContent()[0].equals(GameResource.INSECT)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_PURPLE_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "  ");
+                } else if (card.getFrontCornersContent()[0].equals(GameObject.QUILL)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "Q" + ANSI_BLACK_BACKGROUND + "  ");
+                } else if (card.getFrontCornersContent()[0].equals(GameObject.INKWELL)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "  ");
+                } else if (card.getFrontCornersContent()[0].equals(GameObject.MANUSCRIPT)) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "M" + ANSI_BLACK_BACKGROUND + "  ");
+                }
+            } else {
+                System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_BLACK_BACKGROUND + "   ");
+            }
+            System.out.print(ANSI_BLACK_BACKGROUND + "   ");
+            if (card.getFrontCorners()[1]) {
+                if (card.getFrontCornersContent()[1] == null) {
+                    System.out.print(ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getFrontCornersContent()[1].equals(GameResource.FUNGI)) {
+                    System.out.print(ANSI_RED_BACKGROUND + "F" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getFrontCornersContent()[1].equals(GameResource.ANIMAL)) {
+                    System.out.print(ANSI_BLUE_BACKGROUND + "A" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getFrontCornersContent()[1].equals(GameResource.PLANT)) {
+                    System.out.print(ANSI_GREEN_BACKGROUND + "P" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getFrontCornersContent()[1].equals(GameResource.INSECT)) {
+                    System.out.print(ANSI_PURPLE_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getFrontCornersContent()[1].equals(GameObject.QUILL)) {
+                    System.out.print(ANSI_YELLOW_BACKGROUND + "Q" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getFrontCornersContent()[1].equals(GameObject.INKWELL)) {
+                    System.out.print(ANSI_YELLOW_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "|");
+                } else if (card.getFrontCornersContent()[1].equals(GameObject.MANUSCRIPT)) {
+                    System.out.print(ANSI_YELLOW_BACKGROUND + "M" + ANSI_BLACK_BACKGROUND + "|");
+                }
+            } else {
+                System.out.print(ANSI_BLACK_BACKGROUND + " |");
+            }
+        }
+        // third row //
+        if (cardway) {
+            List<GameResource> permanentResources = card.getPermanentResources();
+            if (permanentResources == null) {
+                System.out.print(ANSI_BLACK_BACKGROUND + "|         |");
+            } else {
+                System.out.print(ANSI_BLACK_BACKGROUND + "|   ");
+                for (GameResource permanentResource : permanentResources) {
+                    if (permanentResource.equals(GameResource.FUNGI)) {
+                        System.out.print(ANSI_RED_BACKGROUND + "F");
+                    } else if (permanentResource.equals(GameResource.ANIMAL)) {
+                        System.out.print(ANSI_BLUE_BACKGROUND + "A");
+                    } else if (permanentResource.equals(GameResource.PLANT)) {
+                        System.out.print(ANSI_GREEN_BACKGROUND + "P");
+                    } else if (permanentResource.equals(GameResource.INSECT)) {
+                        System.out.print(ANSI_PURPLE_BACKGROUND + "I");
+                    }
+                }
+                for (int i = permanentResources.size(); i < 3; i++) {
+                    System.out.print(ANSI_BLACK_BACKGROUND + " ");
+                }
+                System.out.print(ANSI_BLACK_BACKGROUND + "   |");
+            }
+        }
+        else {
+            System.out.print(ANSI_BLACK_BACKGROUND + "           ");
+        }
+        // fouth row //
+        if (cardway) {
+            if (card.getBackCorners()[3]) {
+                    if (card.getBackCornersContent()[3] == null) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + "       ");
+                    } else if (card.getBackCornersContent()[3].equals(GameResource.FUNGI)) {
+                        System.out.print(ANSI_WHITE_BACKGROUND + "|" + ANSI_RED_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + "       ");
+                    } else if (card.getBackCornersContent()[3].equals(GameResource.ANIMAL)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_BLUE_BACKGROUND + "A" + ANSI_BLACK_BACKGROUND + "       ");
+                    } else if (card.getBackCornersContent()[3].equals(GameResource.PLANT)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_GREEN_BACKGROUND + "P" + ANSI_BLACK_BACKGROUND + "       ");
+                    } else if (card.getBackCornersContent()[3].equals(GameResource.INSECT)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_PURPLE_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "       ");
+                    } else if (card.getBackCornersContent()[3].equals(GameObject.QUILL)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "Q" + ANSI_BLACK_BACKGROUND + "       ");
+                    } else if (card.getBackCornersContent()[3].equals(GameObject.INKWELL)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "       ");
+                    } else if (card.getBackCornersContent()[3].equals(GameObject.MANUSCRIPT)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "M" + ANSI_BLACK_BACKGROUND + "       ");
+                    }
+            }
+            else {
+                System.out.print(ANSI_BLACK_BACKGROUND + "|        ");
+            }
+            if (card.getBackCorners()[2]) {
+                    if (card.getBackCornersContent()[2] == null) {
+                        System.out.print(ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getBackCornersContent()[2].equals(GameResource.FUNGI)) {
+                        System.out.print(ANSI_RED_BACKGROUND + "F" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getBackCornersContent()[2].equals(GameResource.ANIMAL)) {
+                        System.out.print(ANSI_BLUE_BACKGROUND + "A" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getBackCornersContent()[2].equals(GameResource.PLANT)) {
+                        System.out.print(ANSI_GREEN_BACKGROUND + "P" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getBackCornersContent()[2].equals(GameResource.INSECT)) {
+                        System.out.print(ANSI_PURPLE_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getBackCornersContent()[2].equals(GameObject.QUILL)) {
+                        System.out.print(ANSI_YELLOW_BACKGROUND + "Q" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getBackCornersContent()[2].equals(GameObject.INKWELL)) {
+                        System.out.print(ANSI_YELLOW_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getBackCornersContent()[2].equals(GameObject.MANUSCRIPT)) {
+                        System.out.print(ANSI_YELLOW_BACKGROUND + "M" + ANSI_BLACK_BACKGROUND + "|");
+                    }
+            } else {
+                System.out.print(ANSI_BLACK_BACKGROUND + " |");
+            }
+        }
+        else {
+            if (card.getFrontCorners()[3]) {
+                    if (card.getFrontCornersContent()[3] == null) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + " ");
+                    } else if (card.getFrontCornersContent()[3].equals(GameResource.FUNGI)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_RED_BACKGROUND + "F" + ANSI_BLACK_BACKGROUND + " ");
+                    } else if (card.getFrontCornersContent()[3].equals(GameResource.ANIMAL)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_BLUE_BACKGROUND + "A" + ANSI_BLACK_BACKGROUND + " ");
+                    } else if (card.getFrontCornersContent()[3].equals(GameResource.PLANT)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_GREEN_BACKGROUND + "P" + ANSI_BLACK_BACKGROUND + " ");
+                    } else if (card.getFrontCornersContent()[3].equals(GameResource.INSECT)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_PURPLE_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + " ");
+                    } else if (card.getFrontCornersContent()[3].equals(GameObject.QUILL)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "Q" + ANSI_BLACK_BACKGROUND + " ");
+                    } else if (card.getFrontCornersContent()[3].equals(GameObject.INKWELL)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + " ");
+                    } else if (card.getFrontCornersContent()[3].equals(GameObject.MANUSCRIPT)) {
+                        System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "M" + ANSI_BLACK_BACKGROUND + " ");
+                    }
+            }
+            System.out.print(ANSI_BLACK_BACKGROUND + "      ");
+            if (card.getFrontCorners()[2]) {
+                    if (card.getFrontCornersContent()[2] == null) {
+                        System.out.print(ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getFrontCornersContent()[2].equals(GameResource.FUNGI)) {
+                        System.out.print(ANSI_RED_BACKGROUND + "F" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getFrontCornersContent()[2].equals(GameResource.ANIMAL)) {
+                        System.out.print(ANSI_BLUE_BACKGROUND + "A" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getFrontCornersContent()[2].equals(GameResource.PLANT)) {
+                        System.out.print(ANSI_GREEN_BACKGROUND + "P" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getFrontCornersContent()[2].equals(GameResource.INSECT)) {
+                        System.out.print(ANSI_PURPLE_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getFrontCornersContent()[2].equals(GameObject.QUILL)) {
+                        System.out.print(ANSI_YELLOW_BACKGROUND + "Q" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getFrontCornersContent()[2].equals(GameObject.INKWELL)) {
+                        System.out.print(ANSI_YELLOW_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "|");
+                    } else if (card.getFrontCornersContent()[2].equals(GameObject.MANUSCRIPT)) {
+                        System.out.print(ANSI_YELLOW_BACKGROUND + "M" + ANSI_BLACK_BACKGROUND + "|");
+                    }
+            } else {
+                System.out.print(ANSI_BLACK_BACKGROUND + " |");
+            }
+        }
+        // last row //
+        System.out.print(ANSI_BLACK_BACKGROUND + "+---------+");
+    }
 
     static void printPlayerHand(List<DrawableCard> hand, ObjectiveCard personalObjective)
     {
