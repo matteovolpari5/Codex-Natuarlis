@@ -20,10 +20,15 @@ public interface DeckTui {
     String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     static void printDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck, DrawableCard topResourceDeck) {
+
+        if(commonObjective == null || faceUpGoldCard == null || faceUpResourceCard == null || topGoldDeck == null || topResourceDeck == null) {
+            return;
+        }
+
         printFirstLastRowDeck();
-        printSecondRowDeck(commonObjective.get(0),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
-        printThirdRowDeck(commonObjective.get(0),topGoldDeck);
-        printFourthRowDeck(commonObjective.get(0),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
+        printSecondRowDeck(commonObjective.getFirst(),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
+        printThirdRowDeck(commonObjective.getFirst(),topGoldDeck);
+        printFourthRowDeck(commonObjective.getFirst(),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
         printFirstLastRowDeck();
         printFirstLastRowDeck();
         printSecondRowDeck(commonObjective.get(1),faceUpResourceCard.get(0),faceUpResourceCard.get(1),topResourceDeck);
@@ -568,9 +573,9 @@ public interface DeckTui {
     private static void printBackDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck,DrawableCard topResourceDeck)
     {
         printFirstLastRowDeck();
-        printBackSecondRowDeck(commonObjective.get(0),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
-        printBackThirdRowDeck(commonObjective.get(0),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
-        printBackFourthRowDeck(commonObjective.get(0),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
+        printBackSecondRowDeck(commonObjective.getFirst(),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
+        printBackThirdRowDeck(commonObjective.getFirst(),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
+        printBackFourthRowDeck(commonObjective.getFirst(),faceUpGoldCard.get(0),faceUpGoldCard.get(1),topGoldDeck);
         printFirstLastRowDeck();
         printFirstLastRowDeck();
         printBackSecondRowDeck(commonObjective.get(1),faceUpResourceCard.get(0),faceUpResourceCard.get(1),topResourceDeck);

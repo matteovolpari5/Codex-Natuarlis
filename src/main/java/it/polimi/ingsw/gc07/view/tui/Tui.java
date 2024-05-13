@@ -265,6 +265,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
     }
 
     @Override
+    public void receiveStarterCardUpdate(PlaceableCard starterCard) {
+        PlayerTui.printStarterCard(starterCard, true);  // TODO cambiare
+    }
+
+    @Override
     public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
         PlayerTui.printPlayerHand(hand, personalObjective);
     }

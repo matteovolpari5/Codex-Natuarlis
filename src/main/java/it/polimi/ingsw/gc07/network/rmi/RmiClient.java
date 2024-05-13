@@ -54,7 +54,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }else {
             this.ui = new Tui(nickname, this);
         }
-        // this.gameView.addViewListener(ui);
+        this.gameView.addViewListener(ui);
         // TODO rimettere listener quando fixiamo
     }
 

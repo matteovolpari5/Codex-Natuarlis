@@ -11,7 +11,7 @@ import it.polimi.ingsw.gc07.view.Ui;
 import java.util.List;
 import java.util.Map;
 
-public class Gui implements Ui {
+public  class Gui implements Ui {
 
     @Override
     public void runCliJoinGame() {
@@ -42,6 +42,11 @@ public class Gui implements Ui {
 
     @Override
     public void receiveGameFieldUpdate(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        // TODO
+    }
+
+    @Override
+    public void receiveStarterCardUpdate(PlaceableCard starterCard) {
         // TODO
     }
 
