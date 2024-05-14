@@ -32,21 +32,15 @@ class GamesManagerTest {
     }
 
     @Test
-    void testJoinNewGame() throws RemoteException, NotBoundException {
-        String name = "VirtualServerGamesManager";
+    void testJoinNewGame() throws RemoteException {
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
-        Registry registry = LocateRegistry.createRegistry(1234);
-        registry.rebind(name, serverGamesManager);
 
-        Registry registry2 = LocateRegistry.getRegistry("127.0.0.1", 1234);
-        VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
-        RmiClient newRmiClient = new RmiClient("Player1", true, rmiServerGamesManager);
-        newRmiClient.connectToGamesManagerServer(true, true);
-        gm.addPlayerToPending("player1", true, true);
-        VirtualServerGamesManager rmiServerGamesManager2 = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
-        RmiClient newRmiClient2 = new RmiClient("Player1", true, rmiServerGamesManager2);
-        newRmiClient2.connectToGamesManagerServer(true, true);
-        gm.addPlayerToPending("player2", true, true);
+        RmiClient newRmiClient = new RmiClient("player1", false, serverGamesManager);
+        newRmiClient.connectToGamesManagerServer(true, false);
+        gm.addPlayerToPending("player1", true, false);
+        RmiClient newRmiClient2 = new RmiClient("player2", false, serverGamesManager);
+        newRmiClient2.connectToGamesManagerServer(true, false);
+        gm.addPlayerToPending("player2", true, false);
         assertNull(gm.getGameById(0));
 
         gm.joinNewGame("player1", TokenColor.GREEN, 2);
@@ -56,7 +50,6 @@ class GamesManagerTest {
         assertEquals(CommandResult.SUCCESS, gm.getCommandResult());
 
         assertNotNull(gm.getGameById(0));
-
 
         assertEquals(0, gm.getGameIdWithPlayer("player1"));
     }

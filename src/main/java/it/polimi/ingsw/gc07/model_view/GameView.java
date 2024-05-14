@@ -150,10 +150,11 @@ public class GameView {
      * @param starterCard starter card
      */
     public void setStarterCard(String nickname, PlaceableCard starterCard) {
-        assert(nickname.equals(ownerNickname)): "Shouldn't have received the update.";
-        for(PlayerView playerView: playerViews) {
-            if(playerView.getNickname().equals(nickname)) {
-                playerView.setStarterCard(starterCard);
+        if(ownerNickname.equals(nickname)) {
+            for(PlayerView playerView: playerViews) {
+                if(playerView.getNickname().equals(nickname)) {
+                    playerView.setStarterCard(starterCard);
+                }
             }
         }
     }
@@ -247,21 +248,22 @@ public class GameView {
 
     /**
      * Method that allows to add a new player view.
-     * @param playerViews new list of player views
+     * @param newPlayerViews new list of player views
      */
-    public void setPlayerViews(List<PlayerView> playerViews) {
-        for(PlayerView pv: playerViews) {
-            if(!this.playerViews.contains(pv)) {
+    public void setPlayerViews(List<PlayerView> newPlayerViews) {
+        // only for debugging
+        for(PlayerView pv: newPlayerViews) {
+            boolean found = false;
+            for(PlayerView mypv: this.playerViews) {
+                if(pv.getNickname().equals(mypv.getNickname())) {
+                    found = true;
+                }
+            }
+            if(found) {
                 this.playerViews.add(pv);
                 boardView.addPlayerToBoard(pv.getNickname(), pv.getTokenColor());
             }
         }
-
-        // only for debugging
-        for(PlayerView pv: this.playerViews) {
-            System.out.println(pv.getNickname());
-        }
-
     }
 
     /**

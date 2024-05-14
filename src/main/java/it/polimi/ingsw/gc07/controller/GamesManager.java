@@ -42,11 +42,11 @@ public class GamesManager {
     /**
      * Map containing pending players' virtual views.
      */
-    private final Map<String, VirtualView> playerVirtualViews;
+    private Map<String, VirtualView> playerVirtualViews;
     /**
      * Map containing players' timers.
      */
-    private final Map<String, Timer> playersTimers;
+    private Map<String, Timer> playersTimers;
 
     /**
      * GamesManger is created once the server is started.
@@ -109,6 +109,8 @@ public class GamesManager {
         gameControllers = new ArrayList<>();
         pendingPlayers = new ArrayList<>();
         commandResult = null;
+        playerVirtualViews = new HashMap<>();
+        playersTimers = new HashMap<>();
     }
 
     /**
