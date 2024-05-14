@@ -191,13 +191,12 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     public void startGamePing() {
         while(true) {
             synchronized (this) {
-                if (clientAlive) {  // TODO synchr
+                if (clientAlive) {
                     try {
                         serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
                     }catch(RemoteException e) {
-                        // TODO
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
+                        // connection failed
+                        clientAlive = false;
                     }
                 } else {
                     break;

@@ -234,6 +234,15 @@ public class GameController {
 
         gameModel.removeListener(virtualView);
 
+        // TODO togliere o rivedere
+        if(!player.getConnectionType()) {
+            try {
+                virtualView.kill();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         // remove virtual view
         if(!player.getConnectionType()) {
             // Socket
@@ -316,26 +325,6 @@ public class GameController {
         // set player connected
         player.setIsConnected(true); //TODO sincronizzazione con thread di checkPing
         if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
-            changeGameState();
-        }
-    }
-
-    /**
-     * Method that reconnects a player after network malfunctioning, but keeps
-     * the old player setting.
-     * @param nickname player's nickname
-     */
-    public void reconnectPlayerOldSettings(String nickname) {
-        assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
-        Player player = getPlayerByNickname(nickname);
-        if(player == null) {
-            gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
-            return;
-        }
-        assert(!player.isConnected()): "Player already connected";
-        // set player connected
-        player.setIsConnected(true);
-        if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED )) {
             changeGameState();
         }
     }

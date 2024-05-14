@@ -96,9 +96,8 @@ public class ClientMain {
             }else {
                 // Socket connection
                 //TODO va bene inventarsi una porta?
-                String host = "127.0.0.1";
                 int port = 65000;
-                Socket sc = new Socket(host, port);
+                Socket sc = new Socket(ip, port);
                 if(check.equals(NicknameCheck.NEW_NICKNAME)) {
                     new SocketClient(nickname, sc,  "new", interfaceType);
                 }else {
