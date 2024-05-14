@@ -79,6 +79,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
+    public void kill() throws RemoteException {
+        System.exit(0);
+    }
+
+    @Override
     public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
         try {
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
@@ -169,8 +174,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
 
     @Override
     public void startGamePing() {
-        boolean runThread = true;
-        while(runThread) {
+        while(true) {
             synchronized (this) {
                 if (clientAlive) {  // TODO synchr
                     try {
@@ -181,7 +185,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                         throw new RuntimeException(e);
                     }
                 } else {
-                    runThread = false;
+                    break;
                 }
             }
             try {

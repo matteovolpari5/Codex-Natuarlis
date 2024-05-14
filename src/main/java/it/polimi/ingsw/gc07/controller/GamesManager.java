@@ -18,11 +18,9 @@ import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GamesManager {
     /**
@@ -42,9 +40,13 @@ public class GamesManager {
      */
     private CommandResult commandResult;
     /**
-     * Map containing pending players virtual views.
+     * Map containing pending players' virtual views.
      */
     private final Map<String, VirtualView> playerVirtualViews;
+    /**
+     * Map containing players' timers.
+     */
+    private final Map<String, Timer> playersTimers;
 
     /**
      * GamesManger is created once the server is started.
@@ -55,6 +57,7 @@ public class GamesManager {
         this.pendingPlayers = new ArrayList<>();
         this.commandResult = null;
         this.playerVirtualViews = new HashMap<>();
+        this.playersTimers = new HashMap<>();
     }
 
     /**
@@ -71,6 +74,27 @@ public class GamesManager {
     public synchronized void addVirtualView(String nickname, VirtualView virtualView) {
         assert(!playerVirtualViews.containsKey(nickname));
         playerVirtualViews.put(nickname, virtualView);
+
+        // create timer
+        Timer timer = new Timer();
+        playersTimers.put(nickname, timer);
+        new Thread(() -> {
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    // kill player
+                    try {
+                        virtualView.kill();
+                    }catch(RemoteException e) {
+                        // se il player esce e non rientra, chiamo kill su qualcosa di morto
+                        // TODO
+                        e.printStackTrace();
+                        throw new RuntimeException();
+                    }
+                }
+            }, 5*1000);
+            removePlayer(nickname);
+        }).start();
     }
 
     public synchronized VirtualView getVirtualView(String nickname) {
@@ -237,7 +261,7 @@ public class GamesManager {
                     notifyJoinNotSuccessful(player);
                     return;
                 }
-                if(!player.getConnectionType()){
+                if(!player.getConnectionType()) {
                     try {
                         SocketServer.getSocketServer().getVirtualView(nickname).setServerGame(gameId);
                     } catch (RemoteException e) {
@@ -246,7 +270,11 @@ public class GamesManager {
                 }
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player);
-                pendingPlayers.remove(player);
+
+                // cancel timer
+                assert(playersTimers.containsKey(nickname));
+                playersTimers.get(nickname).cancel();
+                playersTimers.get(nickname).purge();
             }
         }
         if(!found){
@@ -260,6 +288,10 @@ public class GamesManager {
             // RMI client
             RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameId);
         }
+
+        // remove player
+        removePlayer(nickname);
+
         commandResult = CommandResult.SUCCESS;
     }
 
@@ -288,7 +320,11 @@ public class GamesManager {
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player);
             }
-            pendingPlayers.remove(player);
+
+            // cancel timer
+            assert(playersTimers.containsKey(nickname));
+            playersTimers.get(nickname).cancel();
+            playersTimers.get(nickname).purge();
         }
 
         RmiServerGamesManager.getRmiServerGamesManager().createServerGame(gameId);
@@ -298,6 +334,8 @@ public class GamesManager {
             RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameId);
         }
 
+        // remove player
+        removePlayer(nickname);
         commandResult = CommandResult.SUCCESS;
     }
 
@@ -400,9 +438,11 @@ public class GamesManager {
             gameControllers.remove(gameController);
         }
     }
-    public void removeFromPending(String nickname) {
+    public void removePlayer(String nickname) {
         Player player = getPendingPlayer(nickname);
         pendingPlayers.remove(player);
+        playerVirtualViews.remove(nickname);
+        playersTimers.remove(nickname);
         System.out.println("player rimosso dai pending");
     }
 }

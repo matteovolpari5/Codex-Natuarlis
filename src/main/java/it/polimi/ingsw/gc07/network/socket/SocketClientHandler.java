@@ -42,6 +42,11 @@ public class SocketClientHandler implements VirtualView {
         new Thread(this::manageSetUp).start();
     }
 
+    @Override
+    public void kill() throws RemoteException {
+        closeConnection();
+    }
+
     private void manageSetUp(){
         System.out.println("SCH-T> manageSetUp");
         try {
@@ -111,7 +116,7 @@ public class SocketClientHandler implements VirtualView {
         //closeConnection(mySocket, input, output);
     }
 
-    public void closeConnection(Socket mySocket, ObjectInputStream input, ObjectOutputStream output){
+    public void closeConnection(){
         try{
             input.close();
             output.close();
