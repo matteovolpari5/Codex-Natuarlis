@@ -103,9 +103,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         try {
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
         }catch(RemoteException e) {
-            // TODO
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            // if not already detected by ping
+            clientAlive = false;
         }
     }
 
@@ -114,9 +113,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         try {
             serverGame.setAndExecuteCommand(gameCommand);
         }catch(RemoteException e) {
-            // TODO
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            // if not already detected by ping
+            clientAlive = false;
         }
     }
 
@@ -196,6 +194,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                         serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
                     }catch(RemoteException e) {
                         // connection failed
+                        System.out.println("Connection failed. Press enter.");
                         clientAlive = false;
                     }
                 } else {
@@ -213,26 +212,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     public void runCliJoinGame() {
-        System.out.println("entro");
         assert(ui != null);
-        new Thread(()->{
-            System.out.println("entro thread");
-            Timer timeout = new Timer();
-            timeout.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.println("entro timer");
-                    synchronized (this){
-                        clientAlive = false;
-                    }
-                    String[] args = new String[0];
-                    ClientMain.main(args);
-                }
-            }, 5*1000); //timeout of 5 minutes
-        }).start();
         ui.runCliJoinGame();
-
-
     }
 
     public void runCliGame() {

@@ -243,9 +243,14 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             }
         }
 
-        System.out.println("\n\nDo you want to reconnect?");
-        String[] args = new String[0];
-        ClientMain.main(args);
+        System.out.println("\n\nDo you want to reconnect (1 = yes, other = no)?");
+        int reconnect = scan.nextInt();
+        scan.nextLine();
+        if(reconnect == 1) {
+            ClientMain.main(new String[0]);
+        }else {
+            System.exit(0);
+        }
     }
 
     private TokenColor parseTokenColor(String tokenColorString) {
