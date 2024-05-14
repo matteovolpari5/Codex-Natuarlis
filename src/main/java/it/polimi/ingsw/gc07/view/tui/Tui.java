@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.view.tui;
 
+import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.main.ClientMain;
@@ -142,6 +143,18 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     System.out.println("Insert the message content:");
                     System.out.print("> ");
                     content = scan.nextLine();
+                    // check sender not equals receiver
+                    if(receiver.equals(nickname)) {
+                        System.out.println("CLIENT CHECK - You can't send a private message to yourself.");
+                        break;
+                    }
+                    // check existing receiver
+                    if(!client.getGameView().checkPlayerPresent(receiver)) {
+                        System.out.println("CLIENT CHECK - Provided receiver doesn't exist.");
+                        System.out.println("You: -"+nickname+"-");
+                        System.out.println("Nickname: -"+receiver+"-");
+                        break;
+                    }
                     client.setAndExecuteCommand(new AddChatPrivateMessageControllerCommand(content, nickname, receiver));
                     break;
                 case "w":
@@ -152,7 +165,6 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     break;
                 case "e":
                     client.setAndExecuteCommand(new DisconnectPlayerControllerCommand(nickname));
-                    System.out.println("\nYou successfully disconnected !");
                     client.setClientAlive(false);
                     break;
                 case "r":
@@ -164,8 +176,18 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }else if(cardTypeString.equals("g")) {
                         cardType = CardType.GOLD_CARD;
                     }else {
-                        System.out.println("No such card type");
+                        System.out.println("CLIENT CHECK - No such card type");
                         continue;
+                    }
+                    // check game state
+                    if(!client.getGameView().getGameState().equals(GameState.PLAYING)) {
+                        System.out.println("CLIENT CHECK - Wrong game state.");
+                        break;
+                    }
+                    // check current player
+                    if(!client.getGameView().isCurrentPlayer(nickname)) {
+                        System.out.println("CLIENT CHECK - This is not your turn, try later.");
+                        break;
                     }
                     client.setAndExecuteCommand(new DrawDeckCardControllerCommand(nickname, cardType));
                     break;
@@ -178,35 +200,59 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }else if(cardTypeString.equals("g")) {
                         cardType = CardType.GOLD_CARD;
                     }else {
-                        System.out.println("No such card type");
+                        System.out.println("CLIENT CHECK - No such card type");
                         continue;
                     }
                     System.out.println("Select the position of the card to draw: ");
                     System.out.print("> ");
                     int pos = scan.nextInt();
                     scan.nextLine();
-                    //TODO possiamo introdurre un controllo per evitare una chiamata
-                    // inutile se la posizione eccede il range possibile
+                    // check game state
+                    if(!client.getGameView().getGameState().equals(GameState.PLAYING)) {
+                        System.out.println("CLIENT CHECK - Wrong game state.");
+                        break;
+                    }
+                    // check current player
+                    if(!client.getGameView().isCurrentPlayer(nickname)) {
+                        System.out.println("CLIENT CHECK - This is not your turn, try later.");
+                        break;
+                    }
+                    // check valid position
+                    if(pos < 0 || pos > client.getGameView().getNumFaceUpCards(cardType)) {
+                        System.out.println("CLIENT CHECK - Wrong cards position.");
+                        break;
+                    }
                     client.setAndExecuteCommand(new DrawFaceUpCardControllerCommand(nickname, cardType, pos));
                     break;
                 case "y":
-                    // String nickname, int pos, int x, int y, boolean way) {
                     // pos
                     System.out.println("Select the position of the card you want to place: ");
                     System.out.print("> ");
                     int cardPos = scan.nextInt();
                     scan.nextLine();
+                    if(cardPos < 0 || cardPos > client.getGameView().getCurrHardHandSize()) {
+                        System.out.println("CLIENT CHECK - Wrong card hand position.");
+                        break;
+                    }
                     System.out.println("Insert a position of the game field where you want to place the card.");
                     // x
                     System.out.println("Insert x: ");
                     System.out.print("> ");
                     int x = scan.nextInt();
                     scan.nextLine();
+                    if(x < 0 || x >= client.getGameView().getGameFieldDim()) {
+                        System.out.println("CLIENT CHECK - GameField position out of bound.");
+                        break;
+                    }
                     // y
                     System.out.println("Insert y: ");
                     System.out.print("> ");
                     int y = scan.nextInt();
                     scan.nextLine();
+                    if(y < 0 || y >= client.getGameView().getGameFieldDim()) {
+                        System.out.println("CLIENT CHECK - GameField position out of bound.");
+                        break;
+                    }
                     // way
                     System.out.println("Select 0 to place the card face up, 1 to place the card face down: ");
                     System.out.print("> ");
@@ -217,7 +263,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }else if(wayInput == 0) {
                         way = false;
                     }else {
-                        System.out.println("The provided value for way is not correct");
+                        System.out.println("CLIENT CHECK - The provided value for way is not correct");
                         continue;
                     }
                     // create and execute command
@@ -233,7 +279,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }else if(wayInput == 0) {
                         way = false;
                     }else {
-                        System.out.println("The provided value is not correct");
+                        System.out.println("CLIENT CHECK - The provided value is not correct");
                         continue;
                     }
                     client.setAndExecuteCommand(new PlaceStarterCardControllerCommand(nickname, way));

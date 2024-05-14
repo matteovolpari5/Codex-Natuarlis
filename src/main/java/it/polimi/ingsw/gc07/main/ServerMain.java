@@ -5,16 +5,15 @@ import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class ServerMain {
-    public static void main(String[] args) throws RemoteException, IOException{ //IOException sollevata da linea 33
+    public static void main(String[] args) throws IOException{ //IOException sollevata da linea 33
         // create RMI server
         String name = "VirtualServerGamesManager";
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
-        //System.setProperty("java.rmi.server.hostname", "192.168.154.223");
+        //System.setProperty("java.rmi.server.hostname", "192.168.154.128");
         Registry registry = LocateRegistry.createRegistry(1234);
         registry.rebind(name, serverGamesManager);
         System.out.println("RMI Server running");

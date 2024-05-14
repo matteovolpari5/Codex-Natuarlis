@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model_view;
 
+import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -105,6 +106,14 @@ public class DeckView {
     public void setCommonObjective(List<ObjectiveCard> commonObjective) {
         this.commonObjective = commonObjective;
         sendDecksUpdate();
+    }
+
+    public int getNumFaceUpCards(CardType cardType) {
+        if(cardType.equals(CardType.RESOURCE_CARD))
+            return faceUpResourceCard.size();
+        else if(cardType.equals(CardType.GOLD_CARD))
+            return faceUpGoldCard.size();
+        return -1;
     }
 }
 
