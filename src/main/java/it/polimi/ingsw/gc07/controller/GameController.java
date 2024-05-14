@@ -329,26 +329,6 @@ public class GameController {
         }
     }
 
-    /**
-     * Method that reconnects a player after network malfunctioning, but keeps
-     * the old player setting.
-     * @param nickname player's nickname
-     */
-    public void reconnectPlayerOldSettings(String nickname) {
-        assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
-        Player player = getPlayerByNickname(nickname);
-        if(player == null) {
-            gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
-            return;
-        }
-        assert(!player.isConnected()): "Player already connected";
-        // set player connected
-        player.setIsConnected(true);
-        if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED )) {
-            changeGameState();
-        }
-    }
-
     private void changeGameState() {
         int numPlayersConnected = gameModel.getNumPlayersConnected();
         if(numPlayersConnected == 0) {

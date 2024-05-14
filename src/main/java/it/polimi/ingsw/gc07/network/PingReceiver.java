@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.network;
 
 import it.polimi.ingsw.gc07.controller.GameController;
-import it.polimi.ingsw.gc07.model.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,22 +88,6 @@ public class PingReceiver {
             synchronized(gameController) {
                 if(playersPing.get(nickname)) {
                     missedPing = 0;
-                    if(!gameController.isPlayerConnected(nickname)) {
-                        System.out.println("PRG> Reconnection detected " + nickname);
-                        Player player = gameController.getPlayerByNickname(nickname);
-                        assert (player != null);
-                        gameController.reconnectPlayerOldSettings(nickname);
-                        gameController.addListener(playerVirtualViews.get(nickname));
-                        if (player.getConnectionType()) {
-                            // RMI
-                            //TODO due istruzioni presenti uguali sia per socket che per RMI
-                            System.out.println("PRG> Try to reconnect");
-                        } else {
-                            // TODO socket
-
-                            System.out.println("PRG> Try to reconnect");
-                        }
-                    }
                 }else {
                     missedPing ++;
                     //System.out.println(missedPing);
@@ -123,6 +106,5 @@ public class PingReceiver {
                 throw new RuntimeException(e);
             }
         }
-        // TODO invio pong
     }
 }

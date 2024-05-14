@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.view.tui;
 
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.game_commands.*;
+import it.polimi.ingsw.gc07.main.ClientMain;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -241,7 +242,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     System.out.println("The provided character doesn't refer to any action");
             }
         }
-        System.exit(0);
+
+        System.out.println("\n\nDo you want to reconnect?");
+        String[] args = new String[0];
+        ClientMain.main(args);
     }
 
     private TokenColor parseTokenColor(String tokenColorString) {
