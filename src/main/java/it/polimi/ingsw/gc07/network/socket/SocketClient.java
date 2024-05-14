@@ -49,7 +49,7 @@ public class SocketClient implements Client, PingSender {
     private void manageSetUp(String status, boolean interfaceType){
         System.out.println(status);
         if(status.equals("new")){
-            connectToGamesManagerServer(false, interfaceType);
+            connectToGamesManagerServer(interfaceType);
         } else if(status.equals("reconnected")){
             new Thread(this::manageReceivedUpdate).start();
             new Thread(this::startGamePing).start();
@@ -57,7 +57,7 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
-    private void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
+    private void connectToGamesManagerServer(boolean interfaceType) {
         System.out.println("SC> connectToGMS");
         if(interfaceType) {
             // Gui
@@ -70,7 +70,7 @@ public class SocketClient implements Client, PingSender {
         // this.gameView.addViewListener(ui);
         // TODO per ora rimosso
         try {
-            myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
+            myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, false, interfaceType));
         } catch (RemoteException e) {
             // TODO
             throw new RuntimeException(e);
@@ -90,7 +90,6 @@ public class SocketClient implements Client, PingSender {
         }
         System.out.println(result);
         if(result.equals("Game joined.")){
-            System.out.println("entro");
             new Thread(() -> {
                 try{
                     manageReceivedUpdate();
