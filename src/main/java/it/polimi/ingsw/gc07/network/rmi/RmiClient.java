@@ -1,15 +1,19 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
 import it.polimi.ingsw.gc07.game_commands.*;
+import it.polimi.ingsw.gc07.main.ClientMain;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.*;
 import it.polimi.ingsw.gc07.updates.*;
 import it.polimi.ingsw.gc07.view.Ui;
 import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.tui.Tui;
+import javafx.scene.control.skin.TableHeaderRow;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RmiClient extends UnicastRemoteObject implements Client, VirtualView, PingSender {
     /**
@@ -99,9 +103,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         try {
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
         }catch(RemoteException e) {
-            // TODO
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            // if not already detected by ping
+            clientAlive = false;
         }
     }
 
@@ -110,9 +113,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         try {
             serverGame.setAndExecuteCommand(gameCommand);
         }catch(RemoteException e) {
-            // TODO
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            // if not already detected by ping
+            clientAlive = false;
         }
     }
 
@@ -187,13 +189,13 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     public void startGamePing() {
         while(true) {
             synchronized (this) {
-                if (clientAlive) {  // TODO synchr
+                if (clientAlive) {
                     try {
                         serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
                     }catch(RemoteException e) {
-                        // TODO
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
+                        // connection failed
+                        System.out.println("Connection failed. Press enter.");
+                        clientAlive = false;
                     }
                 } else {
                     break;
