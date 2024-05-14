@@ -17,12 +17,23 @@ public class PingReceiverGame extends PingReceiver {
         super();
         this.gameController = gameController;
     }
+
+    /**
+     * Method used to receive a ping from a player with a certain nickname.
+     * @param nickname nickname
+     */
+    public synchronized void receivePing(String nickname) {
+        assert (getPlayersPing().containsKey(nickname));
+        getPlayersPing().put(nickname, true);
+        System.out.println("ping inviato " + nickname);
+    }
+
     @Override
     public void checkPing(String nickname) {
         int missedPing = 0;
         while(true) {
             synchronized(gameController) {
-                if(getPlayerPing().get(nickname)) {
+                if(getPlayersPing().get(nickname)) {
                     missedPing = 0;
                     if(!gameController.isPlayerConnected(nickname)) {
                         System.out.println("PRG> Reconnection detected " + nickname);
@@ -48,7 +59,7 @@ public class PingReceiverGame extends PingReceiver {
                         gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
                     }
                 }
-                getPlayerPing().put(nickname, false);
+                getPlayersPing().put(nickname, false);
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping

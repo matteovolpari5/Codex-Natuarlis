@@ -62,21 +62,10 @@ public abstract class PingReceiver {
     }
 
     /**
-     * Method used to receive a ping from a player with a certain nickname.
-     *
-     * @param nickname nickname
-     */
-    public synchronized void receivePing(String nickname) {
-        assert (playersPing.containsKey(nickname));
-        playersPing.put(nickname, true);
-        System.out.println("ping inviato " + nickname);
-    }
-
-    /**
      * Getter for the payers' pings.
      * @return map with players and pings
      */
-    protected Map<String, Boolean> getPlayerPing() {
+    protected Map<String, Boolean> getPlayersPing() {
         return playersPing;
     }
 

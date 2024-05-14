@@ -10,13 +10,24 @@ public class PingReceiverGamesManager extends PingReceiver{
         this.gamesManager = gamesManager;
     }
 
+    public synchronized void receivePing(String nickname) {
+        if(getPlayersPing().containsKey(nickname)) {
+            getPlayersPing().put(nickname, true);
+            System.out.println("ping inviato " + nickname);
+        }else {
+            // client reconnected
+            // tell the client he has to reconnect
+            // TODO
+        }
+    }
+
     @Override
     public void checkPing(String nickname) {
         int missedPing = 0;
         while(true) {
             //synchronized(gamesManager) {
-                if (getPlayerPing().containsKey(nickname)){
-                    if(getPlayerPing().get(nickname)) {
+                if (getPlayersPing().containsKey(nickname)){
+                    if(getPlayersPing().get(nickname)) {
                         missedPing = 0;
                     }else {
                         missedPing ++;
@@ -28,7 +39,7 @@ public class PingReceiverGamesManager extends PingReceiver{
                             break;
                         }
                     }
-                    getPlayerPing().put(nickname, false);
+                    getPlayersPing().put(nickname, false);
                 }
                 else {
                     System.out.println("fine check ping");
@@ -47,7 +58,7 @@ public class PingReceiverGamesManager extends PingReceiver{
     }
     public void stopGamesManagerPing(String nickname) {
         synchronized (gamesManager) {
-            getPlayerPing().remove(nickname);
+            getPlayersPing().remove(nickname);
         }
     }
 }
