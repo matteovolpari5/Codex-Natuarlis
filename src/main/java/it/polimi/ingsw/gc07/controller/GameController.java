@@ -141,14 +141,6 @@ public class GameController {
         gameControllerCommand.execute(this);
     }
 
-    public void addListener(VirtualView client) {
-        gameModel.addListener(client);
-    }
-
-    public void addPingSender(String nickname, VirtualView client) {
-        pingReceiver.addPingSender(nickname, client);
-    }
-
     public void receivePing(String nickname) {
         pingReceiver.receivePing(nickname);
     }
@@ -193,12 +185,15 @@ public class GameController {
     }
 
     // TODO synchronized chi lo chiama?
-    public void addPlayer(Player newPlayer) {
+    public void addPlayer(Player newPlayer, VirtualView client) {
         assert(gameModel.getState().equals(GameState.GAME_STARTING)): "Wrong state";
         assert(!gameModel.getPlayerNicknames().contains(newPlayer.getNickname())): "Player already present";
 
         gameModel.addPlayer(newPlayer);
-        pingReceiver.addPlayer(newPlayer.getNickname());
+        gameModel.addListener(client);
+        gameModel.setUpPlayerHand(newPlayer);
+        pingReceiver.addPingSender(newPlayer.getNickname(), client);
+
 
         if (isFull()) {
             setup();
@@ -313,6 +308,9 @@ public class GameController {
         assert(!player.isConnected()): "Player already connected";
         player.setConnectionType(connectionType);
         player.setInterfaceType(interfaceType);
+
+        gameModel.addListener(client);
+        pingReceiver.addPingSender(nickname, client);
 
         try {
             client.setServerGame(getId());

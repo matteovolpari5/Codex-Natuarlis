@@ -36,16 +36,9 @@ public class PingReceiver {
         this.playerVirtualViews = new HashMap<>();
     }
 
-    /**
-     * Method used to add a player to monitor.
-     * @param nickname player's virtual nickname
-     */
-    public synchronized void addPlayer(String nickname) {
+    public synchronized void addPingSender(String nickname, VirtualView virtualView) {
         this.playersPing.put(nickname, true);
         new Thread(() -> checkPing(nickname)).start();
-    }
-
-    public synchronized void addPingSender(String nickname, VirtualView virtualView) {
         this.playerVirtualViews.put(nickname, virtualView);
     }
 

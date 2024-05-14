@@ -31,9 +31,9 @@ class ReconnectPlayerCommandTest {
         gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
 
         Player firstPlayer = new Player("Player1", true, false);
-        gameController.addPlayer(firstPlayer);
+        gameController.addPlayer(firstPlayer, null);
         Player secondPlayer = new Player("Player2", false, false);
-        gameController.addPlayer(secondPlayer);
+        gameController.addPlayer(secondPlayer, null);
     }
 
     @Test
@@ -58,10 +58,10 @@ class ReconnectPlayerCommandTest {
         starterCardsDecks.shuffle();
         gameController2 = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
         Player firstPlayer = new Player("P1", true, false);
-        gameController2.addPlayer(firstPlayer);
+        gameController2.addPlayer(firstPlayer, null);
         CommandResult result = gameController2.getCommandResult();
         Player secondPlayer = new Player("P2", false, false);
-        gameController2.addPlayer(secondPlayer);
+        gameController2.addPlayer(secondPlayer, null);
     }
 
     @Test

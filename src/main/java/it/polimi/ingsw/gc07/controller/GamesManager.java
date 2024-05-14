@@ -269,7 +269,7 @@ public class GamesManager {
                     }
                 }
                 player.setTokenColor(tokenColor);
-                gameController.addPlayer(player);
+                gameController.addPlayer(player, playerVirtualViews.get(nickname));
 
                 // cancel timer
                 assert(playersTimers.containsKey(nickname));
@@ -318,7 +318,7 @@ public class GamesManager {
                 }
                 // no need to check the token color for the first player of the gameController
                 player.setTokenColor(tokenColor);
-                gameController.addPlayer(player);
+                gameController.addPlayer(player, playerVirtualViews.get(nickname));
             }
 
             // cancel timer

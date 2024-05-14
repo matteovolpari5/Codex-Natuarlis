@@ -38,11 +38,11 @@ class DrawDeckCardCommandTest {
         // add first player
         Player firstPlayer = new Player("Player1", true, false);
         firstPlayer.setTokenColor(TokenColor.BLUE);
-        gameController.addPlayer(firstPlayer);
+        gameController.addPlayer(firstPlayer, null);
         // add second player
         Player secondPlayer = new Player("Player2", false, false);
         secondPlayer.setTokenColor(TokenColor.GREEN);
-        gameController.addPlayer(secondPlayer);
+        gameController.addPlayer(secondPlayer, null);
         gameController.getPlayers().get(0).setSecretObjective(gameController.getObjectiveCardsDeck().drawCard());
         gameController.getPlayers().get(1).setSecretObjective(gameController.getObjectiveCardsDeck().drawCard());
         gameController.setCurrentPlayer(0);

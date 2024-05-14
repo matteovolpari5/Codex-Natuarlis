@@ -34,9 +34,9 @@ class DisconnectPlayerCommandTest {
         starterCardsDecks.shuffle();
         gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
         Player firstPlayer = new Player("Player1", true, false);
-        gameController.addPlayer(firstPlayer);
+        gameController.addPlayer(firstPlayer, null);
         Player secondPlayer = new Player("Player2", false, false);
-        gameController.addPlayer(secondPlayer);
+        gameController.addPlayer(secondPlayer, null);
     }
 
     @Test

@@ -348,6 +348,17 @@ public class GameModel {
         return goldCardsDeck.revealFaceUpCard(pos);
     }
 
+    public void setUpPlayerHand(Player newPlayer) {
+        // set card hand
+        newPlayer.addCardHand(drawResourceCard());
+        newPlayer.addCardHand(drawResourceCard());
+        newPlayer.addCardHand(drawGoldCard());
+        // set secrete objective
+        newPlayer.setSecretObjective(drawObjectiveCard());
+        // set starter card
+        newPlayer.setStarterCard(drawStarterCard());
+    }
+
     public void addPlayer(Player newPlayer) {
         players.add(newPlayer);
         board.addPlayer(newPlayer.getNickname());
@@ -363,15 +374,6 @@ public class GameModel {
             }
         }
 
-        // set card hand
-        newPlayer.addCardHand(drawResourceCard());
-        newPlayer.addCardHand(drawResourceCard());
-        newPlayer.addCardHand(drawGoldCard());
-        // set secrete objective
-        newPlayer.setSecretObjective(drawObjectiveCard());
-        // set starter card
-        newPlayer.setStarterCard(drawStarterCard());
-        
         // update sent in addListener,
         // in order to update also the newly created listener
     }
