@@ -281,8 +281,7 @@ public class GameController {
         if(gameModel.getState().equals(GameState.PLACING_STARTER_CARDS)) {
             placeStarterCardRandomly(nickname);
         }
-        System.out.println(gameModel.getState());
-        if(gameModel.getState().equals(GameState.PLAYING) || gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.PLACING_STARTER_CARDS)) {
+        if(gameModel.getState().equals(GameState.PLAYING) || gameModel.getState().equals(GameState.WAITING_RECONNECTION) ) {
             changeGameState();
         }
         // for other game states, I don't have to change state
@@ -349,7 +348,7 @@ public class GameController {
         assert(!player.isConnected()): "Player already connected";
         // set player connected
         player.setIsConnected(true);
-        if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
+        if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED )) {
             changeGameState();
         }
     }
@@ -359,12 +358,12 @@ public class GameController {
         if(numPlayersConnected == 0) {
             gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
             // TODO start the timer, when it ends, the game ends without winner
-            System.out.println("Qui entro e chiamo il timeout zero connessi");
+            System.out.println("timeout 0");
             startTimeoutGameEnd();
         }else if(numPlayersConnected == 1) {
             gameModel.setState(GameState.WAITING_RECONNECTION);
             // TODO start the timer, when it ends, the only player left wins
-            System.out.println("Qui entro e chiamo il timeout uno connesso");
+            System.out.println("timeout 1");
             startTimeoutGameEnd();
         }else {
             gameModel.setState(GameState.PLAYING);
@@ -378,7 +377,7 @@ public class GameController {
             synchronized (this) {
                 onePlayer = gameModel.getState().equals(GameState.WAITING_RECONNECTION);
             }
-            for (int i = 0; i < 5 && gameEnd; i++) {
+            for (int i = 0; i < 20 && gameEnd; i++) {
                 try {
                     Thread.sleep(1000); // wait one second for each iteration
                 } catch (InterruptedException e) {
@@ -404,6 +403,7 @@ public class GameController {
                 }
             }
             if(gameEnd){
+                System.out.println("la partita finisce");
                 synchronized(this) {
                     gameModel.setState(GameState.GAME_ENDED);
                     if (onePlayer) {
@@ -416,6 +416,7 @@ public class GameController {
                     endGame();
                 }
             }
+            else System.out.println("la partita non finisce");
         }).start();
     }
 
