@@ -14,7 +14,7 @@ public class ServerMain {
         // create RMI server
         String name = "VirtualServerGamesManager";
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
-        //System.setProperty("java.rmi.server.hostname", "192.168.154.128");
+        System.setProperty("java.rmi.server.hostname", "192.168.154.223");
         Registry registry = LocateRegistry.createRegistry(1234);
         registry.rebind(name, serverGamesManager);
         System.out.println("RMI Server running");
