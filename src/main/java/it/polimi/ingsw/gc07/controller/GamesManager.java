@@ -291,10 +291,11 @@ public class GamesManager {
             pendingPlayers.remove(player);
         }
 
+        RmiServerGamesManager.getRmiServerGamesManager().createServerGame(gameId);
         // join successful, but it is necessary to set the game for the client
         if(player.getConnectionType()) {
             // RMI client
-            RmiServerGamesManager.getRmiServerGamesManager().createServerGame(nickname, gameId);
+            RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameId);
         }
 
         commandResult = CommandResult.SUCCESS;

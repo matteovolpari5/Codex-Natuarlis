@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
@@ -120,18 +121,12 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
 
     /**
      * Method that allows to create a new RmiServerGame, used when the player joins a new game.
-     * Creates a new RmiServerGame and calls setServerGame to set it.
-     * @param nickname player's nickname
      * @param gameId game id
      */
-    public void createServerGame(String nickname, int gameId) {
+    public void createServerGame(int gameId) {
+        assert(!rmiServerGames.containsKey(gameId));
         try {
-            VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
-            if(virtualView == null) {
-                throw new RuntimeException();
-            }
             rmiServerGames.put(gameId, new RmiServerGame(GamesManager.getGamesManager().getGameById(gameId)));
-            virtualView.setServerGame(gameId);
         }catch(RemoteException e) {
             // TODO
             e.printStackTrace();
