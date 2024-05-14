@@ -1,15 +1,19 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
 import it.polimi.ingsw.gc07.game_commands.*;
+import it.polimi.ingsw.gc07.main.ClientMain;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.*;
 import it.polimi.ingsw.gc07.updates.*;
 import it.polimi.ingsw.gc07.view.Ui;
 import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.tui.Tui;
+import javafx.scene.control.skin.TableHeaderRow;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RmiClient extends UnicastRemoteObject implements Client, VirtualView, PingSender {
     /**
@@ -210,8 +214,26 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     public void runCliJoinGame() {
+        System.out.println("entro");
         assert(ui != null);
+        new Thread(()->{
+            System.out.println("entro thread");
+            Timer timeout = new Timer();
+            timeout.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("entro timer");
+                    synchronized (this){
+                        clientAlive = false;
+                    }
+                    String[] args = new String[0];
+                    ClientMain.main(args);
+                }
+            }, 5*1000); //timeout of 5 minutes
+        }).start();
         ui.runCliJoinGame();
+
+
     }
 
     public void runCliGame() {

@@ -19,7 +19,6 @@ public class ClientMain {
     public static void main(String[] args) {
         try {
             Scanner scan = new Scanner(System.in);
-
             String ip;
             do {
                 System.out.println("Insert server IP: ");
