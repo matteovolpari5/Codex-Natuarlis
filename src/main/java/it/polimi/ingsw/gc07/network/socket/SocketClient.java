@@ -30,7 +30,7 @@ public class SocketClient implements Client, PingSender {
         OutputStream temp_output;
 
         this.mySocket = mySocket;
-        //this.gameView = new GameView();
+
         this.ui = null;
 
         temp_output = this.mySocket.getOutputStream();
@@ -69,6 +69,12 @@ public class SocketClient implements Client, PingSender {
         this.nickname = nickname;
         this.gameView = new GameView(nickname);
         this.myServer = new VirtualSocketServer(output);
+
+        if(interfaceType)
+            this.ui = new Gui();
+        else
+            this.ui = new Tui(nickname, this);
+
         if(check.equals(NicknameCheck.NEW_NICKNAME)){
             connectToGamesManagerServer(interfaceType);
         } else{
