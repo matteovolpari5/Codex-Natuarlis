@@ -11,24 +11,9 @@ import java.rmi.RemoteException;
 public class VirtualSocketServer {
     private final ObjectOutputStream output;
 
-    public VirtualSocketServer(ObjectOutputStream output, String nickname, String status, boolean interfaceType){
+    public VirtualSocketServer(ObjectOutputStream output){
         System.out.println("VSS> Costruttore");
         this.output = output;
-        try {
-            output.writeObject(nickname);
-            output.reset();
-            output.flush();
-            output.writeObject(status);
-            output.reset();
-            output.flush();
-            if(status.equals("reconnected")){
-                output.writeBoolean(interfaceType);
-                output.reset();
-                output.flush();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public synchronized void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException {

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.network.socket;
 
+import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.Client;
@@ -12,24 +13,24 @@ import it.polimi.ingsw.gc07.view.tui.Tui;
 import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
 public class SocketClient implements Client, PingSender {
-    private final String nickname;
+    private String nickname;
     private final Socket mySocket;
-    private final GameView gameView;
+    private GameView gameView;
     private final ObjectInputStream input;
     private VirtualSocketServer myServer;
     private boolean clientAlive;
     private Ui ui;
 
-    public SocketClient(String nickname, Socket mySocket, String status, boolean interfaceType) throws IOException {
+    public SocketClient(Socket mySocket, boolean interfaceType) throws IOException {
         System.out.println("SC> costruttore");
         InputStream temp_input;
         OutputStream temp_output;
 
-        this.nickname = nickname;
         this.mySocket = mySocket;
-        this.gameView = new GameView(nickname);
+        //this.gameView = new GameView();
         this.ui = null;
 
         temp_output = this.mySocket.getOutputStream();
@@ -39,18 +40,45 @@ public class SocketClient implements Client, PingSender {
         temp_input = this.mySocket.getInputStream();
         this.input = new ObjectInputStream(temp_input);
 
-        this.myServer = new VirtualSocketServer(output, nickname, status, interfaceType);
         this.clientAlive = true;
 
-        manageSetUp(status, interfaceType);
+        manageSetUp(output, interfaceType);
 
     }
 
-    private void manageSetUp(String status, boolean interfaceType){
-        System.out.println(status);
-        if(status.equals("new")){
+    private void manageSetUp(ObjectOutputStream output, boolean interfaceType){
+        Scanner scan = new Scanner(System.in);
+        String nickname;
+        NicknameCheck check;
+        do{
+            System.out.println("Insert nickname: ");
+            System.out.print("> ");
+            nickname = scan.nextLine();
+            try {
+                output.writeObject(nickname);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                check = (NicknameCheck) input.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }while(check.equals(NicknameCheck.EXISTING_NICKNAME));
+
+        this.nickname = nickname;
+        this.gameView = new GameView(nickname);
+        this.myServer = new VirtualSocketServer(output);
+        if(check.equals(NicknameCheck.NEW_NICKNAME)){
             connectToGamesManagerServer(interfaceType);
-        } else if(status.equals("reconnected")){
+        } else{
+            try {
+                output.writeBoolean(interfaceType);
+                output.reset();
+                output.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             new Thread(this::manageReceivedUpdate).start();
             new Thread(this::startGamePing).start();
             runCliGame();

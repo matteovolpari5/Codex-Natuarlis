@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
+import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.network.VirtualView;
@@ -21,7 +22,7 @@ public class SocketClientHandler implements VirtualView {
     private final ObjectInputStream input;
     private final ObjectOutputStream output;
     private  String myClientNickname;
-    private String myClientStatus;
+    private boolean isReconnected;
 
     public SocketClientHandler(GamesManager gamesManager, Socket mySocket) throws IOException {
         System.out.println("SCH> costruttore");
@@ -42,20 +43,23 @@ public class SocketClientHandler implements VirtualView {
         new Thread(this::manageSetUp).start();
     }
 
-    @Override
-    public void kill() throws RemoteException {
-        closeConnection();
-    }
-
     private void manageSetUp(){
         System.out.println("SCH-T> manageSetUp");
+        NicknameCheck check;
         try {
-            this.myClientNickname = (String) input.readObject();
-            this.myClientStatus = (String) input.readObject();
-            if(myClientStatus.equals("new")){
+            do{
+                this.myClientNickname = (String) input.readObject();
+                check = GamesManager.getGamesManager().checkNickname(myClientNickname);
+                output.writeObject(check);
+                output.reset();
+                output.flush();
+            }while(check.equals(NicknameCheck.EXISTING_NICKNAME));
+            if(check.equals(NicknameCheck.NEW_NICKNAME)){
+                isReconnected = false;
                 GamesManager.getGamesManager().addVirtualView(myClientNickname, this);
                 manageGamesManagerCommand();
-            }else if(myClientStatus.equals("reconnected")){
+            }else{
+                isReconnected = true;
                 boolean interfaceType = input.readBoolean();
                 synchronized (gamesManager){
                     gamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(this, myClientNickname, false, interfaceType));
@@ -136,7 +140,7 @@ public class SocketClientHandler implements VirtualView {
 
     @Override
     public void setServerGame(int gameId) throws RemoteException {
-        if(myClientStatus.equals("new")){
+        if(!isReconnected){
             String result = "Game joined.";
             System.out.println(result);
             try {
@@ -150,6 +154,11 @@ public class SocketClientHandler implements VirtualView {
         this.gameController = gamesManager.getGameById(gameId);
         gameController.addListener(this);
         gameController.addPingSender(myClientNickname, this);
+    }
+
+    @Override
+    public void kill() throws RemoteException {
+        closeConnection();
     }
 
     private void receiveUpdate(Update update) throws IOException{
