@@ -90,6 +90,7 @@ public class GameView {
         deckView.addListener(uiListener);
         for(PlayerView playerView: playerViews) {
             playerView.addListener(uiListener);
+            playerView.addGameFieldListener(uiListener);
         }
         System.out.println("Added listeners");
     }
