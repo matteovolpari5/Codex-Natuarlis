@@ -91,10 +91,6 @@ public class SocketClient implements Client, PingSender {
         System.out.println(result);
         if(result.equals("Game joined.")){
             System.out.println("entro");
-            synchronized(this){
-                clientAlive = false;
-                System.out.println("metto a false clientAlive");
-            }
             new Thread(() -> {
                 try{
                     manageReceivedUpdate();
@@ -174,9 +170,6 @@ public class SocketClient implements Client, PingSender {
     @Override
     public void startGamePing() {
         System.out.println("SC-T2> startGamePing");
-        synchronized (this){
-            clientAlive = true;
-        }
         while(true) {
             synchronized (this) {
                 if (!clientAlive) {

@@ -131,7 +131,7 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void setServerGame(int gameId) throws RemoteException {
         if(myClientStatus.equals("new")){
-            String result = "SCH-T> Esito: Game joined.";
+            String result = "Game joined.";
             System.out.println(result);
             try {
                 output.writeObject(result);
