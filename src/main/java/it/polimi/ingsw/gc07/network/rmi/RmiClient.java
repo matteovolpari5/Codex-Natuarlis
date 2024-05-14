@@ -108,7 +108,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     public void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
         try {
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
-            new Thread(this::startGamesManagerPing).start();
             serverGamesManager.connect(nickname, this);
         } catch (RemoteException e) {
             // TODO
@@ -169,41 +168,13 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
-    public void startGamesManagerPing() {
-        //TODO
-        boolean runThread = true;
-        while(runThread) {
-            synchronized (this) {
-                if (clientAlive) {  // TODO synchr
-                    try {
-                        serverGamesManager.setAndExecuteCommand(new SendPingGamesManagerCommand(nickname));
-                    }catch(RemoteException e) {
-                        // TODO
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    runThread = false;
-                }
-            }
-            try {
-                Thread.sleep(1000); // wait one second between two ping
-            } catch (InterruptedException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    @Override
     public void startGamePing() {
         boolean runThread = true;
         while(runThread) {
             synchronized (this) {
                 if (clientAlive) {  // TODO synchr
                     try {
-                        serverGame.setAndExecuteCommand(new SendPingControllerCommand(nickname));
+                        serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
                     }catch(RemoteException e) {
                         // TODO
                         e.printStackTrace();

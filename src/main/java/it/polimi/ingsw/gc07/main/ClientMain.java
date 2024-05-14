@@ -86,7 +86,6 @@ public class ClientMain {
                 if(check.equals(NicknameCheck.NEW_NICKNAME)) {
                     RmiClient newRmiClient = new RmiClient(nickname, interfaceType, rmiServerGamesManager);
                     // add virtual view to rmiServerGamesManager
-                    rmiServerGamesManager.connect(nickname, newRmiClient);
                     newRmiClient.connectToGamesManagerServer(connectionType, interfaceType);
 
                     newRmiClient.runCliJoinGame();

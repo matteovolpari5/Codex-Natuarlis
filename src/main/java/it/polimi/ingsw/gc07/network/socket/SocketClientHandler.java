@@ -48,7 +48,7 @@ public class SocketClientHandler implements VirtualView {
             this.myClientNickname = (String) input.readObject();
             this.myClientStatus = (String) input.readObject();
             if(myClientStatus.equals("new")){
-                gamesManager.addPingSender(myClientNickname, this);
+                GamesManager.getGamesManager().addVirtualView(myClientNickname, this);
                 manageGamesManagerCommand();
             }else if(myClientStatus.equals("reconnected")){
                 boolean interfaceType = input.readBoolean();
@@ -68,11 +68,6 @@ public class SocketClientHandler implements VirtualView {
         while(true) {
             try {
                 command = (GamesManagerCommand) input.readObject();
-                if(command instanceof SendPingGamesManagerCommand){
-                    System.out.println("SCH-T> ricevuto ping GM");
-                }else{
-                    System.out.println("SCH-T> ricevuto command GM");
-                }
                 synchronized (gamesManager){
                     gamesManager.setAndExecuteCommand(command);
                     if(gameController != null){

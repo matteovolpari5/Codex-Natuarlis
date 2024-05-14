@@ -7,8 +7,8 @@ import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.PingReceiver;
 import it.polimi.ingsw.gc07.network.VirtualView;
-import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiverGame;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
@@ -21,7 +21,7 @@ public class GameController {
      */
     private final GameModel gameModel;
 
-    private final PingReceiverGame pingReceiver;
+    private final PingReceiver pingReceiver;
 
     /**
      * Constructor of a GameController with only the first player.
@@ -30,7 +30,7 @@ public class GameController {
                           DrawableDeck<GoldCard> goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
                           Deck<PlaceableCard> starterCardsDeck) {
         this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
-        this.pingReceiver = new PingReceiverGame(this);
+        this.pingReceiver = new PingReceiver(this);
     }
 
     // ------------------------------

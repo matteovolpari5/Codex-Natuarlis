@@ -15,7 +15,6 @@ import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.VirtualView;
-import it.polimi.ingsw.gc07.network.ping_receiver.PingReceiverGamesManager;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
@@ -42,18 +41,20 @@ public class GamesManager {
      * Command result manager for games manager.
      */
     private CommandResult commandResult;
-
-    private final PingReceiverGamesManager pingReceiver;
+    /**
+     * Map containing pending players virtual views.
+     */
+    private final Map<String, VirtualView> playerVirtualViews;
 
     /**
      * GamesManger is created once the server is started.
      * GamesManager implements Singleton pattern.
      */
     private GamesManager() {
-        gameControllers = new ArrayList<>();
-        pendingPlayers = new ArrayList<>();
-        commandResult = null;
-        this.pingReceiver = new PingReceiverGamesManager(this);
+        this.gameControllers = new ArrayList<>();
+        this.pendingPlayers = new ArrayList<>();
+        this.commandResult = null;
+        this.playerVirtualViews = new HashMap<>();
     }
 
     /**
@@ -65,6 +66,16 @@ public class GamesManager {
             myGamesManager = new GamesManager();
         }
         return myGamesManager;
+    }
+
+    public synchronized void addVirtualView(String nickname, VirtualView virtualView) {
+        assert(!playerVirtualViews.containsKey(nickname));
+        playerVirtualViews.put(nickname, virtualView);
+    }
+
+    public synchronized VirtualView getVirtualView(String nickname) {
+        assert(playerVirtualViews.containsKey(nickname));
+        return playerVirtualViews.get(nickname);
     }
 
     /**
@@ -150,7 +161,6 @@ public class GamesManager {
 
         Player newPlayer = new Player(nickname, connectionType, interfaceType);
         pendingPlayers.add(newPlayer);
-        pingReceiver.addPlayer(nickname);
         commandResult = CommandResult.SUCCESS;
     }
 
@@ -235,7 +245,6 @@ public class GamesManager {
                     }
                 }
                 player.setTokenColor(tokenColor);
-                pingReceiver.stopGamesManagerPing(nickname);
                 gameController.addPlayer(player);
                 pendingPlayers.remove(player);
             }
@@ -394,15 +403,5 @@ public class GamesManager {
         Player player = getPendingPlayer(nickname);
         pendingPlayers.remove(player);
         System.out.println("player rimosso dai pending");
-    }
-    public void addPingSender(String nickname, VirtualView client) {
-        pingReceiver.addPingSender(nickname, client);
-    }
-    public void receivePing(String nickname) {
-        pingReceiver.receivePing(nickname);
-    }
-
-    public VirtualView getVirtualView(String nickname) {
-        return pingReceiver.getVirtualView(nickname);
     }
 }

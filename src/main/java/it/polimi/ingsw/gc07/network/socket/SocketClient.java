@@ -71,7 +71,6 @@ public class SocketClient implements Client, PingSender {
         // TODO per ora rimosso
         try {
             myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
-            new Thread(this::startGamesManagerPing).start();
         } catch (RemoteException e) {
             // TODO
             throw new RuntimeException(e);
@@ -185,7 +184,7 @@ public class SocketClient implements Client, PingSender {
                 }
             }
             try {
-                myServer.setAndExecuteCommand(new SendPingControllerCommand(nickname));
+                myServer.setAndExecuteCommand(new SendPingCommand(nickname));
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -197,31 +196,5 @@ public class SocketClient implements Client, PingSender {
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    @Override
-    public void startGamesManagerPing() {
-        while(true) {
-            synchronized (this) {
-                if (!clientAlive) {
-                    break;
-                }
-            }
-            try {
-                myServer.setAndExecuteCommand(new SendPingGamesManagerCommand(nickname));
-            }catch(RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-            try {
-                Thread.sleep(1000); // wait one second between two ping
-            } catch (InterruptedException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
-        System.out.println("fine stampe ping");
     }
 }

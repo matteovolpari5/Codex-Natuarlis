@@ -31,6 +31,4 @@ module it.polimi.ingsw.gc07 {
     exports it.polimi.ingsw.gc07.network;
     exports it.polimi.ingsw.gc07.model_view_listeners;
     exports it.polimi.ingsw.gc07.view;
-    exports it.polimi.ingsw.gc07.network.ping_receiver;
-    opens it.polimi.ingsw.gc07.network.ping_receiver to java.rmi;
 }

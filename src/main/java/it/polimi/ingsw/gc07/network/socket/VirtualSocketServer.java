@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.game_commands.GameCommand;
-import it.polimi.ingsw.gc07.game_commands.SendPingControllerCommand;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

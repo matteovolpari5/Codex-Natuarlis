@@ -2,7 +2,7 @@ package it.polimi.ingsw.gc07.network.rmi;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.game_commands.GameControllerCommand;
-import it.polimi.ingsw.gc07.game_commands.SendPingControllerCommand;
+import it.polimi.ingsw.gc07.game_commands.SendPingCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
@@ -45,7 +45,7 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
                     gameController.setAndExecuteCommand(command);
 
                     boolean print = true;
-                    if(command instanceof SendPingControllerCommand) {
+                    if(command instanceof SendPingCommand) {
                         print = false;
                     }
                     if(print) {
