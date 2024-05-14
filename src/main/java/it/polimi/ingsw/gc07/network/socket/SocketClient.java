@@ -163,12 +163,12 @@ public class SocketClient implements Client, PingSender {
     }
 
     @Override
-    public void setClientAlive(boolean isAlive) {
+    public synchronized void setClientAlive(boolean isAlive) {
         this.clientAlive = isAlive;
     }
 
     @Override
-    public boolean isClientAlive() {
+    public synchronized boolean isClientAlive() {
         return clientAlive;
     }
 

@@ -98,6 +98,5 @@ public abstract class PingReceiver {
      *
      * @param nickname nickname
      */
-    public void checkPing(String nickname) {
-    }
+    public abstract void checkPing(String nickname);
 }

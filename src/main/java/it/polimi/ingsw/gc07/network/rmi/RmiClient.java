@@ -69,12 +69,12 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
-    public boolean isClientAlive() {
+    public synchronized boolean isClientAlive() {
         return clientAlive;
     }
 
     @Override
-    public void setClientAlive(boolean isAlive) {
+    public synchronized void setClientAlive(boolean isAlive) {
         this.clientAlive = isAlive;
     }
 
@@ -174,7 +174,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         boolean runThread = true;
         while(runThread) {
             synchronized (this) {
-                if (clientAlive) {
+                if (clientAlive) {  // TODO synchr
                     try {
                         serverGamesManager.setAndExecuteCommand(new SendPingGamesManagerCommand(nickname));
                     }catch(RemoteException e) {
@@ -201,7 +201,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         boolean runThread = true;
         while(runThread) {
             synchronized (this) {
-                if (clientAlive) {
+                if (clientAlive) {  // TODO synchr
                     try {
                         serverGame.setAndExecuteCommand(new SendPingControllerCommand(nickname));
                     }catch(RemoteException e) {
