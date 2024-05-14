@@ -305,27 +305,14 @@ public class GameController {
         player.setConnectionType(connectionType);
         player.setInterfaceType(interfaceType);
 
-        if(player.getConnectionType()) {
-            // if new connection type is RMI
-            try {
-                RmiServerGamesManager.getRmiServerGamesManager().connect(nickname, client);
-                RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, getId());
-                // TODO probabilmente quando si disconnettono (perdonono connessione) devo bloccargli la cli!
-            } catch (RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-            // add virtual view to rmiServerGamesManager
-        }else {
-            // if new connection type is Socket
-            try {
-                client.setServerGame(getId());
-                System.out.println("Reconnected to games manager");
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            client.setServerGame(getId());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            // TODO
+            throw new RuntimeException(e);
         }
+
         // set player connected
         player.setIsConnected(true); //TODO sincronizzazione con thread di checkPing
         if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
