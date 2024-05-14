@@ -33,11 +33,11 @@ class PlaceStarterCardCommandTest {
 
         Player p1 = new Player("P1", true, true);
         p1.setTokenColor(TokenColor.GREEN);
-        gameController.addPlayer(p1);
+        gameController.addPlayer(p1, null);
         // add second player
         Player p2 = new Player("P2", true, true);
         p2.setTokenColor(TokenColor.BLUE);
-        gameController.addPlayer(p2);
+        gameController.addPlayer(p2, null);
         gameController.setCurrentPlayer(0);
         gameController.getPlayers().get(1).setIsStalled(true);
     }

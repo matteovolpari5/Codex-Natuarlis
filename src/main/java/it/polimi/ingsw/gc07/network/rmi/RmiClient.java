@@ -151,22 +151,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             throw new RuntimeException();
         }
         // game joined
-        connectToGameServer();
         new Thread(this::startGamePing).start();
         new Thread(this::runCliGame).start();
-    }
-
-    /**
-     * Method that allows the client to connect with RMIServerGame, the game specific server.
-     */
-    private void connectToGameServer() {
-        try {
-            serverGame.connect(nickname, this);
-        }catch(RemoteException e) {
-            //TODO manager remote exception
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
     }
 
     /**
