@@ -236,9 +236,9 @@ public interface PlayerTui {
     static void printPlayerHand(List<DrawableCard> hand, ObjectiveCard personalObjective)
     {
         printFirstLastRow();
-        printSecondRow( hand, personalObjective);
+        printSecondRow(hand, personalObjective);
         printThirdRow(personalObjective);
-        printFourthRow( hand, personalObjective);
+        printFourthRow(hand, personalObjective);
         printFirstLastRow();
     }
     private static void printFirstLastRow()
@@ -247,35 +247,39 @@ public interface PlayerTui {
     }
     private static void printSecondRow(List<DrawableCard> hand, ObjectiveCard objectiveCard)
     {
-        System.out.print(ANSI_YELLOW_BACKGROUND+"|     ");
-        if(objectiveCard.getScoringCondition() instanceof LayoutCondition)
-        {
-            for (int i = 0; i < 3; i++) {
-                if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[0][i]==null)
-                {
-                    System.out.print(ANSI_BLACK_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[0][i].equals(GameResource.INSECT))
-                {
-                    System.out.print(ANSI_PURPLE_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[0][i].equals(GameResource.ANIMAL))
-                {
-                    System.out.print(ANSI_BLUE_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[0][i].equals(GameResource.PLANT))
-                {
-                    System.out.print(ANSI_GREEN_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[0][i].equals(GameResource.FUNGI))
-                {
-                    System.out.print(ANSI_RED_BACKGROUND+" ");
+        if(objectiveCard == null) {
+            System.out.print(ANSI_YELLOW_BACKGROUND + "|      ");
+        }else {
+            System.out.print(ANSI_YELLOW_BACKGROUND + "|     ");
+            if(objectiveCard.getScoringCondition() instanceof LayoutCondition)
+            {
+                for (int i = 0; i < 3; i++) {
+                    if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[0][i]==null)
+                    {
+                        System.out.print(ANSI_BLACK_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[0][i].equals(GameResource.INSECT))
+                    {
+                        System.out.print(ANSI_PURPLE_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[0][i].equals(GameResource.ANIMAL))
+                    {
+                        System.out.print(ANSI_BLUE_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[0][i].equals(GameResource.PLANT))
+                    {
+                        System.out.print(ANSI_GREEN_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[0][i].equals(GameResource.FUNGI))
+                    {
+                        System.out.print(ANSI_RED_BACKGROUND+" ");
+                    }
                 }
             }
-        }
-        else
-        {
-            System.out.print(ANSI_BLACK_BACKGROUND+"   ");
+            else
+            {
+                System.out.print(ANSI_BLACK_BACKGROUND+"   ");
+            }
         }
         System.out.print(ANSI_YELLOW_BACKGROUND+" |");
         System.out.print(ANSI_BLACK_BACKGROUND+" ");
@@ -359,60 +363,64 @@ public interface PlayerTui {
 
     }
     private static void printThirdRow(ObjectiveCard objectiveCard){
-        System.out.print(ANSI_YELLOW_BACKGROUND+"|  "+ANSI_BLACK_BACKGROUND+objectiveCard.getPoints()+ANSI_YELLOW_BACKGROUND+"  ");
-        if(objectiveCard.getScoringCondition() instanceof ItemsCondition)
-        {
-            for (int i = 0; i < 3; i++) {
-                if(((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().size()>i)
-                {
-                    if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameObject.MANUSCRIPT)) {
-                        System.out.print(ANSI_YELLOW_BACKGROUND + "M");
-                    } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameObject.QUILL)) {
-                        System.out.print(ANSI_YELLOW_BACKGROUND + "Q");
-                    } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameObject.INKWELL)) {
-                        System.out.print(ANSI_YELLOW_BACKGROUND + "I");
-                    } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameResource.PLANT)) {
-                        System.out.print(ANSI_GREEN_BACKGROUND + "P");
-                    } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameResource.FUNGI)) {
-                        System.out.print(ANSI_RED_BACKGROUND + "F");
-                    } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameResource.ANIMAL)) {
-                        System.out.print(ANSI_BLUE_BACKGROUND + "A");
-                    } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameResource.INSECT)) {
-                        System.out.print(ANSI_PURPLE_BACKGROUND + "I");
+        if(objectiveCard == null) {
+            System.out.print(ANSI_YELLOW_BACKGROUND + "|      ");
+        }else {
+            System.out.print(ANSI_YELLOW_BACKGROUND+"|  "+ANSI_BLACK_BACKGROUND+objectiveCard.getPoints()+ANSI_YELLOW_BACKGROUND+"  ");
+            if(objectiveCard.getScoringCondition() instanceof ItemsCondition)
+            {
+                for (int i = 0; i < 3; i++) {
+                    if(((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().size()>i)
+                    {
+                        if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameObject.MANUSCRIPT)) {
+                            System.out.print(ANSI_YELLOW_BACKGROUND + "M");
+                        } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameObject.QUILL)) {
+                            System.out.print(ANSI_YELLOW_BACKGROUND + "Q");
+                        } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameObject.INKWELL)) {
+                            System.out.print(ANSI_YELLOW_BACKGROUND + "I");
+                        } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameResource.PLANT)) {
+                            System.out.print(ANSI_GREEN_BACKGROUND + "P");
+                        } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameResource.FUNGI)) {
+                            System.out.print(ANSI_RED_BACKGROUND + "F");
+                        } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameResource.ANIMAL)) {
+                            System.out.print(ANSI_BLUE_BACKGROUND + "A");
+                        } else if (((ItemsCondition) objectiveCard.getScoringCondition()).getNeededItems().get(i).equals(GameResource.INSECT)) {
+                            System.out.print(ANSI_PURPLE_BACKGROUND + "I");
+                        } else {
+                            System.out.print(ANSI_BLACK_BACKGROUND + " ");
+                        }
                     } else {
                         System.out.print(ANSI_BLACK_BACKGROUND + " ");
                     }
-                } else {
-                    System.out.print(ANSI_BLACK_BACKGROUND + " ");
                 }
             }
-        }
-        else if (objectiveCard.getScoringCondition() instanceof CornerCoverageCondition)
-        {
-            System.out.print(ANSI_YELLOW_BACKGROUND +" C ");
-        }
-        else if (objectiveCard.getScoringCondition() instanceof LayoutCondition)
-        {
-            for (int i = 0; i < 3; i++) {
-                if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[1][i]==null)
-                {
-                    System.out.print(ANSI_BLACK_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[1][i].equals(GameResource.INSECT))
-                {
-                    System.out.print(ANSI_PURPLE_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[1][i].equals(GameResource.ANIMAL))
-                {
-                    System.out.print(ANSI_BLUE_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[1][i].equals(GameResource.PLANT))
-                {
-                    System.out.print(ANSI_GREEN_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[1][i].equals(GameResource.FUNGI))
-                {
-                    System.out.print(ANSI_RED_BACKGROUND+" ");
+            else if (objectiveCard.getScoringCondition() instanceof CornerCoverageCondition)
+            {
+                System.out.print(ANSI_YELLOW_BACKGROUND +" C ");
+            }
+            else if (objectiveCard.getScoringCondition() instanceof LayoutCondition)
+            {
+                for (int i = 0; i < 3; i++) {
+                    if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[1][i]==null)
+                    {
+                        System.out.print(ANSI_BLACK_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[1][i].equals(GameResource.INSECT))
+                    {
+                        System.out.print(ANSI_PURPLE_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[1][i].equals(GameResource.ANIMAL))
+                    {
+                        System.out.print(ANSI_BLUE_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[1][i].equals(GameResource.PLANT))
+                    {
+                        System.out.print(ANSI_GREEN_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[1][i].equals(GameResource.FUNGI))
+                    {
+                        System.out.print(ANSI_RED_BACKGROUND+" ");
+                    }
                 }
             }
         }
@@ -424,35 +432,39 @@ public interface PlayerTui {
     }
 
     private static void printFourthRow(List<DrawableCard> hand, ObjectiveCard objectiveCard){
-        System.out.print(ANSI_YELLOW_BACKGROUND+"|     ");
-        if(objectiveCard.getScoringCondition() instanceof LayoutCondition)
-        {
-            for (int i = 0; i < 3; i++) {
-                if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[2][i]==null)
-                {
-                    System.out.print(ANSI_BLACK_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[2][i].equals(GameResource.INSECT))
-                {
-                    System.out.print(ANSI_PURPLE_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[2][i].equals(GameResource.ANIMAL))
-                {
-                    System.out.print(ANSI_BLUE_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[2][i].equals(GameResource.PLANT))
-                {
-                    System.out.print(ANSI_GREEN_BACKGROUND+" ");
-                }
-                else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[2][i].equals(GameResource.FUNGI))
-                {
-                    System.out.print(ANSI_RED_BACKGROUND+" ");
+        if(objectiveCard == null) {
+            System.out.print(ANSI_YELLOW_BACKGROUND + "|      ");
+        }else {
+            System.out.print(ANSI_YELLOW_BACKGROUND+"|     ");
+            if(objectiveCard.getScoringCondition() instanceof LayoutCondition)
+            {
+                for (int i = 0; i < 3; i++) {
+                    if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[2][i]==null)
+                    {
+                        System.out.print(ANSI_BLACK_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[2][i].equals(GameResource.INSECT))
+                    {
+                        System.out.print(ANSI_PURPLE_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[2][i].equals(GameResource.ANIMAL))
+                    {
+                        System.out.print(ANSI_BLUE_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[2][i].equals(GameResource.PLANT))
+                    {
+                        System.out.print(ANSI_GREEN_BACKGROUND+" ");
+                    }
+                    else if(((LayoutCondition)objectiveCard.getScoringCondition()).getCardsColor()[2][i].equals(GameResource.FUNGI))
+                    {
+                        System.out.print(ANSI_RED_BACKGROUND+" ");
+                    }
                 }
             }
-        }
-        else
-        {
-            System.out.print(ANSI_BLACK_BACKGROUND+"   ");
+            else
+            {
+                System.out.print(ANSI_BLACK_BACKGROUND+"   ");
+            }
         }
         System.out.print(ANSI_YELLOW_BACKGROUND+" |");
         System.out.print(ANSI_BLACK_BACKGROUND + " ");

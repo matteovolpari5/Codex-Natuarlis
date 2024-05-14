@@ -25,7 +25,7 @@ public class PingReceiverGame extends PingReceiver {
     public synchronized void receivePing(String nickname) {
         assert (getPlayersPing().containsKey(nickname));
         getPlayersPing().put(nickname, true);
-        System.out.println("ping inviato " + nickname);
+        //System.out.println("ping inviato " + nickname);
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, ScoreTrackBoardTui {
+public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, BoardTui {
     private final String nickname;
     private final Client client;
     private final static int minPlayersNumber = 2;
@@ -266,7 +266,8 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
 
     @Override
     public void receiveStarterCardUpdate(PlaceableCard starterCard) {
-        PlayerTui.printStarterCard(starterCard, true);  // TODO cambiare
+        PlayerTui.printStarterCard(starterCard, true);
+        PlayerTui.printStarterCard(starterCard, false);
     }
 
     @Override
@@ -276,7 +277,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Score
 
     @Override
     public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
-        ScoreTrackBoardTui.printScoreTrackBoard(playerScores, playerTokenColors);
+        BoardTui.printScoreTrackBoard(playerScores, playerTokenColors);
     }
 
     @Override
