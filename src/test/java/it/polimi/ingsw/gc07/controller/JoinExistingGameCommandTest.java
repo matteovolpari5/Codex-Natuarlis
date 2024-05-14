@@ -6,12 +6,16 @@ import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,23 +23,33 @@ class JoinExistingGameCommandTest {
     GamesManager gamesManager;
 
     @BeforeEach
-    void setUp() {
-        RmiServerGamesManager rmiServerGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
-        gamesManager = GamesManager.getGamesManager();
-        gamesManager.resetGamesManager();
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P1", true, true));
+    void setUp() throws RemoteException, NotBoundException {
+        String name = "VirtualServerGamesManager";
+        RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
+        Registry registry = LocateRegistry.createRegistry(1234);
+        registry.rebind(name, serverGamesManager);
+
+        Registry registry2 = LocateRegistry.getRegistry("127.0.0.1", 1234);
+        VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
+        RmiClient newRmiClient = new RmiClient("P1", true, rmiServerGamesManager);
+        newRmiClient.connectToGamesManagerServer(true, true);
+        GamesManager.getGamesManager().setAndExecuteCommand(new AddPlayerToPendingCommand("P1", true, true));
         try {
             rmiServerGamesManager.connect("P1", new RmiClient("P1", true, rmiServerGamesManager));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("P2", true, true));
+        VirtualServerGamesManager rmiServerGamesManager2 = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
+        RmiClient newRmiClient2 = new RmiClient("P2", true, rmiServerGamesManager2);
+        newRmiClient2.connectToGamesManagerServer(true, true);
+        GamesManager.getGamesManager().setAndExecuteCommand(new AddPlayerToPendingCommand("P2", true, true));
         try {
             rmiServerGamesManager.connect("P2",new RmiClient("P2", true, rmiServerGamesManager));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        gamesManager.setAndExecuteCommand(new JoinNewGameCommand("P1", TokenColor.GREEN, 4));
+        GamesManager.getGamesManager().setAndExecuteCommand(new JoinNewGameCommand("P1", TokenColor.GREEN, 4));
+        gamesManager = GamesManager.getGamesManager();
     }
 
     @Test

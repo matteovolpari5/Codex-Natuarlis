@@ -304,7 +304,6 @@ class DrawableCardTest {
         assertEquals(CommandResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(p.getGameField(), 38, 40, false));
     }
 
-    //TODO: dal debug risulta che al metodo viene passato x=41, y=41 e way=true, diversamente da quanto passato alla riga 365
     @Test
     void isResourcePlaceableNoLegitCorner10() {
         for(PlaceableCard c: starterCardsDeck.getContent()){

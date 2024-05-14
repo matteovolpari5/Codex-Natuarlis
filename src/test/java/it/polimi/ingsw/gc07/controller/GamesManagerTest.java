@@ -2,8 +2,16 @@ package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,10 +32,21 @@ class GamesManagerTest {
     }
 
     @Test
-    void testJoinNewGame() {
-        gm.addPlayerToPending("player1", false, true);
-        gm.addPlayerToPending("player2", false, true);
+    void testJoinNewGame() throws RemoteException, NotBoundException {
+        String name = "VirtualServerGamesManager";
+        RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
+        Registry registry = LocateRegistry.createRegistry(1234);
+        registry.rebind(name, serverGamesManager);
 
+        Registry registry2 = LocateRegistry.getRegistry("127.0.0.1", 1234);
+        VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
+        RmiClient newRmiClient = new RmiClient("Player1", true, rmiServerGamesManager);
+        newRmiClient.connectToGamesManagerServer(true, true);
+        gm.addPlayerToPending("player1", true, true);
+        VirtualServerGamesManager rmiServerGamesManager2 = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
+        RmiClient newRmiClient2 = new RmiClient("Player1", true, rmiServerGamesManager2);
+        newRmiClient2.connectToGamesManagerServer(true, true);
+        gm.addPlayerToPending("player2", true, true);
         assertNull(gm.getGameById(0));
 
         gm.joinNewGame("player1", TokenColor.GREEN, 2);
@@ -43,13 +62,27 @@ class GamesManagerTest {
     }
 
     @Test
-    void checkReconnection() {
+    void checkReconnection() throws RemoteException, NotBoundException {
+        String name = "VirtualServerGamesManager";
+        RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
+        Registry registry = LocateRegistry.createRegistry(1234);
+        registry.rebind(name, serverGamesManager);
+
+        Registry registry2 = LocateRegistry.getRegistry("127.0.0.1", 1234);
+        VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
+        RmiClient newRmiClient = new RmiClient("Player1", true, rmiServerGamesManager);
+        newRmiClient.connectToGamesManagerServer(true, true);
         gm.addPlayerToPending("player1", false, true);
+
+        VirtualServerGamesManager rmiServerGamesManager2 = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
+        RmiClient newRmiClient2 = new RmiClient("Player1", true, rmiServerGamesManager2);
+        newRmiClient2.connectToGamesManagerServer(true, true);
         gm.addPlayerToPending("player2", false, true);
+
         gm.joinNewGame("player1", TokenColor.GREEN, 2);
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
-        GameController gc = gm.getGameById(0);
+        GameController gc = GamesManager.getGamesManager().getGameById(0);
         assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
 
         gc.setState(GameState.PLAYING);
