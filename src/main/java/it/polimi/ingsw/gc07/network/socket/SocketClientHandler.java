@@ -121,6 +121,7 @@ public class SocketClientHandler implements VirtualView {
             input.close();
             output.close();
             mySocket.close();
+            System.out.println("SCH> Closed connection");
         }catch (IOException e){
             System.out.println("SCH> Error while closing connection");
             e.printStackTrace();
