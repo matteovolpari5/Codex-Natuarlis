@@ -281,8 +281,8 @@ public class GameController {
         if(gameModel.getState().equals(GameState.PLACING_STARTER_CARDS)) {
             placeStarterCardRandomly(nickname);
         }
-
-        if(gameModel.getState().equals(GameState.PLAYING) || gameModel.getState().equals(GameState.WAITING_RECONNECTION)) {
+        System.out.println(gameModel.getState());
+        if(gameModel.getState().equals(GameState.PLAYING) || gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.PLACING_STARTER_CARDS)) {
             changeGameState();
         }
         // for other game states, I don't have to change state
@@ -359,10 +359,12 @@ public class GameController {
         if(numPlayersConnected == 0) {
             gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
             // TODO start the timer, when it ends, the game ends without winner
+            System.out.println("Qui entro e chiamo il timeout zero connessi");
             startTimeoutGameEnd();
         }else if(numPlayersConnected == 1) {
             gameModel.setState(GameState.WAITING_RECONNECTION);
             // TODO start the timer, when it ends, the only player left wins
+            System.out.println("Qui entro e chiamo il timeout uno connesso");
             startTimeoutGameEnd();
         }else {
             gameModel.setState(GameState.PLAYING);
@@ -404,7 +406,6 @@ public class GameController {
             if(gameEnd){
                 synchronized(this) {
                     gameModel.setState(GameState.GAME_ENDED);
-                    System.out.println("Game ended");
                     if (onePlayer) {
                         for (Player p : gameModel.getPlayers()) {
                             if (p.isConnected()) {
@@ -714,7 +715,7 @@ public class GameController {
                         GamesManager.getGamesManager().deleteGame(getId());
                     }
                 }
-            }, 200*1000); //timer of 200 sec
+            }, 15*1000); //timer of 200 sec
         }).start();
     }
 
