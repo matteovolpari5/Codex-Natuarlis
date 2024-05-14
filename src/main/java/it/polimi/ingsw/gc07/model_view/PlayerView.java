@@ -125,4 +125,13 @@ public class PlayerView implements Serializable {
     public void addCard(PlaceableCard card, int x, int y, boolean way, int orderPosition) {
         gameField.addCard(card, x, y, way, orderPosition);
     }
+
+    public int getCurrHandSize() {
+        return currentHand.size();
+    }
+
+    public GameFieldView getGameField() {
+        return gameField;
+    }
 }
+

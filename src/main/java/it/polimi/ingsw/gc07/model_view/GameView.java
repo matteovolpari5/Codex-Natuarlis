@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model_view;
 
 import it.polimi.ingsw.gc07.controller.GameState;
+import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -216,7 +217,6 @@ public class GameView {
      * @param newHand card hand
      */
     public void setCardHand(String nickname, List<DrawableCard> newHand) {
-        assert(nickname.equals(ownerNickname)): "Shouldn't have received the update.";
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setCardHand(newHand);
@@ -283,5 +283,50 @@ public class GameView {
         for(Integer id: existingGames.keySet()) {
             System.out.println("Id: " + id + " - " + "Number of players: " + existingGames.get(id));
         }
+    }
+
+    public boolean checkPlayerPresent(String nickname) {
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(nickname)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public GameState getGameState() {
+        return state;
+    }
+
+    public boolean isCurrentPlayer(String nickname) {
+        if(currPlayer < 0)
+            return false;
+        for(int i = 0; i < playerViews.size(); i++) {
+            if(playerViews.get(i).getNickname().equals(nickname) && i == currPlayer)
+                return true;
+        }
+        return false;
+    }
+
+    public int getNumFaceUpCards(CardType cardType) {
+        return deckView.getNumFaceUpCards(cardType);
+    }
+
+    public int getCurrHardHandSize() {
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(ownerNickname)) {
+                return p.getCurrHandSize();
+            }
+        }
+        return -1;
+    }
+
+    public int getGameFieldDim() {
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(ownerNickname)) {
+                return p.getGameField().getDim();
+            }
+        }
+        return -1;
     }
 }

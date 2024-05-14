@@ -46,6 +46,11 @@ public class SocketClient implements Client, PingSender {
 
     }
 
+    @Override
+    public GameView getGameView() {
+        return gameView;
+    }
+
     private void manageSetUp(ObjectOutputStream output, boolean interfaceType){
         Scanner scan = new Scanner(System.in);
         String nickname;

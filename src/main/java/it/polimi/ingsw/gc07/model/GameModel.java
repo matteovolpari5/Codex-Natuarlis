@@ -110,7 +110,7 @@ public class GameModel {
         this.state = GameState.GAME_STARTING;
         this.players = new ArrayList<>();
         this.winners = new ArrayList<>();
-        this.currPlayer = 0;
+        this.currPlayer = -1;
         this.hasCurrPlayerPlaced = false;
         this.board = new Board();
         this.resourceCardsDeck = new DrawableDeck<>(resourceCardsDeck);
@@ -352,15 +352,6 @@ public class GameModel {
         players.add(newPlayer);
         board.addPlayer(newPlayer.getNickname());
 
-        // set card hand
-        newPlayer.addCardHand(drawResourceCard());
-        newPlayer.addCardHand(drawResourceCard());
-        newPlayer.addCardHand(drawGoldCard());
-        // set secrete objective
-        newPlayer.setSecretObjective(drawObjectiveCard());
-        // set starter card
-        newPlayer.setStarterCard(drawStarterCard());
-
         // if not the first player
         if(players.size() > 1) {
             // add previously added listeners to new player
@@ -372,7 +363,16 @@ public class GameModel {
             }
         }
 
-        // update sent in addRMIListener,
+        // set card hand
+        newPlayer.addCardHand(drawResourceCard());
+        newPlayer.addCardHand(drawResourceCard());
+        newPlayer.addCardHand(drawGoldCard());
+        // set secrete objective
+        newPlayer.setSecretObjective(drawObjectiveCard());
+        // set starter card
+        newPlayer.setStarterCard(drawStarterCard());
+        
+        // update sent in addListener,
         // in order to update also the newly created listener
     }
 

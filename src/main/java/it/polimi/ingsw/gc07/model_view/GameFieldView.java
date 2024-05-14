@@ -98,4 +98,8 @@ public class GameFieldView implements Serializable {
             l.receiveGameFieldUpdate(cardsContent, cardsFace, cardsOrder);
         }
     }
+
+    public int getDim() {
+        return dim;
+    }
 }
