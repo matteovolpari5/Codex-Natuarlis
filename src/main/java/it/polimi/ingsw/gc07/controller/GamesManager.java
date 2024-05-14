@@ -85,6 +85,7 @@ public class GamesManager {
                     // kill player
                     try {
                         virtualView.kill();
+                        removePlayer(nickname);
                     }catch(RemoteException e) {
                         // se il player esce e non rientra, chiamo kill su qualcosa di morto
                         // TODO
@@ -93,7 +94,6 @@ public class GamesManager {
                     }
                 }
             }, 5*1000);
-            removePlayer(nickname);
         }).start();
     }
 

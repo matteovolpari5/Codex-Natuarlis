@@ -80,7 +80,18 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
 
     @Override
     public void kill() throws RemoteException {
-        System.exit(0);
+        actuallyKill();
+    }
+
+    private void actuallyKill() {
+        new Thread(()-> {
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            System.exit(0);
+        }).start();
     }
 
     @Override
