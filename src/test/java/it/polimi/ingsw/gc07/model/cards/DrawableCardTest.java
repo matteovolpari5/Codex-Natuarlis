@@ -332,4 +332,28 @@ class DrawableCardTest {
         }
         assertEquals(CommandResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(p.getGameField(), 41, 39, false));
     }
+    @Test
+    void ResourcePlaceableWithPoints() {
+        for(PlaceableCard c: starterCardsDeck.getContent()){
+            if(c.getId() == 85){
+                myStarterCard = c;
+            }
+        }
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, false);
+        for(DrawableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 8){
+                myResourceCard = c;
+            }
+        }
+        p.placeCard(myResourceCard, 39, 41, false);
+        assertEquals(myResourceCard.getPoints(),1);
+        for(DrawableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 1){
+                myResourceCard = c;
+            }
+        }
+        p.placeCard(myResourceCard, 39, 39, false);
+        assertEquals(myResourceCard.getPoints(),0);
+    }
 }
