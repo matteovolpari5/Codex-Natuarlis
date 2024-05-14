@@ -32,7 +32,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         Scanner scan = new Scanner(System.in);
         System.out.println("Insert a character to perform an action:");
         System.out.println("- q to join an existing game"); // JoinExistingGameCommand
-        System.out.println("- w to join an new game"); // JoinNewGameCommand
+        System.out.println("- w to create an new game"); // JoinNewGameCommand
         System.out.println("- e to see existing games"); // DisplayGamesCommand
         System.out.print("> ");
         String command = scan.nextLine();
@@ -256,32 +256,54 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveMessageUpdate(ChatMessage chatMessage) {
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                      GAME CHAT                         ");
+        System.out.println("--------------------------------------------------------");
         ChatTui.printMessage(chatMessage);
     }
 
     @Override
     public void receiveGameFieldUpdate(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                   PLAYER GAME FIELD                    ");
+        System.out.println("--------------------------------------------------------");
         GameFieldTui.printGameField(cardsContent, cardsFace, cardsOrder);
     }
 
     @Override
     public void receiveStarterCardUpdate(PlaceableCard starterCard) {
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                     STARTER CARD                       ");
+        System.out.println("--------------------------------------------------------");
         PlayerTui.printStarterCard(starterCard, true);
         PlayerTui.printStarterCard(starterCard, false);
     }
 
     @Override
     public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                      PLAYER HAND                       ");
+        System.out.println("--------------------------------------------------------");
         PlayerTui.printPlayerHand(hand, personalObjective);
     }
 
     @Override
     public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                      SCORE BOARD                       ");
+        System.out.println("--------------------------------------------------------");
         BoardTui.printScoreTrackBoard(playerScores, playerTokenColors);
     }
 
     @Override
     public void receiveDecksUpdate(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                      FRONT DECK                        ");
+        System.out.println("--------------------------------------------------------");
         DeckTui.printDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                       BACK DECK                        ");
+        System.out.println("--------------------------------------------------------");
+        DeckTui.printBackDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
     }
 }

@@ -16,6 +16,5 @@ public interface ChatTui {
             System.out.println("["+m.getDateTime().getHours()+":"+m.getDateTime().getMinutes()+"] " + "<"+ m.getSender()+"> :"+  m.getContent());
         else
             System.out.println("["+m.getDateTime().getHours()+":"+m.getDateTime().getMinutes()+"] " + "<"+ m.getSender()+ " to you> :"+  m.getContent());
-
     }
 }
