@@ -1,7 +1,9 @@
 package it.polimi.ingsw.gc07.model_view;
 import it.polimi.ingsw.gc07.controller.GamesManager;
+import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
+import it.polimi.ingsw.gc07.view.tui.GameFieldTui;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -89,8 +91,6 @@ public class GameFieldView implements Serializable {
         cardsContent[x][y] = card;
         cardsFace[x][y] = way;
         cardsOrder[x][y] = orderPosition;
-        System.out.println("Card with id " + card.getId() + " placed in pos " + x + "-" + y + " card order " + orderPosition);
-
         for(GameFieldViewListener l: gameFieldViewListeners) {
             l.receiveGameFieldUpdate(cardsContent, cardsFace, cardsOrder);
         }
@@ -98,5 +98,9 @@ public class GameFieldView implements Serializable {
 
     public int getDim() {
         return dim;
+    }
+
+    public void printGameField() {
+        GameFieldTui.printGameField(cardsContent, cardsFace, cardsOrder);
     }
 }

@@ -143,7 +143,7 @@ public class GameView {
         }
 
         // if new current player, send deck update
-        if(state != GameState.GAME_STARTING && currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
+        if(state != GameState.GAME_STARTING && state != GameState.PLACING_STARTER_CARDS && currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
             deckView.sendDecksUpdate();
         }
     }
@@ -153,7 +153,9 @@ public class GameView {
      * @param chatMessage new chat message
      */
     public void addMessage(ChatMessage chatMessage) {
-        chatView.addMessage(chatMessage);
+        if(chatMessage.getIsPublic() || chatMessage.isForReceiver(ownerNickname)) {
+            chatView.addMessage(chatMessage);
+        }
     }
 
     /**
@@ -377,5 +379,20 @@ public class GameView {
             }
         }
         return -1;
+    }
+
+    public void printGameField(String nickname) {
+        PlayerView player = null;
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(nickname)) {
+                player = p;
+            }
+        }
+        assert(player != null);
+        player.printGameField();
+    }
+
+    public void printChat() {
+        chatView.printChat();
     }
 }

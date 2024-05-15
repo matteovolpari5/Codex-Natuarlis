@@ -145,5 +145,9 @@ public class PlayerView implements Serializable {
     public GameFieldView getGameField() {
         return gameField;
     }
+
+    public void printGameField() {
+        gameField.printGameField();
+    }
 }
 

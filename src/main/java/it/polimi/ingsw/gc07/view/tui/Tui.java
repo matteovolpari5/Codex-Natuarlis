@@ -156,6 +156,8 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             System.out.println("- t to draw a face up card"); // DrawFaceUpCardControllerCommand
             System.out.println("- y to place a card"); // PlaceCardControllerCommand
             System.out.println("- u to place the starter card"); // PlaceStarterCardControllerCommand
+            System.out.println("- i to see another player's game field");
+            System.out.println("- o to see the whole chat");
             System.out.print("> ");
             String command = scan.nextLine();
 
@@ -178,11 +180,8 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     // check existing receiver
                     if(!client.getGameView().checkPlayerPresent(receiver)) {
                         System.out.println("Provided receiver doesn't exist.");
-                        System.out.println("You: -"+nickname+"-");
-                        System.out.println("Nickname: -"+receiver+"-");
                         break;
                     }
-
                     System.out.println("Insert the message content:");
                     System.out.print("> ");
                     content = scan.nextLine();
@@ -358,6 +357,30 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         break;
                     }
                     client.setAndExecuteCommand(new PlaceStarterCardControllerCommand(nickname, way));
+                    break;
+                case "i":
+                    System.out.println("Insert other player's nickname");
+                    System.out.print("> ");
+                    String nickname = scan.nextLine();
+                    // check existing players
+                    if(!client.getGameView().checkPlayerPresent(nickname)) {
+                        System.out.println("Provided nickname doesn't exist in the game.");
+                        break;
+                    }
+                    System.out.println();
+                    System.out.println("--------------------------------------------------------");
+                    System.out.println("                     "+nickname+"'s GAME FIELD");
+                    System.out.println("--------------------------------------------------------");
+                    client.getGameView().printGameField(nickname);
+                    System.out.println("\n\n");
+                    break;
+                case "o":
+                    System.out.println();
+                    System.out.println("--------------------------------------------------------");
+                    System.out.println("                            CHAT                        ");
+                    System.out.println("--------------------------------------------------------");
+                    client.getGameView().printChat();
+                    System.out.println();
                     break;
                 default:
                     System.out.println("The provided character doesn't refer to any action");
