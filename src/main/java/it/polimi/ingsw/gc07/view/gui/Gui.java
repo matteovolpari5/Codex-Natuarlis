@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc07.view.gui;
 
+import it.polimi.ingsw.gc07.controller.GameState;
+import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -52,6 +54,26 @@ public  class Gui implements Ui {
 
     @Override
     public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
+        // TODO
+    }
+
+    @Override
+    public void receiveGeneralModelUpdate(GameState gameState, String currPlayer) {
+        // TODO
+    }
+
+    @Override
+    public void receivePenultimateRoundUpdate() {
+        // TODO
+    }
+
+    @Override
+    public void receiveAdditionalRoundUpdate() {
+        // TODO
+    }
+
+    @Override
+    public void receiveCommandResultUpdate(CommandResult commandResult) {
         // TODO
     }
 }

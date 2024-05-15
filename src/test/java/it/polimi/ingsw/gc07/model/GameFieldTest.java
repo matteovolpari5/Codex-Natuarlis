@@ -6,8 +6,13 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
+import it.polimi.ingsw.gc07.model_listeners.ChatListener;
+import it.polimi.ingsw.gc07.model_listeners.GameFieldListener;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -169,4 +174,26 @@ class GameFieldTest {
         p.placeCard(resourceCardsDeck.drawCard(), 39, 39, false);
         assertEquals(5, p.getGameField().getNumPlayedCards());
     }
+    @Test
+    public void testListener() {
+        GameFieldListener listener1;
+        try {
+            listener1 = new RmiClient("P1", false,null);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        p.getGameField().addListener(listener1);
+        assertNotNull(p.getGameField().getListeners());
+        p.getGameField().removeListener(listener1);
+        assertTrue(p.getGameField().getListeners().isEmpty());
+    }
+    @Test
+    public void getter() {
+        GameField gf = new GameField(p.getGameField());
+        assertNotNull(gf);
+        assertEquals(81, GameField.getDim());
+        p.getGameField().setStarterCard(p.getNickname(),starterCardsDeck.drawCard());
+        assertNotNull(p.getGameField().getStarterCard());
+    }
+
 }

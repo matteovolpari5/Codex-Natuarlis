@@ -30,4 +30,18 @@ class PlayingDeckTest {
         assertEquals(card1, deck.revealFaceUpCard(0));
         assertEquals(card2, deck.revealFaceUpCard(1));
     }
+    @Test
+    public void testSetUpDeck(){
+        PlayingDeck<ObjectiveCard> deck1 = new PlayingDeck<>(deck);
+        deck1.setUpDeck();
+        assertNotNull(deck1.getFaceUpCards());
+        ObjectiveCard card1 = deck1.drawCard();
+        ObjectiveCard card2 = deck1.drawCard();
+        deck1.removeFaceUpCard(0);
+        assertNotNull(deck1.removeFaceUpCard(0));
+        deck1.setUpDeck();
+        deck1.setFaceUpCards(deck1.getFaceUpCards());
+        assertNotNull(deck1.getFaceUpCards());
+        assertNotNull(deck1.revealFaceUpCard(0));
+    }
 }
