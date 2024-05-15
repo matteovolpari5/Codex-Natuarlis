@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.view.tui;
 
 import it.polimi.ingsw.gc07.controller.GameState;
+import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.game_commands.*;
@@ -14,10 +15,7 @@ import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, BoardTui {
     private final String nickname;
@@ -32,6 +30,17 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void runCliJoinGame() {
+        Timer timeout = new Timer();
+        new Thread(()->{
+            timeout.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    client.setAndExecuteCommand(new RemoveFromPendingCommand(nickname));
+                    System.exit(0);
+                }
+            }, 5*1000); //timer of 5 minutes
+        }).start();
+
         Scanner scan = new Scanner(System.in);
         System.out.println("Insert a character to perform an action:");
         System.out.println("- q to join an existing game"); // JoinExistingGameCommand
@@ -77,7 +86,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         correctInput = false;
                     }
                 }while(!correctInput);
+                synchronized (this){
+                    timeout.cancel();
+                    timeout.purge();
 
+                }
                 client.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
                 break;
 
@@ -112,6 +125,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }
                 }while(!correctInput);
 
+                synchronized (this){
+                    timeout.cancel();
+                    timeout.purge();
+
+                }
                 client.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
                 break;
 
