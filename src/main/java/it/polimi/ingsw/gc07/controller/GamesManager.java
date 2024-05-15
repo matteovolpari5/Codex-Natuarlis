@@ -251,11 +251,6 @@ public class GamesManager {
                 }
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player, playerVirtualViews.get(nickname));
-
-                // cancel timer
-                assert(playersTimers.containsKey(nickname));
-                playersTimers.get(nickname).cancel();
-                playersTimers.get(nickname).purge();
             }
         }
         if(!found){
@@ -301,11 +296,6 @@ public class GamesManager {
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player, playerVirtualViews.get(nickname));
             }
-
-            // cancel timer
-            assert(playersTimers.containsKey(nickname));
-            playersTimers.get(nickname).cancel();
-            playersTimers.get(nickname).purge();
         }
 
         RmiServerGamesManager.getRmiServerGamesManager().createServerGame(gameId);

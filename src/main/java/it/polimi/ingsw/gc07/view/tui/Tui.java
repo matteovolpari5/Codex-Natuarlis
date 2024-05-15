@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.view.tui;
 
 import it.polimi.ingsw.gc07.controller.GameState;
-import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.game_commands.*;
@@ -38,7 +37,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     client.setAndExecuteCommand(new RemoveFromPendingCommand(nickname));
                     System.exit(0);
                 }
-            }, 5*1000); //timer of 5 minutes
+            }, 30*1000); //timer of 5 minutes
         }).start();
 
         Scanner scan = new Scanner(System.in);
@@ -86,10 +85,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         correctInput = false;
                     }
                 }while(!correctInput);
+
+                // cancel timer
                 synchronized (this){
                     timeout.cancel();
                     timeout.purge();
-
                 }
                 client.setAndExecuteCommand(new JoinExistingGameCommand(nickname, tokenColor, gameId));
                 break;
@@ -125,10 +125,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }
                 }while(!correctInput);
 
+                // cancel timer
                 synchronized (this){
                     timeout.cancel();
                     timeout.purge();
-
                 }
                 client.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
                 break;
@@ -169,9 +169,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     System.out.println("Insert the receiver nickname: ");
                     System.out.print("> ");
                     String receiver = scan.nextLine();
-                    System.out.println("Insert the message content:");
-                    System.out.print("> ");
-                    content = scan.nextLine();
+
                     // check sender not equals receiver
                     if(receiver.equals(nickname)) {
                         System.out.println("CLIENT CHECK - You can't send a private message to yourself.");
@@ -184,6 +182,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         System.out.println("Nickname: -"+receiver+"-");
                         break;
                     }
+
+                    System.out.println("Insert the message content:");
+                    System.out.print("> ");
+                    content = scan.nextLine();
                     client.setAndExecuteCommand(new AddChatPrivateMessageControllerCommand(content, nickname, receiver));
                     break;
                 case "w":
@@ -206,7 +208,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         cardType = CardType.GOLD_CARD;
                     }else {
                         System.out.println("CLIENT CHECK - No such card type");
-                        continue;
+                        break;
                     }
                     // check game state
                     if(!client.getGameView().getGameState().equals(GameState.PLAYING)) {
@@ -230,7 +232,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         cardType = CardType.GOLD_CARD;
                     }else {
                         System.out.println("CLIENT CHECK - No such card type");
-                        continue;
+                        break;
                     }
                     System.out.println("Select the position of the card to draw: ");
                     System.out.print("> ");
@@ -293,7 +295,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         way = false;
                     }else {
                         System.out.println("CLIENT CHECK - The provided value for way is not correct");
-                        continue;
+                        break;
                     }
                     // create and execute command
                     client.setAndExecuteCommand(new PlaceCardControllerCommand(nickname, cardPos, x, y, way));
@@ -309,7 +311,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         way = false;
                     }else {
                         System.out.println("CLIENT CHECK - The provided value is not correct");
-                        continue;
+                        break;
+                    }
+                    if(!client.getGameView().getGameState().equals(GameState.PLACING_STARTER_CARDS)) {
+                        System.out.println("CLIENT CHECK - Wrong game state.");
+                        break;
                     }
                     client.setAndExecuteCommand(new PlaceStarterCardControllerCommand(nickname, way));
                     break;
