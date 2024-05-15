@@ -23,6 +23,7 @@ public interface PlayerTui {
     static void printStarterCard(PlaceableCard card, boolean cardway) {
         // first row //
         System.out.print(ANSI_BLACK_BACKGROUND + "+---------+");
+        System.out.println();
         // second row //
         if (cardway) {
             if (card.getBackCorners()[0]) {
@@ -114,6 +115,7 @@ public interface PlayerTui {
             }
         }
         // third row //
+        System.out.println();
         if (cardway) {
             List<GameResource> permanentResources = card.getPermanentResources();
             if (permanentResources == null) {
@@ -140,6 +142,7 @@ public interface PlayerTui {
         else {
             System.out.print(ANSI_BLACK_BACKGROUND + "           ");
         }
+        System.out.println();
         // fouth row //
         if (cardway) {
             if (card.getBackCorners()[3]) {
@@ -230,7 +233,9 @@ public interface PlayerTui {
             }
         }
         // last row //
+        System.out.println();
         System.out.print(ANSI_BLACK_BACKGROUND + "+---------+");
+        System.out.println();
     }
 
     static void printPlayerHand(List<DrawableCard> hand, ObjectiveCard personalObjective)

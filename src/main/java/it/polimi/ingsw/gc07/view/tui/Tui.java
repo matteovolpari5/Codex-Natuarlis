@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.view.tui;
 
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CardType;
+import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.main.ClientMain;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
@@ -67,12 +68,12 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         gameId = scan.nextInt();
                         scan.nextLine();
                     }catch(InputMismatchException e) {
-                        scan.nextLine(); // TODO ?
+                        scan.nextLine();
                         correctInput = false;
-                        System.out.println("No such game id, insert a number");
+                        System.out.println("No such game id, insert a number.");
                     }
                     if(gameId < 0) {
-                        System.out.println("No such game id");
+                        System.out.println("No such game id.");
                         correctInput = false;
                     }
                 }while(!correctInput);
@@ -94,12 +95,22 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }
                 }while(!correctInput);
 
-                int playersNumber;
+                int playersNumber = -1;
                 do {
+                    correctInput = true;
                     System.out.println("Insert the number of players for the game: ");
-                    playersNumber = scan.nextInt();
-                    scan.nextLine();
-                }while(playersNumber < minPlayersNumber || playersNumber > maxPlayersNumber);
+                    System.out.print("> ");
+                    try {
+                        playersNumber = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        correctInput = false;
+                        scan.nextLine();
+                    }
+                    if(playersNumber < minPlayersNumber || playersNumber > maxPlayersNumber) {
+                        correctInput = false;
+                    }
+                }while(!correctInput);
 
                 client.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
                 break;
@@ -230,7 +241,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     System.out.print("> ");
                     int cardPos = scan.nextInt();
                     scan.nextLine();
-                    if(cardPos < 0 || cardPos > client.getGameView().getCurrHardHandSize()) {
+                    if(cardPos < 0 || cardPos >= client.getGameView().getCurrHardHandSize()) {
                         System.out.println("CLIENT CHECK - Wrong card hand position.");
                         break;
                     }
@@ -311,6 +322,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveMessageUpdate(ChatMessage chatMessage) {
+        System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                      GAME CHAT                         ");
         System.out.println("--------------------------------------------------------");
@@ -319,6 +331,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveGameFieldUpdate(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                   PLAYER GAME FIELD                    ");
         System.out.println("--------------------------------------------------------");
@@ -327,15 +340,18 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveStarterCardUpdate(PlaceableCard starterCard) {
+        System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                     STARTER CARD                       ");
         System.out.println("--------------------------------------------------------");
+        System.out.println("PRINTING");
         PlayerTui.printStarterCard(starterCard, true);
         PlayerTui.printStarterCard(starterCard, false);
     }
 
     @Override
     public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
+        System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                      PLAYER HAND                       ");
         System.out.println("--------------------------------------------------------");
@@ -344,6 +360,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
+        System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                      SCORE BOARD                       ");
         System.out.println("--------------------------------------------------------");
@@ -352,13 +369,49 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveDecksUpdate(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
-        /*System.out.println("--------------------------------------------------------");
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
         System.out.println("                      FRONT DECK                        ");
         System.out.println("--------------------------------------------------------");
         DeckTui.printDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
         System.out.println("--------------------------------------------------------");
         System.out.println("                       BACK DECK                        ");
         System.out.println("--------------------------------------------------------");
-        DeckTui.printBackDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);*/
+        DeckTui.printBackDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
+    }
+
+    @Override
+    public void receiveGeneralModelUpdate(GameState gameState, String currPlayer) {
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                     GAME MODEL UPDATE                  ");
+        System.out.println("--------------------------------------------------------");
+        System.out.println("Game state: " + gameState);
+        System.out.println("Current player: " + currPlayer);
+    }
+
+    @Override
+    public void receivePenultimateRoundUpdate() {
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                     PENULTIMATE ROUND                  ");
+        System.out.println("--------------------------------------------------------");
+    }
+
+    @Override
+    public void receiveAdditionalRoundUpdate() {
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                     ADDITIONAL ROUND                   ");
+        System.out.println("--------------------------------------------------------");
+    }
+
+    @Override
+    public void receiveCommandResultUpdate(CommandResult commandResult) {
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                      COMMAND RESULT                    ");
+        System.out.println("--------------------------------------------------------");
+        System.out.println(commandResult.getResultMessage());
     }
 }

@@ -178,16 +178,16 @@ public class GameField {
             cardsFace[x][y] = way;
             numPlayedCards++;
             cardsOrder[x][y] = numPlayedCards;
-        }
 
-        // send update
-        PlacedCardUpdate update = new PlacedCardUpdate(nickname, card, x, y, way, numPlayedCards);
-        for(GameFieldListener l: gameFieldListeners) {
-            try {
-                l.receivePlacedCardUpdate(update);
-            }catch(RemoteException e) {
-                e.printStackTrace();
-                throw new RuntimeException();
+            // send update
+            PlacedCardUpdate update = new PlacedCardUpdate(nickname, card, x, y, way, numPlayedCards);
+            for(GameFieldListener l: gameFieldListeners) {
+                try {
+                    l.receivePlacedCardUpdate(update);
+                }catch(RemoteException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                }
             }
         }
 

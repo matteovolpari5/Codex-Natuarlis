@@ -7,12 +7,11 @@ import it.polimi.ingsw.gc07.network.socket.SocketClient;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,16 +33,23 @@ public class ClientMain {
             while(wrongInput) {
                 System.out.println("Insert connection type (1 = RMI, 0 = Socket)");
                 System.out.print("> ");
-                int connectionTypeInt = scan.nextInt();
-                scan.nextLine();
-                if(connectionTypeInt == 1) {
-                    wrongInput = false;
-                    connectionType = true;
-                }else if(connectionTypeInt == 0) {
-                    wrongInput = false;
-                    connectionType = false;
-                }else {
-                    System.out.println("No such connection type");
+                int connectionTypeInt;
+                try {
+                    connectionTypeInt = scan.nextInt();
+                    scan.nextLine();
+                    if(connectionTypeInt == 1) {
+                        wrongInput = false;
+                        connectionType = true;
+                    }else if(connectionTypeInt == 0) {
+                        wrongInput = false;
+                        connectionType = false;
+                    }else {
+                        // wrong input already true
+                        System.out.println("No such connection type");
+                    }
+                }catch(InputMismatchException e) {
+                    scan.nextLine();
+                    // wrong input already true
                 }
             }
 
@@ -52,20 +58,27 @@ public class ClientMain {
             while(wrongInput) {
                 System.out.println("Insert interface type(1 = GUI, 0 = Tui)");
                 System.out.print("> ");
-                int interfaceTypeInt = scan.nextInt();
-                scan.nextLine();
-                if(interfaceTypeInt == 1) {
-                    wrongInput = false;
-                    interfaceType = true;
-                }else if(interfaceTypeInt == 0) {
-                    wrongInput = false;
-                    interfaceType = false;
-                }else {
-                    System.out.println("No such interface type");
+                int interfaceTypeInt;
+                try {
+                    interfaceTypeInt = scan.nextInt();
+                    scan.nextLine();
+                    if(interfaceTypeInt == 1) {
+                        wrongInput = false;
+                        interfaceType = true;
+                    }else if(interfaceTypeInt == 0) {
+                        wrongInput = false;
+                        interfaceType = false;
+                    }else {
+                        // wrong input already true
+                        System.out.println("No such interface type");
+                    }
+                }catch(InputMismatchException e) {
+                    scan.nextLine();
+                    // wrong input already true
                 }
             }
 
-            if(connectionType){
+            if(connectionType) {
                 // RMI connection
                 System.out.println("RMI>");
                 Registry registry = null;
