@@ -12,7 +12,6 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameFieldView;
-import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
 
@@ -537,5 +536,18 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         for(Integer id: existingGames.keySet()) {
             System.out.println("Id: " + id + " - " + "Number of players: " + existingGames.get(id));
         }
+    }
+
+    @Override
+    public void receiveWinnersUpdate(List<String> winners) {
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                         WINNERS                        ");
+        System.out.println("--------------------------------------------------------");
+        for(String winner: winners) {
+            System.out.println(winner);
+        }
+        System.out.println();
+        client.setClientAlive(false);
     }
 }

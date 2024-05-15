@@ -31,10 +31,6 @@ public class GameView {
      */
     private GameState state;
     /**
-     * Number of players in the game, chose by the first player.
-     */
-    private int playersNumber;
-    /**
      * List of winner(s) of the game.
      */
     private List<String> winners;
@@ -143,18 +139,14 @@ public class GameView {
     /**
      * Method that allows to set game model info.
      * @param id id
-     * @param playersNumber players number
      * @param state state
-     * @param winners winners
      * @param currPlayer current player
      * @param penultimateRound twentyPointsReached
      * @param additionalRound additionalRound
      */
-    public void setGameModel(int id, int playersNumber, GameState state, List<String> winners, int currPlayer, boolean penultimateRound, boolean additionalRound) {
+    public void setGameModel(int id, GameState state, int currPlayer, boolean penultimateRound, boolean additionalRound) {
         this.id = id;
-        this.playersNumber = playersNumber;
         this.state = state;
-        this.winners = winners;
         this.currPlayer = currPlayer;
         if(!this.penultimateRound && penultimateRound) {
             for(GameViewListener l : gameViewListeners) {
@@ -174,6 +166,13 @@ public class GameView {
         for(GameViewListener l: gameViewListeners) {
             l.receiveGeneralModelUpdate(state, getCurrentPlayerNickname());
             // for tui, it may print decks
+        }
+    }
+
+    public void setWinners(List<String> winners) {
+        this.winners = winners;
+        for(GameViewListener l: gameViewListeners) {
+            l.receiveWinnersUpdate(winners);
         }
     }
 

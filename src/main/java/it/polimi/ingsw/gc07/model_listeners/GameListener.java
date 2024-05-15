@@ -1,9 +1,6 @@
 package it.polimi.ingsw.gc07.model_listeners;
 
-import it.polimi.ingsw.gc07.updates.CommandResultUpdate;
-import it.polimi.ingsw.gc07.updates.DeckUpdate;
-import it.polimi.ingsw.gc07.updates.GameModelUpdate;
-import it.polimi.ingsw.gc07.updates.PlayerJoinedUpdate;
+import it.polimi.ingsw.gc07.updates.*;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -35,4 +32,11 @@ public interface GameListener extends Remote {
      * @param deckUpdate deck update
      */
     void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException;
+
+    /**
+     * Method used to notify that the game is ended and to notify winners
+     * @param gameEndedUpdate game ended update
+     * @throws RemoteException remote exception
+     */
+    void receiveGameEndedUpdate(GameEndedUpdate gameEndedUpdate) throws RemoteException;
 }

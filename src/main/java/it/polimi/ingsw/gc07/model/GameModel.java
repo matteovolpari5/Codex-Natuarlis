@@ -16,10 +16,7 @@ import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.VirtualView;
-import it.polimi.ingsw.gc07.updates.CommandResultUpdate;
-import it.polimi.ingsw.gc07.updates.DeckUpdate;
-import it.polimi.ingsw.gc07.updates.GameModelUpdate;
-import it.polimi.ingsw.gc07.updates.PlayerJoinedUpdate;
+import it.polimi.ingsw.gc07.updates.*;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -241,13 +238,25 @@ public class GameModel {
     }
 
     private void sendGameModelUpdate() {
-        GameModelUpdate update = new GameModelUpdate(id, playersNumber, state, new ArrayList<>(winners), currPlayer, penultimateRound, additionalRound);
+        GameModelUpdate update = new GameModelUpdate(id, state, currPlayer, penultimateRound, additionalRound);
         for(GameListener l: gameListeners) {
             try {
                 l.receiveGameModelUpdate(update);
             }catch(RemoteException e) {
                 e.printStackTrace();
                 throw new RuntimeException();
+            }
+        }
+    }
+
+    private void sendWinnersUpdate() {
+        for(GameListener l: gameListeners) {
+            try {
+                l.receiveGameEndedUpdate(new GameEndedUpdate(new ArrayList<>(winners)));
+            } catch (RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
@@ -520,13 +529,16 @@ public class GameModel {
         this.winners = computedWinners;
         // update listeners
         sendGameModelUpdate();
+        sendWinnersUpdate();
     }
 
     public void setWinner(String nickname){
         winners.add(nickname);
         // update listeners
         sendGameModelUpdate();
+        sendWinnersUpdate();
     }
+
     public void addPoints(Player player, int x, int y) {
         int deltaPoints;
         deltaPoints = player.getGameField().getPlacedCard(x, y).getPlacementScore(player.getGameField(), x, y);
