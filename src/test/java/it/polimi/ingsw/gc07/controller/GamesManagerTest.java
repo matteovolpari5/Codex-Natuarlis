@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardControllerCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
@@ -58,13 +59,13 @@ class GamesManagerTest {
     void checkReconnection() throws RemoteException {
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
 
-        RmiClient newRmiClient = new RmiClient("player1", false, serverGamesManager);
-        newRmiClient.connectToGamesManagerServer(true, false);
-        gm.addPlayerToPending("player1", true, false);
+        RmiClient newRmiClient = new RmiClient("player1", true, serverGamesManager);
+        newRmiClient.connectToGamesManagerServer(true, true);
+        gm.addPlayerToPending("player1", true, true);
 
-        RmiClient newRmiClient2 = new RmiClient("player2", false, serverGamesManager);
-        newRmiClient2.connectToGamesManagerServer(true, false);
-        gm.addPlayerToPending("player2", true, false);
+        RmiClient newRmiClient2 = new RmiClient("player2", true, serverGamesManager);
+        newRmiClient2.connectToGamesManagerServer(true, true);
+        gm.addPlayerToPending("player2", true, true);
 
         gm.joinNewGame("player1", TokenColor.GREEN, 2);
         gm.joinExistingGame("player2", TokenColor.RED, 0);
@@ -72,14 +73,16 @@ class GamesManagerTest {
         GameController gc = GamesManager.getGamesManager().getGameById(0);
         assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
 
-        gc.setState(GameState.PLAYING);
+        gc.setAndExecuteCommand(new PlaceStarterCardControllerCommand("player1", false));
+        gc.setAndExecuteCommand(new PlaceStarterCardControllerCommand("player2", false));
 
         gc.disconnectPlayer("player1");
         assertEquals(GameState.WAITING_RECONNECTION, gc.getState());
 
-        newRmiClient.connectToGamesManagerServer(true, false);
+        RmiClient newRmiClient3 = new RmiClient("player1", false, serverGamesManager);
+        newRmiClient3.reconnectPlayer("player1", true, false);
 
-        gm.addPlayerToPending("player1", true, false);
+        //gm.addPlayerToPending("player1", true, true);
         assertEquals(GameState.PLAYING, gc.getState());
     }
 }
