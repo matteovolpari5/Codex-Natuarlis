@@ -13,15 +13,19 @@ import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DrawDeckCardCommandTest {
     GameController gameController;
     @BeforeEach
-    void setUp() {
+    void setUp() throws RemoteException {
         int id = 0;
         int playersNumber = 2;
         DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();

@@ -5,8 +5,12 @@ import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +26,7 @@ class JoinNewGameCommandTest {
     }
 
     @Test
-    void joinNewGameSuccess(){
+    void joinNewGameSuccess() throws RemoteException {
         playersNumber = 3;
         gamesManager.setAndExecuteCommand(new JoinNewGameCommand("Player1", TokenColor.RED, playersNumber));
         assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());

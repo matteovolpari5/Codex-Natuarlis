@@ -55,22 +55,16 @@ class GamesManagerTest {
     }
 
     @Test
-    void checkReconnection() throws RemoteException, NotBoundException {
-        String name = "VirtualServerGamesManager";
+    void checkReconnection() throws RemoteException {
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
-        Registry registry = LocateRegistry.createRegistry(1234);
-        registry.rebind(name, serverGamesManager);
 
-        Registry registry2 = LocateRegistry.getRegistry("127.0.0.1", 1234);
-        VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
-        RmiClient newRmiClient = new RmiClient("Player1", true, rmiServerGamesManager);
-        newRmiClient.connectToGamesManagerServer(true, true);
-        gm.addPlayerToPending("player1", false, true);
+        RmiClient newRmiClient = new RmiClient("player1", false, serverGamesManager);
+        newRmiClient.connectToGamesManagerServer(true, false);
+        gm.addPlayerToPending("player1", true, false);
 
-        VirtualServerGamesManager rmiServerGamesManager2 = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
-        RmiClient newRmiClient2 = new RmiClient("Player1", true, rmiServerGamesManager2);
-        newRmiClient2.connectToGamesManagerServer(true, true);
-        gm.addPlayerToPending("player2", false, true);
+        RmiClient newRmiClient2 = new RmiClient("player2", false, serverGamesManager);
+        newRmiClient2.connectToGamesManagerServer(true, false);
+        gm.addPlayerToPending("player2", true, false);
 
         gm.joinNewGame("player1", TokenColor.GREEN, 2);
         gm.joinExistingGame("player2", TokenColor.RED, 0);
@@ -83,7 +77,9 @@ class GamesManagerTest {
         gc.disconnectPlayer("player1");
         assertEquals(GameState.WAITING_RECONNECTION, gc.getState());
 
-        gm.addPlayerToPending("player1", true, true);
+        newRmiClient.connectToGamesManagerServer(true, false);
+
+        gm.addPlayerToPending("player1", true, false);
         assertEquals(GameState.PLAYING, gc.getState());
     }
 }

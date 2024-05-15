@@ -70,7 +70,7 @@ class JoinExistingGameCommandTest {
     }
 
     @Test
-    void JoinExistingGameFail() {
+    void JoinExistingGameFail() throws RemoteException {
         gamesManager.setAndExecuteCommand(new JoinExistingGameCommand("P2", TokenColor.RED, 1));
         assertEquals(CommandResult.GAME_NOT_PRESENT, gamesManager.getCommandResult());
         assertNotNull(gamesManager.getPendingPlayer("P2"));
