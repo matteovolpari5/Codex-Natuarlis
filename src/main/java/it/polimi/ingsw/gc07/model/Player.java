@@ -269,7 +269,7 @@ public class Player {
     }
 
     private void sendCardHandUpdate() {
-        CardHandUpdate update = new CardHandUpdate(nickname, new ArrayList<>(currentHand));
+        CardHandUpdate update = new CardHandUpdate(nickname, new ArrayList<>(currentHand), secretObjective);
         for(PlayerListener l: playerListeners) {
             try {
                 l.receiveCardHandUpdate(update);
@@ -286,6 +286,7 @@ public class Player {
      */
     public void setSecretObjective(ObjectiveCard secretObjective) {
         this.secretObjective = secretObjective;
+        sendCardHandUpdate();
     }
 
     /**

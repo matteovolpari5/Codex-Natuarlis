@@ -80,7 +80,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         correctInput = false;
                         System.out.println("No such game id, insert a number.");
                     }
-                    if(gameId < 0) {
+                    if(correctInput && gameId < 0) {
                         System.out.println("No such game id.");
                         correctInput = false;
                     }
@@ -236,8 +236,20 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }
                     System.out.println("Select the position of the card to draw: ");
                     System.out.print("> ");
-                    int pos = scan.nextInt();
-                    scan.nextLine();
+                    int pos;
+                    try {
+                        pos = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        scan.nextLine();
+                        System.out.println("CLIENT CHECK - Insert a number.");
+                        break;
+                    }
+                    // check valid position
+                    if(pos < 0 || pos > client.getGameView().getNumFaceUpCards(cardType)) {
+                        System.out.println("CLIENT CHECK - Wrong cards position.");
+                        break;
+                    }
                     // check game state
                     if(!client.getGameView().getGameState().equals(GameState.PLAYING)) {
                         System.out.println("CLIENT CHECK - Wrong game state.");
@@ -248,19 +260,21 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         System.out.println("CLIENT CHECK - This is not your turn, try later.");
                         break;
                     }
-                    // check valid position
-                    if(pos < 0 || pos > client.getGameView().getNumFaceUpCards(cardType)) {
-                        System.out.println("CLIENT CHECK - Wrong cards position.");
-                        break;
-                    }
                     client.setAndExecuteCommand(new DrawFaceUpCardControllerCommand(nickname, cardType, pos));
                     break;
                 case "y":
                     // pos
                     System.out.println("Select the position of the card you want to place: ");
                     System.out.print("> ");
-                    int cardPos = scan.nextInt();
-                    scan.nextLine();
+                    int cardPos;
+                    try {
+                        cardPos = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        scan.nextLine();
+                        System.out.println("CLIENT CHECK - Insert a number.");
+                        break;
+                    }
                     if(cardPos < 0 || cardPos >= client.getGameView().getCurrHardHandSize()) {
                         System.out.println("CLIENT CHECK - Wrong card hand position.");
                         break;
@@ -269,8 +283,15 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     // x
                     System.out.println("Insert x: ");
                     System.out.print("> ");
-                    int x = scan.nextInt();
-                    scan.nextLine();
+                    int x;
+                    try {
+                        x = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        scan.nextLine();
+                        System.out.println("CLIENT CHECK - Insert a number.");
+                        break;
+                    }
                     if(x < 0 || x >= client.getGameView().getGameFieldDim()) {
                         System.out.println("CLIENT CHECK - GameField position out of bound.");
                         break;
@@ -278,8 +299,15 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     // y
                     System.out.println("Insert y: ");
                     System.out.print("> ");
-                    int y = scan.nextInt();
-                    scan.nextLine();
+                    int y;
+                    try {
+                        y = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        scan.nextLine();
+                        System.out.println("CLIENT CHECK - Insert a number.");
+                        break;
+                    }
                     if(y < 0 || y >= client.getGameView().getGameFieldDim()) {
                         System.out.println("CLIENT CHECK - GameField position out of bound.");
                         break;
@@ -287,8 +315,14 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     // way
                     System.out.println("Select 0 to place the card face up, 1 to place the card face down: ");
                     System.out.print("> ");
-                    wayInput = scan.nextInt();
-                    scan.nextLine();
+                    try {
+                        wayInput = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        scan.nextLine();
+                        System.out.println("CLIENT CHECK - Insert a number.");
+                        break;
+                    }
                     if(wayInput == 1) {
                         way = true;
                     }else if(wayInput == 0) {
@@ -303,8 +337,14 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                 case "u":
                     System.out.println("Select 0 to place the starter card face up, 1 to place the starter card face down: ");
                     System.out.print("> ");
-                    wayInput = scan.nextInt();
-                    scan.nextLine();
+                    try {
+                        wayInput = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        scan.nextLine();
+                        System.out.println("CLIENT CHECK - Insert a number.");
+                        break;
+                    }
                     if(wayInput == 1) {
                         way = true;
                     }else if(wayInput == 0) {
@@ -325,8 +365,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         }
 
         System.out.println("\n\nDo you want to reconnect (1 = yes, other = no)?");
-        int reconnect = scan.nextInt();
-        scan.nextLine();
+        int reconnect = 0;
+        try {
+            reconnect = scan.nextInt();
+            scan.nextLine();
+        }catch(InputMismatchException e) {
+            System.exit(0);
+        }
         if(reconnect == 1) {
             ClientMain.main(new String[0]);
         }else {
