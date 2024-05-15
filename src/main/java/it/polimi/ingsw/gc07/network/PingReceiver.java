@@ -49,7 +49,6 @@ public class PingReceiver {
     public synchronized void receivePing(String nickname) {
         assert (playersPing.containsKey(nickname));
         playersPing.put(nickname, true);
-        //System.out.println("ping inviato " + nickname);
     }
 
     public synchronized VirtualView getVirtualView(String nickname) {
@@ -81,12 +80,15 @@ public class PingReceiver {
             synchronized(gameController) {
                 if(playersPing.get(nickname)) {
                     missedPing = 0;
+                    //todo inviare pong
+
                 }else {
                     missedPing ++;
                     //System.out.println(missedPing);
                     if(missedPing >= maxMissedPings && gameController.isPlayerConnected(nickname)) {
                         System.out.println("PRG> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
+                        break;
                     }
                 }
                 playersPing.put(nickname, false);

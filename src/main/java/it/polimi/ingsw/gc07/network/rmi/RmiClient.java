@@ -38,6 +38,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     private final Ui ui;
 
     /**
+     * Boolean that is true if the server is on
+     */
+    private boolean pong;
+
+    /**
      * Constructor of RmiClient.
      * @param serverGamesManager general server
      * @param nickname nickname
@@ -55,6 +60,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             this.ui = new Tui(nickname, this);
         }
         this.gameView.addViewListener(ui);
+        this.pong = true;
     }
 
     /**
@@ -83,23 +89,23 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
-    public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
+    public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
         try {
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
         }catch(RemoteException e) {
             // if not already detected by ping
-            System.out.println("Connection failed. Press enter.");
+            System.out.println("Connection failed. Press enter. - set and execute games manager");
             clientAlive = false;
         }
     }
 
     @Override
-    public void setAndExecuteCommand(GameControllerCommand gameCommand) {
+    public synchronized void setAndExecuteCommand(GameControllerCommand gameCommand) {
         try {
             serverGame.setAndExecuteCommand(gameCommand);
         }catch(RemoteException e) {
             // if not already detected by ping
-            System.out.println("Connection failed. Press enter.");
+            System.out.println("Connection failed. Press enter. - set and execute game");
             clientAlive = false;
         }
     }
@@ -166,10 +172,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                         serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
                     }catch(RemoteException e) {
                         // connection failed
-                        System.out.println("Connection failed. Press enter.");
+                        System.out.println("Connection failed. Press enter. - ping");
                         clientAlive = false;
                     }
                 } else {
+                    System.out.println("Smetto di inviare ping");
                     break;
                 }
             }
