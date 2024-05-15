@@ -27,7 +27,7 @@ public class PlayerView implements Serializable {
     /**
      * Player's secret objective, it is an objective card.
      */
-    private final ObjectiveCard secretObjective;
+    private ObjectiveCard secretObjective;
     /**
      * Boolean value representing if the player is connected.
      */
@@ -58,6 +58,13 @@ public class PlayerView implements Serializable {
         this.currentHand = null;
         this.isStalled = false;
         this.playerViewListeners = new ArrayList<>();
+    }
+
+    public void sendCardHandUpdate() {
+        // update listeners
+        for(PlayerViewListener l: playerViewListeners) {
+            l.receiveCardHandUpdate(this.currentHand, this.secretObjective);
+        }
     }
 
     /**
@@ -110,12 +117,9 @@ public class PlayerView implements Serializable {
      * Method that allows to set the currentHand.
      * @param currentHand new current hand
      */
-    public void setCardHand(List<DrawableCard> currentHand) {
+    public void setCardHand(List<DrawableCard> currentHand, ObjectiveCard secretObjective) {
         this.currentHand = currentHand;
-        // update listeners
-        for(PlayerViewListener l: playerViewListeners) {
-            l.receiveCardHandUpdate(currentHand, secretObjective);
-        }
+        this.secretObjective = secretObjective;
     }
 
     public void setStarterCard(PlaceableCard starterCard) {

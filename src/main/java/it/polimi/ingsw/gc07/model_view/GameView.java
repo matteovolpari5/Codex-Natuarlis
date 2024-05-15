@@ -70,11 +70,11 @@ public class GameView {
      * List of PlayerViews.
      * Same order of the list of players on the server.
      */
-    private List<PlayerView> playerViews;
+    private final List<PlayerView> playerViews;
     /**
      * List of game view listeners.
      */
-    private List<GameViewListener> gameViewListeners;
+    private final List<GameViewListener> gameViewListeners;
 
     /**
      * Constructor of the class GameView
@@ -143,7 +143,7 @@ public class GameView {
         }
 
         // if new current player, send deck update
-        if(currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
+        if(state != GameState.GAME_STARTING && currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
             deckView.sendDecksUpdate();
         }
     }
@@ -269,10 +269,13 @@ public class GameView {
      * @param nickname nickname
      * @param newHand card hand
      */
-    public void setCardHand(String nickname, List<DrawableCard> newHand) {
+    public void setCardHand(String nickname, List<DrawableCard> newHand, ObjectiveCard personalObjective) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
-                p.setCardHand(newHand);
+                p.setCardHand(newHand, personalObjective);
+                if(!(state.equals(GameState.GAME_STARTING) && (newHand.size() < 3 || personalObjective == null))) {
+                    p.sendCardHandUpdate();
+                }
             }
         }
     }
@@ -293,8 +296,8 @@ public class GameView {
                 this.playerViews.add(playerView);
                 boardView.addPlayerToBoard(playerView.getNickname(), playerView.getTokenColor());
                 if(playerView.getNickname().equals(ownerNickname)) {
-                    playerView.addListener((PlayerViewListener) gameViewListeners.get(0));
-                    playerView.getGameField().addListener((GameFieldViewListener) gameViewListeners.get(0));
+                    playerView.addListener((PlayerViewListener) gameViewListeners.getFirst());
+                    playerView.getGameField().addListener((GameFieldViewListener) gameViewListeners.getFirst());
                 }
             }
         }
@@ -311,7 +314,7 @@ public class GameView {
         // update view
         if(nickname.equals(ownerNickname) && !commandResult.equals(CommandResult.SUCCESS)) {
             for(GameViewListener l: gameViewListeners) {
-                l.receiveCommandResultUpdate(commandResult);
+                l.receiveCommandResultUpdate(this.commandResult);
             }
         }
     }

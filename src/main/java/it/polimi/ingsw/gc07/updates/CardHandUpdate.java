@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.updates;
 
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
+import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model_view.GameView;
 
 import java.util.List;
@@ -14,15 +15,20 @@ public class CardHandUpdate implements Update {
      * New card hand.
      */
     private final List<DrawableCard> cardHand;
+    /**
+     * Personal objective card.
+     */
+    private final ObjectiveCard personalObjective;
 
     /**
      * Constructor of CardHandUpdate.
      * @param nickname nickname
      * @param cardHand card hand
      */
-    public CardHandUpdate(String nickname, List<DrawableCard> cardHand) {
+    public CardHandUpdate(String nickname, List<DrawableCard> cardHand, ObjectiveCard personalObjective) {
         this.nickname = nickname;
         this.cardHand = cardHand;
+        this.personalObjective = personalObjective;
     }
 
     /**
@@ -31,6 +37,6 @@ public class CardHandUpdate implements Update {
      */
     @Override
     public void execute(GameView gameView) {
-        gameView.setCardHand(nickname, cardHand);
+        gameView.setCardHand(nickname, cardHand, personalObjective);
     }
 }
