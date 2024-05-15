@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardControllerCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
@@ -55,22 +56,16 @@ class GamesManagerTest {
     }
 
     @Test
-    void checkReconnection() throws RemoteException, NotBoundException {
-        String name = "VirtualServerGamesManager";
+    void checkReconnection() throws RemoteException {
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
-        Registry registry = LocateRegistry.createRegistry(1234);
-        registry.rebind(name, serverGamesManager);
 
-        Registry registry2 = LocateRegistry.getRegistry("127.0.0.1", 1234);
-        VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
-        RmiClient newRmiClient = new RmiClient("Player1", true, rmiServerGamesManager);
+        RmiClient newRmiClient = new RmiClient("player1", true, serverGamesManager);
         newRmiClient.connectToGamesManagerServer(true, true);
-        gm.addPlayerToPending("player1", false, true);
+        gm.addPlayerToPending("player1", true, true);
 
-        VirtualServerGamesManager rmiServerGamesManager2 = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
-        RmiClient newRmiClient2 = new RmiClient("Player1", true, rmiServerGamesManager2);
+        RmiClient newRmiClient2 = new RmiClient("player2", true, serverGamesManager);
         newRmiClient2.connectToGamesManagerServer(true, true);
-        gm.addPlayerToPending("player2", false, true);
+        gm.addPlayerToPending("player2", true, true);
 
         gm.joinNewGame("player1", TokenColor.GREEN, 2);
         gm.joinExistingGame("player2", TokenColor.RED, 0);
@@ -78,12 +73,16 @@ class GamesManagerTest {
         GameController gc = GamesManager.getGamesManager().getGameById(0);
         assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
 
-        gc.setState(GameState.PLAYING);
+        gc.setAndExecuteCommand(new PlaceStarterCardControllerCommand("player1", false));
+        gc.setAndExecuteCommand(new PlaceStarterCardControllerCommand("player2", false));
 
         gc.disconnectPlayer("player1");
         assertEquals(GameState.WAITING_RECONNECTION, gc.getState());
 
-        gm.addPlayerToPending("player1", true, true);
+        RmiClient newRmiClient3 = new RmiClient("player1", false, serverGamesManager);
+        newRmiClient3.reconnectPlayer("player1", true, false);
+
+        //gm.addPlayerToPending("player1", true, true);
         assertEquals(GameState.PLAYING, gc.getState());
     }
 }

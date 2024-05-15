@@ -299,7 +299,7 @@ public class GameController {
      * @param nickname player's nickname
      */
     // TODO synchronized chi lo chiama?
-    public void reconnectPlayer(VirtualView client, String nickname, boolean connectionType, boolean interfaceType) {
+    public synchronized void reconnectPlayer(VirtualView client, String nickname, boolean connectionType, boolean interfaceType) {
         // this command can always be used
         assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
         Player player;
