@@ -11,6 +11,8 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model_view.GameFieldView;
+import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
 
@@ -369,9 +371,9 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }
                     System.out.println();
                     System.out.println("--------------------------------------------------------");
-                    System.out.println("                     "+nickname+"'s GAME FIELD");
+                    System.out.println("                     " + nickname + "'s GAME FIELD");
                     System.out.println("--------------------------------------------------------");
-                    client.getGameView().printGameField(nickname);
+                    printGameField(nickname);
                     System.out.println("\n\n");
                     break;
                 case "o":
@@ -412,6 +414,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         };
     }
 
+    private void printGameField(String nickname) {
+        GameFieldView gameField = client.getGameView().getGameField(nickname);
+        receiveGameFieldUpdate(gameField.getCardsContent(), gameField.getCardsFace(), gameField.getCardsOrder());
+    }
+
     @Override
     public void receiveMessageUpdate(ChatMessage chatMessage) {
         System.out.println();
@@ -443,11 +450,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                      PLAYER HAND                       ");
-        System.out.println("--------------------------------------------------------");
-        PlayerTui.printPlayerHand(hand, personalObjective);
+        if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjective == null))) {
+            System.out.println();
+            System.out.println("--------------------------------------------------------");
+            System.out.println("                      PLAYER HAND                       ");
+            System.out.println("--------------------------------------------------------");
+            PlayerTui.printPlayerHand(hand, personalObjective);
+        }
     }
 
     @Override
@@ -461,15 +470,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveDecksUpdate(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                      FRONT DECK                        ");
-        System.out.println("--------------------------------------------------------");
-        DeckTui.printDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                       BACK DECK                        ");
-        System.out.println("--------------------------------------------------------");
-        DeckTui.printBackDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
+        // don't want to print deck update every time a card changes
     }
 
     @Override
@@ -483,6 +484,27 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             currPlayer = "none";
         }
         System.out.println("Current player: " + currPlayer);
+
+        // if new current player, print deck update
+        GameState state = client.getGameView().getGameState();
+        String currPlayerNickname = client.getGameView().getCurrentPlayerNickname();
+        String ownerNickname = client.getGameView().getOwnerNickname();
+        DrawableCard topResourceDeck = client.getGameView().getTopResourceDeck();
+        GoldCard topGoldDeck = client.getGameView().getTopGoldDeck();
+        List<DrawableCard> faceUpResourceCard = client.getGameView().getFaceUpResourceCard();
+        List<GoldCard> faceUpGoldCard = client.getGameView().getFaceUpGoldCard();
+        List<ObjectiveCard> commonObjective = client.getGameView().getCommonObjective();
+        if(state != GameState.GAME_STARTING && state != GameState.PLACING_STARTER_CARDS && currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
+            System.out.println();
+            System.out.println("--------------------------------------------------------");
+            System.out.println("                      FRONT DECK                        ");
+            System.out.println("--------------------------------------------------------");
+            DeckTui.printDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
+            System.out.println("--------------------------------------------------------");
+            System.out.println("                       BACK DECK                        ");
+            System.out.println("--------------------------------------------------------");
+            DeckTui.printBackDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
+        }
     }
 
     @Override

@@ -71,6 +71,18 @@ public class GameFieldView implements Serializable {
         gameFieldViewListeners.add(gameFieldViewListener);
     }
 
+    public PlaceableCard[][] getCardsContent() {
+        return cardsContent;
+    }
+
+    public Boolean[][] getCardsFace() {
+        return cardsFace;
+    }
+
+    public int[][] getCardsOrder() {
+        return cardsOrder;
+    }
+
     /**
      * Setter method for the starter card.
      * @param starterCard starter card
@@ -98,9 +110,5 @@ public class GameFieldView implements Serializable {
 
     public int getDim() {
         return dim;
-    }
-
-    public void printGameField() {
-        GameFieldTui.printGameField(cardsContent, cardsFace, cardsOrder);
     }
 }

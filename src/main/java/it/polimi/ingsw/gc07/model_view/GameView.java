@@ -100,6 +100,46 @@ public class GameView {
         deckView.addListener(uiListener);
     }
 
+    // getters
+
+    public GameState getGameState() {
+        return state;
+    }
+
+    public String getCurrentPlayerNickname() {
+        String currPlayerNickname;
+        if(currPlayer >= 0 && currPlayer < playerViews.size()) {
+            currPlayerNickname = playerViews.get(currPlayer).getNickname();
+        }else {
+            currPlayerNickname = null;
+        }
+        return currPlayerNickname;
+    }
+
+    public String getOwnerNickname() {
+        return ownerNickname;
+    }
+
+    public List<ObjectiveCard> getCommonObjective() {
+        return deckView.getCommonObjective();
+    }
+
+    public DrawableCard getTopResourceDeck() {
+        return deckView.getTopResourceDeck();
+    }
+
+    public GoldCard getTopGoldDeck() {
+        return deckView.getTopGoldDeck();
+    }
+
+    public List<DrawableCard> getFaceUpResourceCard() {
+        return deckView.getFaceUpResourceCard();
+    }
+
+    public List<GoldCard> getFaceUpGoldCard() {
+        return deckView.getFaceUpGoldCard();
+    }
+
     /**
      * Method that allows to set game model info.
      * @param id id
@@ -110,41 +150,30 @@ public class GameView {
      * @param penultimateRound twentyPointsReached
      * @param additionalRound additionalRound
      */
-    public void setGameModel(int id, int playersNumber, GameState state, List<String> winners,
-                             int currPlayer, boolean penultimateRound, boolean additionalRound) {
+    public void setGameModel(int id, int playersNumber, GameState state, List<String> winners, int currPlayer, boolean penultimateRound, boolean additionalRound) {
         this.id = id;
         this.playersNumber = playersNumber;
         this.state = state;
         this.winners = winners;
         this.currPlayer = currPlayer;
-
         if(!this.penultimateRound && penultimateRound) {
-            for(GameViewListener l: gameViewListeners) {
+            for(GameViewListener l : gameViewListeners) {
                 l.receivePenultimateRoundUpdate();
             }
         }
+        this.penultimateRound = penultimateRound;
+
         if(!this.additionalRound && additionalRound) {
-            for(GameViewListener l: gameViewListeners) {
+            for(GameViewListener l : gameViewListeners) {
                 l.receiveAdditionalRoundUpdate();
             }
         }
-        this.penultimateRound = penultimateRound;
         this.additionalRound = additionalRound;
 
         // send general model update
-        String currPlayerNickname;
-        if(currPlayer >= 0 && currPlayer < playerViews.size()) {
-            currPlayerNickname = playerViews.get(currPlayer).getNickname();
-        }else {
-            currPlayerNickname = null;
-        }
         for(GameViewListener l: gameViewListeners) {
-            l.receiveGeneralModelUpdate(state, currPlayerNickname);
-        }
-
-        // if new current player, send deck update
-        if(state != GameState.GAME_STARTING && state != GameState.PLACING_STARTER_CARDS && currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
-            deckView.sendDecksUpdate();
+            l.receiveGeneralModelUpdate(state, getCurrentPlayerNickname());
+            // for tui, it may print decks
         }
     }
 
@@ -211,6 +240,7 @@ public class GameView {
                 }
             }
         }
+        // else, don't save it
     }
 
     /**
@@ -275,9 +305,6 @@ public class GameView {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setCardHand(newHand, personalObjective);
-                if(!(state.equals(GameState.GAME_STARTING) && (newHand.size() < 3 || personalObjective == null))) {
-                    p.sendCardHandUpdate();
-                }
             }
         }
     }
@@ -299,7 +326,7 @@ public class GameView {
                 boardView.addPlayerToBoard(playerView.getNickname(), playerView.getTokenColor());
                 if(playerView.getNickname().equals(ownerNickname)) {
                     playerView.addListener((PlayerViewListener) gameViewListeners.getFirst());
-                    playerView.getGameField().addListener((GameFieldViewListener) gameViewListeners.getFirst());
+                    playerView.addGameFieldListener((GameFieldViewListener) gameViewListeners.getFirst());
                 }
             }
         }
@@ -336,10 +363,6 @@ public class GameView {
         return false;
     }
 
-    public GameState getGameState() {
-        return state;
-    }
-
     public boolean isCurrentPlayer(String nickname) {
         if(currPlayer < 0)
             return false;
@@ -357,15 +380,6 @@ public class GameView {
     public int getCurrHardHandSize() {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(ownerNickname)) {
-                System.out.println("CURRENT HAND");
-                for(DrawableCard c: p.getCurrentHand()) {
-                    System.out.println(c.getId());
-                }
-            }
-        }
-
-        for(PlayerView p: playerViews) {
-            if(p.getNickname().equals(ownerNickname)) {
                 return p.getCurrHandSize();
             }
         }
@@ -381,7 +395,7 @@ public class GameView {
         return -1;
     }
 
-    public void printGameField(String nickname) {
+    public GameFieldView getGameField(String nickname) {
         PlayerView player = null;
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
@@ -389,7 +403,7 @@ public class GameView {
             }
         }
         assert(player != null);
-        player.printGameField();
+        return player.getGameField();
     }
 
     public void printChat() {

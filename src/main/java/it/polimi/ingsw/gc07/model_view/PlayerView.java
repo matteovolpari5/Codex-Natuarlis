@@ -60,13 +60,6 @@ public class PlayerView implements Serializable {
         this.playerViewListeners = new ArrayList<>();
     }
 
-    public void sendCardHandUpdate() {
-        // update listeners
-        for(PlayerViewListener l: playerViewListeners) {
-            l.receiveCardHandUpdate(this.currentHand, this.secretObjective);
-        }
-    }
-
     /**
      * Method used to register a new listener.
      * @param playerViewListener player view listener
@@ -120,6 +113,10 @@ public class PlayerView implements Serializable {
     public void setCardHand(List<DrawableCard> currentHand, ObjectiveCard secretObjective) {
         this.currentHand = currentHand;
         this.secretObjective = secretObjective;
+        // update listeners
+        for(PlayerViewListener l: playerViewListeners) {
+            l.receiveCardHandUpdate(this.currentHand, this.secretObjective);
+        }
     }
 
     public void setStarterCard(PlaceableCard starterCard) {
@@ -144,10 +141,6 @@ public class PlayerView implements Serializable {
 
     public GameFieldView getGameField() {
         return gameField;
-    }
-
-    public void printGameField() {
-        gameField.printGameField();
     }
 }
 
