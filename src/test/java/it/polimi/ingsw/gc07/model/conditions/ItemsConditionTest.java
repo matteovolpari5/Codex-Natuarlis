@@ -310,7 +310,7 @@ class ItemsConditionTest {
         neededItems.add(GameResource.ANIMAL);
         condition = new ItemsCondition(neededItems);
         assertEquals(2, condition.numTimesMet(p.getGameField()));
-
+        assertEquals(neededItems,condition.getNeededItems());
         card = null;
         for(PlaceableCard c: goldCardsDeck.getContent()){
             if(c.getId() == 63){
@@ -357,5 +357,106 @@ class ItemsConditionTest {
         neededItems.add(GameObject.QUILL);
         condition = new ItemsCondition(neededItems);
         assertEquals(1, condition.numTimesMet(p.getGameField()));
+    }
+    @Test
+    public void moreTimesMet2() {
+        PlaceableCard myStarterCard = null;
+        for(PlaceableCard c: starterCardsDeck.getContent()){
+            if(c.getId() == 81){
+                myStarterCard = c;
+            }
+        }
+        assertNotNull(myStarterCard);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
+        // 2 INSECT, 1 PLANT
+
+        PlaceableCard card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 1){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 39, 39, false);
+
+        card=null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 2){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 38, 38, false);
+
+        card=null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 3){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 38, 41, true);
+
+        card = null;
+        for(PlaceableCard c: goldCardsDeck.getContent()){
+            if(c.getId() == 46){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 41, 38, true);
+
+        card = null;
+        for(PlaceableCard c: goldCardsDeck.getContent()){
+            if(c.getId() == 76){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 42, 37, false);
+        // 4 INSECT, 1 FUNGI
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 15){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 41, 41, true);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 40){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 39, 41, false);
+
+        neededItems = new ArrayList<>();
+        neededItems.add(GameResource.FUNGI);
+        neededItems.add(GameResource.FUNGI);
+        condition = new ItemsCondition(neededItems);
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
+    }
+    @Test
+    public void NoTimesMet() {
+        PlaceableCard myStarterCard = null;
+        for(PlaceableCard c: starterCardsDeck.getContent()){
+            if(c.getId() == 81){
+                myStarterCard = c;
+            }
+        }
+        assertNotNull(myStarterCard);
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+        // 2 INSECT, 1 PLANT
+        neededItems = new ArrayList<>();
+        neededItems.add(GameResource.FUNGI);
+        neededItems.add(GameResource.FUNGI);
+        condition = new ItemsCondition(neededItems);
+        assertEquals(0, condition.numTimesMet(p.getGameField()));
     }
 }

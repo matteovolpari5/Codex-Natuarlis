@@ -66,6 +66,7 @@ class ChatTest {
         assertEquals("TestMessage3", chat.getLastMessage(receiver1).getContent());
         assertEquals(1, chat.getContent(receiver2).size());
         assertEquals("TestMessage1", chat.getLastMessage(receiver2).getContent());
+
     }
 
     @Test
@@ -86,5 +87,6 @@ class ChatTest {
         chat.addListener(listener2);
         chat.addPublicMessage("content", "Player1");
         chat.addPrivateMessage("content", "Player1", "Player2");
+        chat.removeListener(listener1);
     }
 }

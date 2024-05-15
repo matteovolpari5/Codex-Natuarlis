@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LayoutConditionTest {
     private DrawableDeck<DrawableCard> resourceCardsDeck;
-    private  DrawableDeck<GoldCard> goldCardsDeck;
+    private DrawableDeck<GoldCard> goldCardsDeck;
     private Deck<PlaceableCard> starterCardsDeck;
     LayoutCondition condition;
     PlaceableCard myStarterCard;
@@ -40,7 +40,7 @@ class LayoutConditionTest {
         myStarterCard = starterCardsDeck.drawCard();
         assertNotNull(myStarterCard);
         p.setStarterCard(myStarterCard);
-        p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, true);
+        p.placeCard(myStarterCard, (GameField.getDim() - 1) / 2, (GameField.getDim() - 1) / 2, true);
         GameResource[][] layout = new GameResource[LayoutCondition.getRows()][LayoutCondition.getColumns()];
         layout[0][0] = GameResource.INSECT;
         layout[0][1] = null;
@@ -66,8 +66,8 @@ class LayoutConditionTest {
         p.placeCard(myStarterCard, 40, 40, false);
 
         PlaceableCard card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 31){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 31) {
                 card = c;
             }
         }
@@ -75,8 +75,8 @@ class LayoutConditionTest {
         p.placeCard(card, 39, 39, true);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 37){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 37) {
                 card = c;
             }
         }
@@ -84,8 +84,8 @@ class LayoutConditionTest {
         p.placeCard(card, 38, 38, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 36){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 36) {
                 card = c;
             }
         }
@@ -93,8 +93,8 @@ class LayoutConditionTest {
         p.placeCard(card, 37, 37, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 26){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 26) {
                 card = c;
             }
         }
@@ -102,16 +102,16 @@ class LayoutConditionTest {
         p.placeCard(card, 41, 39, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 24){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 24) {
                 card = c;
             }
         }
         assertNotNull(card);
         p.placeCard(card, 41, 41, false);
 
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 35){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 35) {
                 card = c;
             }
         }
@@ -144,8 +144,8 @@ class LayoutConditionTest {
         p.placeCard(myStarterCard, 40, 40, false);
 
         PlaceableCard card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 18){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 18) {
                 card = c;
             }
         }
@@ -153,8 +153,8 @@ class LayoutConditionTest {
         p.placeCard(card, 39, 39, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 2){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 2) {
                 card = c;
             }
         }
@@ -162,8 +162,8 @@ class LayoutConditionTest {
         p.placeCard(card, 38, 38, true);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 22){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 22) {
                 card = c;
             }
         }
@@ -171,8 +171,8 @@ class LayoutConditionTest {
         p.placeCard(card, 37, 37, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 32){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 32) {
                 card = c;
             }
         }
@@ -180,8 +180,8 @@ class LayoutConditionTest {
         p.placeCard(card, 41, 41, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 5){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 5) {
                 card = c;
             }
         }
@@ -215,8 +215,8 @@ class LayoutConditionTest {
         p.placeCard(myStarterCard, 40, 40, false);
 
         PlaceableCard card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 11){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 11) {
                 card = c;
             }
         }
@@ -224,8 +224,8 @@ class LayoutConditionTest {
         p.placeCard(card, 41, 41, true);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 12){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 12) {
                 card = c;
             }
         }
@@ -233,8 +233,8 @@ class LayoutConditionTest {
         p.placeCard(card, 42, 42, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 13){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 13) {
                 card = c;
             }
         }
@@ -242,8 +242,8 @@ class LayoutConditionTest {
         p.placeCard(card, 43, 43, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 14){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 14) {
                 card = c;
             }
         }
@@ -278,8 +278,8 @@ class LayoutConditionTest {
         p.placeCard(myStarterCard, 40, 40, false);
 
         PlaceableCard card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 11){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 11) {
                 card = c;
             }
         }
@@ -287,8 +287,8 @@ class LayoutConditionTest {
         p.placeCard(card, 39, 39, true);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 12){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 12) {
                 card = c;
             }
         }
@@ -296,8 +296,8 @@ class LayoutConditionTest {
         p.placeCard(card, 38, 38, true);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 13){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 13) {
                 card = c;
             }
         }
@@ -305,8 +305,8 @@ class LayoutConditionTest {
         p.placeCard(card, 37, 37, true);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 22){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 22) {
                 card = c;
             }
         }
@@ -314,8 +314,8 @@ class LayoutConditionTest {
         p.placeCard(card, 41, 41, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 33){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 33) {
                 card = c;
             }
         }
@@ -323,8 +323,8 @@ class LayoutConditionTest {
         p.placeCard(card, 42, 42, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 29){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 29) {
                 card = c;
             }
         }
@@ -332,8 +332,8 @@ class LayoutConditionTest {
         p.placeCard(card, 43, 43, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 7){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 7) {
                 card = c;
             }
         }
@@ -341,8 +341,8 @@ class LayoutConditionTest {
         p.placeCard(card, 43, 41, true);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 35){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 35) {
                 card = c;
             }
         }
@@ -350,8 +350,8 @@ class LayoutConditionTest {
         p.placeCard(card, 44, 42, true);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 36){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 36) {
                 card = c;
             }
         }
@@ -359,8 +359,8 @@ class LayoutConditionTest {
         p.placeCard(card, 44, 44, true);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 20){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 20) {
                 card = c;
             }
         }
@@ -368,8 +368,8 @@ class LayoutConditionTest {
         p.placeCard(card, 45, 45, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 37){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 37) {
                 card = c;
             }
         }
@@ -434,8 +434,8 @@ class LayoutConditionTest {
         p.placeCard(myStarterCard, 40, 40, false);
 
         PlaceableCard card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 13){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 13) {
                 card = c;
             }
         }
@@ -443,8 +443,8 @@ class LayoutConditionTest {
         p.placeCard(card, 39, 39, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 12){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 12) {
                 card = c;
             }
         }
@@ -452,8 +452,8 @@ class LayoutConditionTest {
         p.placeCard(card, 38, 38, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 15){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 15) {
                 card = c;
             }
         }
@@ -461,8 +461,8 @@ class LayoutConditionTest {
         p.placeCard(card, 41, 41, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 20){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 20) {
                 card = c;
             }
         }
@@ -470,8 +470,8 @@ class LayoutConditionTest {
         p.placeCard(card, 39, 41, false);
 
         card = null;
-        for(PlaceableCard c: resourceCardsDeck.getContent()){
-            if(c.getId() == 32){
+        for (PlaceableCard c : resourceCardsDeck.getContent()) {
+            if (c.getId() == 32) {
                 card = c;
             }
         }
@@ -524,5 +524,76 @@ class LayoutConditionTest {
         condition = new LayoutCondition(layout2);
         // the layout should be found because the starter card is in a useless position
         assertEquals(1, condition.numTimesMet(new GameField(p.getGameField())));
+    }
+
+    @Test
+    public void getterCardsColor() {
+        GameResource[][] layout =new GameResource[4][3];
+        layout[0][0] = GameResource.INSECT;
+        layout[0][1] = null;
+        layout[0][2] = null;
+        layout[1][0] = null;
+        layout[1][1] = GameResource.INSECT;
+        layout[1][2] = null;
+        layout[2][0] = null;
+        layout[2][1] = null;
+        layout[2][2] = GameResource.INSECT;
+        layout[3][0] = null;
+        layout[3][1] = null;
+        layout[3][2] = null;
+        GameResource[][] newlayout =new GameResource[4][3];
+        newlayout[0][0] = GameResource.INSECT;
+        newlayout[0][1] = null;
+        newlayout[0][2] = null;
+        newlayout[1][0] = null;
+        newlayout[1][1] = GameResource.INSECT;
+        newlayout[1][2] = null;
+        newlayout[2][0] = null;
+        newlayout[2][1] = null;
+        newlayout[2][2] = GameResource.INSECT;
+        condition = new LayoutCondition(layout);
+        for(int i=0;i<3;i++)
+        {
+            for(int j=0;j<3;j++)
+            {
+                assertEquals(condition.getCardsColor()[i][j],newlayout[i][j]);
+            }
+        }
+
+    }
+    @Test
+    public void getterCardsColor2() {
+        GameResource[][] layout =new GameResource[4][3];
+        layout[0][0] = GameResource.INSECT;
+        layout[0][1] = null;
+        layout[0][2] = null;
+        layout[1][0] = null;
+        layout[1][1] = null;
+        layout[1][2] = null;
+        layout[2][0] = GameResource.INSECT;
+        layout[2][1] = null;
+        layout[2][2] = null;
+        layout[3][0] = null;
+        layout[3][1] = GameResource.PLANT;
+        layout[3][2] = null;
+        GameResource[][] newlayout =new GameResource[4][3];
+        newlayout[0][0] = GameResource.INSECT;
+        newlayout[0][1] = null;
+        newlayout[0][2] = null;
+        newlayout[1][0] = GameResource.INSECT;
+        newlayout[1][1] = null;
+        newlayout[1][2] = null;
+        newlayout[2][0] = null;
+        newlayout[2][1] = GameResource.PLANT;
+        newlayout[2][2] = null;
+        condition = new LayoutCondition(layout);
+        for(int i=0;i<3;i++)
+        {
+            for(int j=0;j<3;j++)
+            {
+                assertEquals(condition.getCardsColor()[i][j],newlayout[i][j]);
+            }
+        }
+
     }
 }
