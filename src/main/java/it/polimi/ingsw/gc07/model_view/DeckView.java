@@ -68,7 +68,6 @@ public class DeckView {
      */
     public void setTopResourceDeck(DrawableCard topResourceDeck) {
         this.topResourceDeck = topResourceDeck;
-        System.out.println("New top resource: " + this.topResourceDeck.getId());
         sendDecksUpdate();
     }
 

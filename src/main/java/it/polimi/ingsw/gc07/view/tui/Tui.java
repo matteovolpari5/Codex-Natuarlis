@@ -363,13 +363,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveDecksUpdate(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
-        /*System.out.println("--------------------------------------------------------");
+        System.out.println("--------------------------------------------------------");
         System.out.println("                      FRONT DECK                        ");
         System.out.println("--------------------------------------------------------");
         DeckTui.printDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
         System.out.println("--------------------------------------------------------");
         System.out.println("                       BACK DECK                        ");
         System.out.println("--------------------------------------------------------");
-        DeckTui.printBackDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);*/
+        DeckTui.printBackDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
     }
 }
