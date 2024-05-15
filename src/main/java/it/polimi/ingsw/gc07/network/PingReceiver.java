@@ -83,14 +83,13 @@ public class PingReceiver {
                     missedPing = 0;
                 }else {
                     missedPing ++;
-                    //System.out.println(missedPing);
-                    if(missedPing >= maxMissedPings && gameController.isPlayerConnected(nickname)) {
+                    if(missedPing >= maxMissedPings) {
                         System.out.println("PRG> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
+                        break;
                     }
                 }
                 playersPing.put(nickname, false);
-
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping
