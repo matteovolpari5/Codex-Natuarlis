@@ -91,7 +91,7 @@ public interface PlayerTui {
             } else {
                 System.out.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_BLACK_BACKGROUND + "   ");
             }
-            System.out.print(ANSI_BLACK_BACKGROUND + "   ");
+            System.out.print(ANSI_BLACK_BACKGROUND + "     ");
             if (card.getFrontCorners()[1]) {
                 if (card.getFrontCornersContent()[1] == null) {
                     System.out.print(ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + "|");
@@ -140,7 +140,7 @@ public interface PlayerTui {
             }
         }
         else {
-            System.out.print(ANSI_BLACK_BACKGROUND + "           ");
+            System.out.print(ANSI_BLACK_BACKGROUND + "|         |");
         }
         System.out.println();
         // fouth row //
@@ -253,7 +253,7 @@ public interface PlayerTui {
     private static void printSecondRow(List<DrawableCard> hand, ObjectiveCard objectiveCard)
     {
         if(objectiveCard == null) {
-            System.out.print(ANSI_YELLOW_BACKGROUND + "|      ");
+            System.out.print(ANSI_YELLOW_BACKGROUND + "|        ");
         }else {
             System.out.print(ANSI_YELLOW_BACKGROUND + "|     ");
             if(objectiveCard.getScoringCondition() instanceof LayoutCondition)
@@ -369,7 +369,7 @@ public interface PlayerTui {
     }
     private static void printThirdRow(ObjectiveCard objectiveCard){
         if(objectiveCard == null) {
-            System.out.print(ANSI_YELLOW_BACKGROUND + "|      ");
+            System.out.print(ANSI_YELLOW_BACKGROUND + "|        ");
         }else {
             System.out.print(ANSI_YELLOW_BACKGROUND+"|  "+ANSI_BLACK_BACKGROUND+objectiveCard.getPoints()+ANSI_YELLOW_BACKGROUND+"  ");
             if(objectiveCard.getScoringCondition() instanceof ItemsCondition)
@@ -438,7 +438,7 @@ public interface PlayerTui {
 
     private static void printFourthRow(List<DrawableCard> hand, ObjectiveCard objectiveCard){
         if(objectiveCard == null) {
-            System.out.print(ANSI_YELLOW_BACKGROUND + "|      ");
+            System.out.print(ANSI_YELLOW_BACKGROUND + "|        ");
         }else {
             System.out.print(ANSI_YELLOW_BACKGROUND+"|     ");
             if(objectiveCard.getScoringCondition() instanceof LayoutCondition)
