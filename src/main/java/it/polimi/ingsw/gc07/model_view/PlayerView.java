@@ -120,6 +120,10 @@ public class PlayerView implements Serializable {
 
     public void setStarterCard(PlaceableCard starterCard) {
         gameField.setStarterCard(starterCard);
+        // update listeners
+        for(PlayerViewListener l: playerViewListeners) {
+            l.receiveStarterCardUpdate(starterCard);
+        }
     }
 
     public void addCard(PlaceableCard card, int x, int y, boolean way, int orderPosition) {

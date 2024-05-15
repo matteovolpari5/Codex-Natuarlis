@@ -244,6 +244,8 @@ public class GameView {
         this.currPlayer = currPlayer;
         this.twentyPointsReached = twentyPointsReached;
         this.additionalRound = additionalRound;
+
+        System.out.println("Game model: " + id + " " + playersNumber + " " + state+ " " + winners+ " " + currPlayer+ " " + twentyPointsReached+additionalRound);
     }
 
     /**
@@ -251,17 +253,16 @@ public class GameView {
      * @param newPlayerViews new list of player views
      */
     public void setPlayerViews(List<PlayerView> newPlayerViews) {
-        // only for debugging
-        for(PlayerView pv: newPlayerViews) {
+        for(PlayerView playerView: newPlayerViews) {
             boolean found = false;
-            for(PlayerView mypv: this.playerViews) {
-                if(pv.getNickname().equals(mypv.getNickname())) {
+            for(PlayerView myPlayerView: this.playerViews) {
+                if(playerView.getNickname().equals(myPlayerView.getNickname())) {
                     found = true;
                 }
             }
             if(found) {
-                this.playerViews.add(pv);
-                boardView.addPlayerToBoard(pv.getNickname(), pv.getTokenColor());
+                this.playerViews.add(playerView);
+                boardView.addPlayerToBoard(playerView.getNickname(), playerView.getTokenColor());
             }
         }
     }
