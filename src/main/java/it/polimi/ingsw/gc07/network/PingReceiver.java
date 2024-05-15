@@ -90,6 +90,7 @@ public class PingReceiver {
                     }
                 }
                 playersPing.put(nickname, false);
+
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping
