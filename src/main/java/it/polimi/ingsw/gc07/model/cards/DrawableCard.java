@@ -150,6 +150,7 @@ public class DrawableCard extends PlaceableCard {
                 return CommandResult.MULTIPLE_CORNERS_COVERED;
             }
             if(y - 1 >= 0){
+
                 if(gameField.isCardPresent(x+1,y-1)){
                     //a placed card is present
                     found = true;

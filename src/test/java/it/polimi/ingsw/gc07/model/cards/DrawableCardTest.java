@@ -356,4 +356,54 @@ class DrawableCardTest {
         p.placeCard(myResourceCard, 39, 39, false);
         assertEquals(myResourceCard.getPoints(),0);
     }
+    @Test
+    void isPlaceableNoLegitCorner11() {
+        for(PlaceableCard c: starterCardsDeck.getContent()){
+            if(c.getId() == 85){
+                myStarterCard = c;
+            }
+        }
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, true);
+        for(DrawableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 1){
+                myResourceCard = c;
+            }
+        }
+        p.placeCard(myResourceCard, 40, 40, true);
+        assertEquals(CommandResult.CARD_ALREADY_PRESENT, myResourceCard.isPlaceable(p.getGameField(), 40, 40, false));
+    }
+    @Test
+    void isPlaceableNoLegitCorner12() {
+        for(PlaceableCard c: starterCardsDeck.getContent()){
+            if(c.getId() == 85){
+                myStarterCard = c;
+            }
+        }
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, true);
+        for(DrawableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 1){
+                myResourceCard = c;
+            }
+        }
+        p.placeCard(myResourceCard, 41, 39, true);
+        assertEquals(CommandResult.NOT_LEGIT_CORNER, myResourceCard.isPlaceable(p.getGameField(), 41, 39, false));
+    }
+    @Test
+    void isPlaceableNoLegitCorner13() {
+        for(PlaceableCard c: starterCardsDeck.getContent()){
+            if(c.getId() == 85){
+                myStarterCard = c;
+            }
+        }
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, false);
+        for(DrawableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 1){
+                myResourceCard = c;
+            }
+        }
+        assertEquals(CommandResult.NO_COVERED_CORNER, myResourceCard.isPlaceable(p.getGameField(), 41, 41, false));
+    }
 }
