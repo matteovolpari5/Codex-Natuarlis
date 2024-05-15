@@ -83,11 +83,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
-    public void kill() throws RemoteException {
-        // TODO da rimuovere
-    }
-
-    @Override
     public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
         try {
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);

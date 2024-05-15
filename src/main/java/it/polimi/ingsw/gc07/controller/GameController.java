@@ -230,11 +230,13 @@ public class GameController {
 
         // TODO togliere o rivedere
         if(!player.getConnectionType()) {
+            /*
             try {
-                virtualView.kill();
+                // virtualView.kill(); // TODO
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
+             */
         }
 
         // remove virtual view
