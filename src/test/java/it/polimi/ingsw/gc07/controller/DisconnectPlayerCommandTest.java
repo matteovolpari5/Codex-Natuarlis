@@ -1,7 +1,10 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
+import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.DisconnectPlayerControllerCommand;
+import it.polimi.ingsw.gc07.game_commands.JoinExistingGameCommand;
+import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
@@ -11,58 +14,82 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
+import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
+import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DisconnectPlayerCommandTest {
-    GameController gameController;
+    RmiClient newRmiClient;
+    RmiClient newRmiClient2;
+    RmiServerGamesManager serverGamesManager;
+    VirtualServerGamesManager rmiServerGamesManager;
 
     @BeforeEach
-    void setUp() {
-        // create a gameController
-        int id = 0;
-        int playersNumber = 2;
-        DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
-        resourceCardsDeck.shuffle();
-        DrawableDeck<GoldCard> goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
-        goldCardsDeck.shuffle();
-        PlayingDeck<ObjectiveCard> objectiveCardsDeck = DecksBuilder.buildObjectiveCardsDeck();
-        objectiveCardsDeck.shuffle();
-        Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
-        starterCardsDecks.shuffle();
-        gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
-        Player firstPlayer = new Player("Player1", true, false);
-        gameController.addPlayer(firstPlayer, null);
-        Player secondPlayer = new Player("Player2", false, false);
-        gameController.addPlayer(secondPlayer, null);
+    void setUp() throws RemoteException, NotBoundException {
+        String name = "VirtualServerGamesManager";
+        serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
+        System.setProperty("java.rmi.server.hostname", "127.0.0.1");
+        Registry registry = LocateRegistry.createRegistry(1234);
+        registry.rebind(name, serverGamesManager);
+
+        try {
+            registry = LocateRegistry.getRegistry("127.0.0.1", 1234);
+        } catch (RemoteException ex) {
+            throw new RuntimeException(ex);
+        }
+        rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
+        newRmiClient = new RmiClient("Player1", true, rmiServerGamesManager);
+        // add virtual view to rmiServerGamesManager
+        newRmiClient.connectToGamesManagerServer(true, false);
+        newRmiClient.runCliJoinGame();
+        newRmiClient.setAndExecuteCommand(new JoinNewGameCommand("Player1", TokenColor.GREEN, 2));
+
+        newRmiClient2 = new RmiClient("Player2", true, rmiServerGamesManager);
+        // add virtual view to rmiServerGamesManager
+        newRmiClient2.connectToGamesManagerServer(true, false);
+        newRmiClient2.runCliJoinGame();
+        newRmiClient2.setAndExecuteCommand(new JoinExistingGameCommand("Player2", TokenColor.RED, 0));
     }
 
     @Test
     void disconnectPlayerSuccess() {
-        gameController.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player1"));
-        CommandResult result = gameController.getCommandResult();
+        newRmiClient.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player1"));
+        CommandResult result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
+
+        //TODO: buttare giù server
     }
 
     @Test
     void playerAlreadyDisconnected() {
         // disconnect player
-        gameController.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player2"));
-        CommandResult result = gameController.getCommandResult();
+        newRmiClient.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player2"));
+        CommandResult result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
         // try to disconnect the same player
-        gameController.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player2"));
-        result = gameController.getCommandResult();
+        newRmiClient.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player2"));
+        result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.PLAYER_ALREADY_DISCONNECTED, result);
+
+        //TODO: buttare giù server
     }
 
     @Test
     void disconnectPlayerNotPresent() {
         // disconnect player not present in the gameController
-        gameController.setAndExecuteCommand(new DisconnectPlayerControllerCommand("AnOtherPlayer"));
-        CommandResult result = gameController.getCommandResult();
+        newRmiClient.setAndExecuteCommand(new DisconnectPlayerControllerCommand("AnOtherPlayer"));
+        CommandResult result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, result);
+
+        //TODO: buttare giù server
     }
 }
