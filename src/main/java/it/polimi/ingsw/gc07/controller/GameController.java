@@ -194,7 +194,6 @@ public class GameController {
         gameModel.setUpPlayerHand(newPlayer);
         pingReceiver.addPingSender(newPlayer.getNickname(), client);
 
-
         if (isFull()) {
             setup();
             gameModel.setState(GameState.PLACING_STARTER_CARDS);

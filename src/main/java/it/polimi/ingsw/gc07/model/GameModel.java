@@ -388,6 +388,9 @@ public class GameModel {
             p.getGameField().addListener(client);
         }
 
+        // send first game and deck update to player
+        sendGameModelUpdate();
+
         // update listeners
         List<PlayerView> playerViews = new ArrayList<>();
         for(Player p: players) {
@@ -403,10 +406,6 @@ public class GameModel {
                 throw new RuntimeException();
             }
         }
-
-        // send first game and deck update to player
-        sendGameModelUpdate();
-        sendDeckUpdate();
 
         System.out.println("Number of listeners: " + gameListeners.size());
     }
