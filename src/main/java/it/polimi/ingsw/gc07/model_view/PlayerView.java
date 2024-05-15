@@ -134,6 +134,10 @@ public class PlayerView implements Serializable {
         return currentHand.size();
     }
 
+    public List<DrawableCard> getCurrentHand() {
+        return new ArrayList<>(currentHand);
+    }
+
     public GameFieldView getGameField() {
         return gameField;
     }

@@ -12,6 +12,7 @@ import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
+import javafx.scene.input.InputMethodTextRun;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -67,12 +68,12 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         gameId = scan.nextInt();
                         scan.nextLine();
                     }catch(InputMismatchException e) {
-                        scan.nextLine(); // TODO ?
+                        scan.nextLine();
                         correctInput = false;
-                        System.out.println("No such game id, insert a number");
+                        System.out.println("No such game id, insert a number.");
                     }
                     if(gameId < 0) {
-                        System.out.println("No such game id");
+                        System.out.println("No such game id.");
                         correctInput = false;
                     }
                 }while(!correctInput);
@@ -94,12 +95,22 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }
                 }while(!correctInput);
 
-                int playersNumber;
+                int playersNumber = -1;
                 do {
+                    correctInput = true;
                     System.out.println("Insert the number of players for the game: ");
-                    playersNumber = scan.nextInt();
-                    scan.nextLine();
-                }while(playersNumber < minPlayersNumber || playersNumber > maxPlayersNumber);
+                    System.out.print("> ");
+                    try {
+                        playersNumber = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        correctInput = false;
+                        scan.nextLine();
+                    }
+                    if(playersNumber < minPlayersNumber || playersNumber > maxPlayersNumber) {
+                        correctInput = false;
+                    }
+                }while(!correctInput);
 
                 client.setAndExecuteCommand(new JoinNewGameCommand(nickname, tokenColor, playersNumber));
                 break;
@@ -230,7 +241,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     System.out.print("> ");
                     int cardPos = scan.nextInt();
                     scan.nextLine();
-                    if(cardPos < 0 || cardPos > client.getGameView().getCurrHardHandSize()) {
+                    if(cardPos < 0 || cardPos >= client.getGameView().getCurrHardHandSize()) {
                         System.out.println("CLIENT CHECK - Wrong card hand position.");
                         break;
                     }

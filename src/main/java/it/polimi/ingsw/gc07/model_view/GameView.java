@@ -260,7 +260,7 @@ public class GameView {
                     found = true;
                 }
             }
-            if(found) {
+            if(!found) {
                 this.playerViews.add(playerView);
                 boardView.addPlayerToBoard(playerView.getNickname(), playerView.getTokenColor());
             }
@@ -316,6 +316,15 @@ public class GameView {
     }
 
     public int getCurrHardHandSize() {
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(ownerNickname)) {
+                System.out.println("CURRENT HAND");
+                for(DrawableCard c: p.getCurrentHand()) {
+                    System.out.println(c.getId());
+                }
+            }
+        }
+
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(ownerNickname)) {
                 return p.getCurrHandSize();
