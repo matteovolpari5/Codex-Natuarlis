@@ -56,7 +56,7 @@ public class DeckView {
     /**
      * Method used to send a deck update.
      */
-    private void sendDecksUpdate() {
+    public void sendDecksUpdate() {
         for(DeckViewListener l: deckViewListeners) {
             l.receiveDecksUpdate(topResourceDeck, topGoldDeck, faceUpResourceCard, faceUpGoldCard, commonObjective);
         }
@@ -68,7 +68,6 @@ public class DeckView {
      */
     public void setTopResourceDeck(DrawableCard topResourceDeck) {
         this.topResourceDeck = topResourceDeck;
-        sendDecksUpdate();
     }
 
     /**
@@ -77,7 +76,6 @@ public class DeckView {
      */
     public void setTopGoldDeck(GoldCard topGoldDeck) {
         this.topGoldDeck = topGoldDeck;
-        sendDecksUpdate();
     }
 
     /**
@@ -86,7 +84,6 @@ public class DeckView {
      */
     public void setFaceUpResourceCard(List<DrawableCard> faceUpResourceCard) {
         this.faceUpResourceCard = faceUpResourceCard;
-        sendDecksUpdate();
     }
 
     /**
@@ -95,7 +92,6 @@ public class DeckView {
      */
     public void setFaceUpGoldCard(List<GoldCard> faceUpGoldCard) {
         this.faceUpGoldCard = faceUpGoldCard;
-        sendDecksUpdate();
     }
 
     /**
@@ -104,7 +100,6 @@ public class DeckView {
      */
     public void setCommonObjective(List<ObjectiveCard> commonObjective) {
         this.commonObjective = commonObjective;
-        sendDecksUpdate();
     }
 
     public int getNumFaceUpCards(CardType cardType) {

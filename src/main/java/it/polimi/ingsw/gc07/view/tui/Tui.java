@@ -387,6 +387,9 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         System.out.println("                     GAME MODEL UPDATE                  ");
         System.out.println("--------------------------------------------------------");
         System.out.println("Game state: " + gameState);
+        if(currPlayer == null) {
+            currPlayer = "none";
+        }
         System.out.println("Current player: " + currPlayer);
     }
 
@@ -413,5 +416,12 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         System.out.println("                      COMMAND RESULT                    ");
         System.out.println("--------------------------------------------------------");
         System.out.println(commandResult.getResultMessage());
+    }
+
+    @Override
+    public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGames) {
+        for(Integer id: existingGames.keySet()) {
+            System.out.println("Id: " + id + " - " + "Number of players: " + existingGames.get(id));
+        }
     }
 }

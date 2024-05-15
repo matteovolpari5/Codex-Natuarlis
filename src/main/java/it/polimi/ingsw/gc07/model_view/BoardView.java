@@ -53,8 +53,6 @@ public class BoardView {
         assert(!playerTokenColors.containsKey(nickname));
         playerScores.put(nickname, 0);
         playerTokenColors.put(nickname, tokenColor);
-
-        updateListeners();
     }
 
     /**
@@ -73,7 +71,7 @@ public class BoardView {
     /**
      * Private method used to send updates to listeners.
      */
-    private void updateListeners() {
+    public void updateListeners() {
         for(BoardViewListener l: boardViewListeners) {
             l.receiveScoreUpdate(playerScores, playerTokenColors);
         }

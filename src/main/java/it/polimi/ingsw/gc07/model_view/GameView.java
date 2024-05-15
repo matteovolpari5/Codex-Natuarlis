@@ -98,7 +98,54 @@ public class GameView {
         boardView.addListener(uiListener);
         chatView.addListener(uiListener);
         deckView.addListener(uiListener);
-        System.out.println("Added listeners");
+    }
+
+    /**
+     * Method that allows to set game model info.
+     * @param id id
+     * @param playersNumber players number
+     * @param state state
+     * @param winners winners
+     * @param currPlayer current player
+     * @param penultimateRound twentyPointsReached
+     * @param additionalRound additionalRound
+     */
+    public void setGameModel(int id, int playersNumber, GameState state, List<String> winners,
+                             int currPlayer, boolean penultimateRound, boolean additionalRound) {
+        this.id = id;
+        this.playersNumber = playersNumber;
+        this.state = state;
+        this.winners = winners;
+        this.currPlayer = currPlayer;
+
+        if(!this.penultimateRound && penultimateRound) {
+            for(GameViewListener l: gameViewListeners) {
+                l.receivePenultimateRoundUpdate();
+            }
+        }
+        if(!this.additionalRound && additionalRound) {
+            for(GameViewListener l: gameViewListeners) {
+                l.receiveAdditionalRoundUpdate();
+            }
+        }
+        this.penultimateRound = penultimateRound;
+        this.additionalRound = additionalRound;
+
+        // send general model update
+        String currPlayerNickname;
+        if(currPlayer >= 0 && currPlayer < playerViews.size()) {
+            currPlayerNickname = playerViews.get(currPlayer).getNickname();
+        }else {
+            currPlayerNickname = null;
+        }
+        for(GameViewListener l: gameViewListeners) {
+            l.receiveGeneralModelUpdate(state, currPlayerNickname);
+        }
+
+        // if new current player, send deck update
+        if(currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
+            deckView.sendDecksUpdate();
+        }
     }
 
     /**
@@ -158,7 +205,6 @@ public class GameView {
         if(ownerNickname.equals(nickname)) {
             for(PlayerView playerView: playerViews) {
                 if(playerView.getNickname().equals(nickname)) {
-                    System.out.println("STARTER CARD UPDATE");
                     playerView.setStarterCard(starterCard);
                 }
             }
@@ -232,49 +278,6 @@ public class GameView {
     }
 
     /**
-     * Method that allows to set game model info.
-     * @param id id
-     * @param playersNumber players number
-     * @param state state
-     * @param winners winners
-     * @param currPlayer current player
-     * @param penultimateRound twentyPointsReached
-     * @param additionalRound additionalRound
-     */
-    public void setGameModel(int id, int playersNumber, GameState state, List<String> winners,
-                             int currPlayer, boolean penultimateRound, boolean additionalRound) {
-        this.id = id;
-        this.playersNumber = playersNumber;
-        this.state = state;
-        this.winners = winners;
-        this.currPlayer = currPlayer;
-
-        if(!this.penultimateRound && penultimateRound) {
-            for(GameViewListener l: gameViewListeners) {
-                l.receivePenultimateRoundUpdate();
-            }
-        }
-        if(!this.additionalRound && additionalRound) {
-            for(GameViewListener l: gameViewListeners) {
-                l.receiveAdditionalRoundUpdate();
-            }
-        }
-        this.penultimateRound = penultimateRound;
-        this.additionalRound = additionalRound;
-
-        // send general model update
-        String currPlayerNickname;
-        if(currPlayer >= 0 && currPlayer < playerViews.size()) {
-            currPlayerNickname = playerViews.get(currPlayer).getNickname();
-        }else {
-            currPlayerNickname = "None";
-        }
-        for(GameViewListener l: gameViewListeners) {
-            l.receiveGeneralModelUpdate(state, currPlayerNickname);
-        }
-    }
-
-    /**
      * Method that allows to add a new player view.
      * @param newPlayerViews new list of player views
      */
@@ -295,6 +298,7 @@ public class GameView {
                 }
             }
         }
+        boardView.updateListeners();
     }
 
     /**
@@ -313,11 +317,8 @@ public class GameView {
     }
 
     public void displayExistingGames(Map<Integer, Integer> existingGames) {
-        // TODO display con view
-
-        // only for debugging
-        for(Integer id: existingGames.keySet()) {
-            System.out.println("Id: " + id + " - " + "Number of players: " + existingGames.get(id));
+        for(GameViewListener l: gameViewListeners) {
+            l.receiveExistingGamesUpdate(existingGames);
         }
     }
 
