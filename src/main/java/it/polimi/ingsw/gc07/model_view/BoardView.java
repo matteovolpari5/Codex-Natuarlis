@@ -53,7 +53,6 @@ public class BoardView {
         assert(!playerTokenColors.containsKey(nickname));
         playerScores.put(nickname, 0);
         playerTokenColors.put(nickname, tokenColor);
-
         updateListeners();
     }
 
