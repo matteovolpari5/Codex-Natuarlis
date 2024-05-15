@@ -8,6 +8,9 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
+import it.polimi.ingsw.gc07.model_view_listeners.GameViewListener;
+import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
 import it.polimi.ingsw.gc07.view.Ui;
 
 import java.util.ArrayList;
@@ -42,7 +45,7 @@ public class GameView {
     /**
      * Boolean attribute, true if a player has reached 20 points.
      */
-    private boolean twentyPointsReached;
+    private boolean penultimateRound;
     /**
      * Boolean attribute, if it is the additional round of the game.
      */
@@ -68,6 +71,10 @@ public class GameView {
      * Same order of the list of players on the server.
      */
     private List<PlayerView> playerViews;
+    /**
+     * List of game view listeners.
+     */
+    private List<GameViewListener> gameViewListeners;
 
     /**
      * Constructor of the class GameView
@@ -79,6 +86,7 @@ public class GameView {
         this.deckView = new DeckView();
         this.chatView = new ChatView();
         this.playerViews = new ArrayList<>();
+        this.gameViewListeners = new ArrayList<>();
     }
 
     /**
@@ -86,13 +94,10 @@ public class GameView {
      * @param uiListener view listener
      */
     public void addViewListener(Ui uiListener) {
+        gameViewListeners.add(uiListener);
         boardView.addListener(uiListener);
         chatView.addListener(uiListener);
         deckView.addListener(uiListener);
-        for(PlayerView playerView: playerViews) {
-            playerView.addListener(uiListener);
-            playerView.addGameFieldListener(uiListener);
-        }
         System.out.println("Added listeners");
     }
 
@@ -153,6 +158,7 @@ public class GameView {
         if(ownerNickname.equals(nickname)) {
             for(PlayerView playerView: playerViews) {
                 if(playerView.getNickname().equals(nickname)) {
+                    System.out.println("STARTER CARD UPDATE");
                     playerView.setStarterCard(starterCard);
                 }
             }
@@ -232,20 +238,40 @@ public class GameView {
      * @param state state
      * @param winners winners
      * @param currPlayer current player
-     * @param twentyPointsReached twentyPointsReached
+     * @param penultimateRound twentyPointsReached
      * @param additionalRound additionalRound
      */
     public void setGameModel(int id, int playersNumber, GameState state, List<String> winners,
-                             int currPlayer, boolean twentyPointsReached, boolean additionalRound) {
+                             int currPlayer, boolean penultimateRound, boolean additionalRound) {
         this.id = id;
         this.playersNumber = playersNumber;
         this.state = state;
         this.winners = winners;
         this.currPlayer = currPlayer;
-        this.twentyPointsReached = twentyPointsReached;
+
+        if(!this.penultimateRound && penultimateRound) {
+            for(GameViewListener l: gameViewListeners) {
+                l.receivePenultimateRoundUpdate();
+            }
+        }
+        if(!this.additionalRound && additionalRound) {
+            for(GameViewListener l: gameViewListeners) {
+                l.receiveAdditionalRoundUpdate();
+            }
+        }
+        this.penultimateRound = penultimateRound;
         this.additionalRound = additionalRound;
 
-        System.out.println("Game model: " + id + " " + playersNumber + " " + state+ " " + winners+ " " + currPlayer+ " " + twentyPointsReached+additionalRound);
+        // send general model update
+        String currPlayerNickname;
+        if(currPlayer >= 0 && currPlayer < playerViews.size()) {
+            currPlayerNickname = playerViews.get(currPlayer).getNickname();
+        }else {
+            currPlayerNickname = "None";
+        }
+        for(GameViewListener l: gameViewListeners) {
+            l.receiveGeneralModelUpdate(state, currPlayerNickname);
+        }
     }
 
     /**
@@ -263,6 +289,10 @@ public class GameView {
             if(!found) {
                 this.playerViews.add(playerView);
                 boardView.addPlayerToBoard(playerView.getNickname(), playerView.getTokenColor());
+                if(playerView.getNickname().equals(ownerNickname)) {
+                    playerView.addListener((PlayerViewListener) gameViewListeners.get(0));
+                    playerView.getGameField().addListener((GameFieldViewListener) gameViewListeners.get(0));
+                }
             }
         }
     }
@@ -274,9 +304,12 @@ public class GameView {
     public void setCommandResult(String nickname, CommandResult commandResult) {
         this.commandResult = commandResult;
 
-
-        // TODO
-        // il nickname server solo per stampare l'aggiornamento alla persona giusta
+        // update view
+        if(nickname.equals(ownerNickname) && !commandResult.equals(CommandResult.SUCCESS)) {
+            for(GameViewListener l: gameViewListeners) {
+                l.receiveCommandResultUpdate(commandResult);
+            }
+        }
     }
 
     public void displayExistingGames(Map<Integer, Integer> existingGames) {

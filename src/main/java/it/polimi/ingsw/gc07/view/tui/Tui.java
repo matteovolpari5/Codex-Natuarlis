@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.view.tui;
 
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CardType;
+import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.main.ClientMain;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
@@ -12,7 +13,6 @@ import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
-import javafx.scene.input.InputMethodTextRun;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -322,6 +322,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveMessageUpdate(ChatMessage chatMessage) {
+        System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                      GAME CHAT                         ");
         System.out.println("--------------------------------------------------------");
@@ -330,6 +331,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveGameFieldUpdate(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                   PLAYER GAME FIELD                    ");
         System.out.println("--------------------------------------------------------");
@@ -338,15 +340,18 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveStarterCardUpdate(PlaceableCard starterCard) {
+        System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                     STARTER CARD                       ");
         System.out.println("--------------------------------------------------------");
+        System.out.println("PRINTING");
         PlayerTui.printStarterCard(starterCard, true);
         PlayerTui.printStarterCard(starterCard, false);
     }
 
     @Override
     public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
+        System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                      PLAYER HAND                       ");
         System.out.println("--------------------------------------------------------");
@@ -355,6 +360,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
+        System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                      SCORE BOARD                       ");
         System.out.println("--------------------------------------------------------");
@@ -363,6 +369,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void receiveDecksUpdate(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
+        System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                      FRONT DECK                        ");
         System.out.println("--------------------------------------------------------");
@@ -371,5 +378,40 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         System.out.println("                       BACK DECK                        ");
         System.out.println("--------------------------------------------------------");
         DeckTui.printBackDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
+    }
+
+    @Override
+    public void receiveGeneralModelUpdate(GameState gameState, String currPlayer) {
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                     GAME MODEL UPDATE                  ");
+        System.out.println("--------------------------------------------------------");
+        System.out.println("Game state: " + gameState);
+        System.out.println("Current player: " + currPlayer);
+    }
+
+    @Override
+    public void receivePenultimateRoundUpdate() {
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                     PENULTIMATE ROUND                  ");
+        System.out.println("--------------------------------------------------------");
+    }
+
+    @Override
+    public void receiveAdditionalRoundUpdate() {
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                     ADDITIONAL ROUND                   ");
+        System.out.println("--------------------------------------------------------");
+    }
+
+    @Override
+    public void receiveCommandResultUpdate(CommandResult commandResult) {
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                      COMMAND RESULT                    ");
+        System.out.println("--------------------------------------------------------");
+        System.out.println(commandResult.getResultMessage());
     }
 }
