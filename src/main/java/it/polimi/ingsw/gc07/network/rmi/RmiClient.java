@@ -38,6 +38,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     private final Ui ui;
 
     /**
+     * Boolean that is true if the server is on
+     */
+    private boolean pong;
+
+    /**
      * Constructor of RmiClient.
      * @param serverGamesManager general server
      * @param nickname nickname
@@ -55,6 +60,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             this.ui = new Tui(nickname, this);
         }
         this.gameView.addViewListener(ui);
+        this.pong = true;
     }
 
     /**
