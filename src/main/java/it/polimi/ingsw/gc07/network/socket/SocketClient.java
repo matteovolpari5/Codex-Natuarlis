@@ -79,6 +79,7 @@ public class SocketClient implements Client, PingSender {
             this.ui = new Gui();
         else
             this.ui = new Tui(nickname, this);
+        this.gameView.addViewListener(ui);
 
         if(check.equals(NicknameCheck.NEW_NICKNAME)){
             connectToGamesManagerServer(interfaceType);
@@ -98,16 +99,6 @@ public class SocketClient implements Client, PingSender {
 
     private void connectToGamesManagerServer(boolean interfaceType) {
         System.out.println("SC> connectToGMS");
-        if(interfaceType) {
-            // Gui
-            this.ui = new Gui();
-
-        }else {
-            // Tui
-            this.ui = new Tui(nickname, this);
-        }
-        // this.gameView.addViewListener(ui);
-        // TODO per ora rimosso
         try {
             myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, false, interfaceType));
         } catch (RemoteException e) {

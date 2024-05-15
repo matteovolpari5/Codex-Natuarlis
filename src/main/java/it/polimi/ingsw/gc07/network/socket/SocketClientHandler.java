@@ -154,11 +154,6 @@ public class SocketClientHandler implements VirtualView {
         this.gameController = gamesManager.getGameById(gameId);
     }
 
-    @Override
-    public void kill() throws RemoteException {
-        closeConnection();
-    }
-
     private void receiveUpdate(Update update) throws IOException{
         System.out.println("INVIO UPDATE");
         output.writeObject(update);

@@ -30,9 +30,4 @@ public interface VirtualView extends Remote, ChatListener, GameFieldListener, Ga
      * @throws RemoteException remote exception
      */
     void notifyJoinNotSuccessful() throws RemoteException;
-    /**
-     * Method to kill the player if he doesn't join a game in a certain time.
-     * @throws RemoteException remote exception
-     */
-    void kill() throws RemoteException;
 }

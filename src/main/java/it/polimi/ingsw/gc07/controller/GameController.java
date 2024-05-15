@@ -230,11 +230,13 @@ public class GameController {
 
         // TODO togliere o rivedere
         if(!player.getConnectionType()) {
+            /*
             try {
-                virtualView.kill();
+                // virtualView.kill(); // TODO
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
+             */
         }
 
         // remove virtual view
@@ -297,7 +299,6 @@ public class GameController {
      * It allows the player to choose new connection and interface settings.
      * @param nickname player's nickname
      */
-    // TODO synchronized chi lo chiama?
     public synchronized void reconnectPlayer(VirtualView client, String nickname, boolean connectionType, boolean interfaceType) {
         // this command can always be used
         assert(gameModel.getPlayerNicknames().contains(nickname)): "Player not present";
@@ -309,8 +310,6 @@ public class GameController {
         player.setInterfaceType(interfaceType);
 
         gameModel.addListener(client);
-        pingReceiver.addPingSender(nickname, client);
-
         try {
             client.setServerGame(getId());
         } catch (RemoteException e) {
@@ -318,6 +317,7 @@ public class GameController {
             // TODO
             throw new RuntimeException(e);
         }
+        pingReceiver.addPingSender(nickname, client);
 
         // set player connected
         player.setIsConnected(true); //TODO sincronizzazione con thread di checkPing

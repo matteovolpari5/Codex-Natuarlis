@@ -76,4 +76,9 @@ public  class Gui implements Ui {
     public void receiveCommandResultUpdate(CommandResult commandResult) {
         // TODO
     }
+
+    @Override
+    public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGames) {
+        // TODO
+    }
 }

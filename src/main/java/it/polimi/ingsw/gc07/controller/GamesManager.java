@@ -74,27 +74,6 @@ public class GamesManager {
     public synchronized void addVirtualView(String nickname, VirtualView virtualView) {
         assert(!playerVirtualViews.containsKey(nickname));
         playerVirtualViews.put(nickname, virtualView);
-
-        // create timer
-        Timer timer = new Timer();
-        playersTimers.put(nickname, timer);
-        new Thread(() -> {
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    // kill player
-                    try {
-                        virtualView.kill();
-                        removePlayer(nickname);
-                    }catch(RemoteException e) {
-                        // se il player esce e non rientra, chiamo kill su qualcosa di morto
-                        // TODO
-                        e.printStackTrace();
-                        throw new RuntimeException();
-                    }
-                }
-            }, 5*60*1000); //timer of 5 minutes
-        }).start();
     }
 
     public synchronized VirtualView getVirtualView(String nickname) {
@@ -272,11 +251,6 @@ public class GamesManager {
                 }
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player, playerVirtualViews.get(nickname));
-
-                // cancel timer
-                assert(playersTimers.containsKey(nickname));
-                playersTimers.get(nickname).cancel();
-                playersTimers.get(nickname).purge();
             }
         }
         if(!found){
@@ -322,11 +296,6 @@ public class GamesManager {
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player, playerVirtualViews.get(nickname));
             }
-
-            // cancel timer
-            assert(playersTimers.containsKey(nickname));
-            playersTimers.get(nickname).cancel();
-            playersTimers.get(nickname).purge();
         }
 
         RmiServerGamesManager.getRmiServerGamesManager().createServerGame(gameId);

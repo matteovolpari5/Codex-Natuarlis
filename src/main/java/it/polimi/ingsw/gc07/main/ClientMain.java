@@ -80,7 +80,6 @@ public class ClientMain {
 
             if(connectionType) {
                 // RMI connection
-                System.out.println("RMI>");
                 Registry registry = null;
                 try {
                     registry = LocateRegistry.getRegistry(ip, 1234);
