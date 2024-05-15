@@ -2,11 +2,19 @@ package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
+import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
+import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
+import it.polimi.ingsw.gc07.model_listeners.ChatListener;
+import it.polimi.ingsw.gc07.model_listeners.PlayerListener;
+import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -86,5 +94,49 @@ class PlayerTest {
         for(DrawableCard c: currentHand){
             assertTrue(c.equals(card) || newCurrentHand.contains(c));
         }
+    }
+    @Test
+    public void testListener() {
+        PlayerListener listener1;
+        try {
+            listener1 = new RmiClient("P1", false,null);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        player.addListener(listener1);
+        assertNotNull(player.getListeners());
+        DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
+        resourceCardsDeck.shuffle();
+        player.addCardHand(resourceCardsDeck.drawCard());
+        player.removeListener(listener1);
+        assertEquals(0,player.getListeners().size());
+    }
+    @Test
+    public void testGetter()
+    {
+        Deck<PlaceableCard> starterDeck = DecksBuilder.buildStarterCardsDeck();
+        starterDeck.shuffle();
+        assertEquals("TestNickname",player.getNickname());
+        assertNotNull(player.getGameField());
+        player.setStarterCard(starterDeck.drawCard());
+        assertNotNull(player.getStarterCard());
+        assertEquals(tokenColor,player.getTokenColor());
+        player.setFirst();
+        assertTrue(player.isFirst());
+        player.setConnectionType(false);
+        player.setInterfaceType(false);
+        assertFalse(player.getConnectionType());
+        assertFalse(player.getInterfaceType());
+        player.setIsStalled(true);
+        assertTrue(player.getIsStalled());
+        player.setIsConnected(true);
+        assertTrue(player.isConnected());
+        PlayingDeck<ObjectiveCard> objectiveDeck = DecksBuilder.buildObjectiveCardsDeck();
+        objectiveDeck.shuffle();
+        ObjectiveCard objective = objectiveDeck.drawCard();
+        player.setSecretObjective(objective);
+        assertEquals(player.getSecretObjective(),objective);
+        player.placeCard(player.getStarterCard(),40,40,true);
+        assertNotNull(player.getGameField().getPlacedCard(40,40));
     }
 }
