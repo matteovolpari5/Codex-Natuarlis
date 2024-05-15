@@ -1,12 +1,18 @@
 package it.polimi.ingsw.gc07.model.cards;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
+import it.polimi.ingsw.gc07.enumerations.GameResource;
+import it.polimi.ingsw.gc07.model.GameItem;
 import it.polimi.ingsw.gc07.model.Player;
+import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -307,5 +313,27 @@ class GoldCardTest {
         assertEquals(CommandResult.SUCCESS, myGoldCard.isPlaceable(p.getGameField(), 42, 42, false));
         p.placeCard(myGoldCard, 42, 42, false);
         assertEquals(5, myGoldCard.getPlacementScore(p.getGameField(), 42, 42));
+    }
+    @Test
+    public void getters() {
+        for(GoldCard c: goldCardsDeck.getContent()){
+            if(c.getId() == 51){
+                myGoldCard = c;
+            }
+        }
+        assertInstanceOf(ItemsCondition.class,myGoldCard.getPlacementCondition());
+        assertInstanceOf(ItemsCondition.class,myGoldCard.getScoringCondition());
+    }
+    @Test
+    void GoldPlaceBack() {
+        myStarterCard = starterCardsDeck.drawCard();
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, 40, 40, false);
+        for(DrawableCard c: goldCardsDeck.getContent()){
+            if(c.getId() == 49){
+                myGoldCard = c;
+            }
+        }
+        assertEquals(CommandResult.SUCCESS, myGoldCard.isPlaceable(p.getGameField(), 41, 41, true));
     }
 }

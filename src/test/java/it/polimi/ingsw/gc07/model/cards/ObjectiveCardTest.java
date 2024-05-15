@@ -3,6 +3,9 @@ package it.polimi.ingsw.gc07.model.cards;
 import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
+import it.polimi.ingsw.gc07.model.conditions.Condition;
+import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
+import it.polimi.ingsw.gc07.model.conditions.LayoutCondition;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
@@ -14,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ObjectiveCardTest {
     DrawableDeck<DrawableCard> resourceCardsDeck;
+    DrawableDeck<GoldCard> goldCardsDeck;
     ObjectiveCard myObjectiveCard;
     PlaceableCard myStarterCard;
     DrawableCard myResourceCard;
@@ -25,7 +29,7 @@ class ObjectiveCardTest {
     void setUp() {
             objectiveCardsDeck = DecksBuilder.buildObjectiveCardsDeck();
             resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();
-            //goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
+            goldCardsDeck = DecksBuilder.buildGoldCardsDeck();
             Deck<PlaceableCard> starterCardsDeck = DecksBuilder.buildStarterCardsDeck();
             //salvo objective card
             for(ObjectiveCard c: objectiveCardsDeck.getContent()){
@@ -67,7 +71,6 @@ class ObjectiveCardTest {
         }
         assertEquals(1, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
         assertEquals(2, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
-
     }
     @Test
     public void TwoTimesLayoutConditionMet () {
@@ -440,5 +443,46 @@ class ObjectiveCardTest {
         }
         assertEquals(0, myObjectiveCard.getObjectiveScore(new GameField(p.getGameField())));
         assertEquals(0, myObjectiveCard.numTimesScoringConditionMet(new GameField(p.getGameField())));
+    }
+    @Test
+    public void getterScoringConditionAndPoints () {
+        for (ObjectiveCard c : objectiveCardsDeck.getContent()) {
+            if (c.getId() == 95) {
+                myObjectiveCard = c;
+                assertNotNull(myObjectiveCard);
+                Condition con = myObjectiveCard.getScoringCondition();
+                assertInstanceOf(ItemsCondition.class,con);
+                assertEquals(2,myObjectiveCard.getPoints());
+            }
+            if (c.getId() == 94) {
+                myObjectiveCard = c;
+                assertNotNull(myObjectiveCard);
+                Condition con = myObjectiveCard.getScoringCondition();
+                assertInstanceOf(LayoutCondition.class,con);
+                assertEquals(3,myObjectiveCard.getPoints());
+            }
+        }
+    }
+    @Test
+    public void numTimesScoringConditionNotMet () {
+        for (ObjectiveCard c : objectiveCardsDeck.getContent()) {
+            if (c.getId() == 95) {
+                myObjectiveCard = c;
+                assertNotNull(myObjectiveCard);
+                assertEquals(myObjectiveCard.getObjectiveScore(p.getGameField()),0);
+                assertEquals(myObjectiveCard.numTimesScoringConditionMet(p.getGameField()),0);
+            }
+        }
+    }
+    public void numTimesScoringConditionMetAndScored () {
+        for (ObjectiveCard c : objectiveCardsDeck.getContent()) {
+            if (c.getId() == 95) {
+                myObjectiveCard = c;
+                assertNotNull(myObjectiveCard);
+            }
+        }
+
+        assertEquals(myObjectiveCard.getObjectiveScore(p.getGameField()),0);
+        assertEquals(myObjectiveCard.numTimesScoringConditionMet(p.getGameField()),0);
     }
 }

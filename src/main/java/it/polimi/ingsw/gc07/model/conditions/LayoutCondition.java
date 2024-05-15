@@ -156,14 +156,6 @@ public class LayoutCondition implements Condition{
                 }
             }
         }
-        if(row==3)
-        {
-            for (int j = 0; j < 3; j++) {
-                if (cardsColor[3][j] != null) {
-                    row = 4;
-                }
-            }
-        }
         int iapp=0;
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 3; j++){

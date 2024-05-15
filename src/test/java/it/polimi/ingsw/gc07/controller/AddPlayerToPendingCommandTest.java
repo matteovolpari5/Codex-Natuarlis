@@ -47,19 +47,12 @@ class AddPlayerToPendingCommandTest {
     @Test
     void addPlayerUnsuccessfulWithJoin() throws NotBoundException, RemoteException {
         // add Player1 to pending players
+        RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
+
+        RmiClient newRmiClient = new RmiClient("player1", true, serverGamesManager);
+        newRmiClient.connectToGamesManagerServer(true, true);
         gamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand("Player1", true, true));
         assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
-
-        // make Player1 join a new gameController
-        String name = "VirtualServerGamesManager";
-        RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
-        Registry registry = LocateRegistry.createRegistry(1234);
-        registry.rebind(name, serverGamesManager);
-
-        Registry registry2 = LocateRegistry.getRegistry("127.0.0.1", 1234);
-        VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry2.lookup("VirtualServerGamesManager");
-        RmiClient newRmiClient = new RmiClient("Player1", true, rmiServerGamesManager);
-        newRmiClient.connectToGamesManagerServer(true, true);
         gamesManager.setAndExecuteCommand(new JoinNewGameCommand("Player1", TokenColor.GREEN, 3));
         assertEquals(CommandResult.SUCCESS, gamesManager.getCommandResult());
 
