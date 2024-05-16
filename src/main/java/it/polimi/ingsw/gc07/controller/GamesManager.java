@@ -166,6 +166,18 @@ public class GamesManager {
 
         Player newPlayer = new Player(nickname, connectionType, interfaceType);
         pendingPlayers.add(newPlayer);
+        new Thread(()->{
+            Timer timeout = new Timer();
+            playersTimers.put(nickname, timeout);
+            timeout.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    synchronized (this){
+                        removePlayer(nickname);
+                    }
+                }
+            }, 15 * 1000);
+        }).start();
         commandResult = CommandResult.SUCCESS;
     }
 
@@ -267,6 +279,11 @@ public class GamesManager {
 
         // remove player
         removePlayer(nickname);
+        playersTimers.get(nickname).cancel();
+        synchronized (this){
+            playersTimers.get(nickname).purge();
+            playersTimers.remove(nickname);
+        }
 
         commandResult = CommandResult.SUCCESS;
     }
@@ -307,6 +324,12 @@ public class GamesManager {
 
         // remove player
         removePlayer(nickname);
+        playersTimers.get(nickname).cancel();
+        synchronized (this){
+            playersTimers.get(nickname).purge();
+            playersTimers.remove(nickname);
+        }
+
         commandResult = CommandResult.SUCCESS;
     }
 
