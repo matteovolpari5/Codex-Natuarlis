@@ -68,7 +68,6 @@ public class SocketClientHandler implements VirtualView {
             throw new RuntimeException(e);
         }
     }
-
     private void manageGamesManagerCommand(){
         System.out.println("SCH-T> manageGMCommand");
         GamesManagerCommand command;

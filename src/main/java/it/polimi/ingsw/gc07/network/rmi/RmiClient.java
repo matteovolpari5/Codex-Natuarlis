@@ -176,7 +176,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     private synchronized void setPong() {
         this.pong = true;
     }
-    
+
     /**
      * Method that checks if the client is receiving pongs from server.
      */
@@ -217,8 +217,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                         System.out.println("Connection failed. Press enter. - ping");
                         clientAlive = false;
                     }
-                } else {
-                    System.out.println("Smetto di inviare ping");
+                } else{
                     break;
                 }
             }
