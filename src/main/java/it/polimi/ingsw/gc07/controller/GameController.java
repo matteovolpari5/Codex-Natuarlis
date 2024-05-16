@@ -629,8 +629,10 @@ public class GameController {
         if(getPlayers().get(gameModel.getCurrPlayer()).getIsStalled()) {
             boolean found = false;
             for(Player p: getPlayers()) {
-                if(!p.getIsStalled())
+                if (!p.getIsStalled()) {
                     found = true;
+                    break;
+                }
             }
             if(found)
                 changeCurrPlayer();

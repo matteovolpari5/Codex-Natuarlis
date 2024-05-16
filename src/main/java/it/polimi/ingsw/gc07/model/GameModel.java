@@ -249,18 +249,6 @@ public class GameModel {
         }
     }
 
-    private void sendWinnersUpdate() {
-        for(GameListener l: gameListeners) {
-            try {
-                l.receiveGameEndedUpdate(new GameEndedUpdate(new ArrayList<>(winners)));
-            } catch (RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
     private void sendDeckUpdate() {
         DeckUpdate update = new DeckUpdate(resourceCardsDeck.revealTopCard(), goldCardsDeck.revealTopCard(),
                 resourceCardsDeck.getFaceUpCards(), goldCardsDeck.getFaceUpCards(),
@@ -272,6 +260,18 @@ public class GameModel {
                 // TODO
                 e.printStackTrace();
                 throw new RuntimeException();
+            }
+        }
+    }
+
+    private void sendWinnersUpdate() {
+        for(GameListener l: gameListeners) {
+            try {
+                l.receiveGameEndedUpdate(new GameEndedUpdate(new ArrayList<>(winners)));
+            } catch (RemoteException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
@@ -439,15 +439,7 @@ public class GameModel {
         chat.addPrivateMessage(content, sender, receiver);
     }
 
-    public int getScore(String nickname) {
-        return board.getScore(nickname);
-    }
-
-    public void setScore(String nickname, int newScore) {
-        board.setScore(nickname, newScore);
-    }
-
-    public void incrementScore(String nickname, int deltaScore) {
+    private void incrementScore(String nickname, int deltaScore) {
         board.incrementScore(nickname, deltaScore);
     }
 
@@ -462,23 +454,21 @@ public class GameModel {
     }
 
     public boolean hasPlayer(String nickname) {
-        boolean found = false;
         for(Player p: players){
-            if(p.getNickname().equals(nickname)){
-                found = true;
+            if (p.getNickname().equals(nickname)) {
+                return true;
             }
         }
-        return found;
+        return false;
     }
 
     public boolean hasPlayerWithTokenColor(TokenColor tokenColor) {
-        boolean found = false;
         for(Player p: players){
             if(p.getTokenColor().equals(tokenColor)){
-                found = true;
+                return true;
             }
         }
-        return found;
+        return false;
     }
 
     /**
@@ -512,7 +502,7 @@ public class GameModel {
             //points counter for the secret objective
             deltaPoints += players.get(i).getSecretObjective().getObjectiveScore(gameField);
             incrementScore(players.get(i).getNickname(), deltaPoints);
-            if (max == getScore(players.get(i).getNickname())) {
+            if (max == board.getScore(players.get(i).getNickname())) {
                 if (realizedObjectives >= maxRealizedObjective) {
                     if (realizedObjectives == maxRealizedObjective) {
                         computedWinners.add(players.get(i).getNickname());
@@ -523,9 +513,9 @@ public class GameModel {
                     }
                 }
             }
-            else if(max < getScore(players.get(i).getNickname()))
+            else if(max < board.getScore(players.get(i).getNickname()))
             {
-                max = getScore(players.get(i).getNickname());
+                max = board.getScore(players.get(i).getNickname());
                 computedWinners.clear();
                 computedWinners.add(players.get(i).getNickname());
                 maxRealizedObjective = realizedObjectives;
@@ -547,10 +537,10 @@ public class GameModel {
     public void addPoints(Player player, int x, int y) {
         int deltaPoints;
         deltaPoints = player.getGameField().getPlacedCard(x, y).getPlacementScore(player.getGameField(), x, y);
-        if(deltaPoints + getScore(player.getNickname()) >= 20) {
+        if(deltaPoints + board.getScore(player.getNickname()) >= 20) {
             setPenultimateRound(true); // setter updated listeners
-            if((deltaPoints + getScore(player.getNickname())) > 29) {
-                setScore(player.getNickname(), 29);
+            if((deltaPoints + board.getScore(player.getNickname())) > 29) {
+                board.setScore(player.getNickname(), 29);
             }
             else {
                 incrementScore(player.getNickname(), deltaPoints);
