@@ -11,17 +11,9 @@ public class GameModelUpdate implements Update {
      */
     private final int id;
     /**
-     * Game players number.
-     */
-    private final int playersNumber;
-    /**
      * Game state.
      */
     private final GameState state;
-    /**
-     * List of winners.
-     */
-    private final List<String> winners;
     /**
      * Current player.
      */
@@ -38,16 +30,12 @@ public class GameModelUpdate implements Update {
     /**
      * Constructor of GameModelUpdate.
      * @param id id
-     * @param playersNumber players number
      * @param state state
-     * @param winners winners
      * @param currPlayer current player
      */
-    public GameModelUpdate(int id, int playersNumber, GameState state, List<String> winners, int currPlayer, boolean twentyPointsReached, boolean additionalRound) {
+    public GameModelUpdate(int id, GameState state, int currPlayer, boolean twentyPointsReached, boolean additionalRound) {
         this.id = id;
-        this.playersNumber = playersNumber;
         this.state = state;
-        this.winners = winners;
         this.currPlayer = currPlayer;
         this.twentyPointsReached = twentyPointsReached;
         this.additionalRound = additionalRound;
@@ -59,7 +47,7 @@ public class GameModelUpdate implements Update {
      */
     @Override
     public void execute(GameView gameView) {
-        gameView.setGameModel(id, playersNumber, state, winners, currPlayer, twentyPointsReached, additionalRound);
+        gameView.setGameModel(id, state, currPlayer, twentyPointsReached, additionalRound);
     }
 }
 

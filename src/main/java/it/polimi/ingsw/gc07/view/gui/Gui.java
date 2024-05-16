@@ -81,4 +81,9 @@ public  class Gui implements Ui {
     public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGames) {
         // TODO
     }
+
+    @Override
+    public void receiveWinnersUpdate(List<String> winners) {
+        // TODO
+    }
 }

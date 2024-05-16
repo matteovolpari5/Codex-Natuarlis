@@ -31,10 +31,6 @@ public class GameView {
      */
     private GameState state;
     /**
-     * Number of players in the game, chose by the first player.
-     */
-    private int playersNumber;
-    /**
      * List of winner(s) of the game.
      */
     private List<String> winners;
@@ -70,11 +66,11 @@ public class GameView {
      * List of PlayerViews.
      * Same order of the list of players on the server.
      */
-    private List<PlayerView> playerViews;
+    private final List<PlayerView> playerViews;
     /**
      * List of game view listeners.
      */
-    private List<GameViewListener> gameViewListeners;
+    private final List<GameViewListener> gameViewListeners;
 
     /**
      * Constructor of the class GameView
@@ -100,51 +96,83 @@ public class GameView {
         deckView.addListener(uiListener);
     }
 
-    /**
-     * Method that allows to set game model info.
-     * @param id id
-     * @param playersNumber players number
-     * @param state state
-     * @param winners winners
-     * @param currPlayer current player
-     * @param penultimateRound twentyPointsReached
-     * @param additionalRound additionalRound
-     */
-    public void setGameModel(int id, int playersNumber, GameState state, List<String> winners,
-                             int currPlayer, boolean penultimateRound, boolean additionalRound) {
-        this.id = id;
-        this.playersNumber = playersNumber;
-        this.state = state;
-        this.winners = winners;
-        this.currPlayer = currPlayer;
+    // getters
 
-        if(!this.penultimateRound && penultimateRound) {
-            for(GameViewListener l: gameViewListeners) {
-                l.receivePenultimateRoundUpdate();
-            }
-        }
-        if(!this.additionalRound && additionalRound) {
-            for(GameViewListener l: gameViewListeners) {
-                l.receiveAdditionalRoundUpdate();
-            }
-        }
-        this.penultimateRound = penultimateRound;
-        this.additionalRound = additionalRound;
+    public GameState getGameState() {
+        return state;
+    }
 
-        // send general model update
+    public String getCurrentPlayerNickname() {
         String currPlayerNickname;
         if(currPlayer >= 0 && currPlayer < playerViews.size()) {
             currPlayerNickname = playerViews.get(currPlayer).getNickname();
         }else {
             currPlayerNickname = null;
         }
-        for(GameViewListener l: gameViewListeners) {
-            l.receiveGeneralModelUpdate(state, currPlayerNickname);
-        }
+        return currPlayerNickname;
+    }
 
-        // if new current player, send deck update
-        if(currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
-            deckView.sendDecksUpdate();
+    public String getOwnerNickname() {
+        return ownerNickname;
+    }
+
+    public List<ObjectiveCard> getCommonObjective() {
+        return deckView.getCommonObjective();
+    }
+
+    public DrawableCard getTopResourceDeck() {
+        return deckView.getTopResourceDeck();
+    }
+
+    public GoldCard getTopGoldDeck() {
+        return deckView.getTopGoldDeck();
+    }
+
+    public List<DrawableCard> getFaceUpResourceCard() {
+        return deckView.getFaceUpResourceCard();
+    }
+
+    public List<GoldCard> getFaceUpGoldCard() {
+        return deckView.getFaceUpGoldCard();
+    }
+
+    /**
+     * Method that allows to set game model info.
+     * @param id id
+     * @param state state
+     * @param currPlayer current player
+     * @param penultimateRound twentyPointsReached
+     * @param additionalRound additionalRound
+     */
+    public void setGameModel(int id, GameState state, int currPlayer, boolean penultimateRound, boolean additionalRound) {
+        this.id = id;
+        this.state = state;
+        this.currPlayer = currPlayer;
+        if(!this.penultimateRound && penultimateRound) {
+            for(GameViewListener l : gameViewListeners) {
+                l.receivePenultimateRoundUpdate();
+            }
+        }
+        this.penultimateRound = penultimateRound;
+
+        if(!this.additionalRound && additionalRound) {
+            for(GameViewListener l : gameViewListeners) {
+                l.receiveAdditionalRoundUpdate();
+            }
+        }
+        this.additionalRound = additionalRound;
+
+        // send general model update
+        for(GameViewListener l: gameViewListeners) {
+            l.receiveGeneralModelUpdate(state, getCurrentPlayerNickname());
+            // for tui, it may print decks
+        }
+    }
+
+    public void setWinners(List<String> winners) {
+        this.winners = winners;
+        for(GameViewListener l: gameViewListeners) {
+            l.receiveWinnersUpdate(winners);
         }
     }
 
@@ -153,7 +181,9 @@ public class GameView {
      * @param chatMessage new chat message
      */
     public void addMessage(ChatMessage chatMessage) {
-        chatView.addMessage(chatMessage);
+        if(chatMessage.getIsPublic() || chatMessage.isForReceiver(ownerNickname)) {
+            chatView.addMessage(chatMessage);
+        }
     }
 
     /**
@@ -209,6 +239,7 @@ public class GameView {
                 }
             }
         }
+        // else, don't save it
     }
 
     /**
@@ -269,10 +300,10 @@ public class GameView {
      * @param nickname nickname
      * @param newHand card hand
      */
-    public void setCardHand(String nickname, List<DrawableCard> newHand) {
+    public void setCardHand(String nickname, List<DrawableCard> newHand, ObjectiveCard personalObjective) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
-                p.setCardHand(newHand);
+                p.setCardHand(newHand, personalObjective);
             }
         }
     }
@@ -293,8 +324,8 @@ public class GameView {
                 this.playerViews.add(playerView);
                 boardView.addPlayerToBoard(playerView.getNickname(), playerView.getTokenColor());
                 if(playerView.getNickname().equals(ownerNickname)) {
-                    playerView.addListener((PlayerViewListener) gameViewListeners.get(0));
-                    playerView.getGameField().addListener((GameFieldViewListener) gameViewListeners.get(0));
+                    playerView.addListener((PlayerViewListener) gameViewListeners.getFirst());
+                    playerView.addGameFieldListener((GameFieldViewListener) gameViewListeners.getFirst());
                 }
             }
         }
@@ -311,7 +342,7 @@ public class GameView {
         // update view
         if(nickname.equals(ownerNickname) && !commandResult.equals(CommandResult.SUCCESS)) {
             for(GameViewListener l: gameViewListeners) {
-                l.receiveCommandResultUpdate(commandResult);
+                l.receiveCommandResultUpdate(this.commandResult);
             }
         }
     }
@@ -331,10 +362,6 @@ public class GameView {
         return false;
     }
 
-    public GameState getGameState() {
-        return state;
-    }
-
     public boolean isCurrentPlayer(String nickname) {
         if(currPlayer < 0)
             return false;
@@ -352,15 +379,6 @@ public class GameView {
     public int getCurrHardHandSize() {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(ownerNickname)) {
-                System.out.println("CURRENT HAND");
-                for(DrawableCard c: p.getCurrentHand()) {
-                    System.out.println(c.getId());
-                }
-            }
-        }
-
-        for(PlayerView p: playerViews) {
-            if(p.getNickname().equals(ownerNickname)) {
                 return p.getCurrHandSize();
             }
         }
@@ -374,5 +392,20 @@ public class GameView {
             }
         }
         return -1;
+    }
+
+    public GameFieldView getGameField(String nickname) {
+        PlayerView player = null;
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(nickname)) {
+                player = p;
+            }
+        }
+        assert(player != null);
+        return player.getGameField();
+    }
+
+    public void printChat() {
+        chatView.printChat();
     }
 }

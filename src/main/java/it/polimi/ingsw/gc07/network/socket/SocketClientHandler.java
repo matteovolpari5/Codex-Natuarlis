@@ -283,7 +283,15 @@ public class SocketClientHandler implements VirtualView {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    @Override
+    public void receiveGameEndedUpdate(GameEndedUpdate gameEndedUpdate) throws RemoteException {
+        try {
+            receiveUpdate(gameEndedUpdate);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
