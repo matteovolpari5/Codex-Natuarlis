@@ -32,15 +32,13 @@ public class SocketServer {
         return mySocketServer;
     }
 
-    public void initializeSocketServer(ServerSocket mySocket){
+    public void initializeSocketServer(ServerSocket mySocket) {
         this.mySocket = mySocket;
     }
 
     public void runServer() throws IOException {
         System.out.println("SS> Socket server running");
-        //TODO slide 21 utilizza executor per gestire i thread, in questo caso
-        //TODO socketClientHandler implements Runnable e run() diventerebbe l'attuale manageCommand()
-        Socket clientSocket = null;
+        Socket clientSocket;
         while((clientSocket = this.mySocket.accept()) != null){
             System.out.println("SS> Received client connection");
             SocketClientHandler handler = new SocketClientHandler(GamesManager.getGamesManager(), clientSocket);
@@ -60,7 +58,8 @@ public class SocketServer {
         return null;
     }
 
-    public synchronized void removeVirtualView(VirtualView virtualView)throws RemoteException {
+    // TODO da rimuovere prima!
+    public synchronized void removeVirtualView(VirtualView virtualView) throws RemoteException {
         clients.remove(virtualView);
     }
 

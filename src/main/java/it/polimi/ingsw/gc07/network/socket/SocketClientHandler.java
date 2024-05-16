@@ -61,9 +61,7 @@ public class SocketClientHandler implements VirtualView {
             }else{
                 isReconnected = true;
                 boolean interfaceType = input.readBoolean();
-                synchronized (gamesManager){
-                    gamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(this, myClientNickname, false, interfaceType));
-                }
+                gamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(this, myClientNickname, false, interfaceType));
                 manageGameCommand();
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -77,12 +75,10 @@ public class SocketClientHandler implements VirtualView {
         while(true) {
             try {
                 command = (GamesManagerCommand) input.readObject();
-                synchronized (gamesManager){
-                    gamesManager.setAndExecuteCommand(command);
-                    if(gameController != null){
-                        break;
-                    }
-                }//TODO come gestire se il command ha avuto esito negativo? In rmi non viene controllato da nessuno l'esito del command
+                gamesManager.setAndExecuteCommand(command);
+                if(gameController != null){
+                    break;
+                }
             } catch (Exception e){
                 //TODO gestire eccezione
                 break;
@@ -97,30 +93,24 @@ public class SocketClientHandler implements VirtualView {
         while(true){
             try{
                 command = (GameControllerCommand) input.readObject();
-                synchronized (gameController){
+                synchronized (gameController) {
                     gameController.setAndExecuteCommand(command);
-                    CommandResult result = gameController.getCommandResult(); // TODO SendPingCommand non modifica commandResult
+                    CommandResult result = gameController.getCommandResult();
                     if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
-                        //closeConnection(mySocket,input,output);
+                        // TODO closeConnection(mySocket,input,output);
                     }
-                    //TODO come prima: in rmi nessuno controlla l'esito del command
-                    /*if(result.equals(CommandResult.SUCCESS)){
-                        //TODO mostrare esito
-                    }else{
-                        //TODO mostrare errore
-                    }*/
                 }
             } catch (Exception e){
                 //TODO gestire eccezione
                 e.printStackTrace();
                 throw new RuntimeException();
-                //closeConnection(mySocket,input,output);
+                // TODO closeConnection(mySocket,input,output);
             }
         }
-        //closeConnection(mySocket, input, output);
+        // TODO closeConnection(mySocket, input, output);
     }
 
-    public void closeConnection(){
+    private void closeConnection(){
         try{
             input.close();
             output.close();
@@ -154,127 +144,89 @@ public class SocketClientHandler implements VirtualView {
         this.gameController = gamesManager.getGameById(gameId);
     }
 
-    private void receiveUpdate(Update update) throws IOException{
-        System.out.println("INVIO UPDATE");
-        output.writeObject(update);
-        output.reset();
-        output.flush();
+    private synchronized void receiveUpdate(Update update) {
+        try {
+            System.out.println("INVIO UPDATE");
+            output.writeObject(update);
+            output.reset();
+            output.flush();
+        }catch(IOException e) {
+            // TODO close connection
+        }
     }
 
 
     @Override
     public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) {
-        try {
-            receiveUpdate(chatMessageUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(chatMessageUpdate);
     }
 
     @Override
     public void receiveDeckUpdate(DeckUpdate deckUpdate) {
-        try {
-            receiveUpdate(deckUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(deckUpdate);
     }
 
     @Override
     public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) {
-        try {
-            receiveUpdate(starterCardUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(starterCardUpdate);
     }
 
     @Override
     public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) {
-        try {
-            receiveUpdate(placedCardUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(placedCardUpdate);
     }
 
     @Override
     public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) {
-        try {
-            receiveUpdate(gameModelUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(gameModelUpdate);
     }
 
     @Override
     public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpate) throws RemoteException {
-        try {
-            receiveUpdate(playerJoinedUpate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(playerJoinedUpate);
     }
 
     @Override
     public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) {
-        try {
-            receiveUpdate(commandResultUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(commandResultUpdate);
     }
 
     @Override
     public void receiveStallUpdate(StallUpdate stallUpdate) {
-        try {
-            receiveUpdate(stallUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(stallUpdate);
     }
 
     @Override
     public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) {
-        try {
-            receiveUpdate(connectionUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(connectionUpdate);
     }
 
     @Override
     public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) {
-        try {
-            receiveUpdate(cardHandUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(cardHandUpdate);
     }
 
     @Override
     public void receiveScoreUpdate(ScoreUpdate scoreUpdate) {
-        try {
-            receiveUpdate(scoreUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(scoreUpdate);
     }
 
     @Override
     public void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException {
-        try {
-            output.writeObject("Display successful.");
-            output.reset();
-            output.flush();
-            receiveUpdate(existingGamesUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        synchronized (this) {
+            try {
+                output.writeObject("Display successful.");
+                output.reset();
+                output.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+        receiveUpdate(existingGamesUpdate);
     }
 
     @Override
-    public void notifyJoinNotSuccessful() throws RemoteException {
+    public synchronized void notifyJoinNotSuccessful() throws RemoteException {
         String error = "Action not successful.";
         try {
             output.writeObject(error);
@@ -287,19 +239,11 @@ public class SocketClientHandler implements VirtualView {
 
     @Override
     public void receiveGameEndedUpdate(GameEndedUpdate gameEndedUpdate) throws RemoteException {
-        try {
-            receiveUpdate(gameEndedUpdate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(gameEndedUpdate);
     }
 
     @Override
     public void sendPong() throws RemoteException {
-        try {
-            receiveUpdate(new PongUpdate());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        receiveUpdate(new PongUpdate());
     }
 }

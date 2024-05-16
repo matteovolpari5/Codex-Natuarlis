@@ -442,7 +442,6 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         System.out.println("--------------------------------------------------------");
         System.out.println("                     STARTER CARD                       ");
         System.out.println("--------------------------------------------------------");
-        System.out.println("PRINTING");
         PlayerTui.printStarterCard(starterCard, true);
         PlayerTui.printStarterCard(starterCard, false);
     }

@@ -195,7 +195,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                     }
                 }
                 pong = false;
-
             }
             try {
                 Thread.sleep(1000); // wait one second between two pong checks
