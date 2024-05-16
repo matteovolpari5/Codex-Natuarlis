@@ -630,7 +630,7 @@ public class GameController {
         if(gameModel.getPenultimateRound()) {
             if(getPlayers().get(gameModel.getCurrPlayer()).isFirst() && gameModel.getAdditionalRound()) {
                 gameModel.setState(GameState.GAME_ENDED);
-                gameModel.computeWinner();
+                gameModel.computeWinners();
                 // delete game from GamesManager
                 endGame();
                 return;
@@ -653,7 +653,7 @@ public class GameController {
                 changeCurrPlayer();
             else {
                 gameModel.setState(GameState.GAME_ENDED);
-                gameModel.computeWinner();
+                gameModel.computeWinners();
                 endGame();
             }
         }
