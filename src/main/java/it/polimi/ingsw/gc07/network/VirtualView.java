@@ -30,4 +30,6 @@ public interface VirtualView extends Remote, ChatListener, GameFieldListener, Ga
      * @throws RemoteException remote exception
      */
     void notifyJoinNotSuccessful() throws RemoteException;
+
+    void sendPong() throws RemoteException;
 }

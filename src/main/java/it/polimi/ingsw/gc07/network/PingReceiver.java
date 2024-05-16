@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.network;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.Thread;
@@ -80,12 +81,16 @@ public class PingReceiver {
             synchronized(gameController) {
                 if(playersPing.get(nickname)) {
                     missedPing = 0;
-                    //todo inviare pong
-
+                    try {
+                        getVirtualView(nickname).sendPong();
+                    } catch (RemoteException e) {
+                        //TODO rivedere
+                        throw new RuntimeException(e);
+                    }
                 }else {
                     missedPing ++;
                     //System.out.println(missedPing);
-                    if(missedPing >= maxMissedPings && gameController.isPlayerConnected(nickname)) {
+                    if(missedPing >= maxMissedPings) {
                         System.out.println("PRG> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
                         break;

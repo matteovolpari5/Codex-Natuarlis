@@ -41,6 +41,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * Boolean that is true if the server is on
      */
     private boolean pong;
+    /**
+     * Number of missed pongs to detect a disconnection.
+     */
+    private static final int maxMissedPongs = 3;
 
     /**
      * Constructor of RmiClient.
@@ -152,6 +156,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }
         // game joined
         new Thread(this::startGamePing).start();
+        new Thread(this::checkPong).start();
         new Thread(this::runCliGame).start();
     }
 
@@ -163,6 +168,39 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         new Thread(this::runCliJoinGame).start();
     }
 
+    @Override
+    public synchronized void sendPong() throws RemoteException {
+        pong = true;
+    }
+
+    /**
+     * Method that checks if the client is receiving pongs from server.
+     */
+    private void checkPong() {
+        int missedPong = 0;
+        while(true){
+            synchronized(this) {
+                if(pong) {
+                    missedPong = 0;
+                }else {
+                    missedPong ++;
+                    if(missedPong >= maxMissedPongs) {
+                        clientAlive = false;
+                        break;
+                    }
+                }
+                pong = false;
+
+            }
+            try {
+                Thread.sleep(1000); // wait one second between two pong checks
+            } catch (InterruptedException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+    }
     @Override
     public void startGamePing() {
         while(true) {
