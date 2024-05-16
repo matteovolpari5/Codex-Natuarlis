@@ -153,15 +153,16 @@ public class SocketClient implements Client, PingSender {
         Update update;
         while (true){ //TODO dalla documentazione non trovo un modo di utilizzare il risultato di readObject() come condizione del while, chiedere se così va bene
             try {
-                System.out.println("SC-T> ascolto");
+                //System.out.println("SC-T> ascolto");
                 update = (Update) input.readObject();
-                System.out.println("SC-T> ho letto un update, lo eseguo");
+                //System.out.println("SC-T> ho letto un update, lo eseguo");
                 update.execute(gameView);
                 synchronized (this){
                     pong = true;
                 }
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
+                // TODO nooooo, close connection!
             }
         }
     }
