@@ -54,7 +54,7 @@ class GameModelTest {
         assertEquals(0,gameModel.getCurrPlayer());
         gameModel.setHasCurrPlayerPlaced(false);
         assertFalse(gameModel.getHasCurrPlayerPlaced());
-        assertNotNull(gameModel.getScoreTrackBoard());
+        assertNotNull(gameModel.getBoard());
         assertNotNull(gameModel.getResourceCardsDeck());
         assertNotNull(gameModel.getGoldCardsDeck());
         assertNotNull(gameModel.getObjectiveCardsDeck());

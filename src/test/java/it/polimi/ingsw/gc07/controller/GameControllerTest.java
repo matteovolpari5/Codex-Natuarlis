@@ -54,11 +54,11 @@ class GameControllerTest {
         }
         firstPlayer.setStarterCard(myStarterCard1);
         gameController.getPlayers().add(firstPlayer);
-        gameController.getScoreTrackBoard().addPlayer("Player1");
+        gameController.getBoard().addPlayer("Player1");
         assertNotNull(myStarterCard1);
         secondPlayer.setStarterCard(myStarterCard1);
         gameController.getPlayers().add(secondPlayer);
-        gameController.getScoreTrackBoard().addPlayer("Player2");
+        gameController.getBoard().addPlayer("Player2");
         assertNotNull(myStarterCard2);
 
         gameController.setState(GameState.PLACING_STARTER_CARDS);

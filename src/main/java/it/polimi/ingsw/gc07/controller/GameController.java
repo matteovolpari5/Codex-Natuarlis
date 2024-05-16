@@ -20,7 +20,9 @@ public class GameController {
      * Reference to game model.
      */
     private final GameModel gameModel;
-
+    /**
+     * PingPongManager of the game, accepts players' pings and sends pongs, in order to manage connection problems.
+     */
     private final PingPongManager pingPongManager;
 
     /**
@@ -33,15 +35,15 @@ public class GameController {
         this.pingPongManager = new PingPongManager(this);
     }
 
-    // ------------------------------
+
     // setters and getters
-    // ------------------------------
 
     /**
      * Getter for the game id.
      * @return game id
      */
     int getId() {
+        // id is final
         return gameModel.getId();
     }
 
@@ -49,7 +51,7 @@ public class GameController {
      * Setter for the state of the game.
      */
     // used in tests
-    synchronized void setState(GameState state) {
+    void setState(GameState state) {
         gameModel.setState(state);
     }
 
@@ -61,47 +63,28 @@ public class GameController {
         return gameModel.getState();
     }
 
-    public List<Player> getPlayers() {
+    public synchronized List<Player> getPlayers() {
         return gameModel.getPlayers();
     }
 
-    public boolean isPlayerConnected(String nickname) {
-        for(Player p: gameModel.getPlayers()) {
-            if(p.getNickname().equals(nickname)) {
-                if(p.isConnected())
-                    return true;
-            }
-        }
-        return false;
-    }
-
     int getPlayersNumber() {
+        // final attribute
         return gameModel.getPlayersNumber();
     }
 
-    List<String> getWinners(){
+    // used in tests
+    List<String> getWinners() {
         return gameModel.getWinners();
     }
 
-    public synchronized int getCurrPlayer() {
+    // used in tests
+    int getCurrPlayer() {
         return gameModel.getCurrPlayer();
     }
 
-    synchronized void setHasCurrPlayerPlaced() {
-        gameModel.setHasCurrPlayerPlaced(true);
-    }
-
-    synchronized void setHasNotCurrPlayerPlaced() {
-        gameModel.setHasCurrPlayerPlaced(false);
-    }
-
-    synchronized boolean getHasCurrPlayerPlaced() {
-        return gameModel.getHasCurrPlayerPlaced();
-    }
-
     // used in tests
-    Board getScoreTrackBoard() {
-        return gameModel.getScoreTrackBoard();
+    Board getBoard() {
+        return gameModel.getBoard();
     }
 
     // used in tests
@@ -119,73 +102,29 @@ public class GameController {
         return gameModel.getObjectiveCardsDeck();
     }
 
+    // used in tests
     Deck<PlaceableCard> getStarterCardsDeck() {
         return gameModel.getStarterCardsDeck();
     }
 
     // used in tests
-    synchronized void setPenultimateRound() {
+    void setPenultimateRound() {
         gameModel.setPenultimateRound(true);
     }
 
-    synchronized void setCurrentPlayer(int num) {
+    // used in tests
+    void setCurrentPlayer(int num) {
         gameModel.setCurrPlayer(num);
     }
 
-    // used in tests
-    public CommandResult getCommandResult() {
+    public synchronized CommandResult getCommandResult() {
         return gameModel.getCommandResult();
     }
 
-    public synchronized void setAndExecuteCommand(GameControllerCommand gameControllerCommand) {
-        gameControllerCommand.execute(this);
-    }
 
-    public void receivePing(String nickname) {
-        pingPongManager.receivePing(nickname);
-    }
+    // player management methods
 
-    // ----------------------
-    // command pattern methods
-    // ----------------------
-
-    public void addChatPrivateMessage(String content, String sender, String receiver) {
-        // no state check, this command be used all the time
-        List<String> playerNicknames = gameModel.getPlayerNicknames();
-        // check valid sender
-        if(!playerNicknames.contains(sender)) {
-            gameModel.setCommandResult(sender, CommandResult.WRONG_SENDER);
-            return;
-        }
-        // check valid receiver
-        if(!playerNicknames.contains(receiver)) {
-            gameModel.setCommandResult(sender, CommandResult.WRONG_RECEIVER);
-            return;
-        }
-        if(sender.equals(receiver)) {
-            gameModel.setCommandResult(sender, CommandResult.WRONG_RECEIVER);
-            return;
-        }
-        // add message to the chat
-        gameModel.addChatPrivateMessage(content, sender, receiver);
-        gameModel.setCommandResult(sender, CommandResult.SUCCESS);
-    }
-
-    public void addChatPublicMessage(String content, String sender) {
-        // no state check, this command be used all the time
-        List<String> playerNicknames = gameModel.getPlayerNicknames();
-        // check valid sender
-        if(!playerNicknames.contains(sender)){
-            gameModel.setCommandResult(sender, CommandResult.WRONG_SENDER);
-            return;
-        }
-        // add message to chat
-        gameModel.addChatPublicMessage(content, sender);
-        gameModel.setCommandResult(sender, CommandResult.SUCCESS);
-    }
-
-    // TODO synchronized chi lo chiama?
-    public void addPlayer(Player newPlayer, VirtualView client) {
+    public synchronized void addPlayer(Player newPlayer, VirtualView client) {
         assert(gameModel.getState().equals(GameState.GAME_STARTING)): "Wrong state";
         assert(!gameModel.getPlayerNicknames().contains(newPlayer.getNickname())): "Player already present";
 
@@ -249,7 +188,7 @@ public class GameController {
 
         // if the player is the current one
         if(gameModel.getState().equals(GameState.PLAYING) && gameModel.getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)) {
-            if(!getHasCurrPlayerPlaced()) {
+            if(!gameModel.getHasCurrPlayerPlaced()) {
                 // if he has not placed a card
                 changeCurrPlayer();
             }else {
@@ -310,7 +249,7 @@ public class GameController {
         pingPongManager.addPingSender(nickname, client);
 
         // set player connected
-        player.setIsConnected(true); //TODO sincronizzazione con thread di checkPing
+        player.setIsConnected(true);
         if(gameModel.getState().equals(GameState.WAITING_RECONNECTION) || gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED) ) {
             changeGameState();
         }
@@ -320,12 +259,10 @@ public class GameController {
         int numPlayersConnected = gameModel.getNumPlayersConnected();
         if(numPlayersConnected == 0) {
             gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
-            // TODO start the timer, when it ends, the game ends without winner
             System.out.println("timeout 0");
             startTimeoutGameEnd();
         }else if(numPlayersConnected == 1) {
             gameModel.setState(GameState.WAITING_RECONNECTION);
-            // TODO start the timer, when it ends, the only player left wins
             System.out.println("timeout 1");
             startTimeoutGameEnd();
         }else {
@@ -333,7 +270,7 @@ public class GameController {
         }
     }
 
-    private void startTimeoutGameEnd(){
+    private void startTimeoutGameEnd() { // TODO secondo me no synchronized all'interno del metodo, chiamate sincronizzate da sopra
         new Thread(() -> {
             boolean onePlayer;
             boolean gameEnd = true;
@@ -383,6 +320,52 @@ public class GameController {
         }).start();
     }
 
+
+    // command pattern methods
+
+    public synchronized void setAndExecuteCommand(GameControllerCommand gameControllerCommand) {
+        gameControllerCommand.execute(this);
+    }
+
+    public void receivePing(String nickname) {
+        pingPongManager.receivePing(nickname);
+    }
+
+    public void addChatPrivateMessage(String content, String sender, String receiver) {
+        // no state check, this command be used all the time
+        List<String> playerNicknames = gameModel.getPlayerNicknames();
+        // check valid sender
+        if(!playerNicknames.contains(sender)) {
+            gameModel.setCommandResult(sender, CommandResult.WRONG_SENDER);
+            return;
+        }
+        // check valid receiver
+        if(!playerNicknames.contains(receiver)) {
+            gameModel.setCommandResult(sender, CommandResult.WRONG_RECEIVER);
+            return;
+        }
+        if(sender.equals(receiver)) {
+            gameModel.setCommandResult(sender, CommandResult.WRONG_RECEIVER);
+            return;
+        }
+        // add message to the chat
+        gameModel.addChatPrivateMessage(content, sender, receiver);
+        gameModel.setCommandResult(sender, CommandResult.SUCCESS);
+    }
+
+    public void addChatPublicMessage(String content, String sender) {
+        // no state check, this command be used all the time
+        List<String> playerNicknames = gameModel.getPlayerNicknames();
+        // check valid sender
+        if(!playerNicknames.contains(sender)){
+            gameModel.setCommandResult(sender, CommandResult.WRONG_SENDER);
+            return;
+        }
+        // add message to chat
+        gameModel.addChatPublicMessage(content, sender);
+        gameModel.setCommandResult(sender, CommandResult.SUCCESS);
+    }
+
     public void drawDeckCard(String nickname, CardType type) {
         if(!gameModel.getState().equals(GameState.PLAYING)) {
             gameModel.setCommandResult(nickname, CommandResult.WRONG_STATE);
@@ -396,7 +379,7 @@ public class GameController {
             gameModel.setCommandResult(nickname, CommandResult.WRONG_CARD_TYPE);
             return;
         }
-        if(!getHasCurrPlayerPlaced()) {
+        if(!gameModel.getHasCurrPlayerPlaced()) {
             gameModel.setCommandResult(nickname, CommandResult.NOT_PLACED_YET);
             return;
         }
@@ -434,7 +417,7 @@ public class GameController {
             gameModel.setCommandResult(nickname, CommandResult.WRONG_CARD_TYPE);
             return;
         }
-        if(!getHasCurrPlayerPlaced()) {
+        if(!gameModel.getHasCurrPlayerPlaced()) {
             gameModel.setCommandResult(nickname, CommandResult.NOT_PLACED_YET);
             return;
         }
@@ -496,7 +479,7 @@ public class GameController {
             gameModel.setCommandResult(nickname, CommandResult.WRONG_PLAYER);
             return;
         }
-        if(getHasCurrPlayerPlaced()) {
+        if(gameModel.getHasCurrPlayerPlaced()) {
             gameModel.setCommandResult(nickname, CommandResult.CARD_ALREADY_PLACED);
             return;
         }
@@ -510,7 +493,7 @@ public class GameController {
         card = player.getCurrentHand().get(pos);
         CommandResult result = player.placeCard(card,x,y,way);
         if(result.equals(CommandResult.SUCCESS)) {
-            setHasCurrPlayerPlaced();
+            gameModel.setHasCurrPlayerPlaced(true);
             getPlayers().get(gameModel.getCurrPlayer()).removeCardHand(card);
             addPoints(nickname, x, y);    // the card has just been placed
 
@@ -574,17 +557,18 @@ public class GameController {
         }
     }
 
-    public void placeStarterCardRandomly(String nickname) {
+
+    // ----------------------
+    // utils
+    // ----------------------
+
+    void placeStarterCardRandomly(String nickname) {
         // compute way
         Random random = new Random();
         boolean way = random.nextBoolean();
         // place starter card
         placeStarterCard(nickname, way);
     }
-
-    // ----------------------
-    // utils
-    // ----------------------
 
     /**
      * Method telling if a player is in a game.
@@ -604,7 +588,7 @@ public class GameController {
         return gameModel.hasPlayerWithTokenColor(tokenColor);
     }
 
-    public Player getPlayerByNickname(String nickname) {
+     Player getPlayerByNickname(String nickname) {
         for(Player p: gameModel.getPlayers()) {
             if(p.getNickname().equals(nickname)) {
                 return p;
@@ -619,14 +603,13 @@ public class GameController {
      * if a player is disconnect from the game he loses the turn,
      * if a player is stalled he will be skipped.
      */
-    // TODO spostare nel model? l'ho lasciato qua per timer
-     void changeCurrPlayer () {
+     void changeCurrPlayer() {
         assert(gameModel.getState().equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
         if(gameModel.getCurrPlayer() == getPlayers().size()-1)
             gameModel.setCurrPlayer(0);
         else
             gameModel.setCurrPlayer(gameModel.getCurrPlayer()+1);
-        setHasNotCurrPlayerPlaced();
+        gameModel.setHasCurrPlayerPlaced(false);
         if(gameModel.getPenultimateRound()) {
             if(getPlayers().get(gameModel.getCurrPlayer()).isFirst() && gameModel.getAdditionalRound()) {
                 gameModel.setState(GameState.GAME_ENDED);
@@ -664,11 +647,13 @@ public class GameController {
      * it deletes the game from GamesManager.
      */
     private void endGame(){
-        synchronized(this) {
-            // delete Rmi virtual views and rmiServerGame
+        synchronized(this) {    // TODO secondo me no synchronized
+            // delete rmi virtual views and rmiServerGame
             RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
             // delete GameController
             GamesManager.getGamesManager().deleteGame(getId());
+
+            // TODO socket?
         }
     }
 
@@ -689,7 +674,7 @@ public class GameController {
         Random random = new Random();
         gameModel.setCurrPlayer(random.nextInt(gameModel.getPlayersNumber()));
         getPlayers().get(gameModel.getCurrPlayer()).setFirst();
-        setHasNotCurrPlayerPlaced();
+        gameModel.setHasCurrPlayerPlaced(false);
 
         // draw card can't return null, since the game hasn't already started
 

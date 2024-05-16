@@ -170,7 +170,7 @@ public class GameModel {
         this.hasCurrPlayerPlaced = hasCurrPlayerPlaced;
     }
 
-    public Board getScoreTrackBoard() {
+    public Board getBoard() {
         return board;
     }
 

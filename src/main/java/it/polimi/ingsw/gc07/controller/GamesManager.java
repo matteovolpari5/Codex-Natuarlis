@@ -93,15 +93,6 @@ public class GamesManager {
     }
 
     /**
-     * Getter method for attribute gameControllers.
-     * @return gameControllers
-     */
-    // used in tests
-    List<GameController> getGames() {
-        return gameControllers;
-    }
-
-    /**
      * Return the game with the provided id.
      * @return game with given id
      */
