@@ -297,5 +297,10 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void sendPong() throws RemoteException {
         //todo socket pong
+        try {
+            receiveUpdate(new PongUpdate());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

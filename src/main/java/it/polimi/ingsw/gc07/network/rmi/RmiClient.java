@@ -173,6 +173,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         pong = true;
     }
 
+    private synchronized void setPong () {
+        this.pong = true;
+    }
+
     /**
      * Method that checks if the client is receiving pongs from server.
      */
@@ -245,6 +249,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) {
         chatMessageUpdate.execute(gameView);
+        setPong();
     }
 
     /**
@@ -254,6 +259,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) {
         starterCardUpdate.execute(gameView);
+        setPong();
     }
 
     /**
@@ -263,6 +269,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) {
         placedCardUpdate.execute(gameView);
+        setPong();
     }
 
     /**
@@ -272,6 +279,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) {
         gameModelUpdate.execute(gameView);
+        setPong();
     }
 
     /**
@@ -282,6 +290,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate) throws RemoteException {
         playerJoinedUpdate.execute(gameView);
+        setPong();
     }
 
     /**
@@ -291,6 +300,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) {
         commandResultUpdate.execute(gameView);
+        setPong();
     }
 
     /**
@@ -300,6 +310,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receiveStallUpdate(StallUpdate stallUpdate) {
         stallUpdate.execute(gameView);
+        setPong();
     }
 
     /**
@@ -309,6 +320,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) {
         connectionUpdate.execute(gameView);
+        setPong();
     }
 
     /**
@@ -318,6 +330,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) {
         cardHandUpdate.execute(gameView);
+        setPong();
     }
 
     /**
@@ -327,6 +340,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receiveScoreUpdate(ScoreUpdate scoreUpdate) {
         scoreUpdate.execute(gameView);
+        setPong();
     }
 
     /**
@@ -346,10 +360,12 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException {
         deckUpdate.execute(gameView);
+        setPong();
     }
 
     @Override
     public void receiveGameEndedUpdate(GameEndedUpdate gameEndedUpdate) throws RemoteException {
         gameEndedUpdate.execute(gameView);
+        setPong();
     }
 }

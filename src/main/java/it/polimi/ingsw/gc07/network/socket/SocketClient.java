@@ -23,7 +23,8 @@ public class SocketClient implements Client, PingSender {
     private VirtualSocketServer myServer;
     private boolean clientAlive;
     private Ui ui;
-
+    private static final int maxMissedPongs = 3;
+    private boolean pong;
     public SocketClient(Socket mySocket, boolean interfaceType) throws IOException {
         System.out.println("SC> costruttore");
         InputStream temp_input;
@@ -41,6 +42,7 @@ public class SocketClient implements Client, PingSender {
         this.input = new ObjectInputStream(temp_input);
 
         this.clientAlive = true;
+        this.pong = true;
 
         manageSetUp(output, interfaceType);
 
@@ -93,6 +95,7 @@ public class SocketClient implements Client, PingSender {
             }
             new Thread(this::manageReceivedUpdate).start();
             new Thread(this::startGamePing).start();
+            new Thread(this::checkPong).start();
             runCliGame();
         }
     }
@@ -129,6 +132,7 @@ public class SocketClient implements Client, PingSender {
             }).start();
             // game joined
             new Thread(this::startGamePing).start();
+            new Thread(this::checkPong).start();
             runCliGame();
         }else{
             if(result.equals("Display successful.")){
@@ -153,6 +157,9 @@ public class SocketClient implements Client, PingSender {
                 update = (Update) input.readObject();
                 System.out.println("SC-T> ho letto un update, lo eseguo");
                 update.execute(gameView);
+                synchronized (this){
+                    pong = true;
+                }
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -212,6 +219,35 @@ public class SocketClient implements Client, PingSender {
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping
+            } catch (InterruptedException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
+     * Method that checks if the client is receiving pongs from server.
+     */
+    private void checkPong() {
+        int missedPong = 0;
+        while(true){
+            synchronized(this) {
+                if(pong) {
+                    missedPong = 0;
+                }else {
+                    missedPong ++;
+                    if(missedPong >= maxMissedPongs) {
+                        clientAlive = false;
+                        break;
+                    }
+                }
+                pong = false;
+
+            }
+            try {
+                Thread.sleep(1000); // wait one second between two pong checks
             } catch (InterruptedException e) {
                 // TODO
                 e.printStackTrace();
