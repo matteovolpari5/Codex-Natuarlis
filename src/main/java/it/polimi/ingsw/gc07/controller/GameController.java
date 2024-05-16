@@ -270,7 +270,7 @@ public class GameController {
         }
     }
 
-    private void startTimeoutGameEnd() { // TODO secondo me no synchronized all'interno del metodo, chiamate sincronizzate da sopra
+    private void startTimeoutGameEnd() {
         new Thread(() -> {
             boolean onePlayer;
             boolean gameEnd = true;
@@ -649,7 +649,7 @@ public class GameController {
      * it deletes the game from GamesManager.
      */
     private void endGame(){
-        synchronized(this) {    // TODO secondo me no synchronized
+        synchronized(this) {
             // delete rmi virtual views and rmiServerGame
             RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
             // delete GameController
