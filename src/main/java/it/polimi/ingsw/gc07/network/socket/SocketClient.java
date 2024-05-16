@@ -239,6 +239,8 @@ public class SocketClient implements Client, PingSender {
                 }else {
                     missedPong ++;
                     if(missedPong >= maxMissedPongs) {
+                        System.out.println("you lost the connection :(");
+                        System.exit(0);
                         clientAlive = false;
                         break;
                     }

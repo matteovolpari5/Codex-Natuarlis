@@ -189,6 +189,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                 }else {
                     missedPong ++;
                     if(missedPong >= maxMissedPongs) {
+                        System.out.println("you lost the connection :(");
+                        System.exit(0);
                         clientAlive = false;
                         break;
                     }
