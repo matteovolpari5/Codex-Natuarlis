@@ -40,6 +40,7 @@ public class PingReceiver {
     public synchronized void addPingSender(String nickname, VirtualView virtualView) {
         this.playersPing.put(nickname, true);
         new Thread(() -> checkPing(nickname)).start();
+        new Thread(() -> sendPong(nickname)).start();
         this.playerVirtualViews.put(nickname, virtualView);
     }
 
@@ -83,7 +84,7 @@ public class PingReceiver {
                     missedPing = 0;
                 }else {
                     missedPing ++;
-                    System.out.println(missedPing);
+                    System.out.println(missedPing+ nickname);
                     if(missedPing >= maxMissedPings) {
                         System.out.println("PRG> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
@@ -92,6 +93,18 @@ public class PingReceiver {
                 }
                 playersPing.put(nickname, false);
             }
+            try {
+                Thread.sleep(1000); // wait one second between two ping
+            } catch (InterruptedException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void sendPong(String nickname) {
+        while (true){
             VirtualView virtualView;
             synchronized (this) {
                 virtualView = getVirtualView(nickname);
@@ -104,9 +117,8 @@ public class PingReceiver {
                 gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
                 break;
             }
-
             try {
-                Thread.sleep(1000); // wait one second between two ping
+                Thread.sleep(1000); // wait one second between two pong
             } catch (InterruptedException e) {
                 // TODO
                 e.printStackTrace();
