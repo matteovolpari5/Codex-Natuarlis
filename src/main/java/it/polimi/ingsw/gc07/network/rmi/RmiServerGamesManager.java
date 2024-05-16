@@ -67,9 +67,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
                 try {
                     GamesManagerCommand command = commandsQueue.take();
                     GamesManager.getGamesManager().setAndExecuteCommand(command);
-
-                    // only for testing
-                    System.out.println(GamesManager.getGamesManager().getCommandResult());
                 }catch(InterruptedException e) {
                     System.err.println("Channel closed");
                     break;
@@ -145,6 +142,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         try {
             VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
             if(virtualView == null) {
+                // TODO
                 throw new RuntimeException();
             }
             virtualView.setServerGame(gameId);

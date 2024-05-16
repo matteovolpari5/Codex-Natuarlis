@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.lang.Thread;
 
-public class PingReceiver {
+public class PingPongManager {
     /**
      * Game Controller.
      */
@@ -28,10 +28,10 @@ public class PingReceiver {
     private static final int maxMissedPings = 3;
 
     /**
-     * Constructor of PingReceiver.
+     * Constructor of PingPongManager.
      * @param gameController game controller
      */
-    public PingReceiver(GameController gameController) {
+    public PingPongManager(GameController gameController) {
         this.gameController = gameController;
         this.playersPing = new HashMap<>();
         this.playerVirtualViews = new HashMap<>();
