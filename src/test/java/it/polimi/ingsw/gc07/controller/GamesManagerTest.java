@@ -2,17 +2,13 @@ package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardControllerCommand;
-import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
+import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardCommand;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,8 +69,8 @@ class GamesManagerTest {
         GameController gc = GamesManager.getGamesManager().getGameById(0);
         assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
 
-        gc.setAndExecuteCommand(new PlaceStarterCardControllerCommand("player1", false));
-        gc.setAndExecuteCommand(new PlaceStarterCardControllerCommand("player2", false));
+        gc.setAndExecuteCommand(new PlaceStarterCardCommand("player1", false));
+        gc.setAndExecuteCommand(new PlaceStarterCardCommand("player2", false));
 
         gc.disconnectPlayer("player1");
         assertEquals(GameState.WAITING_RECONNECTION, gc.getState());

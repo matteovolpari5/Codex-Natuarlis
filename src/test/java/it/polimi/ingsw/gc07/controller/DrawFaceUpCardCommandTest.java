@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.game_commands.DrawFaceUpCardControllerCommand;
+import it.polimi.ingsw.gc07.game_commands.DrawFaceUpCardCommand;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
@@ -47,21 +47,21 @@ class DrawFaceUpCardCommandTest {
     @Test
     void drawFaceUpCardWrongState() {
         gameController.setState(GameState.GAME_STARTING);
-        gameController.setAndExecuteCommand(new DrawFaceUpCardControllerCommand("P1", CardType.RESOURCE_CARD, 0));
+        gameController.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.RESOURCE_CARD, 0));
         assertEquals(gameController.getCommandResult(), CommandResult.WRONG_STATE);
     }
 
     @Test
     void drawFaceUpCardWrongPlayer() {
         gameController.setState(GameState.PLAYING);
-        gameController.setAndExecuteCommand(new DrawFaceUpCardControllerCommand("P2", CardType.RESOURCE_CARD, 0));
+        gameController.setAndExecuteCommand(new DrawFaceUpCardCommand("P2", CardType.RESOURCE_CARD, 0));
         assertEquals(gameController.getCommandResult(), CommandResult.WRONG_PLAYER);
     }
 
     @Test
     void drawFaceUpCardWrongCardType() {
         gameController.setState(GameState.PLAYING);
-        gameController.setAndExecuteCommand(new DrawFaceUpCardControllerCommand("P1", CardType.OBJECTIVE_CARD, 0));
+        gameController.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.OBJECTIVE_CARD, 0));
         assertEquals(gameController.getCommandResult(), CommandResult.WRONG_CARD_TYPE);
     }
 
@@ -72,7 +72,7 @@ class DrawFaceUpCardCommandTest {
         gameController.getPlayers().get(0).removeCardHand(card);
         gameController.setHasCurrPlayerPlaced();
         int id = gameController.getResourceCardsDeck().revealFaceUpCard(0).getId();
-        gameController.setAndExecuteCommand(new DrawFaceUpCardControllerCommand("P1", CardType.RESOURCE_CARD, 0));
+        gameController.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.RESOURCE_CARD, 0));
         assertEquals(gameController.getCommandResult(), CommandResult.SUCCESS);
         assertEquals(id, gameController.getPlayers().get(0).getCurrentHand().get(2).getId());
         assertNotEquals(id, gameController.getResourceCardsDeck().revealFaceUpCard(0).getId());
@@ -85,7 +85,7 @@ class DrawFaceUpCardCommandTest {
         gameController.getPlayers().get(0).removeCardHand(card);
         gameController.setHasCurrPlayerPlaced();
         int id = gameController.getGoldCardsDeck().revealFaceUpCard(0).getId();
-        gameController.setAndExecuteCommand(new DrawFaceUpCardControllerCommand("P1", CardType.GOLD_CARD, 0));
+        gameController.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.GOLD_CARD, 0));
         assertEquals(gameController.getCommandResult(), CommandResult.SUCCESS);
         assertEquals(id, gameController.getPlayers().get(0).getCurrentHand().get(2).getId());
         assertNotEquals(id, gameController.getGoldCardsDeck().revealFaceUpCard(0).getId());
@@ -97,7 +97,7 @@ class DrawFaceUpCardCommandTest {
         DrawableCard card = gameController.getPlayers().get(0).getCurrentHand().get(0);
         gameController.getPlayers().get(0).removeCardHand(card);
         gameController.setHasCurrPlayerPlaced();
-        gameController.setAndExecuteCommand(new DrawFaceUpCardControllerCommand("P1", CardType.RESOURCE_CARD, 2));
+        gameController.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.RESOURCE_CARD, 2));
         assertEquals(gameController.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
 
@@ -107,7 +107,7 @@ class DrawFaceUpCardCommandTest {
         DrawableCard card = gameController.getPlayers().get(0).getCurrentHand().get(0);
         gameController.getPlayers().get(0).removeCardHand(card);
         gameController.setHasCurrPlayerPlaced();
-        gameController.setAndExecuteCommand(new DrawFaceUpCardControllerCommand("P1", CardType.GOLD_CARD, 2));
+        gameController.setAndExecuteCommand(new DrawFaceUpCardCommand("P1", CardType.GOLD_CARD, 2));
         assertEquals(gameController.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
 }

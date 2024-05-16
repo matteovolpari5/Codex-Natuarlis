@@ -1,19 +1,10 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.game_commands.DisconnectPlayerControllerCommand;
+import it.polimi.ingsw.gc07.game_commands.DisconnectPlayerCommand;
 import it.polimi.ingsw.gc07.game_commands.JoinExistingGameCommand;
 import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
-import it.polimi.ingsw.gc07.model.cards.DrawableCard;
-import it.polimi.ingsw.gc07.model.cards.GoldCard;
-import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.model.Player;
-import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
-import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
-import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
@@ -62,7 +53,7 @@ class DisconnectPlayerCommandTest {
 
     @Test
     void disconnectPlayerSuccess() {
-        newRmiClient.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player1"));
+        newRmiClient.setAndExecuteCommand(new DisconnectPlayerCommand("Player1"));
         CommandResult result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
 
@@ -72,11 +63,11 @@ class DisconnectPlayerCommandTest {
     @Test
     void playerAlreadyDisconnected() {
         // disconnect player
-        newRmiClient.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player2"));
+        newRmiClient.setAndExecuteCommand(new DisconnectPlayerCommand("Player2"));
         CommandResult result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
         // try to disconnect the same player
-        newRmiClient.setAndExecuteCommand(new DisconnectPlayerControllerCommand("Player2"));
+        newRmiClient.setAndExecuteCommand(new DisconnectPlayerCommand("Player2"));
         result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.PLAYER_ALREADY_DISCONNECTED, result);
 
@@ -86,7 +77,7 @@ class DisconnectPlayerCommandTest {
     @Test
     void disconnectPlayerNotPresent() {
         // disconnect player not present in the gameController
-        newRmiClient.setAndExecuteCommand(new DisconnectPlayerControllerCommand("AnOtherPlayer"));
+        newRmiClient.setAndExecuteCommand(new DisconnectPlayerCommand("AnOtherPlayer"));
         CommandResult result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, result);
 

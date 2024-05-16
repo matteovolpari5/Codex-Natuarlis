@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.game_commands.DrawDeckCardControllerCommand;
+import it.polimi.ingsw.gc07.game_commands.DrawDeckCardCommand;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
@@ -13,8 +13,6 @@ import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.network.rmi.RmiClient;
-import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,13 +56,13 @@ class DrawDeckCardCommandTest {
 
     @Test
     void DrawDeckCard() {
-        gameController.setAndExecuteCommand(new DrawDeckCardControllerCommand("Player2", CardType.RESOURCE_CARD));
+        gameController.setAndExecuteCommand(new DrawDeckCardCommand("Player2", CardType.RESOURCE_CARD));
         assertEquals(gameController.getCommandResult(), CommandResult.WRONG_PLAYER);
         gameController.setHasCurrPlayerPlaced();
-        gameController.setAndExecuteCommand(new DrawDeckCardControllerCommand("Player1", CardType.OBJECTIVE_CARD));
+        gameController.setAndExecuteCommand(new DrawDeckCardCommand("Player1", CardType.OBJECTIVE_CARD));
         assertEquals(gameController.getCommandResult(), CommandResult.WRONG_CARD_TYPE);
         gameController.setHasCurrPlayerPlaced();
-        gameController.setAndExecuteCommand(new DrawDeckCardControllerCommand("Player1", CardType.RESOURCE_CARD));
+        gameController.setAndExecuteCommand(new DrawDeckCardCommand("Player1", CardType.RESOURCE_CARD));
         gameController.setHasCurrPlayerPlaced();
         assertEquals(gameController.getCommandResult(), CommandResult.SUCCESS);
         int id = gameController.getPlayers().get(1).getCurrentHand().getFirst().getId();
@@ -84,7 +82,7 @@ class DrawDeckCardCommandTest {
             resourceCard = gameController.getResourceCardsDeck().drawCard();
             gameController.setHasCurrPlayerPlaced();
         }
-        gameController.setAndExecuteCommand(new DrawDeckCardControllerCommand("Player1", CardType.RESOURCE_CARD));
+        gameController.setAndExecuteCommand(new DrawDeckCardCommand("Player1", CardType.RESOURCE_CARD));
         assertEquals(gameController.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
 }
