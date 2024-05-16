@@ -207,15 +207,22 @@ public class SocketClient implements Client, PingSender {
     public void startGamePing() {
         System.out.println("SC-T2> startGamePing");
         while(true) {
+            boolean isAlive;
             synchronized (this) {
-                if (!clientAlive) {
-                    break;
-                }
+                isAlive = clientAlive;
             }
-            try {
-                myServer.setAndExecuteCommand(new SendPingCommand(nickname));
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
+            if (!isAlive) {
+                break;
+            } else {
+                try {
+                    myServer.setAndExecuteCommand(new SendPingCommand(nickname));
+                } catch (RemoteException e) {
+                    // connection failed
+                    System.out.println("Connection failed. Press enter. - ping");
+                    synchronized (this) {
+                        clientAlive = false;
+                    }
+                }
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping
@@ -240,7 +247,6 @@ public class SocketClient implements Client, PingSender {
                     missedPong ++;
                     if(missedPong >= maxMissedPongs) {
                         System.out.println("you lost the connection :(");
-                        System.exit(0);
                         clientAlive = false;
                         break;
                     }
