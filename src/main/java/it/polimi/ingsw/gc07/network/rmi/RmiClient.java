@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
+import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.*;
@@ -10,6 +11,8 @@ import it.polimi.ingsw.gc07.view.tui.Tui;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class RmiClient extends UnicastRemoteObject implements Client, VirtualView, PingSender {
     /**
@@ -42,6 +45,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     private boolean pong;
     /**
+     * Blocking queue containing received updates.
+     */
+    private final BlockingDeque<Update> updatesQueue;
+    /**
      * Number of missed pongs to detect a disconnection.
      */
     private static final int maxMissedPongs = 3;
@@ -65,6 +72,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }
         this.gameView.addViewListener(ui);
         this.pong = true;
+        this.updatesQueue = new LinkedBlockingDeque<>();
+        startUpdateExecutor();
     }
 
     /**
@@ -241,14 +250,42 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         ui.runCliGame();
     }
 
+    private void receiveUpdate(Update update) {
+        try {
+            // blocking queues are thread safe
+            updatesQueue.put(update);
+        }catch(InterruptedException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        setPong();
+    }
+
+    private void startUpdateExecutor() {
+        new Thread(() -> {
+            while(clientAlive) {
+                try {
+                    Update update = updatesQueue.take();
+                    synchronized (this) {
+                        update.execute(gameView);
+                    }
+                }catch(InterruptedException e) {
+                    // TODO
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                }
+            }
+        }).start();
+    }
+
     /**
      * Method used to notify the player he has received a new chat chatMessage.
      * @param chatMessageUpdate chat message update
      */
     @Override
     public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) {
-        chatMessageUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(chatMessageUpdate);
     }
 
     /**
@@ -257,8 +294,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) {
-        starterCardUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(starterCardUpdate);
     }
 
     /**
@@ -267,8 +303,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) {
-        placedCardUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(placedCardUpdate);
     }
 
     /**
@@ -277,8 +312,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) {
-        gameModelUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(gameModelUpdate);
     }
 
     /**
@@ -288,8 +322,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate) throws RemoteException {
-        playerJoinedUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(playerJoinedUpdate);
     }
 
     /**
@@ -298,8 +331,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) {
-        commandResultUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(commandResultUpdate);
     }
 
     /**
@@ -308,8 +340,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveStallUpdate(StallUpdate stallUpdate) {
-        stallUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(stallUpdate);
     }
 
     /**
@@ -318,8 +349,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) {
-        connectionUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(connectionUpdate);
     }
 
     /**
@@ -328,8 +358,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) {
-        cardHandUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(cardHandUpdate);
     }
 
     /**
@@ -338,8 +367,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveScoreUpdate(ScoreUpdate scoreUpdate) {
-        scoreUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(scoreUpdate);
     }
 
     /**
@@ -347,7 +375,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * @param existingGamesUpdate existing games update
      */
     @Override
-    public void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) {
+    public synchronized void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) {
         existingGamesUpdate.execute(gameView);
         ui.runCliJoinGame();
     }
@@ -358,13 +386,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException {
-        deckUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(deckUpdate);
     }
 
     @Override
     public void receiveGameEndedUpdate(GameEndedUpdate gameEndedUpdate) throws RemoteException {
-        gameEndedUpdate.execute(gameView);
-        setPong();
+        receiveUpdate(gameEndedUpdate);
     }
 }
