@@ -85,11 +85,13 @@ public class PingReceiver {
                         getVirtualView(nickname).sendPong();
                     } catch (RemoteException e) {
                         //TODO rivedere
-                        throw new RuntimeException(e);
+                        System.out.println("PRG> Disconnection detected " + nickname);
+                        gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
+                        break;
                     }
                 }else {
                     missedPing ++;
-                    //System.out.println(missedPing);
+                    System.out.println(missedPing);
                     if(missedPing >= maxMissedPings) {
                         System.out.println("PRG> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized

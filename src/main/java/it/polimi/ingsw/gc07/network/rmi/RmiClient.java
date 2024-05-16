@@ -173,8 +173,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         pong = true;
     }
 
-    private synchronized void setPong () {
-        this.pong = true;
+    private void setPong () {
+        //this.pong = true;
     }
 
     /**
@@ -190,7 +190,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                     missedPong ++;
                     if(missedPong >= maxMissedPongs) {
                         System.out.println("you lost the connection :(");
-                        System.exit(0);
                         clientAlive = false;
                         break;
                     }
@@ -219,10 +218,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                         System.out.println("Connection failed. Press enter. - ping");
                         clientAlive = false;
                     }
-                } else {
-                    System.out.println("Smetto di inviare ping");
-                    break;
-                }
+                } else break;
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping

@@ -674,23 +674,12 @@ public class GameController {
      * it deletes the game from GamesManager.
      */
     private void endGame(){
-        Timer timeoutGameEnded = new Timer();
-        new Thread(() -> {
-            timeoutGameEnded.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    synchronized(this) {
-                        // delete Rmi virtual views and rmiServerGame
-                        RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
-
-                        // TODO socket ???
-
-                        // delete GameController
-                        GamesManager.getGamesManager().deleteGame(getId());
-                    }
-                }
-            }, 15*1000); //timer of 200 sec
-        }).start();
+        synchronized(this) {
+            // delete Rmi virtual views and rmiServerGame
+            RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
+            // delete GameController
+            GamesManager.getGamesManager().deleteGame(getId());
+        }
     }
 
     /**
