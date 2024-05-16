@@ -309,4 +309,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     public void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException {
         deckUpdate.execute(gameView);
     }
+
+    @Override
+    public void receiveGameEndedUpdate(GameEndedUpdate gameEndedUpdate) throws RemoteException {
+        gameEndedUpdate.execute(gameView);
+    }
 }
