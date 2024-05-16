@@ -39,7 +39,6 @@ public class ChatView {
      */
     public void addMessage(ChatMessage chatMessage) {
         chatMessages.add(chatMessage);
-        System.out.println(chatMessage.getContent());
 
         for(ChatViewListener chatViewListener: chatViewListeners) {
             chatViewListener.receiveMessageUpdate(chatMessage);

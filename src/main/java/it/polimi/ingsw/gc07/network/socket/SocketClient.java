@@ -162,6 +162,7 @@ public class SocketClient implements Client, PingSender {
                 }
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
+                // TODO nooooo, close connection!
             }
         }
     }
