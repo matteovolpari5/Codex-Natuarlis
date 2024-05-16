@@ -78,7 +78,7 @@ public class PingReceiver {
     public void checkPing(String nickname) {
         int missedPing = 0;
         while(true) {
-            synchronized(gameController) {
+            synchronized(this) {
                 if(playersPing.get(nickname)) {
                     missedPing = 0;
                     try {
@@ -94,7 +94,9 @@ public class PingReceiver {
                     System.out.println(missedPing);
                     if(missedPing >= maxMissedPings) {
                         System.out.println("PRG> Disconnection detected " + nickname);
-                        gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
+                        synchronized(gameController) {
+                            gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
+                        }
                         break;
                     }
                 }
