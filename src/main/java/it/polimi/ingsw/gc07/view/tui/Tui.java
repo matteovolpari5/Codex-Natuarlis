@@ -534,6 +534,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         for(Integer id: existingGames.keySet()) {
             System.out.println("Id: " + id + " - " + "Number of players: " + existingGames.get(id));
         }
+        runCliJoinGame();
     }
 
     @Override

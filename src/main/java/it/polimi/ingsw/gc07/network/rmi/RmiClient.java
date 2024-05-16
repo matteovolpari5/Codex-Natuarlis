@@ -270,9 +270,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             while(clientAlive) {
                 try {
                     Update update = updatesQueue.take();
-                    synchronized(this) {
-                        update.execute(gameView);
-                    }
+                    update.execute(gameView);
                 }catch(InterruptedException e) {
                     // TODO
                     e.printStackTrace();
@@ -379,8 +377,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public synchronized void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) {
-        existingGamesUpdate.execute(gameView);
-        ui.runCliJoinGame();    // TODO non sono sicuro vada bene la sincronizzazione
+        receiveUpdate(existingGamesUpdate);
     }
 
     /**
