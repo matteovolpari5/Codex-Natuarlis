@@ -228,17 +228,6 @@ public class GameController {
 
         gameModel.removeListener(virtualView);
 
-        // TODO togliere o rivedere
-        if(!player.getConnectionType()) {
-            /*
-            try {
-                // virtualView.kill(); // TODO
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-             */
-        }
-
         // remove virtual view
         if(!player.getConnectionType()) {
             // Socket
