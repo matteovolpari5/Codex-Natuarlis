@@ -81,28 +81,30 @@ public class PingReceiver {
             synchronized(this) {
                 if(playersPing.get(nickname)) {
                     missedPing = 0;
-                    try {
-                        getVirtualView(nickname).sendPong();
-                    } catch (RemoteException e) {
-                        //TODO rivedere
-                        System.out.println("PRG> Disconnection detected " + nickname);
-                        gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
-                        break;
-                    }
                 }else {
                     missedPing ++;
                     System.out.println(missedPing);
                     if(missedPing >= maxMissedPings) {
                         System.out.println("PRG> Disconnection detected " + nickname);
-                        synchronized(gameController) {
-                            gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
-                        }
+                        gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
                         break;
                     }
                 }
                 playersPing.put(nickname, false);
-
             }
+            VirtualView virtualView;
+            synchronized (this) {
+                virtualView = getVirtualView(nickname);
+            }
+            try {
+                virtualView.sendPong();
+            } catch (RemoteException e) {
+                //TODO rivedere
+                System.out.println("PRG> Disconnection detected " + nickname);
+                gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
+                break;
+            }
+
             try {
                 Thread.sleep(1000); // wait one second between two ping
             } catch (InterruptedException e) {

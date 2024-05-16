@@ -207,7 +207,8 @@ public class GameController {
         }
     }
 
-    public void disconnectPlayer(String nickname) {
+    public synchronized void disconnectPlayer(String nickname) {
+        // called by setAndExecute and pingReceiver
         // this command can always be used
         assert(!gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED)): "Impossible state";
         if(!gameModel.getPlayerNicknames().contains(nickname)) {
