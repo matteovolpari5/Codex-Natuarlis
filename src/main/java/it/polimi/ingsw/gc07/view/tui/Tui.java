@@ -35,7 +35,6 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             timeout.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    client.setAndExecuteCommand(new RemoveFromPendingCommand(nickname));
                     System.exit(0);
                 }
             }, 30*1000); //timer of 5 minutes
