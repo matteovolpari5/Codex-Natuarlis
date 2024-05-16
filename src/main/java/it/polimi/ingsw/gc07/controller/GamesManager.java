@@ -277,12 +277,11 @@ public class GamesManager {
         }
 
         // remove player
-        removePlayer(nickname);
-        playersTimers.get(nickname).cancel();
         synchronized (this){
+            playersTimers.get(nickname).cancel();
             playersTimers.get(nickname).purge();
-            playersTimers.remove(nickname);
         }
+        removePlayer(nickname);
 
         commandResult = CommandResult.SUCCESS;
     }
@@ -322,13 +321,11 @@ public class GamesManager {
         }
 
         // remove player
-        removePlayer(nickname);
-        playersTimers.get(nickname).cancel();
         synchronized (this){
+            playersTimers.get(nickname).cancel();
             playersTimers.get(nickname).purge();
-            playersTimers.remove(nickname);
         }
-
+        removePlayer(nickname);
         commandResult = CommandResult.SUCCESS;
     }
 
