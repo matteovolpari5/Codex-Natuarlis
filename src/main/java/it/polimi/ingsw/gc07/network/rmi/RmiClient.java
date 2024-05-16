@@ -217,18 +217,22 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void startGamePing() {
         while(true) {
+            boolean isAlive;
             synchronized (this) {
-                if (clientAlive) {
-                    try {
-                        serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
-                    }catch(RemoteException e) {
-                        // connection failed
-                        System.out.println("Connection failed. Press enter. - ping");
+                isAlive = clientAlive;
+            }
+            if(isAlive) {
+                try {
+                    serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
+                }catch(RemoteException e) {
+                    // connection failed
+                    System.out.println("Connection failed. Press enter. - ping");
+                    synchronized (this) {
                         clientAlive = false;
                     }
-                } else{
-                    break;
                 }
+            } else{
+                break;
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping
