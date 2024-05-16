@@ -1,19 +1,10 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.game_commands.AddChatPrivateMessageControllerCommand;
+import it.polimi.ingsw.gc07.game_commands.AddChatPrivateMessageCommand;
 import it.polimi.ingsw.gc07.game_commands.JoinExistingGameCommand;
 import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
-import it.polimi.ingsw.gc07.model.cards.DrawableCard;
-import it.polimi.ingsw.gc07.model.cards.GoldCard;
-import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.model.Player;
-import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
-import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
-import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
@@ -62,7 +53,7 @@ class AddChatPrivateMessageCommandTest {
 
     @Test
     void addMessageSuccess() throws RemoteException {
-        newRmiClient.setAndExecuteCommand(new AddChatPrivateMessageControllerCommand("My content...", "Player1", "Player2"));
+        newRmiClient.setAndExecuteCommand(new AddChatPrivateMessageCommand("My content...", "Player1", "Player2"));
         CommandResult result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
 
@@ -71,7 +62,7 @@ class AddChatPrivateMessageCommandTest {
 
     @Test
     void addMessageWrongSender() {
-        newRmiClient.setAndExecuteCommand(new AddChatPrivateMessageControllerCommand("My content...", "WrongSender", "Player1"));
+        newRmiClient.setAndExecuteCommand(new AddChatPrivateMessageCommand("My content...", "WrongSender", "Player1"));
         CommandResult result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.WRONG_SENDER, result);
 
@@ -80,7 +71,7 @@ class AddChatPrivateMessageCommandTest {
 
     @Test
     void addMessageWrongReceiver() throws RemoteException, NotBoundException {
-        newRmiClient.setAndExecuteCommand(new AddChatPrivateMessageControllerCommand("My content...", "Player3", "WrongReceiver"));
+        newRmiClient.setAndExecuteCommand(new AddChatPrivateMessageCommand("My content...", "Player3", "WrongReceiver"));
         CommandResult result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.WRONG_RECEIVER, result);
 

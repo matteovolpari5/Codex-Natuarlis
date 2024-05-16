@@ -5,17 +5,17 @@ import it.polimi.ingsw.gc07.controller.GameController;
 /**
  * Concrete command to disconnect a player from the game.
  */
-public class DisconnectPlayerControllerCommand implements GameControllerCommand {
+public class DisconnectPlayerCommand implements GameControllerCommand {
     /**
      * Nickname of the player that has disconnected.
      */
     private final String nickname;
 
     /**
-     * Constructor of the concrete command DisconnectPlayerControllerCommand.
+     * Constructor of the concrete command DisconnectPlayerCommand.
      * @param nickname nickname of the player that has disconnected
      */
-    public DisconnectPlayerControllerCommand(String nickname) {
+    public DisconnectPlayerCommand(String nickname) {
         this.nickname = nickname;
     }
 

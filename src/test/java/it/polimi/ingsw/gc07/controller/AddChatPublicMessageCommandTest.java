@@ -1,19 +1,10 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.DecksBuilder;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.game_commands.AddChatPublicMessageControllerCommand;
+import it.polimi.ingsw.gc07.game_commands.AddChatPublicMessageCommand;
 import it.polimi.ingsw.gc07.game_commands.JoinExistingGameCommand;
 import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
-import it.polimi.ingsw.gc07.model.cards.DrawableCard;
-import it.polimi.ingsw.gc07.model.cards.GoldCard;
-import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.model.Player;
-import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
-import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
-import it.polimi.ingsw.gc07.model.decks.Deck;
-import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
@@ -62,10 +53,10 @@ class AddChatPublicMessageCommandTest {
 
     @Test
     void addMessageSuccess() {
-        newRmiClient.setAndExecuteCommand(new AddChatPublicMessageControllerCommand("My content...", "Player1"));
+        newRmiClient.setAndExecuteCommand(new AddChatPublicMessageCommand("My content...", "Player1"));
         CommandResult result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
-        newRmiClient.setAndExecuteCommand(new AddChatPublicMessageControllerCommand("My other content....", "Player2"));
+        newRmiClient.setAndExecuteCommand(new AddChatPublicMessageCommand("My other content....", "Player2"));
         result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.SUCCESS, result);
 
@@ -74,7 +65,7 @@ class AddChatPublicMessageCommandTest {
 
     @Test
     void addMessageWrongSender() {
-        newRmiClient.setAndExecuteCommand(new AddChatPublicMessageControllerCommand("My content...", "WrongPlayer"));
+        newRmiClient.setAndExecuteCommand(new AddChatPublicMessageCommand("My content...", "WrongPlayer"));
         CommandResult result = GamesManager.getGamesManager().getCommandResult();
         assertEquals(CommandResult.WRONG_SENDER, result);
         // TODO: buttare giù server
