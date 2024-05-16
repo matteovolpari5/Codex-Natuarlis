@@ -492,7 +492,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         List<DrawableCard> faceUpResourceCard = client.getGameView().getFaceUpResourceCard();
         List<GoldCard> faceUpGoldCard = client.getGameView().getFaceUpGoldCard();
         List<ObjectiveCard> commonObjective = client.getGameView().getCommonObjective();
-        if(state != GameState.GAME_STARTING && state != GameState.PLACING_STARTER_CARDS && currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
+        if(state.equals(GameState.PLAYING) && currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
             System.out.println();
             System.out.println("--------------------------------------------------------");
             System.out.println("                      FRONT DECK                        ");
