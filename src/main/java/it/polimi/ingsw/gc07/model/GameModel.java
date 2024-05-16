@@ -512,8 +512,7 @@ public class GameModel {
             //points counter for the secret objective
             deltaPoints += players.get(i).getSecretObjective().getObjectiveScore(gameField);
             incrementScore(players.get(i).getNickname(), deltaPoints);
-            if (max <= getScore(players.get(i).getNickname())) {
-                max = getScore(players.get(i).getNickname());
+            if (max == getScore(players.get(i).getNickname())) {
                 if (realizedObjectives >= maxRealizedObjective) {
                     if (realizedObjectives == maxRealizedObjective) {
                         computedWinners.add(players.get(i).getNickname());
@@ -523,6 +522,13 @@ public class GameModel {
                         maxRealizedObjective = realizedObjectives;
                     }
                 }
+            }
+            else if(max < getScore(players.get(i).getNickname()))
+            {
+                max = getScore(players.get(i).getNickname());
+                computedWinners.clear();
+                computedWinners.add(players.get(i).getNickname());
+                maxRealizedObjective = realizedObjectives;
             }
         }
 

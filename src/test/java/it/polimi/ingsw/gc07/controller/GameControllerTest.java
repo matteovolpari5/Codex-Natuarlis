@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.DecksBuilder;
-import it.polimi.ingsw.gc07.game_commands.DrawFaceUpCardControllerCommand;
+import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.game_commands.PlaceCardControllerCommand;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
@@ -23,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameControllerTest {
     GameController gameController;
+    Player secondPlayer;
+    Player firstPlayer;
     @BeforeEach
     void setUp() {
         int id = 0;
@@ -32,15 +34,11 @@ class GameControllerTest {
         PlayingDeck<ObjectiveCard> objectiveCardsDeck = DecksBuilder.buildObjectiveCardsDeck();
         Deck<PlaceableCard> starterCardsDecks = DecksBuilder.buildStarterCardsDeck();
         gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDecks);
-    }
-
-    @Test
-    void computeWinnerOneWinner() {
         // add first player
-        Player firstPlayer = new Player("Player1", true, false);
+        firstPlayer = new Player("Player1", true, false);
         firstPlayer.setTokenColor(TokenColor.BLUE);
         // add second player
-        Player secondPlayer = new Player("Player2", false, false);
+        secondPlayer = new Player("Player2", false, false);
         secondPlayer.setTokenColor(TokenColor.GREEN);
         PlaceableCard myStarterCard1 =null;
         for (PlaceableCard p: gameController.getStarterCardsDeck().getContent()){
@@ -100,12 +98,318 @@ class GameControllerTest {
             }
         }
         gameController.getObjectiveCardsDeck().setFaceUpCards(publicObjective);
+        gameController.getResourceCardsDeck().setUpDeck();
+        gameController.getGoldCardsDeck().setUpDeck();
         secondPlayer.setFirst();
         gameController.setCurrentPlayer(1);
         gameController.setState(GameState.PLAYING);
 
-        //place all cards for player1
+    }
+    @Test
 
+    void addMessageSuccess()  {
+        gameController.addChatPrivateMessage("My content...", "Player1", "Player2");
+        CommandResult result = gameController.getCommandResult();
+        assertEquals(CommandResult.SUCCESS, result);
+    }
+
+    @Test
+    void addMessageWrongSender() {
+        gameController.addChatPrivateMessage("My content...", "WrongSender", "Player1");
+        CommandResult result = gameController.getCommandResult();
+        assertEquals(CommandResult.WRONG_SENDER, result);
+    }
+
+    @Test
+    void addMessageWrongReceiver()  {
+        gameController.addChatPrivateMessage("My content...", "Player1", "WrongReceiver");
+        CommandResult result = gameController.getCommandResult();
+        assertEquals(CommandResult.WRONG_RECEIVER, result);
+    }
+    @Test
+    void addMessageWrongReceiver2()  {
+        gameController.addChatPrivateMessage("My content...", "Player1", "Player1");
+        CommandResult result = gameController.getCommandResult();
+        assertEquals(CommandResult.WRONG_RECEIVER, result);
+    }
+
+    @Test
+    void addMessagePublicSuccess() {
+        gameController.addChatPublicMessage("My content...", "Player1");
+        CommandResult result = gameController.getCommandResult();
+        assertEquals(CommandResult.SUCCESS, result);
+        gameController.addChatPublicMessage("My other content....", "Player2");
+        result = gameController.getCommandResult();
+        assertEquals(CommandResult.SUCCESS, result);
+    }
+
+    @Test
+    void addMessagePublicWrongSender() {
+        gameController.addChatPublicMessage("My content...", "WrongPlayer");
+        CommandResult result = gameController.getCommandResult();
+        assertEquals(CommandResult.WRONG_SENDER, result);
+    }
+
+    @Test
+    void disconnectPlayerNotPresent() {
+        // disconnect player not present in the gameController
+        gameController.disconnectPlayer("Player3");
+        CommandResult result = gameController.getCommandResult();
+        assertEquals(CommandResult.PLAYER_NOT_PRESENT, result);
+    }
+
+
+    @Test
+    void WrongState()
+    {
+        gameController.setState(GameState.GAME_ENDED);
+        gameController.drawDeckCard("Player1",CardType.RESOURCE_CARD);
+        assertEquals(gameController.getCommandResult(),CommandResult.WRONG_STATE);
+    }
+    @Test
+    void drawDeckWrongPlayer() {
+        gameController.setCurrentPlayer(0);
+        gameController.drawDeckCard("Player2",CardType.RESOURCE_CARD);
+        assertEquals(gameController.getCommandResult(), CommandResult.WRONG_PLAYER);
+    }
+    @Test
+    void DrawDeckCard() {
+        gameController.setCurrentPlayer(0);
+        gameController.drawDeckCard("Player2", CardType.RESOURCE_CARD);
+        assertEquals(gameController.getCommandResult(), CommandResult.WRONG_PLAYER);
+
+        gameController.setCurrentPlayer(0);
+        gameController.drawDeckCard("Player1", CardType.OBJECTIVE_CARD);
+        assertEquals(gameController.getCommandResult(), CommandResult.WRONG_CARD_TYPE);
+
+        gameController.setCurrentPlayer(0);
+        gameController.placeCard("Player1",0,41,41,true);
+
+        gameController.drawDeckCard("Player1", CardType.RESOURCE_CARD);
+
+        assertEquals(gameController.getCommandResult(), CommandResult.SUCCESS);
+
+        int id = gameController.getPlayerByNickname("Player1").getCurrentHand().getLast().getId();
+        boolean found = false;
+        for (DrawableCard c: gameController.getResourceCardsDeck().getContent()){
+            if (c.getId() == id) {
+                found = true;
+                break;
+            }
+        }
+        assertFalse(found);
+
+        gameController.setCurrentPlayer(0);
+        gameController.placeCard("Player1",0,42,42,true);
+
+        gameController.drawDeckCard("Player1", CardType.GOLD_CARD);
+
+        assertEquals(gameController.getCommandResult(), CommandResult.SUCCESS);
+
+        int id2 = gameController.getPlayerByNickname("Player1").getCurrentHand().getLast().getId();
+        boolean found2 = false;
+        for (DrawableCard c: gameController.getGoldCardsDeck().getContent()){
+            if (c.getId() == id2) {
+                found2 = true;
+                break;
+            }
+        }
+        assertFalse(found2);
+    }
+
+    @Test
+    void DrawFromEmptyDeck(){
+        for (int i = 0; i < 40; i++ ){
+            gameController.getResourceCardsDeck().drawCard();
+        }
+        gameController.setCurrentPlayer(0);
+        gameController.placeCard("Player1",0,41,41,true);
+        gameController.drawDeckCard("Player1", CardType.RESOURCE_CARD);
+        assertEquals(gameController.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
+    }
+
+    @Test
+    void drawFaceUpCardWrongState() {
+        gameController.setCurrentPlayer(0);
+        gameController.placeCard("Player1",0,41,41,true);
+        gameController.setState(GameState.GAME_ENDED);
+        gameController.drawFaceUpCard("Player1", CardType.RESOURCE_CARD, 0);
+        assertEquals(gameController.getCommandResult(), CommandResult.WRONG_STATE);
+    }
+    @Test
+    void drawFaceUpCardWrongState2() {
+        gameController.setCurrentPlayer(0);
+        gameController.drawFaceUpCard("Player1", CardType.RESOURCE_CARD, 0);
+        assertEquals(gameController.getCommandResult(), CommandResult.NOT_PLACED_YET);
+    }
+
+    @Test
+    void drawFaceUpCardWrongPlayer() {
+        gameController.placeStarterCard("Player1", false);
+        gameController.placeStarterCard("Player2", false);
+        gameController.setCurrentPlayer(0);
+        gameController.drawFaceUpCard("Player2", CardType.RESOURCE_CARD, 0);
+        assertEquals(gameController.getCommandResult(), CommandResult.WRONG_PLAYER);
+
+    }
+
+    @Test
+    void drawFaceUpCardWrongType() {
+        gameController.setCurrentPlayer(0);
+        gameController.drawFaceUpCard("Player1", CardType.OBJECTIVE_CARD, 0);
+        assertEquals(gameController.getCommandResult(), CommandResult.WRONG_CARD_TYPE);
+    }
+
+    @Test
+    void drawFaceUpCardResourceCardSuccess() {
+        gameController.setCurrentPlayer(0);
+
+        gameController.placeCard("Player1", 0, 39, 39, true);
+
+        int id = gameController.getResourceCardsDeck().revealTopCard().getId();
+        System.out.println(gameController.getResourceCardsDeck().drawFaceUpCard(0));
+        gameController.drawFaceUpCard("Player1", CardType.RESOURCE_CARD, 0);
+        int id2 = gameController.getResourceCardsDeck().revealTopCard().getId();
+        System.out.println(id);
+        System.out.println(id2);
+        assertEquals(gameController.getCommandResult(), CommandResult.SUCCESS);
+        assertNotEquals(id, id2);
+
+    }
+
+    @Test
+    void drawFaceUpCardGoldCardSuccess() {
+        gameController.placeStarterCard("Player1", false);
+        gameController.placeStarterCard("Player2", false);
+        gameController.setCurrentPlayer(0);
+
+        gameController.placeCard("Player1", 0, 39, 39, true);
+
+        int id = gameController.getGoldCardsDeck().revealTopCard().getId();
+        gameController.drawFaceUpCard("Player1", CardType.GOLD_CARD, 0);
+        int id2 = gameController.getGoldCardsDeck().revealTopCard().getId();
+        assertEquals(gameController.getCommandResult(), CommandResult.SUCCESS);
+        assertNotEquals(id, id2);
+
+    }
+
+    @Test
+    void drawFaceUpCardResourceCardNotSuccess() {
+        gameController.placeStarterCard("Player1", false);
+        gameController.placeStarterCard("Player2", false);
+        gameController.setCurrentPlayer(0);
+        gameController.placeCard("Player1", 0, 39, 39, true);
+        for (int i = 0; i < 40; i++) {
+            gameController.getResourceCardsDeck().drawFaceUpCard(0);
+        }
+        gameController.drawFaceUpCard("Player1", CardType.RESOURCE_CARD, 0);
+        assertEquals(gameController.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
+
+    }
+
+    @Test
+    void drawFaceUpCardGoldCardNotSuccess() {
+        gameController.setCurrentPlayer(0);
+        gameController.placeCard("Player1", 0, 39, 39, true);
+        for (int i = 0; i < 40; i++) {
+            gameController.getGoldCardsDeck().drawFaceUpCard(0);
+        }
+        gameController.drawFaceUpCard("Player1", CardType.GOLD_CARD, 0);
+        assertEquals(gameController.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
+
+    }
+
+    @Test
+    void placeCardSuccess() {
+        Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
+        gameController.placeCard(currPlayer.getNickname(),0,41,41,true);
+        assertEquals(CommandResult.SUCCESS, gameController.getCommandResult());
+    }
+
+    @Test
+    void cardPlaceCardWrongState(){
+        gameController.setState(GameState.GAME_STARTING);
+        gameController.placeCard("Player1",0,41,41,true);
+        assertEquals(CommandResult.WRONG_STATE, gameController.getCommandResult());
+    }
+    @Test
+    void cardPlaceCardWrongPlayer(){
+        String nick = gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname();
+        gameController.changeCurrPlayer();
+        gameController.placeCard(nick,0,41,41,true);
+        assertEquals(CommandResult.WRONG_PLAYER, gameController.getCommandResult());
+    }
+    @Test
+    void cardAlreadyPlaced(){
+        Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
+        gameController.placeCard(currPlayer.getNickname(),0,41,41,true);
+        assertEquals(CommandResult.SUCCESS, gameController.getCommandResult());
+        gameController.placeCard(currPlayer.getNickname(),0,42,42,true);
+        assertEquals(CommandResult.CARD_ALREADY_PLACED, gameController.getCommandResult());
+    }
+    @Test
+    void outOfHandBound(){
+        Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
+        gameController.placeCard(currPlayer.getNickname(),4,41,41,true);
+        assertEquals(CommandResult.CARD_NOT_PRESENT, gameController.getCommandResult());
+    }
+    @Test
+    void PlaceStarterCardSuccess() {
+        Player newPlayer = new Player("Player3", true, false);
+        newPlayer.setTokenColor(TokenColor.BLUE);
+        gameController.getPlayers().add(newPlayer);
+        PlaceableCard myStarterCard3 = null;
+        for (PlaceableCard p: gameController.getStarterCardsDeck().getContent()){
+            if (p.getId() == 84){
+                myStarterCard3 = p;
+            }
+        }
+        newPlayer.setStarterCard(myStarterCard3);
+        gameController.setState(GameState.PLACING_STARTER_CARDS);
+        gameController.placeStarterCard("Player3",false);
+        assertEquals(CommandResult.SUCCESS, gameController.getCommandResult());
+    }
+
+    @Test
+    void placeCardWrongState(){
+        gameController.setState(GameState.GAME_STARTING);
+        gameController.placeStarterCard("Player1",false);
+        assertEquals(CommandResult.WRONG_STATE, gameController.getCommandResult());
+    }
+    @Test
+    void placeCardWrongPlayer(){
+        gameController.setState(GameState.PLACING_STARTER_CARDS);
+        gameController.placeStarterCard("Player3",false);
+        assertEquals(CommandResult.PLAYER_NOT_PRESENT, gameController.getCommandResult());
+    }
+    @Test
+    void alreadyPlaced(){
+        gameController.setState(GameState.PLACING_STARTER_CARDS);
+        gameController.placeStarterCard("Player1",false);
+        assertEquals(CommandResult.CARD_ALREADY_PRESENT, gameController.getCommandResult());
+    }
+    @Test
+    void placeRandomly()
+    {
+        Player newPlayer = new Player("Player3", true, false);
+        newPlayer.setTokenColor(TokenColor.BLUE);
+        gameController.getPlayers().add(newPlayer);
+        PlaceableCard myStarterCard3 = null;
+        for (PlaceableCard p: gameController.getStarterCardsDeck().getContent()){
+            if (p.getId() == 84){
+                myStarterCard3 = p;
+            }
+        }
+        newPlayer.setStarterCard(myStarterCard3);
+
+        gameController.setState(GameState.PLACING_STARTER_CARDS);
+        gameController.placeStarterCardRandomly("Player3");
+        assertEquals(CommandResult.SUCCESS, gameController.getCommandResult());
+    }
+
+    @Test
+    void computeWinnerOneWinner() {
+        //place all cards for player1
         for (DrawableCard c: gameController.getResourceCardsDeck().getContent()) {
             if (c.getId() == 3) {
                 secondPlayer.addCardHand(c);
@@ -373,67 +677,20 @@ class GameControllerTest {
                 break;
             }
         }
+        gameController.setPenultimateRound();
+        gameController.changeCurrPlayer();
+        gameController.changeCurrPlayer();
+        gameController.changeCurrPlayer();
         assertEquals(1, gameController.getWinners().size());
-        assertEquals("Player1", gameController.getWinners().getFirst());
+        assertEquals("Player2", gameController.getWinners().getFirst());
     }
 
     @Test
     void computeWinnerDraw() {
-        // add first player
-        Player firstPlayer = new Player("Player1", true, false);
-        firstPlayer.setTokenColor(TokenColor.BLUE);
-        firstPlayer.setFirst();
-        // add second player
-        Player secondPlayer = new Player("Player2", false, false);
-        secondPlayer.setTokenColor(TokenColor.GREEN);
-        PlaceableCard myStarterCard1 =null;
-        for (PlaceableCard p: gameController.getStarterCardsDeck().getContent()){
-            if (p.getId() == 82){
-                myStarterCard1 = p;
-            }
-        }
-        PlaceableCard myStarterCard2 = null;
-        for (PlaceableCard p: gameController.getStarterCardsDeck().getContent()){
-            if (p.getId() == 81){
-                myStarterCard2 = p;
-            }
-        }
-
-        firstPlayer.setStarterCard(myStarterCard1);
-        gameController.getPlayers().add(firstPlayer);
-        gameController.getScoreTrackBoard().addPlayer("Player1");
-        assertNotNull(myStarterCard1);
-        firstPlayer.placeCard(myStarterCard1, 40, 40, false);
-
-        secondPlayer.setStarterCard(myStarterCard1);
-        gameController.getPlayers().add(secondPlayer);
-        gameController.getScoreTrackBoard().addPlayer("Player2");
-        assertNotNull(myStarterCard2);
-        secondPlayer.placeCard(myStarterCard2, 40, 40, false);
-
-        gameController.setState(GameState.PLAYING);
-        firstPlayer.addCardHand(gameController.getResourceCardsDeck().drawCard());
-        secondPlayer.addCardHand(gameController.getResourceCardsDeck().drawCard());
-        List<ObjectiveCard> publicObjective = new ArrayList<>();
-        for(ObjectiveCard o: gameController.getObjectiveCardsDeck().getContent()){
-            if (o.getId()==97){
-                firstPlayer.setSecretObjective(o);
-            }
-            if (o.getId()==95){
-                secondPlayer.setSecretObjective(o);
-            }
-            if (o.getId()==90){
-                publicObjective.add(o);
-            }
-            if (o.getId()==100){
-                publicObjective.add(o);
-            }
-        }
-        gameController.getObjectiveCardsDeck().setFaceUpCards(publicObjective);
         for (DrawableCard c: gameController.getResourceCardsDeck().getContent()) {
             if (c.getId() == 8) {
                 firstPlayer.addCardHand(c);
-                gameController.setAndExecuteCommand(new PlaceCardControllerCommand("Player1", 1, 39, 39, false));
+                gameController.placeCard("Player1", 1, 39, 39, false);
                 gameController.changeCurrPlayer();
                 break;
             }
@@ -441,7 +698,7 @@ class GameControllerTest {
         for (DrawableCard c: gameController.getResourceCardsDeck().getContent()) {
             if (c.getId() == 9) {
                 secondPlayer.addCardHand(c);
-                gameController.setAndExecuteCommand(new PlaceCardControllerCommand("Player2", 1, 39, 39, false));
+                gameController.placeCard("Player2", 1, 39, 39, false);
                 gameController.changeCurrPlayer();
                 break;
             }
@@ -459,11 +716,6 @@ class GameControllerTest {
 
     @Test
     void changeCurrPlayer() {
-        Player firstPlayer = new Player("Player1", true, false);
-        Player secondPlayer = new Player("Player2", false, false);
-        gameController.addPlayer(firstPlayer, null);
-        gameController.addPlayer(secondPlayer, null);
-        gameController.setState(GameState.PLAYING);
         firstPlayer.setFirst();
         gameController.setCurrentPlayer(0);
         gameController.changeCurrPlayer();
@@ -490,11 +742,6 @@ class GameControllerTest {
     }
     @Test
     void changeCurrPlayerAllStalled(){
-        Player firstPlayer = new Player("Player1", false, false);
-        Player secondPlayer = new Player("Player2", false, true);
-        gameController.addPlayer(firstPlayer, null);
-        gameController.addPlayer(secondPlayer, null);
-        gameController.setState(GameState.PLAYING);
         firstPlayer.setFirst();
         gameController.setCurrentPlayer(0);
         gameController.changeCurrPlayer();
@@ -503,91 +750,5 @@ class GameControllerTest {
         gameController.changeCurrPlayer();
         assertEquals(GameState.GAME_ENDED, gameController.getState());
     }
-
-    @Test
-    void emptyResourceCardsDeckDrawFaceUp() {
-        Player firstPlayer = new Player("Player1", true, false);
-        firstPlayer.setTokenColor(TokenColor.BLUE);
-        Player secondPlayer = new Player("Player2", true, false);
-        secondPlayer.setTokenColor(TokenColor.GREEN);
-        gameController.addPlayer(firstPlayer, null);
-        gameController.addPlayer(secondPlayer, null);
-        // remove one card, to allow drawing cards
-        firstPlayer.removeCardHand(firstPlayer.getCurrentHand().getFirst());
-        secondPlayer.removeCardHand(secondPlayer.getCurrentHand().getFirst());
-        gameController.setHasCurrPlayerPlaced();
-        gameController.setState(GameState.PLAYING);
-        assertEquals(34, gameController.getResourceCardsDeck().getContent().size());
-        // draw all cards
-        for(int i = 0; i < 34; i++) {
-            gameController.getResourceCardsDeck().drawCard();
-            gameController.setHasCurrPlayerPlaced();
-        }
-        // check empty deck
-        assertEquals(0, gameController.getResourceCardsDeck().getContent().size());
-        // check exactly 2 face up cards
-        assertNotNull(gameController.getResourceCardsDeck().revealFaceUpCard(0));
-        assertNotNull(gameController.getResourceCardsDeck().revealFaceUpCard(1));
-        assertNull(gameController.getResourceCardsDeck().revealFaceUpCard(2));
-        // check objective deck size
-        assertEquals(36, gameController.getGoldCardsDeck().getContent().size());
-        // check exactly 2 gold cards
-        assertNotNull(gameController.getGoldCardsDeck().revealFaceUpCard(0));
-        assertNotNull(gameController.getGoldCardsDeck().revealFaceUpCard(1));
-        assertNull(gameController.getGoldCardsDeck().revealFaceUpCard(2));
-        // draw a face up card
-        gameController.setAndExecuteCommand(new DrawFaceUpCardControllerCommand(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname(), CardType.RESOURCE_CARD, 0));
-        // check card not replaced
-        assertNotNull(gameController.getResourceCardsDeck().revealFaceUpCard(0));
-        assertNull(gameController.getResourceCardsDeck().revealFaceUpCard(1));
-        // check 3 objective cards
-        assertNotNull(gameController.getGoldCardsDeck().revealFaceUpCard(0));
-        assertNotNull(gameController.getGoldCardsDeck().revealFaceUpCard(1));
-        assertNotNull(gameController.getGoldCardsDeck().revealFaceUpCard(2));
-        assertNull(gameController.getGoldCardsDeck().revealFaceUpCard(3));
-    }
-
-    @Test
-    void emptyGoldCardsDeckDrawFaceUp() {
-        Player firstPlayer = new Player("Player1", true, false);
-        firstPlayer.setTokenColor(TokenColor.BLUE);
-        Player secondPlayer = new Player("Player2", true, false);
-        secondPlayer.setTokenColor(TokenColor.GREEN);
-        gameController.addPlayer(firstPlayer, null);
-        gameController.addPlayer(secondPlayer, null);
-        // remove one card, to allow drawing cards
-        firstPlayer.removeCardHand(firstPlayer.getCurrentHand().getFirst());
-        secondPlayer.removeCardHand(secondPlayer.getCurrentHand().getFirst());
-        gameController.setState(GameState.PLAYING);
-        assertEquals(36, gameController.getGoldCardsDeck().getContent().size());
-        // draw all cards
-        for(int i = 0; i < 36; i++) {
-            gameController.getGoldCardsDeck().drawCard();
-        }
-        // check empty deck
-        assertEquals(0, gameController.getGoldCardsDeck().getContent().size());
-        // check exactly 2 face up cards
-        assertNotNull(gameController.getGoldCardsDeck().revealFaceUpCard(0));
-        assertNotNull(gameController.getGoldCardsDeck().revealFaceUpCard(1));
-        assertNull(gameController.getGoldCardsDeck().revealFaceUpCard(2));
-        // check resource deck size
-        assertEquals(34, gameController.getResourceCardsDeck().getContent().size());
-        // check exactly 2 resource cards
-        assertNotNull(gameController.getResourceCardsDeck().revealFaceUpCard(0));
-        assertNotNull(gameController.getResourceCardsDeck().revealFaceUpCard(1));
-        assertNull(gameController.getResourceCardsDeck().revealFaceUpCard(2));
-        // draw a face up card
-        gameController.setHasCurrPlayerPlaced();
-        gameController.setAndExecuteCommand(new DrawFaceUpCardControllerCommand(gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname(), CardType.GOLD_CARD, 0));
-        // check card not replaced
-        assertNotNull(gameController.getGoldCardsDeck().revealFaceUpCard(0));
-        assertNull(gameController.getGoldCardsDeck().revealFaceUpCard(1));
-        assertNull(gameController.getGoldCardsDeck().revealFaceUpCard(2));
-        // check 3 objective cards
-        assertNotNull(gameController.getResourceCardsDeck().revealFaceUpCard(0));
-        assertNotNull(gameController.getResourceCardsDeck().revealFaceUpCard(1));
-        assertNotNull(gameController.getResourceCardsDeck().revealFaceUpCard(2));
-        assertNull(gameController.getResourceCardsDeck().revealFaceUpCard(3));
-    }
-
 }
+
