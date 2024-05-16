@@ -23,7 +23,8 @@ public class SocketClient implements Client, PingSender {
     private VirtualSocketServer myServer;
     private boolean clientAlive;
     private Ui ui;
-
+    private static final int maxMissedPongs = 3;
+    private boolean pong;
     public SocketClient(Socket mySocket, boolean interfaceType) throws IOException {
         System.out.println("SC> costruttore");
         InputStream temp_input;
@@ -41,6 +42,7 @@ public class SocketClient implements Client, PingSender {
         this.input = new ObjectInputStream(temp_input);
 
         this.clientAlive = true;
+        this.pong = true;
 
         manageSetUp(output, interfaceType);
 
@@ -93,6 +95,7 @@ public class SocketClient implements Client, PingSender {
             }
             new Thread(this::manageReceivedUpdate).start();
             new Thread(this::startGamePing).start();
+            new Thread(this::checkPong).start();
             runCliGame();
         }
     }
@@ -129,6 +132,7 @@ public class SocketClient implements Client, PingSender {
             }).start();
             // game joined
             new Thread(this::startGamePing).start();
+            new Thread(this::checkPong).start();
             runCliGame();
         }else{
             if(result.equals("Display successful.")){
@@ -149,12 +153,16 @@ public class SocketClient implements Client, PingSender {
         Update update;
         while (true){ //TODO dalla documentazione non trovo un modo di utilizzare il risultato di readObject() come condizione del while, chiedere se così va bene
             try {
-                System.out.println("SC-T> ascolto");
+                //System.out.println("SC-T> ascolto");
                 update = (Update) input.readObject();
-                System.out.println("SC-T> ho letto un update, lo eseguo");
+                //System.out.println("SC-T> ho letto un update, lo eseguo");
                 update.execute(gameView);
+                synchronized (this){
+                    pong = true;
+                }
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
+                // TODO nooooo, close connection!
             }
         }
     }
@@ -200,18 +208,55 @@ public class SocketClient implements Client, PingSender {
     public void startGamePing() {
         System.out.println("SC-T2> startGamePing");
         while(true) {
+            boolean isAlive;
             synchronized (this) {
-                if (!clientAlive) {
-                    break;
+                isAlive = clientAlive;
+            }
+            if (!isAlive) {
+                break;
+            } else {
+                try {
+                    myServer.setAndExecuteCommand(new SendPingCommand(nickname));
+                } catch (RemoteException e) {
+                    // connection failed
+                    System.out.println("Connection failed. Press enter. - ping");
+                    synchronized (this) {
+                        clientAlive = false;
+                    }
                 }
             }
             try {
-                myServer.setAndExecuteCommand(new SendPingCommand(nickname));
-            } catch (RemoteException e) {
+                Thread.sleep(1000); // wait one second between two ping
+            } catch (InterruptedException e) {
+                // TODO
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    /**
+     * Method that checks if the client is receiving pongs from server.
+     */
+    private void checkPong() {
+        int missedPong = 0;
+        while(true){
+            synchronized(this) {
+                if(pong) {
+                    missedPong = 0;
+                }else {
+                    missedPong ++;
+                    if(missedPong >= maxMissedPongs) {
+                        System.out.println("you lost the connection :(");
+                        clientAlive = false;
+                        break;
+                    }
+                }
+                pong = false;
+
+            }
             try {
-                Thread.sleep(1000); // wait one second between two ping
+                Thread.sleep(1000); // wait one second between two pong checks
             } catch (InterruptedException e) {
                 // TODO
                 e.printStackTrace();

@@ -8,7 +8,6 @@ import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
@@ -68,9 +67,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
                 try {
                     GamesManagerCommand command = commandsQueue.take();
                     GamesManager.getGamesManager().setAndExecuteCommand(command);
-
-                    // only for testing
-                    System.out.println(GamesManager.getGamesManager().getCommandResult());
                 }catch(InterruptedException e) {
                     System.err.println("Channel closed");
                     break;
@@ -85,18 +81,20 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * @throws RemoteException remote exception
      */
     @Override
-    public synchronized void connect(String nickname, VirtualView client) throws RemoteException {
+    public void connect(String nickname, VirtualView client) throws RemoteException {
+        // addVirtualView is synchronized
         GamesManager.getGamesManager().addVirtualView(nickname, client);
         System.err.println("New client connected");
     }
 
     @Override
     public NicknameCheck checkNickname(String nickname) throws RemoteException {
+        // checkNickname is synchronized
         return GamesManager.getGamesManager().checkNickname(nickname);
     }
 
     @Override
-    public VirtualServerGame getGameServer(int gameId) throws RemoteException {
+    public synchronized VirtualServerGame getGameServer(int gameId) throws RemoteException {
         assert(rmiServerGames.containsKey(gameId));
         return rmiServerGames.get(gameId);
     }
@@ -107,7 +105,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * @throws RemoteException remote exception
      */
     @Override
-    public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
+    public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) throws RemoteException {
         // add command to queue
         try {
             // blocking queues are thread safe
@@ -144,6 +142,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         try {
             VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
             if(virtualView == null) {
+                // TODO
                 throw new RuntimeException();
             }
             virtualView.setServerGame(gameId);

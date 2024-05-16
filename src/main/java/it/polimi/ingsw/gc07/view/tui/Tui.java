@@ -35,7 +35,6 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             timeout.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    client.setAndExecuteCommand(new RemoveFromPendingCommand(nickname));
                     System.exit(0);
                 }
             }, 30*1000); //timer of 5 minutes
@@ -152,11 +151,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             System.out.println("Insert a character to perform an action:");
             System.out.println("- q to write a private message"); // AddChatPrivateMessage
             System.out.println("- w to write a public message"); // AddChatPublicMessage
-            System.out.println("- e to disconnect from the game"); // DisconnectPlayerControllerCommand
-            System.out.println("- r to draw a card from a deck"); // DrawDeckCardControllerCommand
-            System.out.println("- t to draw a face up card"); // DrawFaceUpCardControllerCommand
-            System.out.println("- y to place a card"); // PlaceCardControllerCommand
-            System.out.println("- u to place the starter card"); // PlaceStarterCardControllerCommand
+            System.out.println("- e to disconnect from the game"); // DisconnectPlayerCommand
+            System.out.println("- r to draw a card from a deck"); // DrawDeckCardCommand
+            System.out.println("- t to draw a face up card"); // DrawFaceUpCardCommand
+            System.out.println("- y to place a card"); // PlaceCardCommand
+            System.out.println("- u to place the starter card"); // PlaceStarterCardCommand
             System.out.println("- i to see another player's game field");
             System.out.println("- o to see the whole chat");
             System.out.print("> ");
@@ -186,16 +185,16 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     System.out.println("Insert the message content:");
                     System.out.print("> ");
                     content = scan.nextLine();
-                    client.setAndExecuteCommand(new AddChatPrivateMessageControllerCommand(content, nickname, receiver));
+                    client.setAndExecuteCommand(new AddChatPrivateMessageCommand(content, nickname, receiver));
                     break;
                 case "w":
                     System.out.println("Insert the message content:");
                     System.out.print("> ");
                     content = scan.nextLine();
-                    client.setAndExecuteCommand(new AddChatPublicMessageControllerCommand(content, nickname));
+                    client.setAndExecuteCommand(new AddChatPublicMessageCommand(content, nickname));
                     break;
                 case "e":
-                    client.setAndExecuteCommand(new DisconnectPlayerControllerCommand(nickname));
+                    client.setAndExecuteCommand(new DisconnectPlayerCommand(nickname));
                     client.setClientAlive(false);
                     break;
                 case "r":
@@ -220,7 +219,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         System.out.println("This is not your turn, try later.");
                         break;
                     }
-                    client.setAndExecuteCommand(new DrawDeckCardControllerCommand(nickname, cardType));
+                    client.setAndExecuteCommand(new DrawDeckCardCommand(nickname, cardType));
                     break;
                 case "t":
                     System.out.println("Select a card type ('g' for gold or 'r' for resource): ");
@@ -260,7 +259,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         System.out.println("This is not your turn, try later.");
                         break;
                     }
-                    client.setAndExecuteCommand(new DrawFaceUpCardControllerCommand(nickname, cardType, pos));
+                    client.setAndExecuteCommand(new DrawFaceUpCardCommand(nickname, cardType, pos));
                     break;
                 case "y":
                     // pos
@@ -332,7 +331,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         break;
                     }
                     // create and execute command
-                    client.setAndExecuteCommand(new PlaceCardControllerCommand(nickname, cardPos, x, y, way));
+                    client.setAndExecuteCommand(new PlaceCardCommand(nickname, cardPos, x, y, way));
                     break;
                 case "u":
                     System.out.println("Select 0 to place the starter card face up, 1 to place the starter card face down: ");
@@ -357,7 +356,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         System.out.println("Wrong game state.");
                         break;
                     }
-                    client.setAndExecuteCommand(new PlaceStarterCardControllerCommand(nickname, way));
+                    client.setAndExecuteCommand(new PlaceStarterCardCommand(nickname, way));
                     break;
                 case "i":
                     System.out.println("Insert other player's nickname");
@@ -442,7 +441,6 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         System.out.println("--------------------------------------------------------");
         System.out.println("                     STARTER CARD                       ");
         System.out.println("--------------------------------------------------------");
-        System.out.println("PRINTING");
         PlayerTui.printStarterCard(starterCard, true);
         PlayerTui.printStarterCard(starterCard, false);
     }
@@ -493,7 +491,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         List<DrawableCard> faceUpResourceCard = client.getGameView().getFaceUpResourceCard();
         List<GoldCard> faceUpGoldCard = client.getGameView().getFaceUpGoldCard();
         List<ObjectiveCard> commonObjective = client.getGameView().getCommonObjective();
-        if(state != GameState.GAME_STARTING && state != GameState.PLACING_STARTER_CARDS && currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
+        if(state.equals(GameState.PLAYING) && currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
             System.out.println();
             System.out.println("--------------------------------------------------------");
             System.out.println("                      FRONT DECK                        ");

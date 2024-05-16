@@ -7,7 +7,7 @@ import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.network.PingReceiver;
+import it.polimi.ingsw.gc07.network.PingPongManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketServer;
@@ -21,7 +21,7 @@ public class GameController {
      */
     private final GameModel gameModel;
 
-    private final PingReceiver pingReceiver;
+    private final PingPongManager pingPongManager;
 
     /**
      * Constructor of a GameController with only the first player.
@@ -30,7 +30,7 @@ public class GameController {
                           DrawableDeck<GoldCard> goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
                           Deck<PlaceableCard> starterCardsDeck) {
         this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
-        this.pingReceiver = new PingReceiver(this);
+        this.pingPongManager = new PingPongManager(this);
     }
 
     // ------------------------------
@@ -142,7 +142,7 @@ public class GameController {
     }
 
     public void receivePing(String nickname) {
-        pingReceiver.receivePing(nickname);
+        pingPongManager.receivePing(nickname);
     }
 
     // ----------------------
@@ -192,7 +192,7 @@ public class GameController {
         gameModel.addPlayer(newPlayer);
         gameModel.addListener(client);
         gameModel.setUpPlayerHand(newPlayer);
-        pingReceiver.addPingSender(newPlayer.getNickname(), client);
+        pingPongManager.addPingSender(newPlayer.getNickname(), client);
 
         if (isFull()) {
             setup();
@@ -207,7 +207,8 @@ public class GameController {
         }
     }
 
-    public void disconnectPlayer(String nickname) {
+    public synchronized void disconnectPlayer(String nickname) {
+        // called by setAndExecute and pingPongManager
         // this command can always be used
         assert(!gameModel.getState().equals(GameState.NO_PLAYERS_CONNECTED)): "Impossible state";
         if(!gameModel.getPlayerNicknames().contains(nickname)) {
@@ -224,20 +225,9 @@ public class GameController {
             return;
         }
 
-        VirtualView virtualView = pingReceiver.getVirtualView(nickname);
+        VirtualView virtualView = pingPongManager.getVirtualView(nickname);
 
         gameModel.removeListener(virtualView);
-
-        // TODO togliere o rivedere
-        if(!player.getConnectionType()) {
-            /*
-            try {
-                // virtualView.kill(); // TODO
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-             */
-        }
 
         // remove virtual view
         if(!player.getConnectionType()) {
@@ -254,7 +244,7 @@ public class GameController {
 
         // set player disconnected
         player.setIsConnected(false);
-        pingReceiver.notifyPlayerDisconnected(nickname);
+        pingPongManager.notifyPlayerDisconnected(nickname);
         System.out.println("Disconnected " + nickname);
 
         // if the player is the current one
@@ -317,7 +307,7 @@ public class GameController {
             // TODO
             throw new RuntimeException(e);
         }
-        pingReceiver.addPingSender(nickname, client);
+        pingPongManager.addPingSender(nickname, client);
 
         // set player connected
         player.setIsConnected(true); //TODO sincronizzazione con thread di checkPing
@@ -640,7 +630,7 @@ public class GameController {
         if(gameModel.getPenultimateRound()) {
             if(getPlayers().get(gameModel.getCurrPlayer()).isFirst() && gameModel.getAdditionalRound()) {
                 gameModel.setState(GameState.GAME_ENDED);
-                gameModel.computeWinner();
+                gameModel.computeWinners();
                 // delete game from GamesManager
                 endGame();
                 return;
@@ -663,7 +653,7 @@ public class GameController {
                 changeCurrPlayer();
             else {
                 gameModel.setState(GameState.GAME_ENDED);
-                gameModel.computeWinner();
+                gameModel.computeWinners();
                 endGame();
             }
         }
@@ -674,23 +664,12 @@ public class GameController {
      * it deletes the game from GamesManager.
      */
     private void endGame(){
-        Timer timeoutGameEnded = new Timer();
-        new Thread(() -> {
-            timeoutGameEnded.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    synchronized(this) {
-                        // delete Rmi virtual views and rmiServerGame
-                        RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
-
-                        // TODO socket ???
-
-                        // delete GameController
-                        GamesManager.getGamesManager().deleteGame(getId());
-                    }
-                }
-            }, 15*1000); //timer of 200 sec
-        }).start();
+        synchronized(this) {
+            // delete Rmi virtual views and rmiServerGame
+            RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
+            // delete GameController
+            GamesManager.getGamesManager().deleteGame(getId());
+        }
     }
 
     /**

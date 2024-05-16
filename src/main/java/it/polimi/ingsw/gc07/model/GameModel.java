@@ -484,7 +484,7 @@ public class GameModel {
     /**
      * Method that compute the winner/s of the game.
      */
-    public void computeWinner() {
+    public void computeWinners() {
         assert(state.equals(GameState.GAME_ENDED)) : "The game state is not correct";
         List<String> computedWinners = new ArrayList<>();
         int deltaPoints;
@@ -541,7 +541,6 @@ public class GameModel {
     public void setWinner(String nickname){
         winners.add(nickname);
         // update listeners
-        sendGameModelUpdate();
         sendWinnersUpdate();
     }
 

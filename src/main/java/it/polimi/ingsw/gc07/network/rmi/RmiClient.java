@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.network.rmi;
 
+import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.*;
@@ -10,6 +11,8 @@ import it.polimi.ingsw.gc07.view.tui.Tui;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class RmiClient extends UnicastRemoteObject implements Client, VirtualView, PingSender {
     /**
@@ -41,6 +44,14 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * Boolean that is true if the server is on
      */
     private boolean pong;
+    /**
+     * Blocking queue containing received updates.
+     */
+    private final BlockingDeque<Update> updatesQueue;
+    /**
+     * Number of missed pongs to detect a disconnection.
+     */
+    private static final int maxMissedPongs = 3;
 
     /**
      * Constructor of RmiClient.
@@ -61,6 +72,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }
         this.gameView.addViewListener(ui);
         this.pong = true;
+        this.updatesQueue = new LinkedBlockingDeque<>();
+        startUpdateExecutor();
     }
 
     /**
@@ -70,6 +83,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public String getNickname() throws RemoteException {
+        // TODO da cancellare quando tomasso rimuove da socket
         return nickname;
     }
 
@@ -89,7 +103,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
-    public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
+    public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
         try {
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
         }catch(RemoteException e) {
@@ -100,7 +114,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
-    public synchronized void setAndExecuteCommand(GameControllerCommand gameCommand) {
+    public void setAndExecuteCommand(GameControllerCommand gameCommand) {
         try {
             serverGame.setAndExecuteCommand(gameCommand);
         }catch(RemoteException e) {
@@ -152,6 +166,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }
         // game joined
         new Thread(this::startGamePing).start();
+        new Thread(this::checkPong).start();
         new Thread(this::runCliGame).start();
     }
 
@@ -159,26 +174,65 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * Method used from RmiServerGamesManager to restart the cli if the joining was not successful.
      */
     public void notifyJoinNotSuccessful() throws RemoteException {
-        System.out.println("Action not successful.");
         new Thread(this::runCliJoinGame).start();
     }
 
     @Override
+    public void sendPong() throws RemoteException {
+        setPong();
+    }
+
+    private synchronized void setPong() {
+        this.pong = true;
+    }
+
+    /**
+     * Method that checks if the client is receiving pongs from server.
+     */
+    private void checkPong() {
+        int missedPong = 0;
+        while(true){
+            synchronized(this) {
+                if(pong) {
+                    missedPong = 0;
+                }else {
+                    missedPong ++;
+                    if(missedPong >= maxMissedPongs) {
+                        System.out.println("you lost the connection :(");
+                        clientAlive = false;
+                        break;
+                    }
+                }
+                pong = false;
+            }
+            try {
+                Thread.sleep(1000); // wait one second between two pong checks
+            } catch (InterruptedException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    @Override
     public void startGamePing() {
         while(true) {
+            boolean isAlive;
             synchronized (this) {
-                if (clientAlive) {
-                    try {
-                        serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
-                    }catch(RemoteException e) {
-                        // connection failed
-                        System.out.println("Connection failed. Press enter. - ping");
+                isAlive = clientAlive;
+            }
+            if(isAlive) {
+                try {
+                    serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
+                }catch(RemoteException e) {
+                    // connection failed
+                    System.out.println("Connection failed. Press enter. - ping");
+                    synchronized (this) {
                         clientAlive = false;
                     }
-                } else {
-                    System.out.println("Smetto di inviare ping");
-                    break;
                 }
+            } else{
+                break;
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping
@@ -200,13 +254,42 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         ui.runCliGame();
     }
 
+    private void receiveUpdate(Update update) {
+        try {
+            // blocking queues are thread safe
+            updatesQueue.put(update);
+        }catch(InterruptedException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        setPong();
+    }
+
+    private void startUpdateExecutor() {
+        new Thread(() -> {
+            while(clientAlive) {
+                try {
+                    Update update = updatesQueue.take();
+                    synchronized (this) {
+                        update.execute(gameView);
+                    }
+                }catch(InterruptedException e) {
+                    // TODO
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                }
+            }
+        }).start();
+    }
+
     /**
      * Method used to notify the player he has received a new chat chatMessage.
      * @param chatMessageUpdate chat message update
      */
     @Override
     public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) {
-        chatMessageUpdate.execute(gameView);
+        receiveUpdate(chatMessageUpdate);
     }
 
     /**
@@ -215,7 +298,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) {
-        starterCardUpdate.execute(gameView);
+        receiveUpdate(starterCardUpdate);
     }
 
     /**
@@ -224,7 +307,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) {
-        placedCardUpdate.execute(gameView);
+        receiveUpdate(placedCardUpdate);
     }
 
     /**
@@ -233,7 +316,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) {
-        gameModelUpdate.execute(gameView);
+        receiveUpdate(gameModelUpdate);
     }
 
     /**
@@ -243,7 +326,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate) throws RemoteException {
-        playerJoinedUpdate.execute(gameView);
+        receiveUpdate(playerJoinedUpdate);
     }
 
     /**
@@ -252,7 +335,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) {
-        commandResultUpdate.execute(gameView);
+        receiveUpdate(commandResultUpdate);
     }
 
     /**
@@ -261,7 +344,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveStallUpdate(StallUpdate stallUpdate) {
-        stallUpdate.execute(gameView);
+        receiveUpdate(stallUpdate);
     }
 
     /**
@@ -270,7 +353,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) {
-        connectionUpdate.execute(gameView);
+        receiveUpdate(connectionUpdate);
     }
 
     /**
@@ -279,7 +362,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) {
-        cardHandUpdate.execute(gameView);
+        receiveUpdate(cardHandUpdate);
     }
 
     /**
@@ -288,7 +371,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveScoreUpdate(ScoreUpdate scoreUpdate) {
-        scoreUpdate.execute(gameView);
+        receiveUpdate(scoreUpdate);
     }
 
     /**
@@ -296,7 +379,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * @param existingGamesUpdate existing games update
      */
     @Override
-    public void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) {
+    public synchronized void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) {
         existingGamesUpdate.execute(gameView);
         ui.runCliJoinGame();
     }
@@ -307,11 +390,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException {
-        deckUpdate.execute(gameView);
+        receiveUpdate(deckUpdate);
     }
 
     @Override
     public void receiveGameEndedUpdate(GameEndedUpdate gameEndedUpdate) throws RemoteException {
-        gameEndedUpdate.execute(gameView);
+        receiveUpdate(gameEndedUpdate);
     }
 }

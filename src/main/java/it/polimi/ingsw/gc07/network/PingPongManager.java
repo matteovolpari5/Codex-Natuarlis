@@ -2,11 +2,12 @@ package it.polimi.ingsw.gc07.network;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.Thread;
 
-public class PingReceiver {
+public class PingPongManager {
     /**
      * Game Controller.
      */
@@ -27,10 +28,10 @@ public class PingReceiver {
     private static final int maxMissedPings = 3;
 
     /**
-     * Constructor of PingReceiver.
+     * Constructor of PingPongManager.
      * @param gameController game controller
      */
-    public PingReceiver(GameController gameController) {
+    public PingPongManager(GameController gameController) {
         this.gameController = gameController;
         this.playersPing = new HashMap<>();
         this.playerVirtualViews = new HashMap<>();
@@ -39,6 +40,7 @@ public class PingReceiver {
     public synchronized void addPingSender(String nickname, VirtualView virtualView) {
         this.playersPing.put(nickname, true);
         new Thread(() -> checkPing(nickname)).start();
+        new Thread(() -> sendPong(nickname)).start();
         this.playerVirtualViews.put(nickname, virtualView);
     }
 
@@ -77,25 +79,46 @@ public class PingReceiver {
     public void checkPing(String nickname) {
         int missedPing = 0;
         while(true) {
-            synchronized(gameController) {
+            synchronized(this) {
                 if(playersPing.get(nickname)) {
                     missedPing = 0;
-                    //todo inviare pong
-
                 }else {
                     missedPing ++;
-                    //System.out.println(missedPing);
-                    if(missedPing >= maxMissedPings && gameController.isPlayerConnected(nickname)) {
+                    System.out.println(missedPing+ nickname);
+                    if(missedPing >= maxMissedPings) {
                         System.out.println("PRG> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
                         break;
                     }
                 }
                 playersPing.put(nickname, false);
-
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping
+            } catch (InterruptedException e) {
+                // TODO
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void sendPong(String nickname) {
+        while (true){
+            VirtualView virtualView;
+            synchronized (this) {
+                virtualView = getVirtualView(nickname);
+            }
+            try {
+                virtualView.sendPong();
+            } catch (RemoteException e) {
+                //TODO rivedere
+                System.out.println("PRG> Disconnection detected " + nickname);
+                gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
+                break;
+            }
+            try {
+                Thread.sleep(1000); // wait one second between two pong
             } catch (InterruptedException e) {
                 // TODO
                 e.printStackTrace();

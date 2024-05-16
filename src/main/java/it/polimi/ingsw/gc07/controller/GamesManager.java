@@ -18,7 +18,6 @@ import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -84,7 +83,8 @@ public class GamesManager {
     /**
      * Only for test purposes, return a new instance of GamesManager, not using Singleton.
      */
-    public void resetGamesManager() {
+    // used in tests
+    void resetGamesManager() {
         gameControllers = new ArrayList<>();
         pendingPlayers = new ArrayList<>();
         commandResult = null;
@@ -93,9 +93,10 @@ public class GamesManager {
     }
 
     /**
-     * Friendly getter method for attribute gameControllers, used for Command pattern.
+     * Getter method for attribute gameControllers.
      * @return gameControllers
      */
+    // used in tests
     List<GameController> getGames() {
         return gameControllers;
     }
@@ -104,7 +105,7 @@ public class GamesManager {
      * Return the game with the provided id.
      * @return game with given id
      */
-    public GameController getGameById(int id) {
+    public synchronized GameController getGameById(int id) {
         for(GameController g: gameControllers) {
             if(g.getId() == id) {
                 return g;
@@ -117,7 +118,8 @@ public class GamesManager {
      * Getter for the command result manager.
      * @return command result manager of the games manager
      */
-    public CommandResult getCommandResult() {
+    // used for tests
+    CommandResult getCommandResult() {
         return commandResult;
     }
 
@@ -129,7 +131,6 @@ public class GamesManager {
         gamesManagerCommand.execute(this);
     }
 
-    // used by more game commands
     /**
      * Method that returns the object corresponding to the pending player with a certain name.
      * @param nickname nickname of the pending player to search.
@@ -150,7 +151,8 @@ public class GamesManager {
      * @param nickname nickname of the player
      * @return game id
      */
-    public int getGameIdWithPlayer(String nickname) {
+    // used for tests
+    int getGameIdWithPlayer(String nickname) {
         for(GameController g: gameControllers) {
             if(g.hasPlayer(nickname)) {
                 return g.getId();
@@ -166,10 +168,22 @@ public class GamesManager {
 
         Player newPlayer = new Player(nickname, connectionType, interfaceType);
         pendingPlayers.add(newPlayer);
+        new Thread(()->{
+            Timer timeout = new Timer();
+            playersTimers.put(nickname, timeout);
+            timeout.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    synchronized (this){
+                        removePlayer(nickname);
+                    }
+                }
+            }, 15 * 1000);
+        }).start();
         commandResult = CommandResult.SUCCESS;
     }
 
-    public boolean checkReconnection(String nickname) {
+    private boolean checkReconnection(String nickname) {
         boolean reconnection = false;
         for(GameController gameController: gameControllers) {
             // if a game has a player with the same nickname and disconnected
@@ -212,7 +226,7 @@ public class GamesManager {
         return unique;
     }
 
-    public NicknameCheck checkNickname(String nickname) {
+    public synchronized NicknameCheck checkNickname(String nickname) {
         if(checkReconnection(nickname)) {
             return NicknameCheck.RECONNECTION;
         }else if(!checkNicknameUnique(nickname)) {
@@ -266,6 +280,10 @@ public class GamesManager {
         }
 
         // remove player
+        synchronized (this){
+            playersTimers.get(nickname).cancel();
+            playersTimers.get(nickname).purge();
+        }
         removePlayer(nickname);
 
         commandResult = CommandResult.SUCCESS;
@@ -306,6 +324,10 @@ public class GamesManager {
         }
 
         // remove player
+        synchronized (this){
+            playersTimers.get(nickname).cancel();
+            playersTimers.get(nickname).purge();
+        }
         removePlayer(nickname);
         commandResult = CommandResult.SUCCESS;
     }
@@ -316,7 +338,7 @@ public class GamesManager {
      */
     private void notifyJoinNotSuccessful(Player player) {
         assert(player != null);
-        if(player.getConnectionType()){
+        if(player.getConnectionType()) {
             RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(player.getNickname());
         }else{
             SocketServer.getSocketServer().notifyJoinNotSuccessful(player.getNickname());
@@ -398,7 +420,7 @@ public class GamesManager {
         return gameDetails;
     }
 
-    public void deleteGame(int gameId) {
+    public synchronized void deleteGame(int gameId) {
         GameController gameController = null;
         for(GameController g: gameControllers) {
             if(g.getId() == gameId) {
@@ -409,7 +431,8 @@ public class GamesManager {
             gameControllers.remove(gameController);
         }
     }
-    public void removePlayer(String nickname) {
+
+    private void removePlayer(String nickname) {
         Player player = getPendingPlayer(nickname);
         pendingPlayers.remove(player);
         playerVirtualViews.remove(nickname);
