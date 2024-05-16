@@ -43,15 +43,6 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
                 try {
                     GameControllerCommand command = commandsQueue.take();
                     gameController.setAndExecuteCommand(command);
-
-                    boolean print = true;
-                    if(command instanceof SendPingCommand) {
-                        print = false;
-                    }
-                    if(print) {
-                        // only for test purpose
-                        System.out.println(gameController.getCommandResult());
-                    }
                 }catch(InterruptedException e) {
                     System.err.println("Channel closed");
                     break;
@@ -66,8 +57,7 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
      * @throws RemoteException remote exception
      */
     @Override
-    public synchronized void setAndExecuteCommand(GameControllerCommand gameControllerCommand) throws RemoteException {
-        // TODO serve sincronizzato? non penso
+    public void setAndExecuteCommand(GameControllerCommand gameControllerCommand) throws RemoteException {
         try {
             // blocking queues are thread safe
             commandsQueue.put(gameControllerCommand);
