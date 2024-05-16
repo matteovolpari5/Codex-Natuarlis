@@ -212,7 +212,7 @@ public class GamesManager {
         return unique;
     }
 
-    public NicknameCheck checkNickname(String nickname) {
+    public synchronized NicknameCheck checkNickname(String nickname) {
         if(checkReconnection(nickname)) {
             return NicknameCheck.RECONNECTION;
         }else if(!checkNicknameUnique(nickname)) {

@@ -74,6 +74,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public String getNickname() throws RemoteException {
+        // TODO da cancellare quando tomasso rimuove da socket
         return nickname;
     }
 
@@ -93,7 +94,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
-    public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
+    public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
         try {
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
         }catch(RemoteException e) {
@@ -104,7 +105,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     @Override
-    public synchronized void setAndExecuteCommand(GameControllerCommand gameCommand) {
+    public void setAndExecuteCommand(GameControllerCommand gameCommand) {
         try {
             serverGame.setAndExecuteCommand(gameCommand);
         }catch(RemoteException e) {
@@ -164,19 +165,18 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * Method used from RmiServerGamesManager to restart the cli if the joining was not successful.
      */
     public void notifyJoinNotSuccessful() throws RemoteException {
-        System.out.println("Action not successful.");
         new Thread(this::runCliJoinGame).start();
     }
 
     @Override
-    public synchronized void sendPong() throws RemoteException {
-        pong = true;
+    public void sendPong() throws RemoteException {
+        setPong();
     }
 
-    private synchronized void setPong () {
+    private synchronized void setPong() {
         this.pong = true;
     }
-
+    
     /**
      * Method that checks if the client is receiving pongs from server.
      */
