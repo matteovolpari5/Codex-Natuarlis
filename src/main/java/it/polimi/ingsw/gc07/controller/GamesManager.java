@@ -169,7 +169,7 @@ public class GamesManager {
                         removePlayer(nickname);
                     }
                 }
-            }, 15 * 1000);
+            }, 60 * 1000); //timer of 1 minute
         }).start();
         commandResult = CommandResult.SUCCESS;
     }
