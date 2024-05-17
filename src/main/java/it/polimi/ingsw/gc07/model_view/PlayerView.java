@@ -143,5 +143,9 @@ public class PlayerView implements Serializable {
     public GameFieldView getGameField() {
         return gameField;
     }
+
+    public void setFullGameField(PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        gameField.setFullGameField(starterCard, cardsContent, cardsFace, cardsOrder);
+    }
 }
 

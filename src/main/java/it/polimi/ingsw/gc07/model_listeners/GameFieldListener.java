@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model_listeners;
 
+import it.polimi.ingsw.gc07.updates.FullGameFieldUpdate;
 import it.polimi.ingsw.gc07.updates.PlacedCardUpdate;
 import it.polimi.ingsw.gc07.updates.StarterCardUpdate;
 
@@ -18,4 +19,10 @@ public interface GameFieldListener extends Remote {
      * @param placedCardUpdate placed card update
      */
     void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) throws RemoteException;
+
+    /**
+     * Method used to notify players the full game field after a reconnection.
+     * @param fullGameFieldUpdate full game field content
+     */
+    void receiveFullGameFieldUpdate(FullGameFieldUpdate fullGameFieldUpdate) throws RemoteException;
 }

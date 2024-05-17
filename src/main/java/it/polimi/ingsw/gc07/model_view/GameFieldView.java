@@ -61,6 +61,25 @@ public class GameFieldView implements Serializable {
         this.gameFieldViewListeners = new ArrayList<>();
     }
 
+    public void setFullGameField(PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        this.starterCard = starterCard;
+        for(int i=0; i < dim; i++){
+            for(int j=0; j < dim; j++){
+                this.cardsContent[i][j] = cardsContent[i][j];
+            }
+        }
+        for(int i = 0; i < dim; i++){
+            for(int j = 0; j < dim; j++){
+                this.cardsFace[i][j] = cardsFace[i][j];
+            }
+        }
+        for(int i=0; i < dim; i++){
+            for(int j=0; j < dim; j++){
+                this.cardsOrder[i][j] = cardsOrder[i][j];
+            }
+        }
+    }
+
     /**
      * Method to register a game field view listener.
      * @param gameFieldViewListener game field view listener

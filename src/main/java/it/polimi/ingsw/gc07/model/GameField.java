@@ -240,6 +240,34 @@ public class GameField {
     }
 
     /**
+     * Getter method for cards content matrix.
+     * @return cards content
+     */
+    public PlaceableCard[][] getCardsContent() {
+        PlaceableCard[][] cardsContentCopy = new PlaceableCard[dim][dim];
+        for(int i = 0; i < dim; i++){
+            for(int j = 0; j < dim; j++){
+                cardsContentCopy[i][j] = cardsContent[i][j];
+            }
+        }
+        return cardsContentCopy;
+    }
+
+    /**
+     * Getter method for cards face matrix.
+     * @return cards face
+     */
+    public Boolean[][] getCardsFace() {
+        Boolean[][] cardsFaceCopy = new Boolean[dim][dim];
+        for(int i = 0; i < dim; i++){
+            for(int j = 0; j < dim; j++){
+                cardsFaceCopy[i][j] = cardsFace[i][j];
+            }
+        }
+        return cardsFaceCopy;
+    }
+
+    /**
      * Returns a matrix representing the order cards have been placed.
      * @return matrix representing the order cards have been placed
      */

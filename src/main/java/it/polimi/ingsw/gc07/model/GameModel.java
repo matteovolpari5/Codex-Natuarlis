@@ -427,25 +427,21 @@ public class GameModel {
     public void sendModelViewUpdate(String nickname, VirtualView client) throws RemoteException {
         // gameModel update and deckUpdate sent in addListener
 
-        // con addListener aggiungo elementi alla lista di playerViews
-        // le player view hanno settati solamente gli attributi del costruttore
-
-        // devo settare gli altri attributi, solo per player view a cui serve
-        // per ogni player
-
         // when the player view is creates, isConnected = true and isStalled = false
         // if not default, send update
         for(Player p: players) {
+            // if not default value, send connection update
             if(!p.isConnected()) {
                 client.receiveConnectionUpdate(new ConnectionUpdate(p.getNickname(), false));
             }
+
+            // if not default value, send stall update
             if(p.getIsStalled()) {
                 client.receiveStallUpdate(new StallUpdate(p.getNickname(), true));
             }
 
             // send full game field update
-            // gamefield: mandare game field view, da creare nuovo
-            // TODO
+            client.receiveFullGameFieldUpdate(new FullGameFieldUpdate(p.getNickname(), p.getStarterCard(), p.getGameField().getCardsContent(), p.getGameField().getCardsFace(), p.getGameField().getCardsOrder()));
 
             // send current hand update
             client.receiveCardHandUpdate(new CardHandUpdate(p.getNickname(), p.getCurrentHand(), p.getSecretObjective()));
@@ -455,6 +451,7 @@ public class GameModel {
 
         }
 
+        // send full chat update
         client.receiveFullChatUpdate(new FullChatUpdate(new ArrayList<>(chat.getContent(nickname))));
     }
 

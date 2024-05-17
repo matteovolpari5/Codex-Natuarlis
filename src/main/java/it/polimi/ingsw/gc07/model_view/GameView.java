@@ -265,6 +265,15 @@ public class GameView {
         }
     }
 
+    public void receiveFullGameFieldUpdate(String nickname, PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        // TODO
+        for(PlayerView playerView: playerViews) {
+            if(playerView.getNickname().equals(nickname)) {
+                playerView.setFullGameField(starterCard, cardsContent, cardsFace, cardsOrder);
+            }
+        }
+    }
+
     /**
      * Method that allows to set a new score for the player.
      * @param nickname nickname

@@ -458,4 +458,13 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     public void receiveFullChatUpdate(FullChatUpdate fullChatUpdate) throws RemoteException {
         receiveUpdate(fullChatUpdate);
     }
+
+    /**
+     * Method used to notify players the full game field after a reconnection.
+     * @param fullGameFieldUpdate full game field content
+     */
+    @Override
+    public void receiveFullGameFieldUpdate(FullGameFieldUpdate fullGameFieldUpdate) throws RemoteException {
+        receiveUpdate(fullGameFieldUpdate);
+    }
 }
