@@ -30,6 +30,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     @Override
     public void runCliJoinGame() {
+        if(!client.isClientAlive()) {
+            askForReconnection();
+        }
+
         Timer timeout = new Timer();
         new Thread(()->{
             timeout.schedule(new TimerTask() {
@@ -387,7 +391,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             }
         }
 
+        askForReconnection();
+    }
+
+    private void askForReconnection() {
+        Scanner scan = new Scanner(System.in);
         System.out.println("\n\nDo you want to reconnect (1 = yes, other = no)?");
+        System.out.print("> ");
         int reconnect = 0;
         try {
             reconnect = scan.nextInt();
@@ -396,6 +406,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             System.exit(0);
         }
         if(reconnect == 1) {
+            System.out.println("\n\n");
             ClientMain.main(new String[0]);
         }else {
             System.exit(0);
