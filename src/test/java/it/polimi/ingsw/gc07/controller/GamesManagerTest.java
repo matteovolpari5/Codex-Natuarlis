@@ -34,143 +34,94 @@ class GamesManagerTest {
 
         RmiClient newRmiClient = new RmiClient("player1", false, serverGamesManager);
         newRmiClient.connectToGamesManagerServer(true, false);
-        gm.addPlayerToPending("player1", true, false);
         RmiClient newRmiClient2 = new RmiClient("player2", false, serverGamesManager);
         newRmiClient2.connectToGamesManagerServer(true, false);
-        gm.addPlayerToPending("player2", true, false);
         assertNull(gm.getGameById(0));
 
         gm.joinNewGame("player1", TokenColor.GREEN, 2);
         assertEquals(CommandResult.SUCCESS, gm.getCommandResult());
 
+        gm.joinExistingGame("player2", TokenColor.GREEN, 0);
+        assertEquals(CommandResult.TOKEN_COLOR_ALREADY_TAKEN, gm.getCommandResult());
+
+        gm.joinExistingGame("player2", TokenColor.RED, 1);
+        assertEquals(CommandResult.GAME_NOT_PRESENT, gm.getCommandResult());
+
+        gm.joinNewGame("player2", TokenColor.GREEN, -1);
+        assertEquals(CommandResult.WRONG_PLAYERS_NUMBER, gm.getCommandResult());
+
+        gm.joinNewGame("player2", TokenColor.GREEN, 5);
+        assertEquals(CommandResult.WRONG_PLAYERS_NUMBER, gm.getCommandResult());
+
         gm.joinExistingGame("player2", TokenColor.RED, 0);
         assertEquals(CommandResult.SUCCESS, gm.getCommandResult());
+
+        RmiClient newRmiClient4 = new RmiClient("player4", false, serverGamesManager);
+
+        gm.addPlayerToPending("player4",true,false);
+        gm.addVirtualView("player4",newRmiClient4);
+        gm.displayExistingGames("player4");
+        assertNotNull(gm.getFreeGamesDetails());
+        gm.joinExistingGame("player4", TokenColor.RED, 0);
+        assertEquals(CommandResult.GAME_FULL, gm.getCommandResult());
+
 
         assertNotNull(gm.getGameById(0));
 
         assertEquals(0, gm.getGameIdWithPlayer("player1"));
 
+        assertEquals(-1, gm.getGameIdWithPlayer("player5"));
+
         GameController gc = GamesManager.getGamesManager().getGameById(0);
         assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
 
         gc.setAndExecuteCommand(new PlaceStarterCardCommand("player1", false));
-        gc.setAndExecuteCommand(new PlaceStarterCardCommand("player2", false));
+        gc.disconnectPlayer("player2");
+        gc.reconnectPlayer(newRmiClient2,"player2",true, false);
+        gc.disconnectPlayer("WrongPlayer");
+        assertEquals(CommandResult.PLAYER_NOT_PRESENT, gc.getCommandResult());
 
         gc.disconnectPlayer("player1");
         assertEquals(GameState.WAITING_RECONNECTION, gc.getState());
 
-        RmiClient newRmiClient3 = new RmiClient("player1", false, serverGamesManager);
-        newRmiClient3.connectToGamesManagerServer(true, false);
-        gc.reconnectPlayer(newRmiClient3,"player1",true,false);
-        //gm.addPlayerToPending("player1", true, true);
+        gc.disconnectPlayer("player1");
+        assertEquals(GameState.WAITING_RECONNECTION, gc.getState());
+
+        gm.reconnectPlayer(newRmiClient,"player1",true,false);
+
         assertEquals(GameState.PLAYING, gc.getState());
+
+        String nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
+        gm.getGameById(0).placeCard(nick,0,41,41,true);
+        gc.disconnectPlayer(nick);
+        gm.reconnectPlayer(newRmiClient,nick,true,false);
+
+        nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
+        gc.disconnectPlayer(nick);
+        gm.reconnectPlayer(newRmiClient,nick,true,false);
+        for(int i=0;i<40;i++)
+        {
+            gm.getGameById(0).getResourceCardsDeck().drawFaceUpCard(0);
+        }
+        gm.getGameById(0).placeCard(gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname(),0,41,41,true);
+        gc.disconnectPlayer("player1");
+        gm.reconnectPlayer(newRmiClient,"player1",true,false);
+
+
+        for(int i=0;i<39;i++)
+        {
+            gm.getGameById(0).getGoldCardsDeck().drawFaceUpCard(0);
+        }
+        gm.getGameById(0).placeCard(gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname(),0,41,41,true);
+        gc.disconnectPlayer("player1");
+        gm.reconnectPlayer(newRmiClient,"player1",true,false);
+
+        gc.disconnectPlayer("player1");
+        gc.disconnectPlayer("player2");
+        assertEquals(GameState.NO_PLAYERS_CONNECTED,gc.getState());
+
+        gm.getGameById(0).setState(GameState.GAME_ENDED);
+        gm.deleteGame(0);
+        assertNull(gm.getGameById(0));
     }
-    /*
-    @Test
-    void reconnectPlayerSuccess() {
-        gameController.disconnectPlayer("Player2");
-        assertFalse(gameController.getPlayerByNickname("Player2").isConnected());
-        gameController.reconnectPlayer(newRmiClient2,"Player2",true,false);
-        assertTrue(gameController.getPlayerByNickname("Player2").isConnected());
-    }
-    @Test
-    void JoinExistingGameSuccess() throws RemoteException {
-        newRmiClient2 = new RmiClient("Player2", true, rmiServerGamesManager);
-        GamesManager.getGamesManager().addPlayerToPending("Player2", true, false);
-        GamesManager.getGamesManager().addVirtualView("Player2", newRmiClient2);
-        GamesManager.getGamesManager().joinExistingGame("Player2", TokenColor.RED, 0);
-        assertEquals(GamesManager.getGamesManager().getCommandResult(), CommandResult.SUCCESS);
-        assertNotNull(GamesManager.getGamesManager().getGameById(0).getPlayerByNickname("Player2"));
-
-    }
-
-    @Test
-    void JoinExistingGameFail() throws RemoteException {
-        newRmiClient2 = new RmiClient("Player2", true, rmiServerGamesManager);
-        GamesManager.getGamesManager().addPlayerToPending("Player2", true, false);
-        GamesManager.getGamesManager().addVirtualView("Player2", newRmiClient2);
-        GamesManager.getGamesManager().joinExistingGame("Player2", TokenColor.RED, 1);
-        assertEquals(GamesManager.getGamesManager().getCommandResult(), CommandResult.GAME_NOT_PRESENT);
-        assertNotNull(GamesManager.getGamesManager().getGameById(0).getPlayerByNickname("Player2"));
-
-    }
-    @Test
-    void JoinExistingGameFail2() throws RemoteException {
-        newRmiClient2 = new RmiClient("Player2", true, rmiServerGamesManager);
-        GamesManager.getGamesManager().addPlayerToPending("Player2", true, false);
-        GamesManager.getGamesManager().addVirtualView("Player2", newRmiClient2);
-        GamesManager.getGamesManager().joinExistingGame("Player2", TokenColor.RED, 0);
-        assertEquals(GamesManager.getGamesManager().getCommandResult(), CommandResult.SUCCESS);
-        assertNotNull(GamesManager.getGamesManager().getGameById(0).getPlayerByNickname("Player2"));
-
-        RmiClient newRmiClient3 = new RmiClient("Player3", true, rmiServerGamesManager);
-        GamesManager.getGamesManager().addPlayerToPending("Player3", true, false);
-        GamesManager.getGamesManager().addVirtualView("Player3", newRmiClient2);
-        GamesManager.getGamesManager().joinExistingGame("Player3", TokenColor.BLUE, 0);
-        assertEquals(GamesManager.getGamesManager().getCommandResult(), CommandResult.GAME_FULL);
-        assertNull(GamesManager.getGamesManager().getGameById(0).getPlayerByNickname("Player3"));
-
-    }
-    @Test
-    void joinNewGameSuccess() throws RemoteException {
-        newRmiClient = new RmiClient("Player1", true, rmiServerGamesManager);
-        // add virtual view to rmiServerGamesManager
-        GamesManager.getGamesManager().addPlayerToPending("Player1", true, false);
-        GamesManager.getGamesManager().addVirtualView("Player1", newRmiClient);
-
-        //newRmiClient.connectToGamesManagerServer(true, false);
-        newRmiClient.runCliJoinGame();
-        GamesManager.getGamesManager().joinNewGame("Player1", TokenColor.GREEN, 2);
-
-        assertEquals(GamesManager.getGamesManager().getCommandResult(),CommandResult.SUCCESS);
-        assertNotNull(GamesManager.getGamesManager().getGameById(0).getPlayerByNickname("Player1"));
-    }
-
-    @Test
-    void joinNewGameUnSuccess() throws RemoteException {
-        newRmiClient = new RmiClient("Player1", true, rmiServerGamesManager);
-        // add virtual view to rmiServerGamesManager
-        GamesManager.getGamesManager().addPlayerToPending("Player1", true, false);
-        GamesManager.getGamesManager().addVirtualView("Player1", newRmiClient);
-
-        GamesManager.getGamesManager().joinNewGame("Player1", TokenColor.GREEN, -1);
-
-        assertEquals(GamesManager.getGamesManager().getCommandResult(),CommandResult.WRONG_PLAYERS_NUMBER);
-    }
-    @Test
-    void joinNewGameUnSuccess2() throws RemoteException {
-        newRmiClient = new RmiClient("Player1", true, rmiServerGamesManager);
-        // add virtual view to rmiServerGamesManager
-        GamesManager.getGamesManager().addPlayerToPending("Player1", true, false);
-        GamesManager.getGamesManager().addVirtualView("Player1", newRmiClient);
-
-        GamesManager.getGamesManager().joinNewGame("Player1", TokenColor.GREEN, 5);
-
-        assertEquals(GamesManager.getGamesManager().getCommandResult(),CommandResult.WRONG_PLAYERS_NUMBER);
-    }
-    @Test
-    void addPlayerToPendingSuccessful() {
-        gm.addPlayerToPending("Player1", true, true);
-        assertEquals(gm.getPendingPlayer("Player1").getNickname(),"Player1");
-        assertEquals(CommandResult.SUCCESS, gm.getCommandResult());
-    }
-
-    @Test
-    void disconnectPlayerSuccess() {
-        gameController.disconnectPlayer("Player1");
-        CommandResult result = gameController.getCommandResult();
-        assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
-    }
-
-    @Test
-    void playerAlreadyDisconnected() throws InterruptedException {
-        gameController.disconnectPlayer("Player1");
-        CommandResult result = gameController.getCommandResult();
-        assertEquals(CommandResult.DISCONNECTION_SUCCESSFUL, result);
-        // try to disconnect the same player
-        gameController.disconnectPlayer("Player1");
-        result = gameController.getCommandResult();
-        assertEquals(CommandResult.PLAYER_ALREADY_DISCONNECTED, result);
-    }
-*/
 }

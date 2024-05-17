@@ -103,10 +103,21 @@ class GameControllerTest {
         secondPlayer.setFirst();
         gameController.setCurrentPlayer(1);
         gameController.setState(GameState.PLAYING);
+    }
 
+    @Test
+    void checkGetPlayerByNickname()
+    {
+        assertNotNull(gameController.getPlayerByNickname("Player1"));
+        assertNull(gameController.getPlayerByNickname("Player3"));
     }
     @Test
+    void correctNumberOfPlayers()
+    {
+        assertEquals(gameController.getPlayersNumber(),2);
+    }
 
+    @Test
     void addMessageSuccess()  {
         gameController.addChatPrivateMessage("My content...", "Player1", "Player2");
         CommandResult result = gameController.getCommandResult();
@@ -179,6 +190,10 @@ class GameControllerTest {
         assertEquals(gameController.getCommandResult(), CommandResult.WRONG_PLAYER);
 
         gameController.setCurrentPlayer(0);
+        gameController.drawDeckCard("Player1", CardType.RESOURCE_CARD);
+        assertEquals(gameController.getCommandResult(), CommandResult.NOT_PLACED_YET);
+
+        gameController.setCurrentPlayer(0);
         gameController.drawDeckCard("Player1", CardType.OBJECTIVE_CARD);
         assertEquals(gameController.getCommandResult(), CommandResult.WRONG_CARD_TYPE);
 
@@ -225,6 +240,16 @@ class GameControllerTest {
         gameController.setCurrentPlayer(0);
         gameController.placeCard("Player1",0,41,41,true);
         gameController.drawDeckCard("Player1", CardType.RESOURCE_CARD);
+        assertEquals(gameController.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
+    }
+    @Test
+    void DrawFromEmptyDeck2(){
+        for (int i = 0; i < 40; i++ ){
+            gameController.getGoldCardsDeck().drawCard();
+        }
+        gameController.setCurrentPlayer(0);
+        gameController.placeCard("Player1",0,41,41,true);
+        gameController.drawDeckCard("Player1", CardType.GOLD_CARD);
         assertEquals(gameController.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
 
@@ -317,6 +342,46 @@ class GameControllerTest {
         gameController.drawFaceUpCard("Player1", CardType.GOLD_CARD, 0);
         assertEquals(gameController.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
 
+    }
+
+    @Test
+    void drawLastFaceUpCard()
+    {
+        gameController.setCurrentPlayer(0);
+        gameController.placeCard("Player1", 0, 39, 39, true);
+        for (int i = 0; i < 39; i++) {
+            gameController.getResourceCardsDeck().drawFaceUpCard(0);
+        }
+        gameController.drawFaceUpCard("Player1", CardType.RESOURCE_CARD, 0);
+        assertEquals(gameController.getCommandResult(), CommandResult.SUCCESS);
+        assertNotNull(gameController.getGoldCardsDeck().getFaceUpCards().get(2));
+    }
+
+    @Test
+    void drawLastFaceUpCard2()
+    {
+        gameController.setCurrentPlayer(0);
+        gameController.placeCard("Player1", 0, 39, 39, true);
+        for (int i = 0; i < 39; i++) {
+            gameController.getGoldCardsDeck().drawFaceUpCard(0);
+        }
+        gameController.drawFaceUpCard("Player1", CardType.GOLD_CARD, 0);
+        assertEquals(gameController.getCommandResult(), CommandResult.SUCCESS);
+        assertNotNull(gameController.getResourceCardsDeck().getFaceUpCards().get(2));
+    }
+    @Test
+    void drawFromEmptyDecks()
+    {
+        gameController.setCurrentPlayer(0);
+        gameController.placeCard("Player1", 0, 39, 39, true);
+        for (int i = 0; i < 40; i++) {
+            gameController.getGoldCardsDeck().drawFaceUpCard(0);
+        }
+        for (int i = 0; i < 40; i++) {
+            gameController.getResourceCardsDeck().drawFaceUpCard(0);
+        }
+        gameController.drawFaceUpCard("Player1", CardType.GOLD_CARD, 0);
+        assertEquals(gameController.getCommandResult(), CommandResult.CARD_NOT_PRESENT);
     }
 
     @Test
