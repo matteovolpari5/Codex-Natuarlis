@@ -111,7 +111,6 @@ public class PlayerView implements Serializable {
      * @param currentHand new current hand
      */
     public void setCardHand(List<DrawableCard> currentHand, ObjectiveCard secretObjective) {
-        System.out.println("setting card hand of " + nickname);
         this.currentHand = currentHand;
         this.secretObjective = secretObjective;
         // update listeners

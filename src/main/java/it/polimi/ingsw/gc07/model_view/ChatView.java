@@ -54,9 +54,10 @@ public class ChatView {
     }
 
     /**
-     * Method used to print the whole chat.
+     * Method that returns all chat messages.
+     * @return chat messages
      */
-    public void printChat() {
-        ChatTui.printChat(chatMessages);
+    public List<ChatMessage> getMessages() {
+        return new ArrayList<>(chatMessages);
     }
 }

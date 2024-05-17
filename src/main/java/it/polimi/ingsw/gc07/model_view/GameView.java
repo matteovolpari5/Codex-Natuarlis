@@ -14,6 +14,7 @@ import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
 import it.polimi.ingsw.gc07.updates.FullChatUpdate;
 import it.polimi.ingsw.gc07.view.Ui;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -135,6 +136,10 @@ public class GameView {
 
     public List<GoldCard> getFaceUpGoldCard() {
         return deckView.getFaceUpGoldCard();
+    }
+
+    public List<ChatMessage> getOwnerMessages() {
+        return chatView.getMessages();
     }
 
     /**
@@ -315,7 +320,6 @@ public class GameView {
      * @param newHand card hand
      */
     public void setCardHand(String nickname, List<DrawableCard> newHand, ObjectiveCard personalObjective) {
-        System.out.println("RECEIVED PLAYER HAND UPDATE OF " +nickname);
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setCardHand(newHand, personalObjective);
@@ -418,9 +422,5 @@ public class GameView {
         }
         assert(player != null);
         return player.getGameField();
-    }
-
-    public void printChat() {
-        chatView.printChat();
     }
 }

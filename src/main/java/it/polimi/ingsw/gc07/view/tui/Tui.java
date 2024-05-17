@@ -420,7 +420,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     System.out.println("--------------------------------------------------------");
                     System.out.println("                            CHAT                        ");
                     System.out.println("--------------------------------------------------------");
-                    client.getGameView().printChat();
+                    ChatTui.printChat(client.getGameView().getOwnerMessages());
                     System.out.println();
                     break;
 

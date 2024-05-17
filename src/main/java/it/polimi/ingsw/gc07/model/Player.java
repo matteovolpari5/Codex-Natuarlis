@@ -262,7 +262,6 @@ public class Player {
      */
     public void addCardHand(DrawableCard card) {
         currentHand.add(card);
-        System.out.println("Card added in model to "+nickname);
         this.currentHand = new ArrayList<>(currentHand); // TODO perchè????
         // send update
         sendCardHandUpdate();
