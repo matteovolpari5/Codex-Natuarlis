@@ -83,10 +83,6 @@ public class ChatMessage implements Serializable {
     }
 
     /**
-     * method to simplify print in tui view
-     */
-
-    /**
      * getter method for attribute receiverNickname
      * @return receiverNickname
      */

@@ -251,6 +251,7 @@ public class GamesManager {
                     try {
                         SocketServer.getSocketServer().getVirtualView(nickname).setServerGame(gameId);
                     } catch (RemoteException e) {
+                        // TODO cosa fare?
                         throw new RuntimeException(e);
                     }
                 }

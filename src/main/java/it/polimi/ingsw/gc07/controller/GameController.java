@@ -171,7 +171,7 @@ public class GameController {
         // remove virtual view
         if(!player.getConnectionType()) {
             // Socket
-            // TODO da cambiare !!!
+            // TODO da cambiare !!! e gestire remote excpetion
             try {
                 SocketServer.getSocketServer().removeVirtualView(virtualView);
             } catch (RemoteException e) {
