@@ -39,8 +39,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     }
 
     /**
-     * Method used to get the only existing instance of RmiServerGamesManager,
-     * which uses the Singleton pattern.
+     * Method used to get the only existing instance of RmiServerGamesManager (Singleton).
      * @return RmiServerGamesManager instance
      */
     public static synchronized RmiServerGamesManager getRmiServerGamesManager() {
@@ -48,31 +47,12 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             try {
                 myRmiServerGamesManager = new RmiServerGamesManager();
             }catch(RemoteException e) {
-                // TODO
+                // TODO non posso creare istanza singleton, cosa faccio?
                 e.printStackTrace();
                 throw new RuntimeException();
             }
         }
         return myRmiServerGamesManager;
-    }
-
-    /**
-     * Method that starts the command executor, a thread that takes tasks
-     * from the blocking queue and executes them.
-     * Used to make RMI asynchronous.
-     */
-    private void startCommandExecutor() {
-        new Thread(() -> {
-            while(true) {
-                try {
-                    GamesManagerCommand command = commandsQueue.take();
-                    GamesManager.getGamesManager().setAndExecuteCommand(command);
-                }catch(InterruptedException e) {
-                    System.err.println("Channel closed");
-                    break;
-                }
-            }
-        }).start();
     }
 
     /**
@@ -87,12 +67,44 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         System.err.println("New client connected");
     }
 
+    /**
+     * Method that check if a nickname is already taken by a connected player, if it belongs to
+     * a disconnected player or is a new one.
+     * @param nickname nickname
+     * @return check result
+     * @throws RemoteException remote exception
+     */
     @Override
     public NicknameCheck checkNickname(String nickname) throws RemoteException {
         // checkNickname is synchronized
         return GamesManager.getGamesManager().checkNickname(nickname);
     }
 
+    /**
+     * Method that starts the command executor, a thread that takes tasks
+     * from the blocking queue and executes them.
+     */
+    private void startCommandExecutor() {
+        new Thread(() -> {
+            while(true) {
+                try {
+                    GamesManagerCommand command = commandsQueue.take();
+                    GamesManager.getGamesManager().setAndExecuteCommand(command);
+                }catch(InterruptedException e) {
+                    // TODO come gestissco interrupted exception?
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * Method that returns the game server associated to a given gameId.
+     * @param gameId game id
+     * @return game server
+     * @throws RemoteException remote exception
+     */
     @Override
     public synchronized VirtualServerGame getGameServer(int gameId) throws RemoteException {
         assert(rmiServerGames.containsKey(gameId));
@@ -111,7 +123,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             // blocking queues are thread safe
             commandsQueue.put(gamesManagerCommand);
         }catch(InterruptedException e) {
-            // TODO
+            // TODO come gestissco interrupted exception
             e.printStackTrace();
             throw new RemoteException();
         }
@@ -126,7 +138,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         try {
             rmiServerGames.put(gameId, new RmiServerGame(GamesManager.getGamesManager().getGameById(gameId)));
         }catch(RemoteException e) {
-            // TODO
+            // TODO non posso creare server game, cosa faccio?
             e.printStackTrace();
             throw new RuntimeException();
         }
@@ -142,7 +154,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         try {
             VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
             if(virtualView == null) {
-                // TODO
                 throw new RuntimeException();
             }
             virtualView.setServerGame(gameId);

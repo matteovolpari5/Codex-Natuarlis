@@ -2,9 +2,7 @@ package it.polimi.ingsw.gc07.network.rmi;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.game_commands.GameControllerCommand;
-import it.polimi.ingsw.gc07.game_commands.SendPingCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
-import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -44,8 +42,10 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
                     GameControllerCommand command = commandsQueue.take();
                     gameController.setAndExecuteCommand(command);
                 }catch(InterruptedException e) {
-                    System.err.println("Channel closed");
-                    break;
+                    // TODO
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                    //System.err.println("Channel closed");
                 }
             }
         }).start();
