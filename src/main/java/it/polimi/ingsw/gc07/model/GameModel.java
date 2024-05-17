@@ -405,7 +405,7 @@ public class GameModel {
         // update listeners
         List<PlayerView> playerViews = new ArrayList<>();
         for(Player p: players) {
-            playerViews.add(new PlayerView(p.getNickname(), p.getTokenColor(), p.getSecretObjective()));
+            playerViews.add(new PlayerView(p.getNickname(), p.getTokenColor()));
         }
         PlayerJoinedUpdate playerUpdate = new PlayerJoinedUpdate(playerViews);
         for(GameListener l: gameListeners) {

@@ -49,11 +49,11 @@ public class PlayerView implements Serializable {
      * Constructor of class player
      * @param nickname player's nickname
      */
-    public PlayerView(String nickname, TokenColor tokenColor, ObjectiveCard secretObjective) {
+    public PlayerView(String nickname, TokenColor tokenColor) {
         this.nickname = nickname;
         this.gameField = new GameFieldView();
         this.tokenColor = tokenColor;
-        this.secretObjective = secretObjective;
+        this.secretObjective = null;
         this.isConnected = true;
         this.currentHand = null;
         this.isStalled = false;
@@ -133,10 +133,6 @@ public class PlayerView implements Serializable {
 
     public int getCurrHandSize() {
         return currentHand.size();
-    }
-
-    public List<DrawableCard> getCurrentHand() {
-        return new ArrayList<>(currentHand);
     }
 
     public GameFieldView getGameField() {
