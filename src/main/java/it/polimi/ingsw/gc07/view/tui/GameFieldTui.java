@@ -21,7 +21,7 @@ public interface GameFieldTui {
 
     static void printGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         //ricerca inizio righe/fine righe
-        int startr = 0, endr = 80;
+        int startr = 40, endr = 40;
         for (int r = 0; r < 81; r++) {
             for (int c = 0; c < 81; c++) {
                 if (cardsContent[r][c] != null) {
@@ -41,7 +41,7 @@ public interface GameFieldTui {
             }
         }
         //ricerca inizio colonna/fine colonna
-        int startc = 0, endc = 80;
+        int startc = 40, endc = 40;
         for (int c = 0; c < 81; c++) {
             for (int r = 0; r < 81; r++) {
                 if (cardsContent[r][c] != null) {
