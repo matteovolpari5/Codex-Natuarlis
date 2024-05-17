@@ -1,9 +1,7 @@
 package it.polimi.ingsw.gc07.model_view;
-import it.polimi.ingsw.gc07.controller.GamesManager;
-import it.polimi.ingsw.gc07.model.GameField;
+
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
-import it.polimi.ingsw.gc07.view.tui.GameFieldTui;
 
 import java.io.Serializable;
 import java.util.ArrayList;

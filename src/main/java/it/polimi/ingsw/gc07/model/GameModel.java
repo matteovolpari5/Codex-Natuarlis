@@ -18,6 +18,7 @@ import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -399,6 +400,7 @@ public class GameModel {
 
         // send first game and deck update to player
         sendGameModelUpdate();
+        sendDeckUpdate();
 
         // update listeners
         List<PlayerView> playerViews = new ArrayList<>();
@@ -417,6 +419,43 @@ public class GameModel {
         }
 
         System.out.println("Number of listeners: " + gameListeners.size());
+    }
+
+    /**
+     * Method used to send a full model view update to a client who has just reconnected.
+     */
+    public void sendModelViewUpdate(String nickname, VirtualView client) throws RemoteException {
+        // gameModel update and deckUpdate sent in addListener
+
+        // con addListener aggiungo elementi alla lista di playerViews
+        // le player view hanno settati solamente gli attributi del costruttore
+
+        // devo settare gli altri attributi, solo per player view a cui serve
+        // per ogni player
+
+        // when the player view is creates, isConnected = true and isStalled = false
+        // if not default, send update
+        for(Player p: players) {
+            if(!p.isConnected()) {
+                client.receiveConnectionUpdate(new ConnectionUpdate(p.getNickname(), false));
+            }
+            if(p.getIsStalled()) {
+                client.receiveStallUpdate(new StallUpdate(p.getNickname(), true));
+            }
+
+            // send full game field update
+            // gamefield: mandare game field view, da creare nuovo
+            // TODO
+
+            // send current hand update
+            client.receiveCardHandUpdate(new CardHandUpdate(p.getNickname(), p.getCurrentHand(), p.getSecretObjective()));
+
+            // send score update
+            client.receiveScoreUpdate(new ScoreUpdate(p.getNickname(), board.getScore(p.getNickname())));
+
+        }
+
+        client.receiveFullChatUpdate(new FullChatUpdate(new ArrayList<>(chat.getContent(nickname))));
     }
 
     public void removeListener(VirtualView client) {

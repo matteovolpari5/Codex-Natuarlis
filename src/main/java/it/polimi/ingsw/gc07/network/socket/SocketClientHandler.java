@@ -246,4 +246,13 @@ public class SocketClientHandler implements VirtualView {
     public void sendPong() throws RemoteException {
         receiveUpdate(new PongUpdate());
     }
+
+    /**
+     * Method used to notify the player the full content of the chat after a reconnection.
+     * @param fullChatUpdate full message update
+     */
+    @Override
+    public void receiveFullChatUpdate(FullChatUpdate fullChatUpdate) throws RemoteException {
+        receiveUpdate(fullChatUpdate);
+    }
 }

@@ -86,7 +86,7 @@ public class PingPongManager {
                     System.out.println(missedPing+ nickname);
                     if(missedPing >= maxMissedPings) {
                         System.out.println("PRG> Disconnection detected " + nickname);
-                        gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
+                        gameController.disconnectPlayer(nickname);
                         break;
                     }
                 }
@@ -113,7 +113,7 @@ public class PingPongManager {
             } catch (RemoteException e) {
                 //TODO rivedere
                 System.out.println("PRG> Disconnection detected " + nickname);
-                gameController.disconnectPlayer(nickname); // TODO metodo deve synchronized
+                gameController.disconnectPlayer(nickname);
                 break;
             }
             try {

@@ -11,6 +11,7 @@ import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
 import it.polimi.ingsw.gc07.model_view_listeners.GameViewListener;
 import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
+import it.polimi.ingsw.gc07.updates.FullChatUpdate;
 import it.polimi.ingsw.gc07.view.Ui;
 
 import java.util.ArrayList;
@@ -186,6 +187,10 @@ public class GameView {
         }
     }
 
+    public void setChatMessages(List<ChatMessage> chatMessages) {
+        chatView.setChatMessages(chatMessages);
+    }
+
     /**
      * Method that allows to set the common objective.
      * @param commonObjective common objective
@@ -301,6 +306,7 @@ public class GameView {
      * @param newHand card hand
      */
     public void setCardHand(String nickname, List<DrawableCard> newHand, ObjectiveCard personalObjective) {
+        System.out.println("RECEIVED PLAYER HAND UPDATE OF " +nickname);
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setCardHand(newHand, personalObjective);

@@ -449,4 +449,13 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     public void receiveGameEndedUpdate(GameEndedUpdate gameEndedUpdate) throws RemoteException {
         receiveUpdate(gameEndedUpdate);
     }
+
+    /**
+     * Method used to notify the player the full content of the chat after a reconnection.
+     * @param fullChatUpdate full message update
+     */
+    @Override
+    public void receiveFullChatUpdate(FullChatUpdate fullChatUpdate) throws RemoteException {
+        receiveUpdate(fullChatUpdate);
+    }
 }

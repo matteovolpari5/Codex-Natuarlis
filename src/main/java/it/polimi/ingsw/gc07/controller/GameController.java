@@ -12,6 +12,7 @@ import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -239,6 +240,14 @@ public class GameController {
         player.setInterfaceType(interfaceType);
 
         gameModel.addListener(client);
+        try {
+            gameModel.sendModelViewUpdate(nickname, client);
+        }catch(RemoteException e) {
+            e.printStackTrace();
+            // TODO
+            throw new RuntimeException(e);
+        }
+
         try {
             client.setServerGame(getId());
         } catch (RemoteException e) {

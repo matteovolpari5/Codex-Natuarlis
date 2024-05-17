@@ -45,6 +45,17 @@ public class ChatView {
         }
     }
 
+    /**
+     * Method to add all chat messages after a reconnection.
+     * @param chatMessages full chat content
+     */
+    public void setChatMessages(List<ChatMessage> chatMessages) {
+        this.chatMessages.addAll(chatMessages);
+    }
+
+    /**
+     * Method used to print the whole chat.
+     */
     public void printChat() {
         ChatTui.printChat(chatMessages);
     }

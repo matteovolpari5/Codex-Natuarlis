@@ -3,8 +3,6 @@ package it.polimi.ingsw.gc07.updates;
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.model_view.GameView;
 
-import java.util.List;
-
 public class GameModelUpdate implements Update {
     /**
      * Game id.
@@ -21,7 +19,7 @@ public class GameModelUpdate implements Update {
     /**
      * Boolean value for twentyPointsReached.
      */
-    private final boolean twentyPointsReached;
+    private final boolean penultimateRound;
     /**
      * Boolean value for additionalRound.
      */
@@ -37,7 +35,7 @@ public class GameModelUpdate implements Update {
         this.id = id;
         this.state = state;
         this.currPlayer = currPlayer;
-        this.twentyPointsReached = twentyPointsReached;
+        this.penultimateRound = twentyPointsReached;
         this.additionalRound = additionalRound;
     }
 
@@ -47,7 +45,7 @@ public class GameModelUpdate implements Update {
      */
     @Override
     public void execute(GameView gameView) {
-        gameView.setGameModel(id, state, currPlayer, twentyPointsReached, additionalRound);
+        gameView.setGameModel(id, state, currPlayer, penultimateRound, additionalRound);
     }
 }
 

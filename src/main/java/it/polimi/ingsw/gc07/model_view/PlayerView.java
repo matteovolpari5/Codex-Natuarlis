@@ -17,10 +17,6 @@ public class PlayerView implements Serializable {
      */
     private final String nickname;
     /**
-     * Game field view.
-     */
-    private final GameFieldView gameField;
-    /**
      * Color of the player's token.
      */
     private final TokenColor tokenColor;
@@ -36,6 +32,10 @@ public class PlayerView implements Serializable {
      * Attribute telling if the player is stalled.
      */
     private boolean isStalled;
+    /**
+     * Game field view.
+     */
+    private final GameFieldView gameField;
     /**
      * List of cards the player currently has. update needs to be sent only to the single player
      */
@@ -111,6 +111,7 @@ public class PlayerView implements Serializable {
      * @param currentHand new current hand
      */
     public void setCardHand(List<DrawableCard> currentHand, ObjectiveCard secretObjective) {
+        System.out.println("setting card hand of " + nickname);
         this.currentHand = currentHand;
         this.secretObjective = secretObjective;
         // update listeners
