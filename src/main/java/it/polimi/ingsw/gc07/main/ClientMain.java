@@ -95,7 +95,7 @@ public class ClientMain {
                     System.out.print("> ");
                     nickname = scan.nextLine();
                     check = rmiServerGamesManager.checkNickname(nickname);
-                }while(check.equals(NicknameCheck.EXISTING_NICKNAME));
+                }while(nickname == null || nickname.isEmpty() || check.equals(NicknameCheck.EXISTING_NICKNAME));
                 if(check.equals(NicknameCheck.NEW_NICKNAME)) {
                     RmiClient newRmiClient = new RmiClient(nickname, interfaceType, rmiServerGamesManager);
                     // add virtual view to rmiServerGamesManager
