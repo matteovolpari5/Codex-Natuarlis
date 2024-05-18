@@ -31,4 +31,7 @@ module it.polimi.ingsw.gc07 {
     exports it.polimi.ingsw.gc07.network;
     exports it.polimi.ingsw.gc07.model_view_listeners;
     exports it.polimi.ingsw.gc07.view;
+    opens it.polimi.ingsw.gc07.view.gui.gui_controllers to javafx.fxml;
+    exports it.polimi.ingsw.gc07.view.gui to javafx.graphics;
+
 }

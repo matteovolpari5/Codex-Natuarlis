@@ -9,16 +9,19 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.view.Ui;
+import it.polimi.ingsw.gc07.view.gui.gui_controllers.StageController;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Map;
 
-public  class Gui implements Ui {
+public  class Gui extends Application implements Ui {
 
     @Override
     public void runCliJoinGame() {
         // TODO
-        //  sarà così?
+        Application.launch(Gui.class);
     }
 
     @Override
@@ -85,5 +88,15 @@ public  class Gui implements Ui {
     @Override
     public void receiveWinnersUpdate(List<String> winners) {
         // TODO
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        StageController.setup (stage, "/it/polimi/ingsw/gc07/fxml/lobby.fxml");
+        stage.show();
+    }
+
+    public static void main (String[] args){
+        launch();
     }
 }
