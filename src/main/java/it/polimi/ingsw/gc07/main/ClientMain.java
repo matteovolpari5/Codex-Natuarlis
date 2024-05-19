@@ -23,9 +23,13 @@ public class ClientMain {
 
             String ip;
             do {
-                System.out.println("Insert server IP: ");
+                System.out.println("Insert server IP, leave empty for localhost: ");
                 System.out.print("> ");
                 ip = scan.nextLine();
+
+                if(ip == null || ip.isEmpty()) {
+                    ip = "127.0.0.1";
+                }
             }while(!checkValidIp(ip));
 
             boolean wrongInput = true;
@@ -42,7 +46,7 @@ public class ClientMain {
                         connectionType = true;
                     }else if(connectionTypeInt == 0) {
                         wrongInput = false;
-                        connectionType = false;
+                        // connectionType is already false;
                     }else {
                         // wrong input already true
                         System.out.println("No such connection type");
@@ -67,7 +71,7 @@ public class ClientMain {
                         interfaceType = true;
                     }else if(interfaceTypeInt == 0) {
                         wrongInput = false;
-                        interfaceType = false;
+                        // interface type is already false
                     }else {
                         // wrong input already true
                         System.out.println("No such interface type");
@@ -80,10 +84,11 @@ public class ClientMain {
 
             if(connectionType) {
                 // RMI connection
-                Registry registry = null;
+                Registry registry;
                 try {
                     registry = LocateRegistry.getRegistry(ip, 1234);
                 } catch (RemoteException ex) {
+                    // TODO
                     throw new RuntimeException(ex);
                 }
                 VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
@@ -96,20 +101,20 @@ public class ClientMain {
                     nickname = scan.nextLine();
                     check = rmiServerGamesManager.checkNickname(nickname);
                 }while(nickname == null || nickname.isEmpty() || check.equals(NicknameCheck.EXISTING_NICKNAME));
+
+                RmiClient newRmiClient = new RmiClient(nickname, interfaceType, rmiServerGamesManager);
                 if(check.equals(NicknameCheck.NEW_NICKNAME)) {
-                    RmiClient newRmiClient = new RmiClient(nickname, interfaceType, rmiServerGamesManager);
                     // add virtual view to rmiServerGamesManager
-                    newRmiClient.connectToGamesManagerServer(connectionType, interfaceType);
+                    newRmiClient.connectToGamesManagerServer(interfaceType);
                     newRmiClient.runCliJoinGame();
                 }else {
                     // nickname of a reconnected player
-                    RmiClient newRmiClient = new RmiClient(nickname, interfaceType, rmiServerGamesManager);
-                    newRmiClient.reconnectPlayer(nickname, connectionType, interfaceType);
+                    newRmiClient.reconnectPlayer(nickname, interfaceType);
                 }
             }else {
                 // Socket connection
                 System.out.println("SOCKET>");
-                int port = 65000;
+                int port = 65000;   // TODO linea di comando o input, non così
                 Socket sc = new Socket(ip, port);
                 new SocketClient(sc, interfaceType);
             }

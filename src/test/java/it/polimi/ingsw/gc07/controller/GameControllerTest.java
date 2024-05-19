@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.DecksBuilder;
+import it.polimi.ingsw.gc07.utils.DecksBuilder;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.game_commands.PlaceCardCommand;
 import it.polimi.ingsw.gc07.model.Player;

@@ -21,6 +21,7 @@ public  class Gui extends Application implements Ui {
     @Override
     public void runCliJoinGame() {
         // TODO
+        System.out.println("Loading gui ...");
         Application.launch(Gui.class);
     }
 

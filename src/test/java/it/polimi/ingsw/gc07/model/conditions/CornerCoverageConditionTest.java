@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model.conditions;
 
-import it.polimi.ingsw.gc07.DecksBuilder;
+import it.polimi.ingsw.gc07.utils.DecksBuilder;
 import it.polimi.ingsw.gc07.model.GameField;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;

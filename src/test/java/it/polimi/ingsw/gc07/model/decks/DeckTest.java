@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model.decks;
 
-import it.polimi.ingsw.gc07.DecksBuilder;
+import it.polimi.ingsw.gc07.utils.DecksBuilder;
 import it.polimi.ingsw.gc07.model.cards.Card;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.enumerations.CardType;

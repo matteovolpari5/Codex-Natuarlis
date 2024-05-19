@@ -10,19 +10,19 @@ import java.rmi.registry.Registry;
 
 public class ServerMain {
     public static void main(String[] args) throws IOException { //IOException sollevata da linea 33
-        // create RMI server
+
+        // create Rmi server
         String name = "VirtualServerGamesManager";
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
-        //System.setProperty("java.rmi.server.hostname", "192.168.154.232");
+        String serverIp = args[0];
+        System.setProperty("java.rmi.server.hostname", serverIp);
         Registry registry = LocateRegistry.createRegistry(1234);
         registry.rebind(name, serverGamesManager);
         System.out.println("RMI Server running");
 
         // create Socket server for gamesManager
-        //TODO per adesso la porta è data da linea di comando, stabilire se bisogna cambiarlo
-        //int port = Integer.parseInt(args[0]);   // TODO penso args[0]
-        int port = 65000;
-        ServerSocket sc = null;
+        int port = Integer.parseInt(args[1]);
+        ServerSocket sc;
         try{
             sc = new ServerSocket(port);
         } catch (IOException e){

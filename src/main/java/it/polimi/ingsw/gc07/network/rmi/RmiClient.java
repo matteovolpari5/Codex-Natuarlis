@@ -121,10 +121,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
 
     /**
      * Method that allows the client to connect with RmiServerGamesManager, the general server.
-     * @param connectionType connection type
      * @param interfaceType interface type
      */
-    public void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
+    public void connectToGamesManagerServer(boolean interfaceType) {
+        boolean connectionType = true; // Rmi client
         try {
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
             serverGamesManager.connect(nickname, this);
@@ -142,12 +142,12 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     /**
-     * Method that allows a player to reconnect to a game.
+     * Method that allows a player to reconnect to a game with Rmi.
      * @param nickname nickname
-     * @param connectionType new connection type
      * @param interfaceType new interface type
      */
-    public void reconnectPlayer(String nickname, boolean connectionType, boolean interfaceType) {
+    public void reconnectPlayer(String nickname, boolean interfaceType) {
+        boolean connectionType = true; // Rmi client
         try {
             serverGamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(this, nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
