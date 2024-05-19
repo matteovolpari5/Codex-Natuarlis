@@ -202,7 +202,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }catch(RemoteException e) {
             // if not already detected by ping
             System.out.println("\nConnection failed.\n");
-            clientAlive = false;
+            clientAlive = false; //TODO sicronizzazione?
         }
     }
 
@@ -217,7 +217,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }catch(RemoteException e) {
             // if not already detected by ping
             System.out.println("\nConnection failed.\n");
-            clientAlive = false;
+            clientAlive = false; //TODO sicronizzazione?
         }
     }
 

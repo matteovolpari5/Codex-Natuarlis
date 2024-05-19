@@ -168,19 +168,6 @@ public class GameController {
 
         gameModel.removeListener(virtualView);
 
-        // remove virtual view
-        if(!player.getConnectionType()) {
-            // Socket
-            // TODO da cambiare !!! e gestire remote excpetion
-            try {
-                SocketServer.getSocketServer().removeVirtualView(virtualView);
-            } catch (RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-        }
-
         // set player disconnected
         player.setIsConnected(false);
         pingPongManager.notifyPlayerDisconnected(nickname);

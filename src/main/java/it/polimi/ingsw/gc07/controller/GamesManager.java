@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 import it.polimi.ingsw.gc07.utils.DecksBuilder;
 import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
@@ -238,22 +239,42 @@ public class GamesManager {
                 // check gameController state WAITING_PLAYERS
                 if(!gameController.getState().equals(GameState.GAME_STARTING)) {
                     commandResult = CommandResult.GAME_FULL;
-                    notifyJoinNotSuccessful(player);
+                    VirtualView virtualView = getVirtualView(nickname);
+                    if(virtualView == null) { //TODO come sotto per la mappa
+                        throw new RuntimeException();
+                    }
+                    try {
+                        virtualView.notifyJoinNotSuccessful();
+                    } catch (RemoteException ex) {
+                        //TODO
+                        throw new RuntimeException(ex);
+                    }
                     return;
                 }
                 // check token color unique
                 if(gameController.hasPlayerWithTokenColor(tokenColor)) {
                     commandResult = CommandResult.TOKEN_COLOR_ALREADY_TAKEN;
-                    notifyJoinNotSuccessful(player);
+                    VirtualView virtualView = getVirtualView(nickname);
+                    if(virtualView == null) { //TODO come sotto per la mappa
+                        throw new RuntimeException();
+                    }
+                    try {
+                        virtualView.notifyJoinNotSuccessful();
+                    } catch (RemoteException ex) {
+                        //TODO
+                        throw new RuntimeException(ex);
+                    }
                     return;
                 }
-                if(!player.getConnectionType()) {
-                    try {
-                        SocketServer.getSocketServer().getVirtualView(nickname).setServerGame(gameId);
-                    } catch (RemoteException e) {
-                        // TODO cosa fare?
-                        throw new RuntimeException(e);
-                    }
+                VirtualView virtualView = getVirtualView(nickname);
+                if(virtualView == null) { //TODO come sopra per la mappa
+                    throw new RuntimeException();
+                }
+                try {
+                    virtualView.setServerGame(gameId);
+                } catch (RemoteException ex) {
+                    //TODO
+                    throw new RuntimeException(ex);
                 }
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player, playerVirtualViews.get(nickname));
@@ -261,16 +282,18 @@ public class GamesManager {
         }
         if(!found){
             commandResult = CommandResult.GAME_NOT_PRESENT;
-            notifyJoinNotSuccessful(player);
+            VirtualView virtualView = getVirtualView(nickname);
+            if(virtualView == null) { //TODO come sotto per la mappa
+                throw new RuntimeException();
+            }
+            try {
+                virtualView.notifyJoinNotSuccessful();
+            } catch (RemoteException ex) {
+                //TODO
+                throw new RuntimeException(ex);
+            }
             return;
         }
-
-        // join successful, but it is necessary to set the game for the client
-        if(player.getConnectionType()) {
-            // RMI client
-            RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameId);
-        }
-
         // remove player
         synchronized (this){
             playersTimers.get(nickname).cancel();
@@ -290,31 +313,36 @@ public class GamesManager {
             gameId = createGame(playersNumber);
         }catch(WrongNumberOfPlayersException e) {
             commandResult = CommandResult.WRONG_PLAYERS_NUMBER;
-            notifyJoinNotSuccessful(player);
+            VirtualView virtualView = getVirtualView(nickname);
+            if(virtualView == null) { //TODO è necessario? non vengono inserite VirtualView null nella mappa. Usare assert?
+                throw new RuntimeException();
+            }
+            try {
+                virtualView.notifyJoinNotSuccessful();
+            } catch (RemoteException ex) {
+                //TODO
+                throw new RuntimeException(ex);
+            }
             return;
         }
         for(GameController gameController : gameControllers) {
             if(gameController.getId() == gameId) {
-                if(!player.getConnectionType()){
-                    try {
-                        SocketServer.getSocketServer().getVirtualView(nickname).setServerGame(gameId);
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
+                RmiServerGamesManager.getRmiServerGamesManager().createServerGame(gameId);
+                VirtualView virtualView = getVirtualView(nickname);
+                if(virtualView == null) { //TODO come sopra per la mappa
+                    throw new RuntimeException();
+                }
+                try {
+                    virtualView.setServerGame(gameId);
+                } catch (RemoteException ex) {
+                    //TODO
+                    throw new RuntimeException(ex);
                 }
                 // no need to check the token color for the first player of the gameController
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player, playerVirtualViews.get(nickname));
             }
         }
-
-        RmiServerGamesManager.getRmiServerGamesManager().createServerGame(gameId);
-        // join successful, but it is necessary to set the game for the client
-        if(player.getConnectionType()) {
-            // RMI client
-            RmiServerGamesManager.getRmiServerGamesManager().setServerGame(nickname, gameId);
-        }
-
         // remove player
         synchronized (this){
             playersTimers.get(nickname).cancel();
@@ -322,19 +350,6 @@ public class GamesManager {
         }
         removePlayer(nickname);
         commandResult = CommandResult.SUCCESS;
-    }
-
-    /**
-     * Method to notify the client if the join was not successful.
-     * @param player player to notify
-     */
-    private void notifyJoinNotSuccessful(Player player) {
-        assert(player != null);
-        if(player.getConnectionType()) {
-            RmiServerGamesManager.getRmiServerGamesManager().notifyJoinNotSuccessful(player.getNickname());
-        }else{
-            SocketServer.getSocketServer().notifyJoinNotSuccessful(player.getNickname());
-        }
     }
 
     /**
@@ -395,10 +410,15 @@ public class GamesManager {
     public void displayExistingGames(String nickname) {
         Player player = getPendingPlayer(nickname);
         assert(player != null);
-        if(player.getConnectionType()) {
-            RmiServerGamesManager.getRmiServerGamesManager().displayGames(nickname);
-        }else{
-            SocketServer.getSocketServer().displayGames(nickname);
+        VirtualView virtualView = getVirtualView(nickname);
+        assert(virtualView != null); //TODO sarebbe la riga che sostituisce if nei TODO precedenti
+        ExistingGamesUpdate update = new ExistingGamesUpdate(getFreeGamesDetails());
+        try{
+            virtualView.receiveExistingGamesUpdate(update);
+        }catch(RemoteException e) {
+            // TODO
+            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 

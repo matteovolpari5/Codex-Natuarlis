@@ -9,7 +9,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class ServerMain {
-    public static void main(String[] args) throws IOException { //IOException sollevata da linea 33
+    public static void main(String[] args) throws IOException {
 
         // create Rmi server
         String name = "VirtualServerGamesManager";

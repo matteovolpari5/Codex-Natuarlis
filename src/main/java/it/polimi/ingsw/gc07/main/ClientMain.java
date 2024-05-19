@@ -113,7 +113,6 @@ public class ClientMain {
                 }
             }else {
                 // Socket connection
-                System.out.println("SOCKET>");
                 int port = 65000;   // TODO linea di comando o input, non così
                 Socket sc = new Socket(ip, port);
                 new SocketClient(sc, interfaceType);

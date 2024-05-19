@@ -26,5 +26,7 @@ public class VirtualSocketServer {
         }
     }
 
-    //TODO metodo disconnect()?
+    public void closeConnection() throws IOException {
+        output.close();
+    }
 }
