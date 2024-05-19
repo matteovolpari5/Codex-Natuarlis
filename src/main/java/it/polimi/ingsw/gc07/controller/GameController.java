@@ -59,7 +59,7 @@ public class GameController {
      * Getter for the state of the game.
      * @return the state of the game
      */
-    synchronized GameState getState() {
+    synchronized GameState getState() { //TODO tutte le invocazioni (3) avvengono in GamesManager in cui si ha il lock su GamesManager
         return gameModel.getState();
     }
 
@@ -649,8 +649,6 @@ public class GameController {
             RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
             // delete GameController
             GamesManager.getGamesManager().deleteGame(getId());
-
-            // TODO socket?
         }
     }
 
