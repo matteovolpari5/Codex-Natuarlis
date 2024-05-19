@@ -18,7 +18,6 @@ import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.*;
 

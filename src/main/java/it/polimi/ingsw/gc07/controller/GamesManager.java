@@ -17,7 +17,6 @@ import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
-import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
 import java.rmi.RemoteException;
 import java.util.*;

@@ -341,7 +341,7 @@ public abstract class DecksBuilder {
             DrawableCard card = new DrawableCard(id, type, frontCorners, frontCornersContent, backCorners, backCornersContent, placementScore, permanentResources);
             deckContent.add(card);
         }
-        return new DrawableDeck<DrawableCard>(CardType.RESOURCE_CARD, deckContent);
+        return new DrawableDeck<>(CardType.RESOURCE_CARD, deckContent);
     }
 
     /**
@@ -400,6 +400,6 @@ public abstract class DecksBuilder {
                     placementScore, permanentResources, placementCondition, scoringCondition);
             deckContent.add(card);
         }
-        return new DrawableDeck<GoldCard>(CardType.GOLD_CARD, deckContent);
+        return new DrawableDeck<>(CardType.GOLD_CARD, deckContent);
     }
 }
