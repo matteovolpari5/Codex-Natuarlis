@@ -145,7 +145,6 @@ public class SocketClientHandler implements VirtualView {
 
     private synchronized void receiveUpdate(Update update) {
         try {
-            System.out.println("INVIO UPDATE");
             output.writeObject(update);
             output.reset();
             output.flush();

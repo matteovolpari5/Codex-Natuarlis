@@ -145,23 +145,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     }
 
     /**
-     * Method used to notify that joining was not successful.
-     */
-    public void notifyJoinNotSuccessful(String nickname) {
-        try {
-            VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
-            if(virtualView == null) {
-                throw new RuntimeException();
-            }
-            virtualView.notifyJoinNotSuccessful();
-        }catch(RemoteException e) {
-            // TODO
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-    }
-
-    /**
      * Method used to delete the game server from the map once the game is ended.
      * @param gameId game id of the game to remove
      */
