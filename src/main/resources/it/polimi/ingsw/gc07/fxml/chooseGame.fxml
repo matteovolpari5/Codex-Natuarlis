@@ -26,12 +26,17 @@
                 <Font name="System Bold" size="33.0" />
             </font>
         </Text>
-        <TextField AnchorPane.rightAnchor="50" AnchorPane.topAnchor="350" prefHeight="50" prefWidth="300" nodeOrientation="RIGHT_TO_LEFT">
+        <TextField onMouseEntered="#insertText" fx:id="gameId" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="350" prefHeight="50" prefWidth="300" nodeOrientation="RIGHT_TO_LEFT">
             <font>
                 <Font size="20.0"/>
             </font>
         </TextField>
-        <Button mnemonicParsing="false" prefHeight="50.0" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="420"
+        <Text fx:id="err" visible="false" text="WRONG GAME ID" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="400" fill="red">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Text>
+        <Button mnemonicParsing="false" prefHeight="50.0" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="430"
                 prefWidth="300.0" onAction="#onConfirmButtonClick" text="CONFIRM" textFill="black">
             <font>
                 <Font name="System Bold" size="23.0" />
