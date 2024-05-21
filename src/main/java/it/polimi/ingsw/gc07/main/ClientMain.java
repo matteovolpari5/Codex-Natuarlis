@@ -27,7 +27,6 @@ public class ClientMain {
                 System.out.print("> ");
                 ip = scan.nextLine();
             }while(!checkValidIp(ip));
-
             boolean wrongInput = true;
             boolean connectionType = false;
             while(wrongInput) {

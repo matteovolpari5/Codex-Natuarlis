@@ -16,8 +16,14 @@
                preserveRatio="true">
         <Image url="@../graphic_resources/Rulebook_IT/01.png"/>
     </ImageView>
-    <Button layoutX="369.0" layoutY="313.0" mnemonicParsing="false" prefHeight="88.0"
-            prefWidth="467.0" onAction="#onPlayButtonClick" text="Play"/>
-    <Button layoutX="370.0" layoutY="444.0" mnemonicParsing="false" prefHeight="88.0"
+    <AnchorPane layoutX="150.0" layoutY="300.0" prefHeight="81.0" prefWidth="901.0">
+        <children>
+            <RadioButton  layoutX="140.0" layoutY="10.0" mnemonicParsing="false" onAction="#onJoinNewGameButtonClick" prefHeight="62.0" prefWidth="204.0" text="NEW GAME">
+            </RadioButton>
+                <RadioButton  layoutX="654.0" layoutY="28.0" mnemonicParsing="false" onAction="#onJoinExistingGameButtonClick" text="JOIN GAME">
+                </RadioButton>
+        </children>
+        <Button layoutX="370.0" layoutY="444.0" mnemonicParsing="false" prefHeight="88.0"
             prefWidth="467.0" onAction="#onExitButtonClick" text="Exit"/>
+    </AnchorPane>
 </AnchorPane>
