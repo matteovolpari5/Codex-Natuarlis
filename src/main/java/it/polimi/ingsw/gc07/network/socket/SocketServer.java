@@ -1,15 +1,10 @@
 package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.controller.GamesManager;
-import it.polimi.ingsw.gc07.network.VirtualView;
-import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * GamesManager server used in socket based communication, this class manage the ServerSocket opened on the port used by clients to communicate
@@ -18,7 +13,6 @@ import java.util.List;
 public class SocketServer {
     private static SocketServer mySocketServer;
     private  ServerSocket mySocket;
-
 
     private SocketServer(){}
 

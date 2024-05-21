@@ -122,11 +122,6 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public String getNickname() throws RemoteException {
-        return myClientNickname;
-    }
-
-    @Override
     public void setServerGame(int gameId) throws RemoteException {
         if(!isReconnected){
             String result = "Game joined.";

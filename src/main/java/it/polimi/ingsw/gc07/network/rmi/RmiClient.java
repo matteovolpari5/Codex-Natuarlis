@@ -75,17 +75,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     /**
-     * Getter method for nickname
-     * @return nickname
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public String getNickname() throws RemoteException {
-        // TODO da cancellare quando tomasso rimuove da socket
-        return nickname;
-    }
-
-    /**
      * Getter method for isClientAlive.
      * @return value of isClientAlive
      */
@@ -202,7 +191,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }catch(RemoteException e) {
             // if not already detected by ping
             System.out.println("\nConnection failed.\n");
-            clientAlive = false; //TODO sicronizzazione?
+            setClientAlive(false);  // setter is synchronized
         }
     }
 
@@ -217,7 +206,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }catch(RemoteException e) {
             // if not already detected by ping
             System.out.println("\nConnection failed.\n");
-            clientAlive = false; //TODO sicronizzazione?
+            setClientAlive(false);  // setter is synchronized
         }
     }
 
