@@ -8,14 +8,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LobbyController extends GuiController implements Initializable {
-    /**
-     * Handles the event when the "Play" button is clicked.
-     * Navigates to the login scene where the player can enter their information.
-     */
+
     @FXML
-    protected void onPlayButtonClick() {
-        Platform.runLater(() -> StageController.setScene("fxml/signup_scene.fxml", "SignupScene")
-        );
+    protected void onJoinNewGameButtonClick() {
+        Platform.runLater(() -> StageController.setScene("/it/polimi/ingsw/gc07/fxml/waitingRoomStage.fxml", "Waiting room"));
+    }
+
+
+    @FXML
+    protected void onJoinExistingGameButtonClick() {
+        Platform.runLater(() -> StageController.setScene("/it/polimi/ingsw/gc07/fxml/waitingRoomStage.fxml", "Waiting room"));
     }
 
     /**
