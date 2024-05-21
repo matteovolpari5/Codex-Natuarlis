@@ -256,6 +256,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     private void checkPong() {
         int missedPong = 0;
         while(true) {
+            if(!isClientAlive()) {
+                // can be set by others
+                break;
+            }
             synchronized(this) {
                 if(pong) {
                     missedPong = 0;

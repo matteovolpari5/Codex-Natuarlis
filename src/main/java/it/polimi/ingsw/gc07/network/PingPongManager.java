@@ -78,6 +78,9 @@ public class PingPongManager {
     public void checkPing(String nickname) {
         int missedPing = 0;
         while(true) {
+            if(!gameController.isPlayerConnected(nickname)) {
+                break;
+            }
             synchronized(this) {
                 if(playersPing.get(nickname)) {
                     missedPing = 0;
