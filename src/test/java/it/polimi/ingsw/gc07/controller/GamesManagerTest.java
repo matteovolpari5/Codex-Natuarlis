@@ -30,7 +30,7 @@ class GamesManagerTest {
     }
 
     @Test
-    void testJoinNewGameAndDisconnectionAndReconnection() throws RemoteException {
+    void testJoinNewGameAndDisconnectionAndReconnection() throws RemoteException, InterruptedException {
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
         assertEquals(gm.checkNickname("player1"), NicknameCheck.NEW_NICKNAME);
         RmiClient newRmiClient = new RmiClient("player1", false, serverGamesManager);
@@ -97,34 +97,44 @@ class GamesManagerTest {
         String nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
         gm.getGameById(0).placeCard(nick,0,41,41,true);
         gc.disconnectPlayer(nick);
+        assertEquals(gc.getPlayerByNickname(nick).getCurrentHand().size(), 3);
         gm.reconnectPlayer(newRmiClient,nick,true,false);
 
         nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
         gc.disconnectPlayer(nick);
         gm.reconnectPlayer(newRmiClient,nick,true,false);
+
         for(int i=0;i<40;i++)
         {
             gm.getGameById(0).getResourceCardsDeck().drawFaceUpCard(0);
         }
-        gm.getGameById(0).placeCard(gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname(),0,41,41,true);
-        gc.disconnectPlayer("player1");
-        gm.reconnectPlayer(newRmiClient,"player1",true,false);
+        nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
+        gm.getGameById(0).placeCard(nick,0,41,41,true);
+        gc.disconnectPlayer(nick);
+        assertEquals(gc.getPlayerByNickname(nick).getCurrentHand().size(), 3);
+        gm.reconnectPlayer(newRmiClient,nick,true,false);
 
 
-        for(int i=0;i<39;i++)
+        for(int i=0;i<40;i++)
         {
             gm.getGameById(0).getGoldCardsDeck().drawFaceUpCard(0);
         }
-        gm.getGameById(0).placeCard(gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname(),0,41,41,true);
-        gc.disconnectPlayer("player1");
-        gm.reconnectPlayer(newRmiClient,"player1",true,false);
+        nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
+        gm.getGameById(0).placeCard(nick,0,41,41,true);
+        gc.disconnectPlayer(nick);
+        gm.reconnectPlayer(newRmiClient,nick,true,false);
+
 
         gc.disconnectPlayer("player1");
         gc.disconnectPlayer("player2");
         assertEquals(GameState.NO_PLAYERS_CONNECTED,gc.getState());
 
-        gm.getGameById(0).setState(GameState.GAME_ENDED);
-        gm.deleteGame(0);
+        gc.reconnectPlayer(newRmiClient,"player1",true,false);
+        Thread.sleep(30000);
+        /*gm.getGameById(0).setState(GameState.GAME_ENDED);
+        gm.deleteGame(0);*/
+
         assertNull(gm.getGameById(0));
+
     }
 }
