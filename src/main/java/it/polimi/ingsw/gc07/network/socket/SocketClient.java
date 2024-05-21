@@ -92,7 +92,7 @@ public class SocketClient implements Client, PingSender {
         }
         this.gameView.addViewListener(ui);
 
-        if(check.equals(NicknameCheck.NEW_NICKNAME)){
+        if(check != null && check.equals(NicknameCheck.NEW_NICKNAME)){
             connectToGamesManagerServer(interfaceType);
         } else{
             try {
@@ -131,14 +131,14 @@ public class SocketClient implements Client, PingSender {
             System.out.println("\n(5) Connection failed.\n");
             closeConnection();
         }
-        if(result.equals("Game joined.")){
+        if(result != null && result.equals("Game joined.")){
             new Thread(this::manageReceivedUpdate).start();
             // game joined
             new Thread(this::startGamePing).start();
             new Thread(this::checkPong).start();
             runCliGame();
         }else{
-            if(result.equals("Display successful.")){
+            if(result != null && result.equals("Display successful.")){
                 Update update;
                 try {
                     update = (Update) input.readObject();
@@ -238,8 +238,6 @@ public class SocketClient implements Client, PingSender {
             try {
                 Thread.sleep(1000); // wait one second between two ping
             } catch (InterruptedException e) {
-                // TODO
-                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         }
@@ -271,9 +269,7 @@ public class SocketClient implements Client, PingSender {
             try {
                 Thread.sleep(1000); // wait one second between two pong checks
             } catch (InterruptedException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException(e);
+                throw new RuntimeException();
             }
         }
     }
