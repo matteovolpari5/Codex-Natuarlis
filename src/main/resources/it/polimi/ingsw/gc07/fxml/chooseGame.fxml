@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.ChooseGameController"
+            prefHeight="700.0" prefWidth="1200.0">
+    <ImageView AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" fitHeight="720.0" fitWidth="1220.0" preserveRatio="false">
+        <Image url="@../graphic_resources/legnobg.jpeg"/>
+    </ImageView>
+    <AnchorPane AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" prefHeight="700.0" prefWidth="1200.0">
+        <Text text="LIST OF EXISTING GAMES:" AnchorPane.leftAnchor="60" AnchorPane.topAnchor="30" fill="black">
+            <font>
+                <Font name="System Bold" size="33.0" />
+            </font>
+        </Text>
+        <ListView fx:id="gameList" AnchorPane.leftAnchor="60" AnchorPane.topAnchor="90" prefHeight="440.0" prefWidth="540.0"/>
+        <Text text="INSERT THE GAME ID:" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="300" fill="black">
+            <font>
+                <Font name="System Bold" size="33.0" />
+            </font>
+        </Text>
+        <TextField AnchorPane.rightAnchor="50" AnchorPane.topAnchor="350" prefHeight="50" prefWidth="300" nodeOrientation="RIGHT_TO_LEFT">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </TextField>
+        <Button mnemonicParsing="false" prefHeight="50.0" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="420"
+                prefWidth="300.0" onAction="#onConfirmButtonClick" text="CONFIRM" textFill="black">
+            <font>
+                <Font name="System Bold" size="23.0" />
+            </font>
+        </Button>
+    </AnchorPane>
+    <Button AnchorPane.bottomAnchor="50" AnchorPane.leftAnchor="60" mnemonicParsing="false" prefHeight="80.0"
+            prefWidth="210.0" onAction="#onBackButtonClick" text="BACK" textFill="red">
+        <font>
+            <Font name="System Bold" size="33.0" />
+        </font>
+    </Button>
+</AnchorPane>
