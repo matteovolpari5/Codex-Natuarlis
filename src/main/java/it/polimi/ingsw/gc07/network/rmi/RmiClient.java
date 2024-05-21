@@ -119,7 +119,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             serverGamesManager.connect(nickname, this);
         }catch(RemoteException e) {
             System.out.println("\nConnection failed.\n");
-            clientAlive = false;
+            setClientAlive(false);
         }
     }
 
@@ -141,7 +141,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             serverGamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(this, nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
             System.out.println("\nConnection failed.\n");
-            clientAlive = false;
+             setClientAlive(false);
         }
     }
 
@@ -156,7 +156,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             this.serverGame = serverGamesManager.getGameServer(gameId);
         }catch(RemoteException e) {
             System.out.println("\nConnection failed.\n");
-            clientAlive = false;
+            setClientAlive(false);
         }
         // game joined
         new Thread(this::startGamePing).start();
@@ -259,7 +259,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                     missedPong ++;
                     if(missedPong >= maxMissedPongs) {
                         System.out.println("\nConnection failed.\n");
-                        clientAlive = false;
+                        setClientAlive(false);
                         break;
                     }
                 }
@@ -296,7 +296,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     private void startUpdateExecutor() {
         new Thread(() -> {
-            while(clientAlive) {
+            while(isClientAlive()) {
                 try {
                     Update update = updatesQueue.take();
                     update.execute(gameView);

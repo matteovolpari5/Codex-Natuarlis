@@ -16,15 +16,16 @@ public class ServerMain {
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
         String serverIp = args[0];
         System.setProperty("java.rmi.server.hostname", serverIp);
-        Registry registry = LocateRegistry.createRegistry(1234);
+        int rmiPort = Integer.parseInt(args[1]);
+        Registry registry = LocateRegistry.createRegistry(rmiPort);
         registry.rebind(name, serverGamesManager);
         System.out.println("RMI Server running");
 
         // create Socket server for gamesManager
-        int port = Integer.parseInt(args[1]);
+        int socketPort = Integer.parseInt(args[2]);
         ServerSocket sc;
         try{
-            sc = new ServerSocket(port);
+            sc = new ServerSocket(socketPort);
         } catch (IOException e){
             System.out.println("Unable to start the main server: unavailable port");
             throw new RuntimeException();
