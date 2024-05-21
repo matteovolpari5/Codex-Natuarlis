@@ -125,6 +125,10 @@ public class GameController {
         return false;
     }
 
+    public synchronized void setCommandResult(String nickname, CommandResult commandResult){
+        gameModel.setCommandResult(nickname, commandResult);
+    }
+
     public synchronized CommandResult getCommandResult() {
         return gameModel.getCommandResult();
     }
@@ -163,10 +167,7 @@ public class GameController {
             return;
         }
         Player player = getPlayerByNickname(nickname);
-        if(player == null) {
-            gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
-            return;
-        }
+        assert(player != null);
         if(!player.isConnected()) {
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_ALREADY_DISCONNECTED);
             return;
@@ -691,9 +692,5 @@ public class GameController {
         assert(player.getGameField().isCardPresent(x, y)) : "No card present in the provided position";
 
         gameModel.addPoints(player, x, y);
-    }
-
-    public void setCommandResult(String nickname, CommandResult commandResult){
-        gameModel.setCommandResult(nickname, commandResult);
     }
 }

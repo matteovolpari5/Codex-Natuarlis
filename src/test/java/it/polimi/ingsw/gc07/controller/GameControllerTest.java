@@ -167,6 +167,7 @@ class GameControllerTest {
         gameController.disconnectPlayer("Player3");
         CommandResult result = gameController.getCommandResult();
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, result);
+        assertFalse(gameController.isPlayerConnected("Player3"));
     }
 
 
@@ -814,6 +815,12 @@ class GameControllerTest {
         secondPlayer.setIsStalled(true);
         gameController.changeCurrPlayer();
         assertEquals(GameState.GAME_ENDED, gameController.getState());
+    }
+
+    @Test
+    void setCommandResult() {
+        gameController.setCommandResult("Player", CommandResult.CARD_ALREADY_PLACED);
+        assertEquals(CommandResult.CARD_ALREADY_PLACED, gameController.getCommandResult());
     }
 }
 
