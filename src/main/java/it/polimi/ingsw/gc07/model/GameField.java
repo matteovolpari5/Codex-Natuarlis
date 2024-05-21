@@ -148,8 +148,7 @@ public class GameField {
             try {
                 l.receiveStarterCardUpdate(update);
             }catch(RemoteException e) {
-                e.printStackTrace();
-                throw new RuntimeException();
+                // will be detected by PingPongManager
             }
         }
     }
@@ -185,8 +184,7 @@ public class GameField {
                 try {
                     l.receivePlacedCardUpdate(update);
                 }catch(RemoteException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException();
+                    // will be detected by PingPongManager
                 }
             }
         }

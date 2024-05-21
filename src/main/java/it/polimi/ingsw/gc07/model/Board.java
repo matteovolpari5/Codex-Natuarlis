@@ -77,8 +77,7 @@ public class Board {
             try {
                 l.receiveScoreUpdate(update);
             }catch(RemoteException e) {
-                e.printStackTrace();
-                throw new RuntimeException();
+                // will be detected by PingPongManager
             }
         }
     }

@@ -58,7 +58,7 @@ public class GameController {
      * Getter for the state of the game.
      * @return the state of the game
      */
-    synchronized GameState getState() { //TODO tutte le invocazioni (3) avvengono in GamesManager in cui si ha il lock su GamesManager
+    synchronized GameState getState() {
         return gameModel.getState();
     }
 
@@ -234,20 +234,12 @@ public class GameController {
         player.setInterfaceType(interfaceType);
 
         gameModel.addListener(client);
-        try {
-            gameModel.sendModelViewUpdate(nickname, client);
-        }catch(RemoteException e) {
-            e.printStackTrace();
-            // TODO
-            throw new RuntimeException(e);
-        }
+        gameModel.sendModelViewUpdate(nickname, client);
 
         try {
             client.setServerGame(getId());
         } catch (RemoteException e) {
-            e.printStackTrace();
-            // TODO
-            throw new RuntimeException(e);
+            disconnectPlayer(nickname);
         }
         pingPongManager.addPingSender(nickname, client);
 
@@ -306,7 +298,6 @@ public class GameController {
                 }
             }
             if(gameEnd){
-                System.out.println("la partita finisce");
                 synchronized(this) {
                     gameModel.setState(GameState.GAME_ENDED);
                     if (onePlayer) {
@@ -319,7 +310,6 @@ public class GameController {
                     endGame();
                 }
             }
-            else System.out.println("la partita non finisce");
         }).start();
     }
 

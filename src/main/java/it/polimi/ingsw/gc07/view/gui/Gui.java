@@ -14,17 +14,21 @@ import it.polimi.ingsw.gc07.view.gui.gui_controllers.StageController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.nio.file.ClosedFileSystemException;
 import java.util.List;
 import java.util.Map;
 
 public  class Gui extends Application implements Ui {
-    private static Gui guiInstance;
+    private static Gui guiInstance = null;
     private String nickname;
     private Client client;
 
     @Override
     public void init() {
-        guiInstance = this;
+        synchronized(Gui.class) {
+            guiInstance = this;
+            Gui.class.notifyAll();
+        }
     }
 
     @Override
@@ -33,7 +37,14 @@ public  class Gui extends Application implements Ui {
         stage.show();
     }
 
-    public static Gui getGuiInstance() {
+    public synchronized static Gui getGuiInstance() {
+        while(guiInstance == null) {
+            try {
+                Gui.class.wait();
+            }catch(InterruptedException e) {
+                throw new RuntimeException();
+            }
+        }
         return guiInstance;
     }
 
