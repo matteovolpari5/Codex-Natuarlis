@@ -99,7 +99,8 @@ public class SocketClientHandler implements VirtualView {
                     gameController.setAndExecuteCommand(command);
                     CommandResult result = gameController.getCommandResult();
                     if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
-                        // TODO closeConnection(mySocket,input,output);
+                        closeConnection();
+                        break;
                     }
                 }
             } catch (Exception e){
