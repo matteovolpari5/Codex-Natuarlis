@@ -5,41 +5,50 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LobbyController extends GuiController implements Initializable {
-
     @FXML
     protected RadioButton newGame;
-
     @FXML
     protected RadioButton joinGame;
-
     @FXML
     protected Button next;
 
     @FXML
     protected void onContinueButtonClick() {
         if(newGame.isSelected())
-            Platform.runLater(() -> StageController.setScene("/it/polimi/ingsw/gc07/fxml/waitingRoom.fxml", "Waiting room"));
-        else if(joinGame.isSelected())
-            Platform.runLater(() -> StageController.setScene("/it/polimi/ingsw/gc07/fxml/chooseGame.fxml", "Choose game scene"));
+            Platform.runLater(() -> {
+                try {
+                    StageController.setScene("/it/polimi/ingsw/gc07/fxml/waitingRoom.fxml", "Waiting room");
+                } catch (IOException e) {
+                    // TODO
+                    throw new RuntimeException(e);
+                }
+            });
+        else if(joinGame.isSelected()) {
+            Platform.runLater(() -> {
+                try {
+                    StageController.setScene("/it/polimi/ingsw/gc07/fxml/chooseGame.fxml", "Choose game scene");
+                } catch (IOException e) {
+                    // TODO
+                    throw new RuntimeException(e);
+                }
+            });
+        }
     }
 
     @FXML
-    protected void clickedNew()
-    {
+    protected void clickedNew() {
         joinGame.setSelected(false);
         next.setVisible(newGame.isSelected());
     }
 
     @FXML
-    protected void clickedJoin()
-    {
+    protected void clickedJoin() {
         newGame.setSelected(false);
         next.setVisible(joinGame.isSelected());
     }

@@ -14,7 +14,6 @@ import it.polimi.ingsw.gc07.view.gui.gui_controllers.StageController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.nio.file.ClosedFileSystemException;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +32,9 @@ public  class Gui extends Application implements Ui {
 
     @Override
     public void start(Stage stage) throws Exception {
-        StageController.setup(stage, "/it/polimi/ingsw/gc07/fxml/lobby.fxml");
-        stage.show();
+        String lobbyScene = "/it/polimi/ingsw/gc07/fxml/lobby.fxml";
+        String sceneTitle = "Lobby";
+        StageController.setup(stage, lobbyScene, sceneTitle);
     }
 
     public synchronized static Gui getGuiInstance() {
@@ -57,15 +57,18 @@ public  class Gui extends Application implements Ui {
     }
 
     @Override
-    public void runCliJoinGame() {
+    public void runCliJoinGame() {  // TODO cambia nome
         // scene already present
         // TODO ok ??
+        // cugola ha detto che al massimo possiamo fare che start crea senza mostrare,
+        // mentre qua lo mostro
+        // ma anche così non è terribile
     }
 
     @Override
-    public void runCliGame() {
+    public void runCliGame() {  // TODO cambia nome
         // TODO
-        //  sarà così?
+        // change scene to Game
     }
 
     @Override

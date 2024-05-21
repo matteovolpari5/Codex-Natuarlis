@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +39,14 @@ public class ChooseGameController extends GuiController implements Initializable
         if(games.containsKey(parseInt(gameId.getText())))
         {
             //TODO: join del player al game
-            Platform.runLater(() -> StageController.setScene("/it/polimi/ingsw/gc07/fxml/waitingRoom.fxml", "Waiting room"));
+            Platform.runLater(() -> {
+                try {
+                    StageController.setScene("/it/polimi/ingsw/gc07/fxml/waitingRoom.fxml", "Waiting room");
+                } catch (IOException e) {
+                    // TODO
+                    throw new RuntimeException(e);
+                }
+            });
         }
         else{
             gameId.clear();
@@ -48,7 +56,14 @@ public class ChooseGameController extends GuiController implements Initializable
 
     @FXML
     protected void onBackButtonClick(ActionEvent actionEvent) {
-        Platform.runLater(() -> StageController.setScene("/it/polimi/ingsw/gc07/fxml/lobby.fxml", "Waiting room"));
+        Platform.runLater(() -> {
+            try {
+                StageController.setScene("/it/polimi/ingsw/gc07/fxml/lobby.fxml", "Waiting room");
+            } catch (IOException e) {
+                // TODO
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @FXML
