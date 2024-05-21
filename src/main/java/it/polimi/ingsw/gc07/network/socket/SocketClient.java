@@ -66,7 +66,6 @@ public class SocketClient implements Client, PingSender {
                 output.writeObject(nickname);
             } catch (IOException e) {
                 System.out.println("\nConnection failed.\n");
-                setClientAlive(false);
                 closeConnection();
                 break;
             }
@@ -74,7 +73,6 @@ public class SocketClient implements Client, PingSender {
                 check = (NicknameCheck) input.readObject();
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("\nConnection failed.\n");
-                setClientAlive(false);
                 closeConnection();
                 break;
             }
@@ -103,7 +101,6 @@ public class SocketClient implements Client, PingSender {
                 output.flush();
             } catch (IOException e) {
                 System.out.println("\nConnection failed.\n");
-                setClientAlive(false);
                 closeConnection();
             }
             new Thread(this::manageReceivedUpdate).start();
@@ -119,7 +116,6 @@ public class SocketClient implements Client, PingSender {
             myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, false, interfaceType));
         } catch (RemoteException e) {
             System.out.println("\nConnection failed.\n");
-            setClientAlive(false);
             closeConnection();
         }
         this.runCliJoinGame();
@@ -133,7 +129,6 @@ public class SocketClient implements Client, PingSender {
             result = (String) input.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("\nConnection failed.\n");
-            setClientAlive(false);
             closeConnection();
         }
         if(result.equals("Game joined.")){
@@ -150,7 +145,6 @@ public class SocketClient implements Client, PingSender {
                     update.execute(gameView);
                 } catch (IOException | ClassNotFoundException e) {
                     System.out.println("\nConnection failed.\n");
-                    setClientAlive(false);
                     closeConnection();
                 }
             }
@@ -161,18 +155,15 @@ public class SocketClient implements Client, PingSender {
     private void manageReceivedUpdate() {
         System.out.println("SC-T> manageReceivedUpdate");
         Update update;
-        while (true){ //TODO dalla documentazione non trovo un modo di utilizzare il risultato di readObject() come condizione del while, chiedere se così va bene
+        while (true){
             try {
-                //System.out.println("SC-T> ascolto");
                 update = (Update) input.readObject();
-                //System.out.println("SC-T> ho letto un update, lo eseguo");
                 update.execute(gameView);
                 synchronized (this){
                     pong = true;
                 }
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("\nConnection failed.\n");
-                setClientAlive(false);
                 closeConnection();
                 break;
             }
@@ -181,6 +172,7 @@ public class SocketClient implements Client, PingSender {
 
     private void closeConnection(){
         //TODO system exit (?)
+        setClientAlive(false);
         try{
             input.close();
             myServer.closeConnection();
@@ -201,7 +193,6 @@ public class SocketClient implements Client, PingSender {
             myServer.setAndExecuteCommand(gamesManagerCommand);
         } catch (RemoteException e) {
             System.out.println("\nConnection failed.\n");
-            setClientAlive(false);
             closeConnection();
         }
     }
@@ -212,7 +203,6 @@ public class SocketClient implements Client, PingSender {
             myServer.setAndExecuteCommand(gameControllerCommand);
         } catch (RemoteException e) {
             System.out.println("\nConnection failed.\n");
-            setClientAlive(false);
             closeConnection();
         }
     }
@@ -242,13 +232,7 @@ public class SocketClient implements Client, PingSender {
                     myServer.setAndExecuteCommand(new SendPingCommand(nickname));
                 } catch (RemoteException e) {
                     System.out.println("\nConnection failed.\n");
-                    setClientAlive(false);
                     closeConnection();
-                    /*// connection failed
-                    System.out.println("Connection failed. Press enter. - ping");
-                    synchronized (this) {
-                        clientAlive = false;
-                    }*/
                 }
             }
             try {
