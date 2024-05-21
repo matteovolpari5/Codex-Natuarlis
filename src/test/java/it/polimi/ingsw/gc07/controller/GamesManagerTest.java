@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardCommand;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
@@ -31,16 +32,16 @@ class GamesManagerTest {
     @Test
     void testJoinNewGameAndDisconnectionAndReconnection() throws RemoteException {
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
-
+        assertEquals(gm.checkNickname("player1"), NicknameCheck.NEW_NICKNAME);
         RmiClient newRmiClient = new RmiClient("player1", false, serverGamesManager);
         newRmiClient.connectToGamesManagerServer(false);
         RmiClient newRmiClient2 = new RmiClient("player2", false, serverGamesManager);
         newRmiClient2.connectToGamesManagerServer(false);
         assertNull(gm.getGameById(0));
-
         gm.joinNewGame("player1", TokenColor.GREEN, 2);
         assertEquals(CommandResult.SUCCESS, gm.getCommandResult());
 
+        assertEquals(gm.checkNickname("player1"), NicknameCheck.EXISTING_NICKNAME);
         gm.joinExistingGame("player2", TokenColor.GREEN, 0);
         assertEquals(CommandResult.TOKEN_COLOR_ALREADY_TAKEN, gm.getCommandResult());
 
@@ -64,7 +65,8 @@ class GamesManagerTest {
         assertNotNull(gm.getFreeGamesDetails());
         gm.joinExistingGame("player4", TokenColor.RED, 0);
         assertEquals(CommandResult.GAME_FULL, gm.getCommandResult());
-
+        gm.joinNewGame("player4", TokenColor.RED,3);
+        assertEquals(CommandResult.SUCCESS, gm.getCommandResult());
 
         assertNotNull(gm.getGameById(0));
 
@@ -77,6 +79,7 @@ class GamesManagerTest {
 
         gc.setAndExecuteCommand(new PlaceStarterCardCommand("player1", false));
         gc.disconnectPlayer("player2");
+        assertEquals(gm.checkNickname("player2"), NicknameCheck.RECONNECTION);
         gc.reconnectPlayer(newRmiClient2,"player2",true, false);
         gc.disconnectPlayer("WrongPlayer");
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, gc.getCommandResult());
