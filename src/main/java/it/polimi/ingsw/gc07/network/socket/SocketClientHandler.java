@@ -110,7 +110,7 @@ public class SocketClientHandler implements VirtualView {
         }
     }
 
-    private void closeConnection(){
+    private synchronized void closeConnection(){
         try{
             input.close();
             output.close();
@@ -141,14 +141,15 @@ public class SocketClientHandler implements VirtualView {
     }
 
     private synchronized void receiveUpdate(Update update) {
-        try {
-            //TODO forse verificare con isConnected()
-            output.writeObject(update);
-            output.reset();
-            output.flush();
-        }catch(IOException e) {
-            System.out.println("\nSCH-T(2)> Connection failed.\n");
-            closeConnection();
+        if(!mySocket.isClosed()){
+            try {
+                output.writeObject(update);
+                output.reset();
+                output.flush();
+            }catch(IOException e) {
+                System.out.println("\nSCH-T(2)> Connection failed.\n");
+                closeConnection();
+            }
         }
     }
 
