@@ -174,6 +174,7 @@ public class SocketClient implements Client, PingSender {
                 System.out.println("\nConnection failed.\n");
                 setClientAlive(false);
                 closeConnection();
+                break;
             }
         }
     }
