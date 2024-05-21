@@ -390,7 +390,7 @@ class GameControllerTest {
         gameController.placeCard(currPlayer.getNickname(),0,41,41,true);
         assertEquals(CommandResult.SUCCESS, gameController.getCommandResult());
     }
-
+    
     @Test
     void cardPlaceCardWrongState(){
         gameController.setState(GameState.GAME_STARTING);
