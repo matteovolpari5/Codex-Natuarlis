@@ -42,10 +42,7 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
                     GameControllerCommand command = commandsQueue.take();
                     gameController.setAndExecuteCommand(command);
                 }catch(InterruptedException e) {
-                    // TODO
-                    e.printStackTrace();
                     throw new RuntimeException();
-                    //System.err.println("Channel closed");
                 }
             }
         }).start();
@@ -62,8 +59,6 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
             // blocking queues are thread safe
             commandsQueue.put(gameControllerCommand);
         }catch(InterruptedException e) {
-            // TODO
-            e.printStackTrace();
             throw new RemoteException();
         }
     }

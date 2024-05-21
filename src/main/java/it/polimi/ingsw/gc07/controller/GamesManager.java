@@ -244,8 +244,8 @@ public class GamesManager {
                     try {
                         virtualView.notifyJoinNotSuccessful();
                     } catch (RemoteException ex) {
-                        //TODO
-                        throw new RuntimeException(ex);
+                        // player disconnected, remove player from pending
+                        removePlayer(nickname);
                     }
                     return;
                 }
@@ -257,8 +257,8 @@ public class GamesManager {
                     try {
                         virtualView.notifyJoinNotSuccessful();
                     } catch (RemoteException ex) {
-                        //TODO
-                        throw new RuntimeException(ex);
+                        // player disconnected, remove player from pending
+                        removePlayer(nickname);
                     }
                     return;
                 }
@@ -267,8 +267,8 @@ public class GamesManager {
                 try {
                     virtualView.setServerGame(gameId);
                 } catch (RemoteException ex) {
-                    //TODO
-                    throw new RuntimeException(ex);
+                    // player disconnected, remove player from pending
+                    removePlayer(nickname);
                 }
                 player.setTokenColor(tokenColor);
                 gameController.addPlayer(player, playerVirtualViews.get(nickname));
@@ -281,8 +281,8 @@ public class GamesManager {
             try {
                 virtualView.notifyJoinNotSuccessful();
             } catch (RemoteException ex) {
-                //TODO
-                throw new RuntimeException(ex);
+                // player disconnected, remove player from pending
+                removePlayer(nickname);
             }
             return;
         }
@@ -310,8 +310,8 @@ public class GamesManager {
             try {
                 virtualView.notifyJoinNotSuccessful();
             } catch (RemoteException ex) {
-                //TODO
-                throw new RuntimeException(ex);
+                // player disconnected, remove player from pending
+                removePlayer(nickname);
             }
             return;
         }
@@ -323,8 +323,8 @@ public class GamesManager {
                 try {
                     virtualView.setServerGame(gameId);
                 } catch (RemoteException ex) {
-                    //TODO
-                    throw new RuntimeException(ex);
+                    // player disconnected, remove player from pending
+                    removePlayer(nickname);
                 }
                 // no need to check the token color for the first player of the gameController
                 player.setTokenColor(tokenColor);
@@ -404,8 +404,8 @@ public class GamesManager {
         try{
             virtualView.receiveExistingGamesUpdate(update);
         }catch(RemoteException e) {
-            // TODO
-            e.printStackTrace();
+            // player disconnected, remove player from pending
+            removePlayer(nickname);
             throw new RuntimeException();
         }
     }
@@ -437,6 +437,6 @@ public class GamesManager {
         pendingPlayers.remove(player);
         playerVirtualViews.remove(nickname);
         playersTimers.remove(nickname);
-        System.out.println("player rimosso dai pending");
+        System.out.println("Player removed from pending.");
     }
 }
