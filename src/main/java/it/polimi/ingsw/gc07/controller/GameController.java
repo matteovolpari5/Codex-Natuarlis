@@ -10,7 +10,6 @@ import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.PingPongManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
-import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -59,7 +58,7 @@ public class GameController {
      * Getter for the state of the game.
      * @return the state of the game
      */
-    synchronized GameState getState() {
+    synchronized GameState getState() { //TODO tutte le invocazioni (3) avvengono in GamesManager in cui si ha il lock su GamesManager
         return gameModel.getState();
     }
 
@@ -167,19 +166,6 @@ public class GameController {
         VirtualView virtualView = pingPongManager.getVirtualView(nickname);
 
         gameModel.removeListener(virtualView);
-
-        // remove virtual view
-        if(!player.getConnectionType()) {
-            // Socket
-            // TODO da cambiare !!! e gestire remote excpetion
-            try {
-                SocketServer.getSocketServer().removeVirtualView(virtualView);
-            } catch (RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-        }
 
         // set player disconnected
         player.setIsConnected(false);
@@ -662,8 +648,6 @@ public class GameController {
             RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
             // delete GameController
             GamesManager.getGamesManager().deleteGame(getId());
-
-            // TODO socket?
         }
     }
 

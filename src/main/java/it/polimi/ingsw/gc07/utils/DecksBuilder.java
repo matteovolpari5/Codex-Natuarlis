@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07;
+package it.polimi.ingsw.gc07.utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -232,7 +232,7 @@ public abstract class DecksBuilder {
      */
     public static Deck<PlaceableCard> buildStarterCardsDeck() {
         Stack<PlaceableCard> deckContent = new Stack<>();
-        File input = new File("src/main/resources/it/polimi/ingsw/gc07/starterCardsDeck.json");
+        File input = new File("src/main/resources/it/polimi/ingsw/gc07/cards_json/starterCardsDeck.json");
         JsonElement fileElement;
         JsonObject fileObject;
         try{
@@ -269,7 +269,7 @@ public abstract class DecksBuilder {
      */
     public static PlayingDeck<ObjectiveCard> buildObjectiveCardsDeck() {
         Stack<ObjectiveCard> deckContent = new Stack<>();
-        File input = new File("src/main/resources/it/polimi/ingsw/gc07/objectiveCardsDeck.json");
+        File input = new File("src/main/resources/it/polimi/ingsw/gc07/cards_json/objectiveCardsDeck.json");
         JsonElement fileElement;
         try{
             fileElement = JsonParser.parseReader(new FileReader(input));
@@ -314,7 +314,7 @@ public abstract class DecksBuilder {
      */
     public static DrawableDeck<DrawableCard> buildResourceCardsDeck() {
         Stack<DrawableCard> deckContent = new Stack<>();
-        File input = new File("src/main/resources/it/polimi/ingsw/gc07/resourceCardsDeck.json");
+        File input = new File("src/main/resources/it/polimi/ingsw/gc07/cards_json/resourceCardsDeck.json");
         JsonElement fileElement;
         try {
             fileElement = JsonParser.parseReader(new FileReader(input));
@@ -341,7 +341,7 @@ public abstract class DecksBuilder {
             DrawableCard card = new DrawableCard(id, type, frontCorners, frontCornersContent, backCorners, backCornersContent, placementScore, permanentResources);
             deckContent.add(card);
         }
-        return new DrawableDeck<DrawableCard>(CardType.RESOURCE_CARD, deckContent);
+        return new DrawableDeck<>(CardType.RESOURCE_CARD, deckContent);
     }
 
     /**
@@ -350,7 +350,7 @@ public abstract class DecksBuilder {
      */
     public static DrawableDeck<GoldCard> buildGoldCardsDeck() {
         Stack<GoldCard> deckContent = new Stack<>();
-        File input = new File("src/main/resources/it/polimi/ingsw/gc07/goldCardsDeck.json");
+        File input = new File("src/main/resources/it/polimi/ingsw/gc07/cards_json/goldCardsDeck.json");
         JsonElement fileElement;
         try{
             fileElement = JsonParser.parseReader(new FileReader(input));
@@ -400,6 +400,6 @@ public abstract class DecksBuilder {
                     placementScore, permanentResources, placementCondition, scoringCondition);
             deckContent.add(card);
         }
-        return new DrawableDeck<GoldCard>(CardType.GOLD_CARD, deckContent);
+        return new DrawableDeck<>(CardType.GOLD_CARD, deckContent);
     }
 }

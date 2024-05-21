@@ -75,17 +75,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     /**
-     * Getter method for nickname
-     * @return nickname
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public String getNickname() throws RemoteException {
-        // TODO da cancellare quando tomasso rimuove da socket
-        return nickname;
-    }
-
-    /**
      * Getter method for isClientAlive.
      * @return value of isClientAlive
      */
@@ -121,10 +110,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
 
     /**
      * Method that allows the client to connect with RmiServerGamesManager, the general server.
-     * @param connectionType connection type
      * @param interfaceType interface type
      */
-    public void connectToGamesManagerServer(boolean connectionType, boolean interfaceType) {
+    public void connectToGamesManagerServer(boolean interfaceType) {
+        boolean connectionType = true; // Rmi client
         try {
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
             serverGamesManager.connect(nickname, this);
@@ -142,12 +131,12 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     /**
-     * Method that allows a player to reconnect to a game.
+     * Method that allows a player to reconnect to a game with Rmi.
      * @param nickname nickname
-     * @param connectionType new connection type
      * @param interfaceType new interface type
      */
-    public void reconnectPlayer(String nickname, boolean connectionType, boolean interfaceType) {
+    public void reconnectPlayer(String nickname, boolean interfaceType) {
+        boolean connectionType = true; // Rmi client
         try {
             serverGamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(this, nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
@@ -202,7 +191,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }catch(RemoteException e) {
             // if not already detected by ping
             System.out.println("\nConnection failed.\n");
-            clientAlive = false;
+            setClientAlive(false);  // setter is synchronized
         }
     }
 
@@ -217,7 +206,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }catch(RemoteException e) {
             // if not already detected by ping
             System.out.println("\nConnection failed.\n");
-            clientAlive = false;
+            setClientAlive(false);  // setter is synchronized
         }
     }
 

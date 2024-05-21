@@ -33,9 +33,9 @@ class GamesManagerTest {
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
 
         RmiClient newRmiClient = new RmiClient("player1", false, serverGamesManager);
-        newRmiClient.connectToGamesManagerServer(true, false);
+        newRmiClient.connectToGamesManagerServer(false);
         RmiClient newRmiClient2 = new RmiClient("player2", false, serverGamesManager);
-        newRmiClient2.connectToGamesManagerServer(true, false);
+        newRmiClient2.connectToGamesManagerServer(false);
         assertNull(gm.getGameById(0));
 
         gm.joinNewGame("player1", TokenColor.GREEN, 2);

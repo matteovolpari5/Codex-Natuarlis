@@ -11,10 +11,8 @@ import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
 import it.polimi.ingsw.gc07.model_view_listeners.GameViewListener;
 import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
-import it.polimi.ingsw.gc07.updates.FullChatUpdate;
 import it.polimi.ingsw.gc07.view.Ui;
 
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

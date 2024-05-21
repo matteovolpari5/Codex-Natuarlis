@@ -56,6 +56,7 @@ public class Chat {
             try {
                 l.receiveChatMessageUpdate(new ChatMessageUpdate(newMessage));
             }catch(RemoteException e) {
+                // TODO 
                 e.printStackTrace();
                 throw new RuntimeException();
             }

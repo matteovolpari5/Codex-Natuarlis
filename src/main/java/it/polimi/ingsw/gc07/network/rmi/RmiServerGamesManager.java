@@ -6,7 +6,6 @@ import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.network.VirtualServerGame;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
-import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -139,63 +138,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             rmiServerGames.put(gameId, new RmiServerGame(GamesManager.getGamesManager().getGameById(gameId)));
         }catch(RemoteException e) {
             // TODO non posso creare server game, cosa faccio?
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-    }
-
-    /**
-     * Method that allows to set a RmiServerGame for the client.
-     * @param nickname player's nickname
-     * @param gameId game id
-     */
-    public void setServerGame(String nickname, int gameId) {
-        assert(rmiServerGames.containsKey(gameId));
-        try {
-            VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
-            if(virtualView == null) {
-                throw new RuntimeException();
-            }
-            virtualView.setServerGame(gameId);
-        }catch(RemoteException e) {
-            // TODO
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-    }
-
-    /**
-     * Method used to notify that joining was not successful.
-     */
-    public void notifyJoinNotSuccessful(String nickname) {
-        try {
-            VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
-            if(virtualView == null) {
-                throw new RuntimeException();
-            }
-            virtualView.notifyJoinNotSuccessful();
-        }catch(RemoteException e) {
-            // TODO
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-    }
-
-    /**
-     * Method used to display existing games to a player who requests it.
-     * @param nickname player's nickname
-     */
-    public void displayGames(String nickname) {
-        try {
-            // get virtual view
-            VirtualView virtualView = GamesManager.getGamesManager().getVirtualView(nickname);
-            if(virtualView == null) {
-                throw new RuntimeException();
-            }
-            ExistingGamesUpdate update = new ExistingGamesUpdate(GamesManager.getGamesManager().getFreeGamesDetails());
-            virtualView.receiveExistingGamesUpdate(update);
-        }catch(RemoteException e) {
-            // TODO
             e.printStackTrace();
             throw new RuntimeException();
         }

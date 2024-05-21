@@ -57,6 +57,7 @@ public class SocketClientHandler implements VirtualView {
             if(check.equals(NicknameCheck.NEW_NICKNAME)){
                 isReconnected = false;
                 GamesManager.getGamesManager().addVirtualView(myClientNickname, this);
+                System.err.println("New client connected");
                 manageGamesManagerCommand();
             }else{
                 isReconnected = true;
@@ -65,13 +66,13 @@ public class SocketClientHandler implements VirtualView {
                 manageGameCommand();
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            System.out.println("\nConnection failed.\n");
+            closeConnection();
         }
     }
     private void manageGamesManagerCommand(){
         System.out.println("SCH-T> manageGMCommand");
         GamesManagerCommand command;
-
         while(true) {
             try {
                 command = (GamesManagerCommand) input.readObject();
@@ -80,7 +81,8 @@ public class SocketClientHandler implements VirtualView {
                     break;
                 }
             } catch (Exception e){
-                //TODO gestire eccezione
+                System.out.println("\nConnection failed.\n");
+                closeConnection();
                 break;
             }
         }
@@ -101,13 +103,9 @@ public class SocketClientHandler implements VirtualView {
                     }
                 }
             } catch (Exception e){
-                //TODO gestire eccezione
-                e.printStackTrace();
-                throw new RuntimeException();
-                // TODO closeConnection(mySocket,input,output);
+                closeConnection();
             }
         }
-        // TODO closeConnection(mySocket, input, output);
     }
 
     private void closeConnection(){
@@ -124,11 +122,6 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public String getNickname() throws RemoteException {
-        return myClientNickname;
-    }
-
-    @Override
     public void setServerGame(int gameId) throws RemoteException {
         if(!isReconnected){
             String result = "Game joined.";
@@ -138,7 +131,8 @@ public class SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("\nConnection failed.\n");
+                closeConnection();
             }
         }
         this.gameController = gamesManager.getGameById(gameId);
@@ -146,12 +140,12 @@ public class SocketClientHandler implements VirtualView {
 
     private synchronized void receiveUpdate(Update update) {
         try {
-            System.out.println("INVIO UPDATE");
             output.writeObject(update);
             output.reset();
             output.flush();
         }catch(IOException e) {
-            // TODO close connection
+            System.out.println("\nConnection failed.\n");
+            closeConnection();
         }
     }
 
@@ -219,7 +213,8 @@ public class SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("\nConnection failed.\n");
+                closeConnection();
             }
         }
         receiveUpdate(existingGamesUpdate);
@@ -233,7 +228,8 @@ public class SocketClientHandler implements VirtualView {
             output.reset();
             output.flush();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("\nConnection failed.\n");
+            closeConnection();
         }
     }
 

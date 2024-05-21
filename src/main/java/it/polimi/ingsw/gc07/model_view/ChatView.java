@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.model_view;
 
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model_view_listeners.ChatViewListener;
-import it.polimi.ingsw.gc07.view.tui.ChatTui;
 
 import java.util.ArrayList;
 import java.util.List;

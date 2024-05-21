@@ -26,10 +26,6 @@ public class LayoutCondition implements Condition{
      * Maximum number of columns of a layout.
      */
     private static final int maxLayoutColumns = 3;
-    /**
-     * Copy of the game field.
-     */
-    private GameField myGamefield;
 
     /**
      * Constructor for layout conditions.
@@ -68,7 +64,7 @@ public class LayoutCondition implements Condition{
     @Override
     public int numTimesMet(GameField gameField) throws NullPointerException {
         // create a copy, since the method modifies it
-        myGamefield = new GameField(gameField);
+        GameField myGamefield = new GameField(gameField);
 
         // check valid game field
         assert(gameField != null): "No GameField passed as parameter";
