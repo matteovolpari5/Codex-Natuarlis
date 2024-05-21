@@ -58,7 +58,7 @@ public class GameController {
      * Getter for the state of the game.
      * @return the state of the game
      */
-    synchronized GameState getState() { //TODO tutte le invocazioni (3) avvengono in GamesManager in cui si ha il lock su GamesManager
+    synchronized GameState getState() {
         return gameModel.getState();
     }
 
