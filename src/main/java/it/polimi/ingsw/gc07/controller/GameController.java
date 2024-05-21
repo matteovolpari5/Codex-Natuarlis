@@ -116,6 +116,15 @@ public class GameController {
         gameModel.setCurrPlayer(num);
     }
 
+    public synchronized boolean isPlayerConnected(String nickname) {
+        for(Player p: gameModel.getPlayers()) {
+            if(p.getNickname().equals(nickname)) {
+                return p.isConnected();
+            }
+        }
+        return false;
+    }
+
     public synchronized CommandResult getCommandResult() {
         return gameModel.getCommandResult();
     }
@@ -225,20 +234,12 @@ public class GameController {
         player.setInterfaceType(interfaceType);
 
         gameModel.addListener(client);
-        try {
-            gameModel.sendModelViewUpdate(nickname, client);
-        }catch(RemoteException e) {
-            e.printStackTrace();
-            // TODO
-            throw new RuntimeException(e);
-        }
+        gameModel.sendModelViewUpdate(nickname, client);
 
         try {
             client.setServerGame(getId());
         } catch (RemoteException e) {
-            e.printStackTrace();
-            // TODO
-            throw new RuntimeException(e);
+            disconnectPlayer(nickname);
         }
         pingPongManager.addPingSender(nickname, client);
 
@@ -297,7 +298,6 @@ public class GameController {
                 }
             }
             if(gameEnd){
-                System.out.println("la partita finisce");
                 synchronized(this) {
                     gameModel.setState(GameState.GAME_ENDED);
                     if (onePlayer) {
@@ -310,7 +310,6 @@ public class GameController {
                     endGame();
                 }
             }
-            else System.out.println("la partita non finisce");
         }).start();
     }
 

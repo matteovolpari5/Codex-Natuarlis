@@ -57,7 +57,7 @@ public class SocketClientHandler implements VirtualView {
             if(check.equals(NicknameCheck.NEW_NICKNAME)){
                 isReconnected = false;
                 GamesManager.getGamesManager().addVirtualView(myClientNickname, this);
-                System.err.println("New client connected");
+                System.err.println("SCH-T> New client connected");
                 manageGamesManagerCommand();
             }else{
                 isReconnected = true;
@@ -66,7 +66,7 @@ public class SocketClientHandler implements VirtualView {
                 manageGameCommand();
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("\nConnection failed.\n");
+            System.out.println("\nSCH-T> Connection failed.\n");
             closeConnection();
         }
     }
@@ -81,7 +81,7 @@ public class SocketClientHandler implements VirtualView {
                     break;
                 }
             } catch (Exception e){
-                System.out.println("\nConnection failed.\n");
+                System.out.println("\nSCH-T> Connection failed.\n");
                 closeConnection();
                 break;
             }
@@ -99,23 +99,25 @@ public class SocketClientHandler implements VirtualView {
                     gameController.setAndExecuteCommand(command);
                     CommandResult result = gameController.getCommandResult();
                     if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
-                        // TODO closeConnection(mySocket,input,output);
+                        closeConnection();
+                        break;
                     }
                 }
             } catch (Exception e){
                 closeConnection();
+                break;
             }
         }
     }
 
-    private void closeConnection(){
+    private synchronized void closeConnection(){
         try{
             input.close();
             output.close();
             mySocket.close();
             System.out.println("SCH> Closed connection");
         }catch (IOException e){
-            System.out.println("SCH> Error while closing connection");
+            System.out.println("SCH - closeConnection> Error");
             e.printStackTrace();
             throw new RuntimeException();
         }
@@ -131,7 +133,7 @@ public class SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             } catch (IOException e) {
-                System.out.println("\nConnection failed.\n");
+                System.out.println("\nSCH-T(1)> Connection failed.\n");
                 closeConnection();
             }
         }
@@ -139,13 +141,15 @@ public class SocketClientHandler implements VirtualView {
     }
 
     private synchronized void receiveUpdate(Update update) {
-        try {
-            output.writeObject(update);
-            output.reset();
-            output.flush();
-        }catch(IOException e) {
-            System.out.println("\nConnection failed.\n");
-            closeConnection();
+        if(!mySocket.isClosed()){
+            try {
+                output.writeObject(update);
+                output.reset();
+                output.flush();
+            }catch(IOException e) {
+                System.out.println("\nSCH-T(2)> Connection failed.\n");
+                closeConnection();
+            }
         }
     }
 
@@ -213,7 +217,7 @@ public class SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             } catch (IOException e) {
-                System.out.println("\nConnection failed.\n");
+                System.out.println("\nSCH-T(3)> Connection failed.\n");
                 closeConnection();
             }
         }
@@ -228,7 +232,7 @@ public class SocketClientHandler implements VirtualView {
             output.reset();
             output.flush();
         } catch (IOException e) {
-            System.out.println("\nConnection failed.\n");
+            System.out.println("\nSCH-T(4)> Connection failed.\n");
             closeConnection();
         }
     }

@@ -18,13 +18,23 @@ import it.polimi.ingsw.gc07.view.Ui;
 import java.util.*;
 
 public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, BoardTui {
-    private final String nickname;
-    private final Client client;
+    private String nickname;
+    private Client client;
     private final static int minPlayersNumber = 2;
     private final static int maxPlayersNumber = 4;
 
     public Tui(String nickname, Client client) {
         this.nickname = nickname;
+        this.client = client;
+    }
+
+    @Override
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    @Override
+    public void setClient(Client client) {
         this.client = client;
     }
 

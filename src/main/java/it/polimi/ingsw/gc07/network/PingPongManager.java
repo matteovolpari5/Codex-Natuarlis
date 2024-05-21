@@ -39,9 +39,9 @@ public class PingPongManager {
 
     public synchronized void addPingSender(String nickname, VirtualView virtualView) {
         this.playersPing.put(nickname, true);
+        this.playerVirtualViews.put(nickname, virtualView);
         new Thread(() -> checkPing(nickname)).start();
         new Thread(() -> sendPong(nickname)).start();
-        this.playerVirtualViews.put(nickname, virtualView);
     }
 
     /**
@@ -78,6 +78,9 @@ public class PingPongManager {
     public void checkPing(String nickname) {
         int missedPing = 0;
         while(true) {
+            if(!gameController.isPlayerConnected(nickname)) {
+                break;
+            }
             synchronized(this) {
                 if(playersPing.get(nickname)) {
                     missedPing = 0;

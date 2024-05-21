@@ -97,7 +97,6 @@ public class DrawableCard extends PlaceableCard {
                                 }
                             }else{
                                 if(!gameField.getPlacedCard(x + 1, y - 1).getBackCorners()[1]){
-                                    // TODO: QUI NON ENTRA MAI
                                     //the needed corner is not available
                                     return CommandResult.NOT_LEGIT_CORNER;
                                 }
@@ -136,7 +135,6 @@ public class DrawableCard extends PlaceableCard {
                                 }
                             }else{
                                 if(!gameField.getPlacedCard(x + 1, y + 1).getBackCorners()[0]){
-                                    // TODO QUI NON ENTRA MAI
                                     //the needed corner is not available
                                     return CommandResult.NOT_LEGIT_CORNER;
                                 }
@@ -164,7 +162,6 @@ public class DrawableCard extends PlaceableCard {
                     }else{
                         //the placed card is face down
                         if(!gameField.getPlacedCard(x + 1, y - 1).getBackCorners()[1]){
-                            // TODO QUI NON ENTRA MAI
                             //the needed corner is not available
                             return CommandResult.NOT_LEGIT_CORNER;
                         }
@@ -199,7 +196,6 @@ public class DrawableCard extends PlaceableCard {
                     }else{
                         //the placed card is face down
                         if(!gameField.getPlacedCard(x + 1, y + 1).getBackCorners()[0]){
-                            // TODO QUI NON ENTRA MAI
                             //the needed corner is not available
                             return CommandResult.NOT_LEGIT_CORNER;
                         }

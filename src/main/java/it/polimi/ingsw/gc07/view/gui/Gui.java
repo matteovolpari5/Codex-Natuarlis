@@ -8,21 +8,58 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
 import it.polimi.ingsw.gc07.view.gui.gui_controllers.StageController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.nio.file.ClosedFileSystemException;
 import java.util.List;
 import java.util.Map;
 
 public  class Gui extends Application implements Ui {
+    private static Gui guiInstance = null;
+    private String nickname;
+    private Client client;
+
+    @Override
+    public void init() {
+        synchronized(Gui.class) {
+            guiInstance = this;
+            Gui.class.notifyAll();
+        }
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        StageController.setup(stage, "/it/polimi/ingsw/gc07/fxml/lobby.fxml");
+        stage.show();
+    }
+
+    public synchronized static Gui getGuiInstance() {
+        while(guiInstance == null) {
+            try {
+                Gui.class.wait();
+            }catch(InterruptedException e) {
+                throw new RuntimeException();
+            }
+        }
+        return guiInstance;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     @Override
     public void runCliJoinGame() {
-        // TODO
-        System.out.println("Loading gui ...");
-        Application.launch(Gui.class);
+        // scene already present
+        // TODO ok ??
     }
 
     @Override
@@ -89,15 +126,5 @@ public  class Gui extends Application implements Ui {
     @Override
     public void receiveWinnersUpdate(List<String> winners) {
         // TODO
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        StageController.setup (stage, "/it/polimi/ingsw/gc07/fxml/lobby.fxml");
-        stage.show();
-    }
-
-    public static void main (String[] args){
-        launch();
     }
 }
