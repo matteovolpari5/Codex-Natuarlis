@@ -46,9 +46,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             try {
                 myRmiServerGamesManager = new RmiServerGamesManager();
             }catch(RemoteException e) {
-                // TODO non posso creare istanza singleton, cosa faccio?
-                e.printStackTrace();
-                throw new RuntimeException();
+                System.exit(-1);
             }
         }
         return myRmiServerGamesManager;
@@ -90,8 +88,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
                     GamesManagerCommand command = commandsQueue.take();
                     GamesManager.getGamesManager().setAndExecuteCommand(command);
                 }catch(InterruptedException e) {
-                    // TODO come gestissco interrupted exception?
-                    e.printStackTrace();
                     throw new RuntimeException();
                 }
             }
@@ -122,8 +118,6 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
             // blocking queues are thread safe
             commandsQueue.put(gamesManagerCommand);
         }catch(InterruptedException e) {
-            // TODO come gestissco interrupted exception
-            e.printStackTrace();
             throw new RemoteException();
         }
     }
@@ -137,9 +131,8 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         try {
             rmiServerGames.put(gameId, new RmiServerGame(GamesManager.getGamesManager().getGameById(gameId)));
         }catch(RemoteException e) {
-            // TODO non posso creare server game, cosa faccio?
-            e.printStackTrace();
-            throw new RuntimeException();
+            // can't create rmi server
+            System.exit(-1);
         }
     }
 
