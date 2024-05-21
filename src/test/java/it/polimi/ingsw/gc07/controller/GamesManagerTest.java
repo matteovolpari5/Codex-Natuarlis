@@ -95,7 +95,7 @@ class GamesManagerTest {
         assertEquals(GameState.PLAYING, gc.getState());
 
         String nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
-        gm.getGameById(0).placeCard(nick,0,41,41,true);
+        gc.placeCard(nick,0,41,41,true);
         gc.disconnectPlayer(nick);
         assertEquals(gc.getPlayerByNickname(nick).getCurrentHand().size(), 3);
         gm.reconnectPlayer(newRmiClient,nick,true,false);
@@ -110,7 +110,9 @@ class GamesManagerTest {
         }
         nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
         gm.getGameById(0).placeCard(nick,0,41,41,true);
+
         gc.disconnectPlayer(nick);
+
         assertEquals(gc.getPlayerByNickname(nick).getCurrentHand().size(), 3);
         gm.reconnectPlayer(newRmiClient,nick,true,false);
 
