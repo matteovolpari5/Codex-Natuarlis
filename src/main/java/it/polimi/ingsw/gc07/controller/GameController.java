@@ -116,6 +116,15 @@ public class GameController {
         gameModel.setCurrPlayer(num);
     }
 
+    public synchronized boolean isPlayerConnected(String nickname) {
+        for(Player p: gameModel.getPlayers()) {
+            if(p.getNickname().equals(nickname)) {
+                return p.isConnected();
+            }
+        }
+        return false;
+    }
+
     public synchronized CommandResult getCommandResult() {
         return gameModel.getCommandResult();
     }
