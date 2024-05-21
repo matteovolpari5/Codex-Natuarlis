@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc07.updates.*;
 import it.polimi.ingsw.gc07.view.Ui;
 import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.tui.Tui;
+import javafx.application.Application;
 
 import java.io.*;
 import java.net.Socket;
@@ -83,10 +84,14 @@ public class SocketClient implements Client, PingSender {
         this.gameView = new GameView(nickname);
         this.myServer = new VirtualSocketServer(output);
 
-        if(interfaceType)
-            this.ui = new Gui();
-        else
+        if(interfaceType) {
+            Application.launch(Gui.class);
+            this.ui = Gui.getGuiInstance();
+            this.ui.setNickname(nickname);
+            this.ui.setClient(this);
+        } else {
             this.ui = new Tui(nickname, this);
+        }
         this.gameView.addViewListener(ui);
 
         if(check.equals(NicknameCheck.NEW_NICKNAME)){

@@ -31,6 +31,7 @@ public class ClientMain {
                     ip = "127.0.0.1";
                 }
             }while(!checkValidIp(ip));
+
             boolean wrongInput = true;
             boolean connectionType = false;
             while(wrongInput) {

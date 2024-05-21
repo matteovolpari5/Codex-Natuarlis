@@ -72,6 +72,7 @@ public class GamesManager {
 
     public synchronized void addVirtualView(String nickname, VirtualView virtualView) {
         assert(!playerVirtualViews.containsKey(nickname));
+        assert(virtualView != null);
         playerVirtualViews.put(nickname, virtualView);
     }
 
@@ -239,9 +240,7 @@ public class GamesManager {
                 if(!gameController.getState().equals(GameState.GAME_STARTING)) {
                     commandResult = CommandResult.GAME_FULL;
                     VirtualView virtualView = getVirtualView(nickname);
-                    if(virtualView == null) { //TODO come sotto per la mappa
-                        throw new RuntimeException();
-                    }
+                    assert(virtualView != null);
                     try {
                         virtualView.notifyJoinNotSuccessful();
                     } catch (RemoteException ex) {
@@ -254,9 +253,7 @@ public class GamesManager {
                 if(gameController.hasPlayerWithTokenColor(tokenColor)) {
                     commandResult = CommandResult.TOKEN_COLOR_ALREADY_TAKEN;
                     VirtualView virtualView = getVirtualView(nickname);
-                    if(virtualView == null) { //TODO come sotto per la mappa
-                        throw new RuntimeException();
-                    }
+                    assert(virtualView != null);
                     try {
                         virtualView.notifyJoinNotSuccessful();
                     } catch (RemoteException ex) {
@@ -266,9 +263,7 @@ public class GamesManager {
                     return;
                 }
                 VirtualView virtualView = getVirtualView(nickname);
-                if(virtualView == null) { //TODO come sopra per la mappa
-                    throw new RuntimeException();
-                }
+                assert(virtualView != null);
                 try {
                     virtualView.setServerGame(gameId);
                 } catch (RemoteException ex) {
@@ -282,9 +277,7 @@ public class GamesManager {
         if(!found){
             commandResult = CommandResult.GAME_NOT_PRESENT;
             VirtualView virtualView = getVirtualView(nickname);
-            if(virtualView == null) { //TODO come sotto per la mappa
-                throw new RuntimeException();
-            }
+            assert(virtualView != null);
             try {
                 virtualView.notifyJoinNotSuccessful();
             } catch (RemoteException ex) {
@@ -313,9 +306,7 @@ public class GamesManager {
         }catch(WrongNumberOfPlayersException e) {
             commandResult = CommandResult.WRONG_PLAYERS_NUMBER;
             VirtualView virtualView = getVirtualView(nickname);
-            if(virtualView == null) { //TODO è necessario? non vengono inserite VirtualView null nella mappa. Usare assert?
-                throw new RuntimeException();
-            }
+            assert(virtualView != null);
             try {
                 virtualView.notifyJoinNotSuccessful();
             } catch (RemoteException ex) {
@@ -328,9 +319,7 @@ public class GamesManager {
             if(gameController.getId() == gameId) {
                 RmiServerGamesManager.getRmiServerGamesManager().createServerGame(gameId);
                 VirtualView virtualView = getVirtualView(nickname);
-                if(virtualView == null) { //TODO come sopra per la mappa
-                    throw new RuntimeException();
-                }
+                assert(virtualView != null);
                 try {
                     virtualView.setServerGame(gameId);
                 } catch (RemoteException ex) {
@@ -410,7 +399,7 @@ public class GamesManager {
         Player player = getPendingPlayer(nickname);
         assert(player != null);
         VirtualView virtualView = getVirtualView(nickname);
-        assert(virtualView != null); //TODO sarebbe la riga che sostituisce if nei TODO precedenti
+        assert(virtualView != null);
         ExistingGamesUpdate update = new ExistingGamesUpdate(getFreeGamesDetails());
         try{
             virtualView.receiveExistingGamesUpdate(update);
