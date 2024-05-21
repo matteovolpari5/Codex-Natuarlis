@@ -67,6 +67,7 @@ public class SocketClient implements Client, PingSender {
                 System.out.println("\nConnection failed.\n");
                 setClientAlive(false);
                 closeConnection();
+                break;
             }
             try {
                 check = (NicknameCheck) input.readObject();
@@ -74,6 +75,7 @@ public class SocketClient implements Client, PingSender {
                 System.out.println("\nConnection failed.\n");
                 setClientAlive(false);
                 closeConnection();
+                break;
             }
         }while(check.equals(NicknameCheck.EXISTING_NICKNAME));
 
