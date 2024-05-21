@@ -16,7 +16,7 @@
     </ImageView>
     <AnchorPane AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" prefHeight="700.0" prefWidth="1200.0">
         <Text text="NUMBER OF PLAYERS:" AnchorPane.rightAnchor="120" AnchorPane.topAnchor="100" fill="black"><font><Font name="System Bold" size="33.0" /></font></Text>
-        <Text text="3/4" id="numPlayers" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="100" fill="black"><font><Font name="System Bold" size="33.0" /></font></Text>
+        <Text fx:id="numPlayers" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="100" fill="black"><font><Font name="System Bold" size="33.0" /></font></Text>
         <ListView fx:id="playersList" AnchorPane.leftAnchor="60" AnchorPane.topAnchor="220" prefHeight="240.0" prefWidth="440.0"/>
         <Text text="WAITING FOR PLAYERS..." AnchorPane.leftAnchor="450" AnchorPane.topAnchor="650" fill="black"><font><Font name="System Bold" size="33.0" /></font></Text>
     </AnchorPane>
