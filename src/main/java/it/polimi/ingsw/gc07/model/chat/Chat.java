@@ -56,9 +56,7 @@ public class Chat {
             try {
                 l.receiveChatMessageUpdate(new ChatMessageUpdate(newMessage));
             }catch(RemoteException e) {
-                // TODO 
-                e.printStackTrace();
-                throw new RuntimeException();
+                // will be detected by PingPongManager
             }
         }
     }
@@ -80,8 +78,7 @@ public class Chat {
             try {
                 l.receiveChatMessageUpdate(update);
             }catch(RemoteException e) {
-                e.printStackTrace();
-                throw new RuntimeException();
+                // will be detected by PingPongManager
             }
         }
     }

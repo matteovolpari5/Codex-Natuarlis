@@ -39,9 +39,9 @@ public class PingPongManager {
 
     public synchronized void addPingSender(String nickname, VirtualView virtualView) {
         this.playersPing.put(nickname, true);
+        this.playerVirtualViews.put(nickname, virtualView);
         new Thread(() -> checkPing(nickname)).start();
         new Thread(() -> sendPong(nickname)).start();
-        this.playerVirtualViews.put(nickname, virtualView);
     }
 
     /**

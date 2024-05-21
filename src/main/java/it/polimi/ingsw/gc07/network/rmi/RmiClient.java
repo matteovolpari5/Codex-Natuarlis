@@ -233,10 +233,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             }
             try {
                 Thread.sleep(1000); // wait one second between two ping
-            } catch (InterruptedException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException(e);
+            }catch(InterruptedException e) {
+                throw new RuntimeException();
             }
         }
     }
@@ -276,9 +274,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             try {
                 Thread.sleep(1000); // wait one second between two pong checks
             } catch (InterruptedException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException(e);
+                throw new RuntimeException();
             }
         }
     }
@@ -292,8 +288,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             // blocking queues are thread safe
             updatesQueue.put(update);
         }catch(InterruptedException e) {
-            // TODO
-            e.printStackTrace();
             throw new RuntimeException();
         }
         setPong();
@@ -309,8 +303,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                     Update update = updatesQueue.take();
                     update.execute(gameView);
                 }catch(InterruptedException e) {
-                    // TODO
-                    e.printStackTrace();
                     throw new RuntimeException();
                 }
             }

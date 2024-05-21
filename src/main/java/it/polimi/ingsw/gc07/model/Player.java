@@ -53,7 +53,7 @@ public class Player {
     /**
      * List of cards the player currently has.
      */
-    private List<DrawableCard> currentHand;
+    private final List<DrawableCard> currentHand;
     /**
      * Player's secret objective, it is an objective card.
      */
@@ -204,8 +204,7 @@ public class Player {
             try {
                 l.receiveStallUpdate(update);
             } catch (RemoteException e) {
-                // TODO
-                throw new RuntimeException(e);
+                // will be detected by PingPongManager
             }
         }
     }
@@ -231,9 +230,7 @@ public class Player {
             try {
                 l.receiveConnectionUpdate(update);
             }catch(RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
+                // will be detected by PingPongManager
             }
         }
     }
@@ -251,7 +248,6 @@ public class Player {
      */
     public void removeCardHand(DrawableCard card) {
         currentHand.remove(card);
-        this.currentHand = new ArrayList<>(currentHand); // TODO perchè????
         // send update
         sendCardHandUpdate();
     }
@@ -262,7 +258,6 @@ public class Player {
      */
     public void addCardHand(DrawableCard card) {
         currentHand.add(card);
-        this.currentHand = new ArrayList<>(currentHand); // TODO perchè????
         // send update
         sendCardHandUpdate();
     }
@@ -273,8 +268,7 @@ public class Player {
             try {
                 l.receiveCardHandUpdate(update);
             }catch(RemoteException e) {
-                e.printStackTrace();
-                throw new RuntimeException();
+                // will be detected by PingPongManager
             }
         }
     }

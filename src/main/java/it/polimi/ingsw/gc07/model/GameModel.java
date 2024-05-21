@@ -219,8 +219,7 @@ public class GameModel {
             try {
                 l.receiveCommandResultUpdate(update);
             }catch(RemoteException e) {
-                e.printStackTrace();
-                throw new RuntimeException();
+                // will be detected by PingPongManager
             }
         }
     }
@@ -243,8 +242,7 @@ public class GameModel {
             try {
                 l.receiveGameModelUpdate(update);
             }catch(RemoteException e) {
-                e.printStackTrace();
-                throw new RuntimeException();
+                // will be detected by PingPongManager
             }
         }
     }
@@ -257,9 +255,7 @@ public class GameModel {
             try {
                 l.receiveDeckUpdate(update);
             }catch(RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
+                // will be detected by PingPongManager
             }
         }
     }
@@ -269,9 +265,7 @@ public class GameModel {
             try {
                 l.receiveGameEndedUpdate(new GameEndedUpdate(new ArrayList<>(winners)));
             } catch (RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException(e);
+                // will be detected by PingPongManager
             }
         }
     }
@@ -411,9 +405,7 @@ public class GameModel {
             try {
                 l.receivePlayerJoinedUpdate(playerUpdate);
             }catch(RemoteException e) {
-                // TODO
-                e.printStackTrace();
-                throw new RuntimeException();
+                // will be detected by PingPongManager
             }
         }
 
@@ -423,35 +415,40 @@ public class GameModel {
     /**
      * Method used to send a full model view update to a client who has just reconnected.
      */
-    public void sendModelViewUpdate(String nickname, VirtualView client) throws RemoteException {
+    public void sendModelViewUpdate(String nickname, VirtualView client) {
         // gameModel update and deckUpdate sent in addListener
 
-        // when the player view is creates, isConnected = true and isStalled = false
-        // if not default, send update
-        for(Player p: players) {
-            // if not default value, send connection update
-            if(!p.isConnected()) {
-                client.receiveConnectionUpdate(new ConnectionUpdate(p.getNickname(), false));
+        try {
+            // when the player view is creates, isConnected = true and isStalled = false
+            // if not default, send update
+            for (Player p : players) {
+                // if not default value, send connection update
+                if (!p.isConnected()) {
+                    client.receiveConnectionUpdate(new ConnectionUpdate(p.getNickname(), false));
+                }
+
+                // if not default value, send stall update
+                if (p.getIsStalled()) {
+                    client.receiveStallUpdate(new StallUpdate(p.getNickname(), true));
+                }
+
+                // send full game field update
+                client.receiveFullGameFieldUpdate(new FullGameFieldUpdate(p.getNickname(), p.getStarterCard(), p.getGameField().getCardsContent(), p.getGameField().getCardsFace(), p.getGameField().getCardsOrder()));
+
+                // send current hand update
+                client.receiveCardHandUpdate(new CardHandUpdate(p.getNickname(), p.getCurrentHand(), p.getSecretObjective()));
+
+                // send score update
+                client.receiveScoreUpdate(new ScoreUpdate(p.getNickname(), board.getScore(p.getNickname())));
+
             }
 
-            // if not default value, send stall update
-            if(p.getIsStalled()) {
-                client.receiveStallUpdate(new StallUpdate(p.getNickname(), true));
-            }
+            // send full chat update
+            client.receiveFullChatUpdate(new FullChatUpdate(new ArrayList<>(chat.getContent(nickname))));
 
-            // send full game field update
-            client.receiveFullGameFieldUpdate(new FullGameFieldUpdate(p.getNickname(), p.getStarterCard(), p.getGameField().getCardsContent(), p.getGameField().getCardsFace(), p.getGameField().getCardsOrder()));
-
-            // send current hand update
-            client.receiveCardHandUpdate(new CardHandUpdate(p.getNickname(), p.getCurrentHand(), p.getSecretObjective()));
-
-            // send score update
-            client.receiveScoreUpdate(new ScoreUpdate(p.getNickname(), board.getScore(p.getNickname())));
-
+        }catch(RemoteException e) {
+            // will be detected by PingPongManager
         }
-
-        // send full chat update
-        client.receiveFullChatUpdate(new FullChatUpdate(new ArrayList<>(chat.getContent(nickname))));
     }
 
     public void removeListener(VirtualView client) {
