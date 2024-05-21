@@ -126,14 +126,9 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      * Method that allows to create a new RmiServerGame, used when the player joins a new game.
      * @param gameId game id
      */
-    public void createServerGame(int gameId) {
+    public void createServerGame(int gameId) throws RemoteException {
         assert(!rmiServerGames.containsKey(gameId));
-        try {
-            rmiServerGames.put(gameId, new RmiServerGame(GamesManager.getGamesManager().getGameById(gameId)));
-        }catch(RemoteException e) {
-            // can't create rmi server
-            System.exit(-1);
-        }
+        rmiServerGames.put(gameId, new RmiServerGame(GamesManager.getGamesManager().getGameById(gameId)));
     }
 
     /**
