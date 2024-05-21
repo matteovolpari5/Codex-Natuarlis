@@ -39,6 +39,12 @@ public class SocketClientHandler implements VirtualView {
 
         temp_input = this.mySocket.getInputStream();
         this.input = new ObjectInputStream(temp_input);
+        System.out.println("Input");
+        System.out.println(input);
+        System.out.println("Output");
+        System.out.println(output);
+        System.out.println("Socket");
+        System.out.println(mySocket);
 
         new Thread(this::manageSetUp).start();
     }
@@ -95,19 +101,26 @@ public class SocketClientHandler implements VirtualView {
         while(true){
             try{
                 command = (GameControllerCommand) input.readObject();
+                System.out.println("Command");
+                System.out.println(command);
                 synchronized (gameController) {
                     gameController.setAndExecuteCommand(command);
                     CommandResult result = gameController.getCommandResult();
                     if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
+                        gameController.setCommandResult(myClientNickname, CommandResult.SUCCESS);
+                        System.out.println(result);
                         closeConnection();
+                        System.out.println("CHIUSURA1");
                         break;
                     }
                 }
             } catch (Exception e){
+                System.out.println("CHIUSURA2");
                 closeConnection();
                 break;
             }
         }
+        System.out.println("ESCO DA WHILE DI manageGameCommand");
     }
 
     private synchronized void closeConnection(){

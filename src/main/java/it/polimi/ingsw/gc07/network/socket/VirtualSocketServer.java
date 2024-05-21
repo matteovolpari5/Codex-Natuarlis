@@ -21,7 +21,7 @@ public class VirtualSocketServer {
             output.writeObject(gameCommand);
             output.reset();
             output.flush();
-        } catch (IOException e){ //TODO forse cogola intede che il metodo nella signature ha throws NetworkException e a questo punto fa catch e solleva IO oppure Remote ?
+        } catch (IOException e){ //TODO forse cugola intede che il metodo nella signature ha throws NetworkException e a questo punto fa catch e solleva IO oppure Remote ?
             throw new RuntimeException();
         }
     }

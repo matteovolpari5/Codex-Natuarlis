@@ -702,4 +702,8 @@ public class GameController {
 
         gameModel.addPoints(player, x, y);
     }
+
+    public void setCommandResult(String nickname, CommandResult commandResult){
+        gameModel.setCommandResult(nickname, commandResult);
+    }
 }
