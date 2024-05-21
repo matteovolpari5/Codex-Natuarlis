@@ -96,10 +96,8 @@ public class PingPongManager {
                 playersPing.put(nickname, false);
             }
             try {
-                Thread.sleep(1000); // wait one second between two ping
+                Thread.sleep(1000); // wait one second between two pings
             } catch (InterruptedException e) {
-                // TODO
-                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         }
@@ -114,7 +112,6 @@ public class PingPongManager {
             try {
                 virtualView.sendPong();
             } catch (RemoteException e) {
-                //TODO rivedere
                 System.out.println("PRG> Disconnection detected " + nickname);
                 gameController.disconnectPlayer(nickname);
                 break;
@@ -122,8 +119,6 @@ public class PingPongManager {
             try {
                 Thread.sleep(1000); // wait one second between two pong
             } catch (InterruptedException e) {
-                // TODO
-                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         }

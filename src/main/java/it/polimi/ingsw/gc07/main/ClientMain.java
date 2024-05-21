@@ -84,12 +84,12 @@ public class ClientMain {
 
             if(connectionType) {
                 // RMI connection
-                Registry registry;
+                Registry registry = null;
                 try {
-                    registry = LocateRegistry.getRegistry(ip, 1234);
+                    registry = LocateRegistry.getRegistry(ip, Integer.parseInt(args[0]));
                 } catch (RemoteException ex) {
-                    // TODO
-                    throw new RuntimeException(ex);
+                    System.err.println("Could not locate registry.");
+                    System.exit(-1);
                 }
                 VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
 
@@ -113,7 +113,7 @@ public class ClientMain {
                 }
             }else {
                 // Socket connection
-                int port = 65000;   // TODO linea di comando o input, non così
+                int port = Integer.parseInt(args[1]);
                 Socket sc = new Socket(ip, port);
                 new SocketClient(sc, interfaceType);
             }
