@@ -12,7 +12,6 @@ import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
 import it.polimi.ingsw.gc07.view.gui.gui_controllers.StageController;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -34,8 +33,6 @@ public  class Gui extends Application implements Ui {
     @Override
     public void start(Stage stage) {
         StageController.setup(stage);
-        StageController.setNickname(nickname);
-        StageController.setGameView(client.getGameView());  // TODO platform.runlater
     }
 
     public synchronized static Gui getGuiInstance() {
@@ -51,10 +48,12 @@ public  class Gui extends Application implements Ui {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+        StageController.setNickname(nickname);
     }
 
     public void setClient(Client client) {
         this.client = client;
+        StageController.setGameView(client.getGameView());  // TODO platform.runlater
     }
 
     @Override
@@ -100,17 +99,23 @@ public  class Gui extends Application implements Ui {
 
     @Override
     public void receiveStarterCardUpdate(PlaceableCard starterCard) {
-        // TODO
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
+            StageController.getController().updateStarterCard(starterCard);
+        }
     }
 
     @Override
     public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
-        // TODO
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
+            StageController.getController().updateCardHand(hand, personalObjective);
+        }
     }
 
     @Override
     public void receiveGeneralModelUpdate(GameState gameState, String currPlayer) {
         // TODO
+        // dove mostriamo queste informazioni?
+        // in alto a tutte le schermate, o solo PLAYER_SCENE?
     }
 
     @Override
