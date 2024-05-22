@@ -25,7 +25,6 @@ public enum CommandResult {
     WRONG_PLAYERS_NUMBER("The provided number of players is not correct"),
     NOT_PLACED_YET("You have not placed a card yet"),
     CARD_ALREADY_PLACED("You have already placed a card in this turn"),
-    SERVER_NOT_CREATED("Could not create the Rmi server")
     ;
 
     private final String resultMessage;

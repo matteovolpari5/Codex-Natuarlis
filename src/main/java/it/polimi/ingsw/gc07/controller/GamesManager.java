@@ -170,7 +170,7 @@ public class GamesManager {
                         removePlayer(nickname);
                     }
                 }
-            }, 60 * 1000); //timer of 1 minute
+            }, 5 * 60 * 1000); //timer of 5 minute
         }).start();
         commandResult = CommandResult.SUCCESS;
     }
@@ -300,6 +300,9 @@ public class GamesManager {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         assert(player != null);
+        VirtualView playerVirtualView = getVirtualView(nickname);
+        assert(playerVirtualView != null);
+        // create game controller
         int gameId;
         try {
             gameId = createGame(playersNumber);
@@ -316,14 +319,13 @@ public class GamesManager {
             // don't remove player from pending
             return;
         }
+        // create game server
         for(GameController gameController : gameControllers) {
             if(gameController.getId() == gameId) {
                 try {
                     RmiServerGamesManager.getRmiServerGamesManager().createServerGame(gameId);
-                    VirtualView virtualView = getVirtualView(nickname);
-                    assert (virtualView != null);
                     try {
-                        virtualView.setServerGame(gameId);
+                        playerVirtualView.setServerGame(gameId);
                     } catch (RemoteException ex) {
                         // player disconnected, remove player from pending
                         removePlayer(nickname);
@@ -333,12 +335,9 @@ public class GamesManager {
                     gameController.addPlayer(player, playerVirtualViews.get(nickname));
                 }catch(RemoteException e) {
                     // couldn't create game server
-
                     // notify client
-                    VirtualView virtualView = getVirtualView(nickname);
-                    assert(virtualView != null);
                     try {
-                        virtualView.notifyJoinNotSuccessful();
+                        playerVirtualView.notifyJoinNotSuccessful();
                     }catch(RemoteException ex) {
                         // player disconnected, remove player from pending
                         removePlayer(nickname);
@@ -346,7 +345,6 @@ public class GamesManager {
 
                     // delete game controller
                     gameControllers.remove(gameController);
-                    commandResult = CommandResult.SERVER_NOT_CREATED;
                     // don't remove player from pending
                     return;
                 }
