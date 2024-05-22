@@ -30,18 +30,29 @@ class GamesManagerTest {
     }
 
     @Test
-    void testJoinNewGameAndDisconnectionAndReconnection() throws RemoteException, InterruptedException {
+    void testFullGameFlow() throws RemoteException, InterruptedException {
+        // create server game
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
+
+        // add player 1
         assertEquals(gm.checkNickname("player1"), NicknameCheck.NEW_NICKNAME);
         RmiClient newRmiClient = new RmiClient("player1", false, serverGamesManager);
         newRmiClient.connectToGamesManagerServer(false);
+
+        // add player 2
+        assertEquals(gm.checkNickname("player1"), NicknameCheck.EXISTING_NICKNAME);
         RmiClient newRmiClient2 = new RmiClient("player2", false, serverGamesManager);
         newRmiClient2.connectToGamesManagerServer(false);
         assertNull(gm.getGameById(0));
+
         gm.joinNewGame("player1", TokenColor.GREEN, 2);
         assertEquals(CommandResult.SUCCESS, gm.getCommandResult());
 
         assertEquals(gm.checkNickname("player1"), NicknameCheck.EXISTING_NICKNAME);
+
+        assertTrue(gm.getFreeGamesDetails().containsKey(0));
+        assertEquals(2, gm.getFreeGamesDetails().get(0));
+
         gm.joinExistingGame("player2", TokenColor.GREEN, 0);
         assertEquals(CommandResult.TOKEN_COLOR_ALREADY_TAKEN, gm.getCommandResult());
 
@@ -62,7 +73,7 @@ class GamesManagerTest {
         gm.addPlayerToPending("player4",true,false);
         gm.addVirtualView("player4",newRmiClient4);
         gm.displayExistingGames("player4");
-        assertNotNull(gm.getFreeGamesDetails());
+
         gm.joinExistingGame("player4", TokenColor.RED, 0);
         assertEquals(CommandResult.GAME_FULL, gm.getCommandResult());
         gm.joinNewGame("player4", TokenColor.RED,3);
@@ -131,8 +142,6 @@ class GamesManagerTest {
 
         gc.reconnectPlayer(newRmiClient,"player1",true,false);
         Thread.sleep(30000);
-        /*gm.getGameById(0).setState(GameState.GAME_ENDED);
-        gm.deleteGame(0);*/
 
         assertNull(gm.getGameById(0));
 

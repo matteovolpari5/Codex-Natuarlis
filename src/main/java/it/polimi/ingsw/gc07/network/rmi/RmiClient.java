@@ -132,7 +132,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     public void notifyJoinNotSuccessful() throws RemoteException {
         System.out.println("\nCould not add you to the game, retry.\n");
-        new Thread(this::runCliJoinGame).start();
+        new Thread(this::runJoinGameInterface).start();
     }
 
     /**
@@ -166,23 +166,23 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         // game joined
         new Thread(this::startGamePing).start();
         new Thread(this::checkPong).start();
-        new Thread(this::runCliGame).start();
+        new Thread(this::runGameInterface).start();
     }
 
     /**
      * Method used to run the lobby cli.
      */
-    public void runCliJoinGame() {
+    public void runJoinGameInterface() {
         assert(ui != null);
-        ui.runCliJoinGame();
+        ui.runJoinGameInterface();
     }
 
     /**
      * Method used to run the game cli.
      */
-    public void runCliGame() {
+    public void runGameInterface() {
         assert(ui != null);
-        ui.runCliGame();
+        ui.runGameInterface();
     }
 
     /**

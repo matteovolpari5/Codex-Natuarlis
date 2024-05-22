@@ -123,7 +123,7 @@ public class SocketClient implements Client, PingSender {
 
     public void runCliJoinGame() {
         assert(ui != null);
-        ui.runCliJoinGame();
+        ui.runJoinGameInterface();
         String result = null;
         try {
             result = (String) input.readObject();
@@ -184,7 +184,7 @@ public class SocketClient implements Client, PingSender {
 
     public void runCliGame() {
         assert(ui != null);
-        ui.runCliGame();
+        ui.runGameInterface();
     }
 
     @Override

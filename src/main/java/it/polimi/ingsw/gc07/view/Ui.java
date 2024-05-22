@@ -6,6 +6,6 @@ import it.polimi.ingsw.gc07.network.Client;
 public interface Ui extends GameViewListener, ChatViewListener, DeckViewListener, GameFieldViewListener, PlayerViewListener, BoardViewListener {
     void setNickname(String nickname);
     void setClient(Client client);
-    void runCliJoinGame();
-    void runCliGame();
+    void runJoinGameInterface();
+    void runGameInterface();
 }

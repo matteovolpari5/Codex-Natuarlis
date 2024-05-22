@@ -31,10 +31,10 @@ public  class Gui extends Application implements Ui {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        String lobbyScene = "/it/polimi/ingsw/gc07/fxml/lobby.fxml";
-        String sceneTitle = "Lobby";
-        StageController.setup(stage, lobbyScene, sceneTitle);
+    public void start(Stage stage) {
+        StageController.setup(stage);
+        StageController.setNickname(nickname);
+        StageController.setGameView(client.getGameView());  // TODO platform.runlater
     }
 
     public synchronized static Gui getGuiInstance() {
@@ -57,23 +57,26 @@ public  class Gui extends Application implements Ui {
     }
 
     @Override
-    public void runCliJoinGame() {  // TODO cambia nome
+    public void runJoinGameInterface() {
         // scene already present
-        // TODO ok ??
+
+        // TODO
         // cugola ha detto che al massimo possiamo fare che start crea senza mostrare,
         // mentre qua lo mostro
         // ma anche così non è terribile
     }
 
     @Override
-    public void runCliGame() {  // TODO cambia nome
-        // TODO
-        // change scene to Game
+    public void runGameInterface() {
+        // change scene to PlayerScene
+        StageController.setScene(SceneType.PLAYER_SCENE);
     }
 
     @Override
     public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
-        // TODO
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
+            StageController.getController().updateScore(playerScores, playerTokenColors);
+        }
     }
 
     @Override

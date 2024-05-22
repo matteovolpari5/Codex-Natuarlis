@@ -39,7 +39,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     }
 
     @Override
-    public void runCliJoinGame() {
+    public void runJoinGameInterface() {
         if(!client.isClientAlive()) {
             askForReconnection();
         }
@@ -155,12 +155,12 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
             default:
                 System.out.println("The provided character doesn't refer to any action");
-                runCliJoinGame();
+                runJoinGameInterface();
         }
     }
 
     @Override
-    public void runCliGame() {
+    public void runGameInterface() {
         Scanner scan = new Scanner(System.in);
         while(client.isClientAlive()) {
             System.out.println("Insert a character to perform an action:");
@@ -595,7 +595,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         for(Integer id: existingGames.keySet()) {
             System.out.println("Id: " + id + " - " + "Number of players: " + existingGames.get(id));
         }
-        runCliJoinGame();
+        runJoinGameInterface();
     }
 
     @Override
