@@ -25,4 +25,5 @@ public interface GuiController {
     void updateCommandResult(CommandResult commandResult);
     void displayExistingGames(Map<Integer, Integer> existingGames);
     void displayWinners(List<String> winners);
+    void displayFullChat(List<ChatMessage> messages);
 }

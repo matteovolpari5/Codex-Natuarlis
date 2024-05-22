@@ -83,6 +83,7 @@ public abstract class StageController {
         // TODO Platform.runLater ???
         switch(currentSceneType) {
             case SceneType.LOBBY_SCENE:
+                // don't display anything
                 break;
             case SceneType.PLAYER_SCENE:
                 // set game field data
@@ -109,8 +110,16 @@ public abstract class StageController {
 
                 break;
             case SceneType.CHAT_SCENE:
+                // send full chat
+                currentGuiController.displayFullChat(gameView.getOwnerMessages());
                 break;
             case SceneType.OTHER_PLAYER_SCENE:
+
+                // TODO devo sapere il player di cui voglio mostrare il campo
+                // serve un metodo setScene diverso, che prende come parametro
+                // il nome del player di cui voglio mostrare il gioco
+                // a quel punto lo avrei
+
                 break;
         }
     }
