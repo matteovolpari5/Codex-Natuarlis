@@ -38,6 +38,9 @@ public class LobbySceneController implements Initializable, GuiController {
     protected RadioButton joinGame;
     @FXML
     protected AnchorPane joinPane;
+
+    @FXML
+    protected AnchorPane screenPane;
     @FXML
     protected Button next;
     @FXML
@@ -74,11 +77,11 @@ public class LobbySceneController implements Initializable, GuiController {
             try {
                 if(parseInt(numPlayers.getText())>0&&parseInt(numPlayers.getText())<5)
                 {
+                    // TODO: check unique token color
                     if(tokenColor.getText().equalsIgnoreCase("RED")||tokenColor.getText().equalsIgnoreCase("BLUE")||tokenColor.getText().equalsIgnoreCase("GREEN")||tokenColor.getText().equalsIgnoreCase("YELLOW"))
                     {
-                        Platform.runLater(() -> {
-                            StageController.setScene(SceneType.PLAYER_SCENE);
-                        });
+                        //TODO: creazione del gioco
+                        screenPane.setVisible(false);
                     }
                     else {
                         numPlayers.clear();
@@ -105,9 +108,7 @@ public class LobbySceneController implements Initializable, GuiController {
                     if(tokenColor.getText().equalsIgnoreCase("RED")||tokenColor.getText().equalsIgnoreCase("BLUE")||tokenColor.getText().equalsIgnoreCase("GREEN")||tokenColor.getText().equalsIgnoreCase("YELLOW"))
                     {
                         //TODO: join del player al game
-                        Platform.runLater(() -> {
-                            StageController.setScene(SceneType.PLAYER_SCENE);
-                        });
+                        screenPane.setVisible(false);
                     }
                     else{
                         gameId.clear();
