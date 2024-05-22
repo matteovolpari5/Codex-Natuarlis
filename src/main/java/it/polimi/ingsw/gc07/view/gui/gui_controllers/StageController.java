@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StageController {
+public abstract class StageController {
     private static Stage currentStage;
     private static Scene currentScene;
     private static GuiController guiController;

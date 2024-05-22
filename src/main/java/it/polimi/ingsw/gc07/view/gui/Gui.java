@@ -14,6 +14,7 @@ import it.polimi.ingsw.gc07.view.gui.gui_controllers.StageController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public  class Gui extends Application implements Ui {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws IOException {
         String lobbyScene = "/it/polimi/ingsw/gc07/fxml/lobby.fxml";
         String sceneTitle = "Lobby";
         StageController.setup(stage, lobbyScene, sceneTitle);
@@ -57,18 +58,26 @@ public  class Gui extends Application implements Ui {
     }
 
     @Override
-    public void runCliJoinGame() {  // TODO cambia nome
+    public void runJoinGameInterface() {
         // scene already present
-        // TODO ok ??
+
+        // TODO
         // cugola ha detto che al massimo possiamo fare che start crea senza mostrare,
         // mentre qua lo mostro
         // ma anche così non è terribile
     }
 
     @Override
-    public void runCliGame() {  // TODO cambia nome
-        // TODO
-        // change scene to Game
+    public void runGameInterface() {
+        // change scene to PlayerScene
+        String playerScene = "/it/polimi/ingsw/gc07/fxml/lobby.fxml";
+        String title = "Codex Naturalis - Board";
+        try {
+            StageController.setScene(playerScene, title);
+        } catch (IOException e) {
+            // TODO
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
