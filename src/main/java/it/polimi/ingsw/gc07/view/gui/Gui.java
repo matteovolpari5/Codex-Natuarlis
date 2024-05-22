@@ -12,6 +12,7 @@ import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
 import it.polimi.ingsw.gc07.view.gui.gui_controllers.StageController;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -58,12 +59,7 @@ public  class Gui extends Application implements Ui {
 
     @Override
     public void runJoinGameInterface() {
-        // scene already present
-
-        // TODO
-        // cugola ha detto che al massimo possiamo fare che start crea senza mostrare,
-        // mentre qua lo mostro
-        // ma anche così non è terribile
+        // scene already present, loaded at launch
     }
 
     @Override
@@ -81,17 +77,25 @@ public  class Gui extends Application implements Ui {
 
     @Override
     public void receiveMessageUpdate(ChatMessage chatMessage) {
-        // TODO
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
+                StageController.getCurrentSceneType().equals(SceneType.CHAT_SCENE)) {
+            StageController.getController().addMessage(chatMessage);
+        }
     }
 
     @Override
     public void receiveDecksUpdate(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
-        // TODO
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
+            StageController.getController().updateDecks(topResourceDeck, topGoldDeck, faceUpResourceCard, faceUpGoldCard, commonObjective);
+        }
     }
 
     @Override
     public void receiveGameFieldUpdate(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
-        // TODO
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
+            StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
+        }
+        // TODO nota su documento riguardo al game field degli altri giocatori
     }
 
     @Override

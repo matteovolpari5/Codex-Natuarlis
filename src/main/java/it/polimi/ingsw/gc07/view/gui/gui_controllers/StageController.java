@@ -92,6 +92,8 @@ public abstract class StageController {
                 int[][] cardsOrder = gameView.getGameField(nickname).getCardsOrder();
                 currentGuiController.updateGameField(cardsContent, cardsFace, cardsOrder);
 
+                // TODO continua
+
                 break;
         }
     }
