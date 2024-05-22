@@ -211,15 +211,6 @@ public class LobbyController implements Initializable, GuiController {
         games.put(0,3);
     }
 
-    @Override
-    public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
-
-    }
-
-    @Override
-    public void updateGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
-
-    }
 
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
