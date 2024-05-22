@@ -41,7 +41,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     @Override
     public void runJoinGameInterface() {
         if(!client.isClientAlive()) {
-            askForReconnection();
+            askForReconnection(); //TODO se inserisce 1 esegue il client main e crea un nuovo client. Questo che fine fa?
         }
 
         Timer timeout = new Timer();
@@ -442,7 +442,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         askForReconnection();
     }
 
-    private void askForReconnection() {
+    public void askForReconnection() {
         Scanner scan = new Scanner(System.in);
         System.out.println("\n\nDo you want to reconnect (1 = yes, other = no)?");
         System.out.print("> ");

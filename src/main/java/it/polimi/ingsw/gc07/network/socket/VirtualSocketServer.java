@@ -16,14 +16,10 @@ public class VirtualSocketServer {
         this.output = output;
     }
 
-    public synchronized void setAndExecuteCommand(GameCommand gameCommand) throws RemoteException {
-        try{
-            output.writeObject(gameCommand);
-            output.reset();
-            output.flush();
-        } catch (IOException e){ //TODO forse cugola intede che il metodo nella signature ha throws NetworkException e a questo punto fa catch e solleva IO oppure Remote ?
-            throw new RuntimeException();
-        }
+    public synchronized void setAndExecuteCommand(GameCommand gameCommand) throws IOException {
+        output.writeObject(gameCommand);
+        output.reset();
+        output.flush();
     }
 
     public void closeConnection() throws IOException {
