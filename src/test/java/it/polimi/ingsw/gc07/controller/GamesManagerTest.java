@@ -35,6 +35,7 @@ class GamesManagerTest {
         assertEquals(gm.checkNickname("player1"), NicknameCheck.NEW_NICKNAME);
         RmiClient newRmiClient = new RmiClient("player1", false, serverGamesManager);
         newRmiClient.connectToGamesManagerServer(false);
+        assertEquals(gm.checkNickname("player1"), NicknameCheck.EXISTING_NICKNAME);
         RmiClient newRmiClient2 = new RmiClient("player2", false, serverGamesManager);
         newRmiClient2.connectToGamesManagerServer(false);
         assertNull(gm.getGameById(0));
