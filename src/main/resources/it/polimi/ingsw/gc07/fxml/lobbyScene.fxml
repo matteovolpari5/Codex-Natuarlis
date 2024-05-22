@@ -15,27 +15,109 @@
         <Image url="@../graphic_resources/legnobg.jpeg"/>
     </ImageView>
     <AnchorPane AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" prefHeight="700.0" prefWidth="1200.0">
-        <RadioButton fx:id="newGame" onAction="#clickedNew" AnchorPane.topAnchor="200" AnchorPane.leftAnchor="100" mnemonicParsing="false" text="NEW GAME">
+
+        <RadioButton fx:id="newGame" onAction="#clickedNew" AnchorPane.topAnchor="30" AnchorPane.leftAnchor="100" mnemonicParsing="false" text="NEW GAME">
            <font>
                <Font name="System Bold" size="33.0" />
            </font>
         </RadioButton>
-        <RadioButton fx:id="joinGame" onAction="#clickedJoin" AnchorPane.topAnchor="200" AnchorPane.rightAnchor="100" mnemonicParsing="false" text="JOIN EXISTING GAME">
+
+        <RadioButton fx:id="joinGame" onAction="#clickedJoin" AnchorPane.topAnchor="30" AnchorPane.rightAnchor="100" mnemonicParsing="false" text="JOIN EXISTING GAME">
             <font>
                 <Font name="System Bold" size="33.0" />
             </font>
         </RadioButton>
-        <Button AnchorPane.bottomAnchor="80" AnchorPane.leftAnchor="80" mnemonicParsing="false" prefHeight="88.0"
-            prefWidth="267.0" onAction="#onExitButtonClick" text="EXIT" textFill="red">
+
+
+        <AnchorPane fx:id="joinPane" visible="false" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+        <Text text="LIST OF EXISTING GAMES:" AnchorPane.leftAnchor="50" AnchorPane.topAnchor="50" fill="black">
             <font>
                 <Font name="System Bold" size="33.0" />
             </font>
-        </Button>
-        <Button fx:id="next" visible="false" AnchorPane.bottomAnchor="80" AnchorPane.rightAnchor="80" mnemonicParsing="false" prefHeight="88.0"
+        </Text>
+
+        <ListView fx:id="gameList" AnchorPane.topAnchor="100" AnchorPane.leftAnchor="50" prefHeight="440.0" prefWidth="400.0"/>
+
+        <Text text="INSERT THE GAME ID:" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="200" fill="black">
+            <font>
+                <Font name="System Bold" size="33.0" />
+            </font>
+        </Text>
+
+        <TextField fx:id="gameId" onKeyPressed="#cleanErrGameId" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="260" prefHeight="35" prefWidth="300" nodeOrientation="RIGHT_TO_LEFT">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </TextField>
+        </AnchorPane>
+
+        <AnchorPane fx:id="newPane" visible="false" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+            <Text text="INSERT THE NUMBER OF PLAYERS:" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="200" fill="black">
+                <font>
+                    <Font name="System Bold" size="33.0" />
+                </font>
+            </Text>
+
+            <TextField fx:id="numPlayers" onKeyPressed="#cleanErrNumPlayer" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="260" prefHeight="35" prefWidth="300" nodeOrientation="RIGHT_TO_LEFT">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+            </TextField>
+
+        </AnchorPane>
+
+        <Text fx:id="errGameId" visible="false" text="WRONG GAME ID" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="235" fill="red">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Text>
+
+
+
+        <Text fx:id="textTokenColor" visible="false" text="INSERT THE TOKEN COLOR:" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="330" fill="black">
+            <font>
+                <Font name="System Bold" size="33.0" />
+            </font>
+        </Text>
+
+        <Text fx:id="errTokenColor" visible="false" text="WRONG COLOR" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="365" fill="red">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Text>
+
+        <Text fx:id="errNumPlayer" visible="false" text="WRONG NUMBER OF PLAYERS" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="235" fill="red">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Text>
+
+        <TextField fx:id="tokenColor" visible="false" onKeyPressed="#cleanErrTokenColor" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="390" prefHeight="35" prefWidth="300" nodeOrientation="RIGHT_TO_LEFT">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </TextField>
+
+
+
+
+
+        <Button fx:id="next" visible="false" AnchorPane.bottomAnchor="30" AnchorPane.rightAnchor="50" mnemonicParsing="false" prefHeight="68.0"
                 prefWidth="267.0" onAction="#onContinueButtonClick" text="CONTINUE">
             <font>
                 <Font name="System Bold" size="30.0" />
             </font>
         </Button>
+
+        <Button fx:id="back" visible="false" AnchorPane.bottomAnchor="30" AnchorPane.leftAnchor="50" mnemonicParsing="false" prefHeight="68.0"
+                prefWidth="267.0" onAction="#onBackButtonClick" text="BACK">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Button>
+
+
+
+
     </AnchorPane>
 </AnchorPane>
