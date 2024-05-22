@@ -28,7 +28,6 @@
             </font>
         </RadioButton>
 
-
         <AnchorPane fx:id="joinPane" visible="false" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
         <Text text="LIST OF EXISTING GAMES:" AnchorPane.leftAnchor="50" AnchorPane.topAnchor="50" fill="black">
             <font>
@@ -72,8 +71,6 @@
             </font>
         </Text>
 
-
-
         <Text fx:id="textTokenColor" visible="false" text="INSERT THE TOKEN COLOR:" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="330" fill="black">
             <font>
                 <Font name="System Bold" size="33.0" />
@@ -98,10 +95,6 @@
             </font>
         </TextField>
 
-
-
-
-
         <Button fx:id="next" visible="false" AnchorPane.bottomAnchor="30" AnchorPane.rightAnchor="50" mnemonicParsing="false" prefHeight="68.0"
                 prefWidth="267.0" onAction="#onContinueButtonClick" text="CONTINUE">
             <font>
@@ -115,9 +108,6 @@
                 <Font name="System Bold" size="30.0" />
             </font>
         </Button>
-
-
-
 
     </AnchorPane>
 </AnchorPane>

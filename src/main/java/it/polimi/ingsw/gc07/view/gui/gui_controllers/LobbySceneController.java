@@ -7,6 +7,7 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.view.gui.SceneType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,7 +28,7 @@ import java.util.ResourceBundle;
 
 import static java.lang.Integer.parseInt;
 
-public class LobbyController implements Initializable, GuiController {
+public class LobbySceneController implements Initializable, GuiController {
     @FXML
     protected TextField numPlayers;
     @FXML
@@ -75,7 +76,7 @@ public class LobbyController implements Initializable, GuiController {
                     if(tokenColor.getText().equalsIgnoreCase("RED")||tokenColor.getText().equalsIgnoreCase("BLUE")||tokenColor.getText().equalsIgnoreCase("GREEN")||tokenColor.getText().equalsIgnoreCase("YELLOW"))
                     {
                         Platform.runLater(() -> {
-                            StageController.setScene(SceneType.WAITING_ROOM_SCENE);
+                            StageController.setScene(SceneType.PLAYER_SCENE);
                         });
                     }
                     else {
@@ -104,7 +105,7 @@ public class LobbyController implements Initializable, GuiController {
                     {
                         //TODO: join del player al game
                         Platform.runLater(() -> {
-                            StageController.setScene(SceneType.WAITING_ROOM_SCENE);
+                            StageController.setScene(SceneType.PLAYER_SCENE);
                         });
                     }
                     else{
