@@ -1,27 +1,32 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
+import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
-
-import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static java.lang.Integer.parseInt;
+public class ChooseGameController implements GuiController, Initializable {
+    // TODO da eliminare
 
-public class ChooseGameController extends GuiController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-    /**
-     * list of string composed with: gameId +++ numOfPlayers
-     */
+    }
+
+    @Override
+    public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
+
+    }
+
+    @Override
+    public void updateGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+
+    }
+
+    /*
+
     @FXML
     ListView<String> gameList;
 
@@ -76,4 +81,5 @@ public class ChooseGameController extends GuiController implements Initializable
         games = new HashMap<>();
         games.put(0,3);
     }
+    */
 }

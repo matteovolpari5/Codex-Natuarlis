@@ -132,7 +132,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     public void notifyJoinNotSuccessful() throws RemoteException {
         System.out.println("\nCould not add you to the game, retry.\n");
-        new Thread(this::runCliJoinGame).start();
+        new Thread(this::runJoinGameInterface).start();
     }
 
     /**

@@ -1,16 +1,19 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
+import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
+import it.polimi.ingsw.gc07.view.gui.SceneType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-public class LobbyController extends GuiController implements Initializable {
+public class LobbyController implements GuiController, Initializable {
     @FXML
     protected RadioButton newGame;
     @FXML
@@ -18,26 +21,22 @@ public class LobbyController extends GuiController implements Initializable {
     @FXML
     protected Button next;
 
+    @Override
+    public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
+
+    }
+
+    @Override
+    public void updateGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+
+    }
+
     @FXML
     protected void onContinueButtonClick() {
-        if(newGame.isSelected())
-            Platform.runLater(() -> {
-                try {
-                    StageController.setScene("/it/polimi/ingsw/gc07/fxml/waitingRoom.fxml", "Waiting room");
-                } catch (IOException e) {
-                    // TODO
-                    throw new RuntimeException(e);
-                }
-            });
-        else if(joinGame.isSelected()) {
-            Platform.runLater(() -> {
-                try {
-                    StageController.setScene("/it/polimi/ingsw/gc07/fxml/chooseGame.fxml", "Choose game scene");
-                } catch (IOException e) {
-                    // TODO
-                    throw new RuntimeException(e);
-                }
-            });
+        if(newGame.isSelected()) {
+            //StageController.setScene("/it/polimi/ingsw/gc07/fxml/waitingRoom.fxml", "Waiting room");
+        }else if(joinGame.isSelected()) {
+            //StageController.setScene(SceneType.CHOOSE_);
         }
     }
 
