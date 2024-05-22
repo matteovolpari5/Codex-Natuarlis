@@ -131,8 +131,16 @@ public class PlayerView implements Serializable {
         gameField.addCard(card, x, y, way, orderPosition);
     }
 
+    public List<DrawableCard> getCurrentHand() {
+        return new ArrayList<>(currentHand);
+    }
+
     public int getCurrHandSize() {
         return currentHand.size();
+    }
+
+    public ObjectiveCard getSecretObjective() {
+        return secretObjective;
     }
 
     public GameFieldView getGameField() {

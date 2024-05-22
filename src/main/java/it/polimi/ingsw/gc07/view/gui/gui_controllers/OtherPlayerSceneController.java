@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
 import it.polimi.ingsw.gc07.controller.GameState;
+import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
@@ -58,7 +59,7 @@ public class OtherPlayerSceneController implements GuiController {
     }
 
     @Override
-    public void updateCommandResult() {
+    public void updateCommandResult(CommandResult commandResult) {
 
     }
 

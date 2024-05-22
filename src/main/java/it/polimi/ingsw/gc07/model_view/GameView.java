@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.model_view;
 
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CardType;
+import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -392,6 +393,25 @@ public class GameView {
         return deckView.getNumFaceUpCards(cardType);
     }
 
+    public List<DrawableCard> getCurrentHand() {
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(ownerNickname)) {
+                // already returns a copy
+                return p.getCurrentHand();
+            }
+        }
+        return null;
+    }
+
+    public ObjectiveCard getSecretObjective() {
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(ownerNickname)) {
+                return p.getSecretObjective();
+            }
+        }
+        return null;
+    }
+
     public int getCurrHardHandSize() {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(ownerNickname)) {
@@ -420,4 +440,17 @@ public class GameView {
         assert(player != null);
         return player.getGameField();
     }
+
+    public DeckView getDeckView() {
+        return new DeckView(deckView);
+    }
+
+    public Map<String, Integer> getPlayersScores() {
+        return boardView.getPlayerScores();
+    }
+
+    public Map<String, TokenColor> getPlayersTokenColors() {
+        return boardView.getPlayerTokenColors();
+    }
+
 }

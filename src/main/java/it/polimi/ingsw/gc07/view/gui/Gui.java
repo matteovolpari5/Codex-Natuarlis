@@ -121,25 +121,35 @@ public  class Gui extends Application implements Ui {
     @Override
     public void receivePenultimateRoundUpdate() {
         // TODO
+        // dove mostriamo queste informazioni?
+        // in alto a tutte le schermate, o solo PLAYER_SCENE?
     }
 
     @Override
     public void receiveAdditionalRoundUpdate() {
         // TODO
+        // dove mostriamo queste informazioni?
+        // in alto a tutte le schermate, o solo PLAYER_SCENE?
     }
 
     @Override
     public void receiveCommandResultUpdate(CommandResult commandResult) {
-        // TODO
+        // TODO se non è nella schermata giusta se lo perde, ok?
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
+            StageController.getController().updateCommandResult(commandResult);
+        }
     }
 
     @Override
     public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGames) {
-        // TODO
+        if(StageController.getCurrentSceneType().equals(SceneType.LOBBY_SCENE)) {
+            StageController.getController().displayExistingGames(existingGames);
+        }
     }
 
     @Override
     public void receiveWinnersUpdate(List<String> winners) {
-        // TODO
+        // TODO se non è nella schermata giusta, vedrebbe il gioco chiudersi e basta???
+        // non va bene!
     }
 }

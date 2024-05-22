@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
-import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
+import it.polimi.ingsw.gc07.model_view.DeckView;
+import it.polimi.ingsw.gc07.model_view.GameFieldView;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.gui.SceneType;
@@ -84,16 +85,32 @@ public abstract class StageController {
             case SceneType.LOBBY_SCENE:
                 break;
             case SceneType.PLAYER_SCENE:
-                // game field, mazzi, mano, informazioni partita, score
-
                 // set game field data
-                PlaceableCard[][] cardsContent = gameView.getGameField(nickname).getCardsContent();
-                Boolean[][] cardsFace = gameView.getGameField(nickname).getCardsFace();
-                int[][] cardsOrder = gameView.getGameField(nickname).getCardsOrder();
-                currentGuiController.updateGameField(cardsContent, cardsFace, cardsOrder);
+                GameFieldView gameFieldView =  gameView.getGameField(nickname);
+                currentGuiController.updateGameField(
+                        gameFieldView.getCardsContent(),
+                        gameFieldView.getCardsFace(),
+                        gameFieldView.getCardsOrder());
+                // set decks data
+                DeckView deckView = gameView.getDeckView();
+                currentGuiController.updateDecks(
+                        deckView.getTopResourceDeck(),
+                        deckView.getTopGoldDeck(),
+                        deckView.getFaceUpResourceCard(),
+                        deckView.getFaceUpGoldCard(),
+                        deckView.getCommonObjective()
+                );
+                // set current hand data
+                currentGuiController.updateCardHand(gameView.getCurrentHand(), gameView.getSecretObjective());
+                // set scores
+                currentGuiController.updateScore( gameView.getPlayersScores(), gameView.getPlayersTokenColors());
 
-                // TODO continua
+                // TODO informazioni partita, quali mettiamo ???
 
+                break;
+            case SceneType.CHAT_SCENE:
+                break;
+            case SceneType.OTHER_PLAYER_SCENE:
                 break;
         }
     }

@@ -37,12 +37,21 @@ public class DeckView {
      * Constructor method for DeckView.
      */
     public DeckView() {
+        this.topResourceDeck = null;
+        this.topGoldDeck = null;
+        this.faceUpResourceCard = null;
         this.faceUpGoldCard = null;
         this.commonObjective = null;
-        this.faceUpResourceCard = null;
-        this.topGoldDeck = null;
-        this.topResourceDeck = null;
         this.deckViewListeners = new ArrayList<>();
+    }
+
+    public DeckView(DeckView deckView) {
+        this.topResourceDeck = deckView.topResourceDeck;
+        this.topGoldDeck = deckView.topGoldDeck;
+        this.faceUpResourceCard = new ArrayList<>(deckView.faceUpResourceCard);
+        this.faceUpGoldCard = new ArrayList<>(deckView.faceUpGoldCard);
+        this.commonObjective = deckView.commonObjective;
+        this.deckViewListeners = null;
     }
 
     /**

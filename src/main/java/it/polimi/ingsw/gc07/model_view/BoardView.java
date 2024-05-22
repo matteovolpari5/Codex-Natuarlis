@@ -76,4 +76,20 @@ public class BoardView {
             l.receiveScoreUpdate(playerScores, playerTokenColors);
         }
     }
+
+    public Map<String, Integer> getPlayerScores() {
+        Map<String, Integer> playersScoresCopy = new HashMap<>();
+        for(String nickname: playerScores.keySet()) {
+            playersScoresCopy.put(nickname, playerScores.get(nickname));
+        }
+        return playersScoresCopy;
+    }
+
+    public Map<String, TokenColor> getPlayerTokenColors() {
+        Map<String, TokenColor> playersColorsCopy = new HashMap<>();
+        for(String nickname: playerTokenColors.keySet()) {
+            playersColorsCopy.put(nickname, playerTokenColors.get(nickname));
+        }
+        return playersColorsCopy;
+    }
 }
