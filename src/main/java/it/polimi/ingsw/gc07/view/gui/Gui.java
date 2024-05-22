@@ -19,8 +19,6 @@ import java.util.Map;
 
 public  class Gui extends Application implements Ui {
     private static Gui guiInstance = null;
-    private String nickname;
-    private Client client;
 
     @Override
     public void init() {
@@ -47,12 +45,10 @@ public  class Gui extends Application implements Ui {
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
         StageController.setNickname(nickname);
     }
 
     public void setClient(Client client) {
-        this.client = client;
         StageController.setGameView(client.getGameView());  // TODO platform.runlater
     }
 

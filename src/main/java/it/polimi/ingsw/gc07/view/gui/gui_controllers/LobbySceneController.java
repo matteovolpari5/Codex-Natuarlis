@@ -8,8 +8,6 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
-import it.polimi.ingsw.gc07.view.gui.SceneType;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -20,7 +18,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.HashMap;
@@ -38,36 +35,27 @@ public class LobbySceneController implements Initializable, GuiController {
     protected RadioButton joinGame;
     @FXML
     protected AnchorPane joinPane;
-
     @FXML
     protected AnchorPane screenPane;
     @FXML
     protected Button next;
     @FXML
     protected Button back;
-    /**
-     * list of string composed with: gameId +++ numOfPlayers
-     */
     @FXML
     protected ListView<String> gameList;
-
     @FXML
     protected TextField gameId;
     @FXML
     protected Text errGameId;
-
     protected Map<Integer,Integer> games;
-
     @FXML
     protected TextField tokenColor;
     @FXML
     protected Text errTokenColor;
     @FXML
     protected Text errNumPlayer;
-
     @FXML
     protected Text textTokenColor;
-
     @FXML
     protected AnchorPane newPane;
 
@@ -168,7 +156,6 @@ public class LobbySceneController implements Initializable, GuiController {
     @FXML
     protected void cleanErrGameId(KeyEvent actionEvent) {
         errGameId.setVisible(false);
-
     }
 
     @FXML
@@ -180,8 +167,6 @@ public class LobbySceneController implements Initializable, GuiController {
     protected void cleanErrNumPlayer(KeyEvent actionEvent) {
         errNumPlayer.setVisible(false);
     }
-
-
 
     @FXML
     protected void onBackButtonClick() {
@@ -208,9 +193,9 @@ public class LobbySceneController implements Initializable, GuiController {
     }
 
 
-        @Override
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        games = new HashMap<Integer,Integer>();
+        games = new HashMap<>();
         games.put(0,3);
     }
 
