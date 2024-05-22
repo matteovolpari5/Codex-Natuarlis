@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
+import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
+import it.polimi.ingsw.gc07.view.gui.SceneType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,7 +22,7 @@ import java.util.ResourceBundle;
 
 import static java.lang.Integer.parseInt;
 
-public class LobbyController extends GuiController implements Initializable {
+public class LobbyController implements Initializable, GuiController {
     @FXML
     protected TextField numPlayers;
     @FXML
@@ -67,12 +70,7 @@ public class LobbyController extends GuiController implements Initializable {
                     if(tokenColor.getText().equalsIgnoreCase("RED")||tokenColor.getText().equalsIgnoreCase("BLUE")||tokenColor.getText().equalsIgnoreCase("GREEN")||tokenColor.getText().equalsIgnoreCase("YELLOW"))
                     {
                         Platform.runLater(() -> {
-                            try {
-                                StageController.setScene("/it/polimi/ingsw/gc07/fxml/waitingRoom.fxml", "Waiting room");
-                            } catch (IOException e) {
-                                // TODO
-                                throw new RuntimeException(e);
-                            }
+                            StageController.setScene(SceneType.WAITING_ROOM_SCENE);
                         });
                     }
                     else {
@@ -101,12 +99,7 @@ public class LobbyController extends GuiController implements Initializable {
                     {
                         //TODO: join del player al game
                         Platform.runLater(() -> {
-                            try {
-                                StageController.setScene("/it/polimi/ingsw/gc07/fxml/waitingRoom.fxml", "Waiting room");
-                            } catch (IOException e) {
-                                // TODO
-                                throw new RuntimeException(e);
-                            }
+                            StageController.setScene(SceneType.WAITING_ROOM_SCENE);
                         });
                     }
                     else{
@@ -211,5 +204,15 @@ public class LobbyController extends GuiController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         games = new HashMap<Integer,Integer>();
         games.put(0,3);
+    }
+
+    @Override
+    public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
+
+    }
+
+    @Override
+    public void updateGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+
     }
 }

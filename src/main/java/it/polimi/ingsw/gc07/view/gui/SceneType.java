@@ -4,7 +4,8 @@ public enum SceneType {
     LOBBY_SCENE("Codex Naturalis - Lobby", "/it/polimi/ingsw/gc07/fxml/lobby.fxml"),
     PLAYER_SCENE("Codex Naturalis - Board", "/it/polimi/ingsw/gc07/fxml/player.fxml"),
     CHAT_SCENE("Codex Naturalis - Chat", "/it/polimi/ingsw/gc07/fxml/chat.fxml"),
-    OTHER_PLAYER_SCENE("Codex Naturalis - Other board", "/it/polimi/ingsw/gc07/fxml/otherPlayer.fxml");
+    OTHER_PLAYER_SCENE("Codex Naturalis - Other board", "/it/polimi/ingsw/gc07/fxml/otherPlayer.fxml"),
+    WAITING_ROOM_SCENE("Codex Naturalis - Waiting room", "/it/polimi/ingsw/gc07/fxml/waitingRoom.fxml");
 
     private final String title;
     private final String fxmlScene;
