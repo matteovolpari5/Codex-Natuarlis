@@ -9,7 +9,6 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model_view.DeckView;
-import it.polimi.ingsw.gc07.model_view.GameFieldView;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import javafx.fxml.Initializable;
 

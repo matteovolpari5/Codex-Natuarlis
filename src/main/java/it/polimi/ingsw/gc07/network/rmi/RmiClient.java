@@ -174,7 +174,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     public void startInterface() {
         assert(ui != null);
-        ui.startInterface();
+        ui.runJoinGameInterface();
     }
 
     /**

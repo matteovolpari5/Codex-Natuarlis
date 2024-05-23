@@ -81,20 +81,11 @@ public  class Gui extends Application implements Ui {
     }
 
     /**
-     * Method used to start the interface.
-     * It doesn't do anything, because Gui must start at application launch.
-     */
-    @Override
-    public void startInterface() {
-        // launch has already started interface
-    }
-
-    /**
      * Method used to run the join game interface, i.e. the lobby scene.
      */
     @Override
     public void runJoinGameInterface() {
-        StageController.setScene(SceneType.LOBBY_SCENE);
+        // launch has already started interface
     }
 
     /**

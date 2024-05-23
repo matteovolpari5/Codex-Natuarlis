@@ -22,7 +22,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     /**
      * Map containing the RmiServerGame of every game.
      */
-    private final Map<Integer, RmiServerGame> rmiServerGames;
+    private Map<Integer, RmiServerGame> rmiServerGames;
     /**
      * Queue containing commands to execute.
      */
@@ -35,6 +35,10 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         this.rmiServerGames = new HashMap<>();
         this.commandsQueue = new LinkedBlockingDeque<>();
         startCommandExecutor();
+    }
+
+    public void reset() {
+        this.rmiServerGames = new HashMap<>();
     }
 
     /**
