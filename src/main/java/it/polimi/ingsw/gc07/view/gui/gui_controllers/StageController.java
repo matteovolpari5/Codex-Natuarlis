@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc07.view.gui.SceneType;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -76,8 +77,9 @@ public abstract class StageController {
             currentStage.setTitle(currentSceneType.getTitle());
 
             // TODO inutile, già fatto sopra
-            //currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
-            //currentStage.show();  // TODO probabilmente non serve
+            currentStage.setScene(currentScene); // TODO non sempre
+            currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
+            currentStage.show();  // TODO probabilmente non serve
         });
 
         // TODO Platform.runLater ???

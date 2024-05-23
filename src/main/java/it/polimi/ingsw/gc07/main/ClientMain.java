@@ -111,7 +111,7 @@ public class ClientMain {
                 if (check.equals(NicknameCheck.NEW_NICKNAME)) {
                     // add virtual view to rmiServerGamesManager
                     newRmiClient.connectToGamesManagerServer(interfaceType);
-                    newRmiClient.runJoinGameInterface();
+                    newRmiClient.startInterface();
                 } else {
                     // nickname of a reconnected player
                     newRmiClient.reconnectPlayer(nickname, interfaceType);

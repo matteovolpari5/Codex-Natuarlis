@@ -57,6 +57,7 @@ public class LobbySceneController implements Initializable, GuiController {
     protected Button newGame;
     @FXML
     protected void onContinueButtonClick() {
+        /*
         if(newGame.isSelected()){
             try {
                 if(parseInt(numPlayers.getText())>0&&parseInt(numPlayers.getText())<5)
@@ -111,6 +112,7 @@ public class LobbySceneController implements Initializable, GuiController {
                 errGameId.setVisible(true);
             }
         }
+        */
     }
 
     @FXML

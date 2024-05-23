@@ -53,8 +53,13 @@ public  class Gui extends Application implements Ui {
     }
 
     @Override
+    public void startInterface() {
+        // launch has already started interface
+    }
+
+    @Override
     public void runJoinGameInterface() {
-        // scene already present, loaded at launch
+        StageController.setScene(SceneType.LOBBY_SCENE);
     }
 
     @Override

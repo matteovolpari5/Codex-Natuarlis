@@ -39,6 +39,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     }
 
     @Override
+    public void startInterface() {
+        runJoinGameInterface();
+    }
+
+    @Override
     public void runJoinGameInterface() {
         if(!client.isClientAlive()) {
             askForReconnection(); //TODO se inserisce 1 esegue il client main e crea un nuovo client. Questo che fine fa?
