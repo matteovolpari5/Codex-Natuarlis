@@ -20,12 +20,16 @@ import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.GameObject;
 import it.polimi.ingsw.gc07.enumerations.GameResource;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
+
+import org.json.*;
+import org.json.JSONParser;
 
 /**
  * Class used to parse decks' JSON files.
@@ -241,6 +245,8 @@ public abstract class DecksBuilder {
             throw new RuntimeException();
         }
         fileObject = fileElement.getAsJsonObject();
+
+
         // get the JsonArray of all the cards
         JsonArray jsonArrayStarterCards = fileObject.get("cards").getAsJsonArray();
         for(JsonElement c: jsonArrayStarterCards){
