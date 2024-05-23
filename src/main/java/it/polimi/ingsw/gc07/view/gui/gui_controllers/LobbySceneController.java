@@ -19,8 +19,6 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.*;
 
-import static java.lang.Integer.parseInt;
-
 public class LobbySceneController implements Initializable, GuiController {
     /**
      * se select-->join game
