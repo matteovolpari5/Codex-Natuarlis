@@ -12,7 +12,7 @@ import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import java.util.List;
 import java.util.Map;
 
-public class ChatSceneController implements GuiController {
+public class GameEndedSceneController implements GuiController {
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
 

@@ -8,7 +8,6 @@ import it.polimi.ingsw.gc07.view.gui.SceneType;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -110,10 +109,6 @@ public abstract class StageController {
 
                 // TODO informazioni partita, quali mettiamo ???
 
-                break;
-            case SceneType.CHAT_SCENE:
-                // send full chat
-                currentGuiController.displayFullChat(gameView.getOwnerMessages());
                 break;
             case SceneType.OTHER_PLAYER_SCENE:
 

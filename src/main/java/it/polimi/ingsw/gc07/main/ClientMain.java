@@ -34,7 +34,7 @@ public class ClientMain {
         boolean wrongInput = true;
         boolean connectionType = false;
         while(wrongInput) {
-            System.out.println("Insert connection type (1 = RMI, 0 = Socket)");
+            System.out.println("Insert connection type (1 = Rmi, 0 = Socket)");
             System.out.print("> ");
             int connectionTypeInt;
             try {
@@ -59,7 +59,7 @@ public class ClientMain {
         wrongInput = true;
         boolean interfaceType = false;
         while(wrongInput) {
-            System.out.println("Insert interface type(1 = GUI, 0 = Tui)");
+            System.out.println("Insert interface type(1 = Gui, 0 = Tui)");
             System.out.print("> ");
             int interfaceTypeInt;
             try {
