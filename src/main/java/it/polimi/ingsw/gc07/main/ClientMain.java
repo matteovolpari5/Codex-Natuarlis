@@ -18,71 +18,71 @@ import java.util.regex.Pattern;
 
 public class ClientMain {
     public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        String ip;
+        do {
+            System.out.println("Insert server IP, leave empty for localhost: ");
+            System.out.print("> ");
+            ip = scan.nextLine();
+
+            if(ip == null || ip.isEmpty()) {
+                ip = "127.0.0.1";
+            }
+        }while(!checkValidIp(ip));
+
+        boolean wrongInput = true;
+        boolean connectionType = false;
+        while(wrongInput) {
+            System.out.println("Insert connection type (1 = RMI, 0 = Socket)");
+            System.out.print("> ");
+            int connectionTypeInt;
+            try {
+                connectionTypeInt = scan.nextInt();
+                scan.nextLine();
+                if(connectionTypeInt == 1) {
+                    wrongInput = false;
+                    connectionType = true;
+                }else if(connectionTypeInt == 0) {
+                    wrongInput = false;
+                    // connectionType is already false;
+                }else {
+                    // wrong input already true
+                    System.out.println("No such connection type");
+                }
+            }catch(InputMismatchException e) {
+                scan.nextLine();
+                // wrong input already true
+            }
+        }
+
+        wrongInput = true;
+        boolean interfaceType = false;
+        while(wrongInput) {
+            System.out.println("Insert interface type(1 = GUI, 0 = Tui)");
+            System.out.print("> ");
+            int interfaceTypeInt;
+            try {
+                interfaceTypeInt = scan.nextInt();
+                scan.nextLine();
+                if(interfaceTypeInt == 1) {
+                    wrongInput = false;
+                    interfaceType = true;
+                }else if(interfaceTypeInt == 0) {
+                    wrongInput = false;
+                    // interface type is already false
+                }else {
+                    // wrong input already true
+                    System.out.println("No such interface type");
+                }
+            }catch(InputMismatchException e) {
+                scan.nextLine();
+                // wrong input already true
+            }
+        }
+
         try {
-            Scanner scan = new Scanner(System.in);
-
-            String ip;
-            do {
-                System.out.println("Insert server IP, leave empty for localhost: ");
-                System.out.print("> ");
-                ip = scan.nextLine();
-
-                if(ip == null || ip.isEmpty()) {
-                    ip = "127.0.0.1";
-                }
-            }while(!checkValidIp(ip));
-
-            boolean wrongInput = true;
-            boolean connectionType = false;
-            while(wrongInput) {
-                System.out.println("Insert connection type (1 = RMI, 0 = Socket)");
-                System.out.print("> ");
-                int connectionTypeInt;
-                try {
-                    connectionTypeInt = scan.nextInt();
-                    scan.nextLine();
-                    if(connectionTypeInt == 1) {
-                        wrongInput = false;
-                        connectionType = true;
-                    }else if(connectionTypeInt == 0) {
-                        wrongInput = false;
-                        // connectionType is already false;
-                    }else {
-                        // wrong input already true
-                        System.out.println("No such connection type");
-                    }
-                }catch(InputMismatchException e) {
-                    scan.nextLine();
-                    // wrong input already true
-                }
-            }
-
-            wrongInput = true;
-            boolean interfaceType = false;
-            while(wrongInput) {
-                System.out.println("Insert interface type(1 = GUI, 0 = Tui)");
-                System.out.print("> ");
-                int interfaceTypeInt;
-                try {
-                    interfaceTypeInt = scan.nextInt();
-                    scan.nextLine();
-                    if(interfaceTypeInt == 1) {
-                        wrongInput = false;
-                        interfaceType = true;
-                    }else if(interfaceTypeInt == 0) {
-                        wrongInput = false;
-                        // interface type is already false
-                    }else {
-                        // wrong input already true
-                        System.out.println("No such interface type");
-                    }
-                }catch(InputMismatchException e) {
-                    scan.nextLine();
-                    // wrong input already true
-                }
-            }
-
-            if(connectionType) {
+            if (connectionType) {
                 // RMI connection
                 Registry registry = null;
                 try {
@@ -91,34 +91,39 @@ public class ClientMain {
                     System.err.println("Could not locate registry.");
                     System.exit(-1);
                 }
-                VirtualServerGamesManager rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
+                VirtualServerGamesManager rmiServerGamesManager = null;
+                try {
+                    rmiServerGamesManager = (VirtualServerGamesManager) registry.lookup("VirtualServerGamesManager");
+                } catch (RemoteException | NotBoundException e) {
+                    System.exit(-1);
+                }
 
                 String nickname;
                 NicknameCheck check;
-                do{
+                do {
                     System.out.println("Insert nickname: ");
                     System.out.print("> ");
                     nickname = scan.nextLine();
                     check = rmiServerGamesManager.checkNickname(nickname);
-                }while(nickname == null || nickname.isEmpty() || check.equals(NicknameCheck.EXISTING_NICKNAME));
+                } while (nickname == null || nickname.isEmpty() || check.equals(NicknameCheck.EXISTING_NICKNAME));
 
                 RmiClient newRmiClient = new RmiClient(nickname, interfaceType, rmiServerGamesManager);
-                if(check.equals(NicknameCheck.NEW_NICKNAME)) {
+                if (check.equals(NicknameCheck.NEW_NICKNAME)) {
                     // add virtual view to rmiServerGamesManager
                     newRmiClient.connectToGamesManagerServer(interfaceType);
                     newRmiClient.runJoinGameInterface();
-                }else {
+                } else {
                     // nickname of a reconnected player
                     newRmiClient.reconnectPlayer(nickname, interfaceType);
                 }
-            }else {
+            } else {
                 // Socket connection
                 int port = Integer.parseInt(args[1]);
                 Socket sc = new Socket(ip, port);
                 new SocketClient(sc, interfaceType);
             }
-        } catch (NotBoundException | IOException e) {
-            throw new RuntimeException(e);
+        }catch(IOException e) {
+            System.exit(-1);
         }
     }
 
