@@ -28,6 +28,14 @@ public abstract class StageController {
         gameView = clientGameView;
     }
 
+    public static String getNickname() {
+        return nickname;
+    }
+
+    public static GameView getGameView() {
+        return gameView;
+    }
+
     public static SceneType getCurrentSceneType() {
         return currentSceneType;
     }
@@ -76,8 +84,8 @@ public abstract class StageController {
             currentStage.setTitle(currentSceneType.getTitle());
 
             // TODO inutile, già fatto sopra
-            //currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
-            //currentStage.show();  // TODO probabilmente non serve
+            currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
+            currentStage.show();  // TODO probabilmente non serve
         });
 
         // TODO Platform.runLater ???
@@ -103,17 +111,61 @@ public abstract class StageController {
                 );
                 // set current hand data
                 currentGuiController.updateCardHand(gameView.getCurrentHand(), gameView.getSecretObjective());
+
+                // set starter card
+                // TODO
+
                 // set scores
-                currentGuiController.updateScore( gameView.getPlayersScores(), gameView.getPlayersTokenColors());
+                currentGuiController.updateScore(gameView.getPlayersScores(), gameView.getPlayersTokenColors());
 
-                // TODO informazioni partita, quali mettiamo ???
+                // set current player and game id
+                // TODO
 
-                break;
-            case SceneType.CHAT_SCENE:
-                // send full chat
-                currentGuiController.displayFullChat(gameView.getOwnerMessages());
+                // set full chat
+                // TODO
+
+                // set stalled or disconnected
+                // TODO
+
                 break;
             case SceneType.OTHER_PLAYER_SCENE:
+                // set game field data
+                GameFieldView gameFieldView =  gameView.getGameField(              );
+                currentGuiController.updateGameField(
+                        gameFieldView.getCardsContent(),
+                        gameFieldView.getCardsFace(),
+                        gameFieldView.getCardsOrder());
+                // set decks data
+                DeckView deckView = gameView.getDeckView();
+                currentGuiController.updateDecks(
+                        deckView.getTopResourceDeck(),
+                        deckView.getTopGoldDeck(),
+                        deckView.getFaceUpResourceCard(),
+                        deckView.getFaceUpGoldCard(),
+                        deckView.getCommonObjective()
+                );
+                // set current hand data
+                currentGuiController.updateCardHand(gameView.getCurrentHand(), gameView.getSecretObjective());
+
+                // set starter card
+                // TODO
+
+                // set scores
+                currentGuiController.updateScore(gameView.getPlayersScores(), gameView.getPlayersTokenColors());
+
+                // set current player and game id
+                // TODO
+
+                // set full chat
+                // TODO
+
+                // set stalled or disconnected
+                // TODO
+
+
+
+
+
 
                 // TODO devo sapere il player di cui voglio mostrare il campo
                 // serve un metodo setScene diverso, che prende come parametro

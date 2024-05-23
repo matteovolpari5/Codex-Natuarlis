@@ -170,7 +170,15 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     /**
-     * Method used to run the lobby cli.
+     * Method used to start the user interface.
+     */
+    public void startInterface() {
+        assert(ui != null);
+        ui.startInterface();
+    }
+
+    /**
+     * Method used to run the lobby ui.
      */
     public void runJoinGameInterface() {
         assert(ui != null);
@@ -178,7 +186,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     /**
-     * Method used to run the game cli.
+     * Method used to run the game ui.
      */
     public void runGameInterface() {
         assert(ui != null);
