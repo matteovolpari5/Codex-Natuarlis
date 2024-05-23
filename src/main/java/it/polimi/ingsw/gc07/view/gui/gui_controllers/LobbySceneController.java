@@ -30,17 +30,11 @@ public class LobbySceneController implements Initializable, GuiController {
     @FXML
     protected TextField numPlayers;
     @FXML
-    protected RadioButton newGame;
-    @FXML
-    protected RadioButton joinGame;
-    @FXML
     protected AnchorPane joinPane;
     @FXML
     protected AnchorPane screenPane;
     @FXML
     protected Button next;
-    @FXML
-    protected Button back;
     @FXML
     protected ListView<String> gameList;
     @FXML
@@ -59,6 +53,8 @@ public class LobbySceneController implements Initializable, GuiController {
     @FXML
     protected AnchorPane newPane;
 
+    @FXML
+    protected Button newGame;
     @FXML
     protected void onContinueButtonClick() {
         if(newGame.isSelected()){
@@ -128,10 +124,7 @@ public class LobbySceneController implements Initializable, GuiController {
 
         newPane.setVisible(true);
 
-        newGame.setVisible(false);
-        joinGame.setVisible(false);
         next.setVisible(true);
-        back.setVisible(true);
     }
 
     @FXML
@@ -143,14 +136,10 @@ public class LobbySceneController implements Initializable, GuiController {
         textTokenColor.setVisible(true);
         tokenColor.setVisible(true);
 
-        joinGame.setVisible(false);
-        newGame.setVisible(false);
-
         joinPane.setVisible(true);
         gameId.clear();
 
         next.setVisible(true);
-        back.setVisible(true);
     }
 
     @FXML
@@ -167,31 +156,6 @@ public class LobbySceneController implements Initializable, GuiController {
     protected void cleanErrNumPlayer(KeyEvent actionEvent) {
         errNumPlayer.setVisible(false);
     }
-
-    @FXML
-    protected void onBackButtonClick() {
-        errTokenColor.setVisible(false);
-        errNumPlayer.setVisible(false);
-        errGameId.setVisible(false);
-
-        textTokenColor.setVisible(false);
-        tokenColor.setVisible(false);
-
-        joinGame.setVisible(true);
-        newGame.setVisible(true);
-        joinGame.setSelected(false);
-        newGame.setSelected(false);
-
-        joinPane.setVisible(false);
-        errGameId.setVisible(false);
-        errTokenColor.setVisible(false);
-
-        newPane.setVisible(false);
-
-        next.setVisible(false);
-        back.setVisible(false);
-    }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
