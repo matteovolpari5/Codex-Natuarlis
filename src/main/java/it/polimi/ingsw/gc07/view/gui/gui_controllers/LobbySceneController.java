@@ -52,9 +52,17 @@ public class LobbySceneController implements Initializable, GuiController {
     protected Text textTokenColor;
     @FXML
     protected AnchorPane newPane;
-
     @FXML
     protected Button newGame;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // don't need to get data
+
+        games = new HashMap<>();
+        games.put(0,3);
+    }
+
     @FXML
     protected void onContinueButtonClick() {
         /*
@@ -158,13 +166,6 @@ public class LobbySceneController implements Initializable, GuiController {
     protected void cleanErrNumPlayer(KeyEvent actionEvent) {
         errNumPlayer.setVisible(false);
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        games = new HashMap<>();
-        games.put(0,3);
-    }
-
 
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {

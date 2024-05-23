@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc07.model_view;
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -453,4 +454,12 @@ public class GameView {
         return boardView.getPlayerTokenColors();
     }
 
+    public PlaceableCard getStarterCard() {
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(ownerNickname)) {
+                return p.getGameField().getStarterCard();
+            }
+        }
+        return null;
+    }
 }

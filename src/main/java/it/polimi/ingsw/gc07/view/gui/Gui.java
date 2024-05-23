@@ -77,7 +77,7 @@ public  class Gui extends Application implements Ui {
      * @param client client
      */
     public void setClient(Client client) {
-        StageController.setGameView(client.getGameView());  // TODO platform.runlater
+        StageController.setGameView(client.getGameView());  // TODO platform.runLater
     }
 
     /**
@@ -163,12 +163,6 @@ public  class Gui extends Application implements Ui {
             // other player's game field update, will be sent to OtherPlayerSceneController
             StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
         }
-
-        // TODO devo aggiungere il nickname di chi manda,
-        // se è il player, mando a player scene, altrimenti a other_player_Scene
-
-
-
     }
 
     /**

@@ -8,11 +8,57 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.model_view.DeckView;
+import it.polimi.ingsw.gc07.model_view.GameFieldView;
+import it.polimi.ingsw.gc07.model_view.GameView;
+import javafx.fxml.Initializable;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
-public class PlayerSceneController implements GuiController {
+public class PlayerSceneController implements GuiController, Initializable {
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        GameView gameView = StageController.getGameView();
+        String nickname = StageController.getNickname();
+
+        // set game field data
+        GameFieldView gameFieldView =  gameView.getGameField(nickname);
+        // = gameFieldView.getCardsContent();
+        // = gameFieldView.getCardsFace();
+        // = gameFieldView.getCardsOrder());
+
+        // set decks data
+        DeckView deckView = gameView.getDeckView();
+        // = deckView.getTopResourceDeck();
+        // = deckView.getTopGoldDeck();
+        // = deckView.getFaceUpResourceCard();
+        // = deckView.getFaceUpGoldCard();
+        // = deckView.getCommonObjective();
+
+        // set current hand data
+        // = gameView.getCurrentHand();
+        // = gameView.getSecretObjective();
+
+        // set starter card
+        // = gameView.getStarterCard();
+
+        // set scores
+        // = gameView.getPlayersScores(), gameView.getPlayersTokenColors();
+
+        // set current player and game id
+        // TODO
+
+        // set full chat
+        // TODO
+
+        // set stalled or disconnected
+        // TODO
+    }
+
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
 

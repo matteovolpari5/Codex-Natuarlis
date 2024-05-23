@@ -129,4 +129,8 @@ public class GameFieldView implements Serializable {
     public int getDim() {
         return dim;
     }
+
+    public PlaceableCard getStarterCard() {
+        return starterCard;
+    }
 }
