@@ -8,11 +8,60 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.model_view.DeckView;
+import it.polimi.ingsw.gc07.model_view.GameFieldView;
+import it.polimi.ingsw.gc07.model_view.GameView;
+import javafx.fxml.Initializable;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
-public class OtherPlayerSceneController implements GuiController {
+public class OtherPlayerSceneController implements GuiController, Initializable {
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        GameView gameView = StageController.getGameView();
+
+
+        // TODO devo sapere il player di cui voglio mostrare il campo
+        // serve un metodo setScene diverso, che prende come parametro
+        // il nome del player di cui voglio mostrare il gioco
+        // a quel punto lo avrei
+
+        // TODO gamefield
+
+        // set decks data
+        DeckView deckView = gameView.getDeckView();
+        // = deckView.getTopResourceDeck();
+        // = deckView.getTopGoldDeck();
+        // = deckView.getFaceUpResourceCard();
+        // = deckView.getFaceUpGoldCard();
+        // = deckView.getCommonObjective();
+
+        // set current hand data
+        // = gameView.getCurrentHand();
+        // = gameView.getSecretObjective();
+
+        // set starter card
+        // = gameView.getStarterCard();
+
+        // set scores
+        // = gameView.getPlayersScores(), gameView.getPlayersTokenColors();
+
+        // set id and current player
+        // = gameView.getId();
+        // = gameView.getCurrentPlayerNickname();
+
+        // set full chat
+        // = gameView.getOwnerMessages();
+
+        // set stalled or disconnected
+        // = gameView.getConnectionValues();
+        // =  gameView.getStallValues();
+    }
+
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
 

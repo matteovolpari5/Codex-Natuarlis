@@ -8,11 +8,19 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import javafx.fxml.Initializable;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
-public class GameEndedSceneController implements GuiController {
+public class GameEndedSceneController implements Initializable, GuiController {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // don't need to initialize anything
+    }
+
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
 

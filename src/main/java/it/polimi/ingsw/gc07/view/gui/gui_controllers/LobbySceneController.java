@@ -51,6 +51,10 @@ public class LobbySceneController implements Initializable, GuiController {
     @FXML
     public Text textInsertNumPlayers;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // don't need to initialize anything
+    }
 
     @FXML
     protected void onContinueButtonClick() {
@@ -76,11 +80,6 @@ public class LobbySceneController implements Initializable, GuiController {
             }
         }
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-    }
-
 
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {

@@ -16,6 +16,7 @@ import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
 import it.polimi.ingsw.gc07.view.Ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -99,6 +100,10 @@ public class GameView {
     }
 
     // getters
+
+    public int getId() {
+        return id;
+    }
 
     public GameState getGameState() {
         return state;
@@ -461,5 +466,21 @@ public class GameView {
             }
         }
         return null;
+    }
+
+    public Map<String, Boolean> getConnectionValues() {
+        Map<String, Boolean> connectionValues = new HashMap<>();
+        for(PlayerView p: playerViews) {
+            connectionValues.put(p.getNickname(), p.isConnected());
+        }
+        return connectionValues;
+    }
+
+    public Map<String, Boolean> getStallValues() {
+        Map<String, Boolean> stallValues = new HashMap<>();
+        for(PlayerView p: playerViews) {
+            stallValues.put(p.getNickname(), p.isStalled());
+        }
+        return stallValues;
     }
 }

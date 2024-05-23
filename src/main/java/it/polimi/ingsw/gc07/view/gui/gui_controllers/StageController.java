@@ -1,7 +1,5 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
-import it.polimi.ingsw.gc07.model_view.DeckView;
-import it.polimi.ingsw.gc07.model_view.GameFieldView;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.gui.SceneType;
@@ -87,92 +85,5 @@ public abstract class StageController {
             currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
             currentStage.show();  // TODO probabilmente non serve
         });
-
-        // TODO Platform.runLater ???
-        switch(currentSceneType) {
-            case SceneType.LOBBY_SCENE:
-                // don't display anything
-                break;
-            case SceneType.PLAYER_SCENE:
-                // set game field data
-                GameFieldView gameFieldView =  gameView.getGameField(nickname);
-                currentGuiController.updateGameField(
-                        gameFieldView.getCardsContent(),
-                        gameFieldView.getCardsFace(),
-                        gameFieldView.getCardsOrder());
-                // set decks data
-                DeckView deckView = gameView.getDeckView();
-                currentGuiController.updateDecks(
-                        deckView.getTopResourceDeck(),
-                        deckView.getTopGoldDeck(),
-                        deckView.getFaceUpResourceCard(),
-                        deckView.getFaceUpGoldCard(),
-                        deckView.getCommonObjective()
-                );
-                // set current hand data
-                currentGuiController.updateCardHand(gameView.getCurrentHand(), gameView.getSecretObjective());
-
-                // set starter card
-                // TODO
-
-                // set scores
-                currentGuiController.updateScore(gameView.getPlayersScores(), gameView.getPlayersTokenColors());
-
-                // set current player and game id
-                // TODO
-
-                // set full chat
-                // TODO
-
-                // set stalled or disconnected
-                // TODO
-
-                break;
-            case SceneType.OTHER_PLAYER_SCENE:
-                // set game field data
-                GameFieldView gameFieldView =  gameView.getGameField(              );
-                currentGuiController.updateGameField(
-                        gameFieldView.getCardsContent(),
-                        gameFieldView.getCardsFace(),
-                        gameFieldView.getCardsOrder());
-                // set decks data
-                DeckView deckView = gameView.getDeckView();
-                currentGuiController.updateDecks(
-                        deckView.getTopResourceDeck(),
-                        deckView.getTopGoldDeck(),
-                        deckView.getFaceUpResourceCard(),
-                        deckView.getFaceUpGoldCard(),
-                        deckView.getCommonObjective()
-                );
-                // set current hand data
-                currentGuiController.updateCardHand(gameView.getCurrentHand(), gameView.getSecretObjective());
-
-                // set starter card
-                // TODO
-
-                // set scores
-                currentGuiController.updateScore(gameView.getPlayersScores(), gameView.getPlayersTokenColors());
-
-                // set current player and game id
-                // TODO
-
-                // set full chat
-                // TODO
-
-                // set stalled or disconnected
-                // TODO
-
-
-
-
-
-
-                // TODO devo sapere il player di cui voglio mostrare il campo
-                // serve un metodo setScene diverso, che prende come parametro
-                // il nome del player di cui voglio mostrare il gioco
-                // a quel punto lo avrei
-
-                break;
-        }
     }
 }

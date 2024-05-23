@@ -60,6 +60,14 @@ public class PlayerView implements Serializable {
         this.playerViewListeners = new ArrayList<>();
     }
 
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public boolean isStalled() {
+        return isStalled;
+    }
+
     /**
      * Method used to register a new listener.
      * @param playerViewListener player view listener

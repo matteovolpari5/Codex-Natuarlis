@@ -49,14 +49,16 @@ public class PlayerSceneController implements GuiController, Initializable {
         // set scores
         // = gameView.getPlayersScores(), gameView.getPlayersTokenColors();
 
-        // set current player and game id
-        // TODO
+        // set id and current player
+        // = gameView.getId();
+        // = gameView.getCurrentPlayerNickname();
 
         // set full chat
-        // TODO
+        // = gameView.getOwnerMessages();
 
         // set stalled or disconnected
-        // TODO
+        // = gameView.getConnectionValues();
+        // =  gameView.getStallValues();
     }
 
     @Override
