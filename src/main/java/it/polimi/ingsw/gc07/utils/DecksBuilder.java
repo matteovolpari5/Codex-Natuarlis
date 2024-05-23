@@ -28,9 +28,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 
-import org.json.*;
-import org.json.JSONParser;
-
 /**
  * Class used to parse decks' JSON files.
  */
