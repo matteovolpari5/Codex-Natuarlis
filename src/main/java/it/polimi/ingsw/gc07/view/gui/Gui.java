@@ -22,6 +22,10 @@ public  class Gui extends Application implements Ui {
      * Gui instance, automatically created al application launch.
      */
     private static Gui guiInstance = null;
+    /**
+     * Nickname of Gui's owner.
+     */
+    private String nickame;
 
     /**
      * Init method, called at application launch.
@@ -64,6 +68,7 @@ public  class Gui extends Application implements Ui {
      * @param nickname nickname
      */
     public void setNickname(String nickname) {
+        this.nickame = nickname;
         StageController.setNickname(nickname);
     }
 
@@ -144,20 +149,26 @@ public  class Gui extends Application implements Ui {
 
     /**
      * Method used to receive a game field update.
+     * @param nickname nickname
      * @param cardsContent cards content
      * @param cardsFace cards face
      * @param cardsOrder cards order
      */
     @Override
-    public void receiveGameFieldUpdate(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+    public void receiveGameFieldUpdate(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        if(nickname.equals(this.nickame) && StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
+            // player's game field update, will be sent to PlayerSceneController
+            StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
+        }else if(!nickname.equals(this.nickame) && StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+            // other player's game field update, will be sent to OtherPlayerSceneController
+            StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
+        }
 
         // TODO devo aggiungere il nickname di chi manda,
         // se è il player, mando a player scene, altrimenti a other_player_Scene
 
 
-        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
-            StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
-        }
+
     }
 
     /**

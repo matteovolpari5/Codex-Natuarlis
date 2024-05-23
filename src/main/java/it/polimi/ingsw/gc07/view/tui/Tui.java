@@ -481,7 +481,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     private void printGameField(String nickname) {
         GameFieldView gameField = client.getGameView().getGameField(nickname);
-        receiveGameFieldUpdate(gameField.getCardsContent(), gameField.getCardsFace(), gameField.getCardsOrder());
+        receiveGameFieldUpdate(nickname, gameField.getCardsContent(), gameField.getCardsFace(), gameField.getCardsOrder());
     }
 
     @Override
@@ -494,7 +494,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     }
 
     @Override
-    public void receiveGameFieldUpdate(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+    public void receiveGameFieldUpdate(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                   PLAYER GAME FIELD                    ");

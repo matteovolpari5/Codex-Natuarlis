@@ -225,9 +225,4 @@ public class LobbySceneController implements Initializable, GuiController {
     public void displayWinners(List<String> winners) {
 
     }
-
-    @Override
-    public void displayFullChat(List<ChatMessage> messages) {
-
-    }
 }

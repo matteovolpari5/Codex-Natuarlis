@@ -110,18 +110,19 @@ public class GameFieldView implements Serializable {
 
     /**
      * Method to add a new card to the game field view.
+     * @param nickname nickname
      * @param card new card
      * @param x x
      * @param y y
      * @param way way
      * @param orderPosition order position
      */
-    public void addCard(PlaceableCard card, int x, int y, boolean way, int orderPosition) {
+    public void addCard(String nickname, PlaceableCard card, int x, int y, boolean way, int orderPosition) {
         cardsContent[x][y] = card;
         cardsFace[x][y] = way;
         cardsOrder[x][y] = orderPosition;
         for(GameFieldViewListener l: gameFieldViewListeners) {
-            l.receiveGameFieldUpdate(cardsContent, cardsFace, cardsOrder);
+            l.receiveGameFieldUpdate(nickname, cardsContent, cardsFace, cardsOrder);
         }
     }
 

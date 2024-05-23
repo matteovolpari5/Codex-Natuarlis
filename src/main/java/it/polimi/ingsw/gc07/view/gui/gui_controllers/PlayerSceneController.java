@@ -72,9 +72,4 @@ public class PlayerSceneController implements GuiController {
     public void displayWinners(List<String> winners) {
 
     }
-
-    @Override
-    public void displayFullChat(List<ChatMessage> messages) {
-
-    }
 }
