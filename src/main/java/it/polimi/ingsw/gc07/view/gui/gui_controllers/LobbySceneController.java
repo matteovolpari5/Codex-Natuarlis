@@ -144,11 +144,6 @@ public class LobbySceneController implements Initializable, GuiController {
 
     }
 
-    @Override
-    public void displayFullChat(List<ChatMessage> messages) {
-
-    }
-
     @FXML
     public void selectJoin(MouseEvent mouseEvent) {
         next.setVisible(true);
