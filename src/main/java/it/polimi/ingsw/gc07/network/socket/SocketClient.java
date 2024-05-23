@@ -105,7 +105,7 @@ public class SocketClient implements Client, PingSender {
                     output.flush();
                 } catch (IOException e) {
                     closeConnection();
-                    ui.askForReconnection();
+                    //ui.askForReconnection();
                 }
                 new Thread(this::manageReceivedUpdate).start();
                 new Thread(this::startGamePing).start();
@@ -113,7 +113,7 @@ public class SocketClient implements Client, PingSender {
                 runCliGame();
             }
         }else{
-            ui.askForReconnection();
+            //ui.askForReconnection();
         }
     }
 
@@ -159,7 +159,7 @@ public class SocketClient implements Client, PingSender {
             }
         }else{
             //ask for reconnection
-            ui.askForReconnection();
+            //ui.askForReconnection();
         }
     }//TODO la parte con un unico thread che gestisce input e output dovrebbe essere stata coperta
     //TODO nella parte con un unico thread ogni volta che si compie .readObject/.writeObject l'eccezione è legata al fatto che la connessione è catuda ed
@@ -215,7 +215,7 @@ public class SocketClient implements Client, PingSender {
     public void setAndExecuteCommand(GameControllerCommand gameControllerCommand) {
         try {
             myServer.setAndExecuteCommand(gameControllerCommand);
-        } catch (RemoteException e) {
+        } catch (IOException e) {
             System.out.println("\n(9) Connection failed.\n");
             closeConnection();
         }
