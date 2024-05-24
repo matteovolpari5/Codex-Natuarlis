@@ -20,6 +20,11 @@ public interface PlayerTui {
     String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+    /**
+     * Method used to print the starter card.
+     * @param card starter card
+     * @param cardway starter card way
+     */
     static void printStarterCard(PlaceableCard card, boolean cardway) {
         // first row //
         System.out.print(ANSI_BLACK_BACKGROUND + "+---------+");
@@ -238,20 +243,19 @@ public interface PlayerTui {
         System.out.println();
     }
 
-    static void printPlayerHand(List<DrawableCard> hand, ObjectiveCard personalObjective)
-    {
+    static void printPlayerHand(List<DrawableCard> hand, ObjectiveCard personalObjective) {
         printFirstLastRow();
         printSecondRow(hand, personalObjective);
         printThirdRow(personalObjective);
         printFourthRow(hand, personalObjective);
         printFirstLastRow();
     }
-    private static void printFirstLastRow()
-    {
+
+    private static void printFirstLastRow() {
         System.out.println(ANSI_YELLOW_BACKGROUND + "+---------+" +ANSI_BLACK_BACKGROUND + " +---------+ +---------+ +---------+");
     }
-    private static void printSecondRow(List<DrawableCard> hand, ObjectiveCard objectiveCard)
-    {
+
+    private static void printSecondRow(List<DrawableCard> hand, ObjectiveCard objectiveCard) {
         if(objectiveCard == null) {
             System.out.print(ANSI_YELLOW_BACKGROUND + "|        ");
         }else {
@@ -367,7 +371,8 @@ public interface PlayerTui {
         System.out.println();
 
     }
-    private static void printThirdRow(ObjectiveCard objectiveCard){
+
+    private static void printThirdRow(ObjectiveCard objectiveCard) {
         if(objectiveCard == null) {
             System.out.print(ANSI_YELLOW_BACKGROUND + "|        ");
         }else {
@@ -436,7 +441,7 @@ public interface PlayerTui {
         System.out.println(ANSI_BLACK_BACKGROUND + "|         | ");
     }
 
-    private static void printFourthRow(List<DrawableCard> hand, ObjectiveCard objectiveCard){
+    private static void printFourthRow(List<DrawableCard> hand, ObjectiveCard objectiveCard) {
         if(objectiveCard == null) {
             System.out.print(ANSI_YELLOW_BACKGROUND + "|        ");
         }else {

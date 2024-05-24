@@ -19,6 +19,12 @@ public interface GameFieldTui {
     String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+    /**
+     * Method used to print a game field.
+     * @param cardsContent cards content
+     * @param cardsFace cards face
+     * @param cardsOrder cards order
+     */
     static void printGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         //ricerca inizio righe/fine righe
         int startr = 40, endr = 40;

@@ -23,21 +23,37 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     private final static int minPlayersNumber = 2;
     private final static int maxPlayersNumber = 4;
 
+    /**
+     * Constructor of Tui.
+     * @param nickname nickname
+     * @param client client
+     */
     public Tui(String nickname, Client client) {
         this.nickname = nickname;
         this.client = client;
     }
 
+    /**
+     * Method used to set nickname.
+     * @param nickname nickname
+     */
     @Override
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    /**
+     * Method used to set client.
+     * @param client client
+     */
     @Override
     public void setClient(Client client) {
         this.client = client;
     }
 
+    /**
+     * Method used to run the starting interface.
+     */
     @Override
     public void runJoinGameInterface() {
         if(!client.isClientAlive()) {
@@ -159,6 +175,9 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         }
     }
 
+    /**
+     * Method used to run the game interface.
+     */
     @Override
     public void runGameInterface() {
         Scanner scan = new Scanner(System.in);
@@ -442,6 +461,9 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         askForReconnection();
     }
 
+    /**
+     * Method used to ask for reconnection to a player.
+     */
     public void askForReconnection() {
         Scanner scan = new Scanner(System.in);
         System.out.println("\n\nDo you want to reconnect (1 = yes, other = no)?");
@@ -462,6 +484,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         }
     }
 
+    /**
+     * Method used to parse a string token color.
+     * @param tokenColorString token color string
+     * @return token color value
+     */
     private TokenColor parseTokenColor(String tokenColorString) {
         if(tokenColorString == null || tokenColorString.isEmpty())
             return null;
@@ -474,11 +501,19 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         };
     }
 
+    /**
+     * Method used to print a game field.
+     * @param nickname nickname of the player
+     */
     private void printGameField(String nickname) {
         GameFieldView gameField = client.getGameView().getGameField(nickname);
         receiveGameFieldUpdate(nickname, gameField.getCardsContent(), gameField.getCardsFace(), gameField.getCardsOrder());
     }
 
+    /**
+     * Method used to notify the player he has received a new chat chatMessage.
+     * @param chatMessage chat message
+     */
     @Override
     public void receiveMessageUpdate(ChatMessage chatMessage) {
         System.out.println();
@@ -488,6 +523,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         ChatTui.printMessage(chatMessage);
     }
 
+    /**
+     * Method used to receive a game field update, return all game field structures.
+     * @param nickname nickname
+     * @param cardsContent cards content
+     * @param cardsFace cards face
+     * @param cardsOrder cards order
+     */
     @Override
     public void receiveGameFieldUpdate(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         System.out.println();
@@ -497,6 +539,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         GameFieldTui.printGameField(cardsContent, cardsFace, cardsOrder);
     }
 
+    /**
+     * Method used to show the player of his starter card.
+     * @param starterCard starter card
+     */
     @Override
     public void receiveStarterCardUpdate(PlaceableCard starterCard) {
         System.out.println();
@@ -507,6 +553,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         PlayerTui.printStarterCard(starterCard, false);
     }
 
+    /**
+     * Method used to show the player his new card hand.
+     * @param hand card hand
+     * @param personalObjective personal objective
+     */
     @Override
     public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
         if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjective == null))) {
@@ -518,6 +569,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         }
     }
 
+    /**
+     * Method used to show the client an updated score.
+     * @param playerScores players' scores
+     * @param playerTokenColors players' token colors
+     */
     @Override
     public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
         System.out.println();
@@ -527,11 +583,24 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         BoardTui.printScoreTrackBoard(playerScores, playerTokenColors);
     }
 
+    /**
+     * Method used to display the deck view, i.e. the cards the player can draw or see.
+     * @param topResourceDeck top resource deck
+     * @param topGoldDeck top gold deck
+     * @param faceUpResourceCard face up resource card
+     * @param faceUpGoldCard face up gold card
+     * @param commonObjective common objective
+     */
     @Override
     public void receiveDecksUpdate(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
         // don't want to print deck update every time a card changes
     }
 
+    /**
+     * Method used to receive general game info.
+     * @param gameState game state
+     * @param currPlayer current player
+     */
     @Override
     public void receiveGeneralModelUpdate(GameState gameState, String currPlayer) {
         System.out.println();
@@ -566,6 +635,9 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         }
     }
 
+    /**
+     * Method used to inform the player that the current round is the penultimate round.
+     */
     @Override
     public void receivePenultimateRoundUpdate() {
         System.out.println();
@@ -574,6 +646,9 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         System.out.println("--------------------------------------------------------");
     }
 
+    /**
+     * Method used to inform the player that the current round is the additional round.
+     */
     @Override
     public void receiveAdditionalRoundUpdate() {
         System.out.println();
@@ -582,6 +657,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         System.out.println("--------------------------------------------------------");
     }
 
+    /**
+     * Method used to receive the last command result.
+     * @param commandResult command result
+     */
     @Override
     public void receiveCommandResultUpdate(CommandResult commandResult) {
         System.out.println();
@@ -591,6 +670,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         System.out.println(commandResult.getResultMessage());
     }
 
+    /**
+     * Method used to display existing and free games.
+     * @param existingGamesPlayerNumber players number for each game
+     * @param existingGamesTokenColor taken token colors for each game
+     */
     @Override
     public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
         for(Integer id: existingGamesPlayerNumber.keySet()) {
@@ -606,6 +690,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         runJoinGameInterface();
     }
 
+    /**
+     * Method used to display winners.
+     * @param winners winners' nicknames
+     */
     @Override
     public void receiveWinnersUpdate(List<String> winners) {
         System.out.println();
