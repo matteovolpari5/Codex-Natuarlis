@@ -65,7 +65,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         this.gameView = new GameView(nickname);
         this.clientAlive = true;
         if(interfaceType) {
-            Application.launch(Gui.class);
+            new Thread(()->Application.launch(Gui.class)).start();  // TODO altrimenti eccezione, ma non penso sia giusto
             this.ui = Gui.getGuiInstance();
             this.ui.setNickname(nickname);
             this.ui.setClient(this);

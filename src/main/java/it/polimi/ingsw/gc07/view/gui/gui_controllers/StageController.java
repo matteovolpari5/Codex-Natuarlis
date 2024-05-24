@@ -16,7 +16,6 @@ public abstract class StageController {
     private static Scene currentScene;
     private static SceneType currentSceneType;
     private static GuiController currentGuiController;
-
     private static Client client;
     private static String nickname;
 
@@ -45,29 +44,41 @@ public abstract class StageController {
     }
 
     public static GuiController getController() {
-        return currentGuiController;
+        synchronized (GuiController.class) {
+            while(currentGuiController == null) {
+                try {
+                    GuiController.class.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return currentGuiController;
+        }
     }
 
     public static void setup(Stage stage) {
         Platform.runLater(() -> {
-            // set stage
-            currentStage = stage;
-            // create scene loader
-            currentSceneType = SceneType.LOBBY_SCENE;
-            FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
-            // set controller
-            currentGuiController = sceneLoader.getController();
-            // set scene
-            try {
-                currentScene = new Scene(sceneLoader.load());
-            } catch (IOException e) {
-                // TODO gestire
-                throw new RuntimeException(e);
+            synchronized (StageController.class) {
+                // set stage
+                currentStage = stage;
+                // create scene loader
+                currentSceneType = SceneType.LOBBY_SCENE;
+                FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
+                // set controller
+                currentGuiController = sceneLoader.getController();
+                // set scene
+                try {
+                    currentScene = new Scene(sceneLoader.load());
+                } catch (IOException e) {
+                    // TODO gestire
+                    throw new RuntimeException(e);
+                }
+                currentStage.setTitle(currentSceneType.getTitle());
+                currentStage.setScene(currentScene);
+                currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
+                currentStage.show();
+                StageController.class.notifyAll();
             }
-            currentStage.setTitle(currentSceneType.getTitle());
-            currentStage.setScene(currentScene);
-            currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
-            currentStage.show();
         });
     }
 
