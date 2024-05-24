@@ -16,8 +16,13 @@ public abstract class StageController {
     private static Scene currentScene;
     private static SceneType currentSceneType;
     private static GuiController currentGuiController;
+
     private static Client client;
     private static String nickname;
+
+    public static Client getClient() {
+        return client;
+    }
 
     public static void setNickname(String clientNickname) {
         nickname = clientNickname;

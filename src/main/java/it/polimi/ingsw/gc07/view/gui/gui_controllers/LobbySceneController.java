@@ -1,13 +1,11 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
-import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GameState;
-import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.DisplayGamesCommand;
-import it.polimi.ingsw.gc07.game_commands.GameCommand;
-import it.polimi.ingsw.gc07.game_commands.GameControllerCommand;
+import it.polimi.ingsw.gc07.game_commands.JoinExistingGameCommand;
+import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -57,27 +55,29 @@ public class LobbySceneController implements Initializable, GuiController {
     @FXML
     public Text textInsertNumPlayers;
 
+    public int idGame;
+
 
     @FXML
     protected void onContinueButtonClick() {
         if(!choice.isSelected()){
-            //int numPlayers = boxNumPlayers.getValue();
-            //TokenColor tokenColor = boxTokenColor.getValue();
+            int numPlayers = boxNumPlayers.getValue();
+            TokenColor tokenColor = boxTokenColor.getValue();
             if(boxNumPlayers.getValue()>0&&boxNumPlayers.getValue()<5)
             {
-                // TODO: check unique token color
                 if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))
                 {
-                    //TODO: creazione del gioco
+                    StageController.getClient().setAndExecuteCommand(new JoinNewGameCommand(StageController.getNickname(),tokenColor,numPlayers));
                     screenPane.setVisible(false);
                 }
             }
         }
         else if(choice.isSelected()) {
-            //TokenColor tokenColor = boxTokenColor.getValue();
+            TokenColor tokenColor = boxTokenColor.getValue();
             if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))
             {
-                //TODO: creazione del gioco
+                // TODO: check unique token color
+                //StageController.getClient().setAndExecuteCommand(new JoinExistingGameCommand(StageController.getNickname(),tokenColor,idGame));
                 screenPane.setVisible(false);
             }
         }
@@ -140,7 +140,15 @@ public class LobbySceneController implements Initializable, GuiController {
 
     @Override
     public void displayExistingGames(Map<Integer, Integer> existingGames) {
-
+        ObservableList<String> listViewComponent = FXCollections.observableArrayList();
+        listViewComponent.add("GAMEID                                                                              NUMBER OF PLAYERS");
+        gameList.getItems().clear();
+        existingGames.keySet();
+        for(Integer id : existingGames.keySet()){
+            String newLine = id+"                                                                                              "+existingGames.get(id);
+            listViewComponent.add(newLine);
+        }
+        gameList.setItems(listViewComponent);
     }
 
     @Override
@@ -150,15 +158,9 @@ public class LobbySceneController implements Initializable, GuiController {
 
     @FXML
     public void selectJoin(MouseEvent mouseEvent) {
+        // TODO CHIEDERE: arriva update anche se un game esce dagli existing games? //
         boxTokenColor.getItems().clear();
-        gameList.getItems().clear();
-
-        ObservableList<String> existingGames = FXCollections.observableArrayList();
-        existingGames.add("GAMEID                                                                          NUMBER OF PLAYERS");
-        //client.setAndExecuteCommand(new DisplayGamesCommand(nickname));
-
-        gameList.setItems(existingGames);
-
+        StageController.getClient().setAndExecuteCommand(new DisplayGamesCommand(StageController.getNickname()));
         next.setVisible(true);
         next.setTextFill(Paint.valueOf("#b401a8"));
         boxTokenColor.setVisible(true);
@@ -178,7 +180,6 @@ public class LobbySceneController implements Initializable, GuiController {
     @FXML
     public void selectNew(MouseEvent mouseEvent) {
         boxTokenColor.getItems().clear();
-        gameList.getItems().clear();
 
         ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
         listColor.add(TokenColor.RED);
@@ -207,5 +208,32 @@ public class LobbySceneController implements Initializable, GuiController {
         joinPane.setVisible(false);
         newPane.setVisible(true);
         choice.setSelected(false);
+    }
+
+    @FXML
+    public void clickedGame(MouseEvent mouseEvent) {
+        //update della lista di token color//
+        boxTokenColor.getItems().clear();
+        int i=0,numSize=0;
+        while(gameList.getSelectionModel().getSelectedItem().charAt(i) != ' ')
+        {
+            numSize++;
+            i++;
+        }
+        if(gameList.getSelectionModel().getSelectedItem().charAt(0) != 'G')
+        {
+            //calcolo idGame
+            idGame=0;
+            for(int j=0;j<numSize;j++)
+            {
+                if(gameList.getSelectionModel().getSelectedItem().charAt(j) == ' ')
+                {
+                    idGame += gameList.getSelectionModel().getSelectedItem().charAt(j)*(numSize-j);
+                }
+            }
+            System.out.println(idGame);
+            //TODO: add in boxTokenColor i colori giusti in base al game idGame
+            // TODO: serve metodo getFreeTokenColor(idGame)
+        }
     }
 }

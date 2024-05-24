@@ -41,7 +41,7 @@
                     <Font name="Comic Sans MS Bold" size="26.0" />
                 </font>
             </Text>
-            <ListView fx:id="gameList" layoutX="-280.0" layoutY="78.0" prefHeight="440.0" prefWidth="440.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
+            <ListView fx:id="gameList" onMouseClicked="#clickedGame" layoutX="-280.0" layoutY="78.0" prefHeight="440.0" prefWidth="440.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
         </AnchorPane>
 
               <AnchorPane fx:id="newPane" layoutX="552.0" layoutY="122.0" prefHeight="425.0" prefWidth="529.0" visible="false" AnchorPane.bottomAnchor="132.0" AnchorPane.leftAnchor="552.0" AnchorPane.rightAnchor="99.0" AnchorPane.topAnchor="122.0">
