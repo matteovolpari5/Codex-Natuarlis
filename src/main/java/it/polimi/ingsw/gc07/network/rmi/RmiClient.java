@@ -65,7 +65,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         this.gameView = new GameView(nickname);
         this.clientAlive = true;
         if(interfaceType) {
-            Application.launch(Gui.class);
+            // run application on new thread
+            new Thread(() -> Application.launch(Gui.class)).start();
             this.ui = Gui.getGuiInstance();
             this.ui.setNickname(nickname);
             this.ui.setClient(this);
@@ -170,7 +171,15 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     /**
-     * Method used to run the lobby cli.
+     * Method used to start the user interface.
+     */
+    public void startInterface() {
+        assert(ui != null);
+        ui.runJoinGameInterface();
+    }
+
+    /**
+     * Method used to run the lobby ui.
      */
     public void runJoinGameInterface() {
         assert(ui != null);
@@ -178,7 +187,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     /**
-     * Method used to run the game cli.
+     * Method used to run the game ui.
      */
     public void runGameInterface() {
         assert(ui != null);
@@ -191,6 +200,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
+        System.out.println(gamesManagerCommand);
         try {
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
         }catch(RemoteException e) {

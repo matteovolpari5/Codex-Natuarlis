@@ -455,7 +455,8 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         }
         if(reconnect == 1) {
             System.out.println("\n\n");
-            ClientMain.main(new String[0]);
+            String[] args = new String[1234];
+            ClientMain.main(args);
         }else {
             System.exit(0);
         }
@@ -475,7 +476,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     private void printGameField(String nickname) {
         GameFieldView gameField = client.getGameView().getGameField(nickname);
-        receiveGameFieldUpdate(gameField.getCardsContent(), gameField.getCardsFace(), gameField.getCardsOrder());
+        receiveGameFieldUpdate(nickname, gameField.getCardsContent(), gameField.getCardsFace(), gameField.getCardsOrder());
     }
 
     @Override
@@ -488,7 +489,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     }
 
     @Override
-    public void receiveGameFieldUpdate(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+    public void receiveGameFieldUpdate(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                   PLAYER GAME FIELD                    ");
@@ -591,9 +592,16 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     }
 
     @Override
-    public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGames) {
-        for(Integer id: existingGames.keySet()) {
-            System.out.println("Id: " + id + " - " + "Number of players: " + existingGames.get(id));
+    public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
+        for(Integer id: existingGamesPlayerNumber.keySet()) {
+            System.out.print("Id: " + id + " - " + "Number of players: " + existingGamesPlayerNumber.get(id));
+        }
+        for(Integer id: existingGamesTokenColor.keySet()) {
+            System.out.print(" - " + "Taken token colors: ");
+            for(TokenColor t: existingGamesTokenColor.get(id)) {
+                System.out.print(t + " ");
+            }
+            System.out.println();
         }
         runJoinGameInterface();
     }

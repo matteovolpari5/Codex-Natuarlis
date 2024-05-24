@@ -1,23 +1,33 @@
 package it.polimi.ingsw.gc07.updates;
 
+import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameView;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class ExistingGamesUpdate implements Update {
     /**
      * Map containing existing games.
-     * Key = game id.
-     * Value = number of players.
+     * Key = game id
+     * Value = number of players
      */
-    private final Map<Integer, Integer> existingGames;
-
+    private final Map<Integer, Integer> existingGamesPlayerNumber;
+    /**
+     * Map containing taken token colors for existing games.
+     * Key = game id
+     * Value = list of taken token color for game
+     */
+    private final Map<Integer, List<TokenColor>> existingGamesTokenColor;
     /**
      * Constructor of ExistingGamesUpdate.
-     * @param existingGames existing games map
+     * @param existingGamesPlayerNumber existing games ids
+     * @param existingGamesTokenColor existing games taken token colors
      */
-    public ExistingGamesUpdate(Map<Integer, Integer> existingGames) {
-        this.existingGames = existingGames;
+    public ExistingGamesUpdate(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
+        this.existingGamesPlayerNumber = existingGamesPlayerNumber;
+        this.existingGamesTokenColor = existingGamesTokenColor;
     }
 
     /**
@@ -26,6 +36,6 @@ public class ExistingGamesUpdate implements Update {
      */
     @Override
     public void execute(GameView gameView) {
-        gameView.displayExistingGames(existingGames);
+        gameView.displayExistingGames(existingGamesPlayerNumber, existingGamesTokenColor);
     }
 }

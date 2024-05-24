@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc07.model_view;
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -15,6 +16,7 @@ import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
 import it.polimi.ingsw.gc07.view.Ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,6 +100,10 @@ public class GameView {
     }
 
     // getters
+
+    public int getId() {
+        return id;
+    }
 
     public GameState getGameState() {
         return state;
@@ -364,9 +370,9 @@ public class GameView {
         }
     }
 
-    public void displayExistingGames(Map<Integer, Integer> existingGames) {
+    public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
         for(GameViewListener l: gameViewListeners) {
-            l.receiveExistingGamesUpdate(existingGames);
+            l.receiveExistingGamesUpdate(existingGamesPlayerNumber, existingGamesTokenColor);
         }
     }
 
@@ -453,4 +459,28 @@ public class GameView {
         return boardView.getPlayerTokenColors();
     }
 
+    public PlaceableCard getStarterCard() {
+        for(PlayerView p: playerViews) {
+            if(p.getNickname().equals(ownerNickname)) {
+                return p.getGameField().getStarterCard();
+            }
+        }
+        return null;
+    }
+
+    public Map<String, Boolean> getConnectionValues() {
+        Map<String, Boolean> connectionValues = new HashMap<>();
+        for(PlayerView p: playerViews) {
+            connectionValues.put(p.getNickname(), p.isConnected());
+        }
+        return connectionValues;
+    }
+
+    public Map<String, Boolean> getStallValues() {
+        Map<String, Boolean> stallValues = new HashMap<>();
+        for(PlayerView p: playerViews) {
+            stallValues.put(p.getNickname(), p.isStalled());
+        }
+        return stallValues;
+    }
 }

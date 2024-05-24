@@ -23,7 +23,7 @@ public interface GuiController {
     void setPenultimateRound();
     void setAdditionalRound();
     void updateCommandResult(CommandResult commandResult);
-    void displayExistingGames(Map<Integer, Integer> existingGames);
+    void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor);
     void displayWinners(List<String> winners);
-    void displayFullChat(List<ChatMessage> messages);
+    void setNickname(String nickname);
 }

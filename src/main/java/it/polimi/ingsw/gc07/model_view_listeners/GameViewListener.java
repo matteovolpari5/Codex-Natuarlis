@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.model_view_listeners;
 
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.enumerations.TokenColor;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,6 @@ public interface GameViewListener {
     void receivePenultimateRoundUpdate();
     void receiveAdditionalRoundUpdate();
     void receiveCommandResultUpdate(CommandResult commandResult);
-    void receiveExistingGamesUpdate(Map<Integer, Integer> existingGames);
+    void receiveExistingGamesUpdate(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor);
     void receiveWinnersUpdate(List<String> winners);
 }

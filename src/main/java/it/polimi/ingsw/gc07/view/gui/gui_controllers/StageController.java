@@ -1,8 +1,7 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
-import it.polimi.ingsw.gc07.model_view.DeckView;
-import it.polimi.ingsw.gc07.model_view.GameFieldView;
 import it.polimi.ingsw.gc07.model_view.GameView;
+import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.gui.SceneType;
 import javafx.application.Platform;
@@ -17,15 +16,27 @@ public abstract class StageController {
     private static Scene currentScene;
     private static SceneType currentSceneType;
     private static GuiController currentGuiController;
-    private static GameView gameView;
+    private static Client client;
     private static String nickname;
+
+    public static Client getClient() {
+        return client;
+    }
 
     public static void setNickname(String clientNickname) {
         nickname = clientNickname;
     }
 
-    public static void setGameView(GameView clientGameView) {
-        gameView = clientGameView;
+    public static void setClient(Client clientRef) {
+        client = clientRef;
+    }
+
+    public static String getNickname() {
+        return nickname;
+    }
+
+    public static GameView getGameView() {
+        return client.getGameView();
     }
 
     public static SceneType getCurrentSceneType() {
@@ -37,29 +48,33 @@ public abstract class StageController {
     }
 
     public static void setup(Stage stage) {
-        Platform.runLater(() -> {
-            // set stage
-            currentStage = stage;
-            // create scene loader
-            currentSceneType = SceneType.LOBBY_SCENE;
-            FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
-            // set controller
-            currentGuiController = sceneLoader.getController();
-            // set scene
-            try {
-                currentScene = new Scene(sceneLoader.load());
-            } catch (IOException e) {
-                // TODO gestire
-                throw new RuntimeException(e);
-            }
-            currentStage.setTitle(currentSceneType.getTitle());
-            currentStage.setScene(currentScene);
-            currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
-            currentStage.show();
-        });
+        // set stage
+        currentStage = stage;
+        // create scene loader
+        currentSceneType = SceneType.LOBBY_SCENE;
+        FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
+        // set scene
+        try {
+            currentScene = new Scene(sceneLoader.load());
+        } catch (IOException e) {
+            // TODO gestire
+            throw new RuntimeException(e);
+        }
+        // set controller
+        currentGuiController = sceneLoader.getController();
+        // set stage
+        currentStage.setTitle(currentSceneType.getTitle());
+        currentStage.setScene(currentScene);
+        currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
+        currentStage.show();
     }
 
+    /**
+     * Method used to set a scene, except for OTHER_PLAYER_SCENE.
+     * @param sceneType scene type
+     */
     public static void setScene(SceneType sceneType) {
+        assert(sceneType != SceneType.OTHER_PLAYER_SCENE);
         Platform.runLater(() -> {
             // create scene loader
             currentSceneType = sceneType;
@@ -76,51 +91,35 @@ public abstract class StageController {
             currentStage.setTitle(currentSceneType.getTitle());
 
             // TODO inutile, già fatto sopra
-            //currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
-            //currentStage.show();  // TODO probabilmente non serve
+            currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
+            currentStage.show();  // TODO probabilmente non serve
         });
+    }
 
-        // TODO Platform.runLater ???
-        switch(currentSceneType) {
-            case SceneType.LOBBY_SCENE:
-                // don't display anything
-                break;
-            case SceneType.PLAYER_SCENE:
-                // set game field data
-                GameFieldView gameFieldView =  gameView.getGameField(nickname);
-                currentGuiController.updateGameField(
-                        gameFieldView.getCardsContent(),
-                        gameFieldView.getCardsFace(),
-                        gameFieldView.getCardsOrder());
-                // set decks data
-                DeckView deckView = gameView.getDeckView();
-                currentGuiController.updateDecks(
-                        deckView.getTopResourceDeck(),
-                        deckView.getTopGoldDeck(),
-                        deckView.getFaceUpResourceCard(),
-                        deckView.getFaceUpGoldCard(),
-                        deckView.getCommonObjective()
-                );
-                // set current hand data
-                currentGuiController.updateCardHand(gameView.getCurrentHand(), gameView.getSecretObjective());
-                // set scores
-                currentGuiController.updateScore( gameView.getPlayersScores(), gameView.getPlayersTokenColors());
+    /**
+     * Method used to set OTHER_PLAYER_SCENE on a specified player.
+     * @param nickname nickname
+     */
+    public static void setOtherPlayerScene(String nickname) {
+        Platform.runLater(() -> {
+            // create scene loader
+            currentSceneType = SceneType.OTHER_PLAYER_SCENE;
+            FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
+            // set controller
+            currentGuiController = sceneLoader.getController();
+            currentGuiController.setNickname(nickname);
+            // set scene
+            try {
+                currentScene.setRoot(sceneLoader.load());
+            } catch (IOException e) {
+                // TODO gestire
+                throw new RuntimeException(e);
+            }
+            currentStage.setTitle(currentSceneType.getTitle());
 
-                // TODO informazioni partita, quali mettiamo ???
-
-                break;
-            case SceneType.CHAT_SCENE:
-                // send full chat
-                currentGuiController.displayFullChat(gameView.getOwnerMessages());
-                break;
-            case SceneType.OTHER_PLAYER_SCENE:
-
-                // TODO devo sapere il player di cui voglio mostrare il campo
-                // serve un metodo setScene diverso, che prende come parametro
-                // il nome del player di cui voglio mostrare il gioco
-                // a quel punto lo avrei
-
-                break;
-        }
+            // TODO inutile, già fatto sopra
+            currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
+            currentStage.show();  // TODO probabilmente non serve
+        });
     }
 }

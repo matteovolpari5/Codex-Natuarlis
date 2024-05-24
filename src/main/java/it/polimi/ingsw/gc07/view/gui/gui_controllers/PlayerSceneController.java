@@ -8,6 +8,12 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.model_view.DeckView;
+import it.polimi.ingsw.gc07.model_view.GameFieldView;
+import it.polimi.ingsw.gc07.model_view.GameView;
+import javafx.fxml.Initializable;
+
+import java.net.URL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,6 +28,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 public class PlayerSceneController implements GuiController, Initializable {
@@ -57,14 +64,14 @@ public class PlayerSceneController implements GuiController, Initializable {
     AnchorPane chatContainer;
 
 
-    @Override
+    /*@Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         chatItem = FXCollections.observableArrayList();
         myChat.setItems(chatItem);
         updatesItem = FXCollections.observableArrayList();
         myUpdates.setItems(updatesItem);
         //todo settare la situa iniziale
-    }
+    }*/
 
     @FXML
     protected void onChatButtonClick(){
@@ -76,6 +83,46 @@ public class PlayerSceneController implements GuiController, Initializable {
             chatContainer.setVisible(false);
             chatButton.setText("show chat");
         }
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        GameView gameView = StageController.getGameView();
+        String nickname = StageController.getNickname();
+
+        // set game field data
+        GameFieldView gameFieldView =  gameView.getGameField(nickname);
+        // = gameFieldView.getCardsContent();
+        // = gameFieldView.getCardsFace();
+        // = gameFieldView.getCardsOrder());
+
+        // set decks data
+        DeckView deckView = gameView.getDeckView();
+        // = deckView.getTopResourceDeck();
+        // = deckView.getTopGoldDeck();
+        // = deckView.getFaceUpResourceCard();
+        // = deckView.getFaceUpGoldCard();
+        // = deckView.getCommonObjective();
+
+        // set current hand data
+        // = gameView.getCurrentHand();
+        // = gameView.getSecretObjective();
+
+        // set starter card
+        // = gameView.getStarterCard();
+
+        // set scores
+        // = gameView.getPlayersScores(), gameView.getPlayersTokenColors();
+
+        // set id and current player
+        // = gameView.getId();
+        // = gameView.getCurrentPlayerNickname();
+
+        // set full chat
+        // = gameView.getOwnerMessages();
+
+        // set stalled or disconnected
+        // = gameView.getConnectionValues();
+        // =  gameView.getStallValues();
     }
 
     @Override
@@ -133,7 +180,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     }
 
     @Override
-    public void displayExistingGames(Map<Integer, Integer> existingGames) {
+    public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
 
     }
 
@@ -150,4 +197,7 @@ public class PlayerSceneController implements GuiController, Initializable {
         }
     }
 
+    public void setNickname(String nickname) {
+        // don't use
+    }
 }

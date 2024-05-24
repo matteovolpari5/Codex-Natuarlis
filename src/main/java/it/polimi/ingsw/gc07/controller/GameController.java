@@ -71,6 +71,10 @@ public class GameController {
         return gameModel.getPlayersNumber();
     }
 
+    synchronized List<TokenColor> getTakenTokenColors() {
+        return gameModel.getTakenTokenColors();
+    }
+
     // used in tests
     List<String> getWinners() {
         return gameModel.getWinners();
@@ -644,10 +648,10 @@ public class GameController {
      */
     private void endGame(){
         synchronized(this) {
-            // delete rmi virtual views and rmiServerGame
-            RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
             // delete GameController
             GamesManager.getGamesManager().deleteGame(getId());
+            // delete rmi virtual views and rmiServerGame
+            RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
         }
     }
 

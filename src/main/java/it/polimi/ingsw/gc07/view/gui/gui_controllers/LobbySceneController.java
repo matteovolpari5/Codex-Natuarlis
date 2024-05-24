@@ -3,200 +3,88 @@ package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.game_commands.DisplayGamesCommand;
+import it.polimi.ingsw.gc07.game_commands.JoinExistingGameCommand;
+import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
-import static java.lang.Integer.parseInt;
 
 public class LobbySceneController implements Initializable, GuiController {
+    /**
+     * se select-->join game
+     * se non select-->new game
+     */
     @FXML
-    protected TextField numPlayers;
+    public ToggleButton choice;
     @FXML
-    protected RadioButton newGame;
+    public Text textJoinGame;
     @FXML
-    protected RadioButton joinGame;
+    public Text textNewGame;
     @FXML
-    protected AnchorPane joinPane;
+    public AnchorPane joinPane;
     @FXML
-    protected AnchorPane screenPane;
+    public ListView<String> gameList;
     @FXML
-    protected Button next;
+    public AnchorPane newPane;
     @FXML
-    protected Button back;
+    public ChoiceBox<Integer> boxNumPlayers;
     @FXML
-    protected ListView<String> gameList;
+    public Text textTokenColor;
     @FXML
-    protected TextField gameId;
+    public Button next;
     @FXML
-    protected Text errGameId;
-    protected Map<Integer,Integer> games;
+    public ChoiceBox<TokenColor> boxTokenColor;
     @FXML
-    protected TextField tokenColor;
+    public AnchorPane screenPane;
     @FXML
-    protected Text errTokenColor;
-    @FXML
-    protected Text errNumPlayer;
-    @FXML
-    protected Text textTokenColor;
-    @FXML
-    protected AnchorPane newPane;
+    public Text textInsertNumPlayers;
+
+    public int idGame;
+
 
     @FXML
     protected void onContinueButtonClick() {
-        if(newGame.isSelected()){
-            try {
-                if(parseInt(numPlayers.getText())>0&&parseInt(numPlayers.getText())<5)
+        if(!choice.isSelected()){
+            int numPlayers = boxNumPlayers.getValue();
+            TokenColor tokenColor = boxTokenColor.getValue();
+            if(boxNumPlayers.getValue()>0&&boxNumPlayers.getValue()<5)
+            {
+                if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))
                 {
-                    // TODO: check unique token color
-                    if(tokenColor.getText().equalsIgnoreCase("RED")||tokenColor.getText().equalsIgnoreCase("BLUE")||tokenColor.getText().equalsIgnoreCase("GREEN")||tokenColor.getText().equalsIgnoreCase("YELLOW"))
-                    {
-                        //TODO: creazione del gioco
-                        screenPane.setVisible(false);
-                    }
-                    else {
-                        numPlayers.clear();
-                        tokenColor.clear();
-                        errTokenColor.setVisible(true);
-                    }
+                    StageController.getClient().setAndExecuteCommand(new JoinNewGameCommand(StageController.getNickname(),tokenColor,numPlayers));
+                    screenPane.setVisible(false);
                 }
-                else {
-                    numPlayers.clear();
-                    tokenColor.clear();
-                    errNumPlayer.setVisible(true);
-                }
-            }
-            catch (NumberFormatException e) {
-                numPlayers.clear();
-                tokenColor.clear();
-                errNumPlayer.setVisible(true);
             }
         }
-        else if(joinGame.isSelected()) {
-            try {
-                if(games.containsKey(parseInt(gameId.getText())))
-                {
-                    if(tokenColor.getText().equalsIgnoreCase("RED")||tokenColor.getText().equalsIgnoreCase("BLUE")||tokenColor.getText().equalsIgnoreCase("GREEN")||tokenColor.getText().equalsIgnoreCase("YELLOW"))
-                    {
-                        //TODO: join del player al game
-                        screenPane.setVisible(false);
-                    }
-                    else{
-                        gameId.clear();
-                        tokenColor.clear();
-                        errTokenColor.setVisible(true);
-                    }
-                }
-                else{
-                    gameId.clear();
-                    tokenColor.clear();
-                    errGameId.setVisible(true);
-                }
-            }catch (NumberFormatException e) {
-                gameId.clear();
-                tokenColor.clear();
-                errGameId.setVisible(true);
+        else if(choice.isSelected()) {
+            TokenColor tokenColor = boxTokenColor.getValue();
+            if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))
+            {
+                // TODO: check unique token color
+                //StageController.getClient().setAndExecuteCommand(new JoinExistingGameCommand(StageController.getNickname(),tokenColor,idGame));
+                screenPane.setVisible(false);
             }
         }
     }
-
-    @FXML
-    protected void clickedNew() {
-        tokenColor.clear();
-        gameId.clear();
-        numPlayers.clear();
-
-        textTokenColor.setVisible(true);
-        tokenColor.setVisible(true);
-
-        newPane.setVisible(true);
-
-        newGame.setVisible(false);
-        joinGame.setVisible(false);
-        next.setVisible(true);
-        back.setVisible(true);
-    }
-
-    @FXML
-    protected void clickedJoin() {
-        tokenColor.clear();
-        gameId.clear();
-        numPlayers.clear();
-
-        textTokenColor.setVisible(true);
-        tokenColor.setVisible(true);
-
-        joinGame.setVisible(false);
-        newGame.setVisible(false);
-
-        joinPane.setVisible(true);
-        gameId.clear();
-
-        next.setVisible(true);
-        back.setVisible(true);
-    }
-
-    @FXML
-    protected void cleanErrGameId(KeyEvent actionEvent) {
-        errGameId.setVisible(false);
-    }
-
-    @FXML
-    protected void cleanErrTokenColor(KeyEvent actionEvent) {
-        errTokenColor.setVisible(false);
-    }
-
-    @FXML
-    protected void cleanErrNumPlayer(KeyEvent actionEvent) {
-        errNumPlayer.setVisible(false);
-    }
-
-    @FXML
-    protected void onBackButtonClick() {
-        errTokenColor.setVisible(false);
-        errNumPlayer.setVisible(false);
-        errGameId.setVisible(false);
-
-        textTokenColor.setVisible(false);
-        tokenColor.setVisible(false);
-
-        joinGame.setVisible(true);
-        newGame.setVisible(true);
-        joinGame.setSelected(false);
-        newGame.setSelected(false);
-
-        joinPane.setVisible(false);
-        errGameId.setVisible(false);
-        errTokenColor.setVisible(false);
-
-        newPane.setVisible(false);
-
-        next.setVisible(false);
-        back.setVisible(false);
-    }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        games = new HashMap<>();
-        games.put(0,3);
     }
 
 
@@ -251,8 +139,15 @@ public class LobbySceneController implements Initializable, GuiController {
     }
 
     @Override
-    public void displayExistingGames(Map<Integer, Integer> existingGames) {
-
+    public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
+        gameList.getItems().clear();
+        ObservableList<String> listViewComponent = FXCollections.observableArrayList();
+        listViewComponent.add("GAMEID                                                                              NUMBER OF PLAYERS");
+        for(Integer id : existingGamesPlayerNumber.keySet()){
+            String newLine = id+"                                                                                              "+existingGamesPlayerNumber.get(id);
+            listViewComponent.add(newLine);
+        }
+        gameList.setItems(listViewComponent);
     }
 
     @Override
@@ -260,8 +155,89 @@ public class LobbySceneController implements Initializable, GuiController {
 
     }
 
-    @Override
-    public void displayFullChat(List<ChatMessage> messages) {
+    @FXML
+    public void selectJoin(MouseEvent mouseEvent) {
+        // TODO CHIEDERE: arriva update anche se un game esce dagli existing games? //
+        boxTokenColor.getItems().clear();
+        StageController.getClient().setAndExecuteCommand(new DisplayGamesCommand(StageController.getNickname()));
+        next.setVisible(true);
+        next.setTextFill(Paint.valueOf("#b401a8"));
+        boxTokenColor.setVisible(true);
+        textTokenColor.setVisible(true);
 
+        textTokenColor.setFill(Paint.valueOf("#b401a8"));
+        textNewGame.setOpacity(0.4);
+        textJoinGame.setOpacity(1);
+        boxNumPlayers.setVisible(false);
+        textInsertNumPlayers.setVisible(false);
+
+        joinPane.setVisible(true);
+        newPane.setVisible(true);
+        choice.setSelected(true);
+    }
+
+    @FXML
+    public void selectNew(MouseEvent mouseEvent) {
+        boxTokenColor.getItems().clear();
+
+        ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
+        listColor.add(TokenColor.RED);
+        listColor.add(TokenColor.GREEN);
+        listColor.add(TokenColor.BLUE);
+        listColor.add(TokenColor.YELLOW);
+        boxTokenColor.setItems(listColor);
+
+        ObservableList<Integer> listNumPlayer = FXCollections.observableArrayList();
+        listNumPlayer.add(2);
+        listNumPlayer.add(3);
+        listNumPlayer.add(4);
+        boxNumPlayers.setItems(listNumPlayer);
+
+        next.setVisible(true);
+        next.setTextFill(Paint.valueOf("#0008db"));
+        boxTokenColor.setVisible(true);
+        textTokenColor.setVisible(true);
+
+        boxNumPlayers.setVisible(true);
+        textInsertNumPlayers.setVisible(true);
+        textTokenColor.setFill(Paint.valueOf("#0008db"));
+        textNewGame.setOpacity(1);
+        textJoinGame.setOpacity(0.4);
+
+        joinPane.setVisible(false);
+        newPane.setVisible(true);
+        choice.setSelected(false);
+    }
+
+    @FXML
+    public void clickedGame(MouseEvent mouseEvent) {
+        //update della lista di token color//
+        boxTokenColor.getItems().clear();
+        int i=0,numSize=0;
+        while(gameList.getSelectionModel().getSelectedItem().charAt(i) != ' ')
+        {
+            numSize++;
+            i++;
+        }
+        if(gameList.getSelectionModel().getSelectedItem().charAt(0) != 'G')
+        {
+            //calcolo idGame
+            idGame=0;
+            for(int j=0;j<numSize;j++)
+            {
+                if(gameList.getSelectionModel().getSelectedItem().charAt(j) == ' ')
+                {
+                    idGame += gameList.getSelectionModel().getSelectedItem().charAt(j)*(numSize-j);
+                }
+            }
+            System.out.println(idGame);
+            //TODO: add in boxTokenColor i colori giusti in base al game idGame
+            // TODO: serve metodo getFreeTokenColor(idGame)
+        }
+    }
+
+    @Override
+    public void setNickname(String nickname) {
+        // don't use
     }
 }
