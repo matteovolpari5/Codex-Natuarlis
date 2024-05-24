@@ -644,10 +644,10 @@ public class GameController {
      */
     private void endGame(){
         synchronized(this) {
-            // delete rmi virtual views and rmiServerGame
-            RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
             // delete GameController
             GamesManager.getGamesManager().deleteGame(getId());
+            // delete rmi virtual views and rmiServerGame
+            RmiServerGamesManager.getRmiServerGamesManager().deleteGame(getId());
         }
     }
 

@@ -3,11 +3,7 @@ module it.polimi.ingsw.gc07 {
     requires javafx.fxml;
     requires com.google.gson;
     requires java.rmi;
-    requires org.json;
-    requires json.simple;
 
-    //opens it.polimi.ingsw.gc07 to javafx.fxml;
-    //exports it.polimi.ingsw.gc07;
     exports it.polimi.ingsw.gc07.model;
     opens it.polimi.ingsw.gc07.model to javafx.fxml;
     exports it.polimi.ingsw.gc07.model.decks;
