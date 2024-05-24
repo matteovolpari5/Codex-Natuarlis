@@ -3,7 +3,6 @@ package it.polimi.ingsw.gc07.controller;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardCommand;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,13 +34,13 @@ class GamesManagerTest {
     @Test
     void testJoinGameSuccess() throws RemoteException {
         // add player 1
-        gm.addPlayerToPending("player1", true, false);
         RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
+        gm.addPlayerToPending("player1", true, false);
         gm.addVirtualView("player1", player1VirtualView);
 
         // add player 2
-        gm.addPlayerToPending("player2", true, false);
         RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
+        gm.addPlayerToPending("player2", true, false);
         gm.addVirtualView("player2", player2VirtualView);
 
         // join player 1

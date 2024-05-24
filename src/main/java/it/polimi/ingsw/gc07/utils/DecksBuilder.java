@@ -21,12 +21,11 @@ import it.polimi.ingsw.gc07.enumerations.GameObject;
 import it.polimi.ingsw.gc07.enumerations.GameResource;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Class used to parse decks' JSON files.
@@ -233,16 +232,13 @@ public abstract class DecksBuilder {
      */
     public static Deck<PlaceableCard> buildStarterCardsDeck() {
         Stack<PlaceableCard> deckContent = new Stack<>();
-        File input = new File("src/main/resources/it/polimi/ingsw/gc07/cards_json/starterCardsDeck.json");
-        JsonElement fileElement;
+
         JsonObject fileObject;
-        try{
-            fileElement = JsonParser.parseReader(new FileReader(input));
-        }catch(FileNotFoundException e){
+        try (InputStreamReader reader = new InputStreamReader(Objects.requireNonNull(DecksBuilder.class.getResourceAsStream("/it/polimi/ingsw/gc07/cards_json/starterCardsDeck.json")), StandardCharsets.UTF_8)) {
+            fileObject = JsonParser.parseReader(reader).getAsJsonObject();
+        } catch (IOException e) {
             throw new RuntimeException();
         }
-        fileObject = fileElement.getAsJsonObject();
-
 
         // get the JsonArray of all the cards
         JsonArray jsonArrayStarterCards = fileObject.get("cards").getAsJsonArray();
@@ -272,14 +268,14 @@ public abstract class DecksBuilder {
      */
     public static PlayingDeck<ObjectiveCard> buildObjectiveCardsDeck() {
         Stack<ObjectiveCard> deckContent = new Stack<>();
-        File input = new File("src/main/resources/it/polimi/ingsw/gc07/cards_json/objectiveCardsDeck.json");
-        JsonElement fileElement;
-        try{
-            fileElement = JsonParser.parseReader(new FileReader(input));
-        }catch(FileNotFoundException e){
+
+        JsonObject fileObject;
+        try (InputStreamReader reader = new InputStreamReader(Objects.requireNonNull(DecksBuilder.class.getResourceAsStream("/it/polimi/ingsw/gc07/cards_json/objectiveCardsDeck.json")), StandardCharsets.UTF_8)) {
+            fileObject = JsonParser.parseReader(reader).getAsJsonObject();
+        } catch (IOException e) {
             throw new RuntimeException();
         }
-        JsonObject fileObject = fileElement.getAsJsonObject();
+
         // get the JsonArray of all the cards
         JsonArray jsonArrayObjectiveCards = fileObject.get("cards").getAsJsonArray();
         for(JsonElement c: jsonArrayObjectiveCards){
@@ -317,14 +313,14 @@ public abstract class DecksBuilder {
      */
     public static DrawableDeck<DrawableCard> buildResourceCardsDeck() {
         Stack<DrawableCard> deckContent = new Stack<>();
-        File input = new File("src/main/resources/it/polimi/ingsw/gc07/cards_json/resourceCardsDeck.json");
-        JsonElement fileElement;
-        try {
-            fileElement = JsonParser.parseReader(new FileReader(input));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+
+        JsonObject fileObject;
+        try (InputStreamReader reader = new InputStreamReader(Objects.requireNonNull(DecksBuilder.class.getResourceAsStream("/it/polimi/ingsw/gc07/cards_json/resourceCardsDeck.json")), StandardCharsets.UTF_8)) {
+            fileObject = JsonParser.parseReader(reader).getAsJsonObject();
+        } catch (IOException e) {
+            throw new RuntimeException();
         }
-        JsonObject fileObject = fileElement.getAsJsonObject();
+
         // get the JsonArray of all the cards
         JsonArray jsonArrayResourceCards = fileObject.get("cards").getAsJsonArray();
         for (JsonElement c : jsonArrayResourceCards) {
@@ -353,15 +349,14 @@ public abstract class DecksBuilder {
      */
     public static DrawableDeck<GoldCard> buildGoldCardsDeck() {
         Stack<GoldCard> deckContent = new Stack<>();
-        File input = new File("src/main/resources/it/polimi/ingsw/gc07/cards_json/goldCardsDeck.json");
-        JsonElement fileElement;
-        try{
-            fileElement = JsonParser.parseReader(new FileReader(input));
-        }
-        catch(FileNotFoundException e){
+
+        JsonObject fileObject;
+        try (InputStreamReader reader = new InputStreamReader(Objects.requireNonNull(DecksBuilder.class.getResourceAsStream("/it/polimi/ingsw/gc07/cards_json/goldCardsDeck.json")), StandardCharsets.UTF_8)) {
+            fileObject = JsonParser.parseReader(reader).getAsJsonObject();
+        } catch (IOException e) {
             throw new RuntimeException();
         }
-        JsonObject fileObject = fileElement.getAsJsonObject();
+
         // get the JsonArray of all the cards
         JsonArray jsonArrayGoldCards = fileObject.get("cards").getAsJsonArray();
         for (JsonElement c : jsonArrayGoldCards) {
