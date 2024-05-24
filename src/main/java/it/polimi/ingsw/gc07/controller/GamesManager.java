@@ -232,6 +232,9 @@ public class GamesManager {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         assert(player != null);
+        VirtualView playerVirtualView = getVirtualView(nickname);
+        assert(playerVirtualView != null);
+
         boolean found = false;
         for(GameController gameController : gameControllers) {
             if(gameController.getId() == gameId) {
@@ -239,10 +242,8 @@ public class GamesManager {
                 // check gameController state WAITING_PLAYERS
                 if(!gameController.getState().equals(GameState.GAME_STARTING)) {
                     commandResult = CommandResult.GAME_FULL;
-                    VirtualView virtualView = getVirtualView(nickname);
-                    assert(virtualView != null);
                     try {
-                        virtualView.notifyJoinNotSuccessful();
+                        playerVirtualView.notifyJoinNotSuccessful();
                     } catch (RemoteException ex) {
                         // player disconnected, remove player from pending
                         removePlayer(nickname);
@@ -252,34 +253,30 @@ public class GamesManager {
                 // check token color unique
                 if(gameController.hasPlayerWithTokenColor(tokenColor)) {
                     commandResult = CommandResult.TOKEN_COLOR_ALREADY_TAKEN;
-                    VirtualView virtualView = getVirtualView(nickname);
-                    assert(virtualView != null);
                     try {
-                        virtualView.notifyJoinNotSuccessful();
+                        playerVirtualView.notifyJoinNotSuccessful();
                     } catch (RemoteException ex) {
                         // player disconnected, remove player from pending
                         removePlayer(nickname);
                     }
                     return;
                 }
-                VirtualView virtualView = getVirtualView(nickname);
-                assert(virtualView != null);
+                player.setTokenColor(tokenColor);
+
+                // add player to game
+                gameController.addPlayer(player, playerVirtualViews.get(nickname));
                 try {
-                    virtualView.setServerGame(gameId);
-                } catch (RemoteException ex) {
+                    playerVirtualView.setServerGame(gameId);
+                }catch (RemoteException ex) {
                     // player disconnected, remove player from pending
                     removePlayer(nickname);
                 }
-                player.setTokenColor(tokenColor);
-                gameController.addPlayer(player, playerVirtualViews.get(nickname));
             }
         }
         if(!found){
             commandResult = CommandResult.GAME_NOT_PRESENT;
-            VirtualView virtualView = getVirtualView(nickname);
-            assert(virtualView != null);
             try {
-                virtualView.notifyJoinNotSuccessful();
+                playerVirtualView.notifyJoinNotSuccessful();
             } catch (RemoteException ex) {
                 // player disconnected, remove player from pending
                 removePlayer(nickname);
@@ -300,6 +297,8 @@ public class GamesManager {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
         assert(player != null);
+        // no need to check the token color for the first player of the gameController
+        player.setTokenColor(tokenColor);
         VirtualView playerVirtualView = getVirtualView(nickname);
         assert(playerVirtualView != null);
         // create game controller
@@ -308,10 +307,8 @@ public class GamesManager {
             gameId = createGame(playersNumber);
         }catch(WrongNumberOfPlayersException e) {
             commandResult = CommandResult.WRONG_PLAYERS_NUMBER;
-            VirtualView virtualView = getVirtualView(nickname);
-            assert(virtualView != null);
             try {
-                virtualView.notifyJoinNotSuccessful();
+                playerVirtualView.notifyJoinNotSuccessful();
             } catch (RemoteException ex) {
                 // player disconnected, remove player from pending
                 removePlayer(nickname);
@@ -324,15 +321,13 @@ public class GamesManager {
             if(gameController.getId() == gameId) {
                 try {
                     RmiServerGamesManager.getRmiServerGamesManager().createServerGame(gameId);
+                    gameController.addPlayer(player, playerVirtualView);
                     try {
                         playerVirtualView.setServerGame(gameId);
                     } catch (RemoteException ex) {
                         // player disconnected, remove player from pending
                         removePlayer(nickname);
                     }
-                    // no need to check the token color for the first player of the gameController
-                    player.setTokenColor(tokenColor);
-                    gameController.addPlayer(player, playerVirtualViews.get(nickname));
                 }catch(RemoteException e) {
                     // couldn't create game server
                     // notify client

@@ -49,7 +49,7 @@ public class PingPongManager {
      * @param nickname nickname
      */
     public synchronized void receivePing(String nickname) {
-        assert (playersPing.containsKey(nickname)): "Didn't find " + nickname;
+        assert (playersPing.containsKey(nickname));
         playersPing.put(nickname, true);
     }
 
