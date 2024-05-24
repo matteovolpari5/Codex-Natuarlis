@@ -25,4 +25,5 @@ public interface GuiController {
     void updateCommandResult(CommandResult commandResult);
     void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor);
     void displayWinners(List<String> winners);
+    void setNickname(String nickname);
 }

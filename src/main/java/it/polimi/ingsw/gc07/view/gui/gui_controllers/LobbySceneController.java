@@ -235,4 +235,9 @@ public class LobbySceneController implements Initializable, GuiController {
             // TODO: serve metodo getFreeTokenColor(idGame)
         }
     }
+
+    @Override
+    public void setNickname(String nickname) {
+        // don't use
+    }
 }

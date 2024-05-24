@@ -82,13 +82,45 @@ public abstract class StageController {
         });
     }
 
+    /**
+     * Method used to set a scene, except for OTHER_PLAYER_SCENE.
+     * @param sceneType scene type
+     */
     public static void setScene(SceneType sceneType) {
+        assert(sceneType != SceneType.OTHER_PLAYER_SCENE);
         Platform.runLater(() -> {
             // create scene loader
             currentSceneType = sceneType;
             FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
             // set controller
             currentGuiController = sceneLoader.getController();
+            // set scene
+            try {
+                currentScene.setRoot(sceneLoader.load());
+            } catch (IOException e) {
+                // TODO gestire
+                throw new RuntimeException(e);
+            }
+            currentStage.setTitle(currentSceneType.getTitle());
+
+            // TODO inutile, già fatto sopra
+            currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
+            currentStage.show();  // TODO probabilmente non serve
+        });
+    }
+
+    /**
+     * Method used to set OTHER_PLAYER_SCENE on a specified player.
+     * @param nickname nickname
+     */
+    public static void setOtherPlayerScene(String nickname) {
+        Platform.runLater(() -> {
+            // create scene loader
+            currentSceneType = SceneType.OTHER_PLAYER_SCENE;
+            FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
+            // set controller
+            currentGuiController = sceneLoader.getController();
+            currentGuiController.setNickname(nickname);
             // set scene
             try {
                 currentScene.setRoot(sceneLoader.load());

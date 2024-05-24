@@ -120,4 +120,9 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void displayWinners(List<String> winners) {
 
     }
+
+    @Override
+    public void setNickname(String nickname) {
+        // don't use
+    }
 }

@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model_view.DeckView;
+import it.polimi.ingsw.gc07.model_view.GameFieldView;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import javafx.fxml.Initializable;
 
@@ -18,6 +19,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class OtherPlayerSceneController implements GuiController, Initializable {
+
+    String otherPlayerNickname;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -119,5 +122,17 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     @Override
     public void displayWinners(List<String> winners) {
 
+    }
+
+    @Override
+    public void setNickname(String nickname) {
+        otherPlayerNickname = nickname;
+
+        GameView gameView = StageController.getGameView();
+        // set game field data
+        GameFieldView gameFieldView =  gameView.getGameField(nickname);
+        // = gameFieldView.getCardsContent();
+        // = gameFieldView.getCardsFace();
+        // = gameFieldView.getCardsOrder());
     }
 }
