@@ -236,7 +236,7 @@ public  class Gui extends Application implements Ui {
     @Override
     public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
         if(StageController.getCurrentSceneType().equals(SceneType.LOBBY_SCENE)) {
-            StageController.getController().displayExistingGames(existingGamesPlayerNumber);
+            StageController.getController().displayExistingGames(existingGamesPlayerNumber, existingGamesTokenColor);
         }
     }
 
