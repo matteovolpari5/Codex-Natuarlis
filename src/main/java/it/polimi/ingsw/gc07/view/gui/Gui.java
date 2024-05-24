@@ -52,14 +52,12 @@ public  class Gui extends Application implements Ui {
      * Getter method for the Gui instance, automatically created at launch.
      * @return gui instance
      */
-    public static Gui getGuiInstance() {
-        synchronized (Gui.class) {
-            while(guiInstance == null) {
-                try {
-                    Gui.class.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException();
-                }
+    public synchronized static Gui getGuiInstance() {
+        while(guiInstance == null) {
+            try {
+                Gui.class.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException();
             }
         }
         return guiInstance;
