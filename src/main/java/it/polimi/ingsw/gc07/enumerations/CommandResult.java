@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc07.enumerations;
 
+/**
+ * Enum class representing all the possible results of an action performed by a player.
+ */
 public enum CommandResult {
     SUCCESS("Command successful"),
     WRONG_STATE("The game is in a wrong state"),
@@ -27,12 +30,23 @@ public enum CommandResult {
     CARD_ALREADY_PLACED("You have already placed a card in this turn"),
     ;
 
+    /**
+     * Result message associated to a result value, that will be displayed to the player.
+     */
     private final String resultMessage;
 
+    /**
+     * Constructor of CommandResult
+     * @param resultMessage message associated to a result
+     */
     CommandResult(String resultMessage){
         this.resultMessage = resultMessage;
     }
 
+    /**
+     * Getter method for the message associated to a command result.
+     * @return message associated to a command result
+     */
     public String getResultMessage() {
         return resultMessage;
     }

@@ -62,64 +62,115 @@ public class GameController {
         return gameModel.getState();
     }
 
+    /**
+     * Getter for the list of players in the game.
+     * @return players
+     */
     public synchronized List<Player> getPlayers() {
         return gameModel.getPlayers();
     }
 
+    /**
+     * Method used to get the number of players in the game.
+     * @return number of players in the game
+     */
     int getPlayersNumber() {
         // final attribute
         return gameModel.getPlayersNumber();
     }
 
+    /**
+     * Method used to get the taken token colors.
+     * @return taken token colors
+     */
     synchronized List<TokenColor> getTakenTokenColors() {
         return gameModel.getTakenTokenColors();
     }
 
+    /**
+     * Method used to the get the list of winners' nicknames.
+     * @return winners' nicknames
+     */
     // used in tests
     List<String> getWinners() {
         return gameModel.getWinners();
     }
 
+    /**
+     * Method used to get the current player.
+     * @return current player position in the list
+     */
     // used in tests
     int getCurrPlayer() {
         return gameModel.getCurrPlayer();
     }
 
+    /**
+     * Method used to receive the board reference.
+     * @return board reference
+     */
     // used in tests
     Board getBoard() {
         return gameModel.getBoard();
     }
 
+    /**
+     * Method used to get the resource cards deck.
+     * @return resource cards deck
+     */
     // used in tests
     DrawableDeck<DrawableCard> getResourceCardsDeck() {
         return gameModel.getResourceCardsDeck();
     }
 
+    /**
+     * Method used to get the gold cards deck.
+     * @return gold cards deck
+     */
     // used in tests
     DrawableDeck<GoldCard> getGoldCardsDeck() {
         return gameModel.getGoldCardsDeck();
     }
 
+    /**
+     * Method used to get the objective cards deck.
+     * @return objective cards deck
+     */
     // used by tests
     PlayingDeck<ObjectiveCard> getObjectiveCardsDeck() {
         return gameModel.getObjectiveCardsDeck();
     }
 
+    /**
+     * Method used to get the starter cards deck.
+     * @return starter cards deck
+     */
     // used in tests
     Deck<PlaceableCard> getStarterCardsDeck() {
         return gameModel.getStarterCardsDeck();
     }
 
+    /**
+     * Method used to know if the current round is the penultimate one.
+     */
     // used in tests
     void setPenultimateRound() {
         gameModel.setPenultimateRound(true);
     }
 
+    /**
+     * Method used to set the current player, used for the purposes.
+     */
     // used in tests
     void setCurrentPlayer(int num) {
         gameModel.setCurrPlayer(num);
     }
 
+    /**
+     * Method used to see if a player is connected.
+     * @param nickname nickname
+     * @return true if the player is connected
+     */
     public synchronized boolean isPlayerConnected(String nickname) {
         for(Player p: gameModel.getPlayers()) {
             if(p.getNickname().equals(nickname)) {
@@ -129,10 +180,19 @@ public class GameController {
         return false;
     }
 
+    /**
+     * Method used to set a value for the command result.
+     * @param nickname nickname
+     * @param commandResult command result
+     */
     public synchronized void setCommandResult(String nickname, CommandResult commandResult){
         gameModel.setCommandResult(nickname, commandResult);
     }
 
+    /**
+     * Getter method for the last command result.
+     * @return last command result
+     */
     public synchronized CommandResult getCommandResult() {
         return gameModel.getCommandResult();
     }
@@ -140,6 +200,11 @@ public class GameController {
 
     // player management methods
 
+    /**
+     * Method used to add a player to the game.
+     * @param newPlayer new player
+     * @param client client associated to the player
+     */
     public synchronized void addPlayer(Player newPlayer, VirtualView client) {
         assert(gameModel.getState().equals(GameState.GAME_STARTING)): "Wrong state";
         assert(!gameModel.getPlayerNicknames().contains(newPlayer.getNickname())): "Player already present";
@@ -162,6 +227,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Method used to disconnect the player with the given nickname.
+     * @param nickname nickname of the player to disconnect
+     */
     public synchronized void disconnectPlayer(String nickname) {
         // called by setAndExecute and pingPongManager
         // this command can always be used
@@ -255,6 +324,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Method used to compute and change the game state after a disconnection or reconnection.
+     */
     private void changeGameState() {
         int numPlayersConnected = gameModel.getNumPlayersConnected();
         if(numPlayersConnected == 0) {
@@ -270,6 +342,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Method used to start a timer that will make the game end.
+     */
     private void startTimeoutGameEnd() {
         new Thread(() -> {
             boolean onePlayer;
@@ -321,14 +396,28 @@ public class GameController {
 
     // command pattern methods
 
+    /**
+     * Method used to set and execute a command.
+     * @param gameControllerCommand game controller command
+     */
     public synchronized void setAndExecuteCommand(GameControllerCommand gameControllerCommand) {
         gameControllerCommand.execute(this);
     }
 
+    /**
+     * Method used to receive a ping.
+     * @param nickname nickname of the ping sender
+     */
     public void receivePing(String nickname) {
         pingPongManager.receivePing(nickname);
     }
 
+    /**
+     * Method used to add a private message to the chat.
+     * @param content message content
+     * @param sender message sender
+     * @param receiver message receiver
+     */
     public void addChatPrivateMessage(String content, String sender, String receiver) {
         // no state check, this command be used all the time
         List<String> playerNicknames = gameModel.getPlayerNicknames();
@@ -351,6 +440,11 @@ public class GameController {
         gameModel.setCommandResult(sender, CommandResult.SUCCESS);
     }
 
+    /**
+     * Method used to add a public message to the chat.
+     * @param content message content
+     * @param sender message sender
+     */
     public void addChatPublicMessage(String content, String sender) {
         // no state check, this command be used all the time
         List<String> playerNicknames = gameModel.getPlayerNicknames();
@@ -364,6 +458,11 @@ public class GameController {
         gameModel.setCommandResult(sender, CommandResult.SUCCESS);
     }
 
+    /**
+     * Method used to draw a deck card from a deck.
+     * @param nickname nickname
+     * @param type card type
+     */
     public void drawDeckCard(String nickname, CardType type) {
         if(!gameModel.getState().equals(GameState.PLAYING)) {
             gameModel.setCommandResult(nickname, CommandResult.WRONG_STATE);
@@ -402,6 +501,12 @@ public class GameController {
         gameModel.setCommandResult(nickname, CommandResult.SUCCESS);
     }
 
+    /**
+     * Method used to draw a face up card.
+     * @param nickname nickname
+     * @param type card type
+     * @param pos position between the starter cards list
+     */
     public void drawFaceUpCard(String nickname, CardType type, int pos) {
         if(!gameModel.getState().equals(GameState.PLAYING)) {
             gameModel.setCommandResult(nickname, CommandResult.WRONG_STATE);
@@ -467,6 +572,14 @@ public class GameController {
         changeCurrPlayer();
     }
 
+    /**
+     * Method used to place a card on the game field.
+     * @param nickname nickname
+     * @param pos position of the card in the player's hand
+     * @param x x position of the game field
+     * @param y y position of the game field
+     * @param way way of the card in the game field
+     */
     public void placeCard(String nickname, int pos, int x, int y, boolean way) {
         DrawableCard card;
         if(!gameModel.getState().equals(GameState.PLAYING)){
@@ -520,6 +633,11 @@ public class GameController {
         gameModel.setCommandResult(nickname, result);
     }
 
+    /**
+     * Method used to place a player's starter card.
+     * @param nickname nickname
+     * @param way way the card must be placed
+     */
     public void placeStarterCard(String nickname, boolean way) {
         // check right state
         if(!gameModel.getState().equals(GameState.PLACING_STARTER_CARDS)) {
@@ -560,6 +678,10 @@ public class GameController {
     // utils
     // ----------------------
 
+    /**
+     * Method used to place a starter card randomly when a player disconnects.
+     * @param nickname nickname
+     */
     void placeStarterCardRandomly(String nickname) {
         // compute way
         Random random = new Random();

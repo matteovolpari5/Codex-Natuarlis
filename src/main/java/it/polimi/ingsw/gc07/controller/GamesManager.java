@@ -70,12 +70,22 @@ public class GamesManager {
         return myGamesManager;
     }
 
+    /**
+     * Method used to add a player's virtual view.
+     * @param nickname nickname
+     * @param virtualView virtual view
+     */
     public synchronized void addVirtualView(String nickname, VirtualView virtualView) {
         assert(!playerVirtualViews.containsKey(nickname));
         assert(virtualView != null);
         playerVirtualViews.put(nickname, virtualView);
     }
 
+    /**
+     * Method used to the get the virtual view of a player with a certain nickname.
+     * @param nickname nickname
+     * @return virtual view
+     */
     public synchronized VirtualView getVirtualView(String nickname) {
         assert(playerVirtualViews.containsKey(nickname));
         return playerVirtualViews.get(nickname);
@@ -153,6 +163,12 @@ public class GamesManager {
         return -1;
     }
 
+    /**
+     * Method used to add a player to pending.
+     * @param nickname nickname
+     * @param connectionType connection type
+     * @param interfaceType interface type
+     */
     public void addPlayerToPending(String nickname, boolean connectionType, boolean interfaceType) {
         // this command can always be used
         assert(!checkReconnection(nickname));
@@ -175,6 +191,11 @@ public class GamesManager {
         commandResult = CommandResult.SUCCESS;
     }
 
+    /**
+     * Method used to check if a nickname corresponds to a player who is reconnecting to a game.
+     * @param nickname nickname
+     * @return true if the nickname is of a player who is reconnecting
+     */
     private boolean checkReconnection(String nickname) {
         boolean reconnection = false;
         for(GameController gameController: gameControllers) {
@@ -189,6 +210,13 @@ public class GamesManager {
         return reconnection;
     }
 
+    /**
+     * Method used to reconnect a player
+     * @param client client reference
+     * @param nickname nickname
+     * @param connectionType connection type
+     * @param interfaceType interface type
+     */
     public void reconnectPlayer(VirtualView client, String nickname, boolean connectionType, boolean interfaceType) {
         for(GameController g: gameControllers) {
             if(g.hasPlayer(nickname)) {
@@ -218,6 +246,12 @@ public class GamesManager {
         return unique;
     }
 
+    /**
+     * Method used to check if a nickname corresponds to a player who is reconnecting,
+     * to a player who is already connected or to a new player.
+     * @param nickname nickname
+     * @return nickname check result
+     */
     public synchronized NicknameCheck checkNickname(String nickname) {
         if(checkReconnection(nickname)) {
             return NicknameCheck.RECONNECTION;
@@ -228,6 +262,12 @@ public class GamesManager {
         }
     }
 
+    /**
+     * Method used to join an existing game.
+     * @param nickname nickname
+     * @param tokenColor token color
+     * @param gameId game id
+     */
     public void joinExistingGame(String nickname, TokenColor tokenColor, int gameId) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
@@ -293,6 +333,12 @@ public class GamesManager {
         commandResult = CommandResult.SUCCESS;
     }
 
+    /**
+     * Method used to join a new game.
+     * @param nickname nickname
+     * @param tokenColor token color
+     * @param playersNumber number of players in the new game, ranging from 2 to 4
+     */
     public void joinNewGame(String nickname, TokenColor tokenColor, int playersNumber) {
         // this command can always be used
         Player player = getPendingPlayer(nickname);
@@ -385,7 +431,7 @@ public class GamesManager {
     }
 
     /**
-     * Method that finds the first free id.
+     * Method that finds the first free game id, i.e. the lowest free game id.
      * @return first free id
      */
     private int findFirstFreeId() {
@@ -409,6 +455,10 @@ public class GamesManager {
         return id;
     }
 
+    /**
+     * Method used to receive the list of existing and free games.
+     * @param nickname nickname of the player who is requesting free games
+     */
     public void displayExistingGames(String nickname) {
         Player player = getPendingPlayer(nickname);
         assert(player != null);
@@ -424,6 +474,10 @@ public class GamesManager {
         }
     }
 
+    /**
+     * Method used to get the player number for existing and free games.
+     * @return map containing player number for existing and free games
+     */
     public Map<Integer, Integer> getFreeGamesPlayerNumber() {
         Map<Integer, Integer> gameDetails = new HashMap<>();
         for(GameController g: gameControllers) {
@@ -434,6 +488,10 @@ public class GamesManager {
         return gameDetails;
     }
 
+    /**
+     * Method used to get the taken token colors for existing and free games.
+     * @return taken token colors for existing and free games
+     */
     public Map<Integer, List<TokenColor>> getFreeGamesTokenColor() {
         Map<Integer, List<TokenColor>> gameDetails = new HashMap<>();
         for(GameController g: gameControllers) {
@@ -444,6 +502,10 @@ public class GamesManager {
         return gameDetails;
     }
 
+    /**
+     * Method used to delete a game once it is ended.
+     * @param gameId game id of the game to delete
+     */
     public synchronized void deleteGame(int gameId) {
         GameController gameController = null;
         for(GameController g: gameControllers) {
@@ -456,6 +518,10 @@ public class GamesManager {
         }
     }
 
+    /**
+     * Method used to delete a player from the game.
+     * @param nickname nickname
+     */
     private void removePlayer(String nickname) {
         Player player = getPendingPlayer(nickname);
         pendingPlayers.remove(player);
