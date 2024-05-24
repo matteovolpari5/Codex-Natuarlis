@@ -17,6 +17,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ClientMain {
+    /**
+     * Main method of the client.
+     */
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
@@ -127,6 +130,11 @@ public class ClientMain {
         }
     }
 
+    /**
+     * Method used to check if an ip is valid.
+     * @param ip ip
+     * @return true if the ip is valid
+     */
     private static boolean checkValidIp(String ip) {
         String regex = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$";
         Pattern pattern = Pattern.compile(regex);

@@ -8,9 +8,7 @@ import it.polimi.ingsw.gc07.enumerations.GameResource;
  * Condition regarding cards placement on the game field and their color,
  * i.e. the permanent resource on the back of GoldCards and ResourceCards.
  */
-public class LayoutCondition implements Condition{
-
-
+public class LayoutCondition implements Condition {
     /**
      * Matrix of dimension 4x3, the biggest dimension for a layout condition
      * that can be found on playing cards.

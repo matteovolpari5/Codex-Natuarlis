@@ -3,7 +3,6 @@ package it.polimi.ingsw.gc07.model_view;
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -101,14 +100,26 @@ public class GameView {
 
     // getters
 
+    /**
+     * Getter for game id.
+     * @return game id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Getter method for game state.
+     * @return game state
+     */
     public GameState getGameState() {
         return state;
     }
 
+    /**
+     * Getter method for the current player.
+     * @return current player nickname
+     */
     public String getCurrentPlayerNickname() {
         String currPlayerNickname;
         if(currPlayer >= 0 && currPlayer < playerViews.size()) {
@@ -119,30 +130,58 @@ public class GameView {
         return currPlayerNickname;
     }
 
+    /**
+     * Getter method for owner nickname.
+     * @return owner nickname
+     */
     public String getOwnerNickname() {
         return ownerNickname;
     }
 
+    /**
+     * Getter method for common objective.
+     * @return common objective cards
+     */
     public List<ObjectiveCard> getCommonObjective() {
         return deckView.getCommonObjective();
     }
 
+    /**
+     * Getter method for top resource card.
+     * @return top resource card
+     */
     public DrawableCard getTopResourceDeck() {
         return deckView.getTopResourceDeck();
     }
 
+    /**
+     * Getter method for top gold card.
+     * @return top gold card
+     */
     public GoldCard getTopGoldDeck() {
         return deckView.getTopGoldDeck();
     }
 
+    /**
+     * Getter method for face up resource cards.
+     * @return face up resource cards
+     */
     public List<DrawableCard> getFaceUpResourceCard() {
         return deckView.getFaceUpResourceCard();
     }
 
+    /**
+     * Getter method for face up gold cards.
+     * @return face up gold cards
+     */
     public List<GoldCard> getFaceUpGoldCard() {
         return deckView.getFaceUpGoldCard();
     }
 
+    /**
+     * Getter method for owner's messages.
+     * @return owner's messages
+     */
     public List<ChatMessage> getOwnerMessages() {
         return chatView.getMessages();
     }
@@ -180,6 +219,10 @@ public class GameView {
         }
     }
 
+    /**
+     * Setter method for winners.
+     * @param winners winners
+     */
     public void setWinners(List<String> winners) {
         this.winners = winners;
         for(GameViewListener l: gameViewListeners) {
@@ -197,6 +240,10 @@ public class GameView {
         }
     }
 
+    /**
+     * Method used to set the full chat content after a reconnection.
+     * @param chatMessages full chat content
+     */
     public void setChatMessages(List<ChatMessage> chatMessages) {
         chatView.setChatMessages(chatMessages);
     }
@@ -275,6 +322,14 @@ public class GameView {
         }
     }
 
+    /**
+     * Method used to receive a full game field update after a reconnection.
+     * @param nickname nickname
+     * @param starterCard starter card
+     * @param cardsContent cards content matrix
+     * @param cardsFace cards face matrix
+     * @param cardsOrder cards order matrix
+     */
     public void receiveFullGameFieldUpdate(String nickname, PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         for(PlayerView playerView: playerViews) {
             if(playerView.getNickname().equals(nickname)) {
@@ -370,12 +425,22 @@ public class GameView {
         }
     }
 
+    /**
+     * Method used to receive existing games.
+     * @param existingGamesPlayerNumber existing games players number
+     * @param existingGamesTokenColor existing games token colors
+     */
     public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
         for(GameViewListener l: gameViewListeners) {
             l.receiveExistingGamesUpdate(existingGamesPlayerNumber, existingGamesTokenColor);
         }
     }
 
+    /**
+     * Method used to check if a player is in the game.
+     * @param nickname nickname
+     * @return true if the player is in the game
+     */
     public boolean checkPlayerPresent(String nickname) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
@@ -385,6 +450,11 @@ public class GameView {
         return false;
     }
 
+    /**
+     * Method used to check if a player is the current one.
+     * @param nickname nickname
+     * @return true if the player is the current one
+     */
     public boolean isCurrentPlayer(String nickname) {
         if(currPlayer < 0)
             return false;
@@ -395,10 +465,19 @@ public class GameView {
         return false;
     }
 
+    /**
+     * Getter method for the number of face up cards.
+     * @param cardType card type
+     * @return number of face up cards
+     */
     public int getNumFaceUpCards(CardType cardType) {
         return deckView.getNumFaceUpCards(cardType);
     }
 
+    /**
+     * Getter method for the owner's current hand.
+     * @return owner's current hand
+     */
     public List<DrawableCard> getCurrentHand() {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(ownerNickname)) {
@@ -409,15 +488,10 @@ public class GameView {
         return null;
     }
 
-    public ObjectiveCard getSecretObjective() {
-        for(PlayerView p: playerViews) {
-            if(p.getNickname().equals(ownerNickname)) {
-                return p.getSecretObjective();
-            }
-        }
-        return null;
-    }
-
+    /**
+     * Getter method for the owner's current hand size.
+     * @return owner's current hand size
+     */
     public int getCurrHardHandSize() {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(ownerNickname)) {
@@ -427,6 +501,10 @@ public class GameView {
         return -1;
     }
 
+    /**
+     * Getter method for game field dimension.
+     * @return game field dimension
+     */
     public int getGameFieldDim() {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(ownerNickname)) {
@@ -436,6 +514,11 @@ public class GameView {
         return -1;
     }
 
+    /**
+     * Getter method for a player's game field.
+     * @param nickname nickname
+     * @return game field
+     */
     public GameFieldView getGameField(String nickname) {
         PlayerView player = null;
         for(PlayerView p: playerViews) {
@@ -447,18 +530,34 @@ public class GameView {
         return player.getGameField();
     }
 
+    /**
+     * Getter method for the deck view.
+     * @return deck view
+     */
     public DeckView getDeckView() {
         return new DeckView(deckView);
     }
 
+    /**
+     * Getter method for players' scores.
+     * @return players' scores
+     */
     public Map<String, Integer> getPlayersScores() {
         return boardView.getPlayerScores();
     }
 
+    /**
+     * Getter method for players' token colors.
+     * @return players' token colors
+     */
     public Map<String, TokenColor> getPlayersTokenColors() {
         return boardView.getPlayerTokenColors();
     }
 
+    /**
+     * Getter method for owner's starter card.
+     * @return owner's starter card
+     */
     public PlaceableCard getStarterCard() {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(ownerNickname)) {
@@ -468,6 +567,10 @@ public class GameView {
         return null;
     }
 
+    /**
+     * Getter method for players' connection values.
+     * @return map containing connection values
+     */
     public Map<String, Boolean> getConnectionValues() {
         Map<String, Boolean> connectionValues = new HashMap<>();
         for(PlayerView p: playerViews) {
@@ -476,6 +579,10 @@ public class GameView {
         return connectionValues;
     }
 
+    /**
+     * Getter method for players' stall values.
+     * @return map containing stall values
+     */
     public Map<String, Boolean> getStallValues() {
         Map<String, Boolean> stallValues = new HashMap<>();
         for(PlayerView p: playerViews) {

@@ -86,8 +86,6 @@ public final class GoldCard extends DrawableCard {
         }
     }
 
-    //METHOD USED TO HELP PRINT IN Tui VIEW
-
     /**
      * getter method for placementCondition
      * @return placementCondition

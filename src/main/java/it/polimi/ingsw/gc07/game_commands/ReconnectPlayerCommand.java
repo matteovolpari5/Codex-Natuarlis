@@ -4,9 +4,10 @@ import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
 public class ReconnectPlayerCommand implements GamesManagerCommand {
-
-    VirtualView client;
-
+    /**
+     * Virtual view associated to a client.
+     */
+    private final VirtualView client;
     /**
      * Nickname of the player to reconnect.
      */
@@ -20,6 +21,13 @@ public class ReconnectPlayerCommand implements GamesManagerCommand {
      */
     private final boolean interfaceType;
 
+    /**
+     * Constructor of ReconnectPlayerCommand.
+     * @param client client
+     * @param nickname nickname
+     * @param connectionType connection type
+     * @param interfaceType interface type
+     */
     public ReconnectPlayerCommand(VirtualView client, String nickname, boolean connectionType, boolean interfaceType) {
         this.client = client;
         this.nickname = nickname;
@@ -27,11 +35,19 @@ public class ReconnectPlayerCommand implements GamesManagerCommand {
         this.interfaceType = interfaceType;
     }
 
+    /**
+     * Method used to get the nickname of the player who sent the command.
+     * @return nickname of the player who sent the command
+     */
     @Override
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * Method to reconnect a player.
+     * @param gamesManager games manager
+     */
     @Override
     public void execute(GamesManager gamesManager) {
         gamesManager.reconnectPlayer(client, nickname, connectionType, interfaceType);

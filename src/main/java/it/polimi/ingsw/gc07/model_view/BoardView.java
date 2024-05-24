@@ -77,6 +77,10 @@ public class BoardView {
         }
     }
 
+    /**
+     * Method used to get players' scores.
+     * @return map containing players' scores
+     */
     public Map<String, Integer> getPlayerScores() {
         Map<String, Integer> playersScoresCopy = new HashMap<>();
         for(String nickname: playerScores.keySet()) {
@@ -85,6 +89,10 @@ public class BoardView {
         return playersScoresCopy;
     }
 
+    /**
+     * Method used to get players' token colors.
+     * @return map containing players' token colors
+     */
     public Map<String, TokenColor> getPlayerTokenColors() {
         Map<String, TokenColor> playersColorsCopy = new HashMap<>();
         for(String nickname: playerTokenColors.keySet()) {

@@ -2,8 +2,9 @@ package it.polimi.ingsw.gc07.game_commands;
 
 import it.polimi.ingsw.gc07.controller.GamesManager;
 
-import java.io.Serializable;
-
+/**
+ * Interface representing a games manager command.
+ */
 public interface GamesManagerCommand extends GameCommand {
     /**
      * Getter method for the nickname of games manager command.
