@@ -230,12 +230,13 @@ public  class Gui extends Application implements Ui {
 
     /**
      * Method used to receive an existing games update.
-     * @param existingGames existing games
+     * @param existingGamesPlayerNumber existing games player number
+     * @param existingGamesTokenColor  existing games token color
      */
     @Override
-    public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGames) {
+    public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
         if(StageController.getCurrentSceneType().equals(SceneType.LOBBY_SCENE)) {
-            StageController.getController().displayExistingGames(existingGames);
+            StageController.getController().displayExistingGames(existingGamesPlayerNumber);
         }
     }
 

@@ -592,9 +592,16 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     }
 
     @Override
-    public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGames) {
-        for(Integer id: existingGames.keySet()) {
-            System.out.println("Id: " + id + " - " + "Number of players: " + existingGames.get(id));
+    public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
+        for(Integer id: existingGamesPlayerNumber.keySet()) {
+            System.out.print("Id: " + id + " - " + "Number of players: " + existingGamesPlayerNumber.get(id));
+        }
+        for(Integer id: existingGamesTokenColor.keySet()) {
+            System.out.print(" - " + "Taken token colors: ");
+            for(TokenColor t: existingGamesTokenColor.get(id)) {
+                System.out.print(t + " ");
+            }
+            System.out.println();
         }
         runJoinGameInterface();
     }

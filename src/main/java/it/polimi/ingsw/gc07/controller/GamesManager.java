@@ -414,7 +414,7 @@ public class GamesManager {
         assert(player != null);
         VirtualView virtualView = getVirtualView(nickname);
         assert(virtualView != null);
-        ExistingGamesUpdate update = new ExistingGamesUpdate(getFreeGamesDetails());
+        ExistingGamesUpdate update = new ExistingGamesUpdate(getFreeGamesPlayerNumber(), getFreeGamesTokenColor());
         try{
             virtualView.receiveExistingGamesUpdate(update);
         }catch(RemoteException e) {
@@ -424,11 +424,21 @@ public class GamesManager {
         }
     }
 
-    public Map<Integer, Integer> getFreeGamesDetails() {
+    public Map<Integer, Integer> getFreeGamesPlayerNumber() {
         Map<Integer, Integer> gameDetails = new HashMap<>();
         for(GameController g: gameControllers) {
             if(g.getState().equals(GameState.GAME_STARTING)) {
                 gameDetails.put(g.getId(), g.getPlayersNumber());
+            }
+        }
+        return gameDetails;
+    }
+
+    public Map<Integer, List<TokenColor>> getFreeGamesTokenColor() {
+        Map<Integer, List<TokenColor>> gameDetails = new HashMap<>();
+        for(GameController g: gameControllers) {
+            if(g.getState().equals(GameState.GAME_STARTING)) {
+                gameDetails.put(g.getId(), g.getTakenTokenColors());
             }
         }
         return gameDetails;
