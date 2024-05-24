@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
 import it.polimi.ingsw.gc07.model_view.GameView;
+import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.gui.SceneType;
 import javafx.application.Platform;
@@ -15,15 +16,15 @@ public abstract class StageController {
     private static Scene currentScene;
     private static SceneType currentSceneType;
     private static GuiController currentGuiController;
-    private static GameView gameView;
+    private static Client client;
     private static String nickname;
 
     public static void setNickname(String clientNickname) {
         nickname = clientNickname;
     }
 
-    public static void setGameView(GameView clientGameView) {
-        gameView = clientGameView;
+    public static void setClient(Client client) {
+        client = client;
     }
 
     public static String getNickname() {
@@ -31,7 +32,7 @@ public abstract class StageController {
     }
 
     public static GameView getGameView() {
-        return gameView;
+        return client.getGameView();
     }
 
     public static SceneType getCurrentSceneType() {
