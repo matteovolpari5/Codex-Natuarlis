@@ -2,7 +2,7 @@ package it.polimi.ingsw.gc07.view.gui;
 
 public enum SceneType {
     LOBBY_SCENE("Codex Naturalis - Lobby", "/it/polimi/ingsw/gc07/fxml/lobbyScene.fxml"),
-    PLAYER_SCENE("Codex Naturalis - Board", "/it/polimi/ingsw/gc07/fxml/player.fxml"),
+    PLAYER_SCENE("Codex Naturalis - Board", "/it/polimi/ingsw/gc07/fxml/playerScene.fxml"),
     CHAT_SCENE("Codex Naturalis - Chat", "/it/polimi/ingsw/gc07/fxml/chatScene.fxml"),
     OTHER_PLAYER_SCENE("Codex Naturalis - Other board", "/it/polimi/ingsw/gc07/fxml/otherPlayerScene.fxml");
 
