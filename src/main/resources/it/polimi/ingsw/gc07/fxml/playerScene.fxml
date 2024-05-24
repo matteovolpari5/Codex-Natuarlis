@@ -23,82 +23,79 @@
         <ScrollPane fx:id="board" layoutX="5.0" layoutY="26.0" prefHeight="593.0" prefWidth="889.0" style="-fx-background-color: #98777b; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="26.0" />
         <ImageView fitHeight="62.0" fitWidth="128.0" layoutX="267.0" layoutY="715.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0">
             <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
+                <Image url="@../graphic_resources/Card/Front/1.png" />
             </image>
         </ImageView>
         <ImageView fitHeight="62.0" fitWidth="128.0" layoutX="26.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0">
             <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
+                <Image url="@../graphic_resources/Card/Front/1.png" />
             </image>
         </ImageView>
         <ImageView fitHeight="62.0" fitWidth="128.0" layoutX="144.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0">
             <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
+                <Image url="@../graphic_resources/Card/Front/1.png" />
             </image>
         </ImageView>
         <ImageView fitHeight="62.0" fitWidth="128.0" layoutX="266.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0">
             <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
+                <Image url="@../graphic_resources/Card/Front/1.png" />
             </image>
         </ImageView>
         <ImageView fitHeight="62.0" fitWidth="128.0" layoutX="28.0" layoutY="629.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0">
             <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
+                <Image url="@../graphic_resources/Card/Front/1.png" />
             </image>
         </ImageView>
         <ImageView fitHeight="62.0" fitWidth="128.0" layoutX="144.0" layoutY="630.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0">
             <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
+                <Image url="@../graphic_resources/Card/Front/1.png" />
             </image>
         </ImageView>
-        <VBox alignment="BOTTOM_LEFT" layoutX="905.0" layoutY="647.0" maxWidth="300.0" minWidth="150.0" prefHeight="150.0" style="-fx-alignment: left; -fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="145.0">
+        <VBox alignment="BOTTOM_LEFT" layoutX="905.0" layoutY="647.0" maxWidth="300.0" minWidth="150.0" prefHeight="148.0" style="-fx-alignment: left; -fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="145.0">
             <children>
-                <Label fx:id="nickname1" alignment="TOP_LEFT" prefHeight="50.0" style="-fx-alignment: center;" text="Nickname1">
+                <Label fx:id="nickname1" prefHeight="37.0" text="Nickname1">
                     <font>
                         <Font name="Comic Sans MS" size="20.0" />
                     </font>
                 </Label>
-                <Label fx:id="nickname2" prefHeight="50.0" text="Nickname2">
+                <Label fx:id="nickname2" prefHeight="37.0" text="Nickname2">
                     <font>
                         <Font name="Comic Sans MS" size="20.0" />
                     </font>
                 </Label>
-                <Label fx:id="nickname3" prefHeight="50.0" text="Nickname3">
+                <Label fx:id="nickname3" prefHeight="37.0" text="Nickname3">
+                    <font>
+                        <Font name="Comic Sans MS" size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="nickname4" prefHeight="37.0" text="Nickname4">
                     <font>
                         <Font name="Comic Sans MS" size="20.0" />
                     </font>
                 </Label>
             </children>
         </VBox>
-        <ImageView fx:id="handCard2" fitHeight="62.0" fitWidth="128.0" layoutX="672.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0">
-            <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
-            </image>
-        </ImageView>
+        <ImageView fx:id="handCard2" fitHeight="62.0" fitWidth="128.0" layoutX="672.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0"/>
         <ImageView fx:id="commonObjective2" fitHeight="62.0" fitWidth="128.0" layoutX="402.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0">
             <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
+                <Image url="@../graphic_resources/Card/Front/1.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="handCard1" fitHeight="62.0" fitWidth="128.0" layoutX="549.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0">
-            <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
-            </image>
-        </ImageView>
+        <ImageView fx:id="handCard1" fitHeight="62.0" fitWidth="128.0" layoutX="549.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0"/>
         <ImageView fx:id="myStarterCard" fitHeight="62.0" fitWidth="128.0" layoutX="671.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0"/>
         <ImageView fx:id="commonObjective1" fitHeight="62.0" fitWidth="128.0" layoutX="401.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0">
             <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
+                <Image url="@../graphic_resources/Card/Front/1.png" />
             </image>
         </ImageView>
         <ImageView fx:id="secretObjective" fitHeight="62.0" fitWidth="128.0" layoutX="549.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0">
             <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
+                <Image url="@../graphic_resources/Card/Front/1.png" />
             </image>
         </ImageView>
         <ImageView fx:id="handCard3" fitHeight="62.0" fitWidth="128.0" layoutX="791.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0">
             <image>
-                <Image url="@../graphic_resources/Card/Front/001.png" />
+                <Image url="@../graphic_resources/Card/Front/1.png" />
             </image>
         </ImageView>
         <StackPane layoutX="925.0" layoutY="26.0" prefHeight="303.0" prefWidth="200.0" style="-fx-background-radius: 5; -fx-padding: 5; -fx-background-color: #98777b;" AnchorPane.rightAnchor="32.0">

@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.enumerations.GameResource;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
@@ -58,20 +59,32 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected Label nickname3;
 
     @FXML
+    protected Label nickname4;
+
+    @FXML
     protected ImageView myStarterCard;
 
     @FXML
-    AnchorPane chatContainer;
+    protected AnchorPane chatContainer;
 
+    @FXML
+    protected ImageView handCard1;
 
-    /*@Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        chatItem = FXCollections.observableArrayList();
-        myChat.setItems(chatItem);
-        updatesItem = FXCollections.observableArrayList();
-        myUpdates.setItems(updatesItem);
-        //todo settare la situa iniziale
-    }*/
+    @FXML
+    protected ImageView handCard2;
+
+    @FXML
+    protected ImageView handCard3;
+
+    @FXML
+    protected ImageView commonObjective1;
+
+    @FXML
+    protected ImageView commonObjective2;
+
+    @FXML
+    protected ImageView secretObjective;
+
 
     @FXML
     protected void onChatButtonClick(){
@@ -88,40 +101,80 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameView gameView = StageController.getGameView();
         String nickname = StageController.getNickname();
-
+        chatItem = FXCollections.observableArrayList();
+        myChat.setItems(chatItem);
+        updatesItem = FXCollections.observableArrayList();
+        myUpdates.setItems(updatesItem);
         // set game field data
         GameFieldView gameFieldView =  gameView.getGameField(nickname);
         // = gameFieldView.getCardsContent();
         // = gameFieldView.getCardsFace();
         // = gameFieldView.getCardsOrder());
 
+        nickname1.setText(nickname + " (you");
         // set decks data
         DeckView deckView = gameView.getDeckView();
-        // = deckView.getTopResourceDeck();
+        // set top decks
+        int topDeckId = deckView.getTopResourceDeck().getId();
+        Image image = new Image("@../graphic_resources/Card/Back/"+ topDeckId + ".png");
+        //topDeckResource.setImage(image)
+        topDeckId = deckView.getTopGoldDeck().getId();
+        image = new Image("@../graphic_resources/Card/Back/"+ topDeckId + ".png");
+        //topDeckGold.setImage(image)
+
+
         // = deckView.getTopGoldDeck();
         // = deckView.getFaceUpResourceCard();
         // = deckView.getFaceUpGoldCard();
         // = deckView.getCommonObjective();
 
         // set current hand data
-        // = gameView.getCurrentHand();
+        int imageId;
+        imageId = gameView.getCurrentHand().getFirst().getId();
+        image = new Image("@../graphic_resources/Card/Front/"+ imageId + ".png");
+        handCard1.setImage(image);
+        imageId = gameView.getCurrentHand().get(1).getId();
+        image = new Image("@../graphic_resources/Card/Back/"+ imageId + ".png");
+        handCard2.setImage(image);
+        imageId = gameView.getCurrentHand().get(2).getId();
+        image = new Image("@../graphic_resources/Card/Back/"+ imageId + ".png");
+        handCard3.setImage(image);
         // = gameView.getSecretObjective();
 
         // set starter card
-        // = gameView.getStarterCard();
+        int starterCardId = gameView.getStarterCard().getId();
+        image = new Image("@../graphic_resources/Card/Back/"+ starterCardId + ".png");
+        myStarterCard.setImage(image);
 
         // set scores
         // = gameView.getPlayersScores(), gameView.getPlayersTokenColors();
 
         // set id and current player
-        // = gameView.getId();
-        // = gameView.getCurrentPlayerNickname();
+        gameId.setText("game Id: " + gameView.getId());
+        currentPlayer.setText("Current player: " + gameView.getCurrentPlayerNickname());
 
         // set full chat
-        // = gameView.getOwnerMessages();
+        for (ChatMessage c: gameView.getOwnerMessages()){
+            chatItem.add(c.getSender() + ": " + c.getContent());
+        }
 
         // set stalled or disconnected
-        // = gameView.getConnectionValues();
+        for (String s: gameView.getConnectionValues().keySet()) {
+            if (gameView.getConnectionValues().get(s)) {
+                if (s.equals(nickname4.getText())) {
+                    nickname1.setText(s + " [disconnected]");
+                    nickname1.setOpacity(70);
+                }
+                if (s.equals(nickname2.getText())) {
+                    nickname2.setText(s + " [disconnected]");
+                    nickname2.setOpacity(70);
+                }
+                if (s.equals(nickname3.getText())) {
+                    nickname3.setText(s + " [disconnected]");
+                    nickname3.setOpacity(70);
+                }
+            }
+        }
         // =  gameView.getStallValues();
     }
 
@@ -160,6 +213,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void updateGameInfo(GameState gameState, String currPlayer) {
         updatesItem.add("new game state: " + gameState.name());
+        currentPlayer.setText("Current player: " + currPlayer);
     }
 
     @Override
@@ -187,14 +241,6 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void displayWinners(List<String> winners) {
 
-    }
-
-    @Override
-    public void displayFullChat(List<ChatMessage> messages) {
-        chatItem.clear();
-        for(ChatMessage message : messages){
-            chatItem.add(message.getSender() + ": " + message.getContent());
-        }
     }
 
     public void setNickname(String nickname) {
