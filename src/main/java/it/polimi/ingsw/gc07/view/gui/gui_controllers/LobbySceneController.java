@@ -139,13 +139,12 @@ public class LobbySceneController implements Initializable, GuiController {
     }
 
     @Override
-    public void displayExistingGames(Map<Integer, Integer> existingGames) {
+    public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
         ObservableList<String> listViewComponent = FXCollections.observableArrayList();
         listViewComponent.add("GAMEID                                                                              NUMBER OF PLAYERS");
         gameList.getItems().clear();
-        existingGames.keySet();
-        for(Integer id : existingGames.keySet()){
-            String newLine = id+"                                                                                              "+existingGames.get(id);
+        for(Integer id : existingGamesPlayerNumber.keySet()){
+            String newLine = id+"                                                                                              "+existingGamesPlayerNumber.get(id);
             listViewComponent.add(newLine);
         }
         gameList.setItems(listViewComponent);

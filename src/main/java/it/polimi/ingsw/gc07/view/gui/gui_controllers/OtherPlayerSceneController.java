@@ -112,7 +112,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     }
 
     @Override
-    public void displayExistingGames(Map<Integer, Integer> existingGames) {
+    public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
 
     }
 

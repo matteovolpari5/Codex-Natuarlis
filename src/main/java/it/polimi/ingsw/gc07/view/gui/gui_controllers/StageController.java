@@ -28,8 +28,8 @@ public abstract class StageController {
         nickname = clientNickname;
     }
 
-    public static void setClient(Client client) {
-        client = client;
+    public static void setClient(Client clientRef) {
+        client = clientRef;
     }
 
     public static String getNickname() {

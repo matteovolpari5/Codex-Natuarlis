@@ -72,7 +72,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
     }
 
     @Override
-    public void displayExistingGames(Map<Integer, Integer> existingGames) {
+    public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
 
     }
 
