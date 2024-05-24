@@ -25,7 +25,7 @@ public  class Gui extends Application implements Ui {
     /**
      * Nickname of Gui's owner.
      */
-    private String nickame;
+    private String nickname;
 
     /**
      * Init method, called at application launch.
@@ -68,7 +68,7 @@ public  class Gui extends Application implements Ui {
      * @param nickname nickname
      */
     public void setNickname(String nickname) {
-        this.nickame = nickname;
+        this.nickname = nickname;
         StageController.setNickname(nickname);
     }
 
