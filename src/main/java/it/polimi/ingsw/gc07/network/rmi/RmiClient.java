@@ -65,7 +65,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         this.gameView = new GameView(nickname);
         this.clientAlive = true;
         if(interfaceType) {
-            new Thread(()->Application.launch(Gui.class)).start();  // TODO altrimenti eccezione, ma non penso sia giusto
+            // run application on new thread
+            new Thread(() -> Application.launch(Gui.class)).start();
             this.ui = Gui.getGuiInstance();
             this.ui.setNickname(nickname);
             this.ui.setClient(this);
@@ -199,6 +200,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
+        System.out.println(gamesManagerCommand);
         try {
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
         }catch(RemoteException e) {

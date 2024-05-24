@@ -79,7 +79,7 @@ public  class Gui extends Application implements Ui {
      * @param client client
      */
     public void setClient(Client client) {
-        StageController.setClient(client);  // TODO platform.runLater
+        StageController.setClient(client);
     }
 
     /**
