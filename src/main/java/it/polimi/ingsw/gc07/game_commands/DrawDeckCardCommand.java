@@ -8,7 +8,6 @@ public class DrawDeckCardCommand implements GameControllerCommand {
      *  Nickname of the player.
      */
     private final String nickname;
-
     /**
      * Type of the card a user wants to draw.
      */

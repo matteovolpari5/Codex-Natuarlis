@@ -13,10 +13,18 @@ public class PlayerJoinedUpdate implements Update {
      */
     private final List<PlayerView> playerViews;
 
+    /**
+     * Constructor of PlayerJoinedUpdate.
+     * @param playerViews player views
+     */
     public PlayerJoinedUpdate(List<PlayerView> playerViews) {
         this.playerViews = playerViews;
     }
 
+    /**
+     * Execute method of the concrete update telling a player has joined.
+     * @param gameView game view
+     */
     @Override
     public void execute(GameView gameView) {
         gameView.setPlayerViews(playerViews);

@@ -30,7 +30,9 @@ public class DeckView {
      * Attribute that represents common objective cards.
      */
     private List<ObjectiveCard> commonObjective;
-
+    /**
+     * List of deck view listeners.
+     */
     private final List<DeckViewListener> deckViewListeners;
 
     /**
@@ -45,13 +47,17 @@ public class DeckView {
         this.deckViewListeners = new ArrayList<>();
     }
 
+    /**
+     * Copy constructor of DeckView.
+     * @param deckView existing deck view
+     */
     public DeckView(DeckView deckView) {
         this.topResourceDeck = deckView.topResourceDeck;
         this.topGoldDeck = deckView.topGoldDeck;
         this.faceUpResourceCard = new ArrayList<>(deckView.faceUpResourceCard);
         this.faceUpGoldCard = new ArrayList<>(deckView.faceUpGoldCard);
         this.commonObjective = deckView.commonObjective;
-        this.deckViewListeners = null;
+        this.deckViewListeners = new ArrayList<>(); // don't copy listeners
     }
 
     /**
@@ -116,26 +122,52 @@ public class DeckView {
         sendDecksUpdate();
     }
 
+    /**
+     * Getter method for top resource cards deck.
+     * @return top resource cards deck
+     */
     public DrawableCard getTopResourceDeck() {
         return topResourceDeck;
     }
 
+    /**
+     * Getter method for top gold cards deck.
+     * @return top gold cards deck
+     */
     public GoldCard getTopGoldDeck() {
         return topGoldDeck;
     }
 
+    /**
+     * Getter method for face up resource cards deck.
+     * @return face up resource cards deck
+     */
     public List<DrawableCard> getFaceUpResourceCard() {
         return faceUpResourceCard;
     }
 
+    /**
+     * Getter method for face up gold cards deck.
+     * @return face up gold cards deck
+     */
     public List<GoldCard> getFaceUpGoldCard() {
         return faceUpGoldCard;
     }
 
+    /**
+     * Getter method for common objectives.
+     * @return common objectives
+     */
     public List<ObjectiveCard> getCommonObjective() {
         return commonObjective;
     }
 
+    /**
+     * Getter method for the number of face up cards of a certain type.
+     * The number can be different from 2 when a deck is almost empty.
+     * @param cardType card type
+     * @return number of face up cards of a given type
+     */
     public int getNumFaceUpCards(CardType cardType) {
         if(cardType.equals(CardType.RESOURCE_CARD))
             return faceUpResourceCard.size();

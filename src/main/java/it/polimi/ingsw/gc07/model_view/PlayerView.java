@@ -60,10 +60,18 @@ public class PlayerView implements Serializable {
         this.playerViewListeners = new ArrayList<>();
     }
 
+    /**
+     * Getter method for connection state.
+     * @return true if the player is connected
+     */
     public boolean isConnected() {
         return isConnected;
     }
 
+    /**
+     * Getter method for stall state.
+     * @return true if the player is stalled
+     */
     public boolean isStalled() {
         return isStalled;
     }
@@ -127,6 +135,10 @@ public class PlayerView implements Serializable {
         }
     }
 
+    /**
+     * Setter method for player's starter card.
+     * @param starterCard starter card
+     */
     public void setStarterCard(PlaceableCard starterCard) {
         gameField.setStarterCard(starterCard);
         // update listeners
@@ -135,26 +147,53 @@ public class PlayerView implements Serializable {
         }
     }
 
+    /**
+     * Method used to add a card to the game field.
+     * @param card card
+     * @param x x pos
+     * @param y y pos
+     * @param way way
+     * @param orderPosition order position
+     */
     public void addCard(PlaceableCard card, int x, int y, boolean way, int orderPosition) {
         gameField.addCard(nickname, card, x, y, way, orderPosition);
     }
 
+    /**
+     * Getter for player's current hand.
+     * @return current hand
+     */
     public List<DrawableCard> getCurrentHand() {
         return new ArrayList<>(currentHand);
     }
 
+    /**
+     * Getter for player's current hand size.
+     * @return current hand size
+     */
     public int getCurrHandSize() {
         return currentHand.size();
     }
 
+    /**
+     * Getter for player's secrete objective.
+     * @return secrete objective
+     */
     public ObjectiveCard getSecretObjective() {
         return secretObjective;
     }
 
+    /**
+     * Getter for player's game field.
+     * @return game field
+     */
     public GameFieldView getGameField() {
         return gameField;
     }
 
+    /**
+     * Setter method for player's game field.
+     */
     public void setFullGameField(PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         gameField.setFullGameField(starterCard, cardsContent, cardsFace, cardsOrder);
     }

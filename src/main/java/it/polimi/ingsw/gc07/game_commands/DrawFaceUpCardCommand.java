@@ -11,12 +11,10 @@ public class DrawFaceUpCardCommand implements GameControllerCommand {
      * Nickname of the player.
      */
     private final String nickname;
-
     /**
      * Type of the card a user wants to draw.
      */
     private final CardType type;
-
     /**
      * Position in the List of faceUpCards.
      */

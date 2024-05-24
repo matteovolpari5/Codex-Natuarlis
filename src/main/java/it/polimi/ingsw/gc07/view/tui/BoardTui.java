@@ -8,19 +8,15 @@ import java.util.Map;
 
 public interface BoardTui {
     /**
-     * constant for color bg
-     */
-    String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    String ANSI_RED_BACKGROUND = "\u001B[41m";
-    String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-
-
-    /**
-     * method that print in the console the complete track board
+     * Method used to print in the console the complete track board.
      */
     static void printScoreTrackBoard(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
+        String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+        String ANSI_RED_BACKGROUND = "\u001B[41m";
+        String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+        String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+        String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+
         List<Integer> score = new ArrayList<>();
         List<String> color = new ArrayList<>();
         for (String s : playerScores.keySet()) {

@@ -5,11 +5,15 @@ import it.polimi.ingsw.gc07.network.socket.SocketServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class ServerMain {
-    public static void main(String[] args) throws IOException {
+    /**
+     * Main method of the server
+     */
+    public static void main(String[] args) {
 
         // create Rmi server
         String name = "VirtualServerGamesManager";
@@ -17,8 +21,13 @@ public class ServerMain {
         String serverIp = args[0];
         System.setProperty("java.rmi.server.hostname", serverIp);
         int rmiPort = Integer.parseInt(args[1]);
-        Registry registry = LocateRegistry.createRegistry(rmiPort);
-        registry.rebind(name, serverGamesManager);
+        Registry registry;
+        try {
+            registry = LocateRegistry.createRegistry(rmiPort);
+            registry.rebind(name, serverGamesManager);
+        } catch (RemoteException e) {
+            System.exit(-1);
+        }
         System.out.println("RMI Server running");
 
         // create Socket server for gamesManager
@@ -33,6 +42,10 @@ public class ServerMain {
         System.out.println("Main Socket server ready");
         SocketServer socketServer= SocketServer.getSocketServer();
         socketServer.initializeSocketServer(sc);
-       socketServer.runServer();
+        try {
+            socketServer.runServer();
+        } catch (IOException e) {
+            System.exit(-1);
+        }
     }
 }

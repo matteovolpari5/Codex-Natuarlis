@@ -61,6 +61,13 @@ public class GameFieldView implements Serializable {
         this.gameFieldViewListeners = new ArrayList<>();
     }
 
+    /**
+     * Setter method for game field structures.
+     * @param starterCard starter card
+     * @param cardsContent card content matrix
+     * @param cardsFace card face matrix
+     * @param cardsOrder card order matrix
+     */
     public void setFullGameField(PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         this.starterCard = starterCard;
         for(int i=0; i < dim; i++){
@@ -88,14 +95,26 @@ public class GameFieldView implements Serializable {
         gameFieldViewListeners.add(gameFieldViewListener);
     }
 
+    /**
+     * Getter method for cards content matrix.
+     * @return cards content matrix
+     */
     public PlaceableCard[][] getCardsContent() {
         return cardsContent;
     }
 
+    /**
+     * Getter method for cards face matrix.
+     * @return cards face matrix
+     */
     public Boolean[][] getCardsFace() {
         return cardsFace;
     }
 
+    /**
+     * Getter method for cards order matrix.
+     * @return cards order matrix
+     */
     public int[][] getCardsOrder() {
         return cardsOrder;
     }
@@ -126,10 +145,18 @@ public class GameFieldView implements Serializable {
         }
     }
 
+    /**
+     * Getter method for dimension.
+     * @return dimension of the game field
+     */
     public int getDim() {
         return dim;
     }
 
+    /**
+     * Getter method for the starter card.
+     * @return starter card
+     */
     public PlaceableCard getStarterCard() {
         return starterCard;
     }

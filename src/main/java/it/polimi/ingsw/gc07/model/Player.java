@@ -291,10 +291,22 @@ public class Player {
         return secretObjective;
     }
 
+    /**
+     * Getter method for the start card.
+     * @return starter card
+     */
     public PlaceableCard getStarterCard() {
         return gameField.getStarterCard();
     }
 
+    /**
+     * Method used to place a card.
+     * @param card card
+     * @param x x position in the game field
+     * @param y y position in the game field
+     * @param way way in the game field
+     * @return result of the placement
+     */
     public CommandResult placeCard(PlaceableCard card, int x, int y, boolean way) {
         return gameField.placeCard(nickname, card, x, y, way);
     }

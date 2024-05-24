@@ -10,7 +10,6 @@ public class PlaceStarterCardCommand implements GameControllerCommand {
      * Nickname of the player.
      */
     private final String nickname;
-
     /**
      * Way of the card.
      */

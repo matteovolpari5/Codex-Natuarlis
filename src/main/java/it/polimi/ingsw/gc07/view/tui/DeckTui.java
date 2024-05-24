@@ -19,6 +19,14 @@ public interface DeckTui {
     String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+    /**
+     * Method used to print the deck view.
+     * @param commonObjective common objective
+     * @param faceUpGoldCard face up gold cards
+     * @param faceUpResourceCard face up resource card
+     * @param topGoldDeck top gold deck
+     * @param topResourceDeck top resource deck
+     */
     static void printDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck, DrawableCard topResourceDeck) {
         ObjectiveCard commonObjective1;
         ObjectiveCard commonObjective2;
@@ -67,12 +75,12 @@ public interface DeckTui {
         printFourthRowDeck(commonObjective2, resourceCard1, resourceCard2, topResourceDeck);
         printFirstLastRowDeck();
     }
-    private static void printFirstLastRowDeck()
-    {
+
+    private static void printFirstLastRowDeck() {
         System.out.println(ANSI_YELLOW_BACKGROUND + "+---------+" +ANSI_BLACK_BACKGROUND + "             +---------+ +---------+ +---------+" );
     }
-    private static void printSecondRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
-    {
+
+    private static void printSecondRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
         }
@@ -297,8 +305,8 @@ public interface DeckTui {
         }
         System.out.println();
     }
-    private static void printThirdRowDeck(ObjectiveCard objectiveCard, DrawableCard topGoldDeck)
-    {
+
+    private static void printThirdRowDeck(ObjectiveCard objectiveCard, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
         }
@@ -394,8 +402,8 @@ public interface DeckTui {
         }
         System.out.println();
     }
-    private static void printFourthRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
-    {
+
+    private static void printFourthRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
         }
@@ -622,8 +630,8 @@ public interface DeckTui {
         }
         System.out.println();
     }
-    static void printBackDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck,DrawableCard topResourceDeck)
-    {
+
+    static void printBackDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck,DrawableCard topResourceDeck) {
         ObjectiveCard commonObjective1;
         ObjectiveCard commonObjective2;
         if(commonObjective == null || commonObjective.size() == 0) {
@@ -671,8 +679,8 @@ public interface DeckTui {
         printBackFourthRowDeck(commonObjective2,resourceCard1,resourceCard2,topResourceDeck);
         printFirstLastRowDeck();
     }
-    private static void printBackSecondRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
-    {
+
+    private static void printBackSecondRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
         }
@@ -866,8 +874,8 @@ public interface DeckTui {
         }
         System.out.println();
     }
-    private static void printBackThirdRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
-    {
+
+    private static void printBackThirdRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
         }
@@ -1020,8 +1028,8 @@ public interface DeckTui {
         }
         System.out.println();
     }
-    private static void printBackFourthRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck)
-    {
+
+    private static void printBackFourthRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
         }
