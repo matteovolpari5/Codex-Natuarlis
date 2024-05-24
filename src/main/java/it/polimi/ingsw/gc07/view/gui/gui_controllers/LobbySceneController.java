@@ -1,13 +1,20 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
+import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GameState;
+import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.game_commands.DisplayGamesCommand;
+import it.polimi.ingsw.gc07.game_commands.GameCommand;
+import it.polimi.ingsw.gc07.game_commands.GameControllerCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -18,6 +25,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.*;
+
 
 public class LobbySceneController implements Initializable, GuiController {
     /**
@@ -49,25 +57,21 @@ public class LobbySceneController implements Initializable, GuiController {
     @FXML
     public Text textInsertNumPlayers;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // don't need to initialize anything
-    }
 
     @FXML
     protected void onContinueButtonClick() {
         if(!choice.isSelected()){
-                //int numPlayers = boxNumPlayers.getValue();
-                //TokenColor tokenColor = boxTokenColor.getValue();
-                if(boxNumPlayers.getValue()>0&&boxNumPlayers.getValue()<5)
+            //int numPlayers = boxNumPlayers.getValue();
+            //TokenColor tokenColor = boxTokenColor.getValue();
+            if(boxNumPlayers.getValue()>0&&boxNumPlayers.getValue()<5)
+            {
+                // TODO: check unique token color
+                if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))
                 {
-                    // TODO: check unique token color
-                    if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))
-                    {
-                        //TODO: creazione del gioco
-                        screenPane.setVisible(false);
-                    }
+                    //TODO: creazione del gioco
+                    screenPane.setVisible(false);
                 }
+            }
         }
         else if(choice.isSelected()) {
             //TokenColor tokenColor = boxTokenColor.getValue();
@@ -78,6 +82,11 @@ public class LobbySceneController implements Initializable, GuiController {
             }
         }
     }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
 
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
@@ -141,6 +150,15 @@ public class LobbySceneController implements Initializable, GuiController {
 
     @FXML
     public void selectJoin(MouseEvent mouseEvent) {
+        boxTokenColor.getItems().clear();
+        gameList.getItems().clear();
+
+        ObservableList<String> existingGames = FXCollections.observableArrayList();
+        existingGames.add("GAMEID                                                                          NUMBER OF PLAYERS");
+        //client.setAndExecuteCommand(new DisplayGamesCommand(nickname));
+
+        gameList.setItems(existingGames);
+
         next.setVisible(true);
         next.setTextFill(Paint.valueOf("#b401a8"));
         boxTokenColor.setVisible(true);
@@ -159,12 +177,22 @@ public class LobbySceneController implements Initializable, GuiController {
 
     @FXML
     public void selectNew(MouseEvent mouseEvent) {
-        /*ObservableList<TokenColor> listColor = new ObservableList<TokenColor>();
+        boxTokenColor.getItems().clear();
+        gameList.getItems().clear();
+
+        ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
         listColor.add(TokenColor.RED);
         listColor.add(TokenColor.GREEN);
         listColor.add(TokenColor.BLUE);
         listColor.add(TokenColor.YELLOW);
-        boxTokenColor.setItems(listColor);*/
+        boxTokenColor.setItems(listColor);
+
+        ObservableList<Integer> listNumPlayer = FXCollections.observableArrayList();
+        listNumPlayer.add(2);
+        listNumPlayer.add(3);
+        listNumPlayer.add(4);
+        boxNumPlayers.setItems(listNumPlayer);
+
         next.setVisible(true);
         next.setTextFill(Paint.valueOf("#0008db"));
         boxTokenColor.setVisible(true);
@@ -179,6 +207,5 @@ public class LobbySceneController implements Initializable, GuiController {
         joinPane.setVisible(false);
         newPane.setVisible(true);
         choice.setSelected(false);
-
     }
 }
