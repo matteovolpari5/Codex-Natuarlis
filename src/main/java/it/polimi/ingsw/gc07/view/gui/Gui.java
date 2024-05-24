@@ -147,10 +147,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveGameFieldUpdate(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
-        if(nickname.equals(this.nickame) && StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
+        if(nickname.equals(this.nickname) && StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
             // player's game field update, will be sent to PlayerSceneController
             StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
-        }else if(!nickname.equals(this.nickame) && StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+        }else if(!nickname.equals(this.nickname) && StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             // other player's game field update, will be sent to OtherPlayerSceneController
             StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
         }
