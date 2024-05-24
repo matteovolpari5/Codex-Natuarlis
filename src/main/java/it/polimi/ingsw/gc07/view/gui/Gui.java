@@ -25,7 +25,7 @@ public  class Gui extends Application implements Ui {
     /**
      * Nickname of Gui's owner.
      */
-    private String nickame;
+    private String nickname;
 
     /**
      * Init method, called at application launch.
@@ -68,7 +68,7 @@ public  class Gui extends Application implements Ui {
      * @param nickname nickname
      */
     public void setNickname(String nickname) {
-        this.nickame = nickname;
+        this.nickname = nickname;
         StageController.setNickname(nickname);
     }
 
@@ -147,10 +147,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveGameFieldUpdate(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
-        if(nickname.equals(this.nickame) && StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
+        if(nickname.equals(this.nickname) && StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
             // player's game field update, will be sent to PlayerSceneController
             StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
-        }else if(!nickname.equals(this.nickame) && StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+        }else if(!nickname.equals(this.nickname) && StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             // other player's game field update, will be sent to OtherPlayerSceneController
             StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
         }
@@ -230,12 +230,13 @@ public  class Gui extends Application implements Ui {
 
     /**
      * Method used to receive an existing games update.
-     * @param existingGames existing games
+     * @param existingGamesPlayerNumber existing games player number
+     * @param existingGamesTokenColor  existing games token color
      */
     @Override
-    public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGames) {
+    public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
         if(StageController.getCurrentSceneType().equals(SceneType.LOBBY_SCENE)) {
-            StageController.getController().displayExistingGames(existingGames);
+            StageController.getController().displayExistingGames(existingGamesPlayerNumber);
         }
     }
 

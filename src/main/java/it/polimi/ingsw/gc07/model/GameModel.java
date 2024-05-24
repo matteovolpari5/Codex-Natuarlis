@@ -210,6 +210,14 @@ public class GameModel {
         sendGameModelUpdate();
     }
 
+    public List<TokenColor> getTakenTokenColors() {
+        List<TokenColor> takenColors = new ArrayList<>();
+        for(Player p: players) {
+            takenColors.add(p.getTokenColor());
+        }
+        return takenColors;
+    }
+
     public void setCommandResult(String nickname, CommandResult commandResult) {
         this.commandResult = commandResult;
 

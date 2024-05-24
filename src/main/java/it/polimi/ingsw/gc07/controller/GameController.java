@@ -71,6 +71,10 @@ public class GameController {
         return gameModel.getPlayersNumber();
     }
 
+    synchronized List<TokenColor> getTakenTokenColors() {
+        return gameModel.getTakenTokenColors();
+    }
+
     // used in tests
     List<String> getWinners() {
         return gameModel.getWinners();

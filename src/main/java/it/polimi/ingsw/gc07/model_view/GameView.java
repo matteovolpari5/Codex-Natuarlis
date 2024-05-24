@@ -370,9 +370,9 @@ public class GameView {
         }
     }
 
-    public void displayExistingGames(Map<Integer, Integer> existingGames) {
+    public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
         for(GameViewListener l: gameViewListeners) {
-            l.receiveExistingGamesUpdate(existingGames);
+            l.receiveExistingGamesUpdate(existingGamesPlayerNumber, existingGamesTokenColor);
         }
     }
 
