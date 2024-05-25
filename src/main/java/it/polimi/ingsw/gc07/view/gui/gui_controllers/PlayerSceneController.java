@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.enumerations.GameResource;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
@@ -18,18 +17,14 @@ import java.net.URL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+
+import java.util.*;
 import java.util.ResourceBundle;
 
 public class PlayerSceneController implements GuiController, Initializable {
@@ -39,51 +34,49 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected ListView<String> myUpdates;
     private ObservableList<String> updatesItem;
-
     @FXML
     protected Button chatButton;
-
     @FXML
     protected Label currentPlayer;
-
     @FXML
     protected Label gameId;
-
     @FXML
     protected Label nickname1;
-
     @FXML
     protected Label nickname2;
-
     @FXML
     protected Label nickname3;
-
     @FXML
     protected Label nickname4;
-
     @FXML
     protected ImageView myStarterCard;
-
     @FXML
     protected AnchorPane chatContainer;
-
     @FXML
     protected ImageView handCard1;
-
     @FXML
     protected ImageView handCard2;
-
     @FXML
     protected ImageView handCard3;
-
     @FXML
     protected ImageView commonObjective1;
-
     @FXML
     protected ImageView commonObjective2;
-
     @FXML
     protected ImageView secretObjective;
+    @FXML
+    protected ImageView topDeckResource;
+    @FXML
+    protected ImageView topDeckGold;
+    @FXML
+    protected ImageView revealedGold1;
+    @FXML
+    protected ImageView revealedGold2;
+    @FXML
+    protected ImageView revealedResource1;
+    @FXML
+    protected ImageView revealedResource2;
+
 
 
     @FXML
@@ -111,19 +104,25 @@ public class PlayerSceneController implements GuiController, Initializable {
         // = gameFieldView.getCardsFace();
         // = gameFieldView.getCardsOrder());
 
-        nickname1.setText(nickname + " (you");
+        nickname1.setText(nickname);
+        int numPlayersConnected = gameView.getPlayersTokenColors().size();
+        if (numPlayersConnected <= 3){
+            nickname4.setVisible(false);
+        }
+        if (numPlayersConnected <= 2){
+            nickname3.setVisible(false);
+        }
+        if (numPlayersConnected <= 1){
+            nickname2.setVisible(false);
+        }
         // set decks data
         DeckView deckView = gameView.getDeckView();
         // set top decks
         int topDeckId = deckView.getTopResourceDeck().getId();
-        Image image = new Image("@../graphic_resources/Card/Back/"+ topDeckId + ".png");
-        //topDeckResource.setImage(image)
+        topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + topDeckId +".png")).toExternalForm()));
         topDeckId = deckView.getTopGoldDeck().getId();
-        image = new Image("@../graphic_resources/Card/Back/"+ topDeckId + ".png");
-        //topDeckGold.setImage(image)
+        topDeckGold.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + topDeckId +".png")).toExternalForm()));
 
-
-        // = deckView.getTopGoldDeck();
         // = deckView.getFaceUpResourceCard();
         // = deckView.getFaceUpGoldCard();
         // = deckView.getCommonObjective();
@@ -131,27 +130,30 @@ public class PlayerSceneController implements GuiController, Initializable {
         // set current hand data
         int imageId;
         imageId = gameView.getCurrentHand().getFirst().getId();
-        image = new Image("@../graphic_resources/Card/Front/"+ imageId + ".png");
-        handCard1.setImage(image);
+        handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
         imageId = gameView.getCurrentHand().get(1).getId();
-        image = new Image("@../graphic_resources/Card/Back/"+ imageId + ".png");
-        handCard2.setImage(image);
+        handCard2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
         imageId = gameView.getCurrentHand().get(2).getId();
-        image = new Image("@../graphic_resources/Card/Back/"+ imageId + ".png");
-        handCard3.setImage(image);
+        handCard3.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
         // = gameView.getSecretObjective();
 
         // set starter card
         int starterCardId = gameView.getStarterCard().getId();
-        image = new Image("@../graphic_resources/Card/Back/"+ starterCardId + ".png");
-        myStarterCard.setImage(image);
+        myStarterCard.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + starterCardId +".png")).toExternalForm()));
 
         // set scores
         // = gameView.getPlayersScores(), gameView.getPlayersTokenColors();
 
         // set id and current player
         gameId.setText("game Id: " + gameView.getId());
-        currentPlayer.setText("Current player: " + gameView.getCurrentPlayerNickname());
+        if (gameView.getCurrentPlayerNickname() != null){
+            currentPlayer.setText("Current player: " + gameView.getCurrentPlayerNickname());
+            currentPlayer.setVisible(true);
+        }
+        else{
+            currentPlayer.setVisible(false);
+        }
+
 
         // set full chat
         for (ChatMessage c: gameView.getOwnerMessages()){
@@ -201,8 +203,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void updateStarterCard(PlaceableCard starterCard) {
         int id = starterCard.getId();
-        Image image = new Image("@../graphic_resources/Card/Front/" + id + ".png");
-        myStarterCard.setImage(image);
+        myStarterCard.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
     }
 
     @Override
@@ -213,7 +214,14 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void updateGameInfo(GameState gameState, String currPlayer) {
         updatesItem.add("new game state: " + gameState.name());
-        currentPlayer.setText("Current player: " + currPlayer);
+        GameView gameView = StageController.getGameView();
+        if (gameView.getCurrentPlayerNickname() != null){
+            currentPlayer.setText("Current player: " + gameView.getCurrentPlayerNickname());
+            currentPlayer.setVisible(true);
+        }
+        else{
+            currentPlayer.setVisible(false);
+        }
     }
 
     @Override
