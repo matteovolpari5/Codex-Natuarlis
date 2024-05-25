@@ -315,4 +315,13 @@ public class LobbySceneController implements Initializable, GuiController {
     public void setNickname(String nickname) {
         // don't use
     }
+
+    /**
+     * Method used to set the full chat content.
+     * @param chatMessages full chat content
+     */
+    @Override
+    public void setFullChat(List<ChatMessage> chatMessages) {
+
+    }
 }

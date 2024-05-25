@@ -192,4 +192,13 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
         // = gameFieldView.getCardsFace();
         // = gameFieldView.getCardsOrder());
     }
+
+    /**
+     * Method used to set the full chat content.
+     * @param chatMessages full chat content
+     */
+    @Override
+    public void setFullChat(List<ChatMessage> chatMessages) {
+
+    }
 }

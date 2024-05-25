@@ -104,6 +104,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
                 StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             StageController.getController().updateScore(playerScores, playerTokenColors);
@@ -116,6 +120,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveMessageUpdate(ChatMessage chatMessage) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
         StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             StageController.getController().addMessage(chatMessage);
@@ -132,6 +140,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveDecksUpdate(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
                 StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             StageController.getController().updateDecks(topResourceDeck, topGoldDeck, faceUpResourceCard, faceUpGoldCard, commonObjective);
@@ -147,6 +159,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveGameFieldUpdate(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(nickname.equals(this.nickname) && StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
             // player's game field update, will be sent to PlayerSceneController
             StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
@@ -162,6 +178,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveStarterCardUpdate(PlaceableCard starterCard) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
                 StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             StageController.getController().updateStarterCard(starterCard);
@@ -175,6 +195,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
                 StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             StageController.getController().updateCardHand(hand, personalObjective);
@@ -188,6 +212,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveGeneralModelUpdate(GameState gameState, String currPlayer) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
                 StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             StageController.getController().updateGameInfo(gameState, currPlayer);
@@ -199,6 +227,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receivePenultimateRoundUpdate() {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
                 StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             StageController.getController().setPenultimateRound();
@@ -210,6 +242,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveAdditionalRoundUpdate() {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
                 StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             StageController.getController().setAdditionalRound();
@@ -222,6 +258,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveCommandResultUpdate(CommandResult commandResult) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
                 StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             StageController.getController().updateCommandResult(commandResult);
@@ -235,6 +275,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(StageController.getCurrentSceneType().equals(SceneType.LOBBY_SCENE)) {
             StageController.getController().displayExistingGames(existingGamesPlayerNumber, existingGamesTokenColor);
         }
@@ -246,6 +290,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveWinnersUpdate(List<String> winners) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         StageController.setScene(SceneType.GAME_ENDED_SCENE);
         StageController.getController().displayWinners(winners);
     }
@@ -256,6 +304,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void receiveFullChatUpdate(List<ChatMessage> chatMessages) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
             StageController.getController().setFullChat(chatMessages);
         }

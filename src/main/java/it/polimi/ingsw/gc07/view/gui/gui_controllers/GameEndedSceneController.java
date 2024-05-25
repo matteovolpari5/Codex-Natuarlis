@@ -148,4 +148,13 @@ public class GameEndedSceneController implements Initializable, GuiController {
     public void setNickname(String nickname) {
         // don't need to save it
     }
+
+    /**
+     * Method used to set the full chat content.
+     * @param chatMessages full chat content
+     */
+    @Override
+    public void setFullChat(List<ChatMessage> chatMessages) {
+
+    }
 }
