@@ -200,7 +200,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     @Override
     public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
-        System.out.println(gamesManagerCommand);
         try {
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
         }catch(RemoteException e) {

@@ -50,8 +50,8 @@ class GamesManagerTest {
         assertEquals(gm.checkNickname("player1"), NicknameCheck.EXISTING_NICKNAME);
 
         // join player 2
-        assertTrue(gm.getFreeGamesDetails().containsKey(0));
-        assertEquals(2, gm.getFreeGamesDetails().get(0));
+        assertTrue(gm.getFreeGamesPlayerNumber().containsKey(0));
+        assertEquals(2, gm.getFreeGamesPlayerNumber().get(0));
         gm.joinExistingGame("player2", TokenColor.RED, 0);
         assertEquals(CommandResult.SUCCESS, gm.getCommandResult());
     }

@@ -11,6 +11,7 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -140,14 +141,16 @@ public class LobbySceneController implements Initializable, GuiController {
 
     @Override
     public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
-        gameList.getItems().clear();
-        ObservableList<String> listViewComponent = FXCollections.observableArrayList();
-        listViewComponent.add("GAMEID                                                                              NUMBER OF PLAYERS");
-        for(Integer id : existingGamesPlayerNumber.keySet()){
-            String newLine = id+"                                                                                              "+existingGamesPlayerNumber.get(id);
-            listViewComponent.add(newLine);
-        }
-        gameList.setItems(listViewComponent);
+        Platform.runLater(() -> {
+            gameList.getItems().clear();
+            ObservableList<String> listViewComponent = FXCollections.observableArrayList();
+            listViewComponent.add("GAMEID                                                                              NUMBER OF PLAYERS");
+            for(Integer id : existingGamesPlayerNumber.keySet()){
+                String newLine = id+"                                                                                              "+existingGamesPlayerNumber.get(id);
+                listViewComponent.add(newLine);
+            }
+            gameList.setItems(listViewComponent);
+        });
     }
 
     @Override
