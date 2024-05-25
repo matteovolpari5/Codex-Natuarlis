@@ -25,6 +25,8 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.*;
 
+import static java.lang.Integer.parseInt;
+
 
 public class LobbySceneController implements Initializable, GuiController {
     /**
@@ -57,6 +59,7 @@ public class LobbySceneController implements Initializable, GuiController {
     public Text textInsertNumPlayers;
 
     public int idGame;
+    public Map<Integer, List<TokenColor>> gettedTokenColor;
 
     @FXML
     protected void onContinueButtonClick() {
@@ -76,8 +79,7 @@ public class LobbySceneController implements Initializable, GuiController {
             TokenColor tokenColor = boxTokenColor.getValue();
             if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))
             {
-                // TODO: check unique token color
-                //StageController.getClient().setAndExecuteCommand(new JoinExistingGameCommand(StageController.getNickname(),tokenColor,idGame));
+                StageController.getClient().setAndExecuteCommand(new JoinExistingGameCommand(StageController.getNickname(),tokenColor,idGame));
                 screenPane.setVisible(false);
             }
         }
@@ -103,6 +105,7 @@ public class LobbySceneController implements Initializable, GuiController {
                 listViewComponent.add(newLine);
             }
             gameList.setItems(listViewComponent);
+            gettedTokenColor=existingGamesTokenColor;
         });
     }
 
@@ -236,13 +239,12 @@ public class LobbySceneController implements Initializable, GuiController {
 
     @FXML
     public void selectNew(MouseEvent mouseEvent) {
-        boxTokenColor.getItems().clear();
-
         ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
         listColor.add(TokenColor.RED);
         listColor.add(TokenColor.GREEN);
         listColor.add(TokenColor.BLUE);
         listColor.add(TokenColor.YELLOW);
+        boxTokenColor.getItems().clear();
         boxTokenColor.setItems(listColor);
 
         ObservableList<Integer> listNumPlayer = FXCollections.observableArrayList();
@@ -283,14 +285,25 @@ public class LobbySceneController implements Initializable, GuiController {
             idGame=0;
             for(int j=0;j<numSize;j++)
             {
-                if(gameList.getSelectionModel().getSelectedItem().charAt(j) == ' ')
+                if(gameList.getSelectionModel().getSelectedItem().charAt(j) != ' ')
                 {
-                    idGame += gameList.getSelectionModel().getSelectedItem().charAt(j)*(numSize-j);
+                    idGame += (int) (parseInt(String.valueOf(gameList.getSelectionModel().getSelectedItem().charAt(j)))*Math.pow(10,j));
                 }
             }
             System.out.println(idGame);
-            //TODO: add in boxTokenColor i colori giusti in base al game idGame
-            // TODO: serve metodo getFreeTokenColor(idGame)
+            ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
+            listColor.add(TokenColor.RED);
+            listColor.add(TokenColor.GREEN);
+            listColor.add(TokenColor.BLUE);
+            listColor.add(TokenColor.YELLOW);
+            // show the correct token colors //
+            for(TokenColor c : listColor)
+            {
+                if(!gettedTokenColor.get(idGame).contains(c))
+                {
+                    boxTokenColor.getItems().add(c);
+                }
+            }
         }
     }
 
