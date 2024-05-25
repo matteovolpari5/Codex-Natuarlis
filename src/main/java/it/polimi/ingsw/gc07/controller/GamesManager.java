@@ -304,13 +304,13 @@ public class GamesManager {
                 player.setTokenColor(tokenColor);
 
                 // add player to game
-                gameController.addPlayer(player, playerVirtualViews.get(nickname));
                 try {
                     playerVirtualView.setServerGame(gameId);
                 }catch (RemoteException ex) {
                     // player disconnected, remove player from pending
                     removePlayer(nickname);
                 }
+                gameController.addPlayer(player, playerVirtualViews.get(nickname));
             }
         }
         if(!found){
@@ -367,13 +367,13 @@ public class GamesManager {
             if(gameController.getId() == gameId) {
                 try {
                     RmiServerGamesManager.getRmiServerGamesManager().createServerGame(gameId);
-                    gameController.addPlayer(player, playerVirtualView);
                     try {
                         playerVirtualView.setServerGame(gameId);
                     } catch (RemoteException ex) {
                         // player disconnected, remove player from pending
                         removePlayer(nickname);
                     }
+                    gameController.addPlayer(player, playerVirtualView);
                 }catch(RemoteException e) {
                     // couldn't create game server
                     // notify client
@@ -470,7 +470,7 @@ public class GamesManager {
         }catch(RemoteException e) {
             // player disconnected, remove player from pending
             removePlayer(nickname);
-            throw new RuntimeException();
+            throw new RuntimeException(); //TODO da togliere?
         }
     }
 

@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.network.SocketCommunication;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
 
@@ -24,12 +25,12 @@ public class SocketClientHandler implements VirtualView {
     private  String myClientNickname;
     private boolean isReconnected;
 
-    public SocketClientHandler(GamesManager gamesManager, Socket mySocket) throws IOException {
+    public SocketClientHandler(Socket mySocket) throws IOException {
         System.out.println("SCH> costruttore");
         InputStream temp_input;
         OutputStream temp_output;
 
-        this.gamesManager = gamesManager;
+        this.gamesManager = GamesManager.getGamesManager();
         this.gameController = null;
         this.mySocket = mySocket;
 
@@ -44,7 +45,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     private void manageSetUp(){
-        System.out.println("SCH-T> manageSetUp");
+        System.out.println("SCH> manageSetUp");
         NicknameCheck check;
         try {
             do{
@@ -57,7 +58,7 @@ public class SocketClientHandler implements VirtualView {
             if(check.equals(NicknameCheck.NEW_NICKNAME)){
                 isReconnected = false;
                 GamesManager.getGamesManager().addVirtualView(myClientNickname, this);
-                System.err.println("SCH-T> New client connected");
+                System.err.println("SCH> New client connected");
                 manageGamesManagerCommand();
             }else{
                 isReconnected = true;
@@ -66,12 +67,11 @@ public class SocketClientHandler implements VirtualView {
                 manageGameCommand();
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("\nSCH-T> Connection failed.\n");
             closeConnection();
         }
     }
     private void manageGamesManagerCommand(){
-        System.out.println("SCH-T> manageGMCommand");
+        System.out.println("SCH> manageGMCommand");
         GamesManagerCommand command;
         while(true) {
             try {
@@ -80,65 +80,63 @@ public class SocketClientHandler implements VirtualView {
                 if(gameController != null){
                     break;
                 }
-            } catch (Exception e){
-                System.out.println("\nSCH-T> Connection failed.\n");
+            } catch (IOException | ClassNotFoundException e){
                 closeConnection();
                 break;
             }
         }
-        manageGameCommand();
+        if(!mySocket.isClosed()){
+            manageGameCommand();
+        }
     }
 
     private void manageGameCommand(){
-        System.out.println("SCH-T> manageGCommand");
+        System.out.println("SCH> manageGCommand");
         GameControllerCommand command;
         while(true){
-            try{
-                command = (GameControllerCommand) input.readObject();
-                System.out.println("Command");
-                System.out.println(command);
-                synchronized (gameController) {
-                    gameController.setAndExecuteCommand(command);
-                    CommandResult result = gameController.getCommandResult();
-                    if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
-                        gameController.setCommandResult(myClientNickname, CommandResult.SUCCESS);
-                        System.out.println(result);
-                        closeConnection();
-                        break;
-                    }
+            synchronized (this) {
+                try {
+                    command = (GameControllerCommand) input.readObject();
+                }catch (IOException | ClassNotFoundException e){
+                    closeConnection();
+                    break;
                 }
-            } catch (Exception e){
-                closeConnection();
-                break;
+            }
+            synchronized (gameController) {
+                gameController.setAndExecuteCommand(command);
+                CommandResult result = gameController.getCommandResult();
+                if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
+                    gameController.setCommandResult(myClientNickname, CommandResult.SUCCESS);
+                    closeConnection();
+                    break;
+                }
             }
         }
     }
 
     private synchronized void closeConnection(){
-        try{
-            input.close();
-            output.close();
-            mySocket.close();
-            System.out.println("SCH> Closed connection");
-        }catch (IOException e){
-            System.out.println("SCH - closeConnection> Error");
-            e.printStackTrace();
-            throw new RuntimeException();
+        if(!mySocket.isClosed()){
+            try{
+                input.close();
+                output.close();
+                mySocket.close();
+                System.out.println("SCH> Closed connection");
+            }catch (IOException e){
+                throw new RuntimeException();
+            }
         }
     }
 
     @Override
     public void setServerGame(int gameId) throws RemoteException {
         if(!isReconnected){
-            String result = "Game joined.";
-            System.out.println(result);
             try {
-                output.writeObject(result);
+                output.writeObject(SocketCommunication.GAME_JOINED);
                 output.reset();
                 output.flush();
             } catch (IOException e) {
-                System.out.println("\nSCH-T(1)> Connection failed.\n");
                 closeConnection();
+                throw new RemoteException();
             }
         }
         this.gameController = gamesManager.getGameById(gameId);
@@ -151,7 +149,6 @@ public class SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             }catch(IOException e) {
-                System.out.println("\nSCH-T(2)> Connection failed.\n");
                 closeConnection();
             }
         }
@@ -215,29 +212,26 @@ public class SocketClientHandler implements VirtualView {
 
     @Override
     public void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException {
-        synchronized (this) {
             try {
-                output.writeObject("Display successful.");
+                output.writeObject(SocketCommunication.DISPLAY_SUCCESSFUL);
                 output.reset();
                 output.flush();
             } catch (IOException e) {
-                System.out.println("\nSCH-T(3)> Connection failed.\n");
                 closeConnection();
+                throw new RemoteException();
             }
-        }
         receiveUpdate(existingGamesUpdate);
     }
 
     @Override
-    public synchronized void notifyJoinNotSuccessful() throws RemoteException {
-        String error = "Action not successful.";
+    public void notifyJoinNotSuccessful() throws RemoteException {
         try {
-            output.writeObject(error);
+            output.writeObject(SocketCommunication.ACTION_NOT_SUCCESSFUL);
             output.reset();
             output.flush();
         } catch (IOException e) {
-            System.out.println("\nSCH-T(4)> Connection failed.\n");
             closeConnection();
+            throw new RemoteException();
         }
     }
 

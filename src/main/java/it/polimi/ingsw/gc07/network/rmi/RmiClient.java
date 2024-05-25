@@ -173,7 +173,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     /**
      * Method used to start the user interface.
      */
-    public void startInterface() {
+    public void startInterface() { //TODO perché due metodi uguali? mi sembra che possano essere invocati nello stesso modo
         assert(ui != null);
         ui.runJoinGameInterface();
     }
@@ -206,6 +206,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             // if not already detected by ping
             System.out.println("\nConnection failed. - setAndExecuteCommand\n");
             setClientAlive(false);  // setter is synchronized
+            ui.runJoinGameInterface();
         }
     }
 

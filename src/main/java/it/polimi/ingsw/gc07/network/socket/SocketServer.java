@@ -32,7 +32,7 @@ public class SocketServer {
         Socket clientSocket;
         while((clientSocket = this.mySocket.accept()) != null){
             System.out.println("SS> Received client connection");
-            new SocketClientHandler(GamesManager.getGamesManager(), clientSocket);
+            new SocketClientHandler(clientSocket);
         }
     }
 }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.network.PingSender;
+import it.polimi.ingsw.gc07.network.SocketCommunication;
 import it.polimi.ingsw.gc07.updates.*;
 import it.polimi.ingsw.gc07.view.Ui;
 import it.polimi.ingsw.gc07.view.gui.Gui;
@@ -75,95 +76,89 @@ public class SocketClient implements Client, PingSender {
                 break;
             }
         }while(check.equals(NicknameCheck.EXISTING_NICKNAME));
-
-        this.nickname = nickname;
-        this.gameView = new GameView(nickname);
-        this.myServer = new VirtualSocketServer(output);
-
-        if(interfaceType) {
-            new Thread(() -> Application.launch(Gui.class));
-            this.ui = Gui.getGuiInstance();
-            this.ui.setNickname(nickname);
-            this.ui.setClient(this);
-        } else {
-            this.ui = new Tui(nickname, this);
-        }
-        this.gameView.addViewListener(ui);
         if(isClientAlive()){
+            this.nickname = nickname;
+            this.gameView = new GameView(nickname);
+            this.myServer = new VirtualSocketServer(output);
+            if(interfaceType) {
+                new Thread(() -> Application.launch(Gui.class));
+                this.ui = Gui.getGuiInstance();
+                this.ui.setNickname(nickname);
+                this.ui.setClient(this);
+            } else {
+                this.ui = new Tui(nickname, this);
+            }
+            this.gameView.addViewListener(ui);
             if(check != null && check.equals(NicknameCheck.NEW_NICKNAME)){
                 try {
                     myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, false, interfaceType));
                 } catch (IOException e) {
-                    //Thrown if the connection failed after the initialization and before the ping-pong notices it
                     closeConnection();
                 }
-                this.runCliJoinGame();
+                this.runJoinGameInterface();
             }else{
                 try {
                     output.writeBoolean(interfaceType);
                     output.reset();
                     output.flush();
                 } catch (IOException e) {
+                    //Network error during the initial communication for the set-up
                     closeConnection();
-                    //ui.askForReconnection();
+                    System.exit(-1);
                 }
                 new Thread(this::manageReceivedUpdate).start();
                 new Thread(this::startGamePing).start();
                 new Thread(this::checkPong).start();
-                runCliGame();
+                runGameInterface();
             }
         }else{
-            //ui.askForReconnection();
+            //Network error during the initial communication for the set-up
+            System.exit(-1);
         }
     }
 
-    private void connectToGamesManagerServer(boolean interfaceType) {
-        System.out.println("SC> connectToGMS");
-        try {
-            myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, false, interfaceType));
-        } catch (IOException e) {
-            System.out.println("\n(4) Connection failed.\n");
-            closeConnection();
-        }
-        this.runCliJoinGame();
-    }
-
-    public void runCliJoinGame() {
+    private void runJoinGameInterface() { //TODO runCliJoinGame
         assert(ui != null);
         ui.runJoinGameInterface();
         if(isClientAlive()){
-            String result;
+            SocketCommunication result;
             try {
-                result = (String) input.readObject();
+                result = (SocketCommunication) input.readObject();
             } catch (IOException | ClassNotFoundException e) {
                 closeConnection();
                 result = null;
             }
-            if(result != null && result.equals("Game joined.")){
-                new Thread(this::manageReceivedUpdate).start();
-                // game joined
-                new Thread(this::startGamePing).start();
-                new Thread(this::checkPong).start();
-                runCliGame();
-            }else{
-                if(result != null && result.equals("Display successful.")){
-                    Update update;
-                    try {
-                        update = (Update) input.readObject();
-                        update.execute(gameView);
-                    } catch (IOException | ClassNotFoundException e) {
-                        closeConnection();
+            if(result!=null){
+                if(result.equals(SocketCommunication.GAME_JOINED)){
+                    new Thread(this::manageReceivedUpdate).start();
+                    // game joined
+                    new Thread(this::startGamePing).start();
+                    new Thread(this::checkPong).start();
+                    runGameInterface();
+                }else{
+                    if(result.equals(SocketCommunication.DISPLAY_SUCCESSFUL)){
+                        Update update;
+                        try {
+                            update = (Update) input.readObject();
+                            update.execute(gameView);
+                        } catch (IOException | ClassNotFoundException e) {
+                            closeConnection();
+                            //ask for reconnection
+                            ui.runJoinGameInterface();
+                        }
+                    }else{
+                        runJoinGameInterface();
                     }
                 }
-                runCliJoinGame();
+            }else{
+                //ask for reconnection
+                ui.runJoinGameInterface();
             }
         }else{
             //ask for reconnection
-            //ui.askForReconnection();
+            ui.runJoinGameInterface();
         }
-    }//TODO la parte con un unico thread che gestisce input e output dovrebbe essere stata coperta
-    //TODO nella parte con un unico thread ogni volta che si compie .readObject/.writeObject l'eccezione è legata al fatto che la connessione è catuda ed
-    //TODO è stata osservata per la prima volta, il caso in cui IOException è dovuta ha stream già chiuso in precenenza non dovrebbe succedere in questa parte
+    }
 
     private void manageReceivedUpdate() {
         System.out.println("SC-T> manageReceivedUpdate");
@@ -176,7 +171,6 @@ public class SocketClient implements Client, PingSender {
                     pong = true;
                 }
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("\nServer has closed connection.\n");
                 closeConnection();
                 break;
             }
@@ -186,6 +180,7 @@ public class SocketClient implements Client, PingSender {
     private synchronized void closeConnection(){
         //TODO system exit (?)
         if(isClientAlive()){
+            System.out.println("you lost the connection");
             setClientAlive(false);
             try{
                 input.close();
@@ -197,7 +192,7 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
-    public void runCliGame() {
+    public void runGameInterface() {//TODO runCliGame
         assert(ui != null);
         ui.runGameInterface();
     }
@@ -216,7 +211,6 @@ public class SocketClient implements Client, PingSender {
         try {
             myServer.setAndExecuteCommand(gameControllerCommand);
         } catch (IOException e) {
-            System.out.println("\n(9) Connection failed.\n");
             closeConnection();
         }
     }
@@ -239,11 +233,7 @@ public class SocketClient implements Client, PingSender {
     public void startGamePing() {
         System.out.println("SC-T2> startGamePing");
         while(true) {
-            boolean isAlive;
-            synchronized (this) {
-                isAlive = clientAlive;
-            }
-            if (!isAlive) {
+            if (!isClientAlive()) {
                 break;
             } else {
                 try {
@@ -275,7 +265,6 @@ public class SocketClient implements Client, PingSender {
                 }else {
                     missedPong ++;
                     if(missedPong >= maxMissedPongs) {
-                        System.out.println("you lost the connection :(");
                         closeConnection();
                         break;
                     }

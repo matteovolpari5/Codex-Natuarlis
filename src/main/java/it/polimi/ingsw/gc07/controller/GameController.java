@@ -306,15 +306,13 @@ public class GameController {
         assert(!player.isConnected()): "Player already connected";
         player.setConnectionType(connectionType);
         player.setInterfaceType(interfaceType);
-
-        gameModel.addListener(client);
-        gameModel.sendModelViewUpdate(nickname, client);
-
         try {
             client.setServerGame(getId());
         } catch (RemoteException e) {
             disconnectPlayer(nickname);
         }
+        gameModel.addListener(client);
+        gameModel.sendModelViewUpdate(nickname, client);
         pingPongManager.addPingSender(nickname, client);
 
         // set player connected
