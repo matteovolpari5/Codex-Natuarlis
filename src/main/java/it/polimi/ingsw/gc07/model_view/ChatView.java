@@ -50,6 +50,10 @@ public class ChatView {
      */
     public void setChatMessages(List<ChatMessage> chatMessages) {
         this.chatMessages.addAll(chatMessages);
+
+        for(ChatViewListener chatViewListener: chatViewListeners) {
+            chatViewListener.receiveFullChatUpdate(chatMessages);
+        }
     }
 
     /**

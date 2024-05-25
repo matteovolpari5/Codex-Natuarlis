@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.model_view.ChatView;
 
 import java.util.List;
 import java.util.Map;
@@ -98,4 +99,10 @@ public interface GuiController {
      * @param nickname nickname
      */
     void setNickname(String nickname);
+
+    /**
+     * Method used to set the full chat content.
+     * @param chatMessages full chat content
+     */
+    void setFullChat(List<ChatMessage> chatMessages);
 }

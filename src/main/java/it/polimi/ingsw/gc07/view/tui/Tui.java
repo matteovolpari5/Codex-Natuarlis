@@ -708,4 +708,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         System.out.println();
         client.setClientAlive(false);
     }
+
+    /**
+     * Method used to notify the player he has received a full chat update.
+     * @param chatMessages full chat update
+     */
+    @Override
+    public void receiveFullChatUpdate(List<ChatMessage> chatMessages) {
+        // do not print whole chat
+    }
 }

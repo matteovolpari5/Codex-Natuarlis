@@ -249,4 +249,15 @@ public  class Gui extends Application implements Ui {
         StageController.setScene(SceneType.GAME_ENDED_SCENE);
         StageController.getController().displayWinners(winners);
     }
+
+    /**
+     * Method used to notify the player he has received a full chat update.
+     * @param chatMessages full chat update
+     */
+    @Override
+    public void receiveFullChatUpdate(List<ChatMessage> chatMessages) {
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
+            StageController.getController().setFullChat(chatMessages);
+        }
+    }
 }

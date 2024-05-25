@@ -323,6 +323,14 @@ public class GameController {
     }
 
     /**
+     * Method used to receive a full model view update.
+     * @param nickname nickname
+     */
+    public void sendModelView(String nickname) {
+        gameModel.sendModelViewUpdate(nickname, pingPongManager.getVirtualView(nickname));
+    }
+
+    /**
      * Method used to compute and change the game state after a disconnection or reconnection.
      */
     private void changeGameState() {
