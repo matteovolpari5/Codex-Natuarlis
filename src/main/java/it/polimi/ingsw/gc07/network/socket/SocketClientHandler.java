@@ -114,6 +114,7 @@ public class SocketClientHandler implements VirtualView {
         }
     }
 
+    //TODO in generale: capire se con eccezione basta chiudere la connessione o bisogna invocare i metodi di GM o GC
     private synchronized void closeConnection(){
         if(!mySocket.isClosed()){
             try{
