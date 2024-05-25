@@ -180,37 +180,74 @@ public class PlayerSceneController implements GuiController, Initializable {
         // =  gameView.getStallValues();
     }
 
+    /**
+     * Method used to display a score update.
+     * @param playerScore map containing players' scores
+     * @param playerTokenColor map containing players' token colors
+     */
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
 
     }
 
+    /**
+     * Method used to display a new chat message.
+     * @param chat new chat message
+     */
     @Override
     public void addMessage(ChatMessage chat) {
         chatItem.add(chat.getSender() + ": " + chat.getContent());
     }
 
+    /**
+     * Method used to display a deck update, containing cards a player can draw or see.
+     * @param topResourceDeck top resource deck
+     * @param topGoldDeck top gold deck
+     * @param faceUpResourceCard face up cards resource
+     * @param faceUpGoldCard face up cards gold
+     * @param commonObjective common objective
+     */
     @Override
     public void updateDecks(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
 
     }
 
+    /**
+     * Method used to display a new game field update.
+     * @param cardsContent cards content
+     * @param cardsFace cards face
+     * @param cardsOrder cards order
+     */
     @Override
     public void updateGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
 
     }
 
+    /**
+     * Method used to display the starter card.
+     * @param starterCard starter card
+     */
     @Override
     public void updateStarterCard(PlaceableCard starterCard) {
         int id = starterCard.getId();
         myStarterCard.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
     }
 
+    /**
+     * Method used to display the new card hand.
+     * @param hand new card hand
+     * @param personalObjective personal objective
+     */
     @Override
     public void updateCardHand(List<DrawableCard> hand, ObjectiveCard personalObjective) {
 
     }
 
+    /**
+     * Method used to display updated game infos.
+     * @param gameState game state
+     * @param currPlayer current player
+     */
     @Override
     public void updateGameInfo(GameState gameState, String currPlayer) {
         updatesItem.add("new game state: " + gameState.name());
@@ -224,16 +261,26 @@ public class PlayerSceneController implements GuiController, Initializable {
         }
     }
 
+    /**
+     * Method used to display a penultimate round update.
+     */
     @Override
     public void setPenultimateRound() {
         updatesItem.add("is the penultimate turn");
     }
 
+    /**
+     * Method used to display an additional round update.
+     */
     @Override
     public void setAdditionalRound() {
         updatesItem.add("there will be an additional turn");
     }
 
+    /**
+     * Method used to display the last command result.
+     * @param commandResult command result
+     */
     @Override
     public void updateCommandResult(CommandResult commandResult) {
         if(!commandResult.equals(CommandResult.SUCCESS)){
@@ -241,17 +288,30 @@ public class PlayerSceneController implements GuiController, Initializable {
         }
     }
 
+    /**
+     * Method used to display a user existing and free games.
+     * @param existingGamesPlayerNumber players number in existing games
+     * @param existingGamesTokenColor take token colors in existing games
+     */
     @Override
     public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
 
     }
 
+    /**
+     * Method used to display an update, containing winners.
+     * @param winners winners
+     */
     @Override
     public void displayWinners(List<String> winners) {
 
     }
 
+    /**
+     * Method used to set the nickname.
+     * @param nickname nickname
+     */
     public void setNickname(String nickname) {
-        // don't use
+        // don't need to save it
     }
 }

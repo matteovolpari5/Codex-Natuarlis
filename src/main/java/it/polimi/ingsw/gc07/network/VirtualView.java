@@ -25,5 +25,9 @@ public interface VirtualView extends Remote, ChatListener, GameFieldListener, Ga
      */
     void notifyJoinNotSuccessful() throws RemoteException;
 
+    /**
+     * Method used from the server to send a pong to the client.
+     * @throws RemoteException remote exception
+     */
     void sendPong() throws RemoteException;
 }

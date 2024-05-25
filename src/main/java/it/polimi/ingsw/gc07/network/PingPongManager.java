@@ -103,6 +103,11 @@ public class PingPongManager {
         }
     }
 
+    /**
+     * Method used to send a pong update to the player, in order
+     * to make it aware connection is stable.
+     * @param nickname nickname
+     */
     private void sendPong(String nickname) {
         while (true){
             VirtualView virtualView;

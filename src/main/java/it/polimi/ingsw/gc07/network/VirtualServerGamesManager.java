@@ -14,8 +14,20 @@ public interface VirtualServerGamesManager extends Remote {
      */
     void connect(String nickname, VirtualView client) throws RemoteException;
 
+    /**
+     * Method used to check a nickname.
+     * @param nickname nickname
+     * @return result of the nickname check
+     * @throws RemoteException remote exception
+     */
     NicknameCheck checkNickname(String nickname) throws RemoteException;
 
+    /**
+     * Method used to get the game server of a game with given id.
+     * @param gameId game id
+     * @return server reference
+     * @throws RemoteException remote exception
+     */
     VirtualServerGame getGameServer(int gameId) throws RemoteException;
 
     /**

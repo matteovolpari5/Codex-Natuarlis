@@ -19,34 +19,66 @@ public abstract class StageController {
     private static Client client;
     private static String nickname;
 
-    public static Client getClient() {
-        return client;
-    }
-
+    /**
+     * Setter method for nickname.
+     * @param clientNickname nickname
+     */
     public static void setNickname(String clientNickname) {
         nickname = clientNickname;
     }
 
+    /**
+     * Setter method for client.
+     * @param clientRef client
+     */
     public static void setClient(Client clientRef) {
         client = clientRef;
     }
 
+    /**
+     * Getter method for nickname.
+     * @return nickname
+     */
     public static String getNickname() {
         return nickname;
     }
 
+    /**
+     * Getter method for client.
+     * @return client
+     */
+    public static Client getClient() {
+        return client;
+    }
+
+    /**
+     * Getter method for client's game view.
+     * @return client's game view
+     */
     public static GameView getGameView() {
         return client.getGameView();
     }
 
+    /**
+     * Getter method for the current scene type.
+     * @return type of the current scene
+     */
     public static SceneType getCurrentSceneType() {
         return currentSceneType;
     }
 
+    /**
+     * Getter method for the current gui controller.
+     * @return current gui controller
+     */
     public static GuiController getController() {
         return currentGuiController;
     }
 
+    /**
+     * Method used to set up the stage once the Gui is started.
+     * @param stage primary stage
+     */
     public static void setup(Stage stage) {
         // set stage
         currentStage = stage;
