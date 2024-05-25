@@ -630,6 +630,10 @@ public class GameModel {
 
             // send full chat update
             client.receiveFullChatUpdate(new FullChatUpdate(new ArrayList<>(chat.getContent(nickname))));
+            // send game model update
+            sendGameModelUpdate();
+            // send deck update
+            sendDeckUpdate();
 
         }catch(RemoteException e) {
             // will be detected by PingPongManager

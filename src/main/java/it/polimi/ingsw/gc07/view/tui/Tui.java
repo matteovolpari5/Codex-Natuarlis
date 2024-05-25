@@ -477,7 +477,9 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         }
         if(reconnect == 1) {
             System.out.println("\n\n");
-            String[] args = new String[1234];
+            String[] args = new String[2];
+            args[0] = "1234";
+            args[1] = "65000";
             ClientMain.main(args);
         }else {
             System.exit(0);
