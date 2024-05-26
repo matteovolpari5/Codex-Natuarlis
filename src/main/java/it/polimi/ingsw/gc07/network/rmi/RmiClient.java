@@ -78,7 +78,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         this.updatesQueue = new LinkedBlockingDeque<>();
         startUpdateExecutor();
     }
-
+    
     /**
      * Getter method for isClientAlive.
      * @return value of isClientAlive
