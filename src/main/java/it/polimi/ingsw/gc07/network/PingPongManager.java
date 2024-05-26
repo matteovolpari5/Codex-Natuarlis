@@ -49,8 +49,9 @@ public class PingPongManager {
      * @param nickname nickname
      */
     public synchronized void receivePing(String nickname) {
-        assert (playersPing.containsKey(nickname));
-        playersPing.put(nickname, true);
+        if(playersPing.containsKey(nickname)) {
+            playersPing.put(nickname, true);
+        }
     }
 
     public synchronized VirtualView getVirtualView(String nickname) {
