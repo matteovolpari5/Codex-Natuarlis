@@ -28,7 +28,6 @@ public class SocketClient implements Client, PingSender {
     private static final int maxMissedPongs = 3;
     private boolean pong;
     public SocketClient(Socket mySocket, boolean interfaceType) throws IOException {
-        System.out.println("SC> costruttore");
         InputStream temp_input;
         OutputStream temp_output;
 
@@ -95,7 +94,8 @@ public class SocketClient implements Client, PingSender {
                 } catch (IOException e) {
                     closeConnection();
                 }
-                this.runJoinGameInterface();
+                ui.runJoinGameInterface();
+                runJoinGameInterface();
             }else{
                 try {
                     output.writeBoolean(interfaceType);
@@ -117,9 +117,7 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
-    private void runJoinGameInterface() { //TODO runCliJoinGame
-        assert(ui != null);
-        ui.runJoinGameInterface();
+    private void runJoinGameInterface() {
         if(isClientAlive()){
             SocketCommunication result;
             try {
@@ -141,12 +139,15 @@ public class SocketClient implements Client, PingSender {
                         try {
                             update = (Update) input.readObject();
                             update.execute(gameView);
+                            runJoinGameInterface();
                         } catch (IOException | ClassNotFoundException e) {
                             closeConnection();
                             //ask for reconnection
                             ui.runJoinGameInterface();
                         }
                     }else{
+                        System.out.println("\nCould not add you to the game, retry.\n");
+                        ui.runJoinGameInterface();
                         runJoinGameInterface();
                     }
                 }
@@ -161,11 +162,10 @@ public class SocketClient implements Client, PingSender {
     }
 
     private void manageReceivedUpdate() {
-        System.out.println("SC-T> manageReceivedUpdate");
         Update update;
         while (true){
             try {
-                update = (Update) input.readObject();
+                update = (Update) input.readObject(); //TODO accesso a input anche in close ma stesso problema di prima
                 update.execute(gameView);
                 synchronized (this){
                     pong = true;
@@ -177,11 +177,11 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
+    //TODO se la ui aspetta il comando e cade la connessione il client rimane vivo perché la ui sta ancora spettando l'input
     private synchronized void closeConnection(){
-        //TODO system exit (?)
         if(isClientAlive()){
-            System.out.println("you lost the connection");
-            setClientAlive(false);
+            System.out.println("SC> you lost the connection");
+            this.clientAlive = false;
             try{
                 input.close();
                 myServer.closeConnection();
@@ -192,7 +192,7 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
-    public void runGameInterface() {//TODO runCliGame
+    public void runGameInterface() {
         assert(ui != null);
         ui.runGameInterface();
     }
@@ -231,7 +231,6 @@ public class SocketClient implements Client, PingSender {
 
     @Override
     public void startGamePing() {
-        System.out.println("SC-T2> startGamePing");
         while(true) {
             if (!isClientAlive()) {
                 break;

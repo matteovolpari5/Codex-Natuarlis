@@ -26,7 +26,6 @@ public class SocketClientHandler implements VirtualView {
     private boolean isReconnected;
 
     public SocketClientHandler(Socket mySocket) throws IOException {
-        System.out.println("SCH> costruttore");
         InputStream temp_input;
         OutputStream temp_output;
 
@@ -45,7 +44,6 @@ public class SocketClientHandler implements VirtualView {
     }
 
     private void manageSetUp(){
-        System.out.println("SCH> manageSetUp");
         NicknameCheck check;
         try {
             do{
@@ -58,7 +56,7 @@ public class SocketClientHandler implements VirtualView {
             if(check.equals(NicknameCheck.NEW_NICKNAME)){
                 isReconnected = false;
                 GamesManager.getGamesManager().addVirtualView(myClientNickname, this);
-                System.err.println("SCH> New client connected");
+                System.err.println("New client connected");
                 manageGamesManagerCommand();
             }else{
                 isReconnected = true;
@@ -71,7 +69,6 @@ public class SocketClientHandler implements VirtualView {
         }
     }
     private void manageGamesManagerCommand(){
-        System.out.println("SCH> manageGMCommand");
         GamesManagerCommand command;
         while(true) {
             try {
@@ -91,16 +88,13 @@ public class SocketClientHandler implements VirtualView {
     }
 
     private void manageGameCommand(){
-        System.out.println("SCH> manageGCommand");
         GameControllerCommand command;
         while(true){
-            synchronized (this) {
-                try {
-                    command = (GameControllerCommand) input.readObject();
-                }catch (IOException | ClassNotFoundException e){
-                    closeConnection();
-                    break;
-                }
+            try {
+                command = (GameControllerCommand) input.readObject(); //TODO closeConnection deve fare input.close(), se sincronizzato input.readObject aspetta con il lock finché non arriva un command e quindi aspetta closeConnection. Va bene non sincronizzare qui?
+            }catch (IOException | ClassNotFoundException e){
+                closeConnection();
+                break;
             }
             synchronized (gameController) {
                 gameController.setAndExecuteCommand(command);
@@ -114,14 +108,12 @@ public class SocketClientHandler implements VirtualView {
         }
     }
 
-    //TODO in generale: capire se con eccezione basta chiudere la connessione o bisogna invocare i metodi di GM o GC
     private synchronized void closeConnection(){
         if(!mySocket.isClosed()){
             try{
                 input.close();
                 output.close();
                 mySocket.close();
-                System.out.println("SCH> Closed connection");
             }catch (IOException e){
                 throw new RuntimeException();
             }
@@ -143,7 +135,7 @@ public class SocketClientHandler implements VirtualView {
         this.gameController = gamesManager.getGameById(gameId);
     }
 
-    private synchronized void receiveUpdate(Update update) {
+    private synchronized void receiveUpdate(Update update) throws RemoteException{
         if(!mySocket.isClosed()){
             try {
                 output.writeObject(update);
@@ -151,33 +143,36 @@ public class SocketClientHandler implements VirtualView {
                 output.flush();
             }catch(IOException e) {
                 closeConnection();
+                throw new RemoteException();
             }
+        }else{
+            throw new RemoteException();
         }
     }
 
 
     @Override
-    public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) {
+    public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) throws RemoteException {
         receiveUpdate(chatMessageUpdate);
     }
 
     @Override
-    public void receiveDeckUpdate(DeckUpdate deckUpdate) {
+    public void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException {
         receiveUpdate(deckUpdate);
     }
 
     @Override
-    public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) {
+    public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) throws RemoteException {
         receiveUpdate(starterCardUpdate);
     }
 
     @Override
-    public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) {
+    public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) throws RemoteException {
         receiveUpdate(placedCardUpdate);
     }
 
     @Override
-    public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) {
+    public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) throws RemoteException {
         receiveUpdate(gameModelUpdate);
     }
 
@@ -187,27 +182,27 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) {
+    public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) throws RemoteException {
         receiveUpdate(commandResultUpdate);
     }
 
     @Override
-    public void receiveStallUpdate(StallUpdate stallUpdate) {
+    public void receiveStallUpdate(StallUpdate stallUpdate) throws RemoteException {
         receiveUpdate(stallUpdate);
     }
 
     @Override
-    public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) {
+    public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) throws RemoteException {
         receiveUpdate(connectionUpdate);
     }
 
     @Override
-    public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) {
+    public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) throws RemoteException {
         receiveUpdate(cardHandUpdate);
     }
 
     @Override
-    public void receiveScoreUpdate(ScoreUpdate scoreUpdate) {
+    public void receiveScoreUpdate(ScoreUpdate scoreUpdate) throws RemoteException {
         receiveUpdate(scoreUpdate);
     }
 

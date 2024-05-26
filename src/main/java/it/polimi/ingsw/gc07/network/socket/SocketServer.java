@@ -28,10 +28,10 @@ public class SocketServer {
     }
 
     public void runServer() throws IOException {
-        System.out.println("SS> Socket server running");
+        System.out.println("Socket server running");
         Socket clientSocket;
         while((clientSocket = this.mySocket.accept()) != null){
-            System.out.println("SS> Received client connection");
+            System.out.println("Received client socket connection");
             new SocketClientHandler(clientSocket);
         }
     }

@@ -12,7 +12,6 @@ public class VirtualSocketServer {
     private final ObjectOutputStream output;
 
     public VirtualSocketServer(ObjectOutputStream output){
-        System.out.println("VSS> Costruttore");
         this.output = output;
     }
 
