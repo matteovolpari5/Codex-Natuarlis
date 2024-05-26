@@ -565,10 +565,14 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjective == null))) {
             System.out.println();
             System.out.println("--------------------------------------------------------");
-            System.out.println("                      PLAYER HAND                       ");
+            System.out.println("                  FRONT PLAYER HAND                     ");
             System.out.println("--------------------------------------------------------");
             PlayerTui.printPlayerHand(hand, personalObjective,false);
-            //TODO: print also the back of the player hand
+            System.out.println();
+            System.out.println("--------------------------------------------------------");
+            System.out.println("                   BACK PLAYER HAND                     ");
+            System.out.println("--------------------------------------------------------");
+            PlayerTui.printPlayerHand(hand, personalObjective,true);
         }
     }
 
