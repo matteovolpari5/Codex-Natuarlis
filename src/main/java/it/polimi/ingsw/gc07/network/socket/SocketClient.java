@@ -161,6 +161,11 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
+    public void runGameInterface() {
+        assert(ui != null);
+        ui.runGameInterface();
+    }
+
     private void manageReceivedUpdate() {
         Update update;
         while (true){
@@ -180,7 +185,7 @@ public class SocketClient implements Client, PingSender {
     //TODO se la ui aspetta il comando e cade la connessione il client rimane vivo perché la ui sta ancora spettando l'input
     private synchronized void closeConnection(){
         if(isClientAlive()){
-            System.out.println("SC> you lost the connection");
+            System.out.println("you lost the connection");
             this.clientAlive = false;
             try{
                 input.close();
@@ -190,11 +195,6 @@ public class SocketClient implements Client, PingSender {
                 throw new RuntimeException();
             }
         }
-    }
-
-    public void runGameInterface() {
-        assert(ui != null);
-        ui.runGameInterface();
     }
 
     @Override
