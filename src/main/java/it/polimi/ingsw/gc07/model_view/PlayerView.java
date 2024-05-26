@@ -131,7 +131,7 @@ public class PlayerView implements Serializable {
         this.secretObjective = secretObjective;
         // update listeners
         for(PlayerViewListener l: playerViewListeners) {
-            l.receiveCardHandUpdate(this.currentHand, this.secretObjective);
+            l.receiveCardHandUpdate(nickname, this.currentHand, this.secretObjective);
         }
     }
 
@@ -143,7 +143,7 @@ public class PlayerView implements Serializable {
         gameField.setStarterCard(starterCard);
         // update listeners
         for(PlayerViewListener l: playerViewListeners) {
-            l.receiveStarterCardUpdate(starterCard);
+            l.receiveStarterCardUpdate(nickname, starterCard);
         }
     }
 

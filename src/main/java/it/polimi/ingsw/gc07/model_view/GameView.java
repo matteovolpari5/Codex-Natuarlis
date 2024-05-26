@@ -405,10 +405,8 @@ public class GameView {
             if(!found) {
                 this.playerViews.add(playerView);
                 boardView.addPlayerToBoard(playerView.getNickname(), playerView.getTokenColor());
-                if(playerView.getNickname().equals(ownerNickname)) {
-                    playerView.addListener((PlayerViewListener) gameViewListeners.getFirst());
-                    playerView.addGameFieldListener((GameFieldViewListener) gameViewListeners.getFirst());
-                }
+                playerView.addListener((PlayerViewListener) gameViewListeners.getFirst());
+                playerView.addGameFieldListener((GameFieldViewListener) gameViewListeners.getFirst());
             }
         }
         boardView.updateListeners();

@@ -39,11 +39,12 @@ public interface GuiController {
 
     /**
      * Method used to display a new game field update.
+     * @param nickname nickname
      * @param cardsContent cards content
      * @param cardsFace cards face
      * @param cardsOrder cards order
      */
-    void updateGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder);
+    void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder);
 
     /**
      * Method used to display the starter card.

@@ -9,14 +9,16 @@ import java.util.List;
 public interface PlayerViewListener {
     /**
      * Method used to show the player of his starter card.
+     * @param nickname nickname
      * @param starterCard starter card
      */
-    void receiveStarterCardUpdate(PlaceableCard starterCard);
+    void receiveStarterCardUpdate(String nickname, PlaceableCard starterCard);
 
     /**
      * Method used to show the player his new card hand.
+     * @param nickname nickname
      * @param hand card hand
      * @param personalObjective personal objective
      */
-    void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective);
+    void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, ObjectiveCard personalObjective);
 }

@@ -24,44 +24,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        GameView gameView = StageController.getGameView();
-
-
-        // TODO devo sapere il player di cui voglio mostrare il campo
-        // serve un metodo setScene diverso, che prende come parametro
-        // il nome del player di cui voglio mostrare il gioco
-        // a quel punto lo avrei
-
-        // TODO gamefield
-
-        // set decks data
-        DeckView deckView = gameView.getDeckView();
-        // = deckView.getTopResourceDeck();
-        // = deckView.getTopGoldDeck();
-        // = deckView.getFaceUpResourceCard();
-        // = deckView.getFaceUpGoldCard();
-        // = deckView.getCommonObjective();
-
-        // set current hand data
-        // = gameView.getCurrentHand();
-        // = gameView.getSecretObjective();
-
-        // set starter card
-        // = gameView.getStarterCard();
-
-        // set scores
-        // = gameView.getPlayersScores(), gameView.getPlayersTokenColors();
-
-        // set id and current player
-        // = gameView.getId();
-        // = gameView.getCurrentPlayerNickname();
-
-        // set full chat
-        // = gameView.getOwnerMessages();
-
-        // set stalled or disconnected
-        // = gameView.getConnectionValues();
-        // =  gameView.getStallValues();
+        // TODO come per player scene, richiedere l'aggiornamento da fuori
     }
 
     /**
@@ -98,13 +61,17 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
 
     /**
      * Method used to display a new game field update.
+     * @param nickname nickname
      * @param cardsContent cards content
      * @param cardsFace cards face
      * @param cardsOrder cards order
      */
     @Override
-    public void updateGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
-
+    public void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        if(otherPlayerNickname != null && otherPlayerNickname.equals(nickname)) {
+            // TODO update game field
+        }
+        // else wrong player, don't print
     }
 
     /**
@@ -185,12 +152,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     public void setNickname(String nickname) {
         otherPlayerNickname = nickname;
 
-        GameView gameView = StageController.getGameView();
-        // set game field data
-        GameFieldView gameFieldView =  gameView.getGameField(nickname);
-        // = gameFieldView.getCardsContent();
-        // = gameFieldView.getCardsFace();
-        // = gameFieldView.getCardsOrder());
+        // non serve richidere il game field, mandato dall'aggiornamento esterno
     }
 
     /**

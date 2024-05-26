@@ -11,7 +11,6 @@ import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableListBase;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -99,8 +98,6 @@ public class PlayerSceneController implements GuiController, Initializable {
 
         /*
         // TODO tutto sotto da rimuovere, ma bisogna aggiungere metodi ai chat view listeners
-        GameView gameView = StageController.getGameView();
-        String nickname = StageController.getNickname();
 
         nickname1.setText(nickname);
         int numPlayersConnected = gameView.getPlayersTokenColors().size();
@@ -182,12 +179,15 @@ public class PlayerSceneController implements GuiController, Initializable {
 
     /**
      * Method used to display a new game field update.
+     * @param nickname nickname
      * @param cardsContent cards content
      * @param cardsFace cards face
      * @param cardsOrder cards order
      */
     @Override
-    public void updateGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+    public void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        // no need to check nickname, already checked by Gui method
+
         // TODO
     }
 

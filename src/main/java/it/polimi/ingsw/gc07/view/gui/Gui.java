@@ -165,10 +165,11 @@ public  class Gui extends Application implements Ui {
         }
         if(nickname.equals(this.nickname) && StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
             // player's game field update, will be sent to PlayerSceneController
-            StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
+            StageController.getController().updateGameField(nickname, cardsContent, cardsFace, cardsOrder);
         }else if(!nickname.equals(this.nickname) && StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
             // other player's game field update, will be sent to OtherPlayerSceneController
-            StageController.getController().updateGameField(cardsContent, cardsFace, cardsOrder);
+            StageController.getController().updateGameField(nickname, cardsContent, cardsFace, cardsOrder);
+            // the scene will check if the nickname is the one of the "other player"
         }
     }
 
@@ -177,9 +178,12 @@ public  class Gui extends Application implements Ui {
      * @param starterCard starter card update
      */
     @Override
-    public void receiveStarterCardUpdate(PlaceableCard starterCard) {
+    public void receiveStarterCardUpdate(String nickname, PlaceableCard starterCard) {
         if(StageController.getController() == null) {
             // starting phase
+            return;
+        }
+        if(!nickname.equals(this.nickname)) {
             return;
         }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
@@ -190,13 +194,17 @@ public  class Gui extends Application implements Ui {
 
     /**
      * Method used to receive a card hand update.
+     * @param nickname nickname
      * @param hand card hand
      * @param personalObjective persona objective
      */
     @Override
-    public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
+    public void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, ObjectiveCard personalObjective) {
         if(StageController.getController() == null) {
             // starting phase
+            return;
+        }
+        if(!nickname.equals(this.nickname)) {
             return;
         }
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
