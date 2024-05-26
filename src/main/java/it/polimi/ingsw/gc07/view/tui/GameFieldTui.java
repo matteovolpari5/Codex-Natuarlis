@@ -21,9 +21,9 @@ public interface GameFieldTui {
 
     /**
      * Method used to print a game field.
-     * @param cardsContent cards content
-     * @param cardsFace cards face
-     * @param cardsOrder cards order
+     * @param cardsContent cards content.
+     * @param cardsFace cards face.
+     * @param cardsOrder cards order.
      */
     static void printGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         //ricerca inizio righe/fine righe
@@ -85,6 +85,11 @@ public interface GameFieldTui {
         }
     }
 
+    /**
+     * Method used to print the index of the columns
+     * @param startc first index to print.
+     * @param endc last index to be printed.
+     */
     private static void printIndexColumn(int startc, int endc) {
         //stampa colonne
         for (int r = 0; r < 3; r++) {
@@ -114,6 +119,13 @@ public interface GameFieldTui {
         }
     }
 
+    /**
+     * Method used to print the first and last row of the game field.
+     * @param c current column index.
+     * @param startc first index.
+     * @param r current row index.
+     * @param cardsContent card to be printed.
+     */
     private static void printFirstLastRow(int c, int startc, int r, PlaceableCard[][] cardsContent) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "+--+");
@@ -129,6 +141,15 @@ public interface GameFieldTui {
         }
     }
 
+    /**
+     * Method used to print the second row of the game field.
+     * @param c current column index.
+     * @param startc first index.
+     * @param r current row index.
+     * @param cardsContent card to be printed.
+     * @param cardsFace face of the card to be printed.
+     * @param cardsOrder order of the card to be printed.
+     */
     private static void printSecondRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");
@@ -308,6 +329,14 @@ public interface GameFieldTui {
         }
     }
 
+    /**
+     * Method used to print the third row of the game field.
+     * @param c current column index.
+     * @param startc first index.
+     * @param r current row index.
+     * @param cardsContent card to be printed.
+     * @param cardsFace face of the card to be printed.
+     */
     private static void printThirdRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace) {
         if (c == startc) {
             if (r > 9) {
@@ -354,6 +383,15 @@ public interface GameFieldTui {
         }
     }
 
+    /**
+     * Method used to print the fourth row of the game field.
+     * @param c current column index.
+     * @param startc first index.
+     * @param r current row index.
+     * @param cardsContent card to be printed.
+     * @param cardsFace face of the card to be printed.
+     * @param cardsOrder order of the card to be printed.
+     */
     private static void printFourthRow(int c, int startc, int r, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         if (c == startc) {
             System.out.print(ANSI_BLACK_BACKGROUND + "|  |");

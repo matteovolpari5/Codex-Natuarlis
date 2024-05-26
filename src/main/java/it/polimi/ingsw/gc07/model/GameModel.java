@@ -623,6 +623,9 @@ public class GameModel {
                 // send current hand update
                 client.receiveCardHandUpdate(new CardHandUpdate(p.getNickname(), p.getCurrentHand(), p.getSecretObjective()));
 
+                // send starter card update
+                client.receiveStarterCardUpdate(new StarterCardUpdate(p.getNickname(), p.getStarterCard()));
+
                 // send score update
                 client.receiveScoreUpdate(new ScoreUpdate(p.getNickname(), board.getScore(p.getNickname())));
 

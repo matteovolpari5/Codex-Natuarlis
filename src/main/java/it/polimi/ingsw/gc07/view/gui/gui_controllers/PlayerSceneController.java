@@ -3,7 +3,6 @@ package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.game_commands.RefreshGameViewCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -11,10 +10,11 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableListBase;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -91,17 +91,16 @@ public class PlayerSceneController implements GuiController, Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        StageController.getClient().setAndExecuteCommand(new RefreshGameViewCommand(StageController.getNickname()));
-
-        /*
-        // TODO tutto sotto da rimuovere, ma bisogna aggiungere metodi ai chat view listeners
-        GameView gameView = StageController.getGameView();
-        String nickname = StageController.getNickname();
 
         chatItem = FXCollections.observableArrayList();
         myChat.setItems(chatItem);
         updatesItem = FXCollections.observableArrayList();
         myUpdates.setItems(updatesItem);
+
+        /*
+        // TODO tutto sotto da rimuovere, ma bisogna aggiungere metodi ai chat view listeners
+        GameView gameView = StageController.getGameView();
+        String nickname = StageController.getNickname();
 
         nickname1.setText(nickname);
         int numPlayersConnected = gameView.getPlayersTokenColors().size();
@@ -168,7 +167,8 @@ public class PlayerSceneController implements GuiController, Initializable {
      * @param commonObjective common objective
      */
     @Override
-    public void updateDecks(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {// set decks data
+    public void updateDecks(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
+        // set decks data
         Platform.runLater(() -> {
             // set top decks
             int topDeckId = topResourceDeck.getId();
@@ -200,6 +200,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateStarterCard(PlaceableCard starterCard) {
+        System.out.println("RECEIVED STARTER CARD");
         int id = starterCard.getId();
         Platform.runLater(() -> {
             myStarterCard.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
