@@ -331,4 +331,24 @@ public class PlayerSceneController implements GuiController, Initializable {
             gameId.setText("game Id: " + id);
         });
     }
+
+    /**
+     * Method used to display a new connection value.
+     * @param nickname nickname
+     * @param value new connection value
+     */
+    @Override
+    public void receiveConnectionUpdate(String nickname, boolean value) {
+        // TODO non ho capito come lo avevi fatto in initialize
+    }
+
+    /**
+     * Method used to display a new stall value.
+     * @param nickname nickname
+     * @param value new stall value
+     */
+    @Override
+    public void receiveStallUpdate(String nickname, boolean value) {
+        // TODO non ho capito come lo avevi fatto in initialize
+    }
 }

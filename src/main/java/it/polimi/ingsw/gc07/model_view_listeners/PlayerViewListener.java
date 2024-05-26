@@ -21,4 +21,18 @@ public interface PlayerViewListener {
      * @param personalObjective personal objective
      */
     void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, ObjectiveCard personalObjective);
+
+    /**
+     * Method used to show a connection update.
+     * @param nickname nickname
+     * @param connection true if the player is connected, false otherwise
+     */
+    void receiveConnectionUpdate(String nickname, boolean connection);
+
+    /**
+     * Method used to show a stall update.
+     * @param nickname nickname
+     * @param stall true if the player is stalled, false otherwise
+     */
+    void receiveStallUpdate(String nickname, boolean stall);
 }

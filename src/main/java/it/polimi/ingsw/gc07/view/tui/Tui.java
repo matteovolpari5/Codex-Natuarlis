@@ -740,6 +740,26 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveGameIdUpdate(int gameId) {
-        // don't print anything
+        // TODO vogliamo stampare
+    }
+
+    /**
+     * Method used to show a connection update.
+     * @param nickname   nickname
+     * @param connection true if the player is connected, false otherwise
+     */
+    @Override
+    public void receiveConnectionUpdate(String nickname, boolean connection) {
+        // TODO vogliamo stampare
+    }
+
+    /**
+     * Method used to show a stall update.
+     * @param nickname nickname
+     * @param stall    true if the player is stalled, false otherwise
+     */
+    @Override
+    public void receiveStallUpdate(String nickname, boolean stall) {
+        // TODO vogliamo stampare
     }
 }

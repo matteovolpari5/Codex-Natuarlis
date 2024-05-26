@@ -172,4 +172,24 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     public void setGameId(int gameId) {
         // TODO lo usa
     }
+
+    /**
+     * Method used to display a new connection value.
+     * @param nickname nickname
+     * @param value    new connection value
+     */
+    @Override
+    public void receiveConnectionUpdate(String nickname, boolean value) {
+        // TODO la usa? altrimenti togliere da gui
+    }
+
+    /**
+     * Method used to display a new stall value.
+     * @param nickname nickname
+     * @param value    new stall value
+     */
+    @Override
+    public void receiveStallUpdate(String nickname, boolean value) {
+        // TODO la usa? altrimenti togliere da gui
+    }
 }

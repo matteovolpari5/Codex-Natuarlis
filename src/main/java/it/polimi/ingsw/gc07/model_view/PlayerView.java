@@ -114,6 +114,9 @@ public class PlayerView implements Serializable {
      */
     public void setIsStalled(boolean isStalled) {
         this.isStalled = isStalled;
+        for(PlayerViewListener p: playerViewListeners) {
+            p.receiveStallUpdate(nickname, this.isStalled);
+        }
     }
     /**
      * Setter for the method isConnected.
@@ -121,6 +124,9 @@ public class PlayerView implements Serializable {
      */
     public void setIsConnected(boolean isConnected) {
         this.isConnected = isConnected;
+        for(PlayerViewListener p: playerViewListeners) {
+            p.receiveConnectionUpdate(nickname, this.isConnected);
+        }
     }
     /**
      * Method that allows to set the currentHand.
@@ -173,14 +179,6 @@ public class PlayerView implements Serializable {
      */
     public int getCurrHandSize() {
         return currentHand.size();
-    }
-
-    /**
-     * Getter for player's secrete objective.
-     * @return secrete objective
-     */
-    public ObjectiveCard getSecretObjective() {
-        return secretObjective;
     }
 
     /**

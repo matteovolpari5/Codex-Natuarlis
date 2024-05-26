@@ -336,4 +336,32 @@ public  class Gui extends Application implements Ui {
             StageController.getController().setGameId(gameId);
         }
     }
+
+    /**
+     * Method used to show a connection update.
+     * @param nickname   nickname
+     * @param connection true if the player is connected, false otherwise
+     */
+    @Override
+    public void receiveConnectionUpdate(String nickname, boolean connection) {
+        // TODO anche OTHER_PLAYER_SCENE ?
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
+                StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+
+        }
+    }
+
+    /**
+     * Method used to show a stall update.
+     * @param nickname nickname
+     * @param stall    true if the player is stalled, false otherwise
+     */
+    @Override
+    public void receiveStallUpdate(String nickname, boolean stall) {
+        // TODO anche OTHER_PLAYER_SCENE ?
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
+                StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+
+        }
+    }
 }

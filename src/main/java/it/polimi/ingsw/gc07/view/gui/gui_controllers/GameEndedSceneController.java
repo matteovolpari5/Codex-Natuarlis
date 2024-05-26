@@ -167,4 +167,24 @@ public class GameEndedSceneController implements Initializable, GuiController {
     public void setGameId(int gameId) {
         // don't use
     }
+
+    /**
+     * Method used to display a new connection value.
+     * @param nickname nickname
+     * @param value    new connection value
+     */
+    @Override
+    public void receiveConnectionUpdate(String nickname, boolean value) {
+        // don't use
+    }
+
+    /**
+     * Method used to display a new stall value.
+     * @param nickname nickname
+     * @param value    new stall value
+     */
+    @Override
+    public void receiveStallUpdate(String nickname, boolean value) {
+        // don't use
+    }
 }

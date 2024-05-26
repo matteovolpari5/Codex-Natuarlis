@@ -112,4 +112,18 @@ public interface GuiController {
      * @param gameId game id
      */
     void setGameId(int gameId);
+
+    /**
+     * Method used to display a new connection value.
+     * @param nickname nickname
+     * @param value new connection value
+     */
+    void receiveConnectionUpdate(String nickname, boolean value);
+
+    /**
+     * Method used to display a new stall value.
+     * @param nickname nickname
+     * @param value new stall value
+     */
+    void receiveStallUpdate(String nickname, boolean value);
 }
