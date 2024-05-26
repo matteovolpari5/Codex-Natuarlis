@@ -309,12 +309,13 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     private void startUpdateExecutor() {
         new Thread(() -> {
             while(isClientAlive()) {
+                Update update;
                 try {
-                    Update update = updatesQueue.take();
-                    update.execute(gameView);
+                    update = updatesQueue.take();
                 }catch(InterruptedException e) {
                     throw new RuntimeException();
                 }
+                update.execute(gameView);
             }
         }).start();
     }

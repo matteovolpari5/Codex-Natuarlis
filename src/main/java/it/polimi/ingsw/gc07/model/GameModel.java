@@ -606,14 +606,14 @@ public class GameModel {
         try {
             // when the player view is creates, isConnected = true and isStalled = false
             // if not default, send update
-            for (Player p : players) {
+            for(Player p : players) {
                 // if not default value, send connection update
-                if (!p.isConnected()) {
+                if(!p.isConnected()) {
                     client.receiveConnectionUpdate(new ConnectionUpdate(p.getNickname(), false));
                 }
 
                 // if not default value, send stall update
-                if (p.getIsStalled()) {
+                if(p.getIsStalled()) {
                     client.receiveStallUpdate(new StallUpdate(p.getNickname(), true));
                 }
 

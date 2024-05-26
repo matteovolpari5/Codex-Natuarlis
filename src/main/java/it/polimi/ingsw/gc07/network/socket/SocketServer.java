@@ -1,7 +1,5 @@
 package it.polimi.ingsw.gc07.network.socket;
 
-import it.polimi.ingsw.gc07.controller.GamesManager;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;

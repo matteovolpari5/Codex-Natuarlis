@@ -34,13 +34,13 @@ class GamesManagerTest {
     @Test
     void testJoinGameSuccess() throws RemoteException {
         // add player 1
-        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
         gm.addPlayerToPending("player1", true, false);
+        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
         gm.addVirtualView("player1", player1VirtualView);
 
         // add player 2
-        RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
         gm.addPlayerToPending("player2", true, false);
+        RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
         gm.addVirtualView("player2", player2VirtualView);
 
         // join player 1
