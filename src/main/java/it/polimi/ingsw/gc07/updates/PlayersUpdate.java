@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc07.model_view.PlayerView;
 
 import java.util.List;
 
-public class PlayerJoinedUpdate implements Update {
+public class PlayersUpdate implements Update {
     /**
      * List of player views.
      * It is necessary to send the whole list, because the new player
@@ -14,10 +14,10 @@ public class PlayerJoinedUpdate implements Update {
     private final List<PlayerView> playerViews;
 
     /**
-     * Constructor of PlayerJoinedUpdate.
+     * Constructor of PlayersUpdate.
      * @param playerViews player views
      */
-    public PlayerJoinedUpdate(List<PlayerView> playerViews) {
+    public PlayersUpdate(List<PlayerView> playerViews) {
         this.playerViews = playerViews;
     }
 

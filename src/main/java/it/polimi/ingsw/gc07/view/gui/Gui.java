@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
 import it.polimi.ingsw.gc07.view.gui.gui_controllers.StageController;
@@ -347,7 +348,7 @@ public  class Gui extends Application implements Ui {
         // TODO anche OTHER_PLAYER_SCENE ?
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
                 StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
-
+            StageController.getController().receiveConnectionUpdate(nickname, connection);
         }
     }
 
@@ -361,7 +362,22 @@ public  class Gui extends Application implements Ui {
         // TODO anche OTHER_PLAYER_SCENE ?
         if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
                 StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+            StageController.getController().receiveStallUpdate(nickname, stall);
+        }
+    }
 
+    /**
+     * Method used to display game players.
+     * @param nicknames        map containing players and their token colors
+     * @param connectionValues map containing players and their connection values
+     * @param stallValues      map containing players and their stall values
+     */
+    @Override
+    public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
+        // TODO anche OTHER_PLAYER_SCENE ?
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
+                StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+            StageController.getController().receivePlayersUpdate(nicknames, connectionValues, stallValues);
         }
     }
 }

@@ -14,10 +14,7 @@ import it.polimi.ingsw.gc07.model_view_listeners.GameViewListener;
 import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;
 import it.polimi.ingsw.gc07.view.Ui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GameView {
     /**
@@ -410,6 +407,18 @@ public class GameView {
             }
         }
         boardView.updateListeners();
+
+        Map<String, TokenColor> nicknames = new HashMap<>();
+        Map<String, Boolean> connectionValues = new HashMap<>();
+        Map<String, Boolean> stallValues = new HashMap<>();
+        for(PlayerView p: this.playerViews) {
+            nicknames.put(p.getNickname(), p.getTokenColor());
+            connectionValues.put(p.getNickname(), p.isConnected());
+            stallValues.put(p.getNickname(), p.isStalled());
+        }
+        for(GameViewListener l: gameViewListeners) {
+            l.receivePlayersUpdate(nicknames, connectionValues, stallValues);
+        }
     }
 
     /**

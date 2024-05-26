@@ -12,6 +12,7 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameFieldView;
+import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
 
@@ -761,5 +762,16 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     @Override
     public void receiveStallUpdate(String nickname, boolean stall) {
         // TODO vogliamo stampare
+    }
+
+    /**
+     * Method used to display game players.
+     * @param nicknames        map containing players and their token colors
+     * @param connectionValues map containing players and their connection values
+     * @param stallValues      map containing players and their stall values
+     */
+    @Override
+    public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
+        // don't display
     }
 }

@@ -376,6 +376,25 @@ public class GameModel {
     }
 
     /**
+     * Method used to send an update showing players in the game.
+     */
+    private void sendPlayersUpdate() {
+        // update listeners
+        List<PlayerView> playerViews = new ArrayList<>();
+        for(Player p: players) {
+            playerViews.add(new PlayerView(p.getNickname(), p.getTokenColor()));
+        }
+        PlayersUpdate playersUpdate = new PlayersUpdate(playerViews);
+        for(GameListener l: gameListeners) {
+            try {
+                l.receivePlayersUpdate(playersUpdate);
+            }catch(RemoteException e) {
+                // will be detected by PingPongManager
+            }
+        }
+    }
+
+    /**
      * Method used to send a winners update.
      */
     private void sendWinnersUpdate() {
@@ -579,18 +598,7 @@ public class GameModel {
         sendDeckUpdate();
 
         // update listeners
-        List<PlayerView> playerViews = new ArrayList<>();
-        for(Player p: players) {
-            playerViews.add(new PlayerView(p.getNickname(), p.getTokenColor()));
-        }
-        PlayerJoinedUpdate playerUpdate = new PlayerJoinedUpdate(playerViews);
-        for(GameListener l: gameListeners) {
-            try {
-                l.receivePlayerJoinedUpdate(playerUpdate);
-            }catch(RemoteException e) {
-                // will be detected by PingPongManager
-            }
-        }
+        sendPlayersUpdate();
 
         System.out.println("Number of listeners: " + gameListeners.size());
     }
@@ -601,10 +609,17 @@ public class GameModel {
      * @param client client of the player to which the update will be sent.
      */
     public void sendModelViewUpdate(String nickname, VirtualView client) {
-        // gameModel update and deckUpdate sent in addListener
-
         try {
-            // when the player view is creates, isConnected = true and isStalled = false
+            // send game model update
+            sendGameModelUpdate();
+            // send players update
+            sendPlayersUpdate();
+            // send deck update
+            sendDeckUpdate();
+            // send full chat update
+            client.receiveFullChatUpdate(new FullChatUpdate(new ArrayList<>(chat.getContent(nickname))));
+
+            // when the player view is created, isConnected = true and isStalled = false
             // if not default, send update
             for(Player p : players) {
                 // if not default value, send connection update
@@ -630,13 +645,6 @@ public class GameModel {
                 client.receiveScoreUpdate(new ScoreUpdate(p.getNickname(), board.getScore(p.getNickname())));
 
             }
-
-            // send full chat update
-            client.receiveFullChatUpdate(new FullChatUpdate(new ArrayList<>(chat.getContent(nickname))));
-            // send game model update
-            sendGameModelUpdate();
-            // send deck update
-            sendDeckUpdate();
 
         }catch(RemoteException e) {
             // will be detected by PingPongManager

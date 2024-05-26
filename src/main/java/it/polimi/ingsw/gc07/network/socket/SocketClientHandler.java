@@ -177,7 +177,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpate) throws RemoteException {
+    public void receivePlayersUpdate(PlayersUpdate playerJoinedUpate) throws RemoteException {
         receiveUpdate(playerJoinedUpate);
     }
 

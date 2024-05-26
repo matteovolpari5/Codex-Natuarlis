@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc07.model_view_listeners;
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model_view.PlayerView;
 
 import java.util.List;
 import java.util.Map;
@@ -49,4 +50,12 @@ public interface GameViewListener {
      * @param winners winners' nicknames
      */
     void receiveWinnersUpdate(List<String> winners);
+
+    /**
+     * Method used to display game players.
+     * @param nicknames map containing players and their token colors
+     * @param connectionValues map containing players and their connection values
+     * @param stallValues map containing players and their stall values
+     */
+    void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues);
 }

@@ -362,12 +362,12 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
 
     /**
      * Method used to notify a player joined update.
-     * @param playerJoinedUpdate player joined update
+     * @param playersUpdate player joined update
      * @throws RemoteException remote exception
      */
     @Override
-    public void receivePlayerJoinedUpdate(PlayerJoinedUpdate playerJoinedUpdate) throws RemoteException {
-        receiveUpdate(playerJoinedUpdate);
+    public void receivePlayersUpdate(PlayersUpdate playersUpdate) throws RemoteException {
+        receiveUpdate(playersUpdate);
     }
 
     /**

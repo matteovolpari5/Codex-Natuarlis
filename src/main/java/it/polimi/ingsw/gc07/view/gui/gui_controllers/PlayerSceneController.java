@@ -97,7 +97,7 @@ public class PlayerSceneController implements GuiController, Initializable {
         myUpdates.setItems(updatesItem);
 
         /*
-        // TODO tutto sotto da rimuovere, ma bisogna aggiungere metodi ai chat view listeners
+        // TODO spostare sotto
 
         nickname1.setText(nickname);
         int numPlayersConnected = gameView.getPlayersTokenColors().size();
@@ -350,5 +350,16 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void receiveStallUpdate(String nickname, boolean value) {
         // TODO non ho capito come lo avevi fatto in initialize
+    }
+
+    /**
+     * Method used to display players in the game.
+     * @param tokenColors nicknames
+     * @param connectionValues connection values
+     * @param stallValues stall values
+     */
+    @Override
+    public void receivePlayersUpdate(Map<String, TokenColor> tokenColors, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
+        // TODO non ho capito come lo avevi fatto sopra
     }
 }

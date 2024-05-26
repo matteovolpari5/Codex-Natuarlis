@@ -192,4 +192,15 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     public void receiveStallUpdate(String nickname, boolean value) {
         // TODO la usa? altrimenti togliere da gui
     }
+
+    /**
+     * Method used to display players in the game.
+     * @param nicknames nicknames
+     * @param connectionValues connection values
+     * @param stallValues stall values
+     */
+    @Override
+    public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
+        // TODO
+    }
 }

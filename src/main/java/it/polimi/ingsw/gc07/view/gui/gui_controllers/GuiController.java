@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model_view.ChatView;
+import it.polimi.ingsw.gc07.model_view.PlayerView;
 
 import java.util.List;
 import java.util.Map;
@@ -126,4 +127,12 @@ public interface GuiController {
      * @param value new stall value
      */
     void receiveStallUpdate(String nickname, boolean value);
+
+    /**
+     * Method used to display players in the game.
+     * @param nicknames nicknames
+     * @param connectionValues connection values
+     * @param stallValues stall values
+     */
+    void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues);
 }

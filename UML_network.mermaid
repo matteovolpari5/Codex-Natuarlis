@@ -44,7 +44,7 @@ classDiagram
         + receiveStarterCardUpdate(starterCardUpdate: StarterCardUpdate)
         + receivePlacedCardUpdate(placedCardUpdate: PlacedCardUpdate)
         + receiveGameModelUpdate(gameModelUpdate: GameModelUpdate)
-        + receivePlayerJoinedUpdate(playerJoinedUpdate: PlayerJoinedUpdate)
+        + receivePlayerJoinedUpdate(playersUpdate: PlayerJoinedUpdate)
         + receiveCommandResultUpdate(commandResultUpdate: CommandResultUpdate)
         + receiveStallUpdate(stallUpdate: StallUpdate)
         + receiveConnectionUpdate(connectionUpdate: ConnectionUpdate)
@@ -114,7 +114,7 @@ classDiagram
         + receiveStarterCardUpdate(starterCardUpdate: StarterCardUpdate)
         + receivePlacedCardUpdate(placedCardUpdate: PlacedCardUpdate)
         + receiveGameModelUpdate(gameModelUpdate: GameModelUpdate)
-        + receivePlayerJoinedUpdate(playerJoinedUpdate: PlayerJoinedUpdate)
+        + receivePlayerJoinedUpdate(playersUpdate: PlayerJoinedUpdate)
         + receiveCommandResultUpdate(commandResultUpdate: CommandResultUpdate)
         + receiveStallUpdate(stallUpdate: StallUpdate)
         + receiveConnectionUpdate(connectionUpdate: ConnectionUpdate)
@@ -191,7 +191,7 @@ classDiagram
     class GameListener{
         <<interface>>
         ~ receiveGameModelUpdate(gameModelUpdate GameModelUpdate)
-        ~ receivePlayerJoinedUpdate(playerJoinedUpdate PlayerJoinedUpdate)
+        ~ receivePlayerJoinedUpdate(playersUpdate PlayerJoinedUpdate)
         ~ receiveCommandResultUpdate(commandResultUpdate CommandResultUpdate)
     }
     class PlayerListener {
