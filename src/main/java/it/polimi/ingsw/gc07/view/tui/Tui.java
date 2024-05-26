@@ -534,6 +534,9 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveGameFieldUpdate(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        if(!nickname.equals(client.getGameView().getOwnerNickname())) {
+            return;
+        }
         System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                   PLAYER GAME FIELD                    ");
@@ -543,10 +546,14 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     /**
      * Method used to show the player of his starter card.
+     * @param nickname nickname
      * @param starterCard starter card
      */
     @Override
-    public void receiveStarterCardUpdate(PlaceableCard starterCard) {
+    public void receiveStarterCardUpdate(String nickname, PlaceableCard starterCard) {
+        if(!nickname.equals(client.getGameView().getOwnerNickname())) {
+            return;
+        }
         System.out.println();
         System.out.println("--------------------------------------------------------");
         System.out.println("                     STARTER CARD                       ");
@@ -557,11 +564,15 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     /**
      * Method used to show the player his new card hand.
+     * @param nickname nickname
      * @param hand card hand
      * @param personalObjective personal objective
      */
     @Override
-    public void receiveCardHandUpdate(List<DrawableCard> hand, ObjectiveCard personalObjective) {
+    public void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, ObjectiveCard personalObjective) {
+        if(!nickname.equals(client.getGameView().getOwnerNickname())) {
+            return;
+        }
         if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjective == null))) {
             System.out.println();
             System.out.println("--------------------------------------------------------");
@@ -721,5 +732,34 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     @Override
     public void receiveFullChatUpdate(List<ChatMessage> chatMessages) {
         // do not print whole chat
+    }
+
+    /**
+     * Method used to show the game id.
+     * @param gameId game id
+     */
+    @Override
+    public void receiveGameIdUpdate(int gameId) {
+        // TODO vogliamo stampare
+    }
+
+    /**
+     * Method used to show a connection update.
+     * @param nickname   nickname
+     * @param connection true if the player is connected, false otherwise
+     */
+    @Override
+    public void receiveConnectionUpdate(String nickname, boolean connection) {
+        // TODO vogliamo stampare
+    }
+
+    /**
+     * Method used to show a stall update.
+     * @param nickname nickname
+     * @param stall    true if the player is stalled, false otherwise
+     */
+    @Override
+    public void receiveStallUpdate(String nickname, boolean stall) {
+        // TODO vogliamo stampare
     }
 }

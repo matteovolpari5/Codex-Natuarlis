@@ -39,11 +39,12 @@ public interface GuiController {
 
     /**
      * Method used to display a new game field update.
+     * @param nickname nickname
      * @param cardsContent cards content
      * @param cardsFace cards face
      * @param cardsOrder cards order
      */
-    void updateGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder);
+    void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder);
 
     /**
      * Method used to display the starter card.
@@ -105,4 +106,24 @@ public interface GuiController {
      * @param chatMessages full chat content
      */
     void setFullChat(List<ChatMessage> chatMessages);
+
+    /**
+     * Method used to set the game id.
+     * @param gameId game id
+     */
+    void setGameId(int gameId);
+
+    /**
+     * Method used to display a new connection value.
+     * @param nickname nickname
+     * @param value new connection value
+     */
+    void receiveConnectionUpdate(String nickname, boolean value);
+
+    /**
+     * Method used to display a new stall value.
+     * @param nickname nickname
+     * @param value new stall value
+     */
+    void receiveStallUpdate(String nickname, boolean value);
 }

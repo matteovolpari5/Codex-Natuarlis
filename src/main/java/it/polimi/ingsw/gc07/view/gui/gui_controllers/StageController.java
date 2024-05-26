@@ -125,7 +125,7 @@ public abstract class StageController {
             currentStage.setTitle(currentSceneType.getTitle());
 
             if(currentSceneType.equals(SceneType.PLAYER_SCENE)) {
-                client.setAndExecuteCommand(new RefreshGameViewCommand(StageController.getNickname()));
+                client.setAndExecuteCommand(new RefreshGameViewCommand(nickname));
             }
         });
     }
@@ -151,6 +151,9 @@ public abstract class StageController {
             currentGuiController.setNickname(nickname);
             // set stage
             currentStage.setTitle(currentSceneType.getTitle());
+
+            // scene type is OTHER_PLAYER_SCENE
+            client.setAndExecuteCommand(new RefreshGameViewCommand(nickname));
         });
     }
 }

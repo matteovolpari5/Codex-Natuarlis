@@ -205,12 +205,13 @@ public class LobbySceneController implements Initializable, GuiController {
 
     /**
      * Method used to display a new game field update.
+     * @param nickname nickname
      * @param cardsContent cards content
      * @param cardsFace cards face
      * @param cardsOrder cards order
      */
     @Override
-    public void updateGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+    public void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
 
     }
 
@@ -394,7 +395,33 @@ public class LobbySceneController implements Initializable, GuiController {
      * @param chatMessages full chat content
      */
     @Override
-    public void setFullChat(List<ChatMessage> chatMessages) {
+    public void setFullChat(List<ChatMessage> chatMessages) {}
 
+    /**
+     * Method used to set the game id.
+     * @param gameId game id
+     */
+    @Override
+    public void setGameId(int gameId) {}
+
+    /**
+     * Method used to display a new connection value.
+     * @param nickname nickname
+     * @param value    new connection value
+     */
+    @Override
+    public void receiveConnectionUpdate(String nickname, boolean value) {
+        // don't use
+    }
+
+    /**
+     * Method used to display a new stall value.
+     * @param nickname nickname
+     * @param value    new stall value
+     */
+    @Override
+    public void receiveStallUpdate(String nickname, boolean value) {
+        // don't use
     }
 }
+

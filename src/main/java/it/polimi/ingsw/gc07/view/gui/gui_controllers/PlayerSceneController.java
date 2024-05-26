@@ -11,7 +11,6 @@ import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableListBase;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -99,8 +98,6 @@ public class PlayerSceneController implements GuiController, Initializable {
 
         /*
         // TODO tutto sotto da rimuovere, ma bisogna aggiungere metodi ai chat view listeners
-        GameView gameView = StageController.getGameView();
-        String nickname = StageController.getNickname();
 
         nickname1.setText(nickname);
         int numPlayersConnected = gameView.getPlayersTokenColors().size();
@@ -113,9 +110,6 @@ public class PlayerSceneController implements GuiController, Initializable {
         if (numPlayersConnected <= 1){
             nickname2.setVisible(false);
         }
-
-        // set game id
-        gameId.setText("game Id: " + gameView.getId());
 
         // set stalled or disconnected
         for (String s: gameView.getConnectionValues().keySet()) {
@@ -185,12 +179,15 @@ public class PlayerSceneController implements GuiController, Initializable {
 
     /**
      * Method used to display a new game field update.
+     * @param nickname nickname
      * @param cardsContent cards content
      * @param cardsFace cards face
      * @param cardsOrder cards order
      */
     @Override
-    public void updateGameField(PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+    public void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        // no need to check nickname, already checked by Gui method
+
         // TODO
     }
 
@@ -200,7 +197,6 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateStarterCard(PlaceableCard starterCard) {
-        System.out.println("RECEIVED STARTER CARD");
         int id = starterCard.getId();
         Platform.runLater(() -> {
             myStarterCard.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
@@ -323,5 +319,36 @@ public class PlayerSceneController implements GuiController, Initializable {
                 chatItem.add(c.getSender() + ": " + c.getContent());
             }
         });
+    }
+
+    /**
+     * Method used to set the game id.
+     * @param id game id
+     */
+    @Override
+    public void setGameId(int id) {
+        Platform.runLater(() -> {
+            gameId.setText("game Id: " + id);
+        });
+    }
+
+    /**
+     * Method used to display a new connection value.
+     * @param nickname nickname
+     * @param value new connection value
+     */
+    @Override
+    public void receiveConnectionUpdate(String nickname, boolean value) {
+        // TODO non ho capito come lo avevi fatto in initialize
+    }
+
+    /**
+     * Method used to display a new stall value.
+     * @param nickname nickname
+     * @param value new stall value
+     */
+    @Override
+    public void receiveStallUpdate(String nickname, boolean value) {
+        // TODO non ho capito come lo avevi fatto in initialize
     }
 }
