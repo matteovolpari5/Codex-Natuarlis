@@ -56,7 +56,6 @@ class GamesManagerTest {
         assertEquals(CommandResult.SUCCESS, gm.getCommandResult());
     }
 
-    /*
     @Test
     void testJoinGameNotSuccess() throws RemoteException {
         // add player 1
@@ -201,5 +200,4 @@ class GamesManagerTest {
 
         assertNull(gm.getGameById(0));
     }
-    */
 }
