@@ -200,6 +200,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateStarterCard(PlaceableCard starterCard) {
+        System.out.println("RECEIVED STARTER CARD");
         int id = starterCard.getId();
         Platform.runLater(() -> {
             myStarterCard.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
