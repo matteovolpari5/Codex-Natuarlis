@@ -30,37 +30,93 @@ import static java.lang.Integer.parseInt;
 
 public class LobbySceneController implements Initializable, GuiController {
     /**
-     * se select-->join game
-     * se non select-->new game
+     * Attribute used to choice if the player select "new game" or "join game".
+     * if select-->join game.
+     * if not select-->new game.
      */
     @FXML
     public ToggleButton choice;
+
+    /**
+     * Attribute that represent the text "Join game".
+     */
     @FXML
     public Text textJoinGame;
+
+    /**
+     * Attribute that represent the text "New game".
+     */
     @FXML
     public Text textNewGame;
+
+    /**
+     * Attribute that represent the pane that contain object only for the "Join Game" section.
+     */
     @FXML
     public AnchorPane joinPane;
+
+    /**
+     * Attribute that represent the list of existing games.
+     */
     @FXML
     public ListView<String> gameList;
+
+    /**
+     * Attribute that represent the pane that contain object only for the "New Game" section.
+     */
     @FXML
     public AnchorPane newPane;
+
+    /**
+     * Attribute that represent the box where a player choice the number of players.
+     */
     @FXML
     public ChoiceBox<Integer> boxNumPlayers;
+
+    /**
+     * Attribute that represent the text "Insert the token color:".
+     */
     @FXML
     public Text textTokenColor;
+
+    /**
+     * Attribute that represent the button used to confirm the entry info.
+     */
     @FXML
     public Button next;
+
+    /**
+     * Attribute that represent the box where a player choice the token color.
+     */
     @FXML
     public ChoiceBox<TokenColor> boxTokenColor;
+
+    /**
+     * Attribute that represent the pane that contain all the objects in the scene.
+     */
     @FXML
     public AnchorPane screenPane;
+
+    /**
+     * Attribute that represent the text "Insert the number of players:".
+     */
     @FXML
     public Text textInsertNumPlayers;
 
+    /**
+     * Id of the game selected.
+     */
     public int idGame;
+
+    /**
+     * Map that contains the id game and the list of token color get.
+     */
     public Map<Integer, List<TokenColor>> gettedTokenColor;
 
+    /**
+     * Action executed when the continue button is clicked.
+     * It's checked which choice is made, then there is a little client check on the info submitted and then the command is set and executed.
+     */
     @FXML
     protected void onContinueButtonClick() {
         if(!choice.isSelected()){
@@ -215,7 +271,11 @@ public class LobbySceneController implements Initializable, GuiController {
     public void displayWinners(List<String> winners) {
 
     }
-    
+
+    /**
+     * Method executed after that the text "Join game" is clicked.
+     * The "newPane" is set invisible, the text "New game" is blurred, the "joinPane" is set visible.
+     */
     @FXML
     public void selectJoin(MouseEvent mouseEvent) {
         // TODO CHIEDERE: arriva update anche se un game esce dagli existing games? //
@@ -237,6 +297,10 @@ public class LobbySceneController implements Initializable, GuiController {
         choice.setSelected(true);
     }
 
+    /**
+     * Method executed after that the text "New game" is clicked.
+     * The "joinPane" is set invisible, the text "Join game" is blurred, the "newPane" is set visible.
+     */
     @FXML
     public void selectNew(MouseEvent mouseEvent) {
         ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
@@ -269,6 +333,9 @@ public class LobbySceneController implements Initializable, GuiController {
         choice.setSelected(false);
     }
 
+    /**
+     * Method executed after the player click (choice) a row in the list of existing game.
+     */
     @FXML
     public void clickedGame(MouseEvent mouseEvent) {
         //update della lista di token color//
