@@ -201,4 +201,13 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     public void setFullChat(List<ChatMessage> chatMessages) {
 
     }
+
+    /**
+     * Method used to set the game id.
+     * @param gameId game id
+     */
+    @Override
+    public void setGameId(int gameId) {
+        // TODO lo usa
+    }
 }

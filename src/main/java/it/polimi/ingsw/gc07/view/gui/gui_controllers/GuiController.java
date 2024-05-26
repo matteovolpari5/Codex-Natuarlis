@@ -105,4 +105,10 @@ public interface GuiController {
      * @param chatMessages full chat content
      */
     void setFullChat(List<ChatMessage> chatMessages);
+
+    /**
+     * Method used to set the game id.
+     * @param gameId game id
+     */
+    void setGameId(int gameId);
 }

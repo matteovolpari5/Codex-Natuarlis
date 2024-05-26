@@ -722,4 +722,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     public void receiveFullChatUpdate(List<ChatMessage> chatMessages) {
         // do not print whole chat
     }
+
+    /**
+     * Method used to show the game id.
+     * @param gameId game id
+     */
+    @Override
+    public void receiveGameIdUpdate(int gameId) {
+        // don't print anything
+    }
 }

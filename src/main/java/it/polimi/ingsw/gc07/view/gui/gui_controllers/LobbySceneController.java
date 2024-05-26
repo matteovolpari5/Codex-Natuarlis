@@ -394,7 +394,12 @@ public class LobbySceneController implements Initializable, GuiController {
      * @param chatMessages full chat content
      */
     @Override
-    public void setFullChat(List<ChatMessage> chatMessages) {
+    public void setFullChat(List<ChatMessage> chatMessages) {}
 
-    }
+    /**
+     * Method used to set the game id.
+     * @param gameId game id
+     */
+    @Override
+    public void setGameId(int gameId) {}
 }

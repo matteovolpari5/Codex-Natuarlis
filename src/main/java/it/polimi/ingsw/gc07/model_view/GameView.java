@@ -79,6 +79,7 @@ public class GameView {
      */
     public GameView(String ownerNickname) {
         this.ownerNickname = ownerNickname;
+        this.id = -1;
         this.winners = null;
         this.boardView = new BoardView();
         this.deckView = new DeckView();
@@ -196,6 +197,9 @@ public class GameView {
      */
     public void setGameModel(int id, GameState state, int currPlayer, boolean penultimateRound, boolean additionalRound) {
         this.id = id;
+        for(GameViewListener l: gameViewListeners) {
+            l.receiveGameIdUpdate(this.id);
+        }
         this.state = state;
         this.currPlayer = currPlayer;
         if(!this.penultimateRound && penultimateRound) {

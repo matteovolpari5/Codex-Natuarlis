@@ -312,4 +312,20 @@ public  class Gui extends Application implements Ui {
             StageController.getController().setFullChat(chatMessages);
         }
     }
+
+    /**
+     * Method used to show the game id.
+     * @param gameId game id
+     */
+    @Override
+    public void receiveGameIdUpdate(int gameId) {
+        if(StageController.getController() == null) {
+            // starting phase
+            return;
+        }
+        if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
+                StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+            StageController.getController().setGameId(gameId);
+        }
+    }
 }

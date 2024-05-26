@@ -114,9 +114,6 @@ public class PlayerSceneController implements GuiController, Initializable {
             nickname2.setVisible(false);
         }
 
-        // set game id
-        gameId.setText("game Id: " + gameView.getId());
-
         // set stalled or disconnected
         for (String s: gameView.getConnectionValues().keySet()) {
             if (gameView.getConnectionValues().get(s)) {
@@ -200,7 +197,6 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateStarterCard(PlaceableCard starterCard) {
-        System.out.println("RECEIVED STARTER CARD");
         int id = starterCard.getId();
         Platform.runLater(() -> {
             myStarterCard.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
@@ -322,6 +318,17 @@ public class PlayerSceneController implements GuiController, Initializable {
             for (ChatMessage c: chatMessages){
                 chatItem.add(c.getSender() + ": " + c.getContent());
             }
+        });
+    }
+
+    /**
+     * Method used to set the game id.
+     * @param id game id
+     */
+    @Override
+    public void setGameId(int id) {
+        Platform.runLater(() -> {
+            gameId.setText("game Id: " + id);
         });
     }
 }

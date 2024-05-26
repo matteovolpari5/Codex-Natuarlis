@@ -9,6 +9,12 @@ import java.util.Map;
 
 public interface GameViewListener {
     /**
+     * Method used to show the game id.
+     * @param gameId game id
+     */
+    void receiveGameIdUpdate(int gameId);
+
+    /**
      * Method used to receive general game info.
      * @param gameState game state
      * @param currPlayerNickname current player
