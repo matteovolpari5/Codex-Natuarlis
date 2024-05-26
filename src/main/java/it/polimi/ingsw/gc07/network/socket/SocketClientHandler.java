@@ -91,7 +91,7 @@ public class SocketClientHandler implements VirtualView {
         GameControllerCommand command;
         while(true){
             try {
-                command = (GameControllerCommand) input.readObject(); //TODO closeConnection deve fare input.close(), se sincronizzato input.readObject aspetta con il lock finché non arriva un command e quindi aspetta closeConnection. Va bene non sincronizzare qui?
+                command = (GameControllerCommand) input.readObject();
             }catch (IOException | ClassNotFoundException e){
                 closeConnection();
                 break;
