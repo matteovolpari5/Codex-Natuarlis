@@ -379,6 +379,8 @@ public interface PlayerTui {
 
     /**
      * Method used to print the second row of the player front hand.
+     * @param hand list of card that the player has.
+     * @param objectiveCard personal objective card.
      */
     private static void printSecondRow(List<DrawableCard> hand, ObjectiveCard objectiveCard) {
         if (objectiveCard == null) {
@@ -485,6 +487,7 @@ public interface PlayerTui {
 
     /**
      * Method used to print the third row of the player front hand.
+     * @param objectiveCard personal objective card.
      */
     private static void printThirdRow(ObjectiveCard objectiveCard) {
         if (objectiveCard == null) {
@@ -542,6 +545,8 @@ public interface PlayerTui {
 
     /**
      * Method used to print the fourth row of the player front hand.
+     * @param hand list of card that the player has.
+     * @param objectiveCard personal objective card.
      */
     private static void printFourthRow(List<DrawableCard> hand, ObjectiveCard objectiveCard) {
         if (objectiveCard == null) {
@@ -647,6 +652,7 @@ public interface PlayerTui {
 
     /**
      * Method used to print the second row of the player back hand.
+     * @param hand list of card that the player has.
      */
     private static void printSecondRowBack(List<DrawableCard> hand) {
         System.out.print(ANSI_YELLOW_BACKGROUND + "|         |");
@@ -712,6 +718,7 @@ public interface PlayerTui {
 
     /**
      * Method used to print the third row of the player back hand.
+     * @param hand list of card that the player has.
      */
     private static void printThirdRowBack(List<DrawableCard> hand) {
         System.out.print(ANSI_YELLOW_BACKGROUND + "|        ");
@@ -755,6 +762,7 @@ public interface PlayerTui {
 
     /**
      * Method used to print the fourth row of the player back hand.
+     * @param hand list of card that the player has.
      */
     private static void printFourthRowBack(List<DrawableCard> hand){
         System.out.print(ANSI_YELLOW_BACKGROUND + "|         |");

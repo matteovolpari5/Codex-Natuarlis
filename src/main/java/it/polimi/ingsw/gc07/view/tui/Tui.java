@@ -567,7 +567,8 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             System.out.println("--------------------------------------------------------");
             System.out.println("                      PLAYER HAND                       ");
             System.out.println("--------------------------------------------------------");
-            PlayerTui.printPlayerHand(hand, personalObjective);
+            PlayerTui.printPlayerHand(hand, personalObjective,false);
+            //TODO: print also the back of the player hand
         }
     }
 

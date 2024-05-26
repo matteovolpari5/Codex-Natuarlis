@@ -20,7 +20,7 @@ public interface DeckTui {
     String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     /**
-     * Method used to print the deck view.
+     * Method used to print the front deck view.
      * @param commonObjective common objective
      * @param faceUpGoldCard face up gold cards
      * @param faceUpResourceCard face up resource card
@@ -76,10 +76,20 @@ public interface DeckTui {
         printFirstLastRowDeck();
     }
 
+    /**
+     * Method that print the first and last row of the front deck.
+     */
     private static void printFirstLastRowDeck() {
         System.out.println(ANSI_YELLOW_BACKGROUND + "+---------+" +ANSI_BLACK_BACKGROUND + "             +---------+ +---------+ +---------+" );
     }
 
+    /**
+     * Method that print the second row of the front deck.
+     * @param objectiveCard common objective card1.
+     * @param goldCard1 gold card1.
+     * @param goldCard2 gold card2.
+     * @param topGoldDeck top of the gold card deck.
+     */
     private static void printSecondRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
@@ -306,6 +316,11 @@ public interface DeckTui {
         System.out.println();
     }
 
+    /**
+     * Method that print the third row of the front deck.
+     * @param objectiveCard common objective card1.
+     * @param topGoldDeck top of the gold card deck.
+     */
     private static void printThirdRowDeck(ObjectiveCard objectiveCard, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
@@ -403,6 +418,13 @@ public interface DeckTui {
         System.out.println();
     }
 
+    /**
+     * Method that print the fourth row of the front deck.
+     * @param objectiveCard common objective card1.
+     * @param goldCard1 gold card1.
+     * @param goldCard2 gold card2.
+     * @param topGoldDeck top of the gold card deck.
+     */
     private static void printFourthRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
@@ -631,6 +653,14 @@ public interface DeckTui {
         System.out.println();
     }
 
+    /**
+     * Method used to print the back deck view.
+     * @param commonObjective common objective
+     * @param faceUpGoldCard face up gold cards
+     * @param faceUpResourceCard face up resource card
+     * @param topGoldDeck top gold deck
+     * @param topResourceDeck top resource deck
+     */
     static void printBackDeck(List<ObjectiveCard> commonObjective, List<GoldCard> faceUpGoldCard, List<DrawableCard> faceUpResourceCard, GoldCard topGoldDeck,DrawableCard topResourceDeck) {
         ObjectiveCard commonObjective1;
         ObjectiveCard commonObjective2;
@@ -680,6 +710,13 @@ public interface DeckTui {
         printFirstLastRowDeck();
     }
 
+    /**
+     * Method used to print the second row of the back deck.
+     * @param objectiveCard common objective
+     * @param goldCard1 face up gold cards
+     * @param goldCard2 face up resource card
+     * @param topGoldDeck top gold deck
+     */
     private static void printBackSecondRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
@@ -875,6 +912,13 @@ public interface DeckTui {
         System.out.println();
     }
 
+    /**
+     * Method used to print the third row of the back deck.
+     * @param objectiveCard common objective
+     * @param goldCard1 face up gold cards
+     * @param goldCard2 face up resource card
+     * @param topGoldDeck top gold deck
+     */
     private static void printBackThirdRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
@@ -1029,6 +1073,13 @@ public interface DeckTui {
         System.out.println();
     }
 
+    /**
+     * Method used to print the fourth row of the back deck.
+     * @param objectiveCard common objective
+     * @param goldCard1 face up gold cards
+     * @param goldCard2 face up resource card
+     * @param topGoldDeck top gold deck
+     */
     private static void printBackFourthRowDeck(ObjectiveCard objectiveCard,DrawableCard goldCard1,DrawableCard goldCard2, DrawableCard topGoldDeck) {
         if(objectiveCard==null){
             System.out.print(ANSI_YELLOW_BACKGROUND+"|      ");
