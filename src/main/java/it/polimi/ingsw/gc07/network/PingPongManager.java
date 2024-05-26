@@ -86,7 +86,6 @@ public class PingPongManager {
                     missedPing = 0;
                 }else {
                     missedPing ++;
-                    System.out.println(missedPing+ nickname);
                     if(missedPing >= maxMissedPings) {
                         System.out.println("CP> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname);
