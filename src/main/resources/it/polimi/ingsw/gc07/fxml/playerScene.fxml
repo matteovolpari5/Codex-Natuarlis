@@ -19,7 +19,8 @@
                 <Label prefHeight="18.0" prefWidth="175.0" text="  Codex Naturalis" textFill="#f8f8f8" />
                 <Label fx:id="currentPlayer" prefHeight="18.0" prefWidth="907.0" text="Current player" textFill="WHITE" />
                 <Label fx:id="gameId" alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="gameId" textFill="WHITE" />
-            </children></HBox>
+            </children>
+        </HBox>
         <ScrollPane fx:id="board" layoutX="5.0" layoutY="26.0" prefHeight="593.0" prefWidth="889.0" style="-fx-background-color: #98777b; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="26.0" />
         <ImageView fx:id="revealedGold2" fitHeight="62.0" fitWidth="128.0" layoutX="267.0" layoutY="715.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0"/>
         <ImageView fx:id="topDeckGold" fitHeight="62.0" fitWidth="128.0" layoutX="26.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0"/>
@@ -27,7 +28,7 @@
         <ImageView fx:id="revealedResource2" fitHeight="62.0" fitWidth="128.0" layoutX="266.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0"/>
         <ImageView fx:id="topDeckResource" fitHeight="62.0" fitWidth="128.0" layoutX="28.0" layoutY="629.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0"/>
         <ImageView fx:id="revealedResource1" fitHeight="62.0" fitWidth="128.0" layoutX="144.0" layoutY="630.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0"/>
-        <VBox alignment="BOTTOM_LEFT" layoutX="905.0" layoutY="647.0" maxWidth="300.0" minWidth="150.0" prefHeight="148.0" style="-fx-alignment: left; -fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="145.0">
+        <VBox alignment="BOTTOM_LEFT" layoutX="905.0" layoutY="647.0" maxWidth="300.0" minWidth="150.0" prefHeight="148.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="145.0">
             <children>
                 <Label fx:id="nickname1" prefHeight="37.0" text="Nickname1">
                     <font>
@@ -60,7 +61,7 @@
         <ImageView fx:id="handCard3" fitHeight="62.0" fitWidth="128.0" layoutX="791.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0"/>
         <StackPane layoutX="925.0" layoutY="26.0" prefHeight="303.0" prefWidth="200.0" style="-fx-background-radius: 5; -fx-padding: 5; -fx-background-color: #98777b;" AnchorPane.rightAnchor="32.0">
             <children>
-                <ImageView id="ScoreTrack" fitHeight="466.0" fitWidth="261.0" pickOnBounds="true" preserveRatio="true" style="-fx-image: 90;">
+                <ImageView id="ScoreTrack" fitHeight="466.0" fitWidth="261.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../graphic_resources/board/plateau.png" />
                     </image>

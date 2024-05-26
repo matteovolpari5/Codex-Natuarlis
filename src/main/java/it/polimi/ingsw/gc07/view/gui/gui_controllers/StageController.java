@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
+import it.polimi.ingsw.gc07.game_commands.RefreshGameViewCommand;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.gui.Gui;
@@ -111,8 +112,6 @@ public abstract class StageController {
             // create scene loader
             currentSceneType = sceneType;
             FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
-            // set controller
-            currentGuiController = sceneLoader.getController();
             // set scene
             try {
                 currentScene.setRoot(sceneLoader.load());
@@ -120,11 +119,14 @@ public abstract class StageController {
                 // TODO gestire
                 throw new RuntimeException(e);
             }
+            // set controller
+            currentGuiController = sceneLoader.getController();
+            // set stage
             currentStage.setTitle(currentSceneType.getTitle());
 
-            // TODO inutile, già fatto sopra
-            currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
-            currentStage.show();  // TODO probabilmente non serve
+            if(currentSceneType.equals(SceneType.PLAYER_SCENE)) {
+                client.setAndExecuteCommand(new RefreshGameViewCommand(StageController.getNickname()));
+            }
         });
     }
 
@@ -137,9 +139,6 @@ public abstract class StageController {
             // create scene loader
             currentSceneType = SceneType.OTHER_PLAYER_SCENE;
             FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
-            // set controller
-            currentGuiController = sceneLoader.getController();
-            currentGuiController.setNickname(nickname);
             // set scene
             try {
                 currentScene.setRoot(sceneLoader.load());
@@ -147,11 +146,11 @@ public abstract class StageController {
                 // TODO gestire
                 throw new RuntimeException(e);
             }
+            // set controller
+            currentGuiController = sceneLoader.getController();
+            currentGuiController.setNickname(nickname);
+            // set stage
             currentStage.setTitle(currentSceneType.getTitle());
-
-            // TODO inutile, già fatto sopra
-            currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
-            currentStage.show();  // TODO probabilmente non serve
         });
     }
 }
