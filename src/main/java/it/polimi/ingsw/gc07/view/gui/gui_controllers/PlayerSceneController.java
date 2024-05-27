@@ -17,12 +17,11 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import java.util.*;
@@ -125,7 +124,21 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected Button continueButton;
     @FXML
     protected Button sendCommandButton;
-
+    @FXML
+    protected ImageView tokenColor1;
+    @FXML
+    protected ImageView tokenColor2;
+    @FXML
+    protected ImageView tokenColor3;
+    @FXML
+    protected ImageView tokenColor4;
+    private List<ImageView> tokenColorsList;
+    @FXML
+    protected TextField messageSender;
+    @FXML
+    protected HBox nickContainer;
+    @FXML
+    protected ChoiceBox<String> receiverSelector;
 
     @FXML
     protected void onChatButtonClick(){
@@ -133,10 +146,19 @@ public class PlayerSceneController implements GuiController, Initializable {
         if(!chatContainer.isVisible()) {
             chatContainer.setVisible(true);
             chatButton.setText("close chat");
+            nickContainer.setVisible(false);
+            ObservableList<String> possiblesReceivers = FXCollections.observableArrayList();
+            for(Label nickname: nicknameLabels){
+                if(!nickname.getText().equals("Player") && !nickname.getText().equals(StageController.getNickname()) && !receiverSelector.getItems().contains(nickname.getText())) {
+                    possiblesReceivers.add(nickname.getText());
+                }
+            }
+            receiverSelector.setItems(possiblesReceivers);
         }
         else{
             chatContainer.setVisible(false);
             chatButton.setText("show chat");
+            nickContainer.setVisible(true);
         }
     }
     @FXML
@@ -240,6 +262,12 @@ public class PlayerSceneController implements GuiController, Initializable {
         nicknameLabels.add(nickname4);
         nicknameLabels.add(nickStatus4);
         startingPhaseLabel.setText("Select the placing way of your starter card");
+        tokenColorsList = new ArrayList<>();
+        tokenColorsList.add(tokenColor1);
+        tokenColorsList.add(tokenColor2);
+        tokenColorsList.add(tokenColor3);
+        tokenColorsList.add(tokenColor4);
+
         /*
         // TODO spostare sotto
 
@@ -526,6 +554,90 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> tokenColors, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
-        // TODO non ho capito come lo avevi fatto sopra
+        boolean found = false;
+        for(String newNickname: tokenColors.keySet()){
+            for(int i = 0; i < nicknameLabels.size(); i++){
+
+                if(nicknameLabels.get(i).getText().equals(newNickname)){
+                    // the nickname is already present
+                    nicknameLabels.get(i).setVisible(true);
+                    // set disconnected/stalled visible attribute
+                    if(connectionValues.get(newNickname)){
+                        statusLabels.get(i).setText("[disconnected]");
+                        statusLabels.get(i).setVisible(true);
+                        nicknameLabels.get(i).setOpacity(0.8);
+                    }
+                    else if(stallValues.get(newNickname)){
+                        statusLabels.get(i).setVisible(true);
+                        statusLabels.get(i).setText("[stalled]");
+                        nicknameLabels.get(i).setOpacity(0.8);
+                    }
+                    else{
+                        nicknameLabels.get(i).setOpacity(1);
+                        statusLabels.get(i).setVisible(false);
+                    }
+                    found = true;
+                    tokenColorsList.get(i).setVisible(true);
+                    // set token color image
+                    switch(tokenColors.get(newNickname)){
+                        case GREEN:
+                            tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/green.png")).toExternalForm()));
+                            break;
+                        case RED:
+                            tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/red.png")).toExternalForm()));
+                            break;
+                        case BLUE:
+                            tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/blue.png")).toExternalForm()));
+                            break;
+                        case YELLOW:
+                            tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/yellow.png")).toExternalForm()));
+                            break;
+                    }
+                    break;
+                }
+                if(!found){
+                    // insert the nickname in the first free label
+                    for(int j = 0; j < nicknameLabels.size(); j++){
+                        if(nicknameLabels.get(j).getText().equals("player")){
+                            nicknameLabels.get(j).setText(newNickname);
+                            nicknameLabels.get(j).setVisible(true);
+                            // set token color image
+                            switch(tokenColors.get(newNickname)){
+                                case GREEN:
+                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/green.png")).toExternalForm()));
+                                    break;
+                                case RED:
+                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/red.png")).toExternalForm()));
+                                    break;
+                                case BLUE:
+                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/blue.png")).toExternalForm()));
+                                    break;
+                                case YELLOW:
+                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/yellow.png")).toExternalForm()));
+                                    break;
+                            }
+                            tokenColorsList.get(j).setVisible(true);
+                            // set disconnected/stalled visible attribute
+                            if(connectionValues.get(newNickname)){
+                                statusLabels.get(j).setText("[disconnected]");
+                                statusLabels.get(j).setVisible(true);
+                                nicknameLabels.get(j).setOpacity(0.8);
+                            }
+                            else if(stallValues.get(newNickname)){
+                                statusLabels.get(j).setText("[stalled]");
+                                statusLabels.get(j).setVisible(true);
+                                nicknameLabels.get(j).setOpacity(0.8);
+                            }
+                            else{
+                                nicknameLabels.get(j).setOpacity(1);
+                                statusLabels.get(j).setVisible(false);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }
