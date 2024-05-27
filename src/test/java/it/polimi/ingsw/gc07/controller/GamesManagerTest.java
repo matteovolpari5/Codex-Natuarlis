@@ -121,7 +121,7 @@ class GamesManagerTest {
     }
 
     @Test
-    void testFullGameFlow() throws RemoteException, InterruptedException {
+    void testReconnection() throws RemoteException {
         // add first player
         gm.addPlayerToPending("player1", true, false);
         RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
@@ -141,63 +141,301 @@ class GamesManagerTest {
 
         // place starter card
         gc.placeStarterCard("player1", false);
+        gc.placeStarterCard("player2", false);
 
         // disconnect and reconnect
         gc.disconnectPlayer("player2");
+        assertEquals(GameState.WAITING_RECONNECTION, gc.getState());
         assertEquals(gm.checkNickname("player2"), NicknameCheck.RECONNECTION);
-        gc.reconnectPlayer(player2VirtualView,"player2",true, false);
+        gm.reconnectPlayer(player2VirtualView,"player2",true, false);
+        assertTrue(gc.getPlayerByNickname("player2").isConnected());
+    }
 
+    @Test
+    void testReconnectionSamePlayer() throws RemoteException {
+        // add first player
+        gm.addPlayerToPending("player1", true, false);
+        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
+        gm.addVirtualView("player1", player1VirtualView);
+
+        // add second player
+        gm.addPlayerToPending("player2", true, false);
+        RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
+        gm.addVirtualView("player2", player2VirtualView);
+
+        // join game
+        gm.joinNewGame("player1", TokenColor.GREEN, 2);
+        gm.joinExistingGame("player2", TokenColor.RED, 0);
+
+        GameController gc = GamesManager.getGamesManager().getGameById(0);
+        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+
+        // place starter card
+        gc.placeStarterCard("player1", false);
+        gc.placeStarterCard("player2", false);
+
+        // disconnect and reconnect
         gc.disconnectPlayer("player1");
         assertEquals(GameState.WAITING_RECONNECTION, gc.getState());
         gc.disconnectPlayer("player1");
+        assertEquals(gc.getCommandResult(),CommandResult.PLAYER_ALREADY_DISCONNECTED);
         assertEquals(GameState.WAITING_RECONNECTION, gc.getState());
+    }
 
-        gm.reconnectPlayer(player1VirtualView,"player1",true,false);
+    @Test
+    void testReconnectionWrongPlayer() throws RemoteException {
+        // add first player
+        gm.addPlayerToPending("player1", true, false);
+        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
+        gm.addVirtualView("player1", player1VirtualView);
+
+        // add second player
+        gm.addPlayerToPending("player2", true, false);
+        RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
+        gm.addVirtualView("player2", player2VirtualView);
+
+        // join game
+        gm.joinNewGame("player1", TokenColor.GREEN, 2);
+        gm.joinExistingGame("player2", TokenColor.RED, 0);
+
+        GameController gc = GamesManager.getGamesManager().getGameById(0);
+        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+
+        // place starter card
+        gc.placeStarterCard("player1", false);
+        gc.placeStarterCard("player2", false);
 
         // reconnect wrong player
         gc.disconnectPlayer("WrongPlayer");
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, gc.getCommandResult());
+    }
 
-        assertEquals(GameState.PLAYING, gc.getState());
+    @Test
+    void testDisconnectionAfterPlacing() throws RemoteException {
+        // add first player
+        gm.addPlayerToPending("player1", true, false);
+        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
+        gm.addVirtualView("player1", player1VirtualView);
+
+        // add second player
+        gm.addPlayerToPending("player2", true, false);
+        RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
+        gm.addVirtualView("player2", player2VirtualView);
+
+        // join game
+        gm.joinNewGame("player1", TokenColor.GREEN, 2);
+        gm.joinExistingGame("player2", TokenColor.RED, 0);
+
+        GameController gc = GamesManager.getGamesManager().getGameById(0);
+        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+
+        // place starter card
+        gc.placeStarterCard("player1", false);
+        gc.placeStarterCard("player2", false);
 
         // place card
         String nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
         gm.getGameById(0).placeCard(nick,0,41,41,true);
+        // disconnect after placing a card
         gc.disconnectPlayer(nick);
         assertEquals(gc.getPlayerByNickname(nick).getCurrentHand().size(), 3);
-        gm.reconnectPlayer(player1VirtualView,nick,true,false);
+    }
 
-        // disconnect
-        nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
+    @Test
+    void testDisconnectionBeforePlacing() throws RemoteException {
+        // add first player
+        gm.addPlayerToPending("player1", true, false);
+        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
+        gm.addVirtualView("player1", player1VirtualView);
+
+        // add second player
+        gm.addPlayerToPending("player2", true, false);
+        RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
+        gm.addVirtualView("player2", player2VirtualView);
+
+        // join game
+        gm.joinNewGame("player1", TokenColor.GREEN, 2);
+        gm.joinExistingGame("player2", TokenColor.RED, 0);
+
+        GameController gc = GamesManager.getGamesManager().getGameById(0);
+        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+
+        // place starter card
+        gc.placeStarterCard("player1", false);
+        gc.placeStarterCard("player2", false);
+
+        // disconnect before placing a card
+        String nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
         gc.disconnectPlayer(nick);
-        gm.reconnectPlayer(player1VirtualView,nick,true,false);
+        assertFalse(gc.getPlayerByNickname(nick).isConnected());
+    }
 
+    @Test
+    void testDisconnectionWithResourceDeckEmptyAfterPlacing() throws RemoteException {
+        // add first player
+        gm.addPlayerToPending("player1", true, false);
+        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
+        gm.addVirtualView("player1", player1VirtualView);
+
+        // add second player
+        gm.addPlayerToPending("player2", true, false);
+        RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
+        gm.addVirtualView("player2", player2VirtualView);
+
+        // join game
+        gm.joinNewGame("player1", TokenColor.GREEN, 2);
+        gm.joinExistingGame("player2", TokenColor.RED, 0);
+
+        GameController gc = GamesManager.getGamesManager().getGameById(0);
+        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+
+        // place starter card
+        gc.placeStarterCard("player1", false);
+        gc.placeStarterCard("player2", false);
+
+        // emptying the resource deck
         for(int i=0;i<40;i++) {
             gm.getGameById(0).getResourceCardsDeck().drawFaceUpCard(0);
         }
-        nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
+        String nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
         gm.getGameById(0).placeCard(nick,0,41,41,true);
+
+        // disconnect player after placing a card //
         gc.disconnectPlayer(nick);
         assertEquals(gc.getPlayerByNickname(nick).getCurrentHand().size(), 3);
-        gm.reconnectPlayer(player1VirtualView,nick,true,false);
+    }
 
+    @Test
+    void testDisconnectionWithGoldDeckEmptyAfterPlacing() throws RemoteException {
+        // add first player
+        gm.addPlayerToPending("player1", true, false);
+        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
+        gm.addVirtualView("player1", player1VirtualView);
 
-        for(int i=0;i<40;i++)
-        {
+        // add second player
+        gm.addPlayerToPending("player2", true, false);
+        RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
+        gm.addVirtualView("player2", player2VirtualView);
+
+        // join game
+        gm.joinNewGame("player1", TokenColor.GREEN, 2);
+        gm.joinExistingGame("player2", TokenColor.RED, 0);
+
+        GameController gc = GamesManager.getGamesManager().getGameById(0);
+        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+
+        // place starter card
+        gc.placeStarterCard("player1", false);
+        gc.placeStarterCard("player2", false);
+
+        // emptying the gold deck
+        for(int i=0;i<40;i++) {
             gm.getGameById(0).getGoldCardsDeck().drawFaceUpCard(0);
         }
-        nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
+        String nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
         gm.getGameById(0).placeCard(nick,0,41,41,true);
-        gc.disconnectPlayer(nick);
-        gm.reconnectPlayer(player1VirtualView,nick,true,false);
 
+        // disconnect player after placing a card //
+        gc.disconnectPlayer(nick);
+        assertEquals(gc.getPlayerByNickname(nick).getCurrentHand().size(), 3);
+    }
+
+    @Test
+    void testDisconnectionWithEmptyDecksAfterPlacing() throws RemoteException {
+        // add first player
+        gm.addPlayerToPending("player1", true, false);
+        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
+        gm.addVirtualView("player1", player1VirtualView);
+
+        // add second player
+        gm.addPlayerToPending("player2", true, false);
+        RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
+        gm.addVirtualView("player2", player2VirtualView);
+
+        // join game
+        gm.joinNewGame("player1", TokenColor.GREEN, 2);
+        gm.joinExistingGame("player2", TokenColor.RED, 0);
+
+        GameController gc = GamesManager.getGamesManager().getGameById(0);
+        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+
+        // place starter card
+        gc.placeStarterCard("player1", false);
+        gc.placeStarterCard("player2", false);
+
+        // emptying the resource deck
+        for(int i=0;i<40;i++) {
+            gm.getGameById(0).getResourceCardsDeck().drawFaceUpCard(0);
+        }
+        // emptying the gold deck
+        for(int i=0;i<40;i++) {
+            gm.getGameById(0).getGoldCardsDeck().drawFaceUpCard(0);
+        }
+        String nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
+        gm.getGameById(0).placeCard(nick,0,41,41,true);
+
+        // disconnect player after placing a card //
+        gc.disconnectPlayer(nick);
+        assertEquals(gc.getPlayerByNickname(nick).getCurrentHand().size(), 2);
+    }
+
+    @Test
+    void testDisconnectionAllPlayers() throws RemoteException {
+        // add first player
+        gm.addPlayerToPending("player1", true, false);
+        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
+        gm.addVirtualView("player1", player1VirtualView);
+
+        // add second player
+        gm.addPlayerToPending("player2", true, false);
+        RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
+        gm.addVirtualView("player2", player2VirtualView);
+
+        // join game
+        gm.joinNewGame("player1", TokenColor.GREEN, 2);
+        gm.joinExistingGame("player2", TokenColor.RED, 0);
+
+        GameController gc = GamesManager.getGamesManager().getGameById(0);
+        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+
+        // place starter card
+        gc.placeStarterCard("player1", false);
+        gc.placeStarterCard("player2", false);
+
+        // disconnect the two players
         gc.disconnectPlayer("player1");
         gc.disconnectPlayer("player2");
         assertEquals(GameState.NO_PLAYERS_CONNECTED,gc.getState());
+    }
 
-        gc.reconnectPlayer(player1VirtualView,"player1",true,false);
+    @Test
+    void testDisconnectionAndEndGame() throws RemoteException, InterruptedException {
+        // add first player
+        gm.addPlayerToPending("player1", true, false);
+        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
+        gm.addVirtualView("player1", player1VirtualView);
+
+        // add second player
+        gm.addPlayerToPending("player2", true, false);
+        RmiClient player2VirtualView = new RmiClient("player2", false, serverGamesManager);
+        gm.addVirtualView("player2", player2VirtualView);
+
+        // join game
+        gm.joinNewGame("player1", TokenColor.GREEN, 2);
+        gm.joinExistingGame("player2", TokenColor.RED, 0);
+
+        GameController gc = GamesManager.getGamesManager().getGameById(0);
+        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+
+        // place starter card
+        gc.placeStarterCard("player1", false);
+        gc.placeStarterCard("player2", false);
+
+        // disconnect player
+        gc.disconnectPlayer("player1");
+
+        // check that the game end //
         Thread.sleep(30000);
-
         assertNull(gm.getGameById(0));
     }
 }
