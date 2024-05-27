@@ -58,7 +58,7 @@ public interface GuiController {
      * @param hand new card hand
      * @param personalObjective personal objective
      */
-    void updateCardHand(List<DrawableCard> hand, ObjectiveCard personalObjective);
+    void updateCardHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjective);
 
     /**
      * Method used to display updated game infos.

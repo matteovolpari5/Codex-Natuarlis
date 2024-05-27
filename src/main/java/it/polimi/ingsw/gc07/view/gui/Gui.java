@@ -200,7 +200,7 @@ public  class Gui extends Application implements Ui {
      * @param personalObjective persona objective
      */
     @Override
-    public void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, ObjectiveCard personalObjective) {
+    public void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, List<ObjectiveCard> personalObjective) {
         if(StageController.getController() == null) {
             // starting phase
             return;

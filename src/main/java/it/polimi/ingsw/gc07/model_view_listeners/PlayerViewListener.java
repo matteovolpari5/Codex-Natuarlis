@@ -20,7 +20,7 @@ public interface PlayerViewListener {
      * @param hand card hand
      * @param personalObjective personal objective
      */
-    void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, ObjectiveCard personalObjective);
+    void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, List<ObjectiveCard> personalObjective);
 
     /**
      * Method used to show a connection update.

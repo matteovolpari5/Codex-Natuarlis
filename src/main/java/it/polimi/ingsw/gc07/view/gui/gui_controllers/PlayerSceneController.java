@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -22,6 +23,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 import java.util.*;
 import java.util.ResourceBundle;
@@ -47,6 +49,22 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected Label nickname3;
     @FXML
     protected Label nickname4;
+    @FXML
+    protected Label nickStatus1;
+    @FXML
+    protected Label nickStatus2;
+    @FXML
+    protected Label nickStatus3;
+    @FXML
+    protected Label nickStatus4;
+    /**
+     * List of labels containing the connection/stall status of the player.
+     */
+    private List<Label> statusLabels;
+    /**
+     * List of labels containing nicknames.
+     */
+    private List<Label> nicknameLabels;
     @FXML
     protected ImageView myStarterCard;
     @FXML
@@ -75,9 +93,43 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected ImageView revealedResource1;
     @FXML
     protected ImageView revealedResource2;
+    @FXML
+    protected ImageView chatNotification;
+    @FXML
+    protected AnchorPane startingPhaseBox;
+    @FXML
+    protected Label startingPhaseController;
+    @FXML
+    protected ImageView option1Starter;
+    @FXML
+    protected ImageView option2Starter;
+    @FXML
+    protected ImageView option1Objective;
+    @FXML
+    protected ImageView option2Objective;
+    @FXML
+    protected Pane str1Pane;
+    @FXML
+    protected Pane str2Pane;
+    @FXML
+    protected Pane obj1Pane;
+    @FXML
+    protected Pane obj2Pane;
+    @FXML
+    protected Label option1Label;
+    @FXML
+    protected Label option2Label;
+    @FXML
+    protected Label startingPhaseLabel;
+    @FXML
+    protected Button continueButton;
+    @FXML
+    protected Button sendCommandButton;
+
 
     @FXML
     protected void onChatButtonClick(){
+        chatNotification.setVisible(false);
         if(!chatContainer.isVisible()) {
             chatContainer.setVisible(true);
             chatButton.setText("close chat");
@@ -87,6 +139,87 @@ public class PlayerSceneController implements GuiController, Initializable {
             chatButton.setText("show chat");
         }
     }
+    @FXML
+    protected void onStarterCardClick(){
+        startingPhaseBox.setVisible(true);
+        option1Label.setText("Front");
+        option2Label.setText("Back");
+        startingPhaseController.setText("");
+    }
+    @FXML
+    protected void onStarter1CardClick(){
+        str1Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+        str2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+        startingPhaseController.setText("1");
+    }
+    @FXML
+    protected void onStarter2CardClick(){
+        str1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+        str2Pane.setStyle(" -fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+        startingPhaseController.setText("2");
+    }
+    @FXML
+    protected void onObjective1CardClick(){
+        obj1Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+        obj2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+        String previousSelection = startingPhaseController.getText();
+        if(previousSelection.equals("1")||previousSelection.equals("11")||previousSelection.equals("12")){
+            startingPhaseController.setText("11");
+        }
+        else{
+            startingPhaseController.setText("21");
+        }
+    }
+    @FXML
+    protected void onObjective2CardClick(){
+        obj1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+        obj2Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+        String previousSelection = startingPhaseController.getText();
+        if(previousSelection.equals("1")||previousSelection.equals("11")||previousSelection.equals("12")){
+            startingPhaseController.setText("12");
+        }
+        else{
+            startingPhaseController.setText("22");
+        }
+    }
+
+    @FXML
+    protected void onContinueButtonClick(){
+        option1Label.setText("Option 1");
+        option2Label.setText("Option 2");
+        option1Starter.setVisible(false);
+        option2Starter.setVisible(false);
+        option1Objective.setVisible(true);
+        option2Objective.setVisible(true);
+        continueButton.setVisible(false);
+        sendCommandButton.setVisible(true);
+    }
+    @FXML
+    protected void onSendCommandButtonClick(){
+        startingPhaseLabel.setVisible(false);
+        boolean starterCardWay = false;
+        boolean objectiveCardSelected = false;
+        switch (startingPhaseController.getText()) {
+            case "11":
+                starterCardWay = false;
+                objectiveCardSelected = false;
+                break;
+            case "12":
+                starterCardWay = false;
+                objectiveCardSelected = true;
+                break;
+            case "21":
+                starterCardWay = true;
+                objectiveCardSelected = false;
+                break;
+            case "22":
+                starterCardWay = true;
+                objectiveCardSelected = true;
+                break;
+        }
+        //TODO
+        //StageController.getClient().setAndExecuteCommand(new PlaceStarterCardCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -95,7 +228,18 @@ public class PlayerSceneController implements GuiController, Initializable {
         myChat.setItems(chatItem);
         updatesItem = FXCollections.observableArrayList();
         myUpdates.setItems(updatesItem);
-
+        nicknameLabels = new ArrayList<>();
+        statusLabels = new ArrayList<>();
+        nicknameLabels.add(nickname1);
+        nicknameLabels.add(nickname2);
+        nicknameLabels.add(nickname3);
+        nicknameLabels.add(nickname4);
+        statusLabels.add(nickStatus1);
+        statusLabels.add(nickStatus2);
+        statusLabels.add(nickStatus3);
+        nicknameLabels.add(nickname4);
+        nicknameLabels.add(nickStatus4);
+        startingPhaseLabel.setText("Select the placing way of your starter card");
         /*
         // TODO spostare sotto
 
@@ -166,14 +310,30 @@ public class PlayerSceneController implements GuiController, Initializable {
         Platform.runLater(() -> {
             // set top decks
             int topDeckId = topResourceDeck.getId();
-            topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + topDeckId +".png")).toExternalForm()));
+            topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId +".png")).toExternalForm()));
             topDeckId = topGoldDeck.getId();
-            topDeckGold.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + topDeckId +".png")).toExternalForm()));
+            topDeckGold.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId +".png")).toExternalForm()));
 
             // TODO
-            // = deckView.getFaceUpResourceCard();
-            // = deckView.getFaceUpGoldCard();
-            // = deckView.getCommonObjective();
+            if (!faceUpGoldCard.isEmpty()){
+                revealedGold1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.getFirst().getId() +".png")).toExternalForm()));
+            }
+            if(faceUpGoldCard.size()==2){
+                revealedGold2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.get(1).getId() +".png")).toExternalForm()));
+            }
+
+            if (!faceUpResourceCard.isEmpty()){
+                revealedResource1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.getFirst().getId() +".png")).toExternalForm()));
+            }
+            if(faceUpResourceCard.size()==2){
+                revealedResource2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.get(1).getId() +".png")).toExternalForm()));
+            }
+
+            if(!commonObjective.isEmpty()){
+                commonObjective1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(0).getId() +".png")).toExternalForm()));
+                commonObjective2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(1).getId() +".png")).toExternalForm()));
+            }
+
         });
     }
 
@@ -200,6 +360,8 @@ public class PlayerSceneController implements GuiController, Initializable {
         int id = starterCard.getId();
         Platform.runLater(() -> {
             myStarterCard.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
+            option1Starter.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
+            option2Starter.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + id +".png")).toExternalForm()));
         });
     }
 
@@ -209,7 +371,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      * @param personalObjective personal objective
      */
     @Override
-    public void updateCardHand(List<DrawableCard> hand, ObjectiveCard personalObjective) {
+    public void updateCardHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjective) {
         Platform.runLater(() -> {
             // set current hand data
             int imageId;
@@ -221,7 +383,10 @@ public class PlayerSceneController implements GuiController, Initializable {
             handCard3.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
 
             // TODO
-            // = gameView.getSecretObjective();
+            imageId = personalObjective.getFirst().getId();
+            option1Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
+            imageId = personalObjective.get(1).getId();
+            option2Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
         });
     }
 
@@ -276,6 +441,7 @@ public class PlayerSceneController implements GuiController, Initializable {
         Platform.runLater(() -> {
             if(!commandResult.equals(CommandResult.SUCCESS)){
                 updatesItem.add(commandResult.getResultMessage());
+                chatNotification.setVisible(true);
             }
         });
     }

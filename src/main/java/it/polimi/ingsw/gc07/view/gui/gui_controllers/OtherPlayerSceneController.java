@@ -89,7 +89,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      * @param personalObjective personal objective
      */
     @Override
-    public void updateCardHand(List<DrawableCard> hand, ObjectiveCard personalObjective) {
+    public void updateCardHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjective) {
 
     }
 
