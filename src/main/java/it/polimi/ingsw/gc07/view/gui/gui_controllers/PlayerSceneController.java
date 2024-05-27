@@ -3,6 +3,8 @@ package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.game_commands.AddChatPrivateMessageCommand;
+import it.polimi.ingsw.gc07.game_commands.AddChatPublicMessageCommand;
 import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
@@ -20,9 +22,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.util.*;
 import java.util.ResourceBundle;
@@ -134,7 +139,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected ImageView tokenColor4;
     private List<ImageView> tokenColorsList;
     @FXML
-    protected TextField messageSender;
+    protected TextField messageContent;
     @FXML
     protected HBox nickContainer;
     @FXML
@@ -159,6 +164,18 @@ public class PlayerSceneController implements GuiController, Initializable {
             chatContainer.setVisible(false);
             chatButton.setText("show chat");
             nickContainer.setVisible(true);
+        }
+    }
+    @FXML
+    protected void onSendMessage(KeyEvent e){
+        if(e.getCode().equals(KeyCode.ENTER)){
+            String content = messageContent.getText();
+            if(receiverSelector.getValue().isEmpty()||receiverSelector.getValue().equals("everyone")){
+                StageController.getClient().setAndExecuteCommand(new AddChatPublicMessageCommand(content, StageController.getNickname()));
+            }
+            else{
+                StageController.getClient().setAndExecuteCommand(new AddChatPrivateMessageCommand(content, StageController.getNickname(), receiverSelector.getValue()));
+            }
         }
     }
     @FXML
@@ -533,7 +550,19 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void receiveConnectionUpdate(String nickname, boolean value) {
-        // TODO non ho capito come lo avevi fatto in initialize
+        for(int i = 0; i < nicknameLabels.size(); i++){
+            if(nicknameLabels.get(i).getText().equals(nickname)){
+                if(value){
+                    statusLabels.get(i).setText("[disconnected]");
+                    statusLabels.get(i).setVisible(true);
+                    nicknameLabels.get(i).setOpacity(0.8);
+                }
+                else{
+                    nicknameLabels.get(i).setOpacity(1);
+                    statusLabels.get(i).setVisible(false);
+                }
+            }
+        }
     }
 
     /**
@@ -543,7 +572,19 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void receiveStallUpdate(String nickname, boolean value) {
-        // TODO non ho capito come lo avevi fatto in initialize
+        for(int i = 0; i < nicknameLabels.size(); i++){
+            if(nicknameLabels.get(i).getText().equals(nickname)){
+                if(value){
+                    statusLabels.get(i).setText("[stalled]");
+                    statusLabels.get(i).setVisible(true);
+                    nicknameLabels.get(i).setOpacity(0.8);
+                }
+                else{
+                    nicknameLabels.get(i).setOpacity(1);
+                    statusLabels.get(i).setVisible(false);
+                }
+            }
+        }
     }
 
     /**

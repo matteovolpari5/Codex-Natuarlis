@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.control.ChoiceBox?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #e6bd9f;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.PlayerSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #e6bd9f;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.PlayerSceneController">
     <children>
         <HBox prefHeight="22.0" prefWidth="1202.0" style="-fx-background-color: #98777b;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <children>
@@ -36,9 +26,9 @@
                 <VBox style="-fx-padding: 5;">
                     <children>
                         <ImageView fx:id="tokenColor1" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-                        <ImageView fx:id="tokenColor2" fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false"/>
-                        <ImageView fx:id="tokenColor3" fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false"/>
-                        <ImageView fx:id="tokenColor4" fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" visible="false"/>
+                        <ImageView fx:id="tokenColor2" fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                        <ImageView fx:id="tokenColor3" fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                        <ImageView fx:id="tokenColor4" fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" visible="false" />
                     </children>
                 </VBox>
                 <VBox maxWidth="300.0" prefHeight="148.0" style="-fx-background-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;">
@@ -69,7 +59,7 @@
                     <children>
                         <Label fx:id="nickStatus1" prefHeight="30.0" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0"/>
+                                <Font name="Comic Sans MS" size="20.0" />
                             </font>
                         </Label>
                         <Label fx:id="nickStatus2" prefHeight="30.0" visible="false">
@@ -94,7 +84,7 @@
         <ImageView fx:id="handCard2" fitHeight="62.0" fitWidth="128.0" layoutX="672.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
         <ImageView fx:id="commonObjective2" fitHeight="62.0" fitWidth="128.0" layoutX="402.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
         <ImageView fx:id="handCard1" fitHeight="62.0" fitWidth="128.0" layoutX="549.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
-        <ImageView fx:id="myStarterCard" onMouseClicked="#onStarterCardClick" fitHeight="62.0" fitWidth="128.0" layoutX="671.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0"/>
+        <ImageView fx:id="myStarterCard" fitHeight="62.0" fitWidth="128.0" layoutX="671.0" layoutY="638.0" onMouseClicked="#onStarterCardClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0" />
         <ImageView fx:id="commonObjective1" fitHeight="62.0" fitWidth="128.0" layoutX="401.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0" />
         <ImageView fx:id="secretObjective" fitHeight="62.0" fitWidth="128.0" layoutX="549.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0" />
         <ImageView fx:id="handCard3" fitHeight="62.0" fitWidth="128.0" layoutX="791.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
@@ -108,7 +98,7 @@
             </children>
         </StackPane>
         <ListView fx:id="myUpdates" layoutX="904.0" layoutY="512.0" prefHeight="130.0" prefWidth="284.0" style="-fx-border-color: #98777b; -fx-border-radius: 5; -fx-border-width: 5; -fx-padding: 5; -fx-background-color: #fff8dc; -fx-background-radius: 20;" AnchorPane.bottomAnchor="158.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="512.0" />
-        <AnchorPane fx:id="chatContainer" layoutX="762.0" layoutY="26.0" prefHeight="686.0" prefWidth="438.0" style="-fx-background-color: #e6bd9f; -fx-background-radius: 15; -fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="88.0" AnchorPane.rightAnchor="0.0">
+        <AnchorPane fx:id="chatContainer" layoutX="762.0" layoutY="26.0" prefHeight="686.0" prefWidth="438.0" style="-fx-background-color: #e6bd9f; -fx-background-radius: 15; -fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5;" visible="false" AnchorPane.bottomAnchor="88.0" AnchorPane.rightAnchor="0.0">
             <children>
                 <ListView fx:id="myChat" layoutX="13.0" layoutY="39.0" prefHeight="544.0" prefWidth="432.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5; -fx-padding: 5; -fx-background-radius: 15;" AnchorPane.bottomAnchor="103.0" />
                 <Label layoutX="19.0" layoutY="10.0" text="CHAT" textFill="CORNSILK" AnchorPane.bottomAnchor="647.0" AnchorPane.rightAnchor="370.5">
@@ -116,17 +106,17 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <TextField layoutX="14.0" layoutY="632.0" prefHeight="41.0" prefWidth="432.0" style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5; -fx-padding: 5; -fx-background-color: #fff8dc; -fx-background-radius: 15;" AnchorPane.bottomAnchor="13.0" />
+                <TextField fx:id="messageContent" layoutX="14.0" layoutY="632.0" prefHeight="41.0" prefWidth="432.0" onKeyPressed="#onSendMessage" promptText="Digit a Comment..." style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5; -fx-padding: 5; -fx-background-color: #fff8dc; -fx-background-radius: 15;" AnchorPane.bottomAnchor="13.0" />
                 <Label layoutX="16.0" layoutY="596.0" text="Choose the receiver:" textFill="CORNSILK" AnchorPane.bottomAnchor="67.0" AnchorPane.rightAnchor="287.5">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <ChoiceBox fx:id="receiverSelector" layoutX="175.0" layoutY="590.0" prefWidth="150.0" AnchorPane.bottomAnchor="67.0" style="-fx-background-color: #ffcc00;-fx-background-radius: 15;-fx-border-color: #ff6600;fx-border-width: 3;-fx-border-radius: 15;-fx-font-size: 18px;-fx-text-fill: #333333;" />
+                <ChoiceBox fx:id="receiverSelector" layoutX="175.0" layoutY="585.0" prefWidth="100.0" style="-fx-background-color: #98777b;-fx-background-radius: 15;-fx-font-size: 18px;-fx-text-fill: #fff8dc;" />
             </children>
         </AnchorPane>
         <Button fx:id="chatButton" layoutX="1081.0" layoutY="738.0" mnemonicParsing="false" onAction="#onChatButtonClick" prefHeight="43.0" prefWidth="104.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="show chat" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="15.0" />
-        <ImageView fx:id="chatNotification" visible="false" fitHeight="26.0" fitWidth="24.0" layoutX="1166.0" layoutY="728.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="48.049896240234375" AnchorPane.rightAnchor="10.0">
+        <ImageView fx:id="chatNotification" fitHeight="26.0" fitWidth="24.0" layoutX="1166.0" layoutY="728.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="48.049896240234375" AnchorPane.rightAnchor="10.0">
             <image>
                 <Image url="@../graphic_resources/notificationIcon.png" />
             </image>
@@ -135,22 +125,22 @@
             <children>
                 <Pane fx:id="str1Pane" layoutX="102.0" layoutY="87.0">
                     <children>
-                        <ImageView onMouseClicked="#onStarter1CardClick" fx:id="option1Starter" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
+                        <ImageView fx:id="option1Starter" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#onStarter1CardClick" pickOnBounds="true" preserveRatio="true" />
                     </children>
                 </Pane>
                 <Pane fx:id="str2Pane" layoutX="432.0" layoutY="87.0">
                     <children>
-                        <ImageView onMouseClicked="#onStarter2CardClick" fx:id="option2Starter" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
+                        <ImageView fx:id="option2Starter" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#onStarter2CardClick" pickOnBounds="true" preserveRatio="true" />
                     </children>
                 </Pane>
                 <Pane fx:id="obj1Pane" layoutX="102.0" layoutY="87.0">
                     <children>
-                        <ImageView onMouseClicked="#onObjective1CardClick" fx:id="option1Objective" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                        <ImageView fx:id="option1Objective" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#onObjective1CardClick" pickOnBounds="true" preserveRatio="true" visible="false" />
                     </children>
                 </Pane>
-                <Pane onMouseClicked="#onObjective2CardClick" fx:id="obj2Pane" layoutX="432.0" layoutY="87.0">
+                <Pane fx:id="obj2Pane" layoutX="432.0" layoutY="87.0" onMouseClicked="#onObjective2CardClick">
                     <children>
-                        <ImageView fx:id="option2Objective" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false"/>
+                        <ImageView fx:id="option2Objective" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false" />
                     </children>
                 </Pane>
                 <Label fx:id="startingPhaseLabel" layoutX="148.0" layoutY="20.0" text="Select the way of the starter card">
@@ -158,7 +148,7 @@
                         <Font size="30.0" />
                     </font>
                 </Label>
-                <Label fx:id="startingPhaseController" visible="false"/>
+                <Label fx:id="startingPhaseController" visible="false" />
                 <Label fx:id="option1Label" layoutX="188.0" layoutY="273.0" text="Front">
                     <font>
                         <Font size="24.0" />
@@ -169,8 +159,8 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Button fx:id="continueButton" layoutX="621.0" layoutY="355.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="82.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" onAction="#onContinueButtonClick"/>
-                <Button fx:id="sendCommandButton" layoutX="621.0" layoutY="355.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="82.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" onAction="#onSendCommandButtonClick"/>
+                <Button fx:id="continueButton" layoutX="621.0" layoutY="355.0" mnemonicParsing="false" onAction="#onContinueButtonClick" prefHeight="37.0" prefWidth="82.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" />
+                <Button fx:id="sendCommandButton" layoutX="621.0" layoutY="355.0" mnemonicParsing="false" onAction="#onSendCommandButtonClick" prefHeight="37.0" prefWidth="82.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" />
             </children>
         </AnchorPane>
     </children>
