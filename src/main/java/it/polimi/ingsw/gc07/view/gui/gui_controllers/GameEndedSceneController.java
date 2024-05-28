@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.updates.ScoreUpdate;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,31 +30,26 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @FXML
     public Text generalText;
-
     /**
      * Attribute that represents the first winner
      */
     @FXML
     public Text winner1;
-
     /**
      * Attribute that represents the second winner
      */
     @FXML
     public Text winner2;
-
     /**
      * Attribute that represents the third winner
      */
     @FXML
     public Text winner3;
-
     /**
      * Attribute that represents the fourth winner
      */
     @FXML
     public Text winner4;
-
     /**
      * Attribute that exit button
      */
@@ -75,7 +71,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
-
+        // not displayed
     }
 
     /**
@@ -84,7 +80,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void addMessage(ChatMessage chat) {
-
+        // not displayed
     }
 
     /**
@@ -97,7 +93,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void updateDecks(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
-
+        // not displayed
     }
 
     /**
@@ -109,7 +105,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
-
+        // not displayed
     }
 
     /**
@@ -118,7 +114,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void updateStarterCard(PlaceableCard starterCard) {
-
+        // not displayed
     }
 
     /**
@@ -128,7 +124,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void updateCardHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjective) {
-
+        // not displayed
     }
 
     /**
@@ -138,7 +134,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void updateGameInfo(GameState gameState, String currPlayer) {
-
+        // not displayed
     }
 
     /**
@@ -146,7 +142,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void setPenultimateRound() {
-
+        // not displayed
     }
 
     /**
@@ -154,7 +150,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void setAdditionalRound() {
-
+        // not displayed
     }
 
     /**
@@ -163,7 +159,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void updateCommandResult(CommandResult commandResult) {
-
+        // not displayed
     }
 
     /**
@@ -173,7 +169,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
-
+        // not displayed
     }
 
     /**
@@ -182,6 +178,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void displayWinners(List<String> winners) {
+        // already on Platform.runLater
         if(winners.size()==1){
             generalText.setText("AND THE WINNER IS...");
         }
@@ -240,7 +237,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void setFullChat(List<ChatMessage> chatMessages) {
-
+        // not displayed
     }
 
     /**
@@ -249,7 +246,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void setGameId(int gameId) {
-        // don't use
+        // not displayed
     }
 
     /**
@@ -259,7 +256,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void receiveConnectionUpdate(String nickname, boolean value) {
-        // don't use
+        // not displayed
     }
 
     /**
@@ -269,7 +266,7 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void receiveStallUpdate(String nickname, boolean value) {
-        // don't use
+        // not displayed
     }
 
     /**
@@ -280,16 +277,18 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
-        // don't use
+        // not displayed
     }
 
     /**
      * Method used to redirect the client.
-     * @param actionEvent
+     * @param actionEvent action event
      */
     @FXML
     public void endGame(ActionEvent actionEvent) {
-        StageController.getClient().setClientAlive(false);
-        //TODO: close the window without closing the client //
+        Platform.runLater(() -> {
+            StageController.getClient().setClientAlive(false);
+            //TODO: close the window without closing the client //
+        });
     }
 }

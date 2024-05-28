@@ -5,7 +5,6 @@ import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.gui.SceneType;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -108,26 +107,24 @@ public abstract class StageController {
      */
     public static void setScene(SceneType sceneType) {
         assert(sceneType != SceneType.OTHER_PLAYER_SCENE);
-        Platform.runLater(() -> {
-            // create scene loader
-            currentSceneType = sceneType;
-            FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
-            // set scene
-            try {
-                currentScene.setRoot(sceneLoader.load());
-            } catch (IOException e) {
-                // TODO gestire
-                throw new RuntimeException(e);
-            }
-            // set controller
-            currentGuiController = sceneLoader.getController();
-            // set stage
-            currentStage.setTitle(currentSceneType.getTitle());
+        // create scene loader
+        currentSceneType = sceneType;
+        FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
+        // set scene
+        try {
+            currentScene.setRoot(sceneLoader.load());
+        } catch (IOException e) {
+            // TODO gestire
+            throw new RuntimeException(e);
+        }
+        // set controller
+        currentGuiController = sceneLoader.getController();
+        // set stage
+        currentStage.setTitle(currentSceneType.getTitle());
 
-            if(currentSceneType.equals(SceneType.PLAYER_SCENE)) {
-                client.setAndExecuteCommand(new RefreshGameViewCommand(nickname));
-            }
-        });
+        if(currentSceneType.equals(SceneType.PLAYER_SCENE)) {
+            client.setAndExecuteCommand(new RefreshGameViewCommand(nickname));
+        }
     }
 
     /**
@@ -135,25 +132,23 @@ public abstract class StageController {
      * @param nickname nickname
      */
     public static void setOtherPlayerScene(String nickname) {
-        Platform.runLater(() -> {
-            // create scene loader
-            currentSceneType = SceneType.OTHER_PLAYER_SCENE;
-            FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
-            // set scene
-            try {
-                currentScene.setRoot(sceneLoader.load());
-            } catch (IOException e) {
-                // TODO gestire
-                throw new RuntimeException(e);
-            }
-            // set controller
-            currentGuiController = sceneLoader.getController();
-            currentGuiController.setNickname(nickname);
-            // set stage
-            currentStage.setTitle(currentSceneType.getTitle());
+        // create scene loader
+        currentSceneType = SceneType.OTHER_PLAYER_SCENE;
+        FXMLLoader sceneLoader = new FXMLLoader(Gui.class.getResource(currentSceneType.getFxmlScene()));
+        // set scene
+        try {
+            currentScene.setRoot(sceneLoader.load());
+        } catch (IOException e) {
+            // TODO gestire
+            throw new RuntimeException(e);
+        }
+        // set controller
+        currentGuiController = sceneLoader.getController();
+        currentGuiController.setNickname(nickname);
+        // set stage
+        currentStage.setTitle(currentSceneType.getTitle());
 
-            // scene type is OTHER_PLAYER_SCENE
-            client.setAndExecuteCommand(new RefreshGameViewCommand(nickname));
-        });
+        // scene type is OTHER_PLAYER_SCENE
+        client.setAndExecuteCommand(new RefreshGameViewCommand(nickname));
     }
 }
