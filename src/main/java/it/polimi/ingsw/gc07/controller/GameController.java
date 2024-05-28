@@ -221,7 +221,7 @@ public class GameController {
             // place starter card randomly to players disconnected during GAME_STARTING
             for(Player p: getPlayers()) {
                 if(!p.isConnected()) {
-                    placeInitialCardRandomly(p.getNickname());
+                    setInitialCardsRandomly(p.getNickname());
                 }
             }
         }
@@ -282,7 +282,7 @@ public class GameController {
 
         // during SETTING_INITIAL_CARDS, place starter card and choose objective randomly
         if(gameModel.getState().equals(GameState.SETTING_INITIAL_CARDS)) {
-            placeInitialCardRandomly(nickname);
+            setInitialCardsRandomly(nickname);
         }
         if(gameModel.getState().equals(GameState.PLAYING) || gameModel.getState().equals(GameState.WAITING_RECONNECTION) ) {
             changeGameState();
@@ -640,13 +640,14 @@ public class GameController {
     }
 
     /**
-     * Method used to place a player's starter card.
+     * Method used to place a player's starter card on the provided way and to choose a secret objective.
      * @param nickname nickname
-     * @param way way the card must be placed
+     * @param starterCardWay way the card must be placed
+     * @param chosenObjective chosen objective
      */
-    public void placeStarterCard(String nickname, boolean way) {
+    public void setInitialCards(String nickname, boolean starterCardWay, boolean chosenObjective) {
         // check right state
-        if(!gameModel.getState().equals(GameState.PLACING_STARTER_CARDS)) {
+        if(!gameModel.getState().equals(GameState.SETTING_INITIAL_CARDS)) {
             gameModel.setCommandResult(nickname, CommandResult.WRONG_STATE);
             return;
         }
@@ -654,22 +655,29 @@ public class GameController {
             gameModel.setCommandResult(nickname, CommandResult.PLAYER_NOT_PRESENT);
             return;
         }
-        // check player has not already placed the starter card
+        // check player has not already placed the starter card or chosen an objective card
         Player player = getPlayerByNickname(nickname);
         assert(player != null);
-        if(player.getGameField().isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
+        if( player.getGameField().isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2) ||
+            player.getSecretObjectives().size() == 1) {
             gameModel.setCommandResult(nickname, CommandResult.CARD_ALREADY_PRESENT);
             return;
         }
-        // no check for current player, starter cards can be placed in any order
+        // no check for current player, initial cards can be set in any order
 
+        // place starter card
         gameModel.setCommandResult(nickname, player.placeCard(
-                player.getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, way)
+                player.getStarterCard(), (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, starterCardWay)
         );
 
+        // choose secret objective
+        player.chooseSecretObjective(chosenObjective);
+
+        // check and change game state
         boolean changeState = true;
         for(Player p: getPlayers()) {
-            if(!p.getGameField().isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2)) {
+            if(!p.getGameField().isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2) ||
+                p.getSecretObjectives().size() == 2) {
                 // someone has to place the starter card
                 changeState = false;
             }
@@ -688,7 +696,7 @@ public class GameController {
      * Method used to place a starter card randomly when a player disconnects.
      * @param nickname nickname
      */
-    void placeInitialCardRandomly(String nickname) {
+    void setInitialCardsRandomly(String nickname) {
         // compute starter card way
         Random random = new Random();
         boolean starterCardWay = random.nextBoolean();
@@ -697,7 +705,7 @@ public class GameController {
         boolean secretObjective = random.nextBoolean();
 
         // place starter card
-        placeStarterCard(nickname, starterCardWay, secretObjective);
+        setInitialCards(nickname, starterCardWay, secretObjective);
     }
 
     /**

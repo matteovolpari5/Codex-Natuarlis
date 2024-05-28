@@ -38,6 +38,6 @@ public class SetInitialCardsCommand implements GameControllerCommand {
      */
     @Override
     public void execute(GameController gameController) {
-        gameController.placeStarterCard(nickname, starterCardWay, choseSecretObjective);
+        gameController.setInitialCards(nickname, starterCardWay, choseSecretObjective);
     }
 }

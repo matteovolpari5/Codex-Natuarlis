@@ -293,6 +293,25 @@ public class Player {
     }
 
     /**
+     * Method used to choose a secret objective.
+     * False - the player has chosen the first secret objective
+     * True - the player has chosen the second secret objective
+     * @param chosenSecretObjective chosen secret objective
+     */
+    public void chooseSecretObjective(boolean chosenSecretObjective) {
+        assert(secretObjectives.size() == 2);
+
+        // remove not chosen secret objective
+        if(!chosenSecretObjective) {
+            secretObjectives.remove(1);
+        }else {
+            secretObjectives.removeFirst();
+        }
+
+        sendCardHandUpdate();
+    }
+
+    /**
      * Getter for the secret objective card.
      * @return secret objective card
      */

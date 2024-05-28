@@ -418,20 +418,43 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         System.out.println("Insert a number.");
                         break;
                     }
+                    boolean startCardWay;
                     if(wayInput == 1) {
-                        way = true;
+                        startCardWay = true;
                     }else if(wayInput == 0) {
-                        way = false;
+                        startCardWay = false;
                     }else {
                         System.out.println("The provided value is not correct");
                         break;
                     }
-                    if(!client.getGameView().getGameState().equals(GameState.PLACING_STARTER_CARDS)) {
+
+                    System.out.println("Select 0 to choose the first secret objective, 1 to choose the second one: ");
+                    System.out.print("> ");
+                    boolean objectiveCard;
+                    int objectiveCardInt;
+                    try {
+                         objectiveCardInt = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        scan.nextLine();
+                        System.out.println("Insert a number.");
+                        break;
+                    }
+                    if(objectiveCardInt == 0) {
+                        objectiveCard = false;
+                    }else if(objectiveCardInt == 1) {
+                        objectiveCard = true;
+                    }else {
+                        System.out.println("The provided value is not correct");
+                        break;
+                    }
+
+                    if(!client.getGameView().getGameState().equals(GameState.SETTING_INITIAL_CARDS)) {
                         System.out.println("Wrong game state.");
                         break;
                     }
 
-                    client.setAndExecuteCommand(new SetInitialCardsCommand(nickname, way));
+                    client.setAndExecuteCommand(new SetInitialCardsCommand(nickname, startCardWay, objectiveCard));
                     break;
 
                 case "i":
