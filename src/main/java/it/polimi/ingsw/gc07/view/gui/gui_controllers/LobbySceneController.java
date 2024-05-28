@@ -142,7 +142,7 @@ public class LobbySceneController implements Initializable, GuiController {
             }
         }
         else if(choice.isSelected()) {
-            if(boxTokenColor.getValue() != null)
+            if(boxTokenColor.getValue() != null && !gameList.getSelectionModel().getSelectedItems().isEmpty())
             {
                 TokenColor tokenColor = boxTokenColor.getValue();
                 if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))

@@ -58,7 +58,7 @@
                         <Font name="Comic Sans MS Bold" size="28.0" />
                     </font>
                 </Text>
-                <ToggleButton fx:id="choice" mnemonicParsing="false" prefHeight="26.0" prefWidth="33.0" selected="true" visible="false" />
+                <ToggleButton fx:id="choice" mnemonicParsing="false" prefHeight="26.0" prefWidth="33.0" visible="false" />
             </children>
         </AnchorPane>
         <Label layoutX="588.0" layoutY="38.0" text="LOBBY" AnchorPane.topAnchor="38.0">
