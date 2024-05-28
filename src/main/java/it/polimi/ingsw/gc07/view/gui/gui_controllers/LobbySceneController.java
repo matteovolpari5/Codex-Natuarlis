@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
@@ -112,6 +113,12 @@ public class LobbySceneController implements Initializable, GuiController {
      * Map that contains the id game and the list of token color get.
      */
     public Map<Integer, List<TokenColor>> gettedTokenColor;
+
+    /**
+     * Attribute that represent the game image.
+     */
+    @FXML
+    public ImageView gameImage;
 
     /**
      * Action executed when the continue button is clicked.
@@ -285,6 +292,7 @@ public class LobbySceneController implements Initializable, GuiController {
      */
     @FXML
     public void selectJoin(MouseEvent mouseEvent) {
+        gameImage.setVisible(false);
         // TODO CHIEDERE: arriva update anche se un game esce dagli existing games? //
         boxTokenColor.getItems().clear();
         StageController.getClient().setAndExecuteCommand(new DisplayGamesCommand(StageController.getNickname()));
@@ -310,6 +318,7 @@ public class LobbySceneController implements Initializable, GuiController {
      */
     @FXML
     public void selectNew(MouseEvent mouseEvent) {
+        gameImage.setVisible(true);
         ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
         listColor.add(TokenColor.RED);
         listColor.add(TokenColor.GREEN);
