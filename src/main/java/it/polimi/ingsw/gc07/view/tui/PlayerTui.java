@@ -26,6 +26,10 @@ public interface PlayerTui {
      * @param cardway starter card way
      */
     static void printStarterCard(PlaceableCard card, boolean cardway) {
+        if(card == null) {
+            return;
+        }
+
         // first row //
         System.out.print(ANSI_BLACK_BACKGROUND + "+---------+");
         System.out.println();
@@ -243,8 +247,7 @@ public interface PlayerTui {
      * Method used to print objective card.
      * @param objectiveCard objective card.
      */
-    static void printOnlyObjectiveCard(ObjectiveCard objectiveCard)
-    {
+    static void printOnlyObjectiveCard(ObjectiveCard objectiveCard) {
         // first row //
         System.out.println(ANSI_YELLOW_BACKGROUND + "+---------+");
         // second row //
