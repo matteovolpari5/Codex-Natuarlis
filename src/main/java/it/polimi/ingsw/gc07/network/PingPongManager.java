@@ -119,6 +119,7 @@ public class PingPongManager {
             } catch (RemoteException e) {
                 System.out.println("SP> Disconnection detected " + nickname);
                 gameController.disconnectPlayer(nickname);
+                System.out.println("before break");
                 break;
             }
             try {
@@ -127,5 +128,6 @@ public class PingPongManager {
                 throw new RuntimeException(e);
             }
         }
+        System.out.println("out of while true");
     }
 }

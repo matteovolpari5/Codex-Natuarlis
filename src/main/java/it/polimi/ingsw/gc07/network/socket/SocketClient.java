@@ -71,6 +71,7 @@ public class SocketClient implements Client, PingSender {
             try {
                 check = (NicknameCheck) input.readObject();
             } catch (IOException | ClassNotFoundException e) {
+                System.out.println("read object");
                 closeConnection();
                 break;
             }
@@ -241,6 +242,7 @@ public class SocketClient implements Client, PingSender {
                 try {
                     myServer.setAndExecuteCommand(new SendPingCommand(nickname));
                 } catch (IOException e) {
+                    System.out.println("send ping");
                     closeConnection();
                 }
             }
@@ -267,6 +269,7 @@ public class SocketClient implements Client, PingSender {
                 }else {
                     missedPong ++;
                     if(missedPong >= maxMissedPongs) {
+                        System.out.println("Check pong");
                         closeConnection();
                         break;
                     }
