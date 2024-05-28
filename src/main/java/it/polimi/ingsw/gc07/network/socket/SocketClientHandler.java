@@ -116,7 +116,7 @@ public class SocketClientHandler implements VirtualView {
                 output.close();
                 mySocket.close();
             }catch (IOException e){
-                //throw new RuntimeException();
+                throw new RuntimeException();
             }
         }
     }
