@@ -39,10 +39,11 @@ public class PingPongManager {
     }
 
     public synchronized void addPingSender(String nickname, VirtualView virtualView) {
+        System.out.println("adding player: " + nickname);
         this.playersPing.put(nickname, true);
         this.playerVirtualViews.put(nickname, virtualView);
-        new Thread(() -> checkPing(nickname)).start();
-        new Thread(() -> sendPong(nickname)).start();
+        new Thread(() -> {checkPing(nickname); System.out.println("Thread checkPong Morto Per: " + nickname);}).start();
+        new Thread(() -> {sendPong(nickname); System.out.println("Thread sendPing Morto Per: " + nickname);}).start();
     }
 
     /**
@@ -91,6 +92,7 @@ public class PingPongManager {
                     if(missedPing >= maxMissedPings) {
                         SafePrinter.println("CP> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname);
+                        //TODO closeConnection
                         break;
                     }
                 }
@@ -111,15 +113,17 @@ public class PingPongManager {
      */
     private void sendPong(String nickname) {
         while (true){
-            VirtualView virtualView;
-            synchronized (this) {
-                virtualView = getVirtualView(nickname);
+            if(!gameController.isPlayerConnected(nickname)) {
+                break;
             }
+            VirtualView virtualView = getVirtualView(nickname);
             try {
+                System.out.println("sending pong to: " + nickname);
                 virtualView.sendPong();
             } catch (RemoteException e) {
                 SafePrinter.println("SP> Disconnection detected " + nickname);
                 gameController.disconnectPlayer(nickname);
+                System.out.println("before break: " + nickname);
                 break;
             }
             try {
@@ -128,6 +132,7 @@ public class PingPongManager {
                 throw new RuntimeException(e);
             }
         }
+        System.out.println("out of while true: " + nickname);
     }
 }
 

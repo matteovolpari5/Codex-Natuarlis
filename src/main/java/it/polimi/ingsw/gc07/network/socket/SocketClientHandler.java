@@ -66,6 +66,7 @@ public class SocketClientHandler implements VirtualView {
                 manageGameCommand();
             }
         } catch (IOException | ClassNotFoundException e) {
+            System.out.println("manage setup - " + myClientNickname);
             closeConnection();
         }
     }
@@ -79,6 +80,7 @@ public class SocketClientHandler implements VirtualView {
                     break;
                 }
             } catch (IOException | ClassNotFoundException e){
+                System.out.println("manage games manager command - " + myClientNickname);
                 closeConnection();
                 break;
             }
@@ -94,14 +96,17 @@ public class SocketClientHandler implements VirtualView {
             try {
                 command = (GameControllerCommand) input.readObject();
             }catch (IOException | ClassNotFoundException e){
+                System.out.println("manage game command 1 - " + myClientNickname);
                 closeConnection();
                 break;
             }
             synchronized (gameController) {
+                System.out.println(command.getClass());
                 gameController.setAndExecuteCommand(command);
                 CommandResult result = gameController.getCommandResult();
-                if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
+                if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL) && !gameController.isPlayerConnected(myClientNickname)){
                     gameController.setCommandResult(myClientNickname, CommandResult.SUCCESS);
+                    System.out.println("manage game command 2 - " + myClientNickname);
                     closeConnection();
                     break;
                 }
@@ -111,6 +116,7 @@ public class SocketClientHandler implements VirtualView {
 
     private synchronized void closeConnection(){
         while(!mySocket.isClosed()){
+            System.err.println("CHIUDO IL SOCKET DI : " + myClientNickname);
             try{
                 input.close(); //TODO se dall'altro lato è estato chiuso se qui viene chiuso lancia eccezione? dove informarsi?
                 output.close();
@@ -123,16 +129,24 @@ public class SocketClientHandler implements VirtualView {
     }
 
     private synchronized void receiveUpdate(Update update) throws RemoteException{
+        System.out.println(update.getClass());
         if(!mySocket.isClosed()){
             try {
                 output.writeObject(update);
+                System.out.println("A");
                 output.reset();
+                System.out.println("B");
                 output.flush();
+                System.out.println("C");
             }catch(IOException e) {
+                System.out.println("1");
+                e.printStackTrace();
+                System.out.println("receive update - " +myClientNickname);
                 closeConnection();
                 throw new RemoteException();
             }
         }else{
+            System.err.println(myClientNickname + "Socket già chiuso");
             throw new RemoteException();
         }
     }
@@ -145,6 +159,7 @@ public class SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             } catch (IOException e) {
+                System.out.println("set server game - " + myClientNickname);
                 closeConnection();
                 throw new RemoteException();
             }
@@ -214,6 +229,7 @@ public class SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             } catch (IOException e) {
+                System.out.println("receive existing games update - " +myClientNickname);
                 closeConnection();
                 throw new RemoteException();
             }
@@ -227,6 +243,7 @@ public class SocketClientHandler implements VirtualView {
             output.reset();
             output.flush();
         } catch (IOException e) {
+            System.out.println("notify join not successful - "+myClientNickname);
             closeConnection();
             throw new RemoteException();
         }
