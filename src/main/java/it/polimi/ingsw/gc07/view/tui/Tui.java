@@ -196,7 +196,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             System.out.println("- r to draw a card from a deck");
             System.out.println("- t to draw a face up card");
             System.out.println("- y to place a card");
-            System.out.println("- u to place the starter card");
+            System.out.println("- u to set initial cards");
             System.out.println("- i to see another player's game field");
             System.out.println("- o to see the whole chat");
             System.out.print("> ");
@@ -336,7 +336,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         System.out.println("Insert a number.");
                         break;
                     }
-                    if(cardPos < 0 || cardPos >= client.getGameView().getCurrHardHandSize()) {
+                    if(cardPos < 0 || cardPos >= client.getGameView().getCurrHandSize()) {
                         System.out.println("Wrong card hand position.");
                         break;
                     }
@@ -433,7 +433,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     boolean objectiveCard;
                     int objectiveCardInt;
                     try {
-                         objectiveCardInt = scan.nextInt();
+                        objectiveCardInt = scan.nextInt();
                         scan.nextLine();
                     }catch(InputMismatchException e) {
                         scan.nextLine();
@@ -603,11 +603,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         if(!nickname.equals(client.getGameView().getOwnerNickname())) {
             return;
         }
-        if(personalObjectives.size() > 1) {
-            // don't print in initial phase
-            return;
-        }
-        if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjectives == null))) {
+        if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjectives == null || personalObjectives.size() != 1))) {
             System.out.println();
             System.out.println("--------------------------------------------------------");
             System.out.println("                  FRONT PLAYER HAND                     ");
@@ -815,6 +811,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveSecretObjectives(String nickname, List<ObjectiveCard> secretObjectives) {
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                         SECRET OBJECTIVES                        ");
+        System.out.println("--------------------------------------------------------");
         if(!nickname.equals(client.getGameView().getOwnerNickname())) {
             return;
         }

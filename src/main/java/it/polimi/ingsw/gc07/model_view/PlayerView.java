@@ -201,7 +201,7 @@ public class PlayerView implements Serializable {
      * @return game field
      */
     public GameFieldView getGameField() {
-        return gameField;
+        return new GameFieldView(gameField);
     }
 
     /**
