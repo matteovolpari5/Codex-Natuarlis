@@ -3,6 +3,7 @@ module it.polimi.ingsw.gc07 {
     requires javafx.fxml;
     requires com.google.gson;
     requires java.rmi;
+    requires java.desktop;
 
     exports it.polimi.ingsw.gc07.model;
     opens it.polimi.ingsw.gc07.model to javafx.fxml;

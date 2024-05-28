@@ -3,19 +3,63 @@ package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.updates.ScoreUpdate;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.text.Text;
+import javafx.stage.Window;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 public class GameEndedSceneController implements Initializable, GuiController {
+    /**
+     * Attribute that represents the general text.
+     */
+    @FXML
+    public Text generalText;
+
+    /**
+     * Attribute that represents the first winner
+     */
+    @FXML
+    public Text winner1;
+
+    /**
+     * Attribute that represents the second winner
+     */
+    @FXML
+    public Text winner2;
+
+    /**
+     * Attribute that represents the third winner
+     */
+    @FXML
+    public Text winner3;
+
+    /**
+     * Attribute that represents the fourth winner
+     */
+    @FXML
+    public Text winner4;
+
+    /**
+     * Attribute that exit button
+     */
+    @FXML
+    public Button exitGame;
+
     /**
      * Initialize method of this controller.
      */
@@ -138,7 +182,47 @@ public class GameEndedSceneController implements Initializable, GuiController {
      */
     @Override
     public void displayWinners(List<String> winners) {
-
+        if(winners.size()==1){
+            generalText.setText("AND THE WINNER IS...");
+        }
+        else {
+            generalText.setText("AND THE WINNERS ARE...");
+        }
+        int size = winners.size();
+        if(size==1){
+            winner1.setText(winners.get(0));
+            winner1.setVisible(true);
+            winner2.setVisible(false);
+            winner3.setVisible(false);
+            winner4.setVisible(false);
+        }
+        else if(size==2){
+            winner1.setText(winners.get(0));
+            winner1.setVisible(true);
+            winner2.setText(winners.get(1));
+            winner2.setVisible(true);
+            winner3.setVisible(false);
+            winner4.setVisible(false);
+        }
+        else if(size==3){
+            winner1.setText(winners.get(0));
+            winner1.setVisible(true);
+            winner2.setText(winners.get(1));
+            winner2.setVisible(true);
+            winner3.setText(winners.get(2));
+            winner3.setVisible(true);
+            winner4.setVisible(false);
+        }
+        else if(size==4){
+            winner1.setText(winners.get(0));
+            winner1.setVisible(true);
+            winner2.setText(winners.get(1));
+            winner2.setVisible(true);
+            winner3.setText(winners.get(2));
+            winner3.setVisible(true);
+            winner4.setText(winners.get(3));
+            winner4.setVisible(true);
+        }
     }
 
     /**
@@ -197,5 +281,15 @@ public class GameEndedSceneController implements Initializable, GuiController {
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
         // don't use
+    }
+
+    /**
+     * Method used to redirect the client.
+     * @param actionEvent
+     */
+    @FXML
+    public void endGame(ActionEvent actionEvent) {
+        StageController.getClient().setClientAlive(false);
+        //TODO: close the window without closing the client //
     }
 }
