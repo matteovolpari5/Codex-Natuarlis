@@ -34,10 +34,10 @@ import java.util.ResourceBundle;
 public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected ListView<String> myChat;
-    private ObservableList<String> chatItem;
+    private ObservableList<String> chatItem= FXCollections.observableArrayList();
     @FXML
     protected ListView<String> myUpdates;
-    private ObservableList<String> updatesItem;
+    private final ObservableList<String> updatesItem = FXCollections.observableArrayList();
     @FXML
     protected Button chatButton;
     @FXML
@@ -63,11 +63,11 @@ public class PlayerSceneController implements GuiController, Initializable {
     /**
      * List of labels containing the connection/stall status of the player.
      */
-    private List<Label> statusLabels;
+    private final List<Label> statusLabels = new ArrayList<>();
     /**
      * List of labels containing nicknames.
      */
-    private List<Label> nicknameLabels;
+    private final List<Label> nicknameLabels = new ArrayList<>();
     @FXML
     protected ImageView myStarterCard;
     @FXML
@@ -136,7 +136,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected ImageView tokenColor3;
     @FXML
     protected ImageView tokenColor4;
-    private List<ImageView> tokenColorsList;
+    private final List<ImageView> tokenColorsList = new ArrayList<>();
     @FXML
     protected TextField messageContent;
     @FXML
@@ -282,10 +282,8 @@ public class PlayerSceneController implements GuiController, Initializable {
         Platform.runLater(() -> {
             chatItem = FXCollections.observableArrayList();
             myChat.setItems(chatItem);
-            updatesItem = FXCollections.observableArrayList();
+
             myUpdates.setItems(updatesItem);
-            nicknameLabels = new ArrayList<>();
-            statusLabels = new ArrayList<>();
             nicknameLabels.add(nickname1);
             nicknameLabels.add(nickname2);
             nicknameLabels.add(nickname3);
@@ -293,10 +291,8 @@ public class PlayerSceneController implements GuiController, Initializable {
             statusLabels.add(nickStatus1);
             statusLabels.add(nickStatus2);
             statusLabels.add(nickStatus3);
-            nicknameLabels.add(nickname4);
-            nicknameLabels.add(nickStatus4);
+            statusLabels.add(nickStatus4);
             startingPhaseLabel.setText("Select the placing way of your starter card");
-            tokenColorsList = new ArrayList<>();
             tokenColorsList.add(tokenColor1);
             tokenColorsList.add(tokenColor2);
             tokenColorsList.add(tokenColor3);
@@ -335,29 +331,37 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void updateDecks(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
         // set decks data
         // set top decks
-        int topDeckId = topResourceDeck.getId();
-        topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId +".png")).toExternalForm()));
-        topDeckId = topGoldDeck.getId();
-        topDeckGold.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId +".png")).toExternalForm()));
-
+        int topDeckId;
+        if(topDeckResource!=null) {
+            topDeckId = topResourceDeck.getId();
+            topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId + ".png")).toExternalForm()));
+        }
+        if(topGoldDeck!=null) {
+            topDeckId = topGoldDeck.getId();
+            topDeckGold.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId + ".png")).toExternalForm()));
+        }
         // TODO
-        if (!faceUpGoldCard.isEmpty()){
-            revealedGold1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.getFirst().getId() +".png")).toExternalForm()));
+        if(faceUpGoldCard!= null) {
+            if (!faceUpGoldCard.isEmpty()) {
+                revealedGold1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.getFirst().getId() + ".png")).toExternalForm()));
+            }
+            if (faceUpGoldCard.size() == 2) {
+                revealedGold2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.get(1).getId() + ".png")).toExternalForm()));
+            }
         }
-        if(faceUpGoldCard.size()==2){
-            revealedGold2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.get(1).getId() +".png")).toExternalForm()));
+        if(faceUpResourceCard!=null) {
+            if (!faceUpResourceCard.isEmpty()) {
+                revealedResource1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.getFirst().getId() + ".png")).toExternalForm()));
+            }
+            if (faceUpResourceCard.size() == 2) {
+                revealedResource2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.get(1).getId() + ".png")).toExternalForm()));
+            }
         }
-
-        if (!faceUpResourceCard.isEmpty()){
-            revealedResource1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.getFirst().getId() +".png")).toExternalForm()));
-        }
-        if(faceUpResourceCard.size()==2){
-            revealedResource2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.get(1).getId() +".png")).toExternalForm()));
-        }
-
-        if(!commonObjective.isEmpty()){
-            commonObjective1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(0).getId() +".png")).toExternalForm()));
-            commonObjective2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(1).getId() +".png")).toExternalForm()));
+        if(commonObjective!=null) {
+            if (!commonObjective.isEmpty()) {
+                commonObjective1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(0).getId() + ".png")).toExternalForm()));
+                commonObjective2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(1).getId() + ".png")).toExternalForm()));
+            }
         }
     }
 
@@ -396,18 +400,32 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void updateCardHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjective) {
         // set current hand data
         int imageId;
-        imageId = hand.getFirst().getId();
-        handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-        imageId = hand.get(1).getId();
-        handCard2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-        imageId = hand.get(2).getId();
-        handCard3.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-
+        if(hand.size()==3) {
+            imageId = hand.getFirst().getId();
+            handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            imageId = hand.get(1).getId();
+            handCard2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            imageId = hand.get(2).getId();
+            handCard3.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+        } else if (hand.size()==2) {
+            imageId = hand.getFirst().getId();
+            handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            imageId = hand.get(1).getId();
+            handCard2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+        } else if (hand.size()==1) {
+            imageId = hand.getFirst().getId();
+            handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+        }
         // TODO
-        imageId = personalObjective.getFirst().getId();
-        option1Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-        imageId = personalObjective.get(1).getId();
-        option2Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
+        if(personalObjective.size()==2) {
+            imageId = personalObjective.getFirst().getId();
+            option1Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            imageId = personalObjective.get(1).getId();
+            option2Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+        } else if (personalObjective.size()==1) {
+            imageId = personalObjective.getFirst().getId();
+            secretObjective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+        }
     }
 
     /**
@@ -552,6 +570,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> tokenColors, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
+
         boolean found = false;
         for(String newNickname: tokenColors.keySet()){
             for(int i = 0; i < nicknameLabels.size(); i++){
