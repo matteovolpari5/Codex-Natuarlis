@@ -60,11 +60,7 @@ class GameControllerTest {
         gameController.getPlayers().add(secondPlayer);
         gameController.getBoard().addPlayer("Player2");
         assertNotNull(myStarterCard2);
-
         gameController.setState(GameState.SETTING_INITIAL_CARDS);
-        gameController.placeStarterCard("Player1", false);
-        gameController.placeStarterCard("Player2", false);
-        gameController.setState(GameState.PLAYING);
 
         List<ObjectiveCard> publicObjective = new ArrayList<>();
         for (DrawableCard c: gameController.getResourceCardsDeck().getContent()){
@@ -83,17 +79,15 @@ class GameControllerTest {
                 secondPlayer.addCardHand(g);
             }
         }
-        List<ObjectiveCard> secretObjectives = new ArrayList<>();
+        List<ObjectiveCard> secretObjectives1 = new ArrayList<>();
+        List<ObjectiveCard> secretObjectives2= new ArrayList<>();
+
         for(ObjectiveCard o: gameController.getObjectiveCardsDeck().getContent()){
             if (o.getId()==97){
-                secretObjectives.clear();
-                secretObjectives.add(o);
-                firstPlayer.setSecretObjectives(secretObjectives);
+                secretObjectives1.add(o);
             }
             if (o.getId()==95){
-                secretObjectives.clear();
-                secretObjectives.add(o);
-                secondPlayer.setSecretObjectives(secretObjectives);
+                secretObjectives2.add(o);
             }
             if (o.getId()==90){
                 publicObjective.add(o);
@@ -101,7 +95,20 @@ class GameControllerTest {
             if (o.getId()==100){
                 publicObjective.add(o);
             }
+
         }
+        for(ObjectiveCard o: gameController.getObjectiveCardsDeck().getContent()) {
+            if (o.getId() == 98) {
+                secretObjectives1.add(o);
+            }
+            if (o.getId() == 99) {
+                secretObjectives2.add(o);
+            }
+        }
+        firstPlayer.setSecretObjectives(secretObjectives1);
+        secondPlayer.setSecretObjectives(secretObjectives2);
+        gameController.setInitialCards("Player1", false, false);
+        gameController.setInitialCards("Player2", false, false);
         gameController.getObjectiveCardsDeck().setFaceUpCards(publicObjective);
         gameController.getResourceCardsDeck().setUpDeck();
         gameController.getGoldCardsDeck().setUpDeck();
@@ -276,8 +283,8 @@ class GameControllerTest {
 
     @Test
     void drawFaceUpCardWrongPlayer() {
-        gameController.placeStarterCard("Player1", false);
-        gameController.placeStarterCard("Player2", false);
+        gameController.setInitialCards("Player1", false, false);
+        gameController.setInitialCards("Player2", false, false);
         gameController.setCurrentPlayer(0);
         gameController.drawFaceUpCard("Player2", CardType.RESOURCE_CARD, 0);
         assertEquals(gameController.getCommandResult(), CommandResult.WRONG_PLAYER);
@@ -310,8 +317,8 @@ class GameControllerTest {
 
     @Test
     void drawFaceUpCardGoldCardSuccess() {
-        gameController.placeStarterCard("Player1", false);
-        gameController.placeStarterCard("Player2", false);
+        gameController.setInitialCards("Player1", false, false);
+        gameController.setInitialCards("Player2", false, false);
         gameController.setCurrentPlayer(0);
 
         gameController.placeCard("Player1", 0, 39, 39, true);
@@ -326,8 +333,8 @@ class GameControllerTest {
 
     @Test
     void drawFaceUpCardResourceCardNotSuccess() {
-        gameController.placeStarterCard("Player1", false);
-        gameController.placeStarterCard("Player2", false);
+        gameController.setInitialCards("Player1", false, false);
+        gameController.setInitialCards("Player2", false, false);
         gameController.setCurrentPlayer(0);
         gameController.placeCard("Player1", 0, 39, 39, true);
         for (int i = 0; i < 40; i++) {
@@ -435,28 +442,32 @@ class GameControllerTest {
                 myStarterCard3 = p;
             }
         }
+        List<ObjectiveCard> objectives = new ArrayList<>();
+        objectives.add(gameController.getObjectiveCardsDeck().drawCard());
+        objectives.add(gameController.getObjectiveCardsDeck().drawCard());
+        newPlayer.setSecretObjectives(objectives);
         newPlayer.setStarterCard(myStarterCard3);
         gameController.setState(GameState.SETTING_INITIAL_CARDS);
-        gameController.placeStarterCard("Player3",false);
+        gameController.setInitialCards("Player3",false, false);
         assertEquals(CommandResult.SUCCESS, gameController.getCommandResult());
     }
 
     @Test
     void placeCardWrongState(){
         gameController.setState(GameState.GAME_STARTING);
-        gameController.placeStarterCard("Player1",false);
+        gameController.setInitialCards("Player1",false, false);
         assertEquals(CommandResult.WRONG_STATE, gameController.getCommandResult());
     }
     @Test
     void placeCardWrongPlayer(){
         gameController.setState(GameState.SETTING_INITIAL_CARDS);
-        gameController.placeStarterCard("Player3",false);
+        gameController.setInitialCards("Player3",false, false);
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, gameController.getCommandResult());
     }
     @Test
     void alreadyPlaced(){
         gameController.setState(GameState.SETTING_INITIAL_CARDS);
-        gameController.placeStarterCard("Player1",false);
+        gameController.setInitialCards("Player1",false, false);
         assertEquals(CommandResult.CARD_ALREADY_PRESENT, gameController.getCommandResult());
     }
     @Test
@@ -471,10 +482,14 @@ class GameControllerTest {
                 myStarterCard3 = p;
             }
         }
+        List<ObjectiveCard> objectives = new ArrayList<>();
+        objectives.add(gameController.getObjectiveCardsDeck().drawCard());
+        objectives.add(gameController.getObjectiveCardsDeck().drawCard());
+        newPlayer.setSecretObjectives(objectives);
         newPlayer.setStarterCard(myStarterCard3);
 
         gameController.setState(GameState.SETTING_INITIAL_CARDS);
-        gameController.placeInitialCardRandomly("Player3");
+        gameController.setInitialCardsRandomly("Player3");
         assertEquals(CommandResult.SUCCESS, gameController.getCommandResult());
     }
 
