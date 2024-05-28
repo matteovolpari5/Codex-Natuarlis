@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.AddChatPrivateMessageCommand;
 import it.polimi.ingsw.gc07.game_commands.AddChatPublicMessageCommand;
+import it.polimi.ingsw.gc07.game_commands.SetInitialCardsCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -169,7 +170,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected void onSendMessage(KeyEvent e){
         if(e.getCode().equals(KeyCode.ENTER)){
             String content = messageContent.getText();
-            if(receiverSelector.getValue().isEmpty()||receiverSelector.getValue().equals("everyone")){
+            if(receiverSelector.getValue() == null ||receiverSelector.getValue().equals("everyone")){
                 StageController.getClient().setAndExecuteCommand(new AddChatPublicMessageCommand(content, StageController.getNickname()));
             }
             else{
@@ -225,10 +226,10 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected void onContinueButtonClick(){
         option1Label.setText("Option 1");
         option2Label.setText("Option 2");
-        option1Starter.setVisible(false);
-        option2Starter.setVisible(false);
-        option1Objective.setVisible(true);
-        option2Objective.setVisible(true);
+        str1Pane.setVisible(false);
+        str2Pane.setVisible(false);
+        obj1Pane.setVisible(true);
+        obj2Pane.setVisible(true);
         continueButton.setVisible(false);
         sendCommandButton.setVisible(true);
     }
@@ -255,8 +256,7 @@ public class PlayerSceneController implements GuiController, Initializable {
                 objectiveCardSelected = true;
                 break;
         }
-        //TODO
-        //StageController.getClient().setAndExecuteCommand(new SetInitialCardsCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
+        StageController.getClient().setAndExecuteCommand(new SetInitialCardsCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
     }
 
     @Override
