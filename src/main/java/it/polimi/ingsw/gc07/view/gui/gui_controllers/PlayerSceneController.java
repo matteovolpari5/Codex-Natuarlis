@@ -146,144 +146,162 @@ public class PlayerSceneController implements GuiController, Initializable {
 
     @FXML
     protected void onChatButtonClick(){
-        chatNotification.setVisible(false);
-        if(!chatContainer.isVisible()) {
-            chatContainer.setVisible(true);
-            chatButton.setText("close chat");
-            nickContainer.setVisible(false);
-            ObservableList<String> possiblesReceivers = FXCollections.observableArrayList();
-            possiblesReceivers.add("everyone");
-            for(Label nickname: nicknameLabels){
-                if(!nickname.getText().equals("Player") && !nickname.getText().equals(StageController.getNickname()) && !receiverSelector.getItems().contains(nickname.getText())) {
-                    possiblesReceivers.add(nickname.getText());
+        Platform.runLater(() -> {
+            chatNotification.setVisible(false);
+            if(!chatContainer.isVisible()) {
+                chatContainer.setVisible(true);
+                chatButton.setText("close chat");
+                nickContainer.setVisible(false);
+                ObservableList<String> possiblesReceivers = FXCollections.observableArrayList();
+                possiblesReceivers.add("everyone");
+                for(Label nickname: nicknameLabels){
+                    if(!nickname.getText().equals("Player") && !nickname.getText().equals(StageController.getNickname()) && !receiverSelector.getItems().contains(nickname.getText())) {
+                        possiblesReceivers.add(nickname.getText());
+                    }
                 }
+                receiverSelector.setItems(possiblesReceivers);
             }
-            receiverSelector.setItems(possiblesReceivers);
-        }
-        else{
-            chatContainer.setVisible(false);
-            chatButton.setText("show chat");
-            nickContainer.setVisible(true);
-        }
+            else{
+                chatContainer.setVisible(false);
+                chatButton.setText("show chat");
+                nickContainer.setVisible(true);
+            }
+        });
     }
     @FXML
     protected void onSendMessage(KeyEvent e){
-        if(e.getCode().equals(KeyCode.ENTER)){
-            String content = messageContent.getText();
-            if(receiverSelector.getValue() == null ||receiverSelector.getValue().equals("everyone")){
-                StageController.getClient().setAndExecuteCommand(new AddChatPublicMessageCommand(content, StageController.getNickname()));
+        Platform.runLater(() -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                String content = messageContent.getText();
+                if(receiverSelector.getValue() == null ||receiverSelector.getValue().equals("everyone")){
+                    StageController.getClient().setAndExecuteCommand(new AddChatPublicMessageCommand(content, StageController.getNickname()));
+                }
+                else{
+                    StageController.getClient().setAndExecuteCommand(new AddChatPrivateMessageCommand(content, StageController.getNickname(), receiverSelector.getValue()));
+                }
             }
-            else{
-                StageController.getClient().setAndExecuteCommand(new AddChatPrivateMessageCommand(content, StageController.getNickname(), receiverSelector.getValue()));
-            }
-        }
+        });
     }
     @FXML
     protected void onStarterCardClick(){
-        startingPhaseBox.setVisible(true);
-        option1Label.setText("Front");
-        option2Label.setText("Back");
-        startingPhaseController.setText("");
+        Platform.runLater(() -> {
+            startingPhaseBox.setVisible(true);
+            option1Label.setText("Front");
+            option2Label.setText("Back");
+            startingPhaseController.setText("");
+        });
     }
     @FXML
     protected void onStarter1CardClick(){
-        str1Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-        str2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-        startingPhaseController.setText("1");
+        Platform.runLater(() -> {
+            str1Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            str2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            startingPhaseController.setText("1");
+        });
     }
     @FXML
     protected void onStarter2CardClick(){
-        str1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-        str2Pane.setStyle(" -fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-        startingPhaseController.setText("2");
+        Platform.runLater(() -> {
+            str1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            str2Pane.setStyle(" -fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            startingPhaseController.setText("2");
+        });
     }
     @FXML
     protected void onObjective1CardClick(){
-        obj1Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-        obj2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-        String previousSelection = startingPhaseController.getText();
-        if(previousSelection.equals("1")||previousSelection.equals("11")||previousSelection.equals("12")){
-            startingPhaseController.setText("11");
-        }
-        else{
-            startingPhaseController.setText("21");
-        }
+        Platform.runLater(() -> {
+            obj1Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            obj2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            String previousSelection = startingPhaseController.getText();
+            if(previousSelection.equals("1")||previousSelection.equals("11")||previousSelection.equals("12")){
+                startingPhaseController.setText("11");
+            }
+            else{
+                startingPhaseController.setText("21");
+            }
+        });
     }
     @FXML
     protected void onObjective2CardClick(){
-        obj1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-        obj2Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-        String previousSelection = startingPhaseController.getText();
-        if(previousSelection.equals("1")||previousSelection.equals("11")||previousSelection.equals("12")){
-            startingPhaseController.setText("12");
-        }
-        else{
-            startingPhaseController.setText("22");
-        }
+        Platform.runLater(() -> {
+            obj1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            obj2Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            String previousSelection = startingPhaseController.getText();
+            if(previousSelection.equals("1")||previousSelection.equals("11")||previousSelection.equals("12")){
+                startingPhaseController.setText("12");
+            }
+            else{
+                startingPhaseController.setText("22");
+            }
+        });
     }
 
     @FXML
     protected void onContinueButtonClick(){
-        option1Label.setText("Option 1");
-        option2Label.setText("Option 2");
-        str1Pane.setVisible(false);
-        str2Pane.setVisible(false);
-        obj1Pane.setVisible(true);
-        obj2Pane.setVisible(true);
-        continueButton.setVisible(false);
-        sendCommandButton.setVisible(true);
+        Platform.runLater(() -> {
+            option1Label.setText("Option 1");
+            option2Label.setText("Option 2");
+            str1Pane.setVisible(false);
+            str2Pane.setVisible(false);
+            obj1Pane.setVisible(true);
+            obj2Pane.setVisible(true);
+            continueButton.setVisible(false);
+            sendCommandButton.setVisible(true);
+        });
     }
     @FXML
     protected void onSendCommandButtonClick(){
-        startingPhaseLabel.setVisible(false);
-        boolean starterCardWay = false;
-        boolean objectiveCardSelected = false;
-        switch (startingPhaseController.getText()) {
-            case "11":
-                starterCardWay = false;
-                objectiveCardSelected = false;
-                break;
-            case "12":
-                starterCardWay = false;
-                objectiveCardSelected = true;
-                break;
-            case "21":
-                starterCardWay = true;
-                objectiveCardSelected = false;
-                break;
-            case "22":
-                starterCardWay = true;
-                objectiveCardSelected = true;
-                break;
-        }
-        StageController.getClient().setAndExecuteCommand(new SetInitialCardsCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
+        Platform.runLater(() -> {
+            startingPhaseLabel.setVisible(false);
+            boolean starterCardWay = false;
+            boolean objectiveCardSelected = false;
+            switch (startingPhaseController.getText()) {
+                case "11":
+                    starterCardWay = false;
+                    objectiveCardSelected = false;
+                    break;
+                case "12":
+                    starterCardWay = false;
+                    objectiveCardSelected = true;
+                    break;
+                case "21":
+                    starterCardWay = true;
+                    objectiveCardSelected = false;
+                    break;
+                case "22":
+                    starterCardWay = true;
+                    objectiveCardSelected = true;
+                    break;
+            }
+            StageController.getClient().setAndExecuteCommand(new SetInitialCardsCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
+        });
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        chatItem = FXCollections.observableArrayList();
-        myChat.setItems(chatItem);
-        updatesItem = FXCollections.observableArrayList();
-        myUpdates.setItems(updatesItem);
-        nicknameLabels = new ArrayList<>();
-        statusLabels = new ArrayList<>();
-        nicknameLabels.add(nickname1);
-        nicknameLabels.add(nickname2);
-        nicknameLabels.add(nickname3);
-        nicknameLabels.add(nickname4);
-        statusLabels.add(nickStatus1);
-        statusLabels.add(nickStatus2);
-        statusLabels.add(nickStatus3);
-        nicknameLabels.add(nickname4);
-        nicknameLabels.add(nickStatus4);
-        startingPhaseLabel.setText("Select the placing way of your starter card");
-        tokenColorsList = new ArrayList<>();
-        tokenColorsList.add(tokenColor1);
-        tokenColorsList.add(tokenColor2);
-        tokenColorsList.add(tokenColor3);
-        tokenColorsList.add(tokenColor4);
-
+        Platform.runLater(() -> {
+            chatItem = FXCollections.observableArrayList();
+            myChat.setItems(chatItem);
+            updatesItem = FXCollections.observableArrayList();
+            myUpdates.setItems(updatesItem);
+            nicknameLabels = new ArrayList<>();
+            statusLabels = new ArrayList<>();
+            nicknameLabels.add(nickname1);
+            nicknameLabels.add(nickname2);
+            nicknameLabels.add(nickname3);
+            nicknameLabels.add(nickname4);
+            statusLabels.add(nickStatus1);
+            statusLabels.add(nickStatus2);
+            statusLabels.add(nickStatus3);
+            nicknameLabels.add(nickname4);
+            nicknameLabels.add(nickStatus4);
+            startingPhaseLabel.setText("Select the placing way of your starter card");
+            tokenColorsList = new ArrayList<>();
+            tokenColorsList.add(tokenColor1);
+            tokenColorsList.add(tokenColor2);
+            tokenColorsList.add(tokenColor3);
+            tokenColorsList.add(tokenColor4);
+        });
     }
 
     /**
@@ -302,9 +320,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void addMessage(ChatMessage chat) {
-        Platform.runLater(() -> {
-            chatItem.add(chat.getSender() + ": " + chat.getContent());
-        });
+        chatItem.add(chat.getSender() + ": " + chat.getContent());
     }
 
     /**
@@ -318,34 +334,31 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void updateDecks(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
         // set decks data
-        Platform.runLater(() -> {
-            // set top decks
-            int topDeckId = topResourceDeck.getId();
-            topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId +".png")).toExternalForm()));
-            topDeckId = topGoldDeck.getId();
-            topDeckGold.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId +".png")).toExternalForm()));
+        // set top decks
+        int topDeckId = topResourceDeck.getId();
+        topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId +".png")).toExternalForm()));
+        topDeckId = topGoldDeck.getId();
+        topDeckGold.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId +".png")).toExternalForm()));
 
-            // TODO
-            if (!faceUpGoldCard.isEmpty()){
-                revealedGold1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.getFirst().getId() +".png")).toExternalForm()));
-            }
-            if(faceUpGoldCard.size()==2){
-                revealedGold2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.get(1).getId() +".png")).toExternalForm()));
-            }
+        // TODO
+        if (!faceUpGoldCard.isEmpty()){
+            revealedGold1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.getFirst().getId() +".png")).toExternalForm()));
+        }
+        if(faceUpGoldCard.size()==2){
+            revealedGold2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.get(1).getId() +".png")).toExternalForm()));
+        }
 
-            if (!faceUpResourceCard.isEmpty()){
-                revealedResource1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.getFirst().getId() +".png")).toExternalForm()));
-            }
-            if(faceUpResourceCard.size()==2){
-                revealedResource2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.get(1).getId() +".png")).toExternalForm()));
-            }
+        if (!faceUpResourceCard.isEmpty()){
+            revealedResource1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.getFirst().getId() +".png")).toExternalForm()));
+        }
+        if(faceUpResourceCard.size()==2){
+            revealedResource2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.get(1).getId() +".png")).toExternalForm()));
+        }
 
-            if(!commonObjective.isEmpty()){
-                commonObjective1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(0).getId() +".png")).toExternalForm()));
-                commonObjective2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(1).getId() +".png")).toExternalForm()));
-            }
-
-        });
+        if(!commonObjective.isEmpty()){
+            commonObjective1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(0).getId() +".png")).toExternalForm()));
+            commonObjective2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(1).getId() +".png")).toExternalForm()));
+        }
     }
 
     /**
@@ -369,11 +382,9 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void updateStarterCard(PlaceableCard starterCard) {
         int id = starterCard.getId();
-        Platform.runLater(() -> {
-            myStarterCard.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
-            option1Starter.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
-            option2Starter.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + id +".png")).toExternalForm()));
-        });
+        myStarterCard.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
+        option1Starter.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
+        option2Starter.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + id +".png")).toExternalForm()));
     }
 
     /**
@@ -383,22 +394,20 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateCardHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjective) {
-        Platform.runLater(() -> {
-            // set current hand data
-            int imageId;
-            imageId = hand.getFirst().getId();
-            handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-            imageId = hand.get(1).getId();
-            handCard2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-            imageId = hand.get(2).getId();
-            handCard3.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
+        // set current hand data
+        int imageId;
+        imageId = hand.getFirst().getId();
+        handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
+        imageId = hand.get(1).getId();
+        handCard2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
+        imageId = hand.get(2).getId();
+        handCard3.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
 
-            // TODO
-            imageId = personalObjective.getFirst().getId();
-            option1Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-            imageId = personalObjective.get(1).getId();
-            option2Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-        });
+        // TODO
+        imageId = personalObjective.getFirst().getId();
+        option1Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
+        imageId = personalObjective.get(1).getId();
+        option2Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
     }
 
     /**
@@ -408,19 +417,17 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateGameInfo(GameState gameState, String currPlayer) {
-        Platform.runLater(() -> {
-            // game state
-            updatesItem.add("New game state: " + gameState.name());
-            GameView gameView = StageController.getGameView();
-            // current player
-            if (gameView.getCurrentPlayerNickname() != null){
-                currentPlayer.setText("Current player: " + gameView.getCurrentPlayerNickname());
-                currentPlayer.setVisible(true);
-            }
-            else{
-                currentPlayer.setVisible(false);
-            }
-        });
+        // game state
+        updatesItem.add("New game state: " + gameState.name());
+        GameView gameView = StageController.getGameView();
+        // current player
+        if (gameView.getCurrentPlayerNickname() != null){
+            currentPlayer.setText("Current player: " + gameView.getCurrentPlayerNickname());
+            currentPlayer.setVisible(true);
+        }
+        else{
+            currentPlayer.setVisible(false);
+        }
     }
 
     /**
@@ -428,9 +435,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void setPenultimateRound() {
-        Platform.runLater(() -> {
-            updatesItem.add("This is the penultimate round");
-        });
+        updatesItem.add("This is the penultimate round");
     }
 
     /**
@@ -438,9 +443,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void setAdditionalRound() {
-        Platform.runLater(() -> {
-            updatesItem.add("There will be an additional turn");
-        });
+        updatesItem.add("There will be an additional turn");
     }
 
     /**
@@ -449,12 +452,10 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateCommandResult(CommandResult commandResult) {
-        Platform.runLater(() -> {
-            if(!commandResult.equals(CommandResult.SUCCESS)){
-                updatesItem.add(commandResult.getResultMessage());
-                chatNotification.setVisible(true);
-            }
-        });
+        if(!commandResult.equals(CommandResult.SUCCESS)){
+            updatesItem.add(commandResult.getResultMessage());
+            chatNotification.setVisible(true);
+        }
     }
 
     /**
@@ -463,26 +464,20 @@ public class PlayerSceneController implements GuiController, Initializable {
      * @param existingGamesTokenColor take token colors in existing games
      */
     @Override
-    public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
-        // not used in this gui controller
-    }
+    public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {}
 
     /**
      * Method used to display an update, containing winners.
      * @param winners winners
      */
     @Override
-    public void displayWinners(List<String> winners) {
-        // not used in this gui controller
-    }
+    public void displayWinners(List<String> winners) {}
 
     /**
      * Method used to set the nickname.
      * @param nickname nickname
      */
-    public void setNickname(String nickname) {
-        // not used in this gui controller
-    }
+    public void setNickname(String nickname) {}
 
     /**
      * Method used to set the full chat content.
@@ -490,12 +485,10 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void setFullChat(List<ChatMessage> chatMessages) {
-        Platform.runLater(() -> {
-            // set full chat
-            for (ChatMessage c: chatMessages){
-                chatItem.add(c.getSender() + ": " + c.getContent());
-            }
-        });
+        // set full chat
+        for (ChatMessage c: chatMessages){
+            chatItem.add(c.getSender() + ": " + c.getContent());
+        }
     }
 
     /**
@@ -504,9 +497,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void setGameId(int id) {
-        Platform.runLater(() -> {
-            gameId.setText("game Id: " + id);
-        });
+        gameId.setText("game Id: " + id);
     }
 
     /**
@@ -645,6 +636,5 @@ public class PlayerSceneController implements GuiController, Initializable {
                 }
             }
         }
-
     }
 }
