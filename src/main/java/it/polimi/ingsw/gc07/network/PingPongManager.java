@@ -113,10 +113,10 @@ public class PingPongManager {
      */
     private void sendPong(String nickname) {
         while (true){
-            VirtualView virtualView;
-            synchronized (this) {
-                virtualView = getVirtualView(nickname);
+            if(!gameController.isPlayerConnected(nickname)) {
+                break;
             }
+            VirtualView virtualView = getVirtualView(nickname);
             try {
                 System.out.println("sending pong to: " + nickname);
                 virtualView.sendPong();
