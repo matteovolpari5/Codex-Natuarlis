@@ -137,11 +137,11 @@ class GamesManagerTest {
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
         GameController gc = GamesManager.getGamesManager().getGameById(0);
-        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+        assertEquals(GameState.SETTING_INITIAL_CARDS, gc.getState());
 
         // place starter card
-        gc.placeStarterCard("player1", false);
-        gc.placeStarterCard("player2", false);
+        gc.setInitialCards("player1", false, false);
+        gc.setInitialCards("player2", false, false);
 
         // disconnect and reconnect
         gc.disconnectPlayer("player2");
@@ -168,11 +168,11 @@ class GamesManagerTest {
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
         GameController gc = GamesManager.getGamesManager().getGameById(0);
-        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+        assertEquals(GameState.SETTING_INITIAL_CARDS, gc.getState());
 
         // place starter card
-        gc.placeStarterCard("player1", false);
-        gc.placeStarterCard("player2", false);
+        gc.setInitialCards("player1", false, false);
+        gc.setInitialCards("player2", false, false);
 
         // disconnect and reconnect
         gc.disconnectPlayer("player1");
@@ -199,11 +199,11 @@ class GamesManagerTest {
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
         GameController gc = GamesManager.getGamesManager().getGameById(0);
-        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+        assertEquals(GameState.SETTING_INITIAL_CARDS, gc.getState());
 
         // place starter card
-        gc.placeStarterCard("player1", false);
-        gc.placeStarterCard("player2", false);
+        gc.setInitialCards("player1", false, false);
+        gc.setInitialCards("player2", false, false);
 
         // reconnect wrong player
         gc.disconnectPlayer("WrongPlayer");
@@ -227,11 +227,11 @@ class GamesManagerTest {
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
         GameController gc = GamesManager.getGamesManager().getGameById(0);
-        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+        assertEquals(GameState.SETTING_INITIAL_CARDS, gc.getState());
 
         // place starter card
-        gc.placeStarterCard("player1", false);
-        gc.placeStarterCard("player2", false);
+        gc.setInitialCards("player1", false, false);
+        gc.setInitialCards("player2", false, false);
 
         // place card
         String nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
@@ -258,11 +258,11 @@ class GamesManagerTest {
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
         GameController gc = GamesManager.getGamesManager().getGameById(0);
-        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+        assertEquals(GameState.SETTING_INITIAL_CARDS, gc.getState());
 
         // place starter card
-        gc.placeStarterCard("player1", false);
-        gc.placeStarterCard("player2", false);
+        gc.setInitialCards("player1", false, false);
+        gc.setInitialCards("player2", false, false);
 
         // disconnect before placing a card
         String nick = gm.getGameById(0).getPlayers().get(gm.getGameById(0).getCurrPlayer()).getNickname();
@@ -287,11 +287,11 @@ class GamesManagerTest {
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
         GameController gc = GamesManager.getGamesManager().getGameById(0);
-        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+        assertEquals(GameState.SETTING_INITIAL_CARDS, gc.getState());
 
         // place starter card
-        gc.placeStarterCard("player1", false);
-        gc.placeStarterCard("player2", false);
+        gc.setInitialCards("player1", false, false);
+        gc.setInitialCards("player2", false, false);
 
         // emptying the resource deck
         for(int i=0;i<40;i++) {
@@ -322,11 +322,11 @@ class GamesManagerTest {
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
         GameController gc = GamesManager.getGamesManager().getGameById(0);
-        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+        assertEquals(GameState.SETTING_INITIAL_CARDS, gc.getState());
 
         // place starter card
-        gc.placeStarterCard("player1", false);
-        gc.placeStarterCard("player2", false);
+        gc.setInitialCards("player1", false, false);
+        gc.setInitialCards("player2", false, false);
 
         // emptying the gold deck
         for(int i=0;i<40;i++) {
@@ -357,11 +357,11 @@ class GamesManagerTest {
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
         GameController gc = GamesManager.getGamesManager().getGameById(0);
-        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+        assertEquals(GameState.SETTING_INITIAL_CARDS, gc.getState());
 
         // place starter card
-        gc.placeStarterCard("player1", false);
-        gc.placeStarterCard("player2", false);
+        gc.setInitialCards("player1", false, false);
+        gc.setInitialCards("player2", false, false);
 
         // emptying the resource deck
         for(int i=0;i<40;i++) {
@@ -396,11 +396,11 @@ class GamesManagerTest {
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
         GameController gc = GamesManager.getGamesManager().getGameById(0);
-        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+        assertEquals(GameState.SETTING_INITIAL_CARDS, gc.getState());
 
         // place starter card
-        gc.placeStarterCard("player1", false);
-        gc.placeStarterCard("player2", false);
+        gc.setInitialCards("player1", false, false);
+        gc.setInitialCards("player2", false, false);
 
         // disconnect the two players
         gc.disconnectPlayer("player1");
@@ -425,11 +425,11 @@ class GamesManagerTest {
         gm.joinExistingGame("player2", TokenColor.RED, 0);
 
         GameController gc = GamesManager.getGamesManager().getGameById(0);
-        assertEquals(GameState.PLACING_STARTER_CARDS, gc.getState());
+        assertEquals(GameState.SETTING_INITIAL_CARDS, gc.getState());
 
         // place starter card
-        gc.placeStarterCard("player1", false);
-        gc.placeStarterCard("player2", false);
+        gc.setInitialCards("player1", false, false);
+        gc.setInitialCards("player2", false, false);
 
         // disconnect player
         gc.disconnectPlayer("player1");

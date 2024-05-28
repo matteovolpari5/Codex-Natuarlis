@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,7 +46,7 @@ class PlayerTest {
         assertEquals(interfaceType, player.getInterfaceType());
         assertTrue(player.isConnected());
         assertFalse(player.getIsStalled());
-        assertNull(player.getSecretObjective());
+        assertEquals(0, player.getSecretObjectives().size());
         assertNotNull(player.getCurrentHand());
         assertEquals(0, player.getCurrentHand().size());
     }
@@ -133,8 +134,10 @@ class PlayerTest {
         PlayingDeck<ObjectiveCard> objectiveDeck = DecksBuilder.buildObjectiveCardsDeck();
         objectiveDeck.shuffle();
         ObjectiveCard objective = objectiveDeck.drawCard();
-        player.setSecretObjective(objective);
-        assertEquals(player.getSecretObjective(),objective);
+        List<ObjectiveCard> objectives = new ArrayList<>();
+        objectives.add(objective);
+        player.setSecretObjectives(objectives);
+        assertEquals(player.getSecretObjectives().getFirst(),objective);
         player.placeCard(player.getStarterCard(),40,40,true);
         assertNotNull(player.getGameField().getPlacedCard(40,40));
     }
