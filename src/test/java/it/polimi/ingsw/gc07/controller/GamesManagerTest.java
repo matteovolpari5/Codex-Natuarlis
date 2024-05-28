@@ -427,6 +427,8 @@ class GamesManagerTest {
         GameController gc = GamesManager.getGamesManager().getGameById(0);
         assertEquals(GameState.SETTING_INITIAL_CARDS, gc.getState());
 
+        gc.setMaxReconnectionTime(1);
+
         // place starter card
         gc.setInitialCards("player1", false, false);
         gc.setInitialCards("player2", false, false);
@@ -434,8 +436,8 @@ class GamesManagerTest {
         // disconnect player
         gc.disconnectPlayer("player1");
 
-        // check that the game end //
-        Thread.sleep(30000);
+        // check that the game end
+        Thread.sleep(5 * 1000);
         assertNull(gm.getGameById(0));
     }
 }
