@@ -197,6 +197,7 @@ public class PlayerSceneController implements GuiController, Initializable {
             str1Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             str2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             startingPhaseController.setText("1");
+            System.out.println("selezionata1");
         });
     }
     @FXML
@@ -205,6 +206,7 @@ public class PlayerSceneController implements GuiController, Initializable {
             str1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             str2Pane.setStyle(" -fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             startingPhaseController.setText("2");
+            System.out.println("selezionata2");
         });
     }
     @FXML
@@ -239,14 +241,16 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected void onContinueButtonClick(){
         Platform.runLater(() -> {
-            option1Label.setText("Option 1");
-            option2Label.setText("Option 2");
-            str1Pane.setVisible(false);
-            str2Pane.setVisible(false);
-            obj1Pane.setVisible(true);
-            obj2Pane.setVisible(true);
-            continueButton.setVisible(false);
-            sendCommandButton.setVisible(true);
+            if(startingPhaseController.getText().equals("1")||startingPhaseController.getText().equals("2")) {
+                option1Label.setText("Option 1");
+                option2Label.setText("Option 2");
+                str1Pane.setVisible(false);
+                str2Pane.setVisible(false);
+                obj1Pane.setVisible(true);
+                obj2Pane.setVisible(true);
+                continueButton.setVisible(false);
+                sendCommandButton.setVisible(true);
+            }
         });
     }
     @FXML
@@ -317,6 +321,9 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void addMessage(ChatMessage chat) {
         chatItem.add(chat.getSender() + ": " + chat.getContent());
+        if(!chatContainer.isVisible()) {
+            chatNotification.setVisible(true);
+        }
     }
 
     /**
@@ -472,7 +479,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void updateCommandResult(CommandResult commandResult) {
         if(!commandResult.equals(CommandResult.SUCCESS)){
             updatesItem.add(commandResult.getResultMessage());
-            chatNotification.setVisible(true);
+
         }
     }
 
@@ -570,33 +577,29 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> tokenColors, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
-
         boolean found = false;
         for(String newNickname: tokenColors.keySet()){
-            for(int i = 0; i < nicknameLabels.size(); i++){
-
-                if(nicknameLabels.get(i).getText().equals(newNickname)){
+            for(int i = 0; i < nicknameLabels.size(); i++) {
+                if (nicknameLabels.get(i).getText().equals(newNickname)) {
                     // the nickname is already present
                     nicknameLabels.get(i).setVisible(true);
                     // set disconnected/stalled visible attribute
-                    if(connectionValues.get(newNickname)){
+                    if (connectionValues.get(newNickname)) {
                         statusLabels.get(i).setText("[disconnected]");
                         statusLabels.get(i).setVisible(true);
                         nicknameLabels.get(i).setOpacity(0.8);
-                    }
-                    else if(stallValues.get(newNickname)){
+                    } else if (stallValues.get(newNickname)) {
                         statusLabels.get(i).setVisible(true);
                         statusLabels.get(i).setText("[stalled]");
                         nicknameLabels.get(i).setOpacity(0.8);
-                    }
-                    else{
+                    } else {
                         nicknameLabels.get(i).setOpacity(1);
                         statusLabels.get(i).setVisible(false);
                     }
                     found = true;
                     tokenColorsList.get(i).setVisible(true);
                     // set token color image
-                    switch(tokenColors.get(newNickname)){
+                    switch (tokenColors.get(newNickname)) {
                         case GREEN:
                             tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/green.png")).toExternalForm()));
                             break;
@@ -612,45 +615,45 @@ public class PlayerSceneController implements GuiController, Initializable {
                     }
                     break;
                 }
-                if(!found){
-                    // insert the nickname in the first free label
-                    for(int j = 0; j < nicknameLabels.size(); j++){
-                        if(nicknameLabels.get(j).getText().equals("Player")){
-                            nicknameLabels.get(j).setText(newNickname);
-                            nicknameLabels.get(j).setVisible(true);
-                            // set token color image
-                            switch(tokenColors.get(newNickname)){
-                                case GREEN:
-                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/green.png")).toExternalForm()));
-                                    break;
-                                case RED:
-                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/red.png")).toExternalForm()));
-                                    break;
-                                case BLUE:
-                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/blue.png")).toExternalForm()));
-                                    break;
-                                case YELLOW:
-                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/yellow.png")).toExternalForm()));
-                                    break;
-                            }
-                            tokenColorsList.get(j).setVisible(true);
-                            // set disconnected/stalled visible attribute
-                            if(connectionValues.get(newNickname)){
-                                statusLabels.get(j).setText("[disconnected]");
-                                statusLabels.get(j).setVisible(true);
-                                nicknameLabels.get(j).setOpacity(0.8);
-                            }
-                            else if(stallValues.get(newNickname)){
-                                statusLabels.get(j).setText("[stalled]");
-                                statusLabels.get(j).setVisible(true);
-                                nicknameLabels.get(j).setOpacity(0.8);
-                            }
-                            else{
-                                nicknameLabels.get(j).setOpacity(1);
-                                statusLabels.get(j).setVisible(false);
-                            }
-                            break;
+            }
+            if(!found){
+                // insert the nickname in the first free label
+                for(int j = 0; j < nicknameLabels.size(); j++){
+                    if(nicknameLabels.get(j).getText().equals("Player")){
+                        nicknameLabels.get(j).setText(newNickname);
+                        nicknameLabels.get(j).setVisible(true);
+                        // set token color image
+                        switch(tokenColors.get(newNickname)){
+                            case GREEN:
+                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/green.png")).toExternalForm()));
+                                break;
+                            case RED:
+                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/red.png")).toExternalForm()));
+                                break;
+                            case BLUE:
+                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/blue.png")).toExternalForm()));
+                                break;
+                            case YELLOW:
+                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/yellow.png")).toExternalForm()));
+                                break;
                         }
+                        tokenColorsList.get(j).setVisible(true);
+                        // set disconnected/stalled visible attribute
+                        if(!connectionValues.get(newNickname)){
+                            statusLabels.get(j).setText("[disconnected]");
+                            statusLabels.get(j).setVisible(true);
+                            nicknameLabels.get(j).setOpacity(0.8);
+                        }
+                        else if(stallValues.get(newNickname)){
+                            statusLabels.get(j).setText("[stalled]");
+                            statusLabels.get(j).setVisible(true);
+                            nicknameLabels.get(j).setOpacity(0.8);
+                        }
+                        else{
+                            nicknameLabels.get(j).setOpacity(1);
+                            statusLabels.get(j).setVisible(false);
+                        }
+                        break;
                     }
                 }
             }

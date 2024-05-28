@@ -121,28 +121,28 @@
                 <Image url="@../graphic_resources/notificationIcon.png" />
             </image>
         </ImageView>
-        <AnchorPane fx:id="startingPhaseBox" layoutX="233.0" layoutY="167.0" prefHeight="411.0" prefWidth="734.0" style="-fx-background-color: #fff8dc; -fx-border-color: #fff8dc; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-width: 5;" visible="false" AnchorPane.bottomAnchor="222.0" AnchorPane.leftAnchor="233.0" AnchorPane.rightAnchor="233.0" AnchorPane.topAnchor="167.0">
+        <AnchorPane fx:id="startingPhaseBox" layoutX="233.0" layoutY="167.0" style="-fx-background-color: #fff8dc; -fx-border-color: #fff8dc; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-width: 5;" visible="false" AnchorPane.bottomAnchor="222.0" AnchorPane.leftAnchor="233.0" AnchorPane.rightAnchor="233.0" AnchorPane.topAnchor="167.0">
             <children>
-                <Pane fx:id="str1Pane" layoutX="102.0" layoutY="87.0">
+                <StackPane fx:id="str1Pane" layoutX="102.0" layoutY="87.0">
                     <children>
                         <ImageView fx:id="option1Starter" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#onStarter1CardClick" pickOnBounds="true" preserveRatio="true" />
                     </children>
-                </Pane>
-                <Pane fx:id="str2Pane" layoutX="432.0" layoutY="87.0">
+                </StackPane>
+                <StackPane fx:id="str2Pane" layoutX="432.0" layoutY="87.0">
                     <children>
                         <ImageView fx:id="option2Starter" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#onStarter2CardClick" pickOnBounds="true" preserveRatio="true" />
                     </children>
-                </Pane>
-                <Pane fx:id="obj1Pane" layoutX="102.0" layoutY="87.0">
+                </StackPane>
+                <StackPane fx:id="obj1Pane" layoutX="102.0" layoutY="87.0">
                     <children>
                         <ImageView fx:id="option1Objective" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#onObjective1CardClick" pickOnBounds="true" preserveRatio="true" visible="false" />
                     </children>
-                </Pane>
-                <Pane fx:id="obj2Pane" layoutX="432.0" layoutY="87.0" onMouseClicked="#onObjective2CardClick">
+                </StackPane>
+                <StackPane fx:id="obj2Pane" layoutX="432.0" layoutY="87.0" onMouseClicked="#onObjective2CardClick">
                     <children>
                         <ImageView fx:id="option2Objective" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false" />
                     </children>
-                </Pane>
+                </StackPane>
                 <Label fx:id="startingPhaseLabel" layoutX="148.0" layoutY="20.0" text="Select the way of the starter card">
                     <font>
                         <Font size="30.0" />
@@ -160,7 +160,7 @@
                     </font>
                 </Label>
                 <Button fx:id="continueButton" layoutX="621.0" layoutY="355.0" mnemonicParsing="false" onAction="#onContinueButtonClick" prefHeight="37.0" prefWidth="82.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" />
-                <Button fx:id="sendCommandButton" layoutX="621.0" layoutY="355.0" mnemonicParsing="false" onAction="#onSendCommandButtonClick" prefHeight="37.0" prefWidth="82.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" />
+                <Button fx:id="sendCommandButton" layoutX="621.0" layoutY="355.0" mnemonicParsing="false" onAction="#onSendCommandButtonClick" prefHeight="37.0" prefWidth="82.0" visible="false" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="provas" />
             </children>
         </AnchorPane>
     </children>
