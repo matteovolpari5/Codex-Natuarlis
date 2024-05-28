@@ -134,12 +134,9 @@ public class GamesManager {
             playersTimers.get(gamesManagerCommand.getNickname()).cancel();
             playersTimers.get(gamesManagerCommand.getNickname()).purge();
             playersTimers.remove(gamesManagerCommand.getNickname());
+            Timer timeout = new Timer();
+            playersTimers.put(gamesManagerCommand.getNickname(), timeout);
             new Thread(()->{
-                Timer timeout = new Timer();
-                synchronized (this) {
-                    playersTimers.remove(gamesManagerCommand.getNickname());
-                    playersTimers.put(gamesManagerCommand.getNickname(), timeout);
-                }
                 timeout.schedule(new TimerTask() {
                     @Override
                     public void run() {

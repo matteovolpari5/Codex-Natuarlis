@@ -11,6 +11,7 @@ import it.polimi.ingsw.gc07.updates.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.rmi.RemoteException;
 
 /**
@@ -115,24 +116,9 @@ public class SocketClientHandler implements VirtualView {
                 output.close();
                 mySocket.close();
             }catch (IOException e){
-                throw new RuntimeException();
+                //throw new RuntimeException();
             }
         }
-    }
-
-    @Override
-    public void setServerGame(int gameId) throws RemoteException {
-        if(!isReconnected){
-            try {
-                output.writeObject(SocketCommunication.GAME_JOINED);
-                output.reset();
-                output.flush();
-            } catch (IOException e) {
-                closeConnection();
-                throw new RemoteException();
-            }
-        }
-        this.gameController = gamesManager.getGameById(gameId);
     }
 
     private synchronized void receiveUpdate(Update update) throws RemoteException{
@@ -150,6 +136,20 @@ public class SocketClientHandler implements VirtualView {
         }
     }
 
+    @Override
+    public void setServerGame(int gameId) throws RemoteException {
+        if(!isReconnected){
+            try {
+                output.writeObject(SocketCommunication.GAME_JOINED);
+                output.reset();
+                output.flush();
+            } catch (IOException e) {
+                closeConnection();
+                throw new RemoteException();
+            }
+        }
+        this.gameController = gamesManager.getGameById(gameId);
+    }
 
     @Override
     public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) throws RemoteException {
