@@ -39,10 +39,11 @@ public class PingPongManager {
     }
 
     public synchronized void addPingSender(String nickname, VirtualView virtualView) {
+        System.out.println("adding player: " + nickname);
         this.playersPing.put(nickname, true);
         this.playerVirtualViews.put(nickname, virtualView);
-        new Thread(() -> checkPing(nickname)).start();
-        new Thread(() -> sendPong(nickname)).start();
+        new Thread(() -> {checkPing(nickname); System.out.println("Thread checkPong Morto Per: " + nickname);}).start();
+        new Thread(() -> {sendPong(nickname); System.out.println("Thread sendPong Morto Per: " + nickname);}).start();
     }
 
     /**
@@ -91,6 +92,7 @@ public class PingPongManager {
                     if(missedPing >= maxMissedPings) {
                         SafePrinter.println("CP> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname);
+                        //TODO closeConnection
                         break;
                     }
                 }
@@ -121,7 +123,7 @@ public class PingPongManager {
             } catch (RemoteException e) {
                 SafePrinter.println("SP> Disconnection detected " + nickname);
                 gameController.disconnectPlayer(nickname);
-                System.out.println("before break");
+                System.out.println("before break: " + nickname);
                 break;
             }
             try {
@@ -130,7 +132,7 @@ public class PingPongManager {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("out of while true");
+        System.out.println("out of while true: " + nickname);
     }
 }
 

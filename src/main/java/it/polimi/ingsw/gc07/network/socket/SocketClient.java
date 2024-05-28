@@ -173,6 +173,9 @@ public class SocketClient implements Client, PingSender {
         while (true){
             try {
                 update = (Update) input.readObject();
+                if(update instanceof PongUpdate){
+                    System.err.println("arrivato pong");
+                }
                 update.execute(gameView);
                 synchronized (this){
                     pong = true;
@@ -193,7 +196,7 @@ public class SocketClient implements Client, PingSender {
                     myServer.closeConnection();
                     mySocket.close();
                 }catch (IOException e){
-                    e.printStackTrace();
+                    e.printStackTrace(); //TODO da togliere
                     //throw new RuntimeException();
                 }
             }

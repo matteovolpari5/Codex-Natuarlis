@@ -129,10 +129,13 @@ public class SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             }catch(IOException e) {
+                System.out.println("1");
+                e.printStackTrace();
                 closeConnection();
                 throw new RemoteException();
             }
         }else{
+            System.out.println("2");
             throw new RemoteException();
         }
     }
