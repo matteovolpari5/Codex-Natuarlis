@@ -605,7 +605,7 @@ public class PlayerSceneController implements GuiController, Initializable {
                 if(!found){
                     // insert the nickname in the first free label
                     for(int j = 0; j < nicknameLabels.size(); j++){
-                        if(nicknameLabels.get(j).getText().equals("player")){
+                        if(nicknameLabels.get(j).getText().equals("Player")){
                             nicknameLabels.get(j).setText(newNickname);
                             nicknameLabels.get(j).setVisible(true);
                             // set token color image

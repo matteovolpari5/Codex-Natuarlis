@@ -292,16 +292,12 @@ public class LobbySceneController implements Initializable, GuiController {
      */
     @FXML
     public void selectJoin(MouseEvent mouseEvent) {
-        gameImage.setVisible(false);
-        // TODO CHIEDERE: arriva update anche se un game esce dagli existing games? //
         boxTokenColor.getItems().clear();
         StageController.getClient().setAndExecuteCommand(new DisplayGamesCommand(StageController.getNickname()));
         next.setVisible(true);
-        next.setTextFill(Paint.valueOf("#b401a8"));
         boxTokenColor.setVisible(true);
         textTokenColor.setVisible(true);
 
-        textTokenColor.setFill(Paint.valueOf("#b401a8"));
         textNewGame.setOpacity(0.4);
         textJoinGame.setOpacity(1);
         boxNumPlayers.setVisible(false);
@@ -318,7 +314,6 @@ public class LobbySceneController implements Initializable, GuiController {
      */
     @FXML
     public void selectNew(MouseEvent mouseEvent) {
-        gameImage.setVisible(true);
         ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
         listColor.add(TokenColor.RED);
         listColor.add(TokenColor.GREEN);
@@ -334,13 +329,11 @@ public class LobbySceneController implements Initializable, GuiController {
         boxNumPlayers.setItems(listNumPlayer);
 
         next.setVisible(true);
-        next.setTextFill(Paint.valueOf("#0008db"));
         boxTokenColor.setVisible(true);
         textTokenColor.setVisible(true);
 
         boxNumPlayers.setVisible(true);
         textInsertNumPlayers.setVisible(true);
-        textTokenColor.setFill(Paint.valueOf("#0008db"));
         textNewGame.setOpacity(1);
         textJoinGame.setOpacity(0.4);
 
