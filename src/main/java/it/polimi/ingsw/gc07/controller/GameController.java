@@ -24,6 +24,10 @@ public class GameController {
      * PingPongManager of the game, accepts players' pings and sends pongs, in order to manage connection problems.
      */
     private final PingPongManager pingPongManager;
+    /**
+     * Max time before a reconnection, after which the game ends.
+     */
+    private int maxReconnectionTime;
 
     /**
      * Constructor of a GameController with only the first player.
@@ -33,10 +37,20 @@ public class GameController {
                           Deck<PlaceableCard> starterCardsDeck) {
         this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
         this.pingPongManager = new PingPongManager(this);
+        this.maxReconnectionTime = 5 * 60;
     }
 
 
     // setters and getters
+
+    /**
+     * Method used to set max reconnection time.
+     * @param maxReconnectionTime max reconnection time in seconds
+     */
+    // used in tests
+    void setMaxReconnectionTime(int maxReconnectionTime) {
+        this.maxReconnectionTime = maxReconnectionTime;
+    }
 
     /**
      * Getter for the game id.
@@ -359,7 +373,7 @@ public class GameController {
             synchronized (this) {
                 onePlayer = gameModel.getState().equals(GameState.WAITING_RECONNECTION);
             }
-            for (int i = 0; i < 20 && gameEnd; i++) {
+            for (int i = 0; i < this.maxReconnectionTime && gameEnd; i++) {
                 try {
                     Thread.sleep(1000); // wait one second for each iteration
                 } catch (InterruptedException e) {

@@ -186,15 +186,18 @@ public class SocketClient implements Client, PingSender {
     //TODO se la ui aspetta il comando e cade la connessione il client rimane vivo perché la ui sta ancora spettando l'input
     private synchronized void closeConnection(){
         if(isClientAlive()){
+            while(!mySocket.isClosed()){
+                try{
+                    input.close();
+                    myServer.closeConnection();
+                    mySocket.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                    //throw new RuntimeException();
+                }
+            }
             SafePrinter.println("you lost the connection");
             this.clientAlive = false;
-            try{
-                input.close();
-                myServer.closeConnection();
-                mySocket.close();
-            }catch (IOException e){
-                throw new RuntimeException();
-            }
         }
     }
 
@@ -280,4 +283,3 @@ public class SocketClient implements Client, PingSender {
         }
     }
 }
-

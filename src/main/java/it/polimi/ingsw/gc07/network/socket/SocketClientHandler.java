@@ -110,13 +110,14 @@ public class SocketClientHandler implements VirtualView {
     }
 
     private synchronized void closeConnection(){
-        if(!mySocket.isClosed()){
+        while(!mySocket.isClosed()){
             try{
                 input.close(); //TODO se dall'altro lato è estato chiuso se qui viene chiuso lancia eccezione? dove informarsi?
                 output.close();
                 mySocket.close();
             }catch (IOException e){//TODO sostituire solo con mySocket.close() ?
-                throw new RuntimeException();
+                e.printStackTrace();
+                //throw new RuntimeException();
             }
         }
     }
