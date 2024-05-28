@@ -25,6 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -32,6 +33,7 @@ import java.util.*;
 import java.util.ResourceBundle;
 
 public class PlayerSceneController implements GuiController, Initializable {
+    private final int BOARD_SIZE = 80;
     @FXML
     protected ListView<String> myChat;
     private ObservableList<String> chatItem= FXCollections.observableArrayList();
@@ -145,6 +147,8 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected HBox nickContainer;
     @FXML
     protected ChoiceBox<String> receiverSelector;
+    @FXML
+    protected GridPane gridPaneBoard;
 
     @FXML
     protected void onChatButtonClick(){
@@ -315,6 +319,13 @@ public class PlayerSceneController implements GuiController, Initializable {
             tokenColorsList.add(tokenColor2);
             tokenColorsList.add(tokenColor3);
             tokenColorsList.add(tokenColor4);
+            for(int row = 0; row < BOARD_SIZE; row++) {
+                for (int col = 0; col < BOARD_SIZE; col++) {
+                    ImageView gridImage = new ImageView();
+                    gridPaneBoard.add(gridImage, row, col);
+                }
+            }
+            System.out.println(gridPaneBoard.getRowCount());
         });
     }
 
