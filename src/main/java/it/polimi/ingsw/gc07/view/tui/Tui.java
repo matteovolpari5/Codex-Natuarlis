@@ -13,6 +13,7 @@ import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameFieldView;
 import it.polimi.ingsw.gc07.network.Client;
+import it.polimi.ingsw.gc07.utils.SafePrinter;
 import it.polimi.ingsw.gc07.view.Ui;
 
 import java.util.*;
@@ -71,11 +72,12 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         }).start();
 
         Scanner scan = new Scanner(System.in);
-        System.out.println("Insert a character to perform an action:");
-        System.out.println("- q to join an existing game"); // JoinExistingGameCommand
-        System.out.println("- w to create an new game"); // JoinNewGameCommand
-        System.out.println("- e to see existing games"); // DisplayGamesCommand
-        System.out.print("> ");
+
+        SafePrinter.println("Insert a character to perform an action:");
+        SafePrinter.println("- q to join an existing game"); // JoinExistingGameCommand
+        SafePrinter.println("- w to create an new game"); // JoinNewGameCommand
+        SafePrinter.println("- e to see existing games"); // DisplayGamesCommand
+        SafePrinter.print("> ");
         String command = scan.nextLine();
 
         String tokenColorString;
@@ -85,13 +87,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             case "q":
                 // join existing game
                 do {
-                    System.out.println("Insert token color (green, red, yellow or blue): ");
-                    System.out.print("> ");
+                    SafePrinter.println("Insert token color (green, red, yellow or blue): ");
+                    SafePrinter.print("> ");
                     tokenColorString = scan.nextLine();
                     tokenColor = parseTokenColor(tokenColorString);
                     if(tokenColor == null) {
                         correctInput = false;
-                        System.out.println("No such token color");
+                        SafePrinter.println("No such token color");
                     }else {
                         correctInput = true;
                     }
@@ -99,8 +101,8 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
                 int gameId;
                 do {
-                    System.out.println("Insert game id: ");
-                    System.out.print("> ");
+                    SafePrinter.println("Insert game id: ");
+                    SafePrinter.print("> ");
                     gameId = -1;
                     correctInput = true;
                     try {
@@ -109,10 +111,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }catch(InputMismatchException e) {
                         scan.nextLine();
                         correctInput = false;
-                        System.out.println("No such game id, insert a number.");
+                        SafePrinter.println("No such game id, insert a number.");
                     }
                     if(correctInput && gameId < 0) {
-                        System.out.println("No such game id.");
+                        SafePrinter.println("No such game id.");
                         correctInput = false;
                     }
                 }while(!correctInput);
@@ -128,22 +130,22 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             case "w":
                 // join new game
                 do {
-                    System.out.println("Insert token color (green, red, yellow or blue): ");
-                    System.out.print("> ");
+                    SafePrinter.println("Insert token color (green, red, yellow or blue): ");
+                    SafePrinter.print("> ");
                     tokenColorString = scan.nextLine();
                     tokenColor = parseTokenColor(tokenColorString);
                     correctInput = true;
                     if(tokenColor == null) {
                         correctInput = false;
-                        System.out.println("No such token color");
+                        SafePrinter.println("No such token color");
                     }
                 }while(!correctInput);
 
                 int playersNumber = -1;
                 do {
                     correctInput = true;
-                    System.out.println("Insert the number of players for the game: ");
-                    System.out.print("> ");
+                    SafePrinter.println("Insert the number of players for the game: ");
+                    SafePrinter.print("> ");
                     try {
                         playersNumber = scan.nextInt();
                         scan.nextLine();
@@ -177,7 +179,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                 break;
 
             default:
-                System.out.println("The provided character doesn't refer to any action");
+                SafePrinter.println("The provided character doesn't refer to any action");
                 runJoinGameInterface();
         }
     }
@@ -189,17 +191,17 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     public void runGameInterface() {
         Scanner scan = new Scanner(System.in);
         while(client.isClientAlive()) {
-            System.out.println("Insert a character to perform an action:");
-            System.out.println("- q to write a private message");
-            System.out.println("- w to write a public message");
-            System.out.println("- e to disconnect from the game");
-            System.out.println("- r to draw a card from a deck");
-            System.out.println("- t to draw a face up card");
-            System.out.println("- y to place a card");
-            System.out.println("- u to set initial cards");
-            System.out.println("- i to see another player's game field");
-            System.out.println("- o to see the whole chat");
-            System.out.print("> ");
+            SafePrinter.println("Insert a character to perform an action:");
+            SafePrinter.println("- q to write a private message");
+            SafePrinter.println("- w to write a public message");
+            SafePrinter.println("- e to disconnect from the game");
+            SafePrinter.println("- r to draw a card from a deck");
+            SafePrinter.println("- t to draw a face up card");
+            SafePrinter.println("- y to place a card");
+            SafePrinter.println("- u to set initial cards");
+            SafePrinter.println("- i to see another player's game field");
+            SafePrinter.println("- o to see the whole chat");
+            SafePrinter.print("> ");
             String command = scan.nextLine();
 
             String content;
@@ -209,30 +211,30 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             boolean way;
             switch(command) {
                 case "q":
-                    System.out.println("Insert the receiver nickname: ");
-                    System.out.print("> ");
+                    SafePrinter.println("Insert the receiver nickname: ");
+                    SafePrinter.print("> ");
                     String receiver = scan.nextLine();
                     // check not empty
                     if(receiver == null || receiver.isEmpty()) {
-                        System.out.println("Insert a non empty receiver");
+                        SafePrinter.println("Insert a non empty receiver");
                         break;
                     }
                     // check sender not equals receiver
                     if(receiver.equals(nickname)) {
-                        System.out.println("You can't send a private message to yourself.");
+                        SafePrinter.println("You can't send a private message to yourself.");
                         break;
                     }
                     // check existing receiver
                     if(!client.getGameView().checkPlayerPresent(receiver)) {
-                        System.out.println("Provided receiver doesn't exist.");
+                        SafePrinter.println("Provided receiver doesn't exist.");
                         break;
                     }
-                    System.out.println("Insert the message content:");
-                    System.out.print("> ");
+                    SafePrinter.println("Insert the message content:");
+                    SafePrinter.print("> ");
                     content = scan.nextLine();
                     // check not empty content
                     if(content == null || content.isEmpty()) {
-                        System.out.println("Content can't be empty");
+                        SafePrinter.println("Content can't be empty");
                         break;
                     }
 
@@ -240,12 +242,12 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     break;
 
                 case "w":
-                    System.out.println("Insert the message content:");
-                    System.out.print("> ");
+                    SafePrinter.println("Insert the message content:");
+                    SafePrinter.print("> ");
                     content = scan.nextLine();
                     // check not empty content
                     if(content == null || content.isEmpty()) {
-                        System.out.println("Content can't be empty");
+                        SafePrinter.println("Content can't be empty");
                         break;
                     }
 
@@ -258,66 +260,66 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     break;
 
                 case "r":
-                    System.out.println("Select a card type ('g' for gold or 'r' for resource): ");
-                    System.out.print("> ");
+                    SafePrinter.println("Select a card type ('g' for gold or 'r' for resource): ");
+                    SafePrinter.print("> ");
                     cardTypeString = scan.nextLine();
                     if(cardTypeString.equals("r")) {
                         cardType = CardType.RESOURCE_CARD;
                     }else if(cardTypeString.equals("g")) {
                         cardType = CardType.GOLD_CARD;
                     }else {
-                        System.out.println("No such card type");
+                        SafePrinter.println("No such card type");
                         break;
                     }
                     // check game state
                     if(!client.getGameView().getGameState().equals(GameState.PLAYING)) {
-                        System.out.println("Wrong game state.");
+                        SafePrinter.println("Wrong game state.");
                         break;
                     }
                     // check current player
                     if(!client.getGameView().isCurrentPlayer(nickname)) {
-                        System.out.println("This is not your turn, try later.");
+                        SafePrinter.println("This is not your turn, try later.");
                         break;
                     }
                     client.setAndExecuteCommand(new DrawDeckCardCommand(nickname, cardType));
                     break;
 
                 case "t":
-                    System.out.println("Select a card type ('g' for gold or 'r' for resource): ");
-                    System.out.print("> ");
+                    SafePrinter.println("Select a card type ('g' for gold or 'r' for resource): ");
+                    SafePrinter.print("> ");
                     cardTypeString = scan.nextLine();
                     if(cardTypeString.equals("r")) {
                         cardType = CardType.RESOURCE_CARD;
                     }else if(cardTypeString.equals("g")) {
                         cardType = CardType.GOLD_CARD;
                     }else {
-                        System.out.println("No such card type");
+                        SafePrinter.println("No such card type");
                         break;
                     }
-                    System.out.println("Select the position of the card to draw: ");
-                    System.out.print("> ");
+                    SafePrinter.println("Select the position of the card to draw: ");
+                    SafePrinter.print("> ");
                     int pos;
                     try {
                         pos = scan.nextInt();
                         scan.nextLine();
                     }catch(InputMismatchException e) {
                         scan.nextLine();
-                        System.out.println("Insert a number.");
+                        SafePrinter.println("Insert a number.");
                         break;
                     }
                     // check valid position
                     if(pos < 0 || pos > client.getGameView().getNumFaceUpCards(cardType)) {
-                        System.out.println("Wrong cards position.");
+                        SafePrinter.println("Wrong cards position.");
                         break;
                     }
                     // check game state
                     if(!client.getGameView().getGameState().equals(GameState.PLAYING)) {
-                        System.out.println("Wrong game state.");
+                        SafePrinter.println("Wrong game state.");
                         break;
                     }
                     // check current player
                     if(!client.getGameView().isCurrentPlayer(nickname)) {
-                        System.out.println("This is not your turn, try later.");
+                        SafePrinter.println("This is not your turn, try later.");
                         break;
                     }
                     client.setAndExecuteCommand(new DrawFaceUpCardCommand(nickname, cardType, pos));
@@ -325,63 +327,63 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
                 case "y":
                     // position in hand
-                    System.out.println("Select the position of the card you want to place: ");
-                    System.out.print("> ");
+                    SafePrinter.println("Select the position of the card you want to place: ");
+                    SafePrinter.print("> ");
                     int cardPos;
                     try {
                         cardPos = scan.nextInt();
                         scan.nextLine();
                     }catch(InputMismatchException e) {
                         scan.nextLine();
-                        System.out.println("Insert a number.");
+                        SafePrinter.println("Insert a number.");
                         break;
                     }
                     if(cardPos < 0 || cardPos >= client.getGameView().getCurrHandSize()) {
-                        System.out.println("Wrong card hand position.");
+                        SafePrinter.println("Wrong card hand position.");
                         break;
                     }
-                    System.out.println("Insert a position of the game field where you want to place the card.");
+                    SafePrinter.println("Insert a position of the game field where you want to place the card.");
                     // position in game field - x
-                    System.out.println("Insert x: ");
-                    System.out.print("> ");
+                    SafePrinter.println("Insert x: ");
+                    SafePrinter.print("> ");
                     int x;
                     try {
                         x = scan.nextInt();
                         scan.nextLine();
                     }catch(InputMismatchException e) {
                         scan.nextLine();
-                        System.out.println("Insert a number.");
+                        SafePrinter.println("Insert a number.");
                         break;
                     }
                     if(x < 0 || x >= client.getGameView().getGameFieldDim()) {
-                        System.out.println("GameField position out of bound.");
+                        SafePrinter.println("GameField position out of bound.");
                         break;
                     }
                     // position in game field - y
-                    System.out.println("Insert y: ");
-                    System.out.print("> ");
+                    SafePrinter.println("Insert y: ");
+                    SafePrinter.print("> ");
                     int y;
                     try {
                         y = scan.nextInt();
                         scan.nextLine();
                     }catch(InputMismatchException e) {
                         scan.nextLine();
-                        System.out.println("Insert a number.");
+                        SafePrinter.println("Insert a number.");
                         break;
                     }
                     if(y < 0 || y >= client.getGameView().getGameFieldDim()) {
-                        System.out.println("GameField position out of bound.");
+                        SafePrinter.println("GameField position out of bound.");
                         break;
                     }
                     // way in game field
-                    System.out.println("Select 0 to place the card face up, 1 to place the card face down: ");
-                    System.out.print("> ");
+                    SafePrinter.println("Select 0 to place the card face up, 1 to place the card face down: ");
+                    SafePrinter.print("> ");
                     try {
                         wayInput = scan.nextInt();
                         scan.nextLine();
                     }catch(InputMismatchException e) {
                         scan.nextLine();
-                        System.out.println("Insert a number.");
+                        SafePrinter.println("Insert a number.");
                         break;
                     }
                     if(wayInput == 1) {
@@ -389,17 +391,17 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }else if(wayInput == 0) {
                         way = false;
                     }else {
-                        System.out.println("The provided value for way is not correct");
+                        SafePrinter.println("The provided value for way is not correct");
                         break;
                     }
                     // check game state
                     if(!client.getGameView().getGameState().equals(GameState.PLAYING)) {
-                        System.out.println("Wrong game state.");
+                        SafePrinter.println("Wrong game state.");
                         break;
                     }
                     // check current player
                     if(!client.getGameView().isCurrentPlayer(nickname)) {
-                        System.out.println("This is not your turn, try later.");
+                        SafePrinter.println("This is not your turn, try later.");
                         break;
                     }
 
@@ -408,14 +410,14 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     break;
 
                 case "u":
-                    System.out.println("Select 0 to place the starter card face up, 1 to place the starter card face down: ");
-                    System.out.print("> ");
+                    SafePrinter.println("Select 0 to place the starter card face up, 1 to place the starter card face down: ");
+                    SafePrinter.print("> ");
                     try {
                         wayInput = scan.nextInt();
                         scan.nextLine();
                     }catch(InputMismatchException e) {
                         scan.nextLine();
-                        System.out.println("Insert a number.");
+                        SafePrinter.println("Insert a number.");
                         break;
                     }
                     boolean startCardWay;
@@ -424,12 +426,12 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }else if(wayInput == 0) {
                         startCardWay = false;
                     }else {
-                        System.out.println("The provided value is not correct");
+                        SafePrinter.println("The provided value is not correct");
                         break;
                     }
 
-                    System.out.println("Select 0 to choose the first secret objective, 1 to choose the second one: ");
-                    System.out.print("> ");
+                    SafePrinter.println("Select 0 to choose the first secret objective, 1 to choose the second one: ");
+                    SafePrinter.print("> ");
                     boolean objectiveCard;
                     int objectiveCardInt;
                     try {
@@ -437,7 +439,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         scan.nextLine();
                     }catch(InputMismatchException e) {
                         scan.nextLine();
-                        System.out.println("Insert a number.");
+                        SafePrinter.println("Insert a number.");
                         break;
                     }
                     if(objectiveCardInt == 0) {
@@ -445,12 +447,12 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     }else if(objectiveCardInt == 1) {
                         objectiveCard = true;
                     }else {
-                        System.out.println("The provided value is not correct");
+                        SafePrinter.println("The provided value is not correct");
                         break;
                     }
 
                     if(!client.getGameView().getGameState().equals(GameState.SETTING_INITIAL_CARDS)) {
-                        System.out.println("Wrong game state.");
+                        SafePrinter.println("Wrong game state.");
                         break;
                     }
 
@@ -458,33 +460,33 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                     break;
 
                 case "i":
-                    System.out.println("Insert other player's nickname");
-                    System.out.print("> ");
+                    SafePrinter.println("Insert other player's nickname");
+                    SafePrinter.print("> ");
                     String nickname = scan.nextLine();
                     // check existing player
                     if(nickname == null || nickname.isEmpty() || !client.getGameView().checkPlayerPresent(nickname)) {
-                        System.out.println("Provided nickname doesn't exist in the game.");
+                        SafePrinter.println("Provided nickname doesn't exist in the game.");
                         break;
                     }
-                    System.out.println();
-                    System.out.println("--------------------------------------------------------");
-                    System.out.println("                     " + nickname + "'s GAME FIELD");
-                    System.out.println("--------------------------------------------------------");
+                    SafePrinter.println("");
+                    SafePrinter.println("--------------------------------------------------------");
+                    SafePrinter.println("                     " + nickname + "'s GAME FIELD");
+                    SafePrinter.println("--------------------------------------------------------");
                     printGameField(nickname);
-                    System.out.println("\n\n");
+                    SafePrinter.println("\n\n");
                     break;
 
                 case "o":
-                    System.out.println();
-                    System.out.println("--------------------------------------------------------");
-                    System.out.println("                            CHAT                        ");
-                    System.out.println("--------------------------------------------------------");
+                    SafePrinter.println("");
+                    SafePrinter.println("--------------------------------------------------------");
+                    SafePrinter.println("                            CHAT                        ");
+                    SafePrinter.println("--------------------------------------------------------");
                     ChatTui.printChat(client.getGameView().getOwnerMessages());
-                    System.out.println();
+                    SafePrinter.println("");
                     break;
 
                 default:
-                    System.out.println("The provided character doesn't refer to any action");
+                    SafePrinter.println("The provided character doesn't refer to any action");
             }
         }
 
@@ -496,8 +498,8 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     public void askForReconnection() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("\n\nDo you want to reconnect (1 = yes, other = no)?");
-        System.out.print("> ");
+        SafePrinter.println("\n\nDo you want to reconnect (1 = yes, other = no)?");
+        SafePrinter.print("> ");
         int reconnect = 0;
         try {
             reconnect = scan.nextInt();
@@ -506,7 +508,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             System.exit(0);
         }
         if(reconnect == 1) {
-            System.out.println("\n\n");
+            SafePrinter.println("\n\n");
             String[] args = new String[2];
             args[0] = "1234";
             args[1] = "65000";
@@ -548,10 +550,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveMessageUpdate(ChatMessage chatMessage) {
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                      GAME CHAT                         ");
-        System.out.println("--------------------------------------------------------");
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                      GAME CHAT                         ");
+        SafePrinter.println("--------------------------------------------------------");
         ChatTui.printMessage(chatMessage);
     }
 
@@ -567,10 +569,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         if(!nickname.equals(client.getGameView().getOwnerNickname())) {
             return;
         }
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                   PLAYER GAME FIELD                    ");
-        System.out.println("--------------------------------------------------------");
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                   PLAYER GAME FIELD                    ");
+        SafePrinter.println("--------------------------------------------------------");
         GameFieldTui.printGameField(cardsContent, cardsFace, cardsOrder);
     }
 
@@ -584,10 +586,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         if(!nickname.equals(client.getGameView().getOwnerNickname())) {
             return;
         }
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                     STARTER CARD                       ");
-        System.out.println("--------------------------------------------------------");
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                     STARTER CARD                       ");
+        SafePrinter.println("--------------------------------------------------------");
         PlayerTui.printStarterCard(starterCard, true);
         PlayerTui.printStarterCard(starterCard, false);
     }
@@ -604,15 +606,15 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             return;
         }
         if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjectives == null || personalObjectives.size() != 1))) {
-            System.out.println();
-            System.out.println("--------------------------------------------------------");
-            System.out.println("                  FRONT PLAYER HAND                     ");
-            System.out.println("--------------------------------------------------------");
+            SafePrinter.println("");
+            SafePrinter.println("--------------------------------------------------------");
+            SafePrinter.println("                  FRONT PLAYER HAND                     ");
+            SafePrinter.println("--------------------------------------------------------");
             PlayerTui.printPlayerHand(hand, personalObjectives,false);
-            System.out.println();
-            System.out.println("--------------------------------------------------------");
-            System.out.println("                   BACK PLAYER HAND                     ");
-            System.out.println("--------------------------------------------------------");
+            SafePrinter.println("");
+            SafePrinter.println("--------------------------------------------------------");
+            SafePrinter.println("                   BACK PLAYER HAND                     ");
+            SafePrinter.println("--------------------------------------------------------");
             PlayerTui.printPlayerHand(hand, personalObjectives,true);
         }
     }
@@ -624,10 +626,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                      SCORE BOARD                       ");
-        System.out.println("--------------------------------------------------------");
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                      SCORE BOARD                       ");
+        SafePrinter.println("--------------------------------------------------------");
         BoardTui.printScoreTrackBoard(playerScores, playerTokenColors);
     }
 
@@ -651,15 +653,15 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveGeneralModelUpdate(GameState gameState, String currPlayer) {
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                     GAME MODEL UPDATE                  ");
-        System.out.println("--------------------------------------------------------");
-        System.out.println("Game state: " + gameState);
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                     GAME MODEL UPDATE                  ");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("Game state: " + gameState);
         if(currPlayer == null) {
             currPlayer = "none";
         }
-        System.out.println("Current player: " + currPlayer);
+        SafePrinter.println("Current player: " + currPlayer);
 
         // if new current player, print deck update
         GameState state = client.getGameView().getGameState();
@@ -671,14 +673,14 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         List<GoldCard> faceUpGoldCard = client.getGameView().getFaceUpGoldCard();
         List<ObjectiveCard> commonObjective = client.getGameView().getCommonObjective();
         if(state.equals(GameState.PLAYING) && currPlayerNickname != null && currPlayerNickname.equals(ownerNickname)) {
-            System.out.println();
-            System.out.println("--------------------------------------------------------");
-            System.out.println("                      FRONT DECK                        ");
-            System.out.println("--------------------------------------------------------");
+            SafePrinter.println("");
+            SafePrinter.println("--------------------------------------------------------");
+            SafePrinter.println("                      FRONT DECK                        ");
+            SafePrinter.println("--------------------------------------------------------");
             DeckTui.printDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
-            System.out.println("--------------------------------------------------------");
-            System.out.println("                       BACK DECK                        ");
-            System.out.println("--------------------------------------------------------");
+            SafePrinter.println("--------------------------------------------------------");
+            SafePrinter.println("                       BACK DECK                        ");
+            SafePrinter.println("--------------------------------------------------------");
             DeckTui.printBackDeck(commonObjective, faceUpGoldCard, faceUpResourceCard, topGoldDeck, topResourceDeck);
         }
     }
@@ -688,10 +690,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receivePenultimateRoundUpdate() {
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                     PENULTIMATE ROUND                  ");
-        System.out.println("--------------------------------------------------------");
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                     PENULTIMATE ROUND                  ");
+        SafePrinter.println("--------------------------------------------------------");
     }
 
     /**
@@ -699,10 +701,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveAdditionalRoundUpdate() {
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                     ADDITIONAL ROUND                   ");
-        System.out.println("--------------------------------------------------------");
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                     ADDITIONAL ROUND                   ");
+        SafePrinter.println("--------------------------------------------------------");
     }
 
     /**
@@ -711,11 +713,11 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveCommandResultUpdate(CommandResult commandResult) {
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                      COMMAND RESULT                    ");
-        System.out.println("--------------------------------------------------------");
-        System.out.println(commandResult.getResultMessage());
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                      COMMAND RESULT                    ");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println(commandResult.getResultMessage());
     }
 
     /**
@@ -726,14 +728,14 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     @Override
     public void receiveExistingGamesUpdate(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
         for(Integer id: existingGamesPlayerNumber.keySet()) {
-            System.out.print("Id: " + id + " - " + "Number of players: " + existingGamesPlayerNumber.get(id));
+            SafePrinter.print("Id: " + id + " - " + "Number of players: " + existingGamesPlayerNumber.get(id));
         }
         for(Integer id: existingGamesTokenColor.keySet()) {
-            System.out.print(" - " + "Taken token colors: ");
+            SafePrinter.print(" - " + "Taken token colors: ");
             for(TokenColor t: existingGamesTokenColor.get(id)) {
-                System.out.print(t + " ");
+                SafePrinter.print(t + " ");
             }
-            System.out.println();
+            SafePrinter.println("");
         }
         runJoinGameInterface();
     }
@@ -744,14 +746,14 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveWinnersUpdate(List<String> winners) {
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                         WINNERS                        ");
-        System.out.println("--------------------------------------------------------");
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                         WINNERS                        ");
+        SafePrinter.println("--------------------------------------------------------");
         for(String winner: winners) {
-            System.out.println(winner);
+            SafePrinter.println(winner);
         }
-        System.out.println();
+        SafePrinter.println("");
         client.setClientAlive(false);
     }
 
@@ -811,10 +813,10 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveSecretObjectives(String nickname, List<ObjectiveCard> secretObjectives) {
-        System.out.println();
-        System.out.println("--------------------------------------------------------");
-        System.out.println("                         SECRET OBJECTIVES                        ");
-        System.out.println("--------------------------------------------------------");
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                         SECRET OBJECTIVES                        ");
+        SafePrinter.println("--------------------------------------------------------");
         if(!nickname.equals(client.getGameView().getOwnerNickname())) {
             return;
         }
@@ -823,3 +825,4 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         }
     }
 }
+

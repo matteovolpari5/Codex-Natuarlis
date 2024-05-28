@@ -39,7 +39,7 @@
         </AnchorPane>
 
               <AnchorPane fx:id="newPane" layoutX="553.0" layoutY="160.0" prefHeight="365.0" prefWidth="549.0" style="-fx-border-radius: 10; -fx-border-color: #98777b; -fx-border-width: 5;" visible="false" AnchorPane.bottomAnchor="173.39999999999998" AnchorPane.leftAnchor="553.0" AnchorPane.rightAnchor="98.0" AnchorPane.topAnchor="160.0">
-   
+
                     <Text fx:id="textTokenColor" fill="black" text="INSERT THE TOKEN COLOR:" visible="false" AnchorPane.bottomAnchor="134.36757812500002" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="145.5986328125" AnchorPane.topAnchor="190.0">
                <font>
                    <Font name="Comic Sans MS Bold" size="26.0" />
@@ -54,7 +54,7 @@
             <ChoiceBox fx:id="boxNumPlayers" layoutX="14.0" layoutY="135.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="36.0" prefWidth="271.0" style="-fx-background-color: #98777b; -fx-background-radius: 15; -fx-border-radius: 10;" visible="false" AnchorPane.bottomAnchor="204.60000000000002" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="243.8" AnchorPane.topAnchor="120.0" />
         </AnchorPane>
 
-         
+
         <Button fx:id="next" mnemonicParsing="false" onAction="#onContinueButtonClick" prefHeight="66.0" prefWidth="215.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-border-radius: 10; -fx-border-color: #98777b; -fx-border-width: 5;" text="CONTINUE" textFill="ORANGE" visible="false" AnchorPane.bottomAnchor="32.599999999999994" AnchorPane.leftAnchor="925.0" AnchorPane.rightAnchor="39.80000000000001" AnchorPane.topAnchor="580.0">
             <font>
                 <Font name="System Bold" size="30.0" />
@@ -63,9 +63,9 @@
       <Line endX="12.0" endY="-127.79999542236328" layoutX="254.0" layoutY="167.0" startX="12.0" startY="-49.99999237060547" stroke="#98777b" strokeWidth="5.0" AnchorPane.bottomAnchor="579.4999923706055" AnchorPane.leftAnchor="263.5" AnchorPane.rightAnchor="931.5" AnchorPane.topAnchor="36.70001220703125" />
 
     </AnchorPane>
-    <ImageView fx:id="gameImage" fitHeight="508.0" fitWidth="501.0" pickOnBounds="true" preserveRatio="true"
-               AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="674.0"
-               AnchorPane.topAnchor="150.0">
-        <Image url="@../graphic_resources/Rulebook_IT/01.png"/>
-    </ImageView>
+   <ImageView fx:id="gameImage" fitHeight="508.0" fitWidth="501.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="674.0" AnchorPane.topAnchor="150.0">
+      <image>
+         <Image url="@../graphic_resources/Rulebook_IT/01.png" />
+      </image>
+   </ImageView>
 </AnchorPane>
