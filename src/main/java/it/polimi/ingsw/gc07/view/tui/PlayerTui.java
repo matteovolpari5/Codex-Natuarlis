@@ -586,27 +586,27 @@ public interface PlayerTui {
             if (card != null) {
                 if (card.getFrontCorners()[3]) {
                     if (card.getFrontCornersContent()[3] == null) {
-                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + "  ");
+                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + " ");
                     } else if (card.getFrontCornersContent()[3].equals(GameResource.FUNGI)) {
-                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_RED_BACKGROUND + "F" + ANSI_BLACK_BACKGROUND + "  ");
+                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_RED_BACKGROUND + "F" + ANSI_BLACK_BACKGROUND + " ");
                     } else if (card.getFrontCornersContent()[3].equals(GameResource.ANIMAL)) {
-                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_BLUE_BACKGROUND + "A" + ANSI_BLACK_BACKGROUND + "  ");
+                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_BLUE_BACKGROUND + "A" + ANSI_BLACK_BACKGROUND + " ");
                     } else if (card.getFrontCornersContent()[3].equals(GameResource.PLANT)) {
-                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_GREEN_BACKGROUND + "P" + ANSI_BLACK_BACKGROUND + "  ");
+                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_GREEN_BACKGROUND + "P" + ANSI_BLACK_BACKGROUND + " ");
                     } else if (card.getFrontCornersContent()[3].equals(GameResource.INSECT)) {
-                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_PURPLE_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "  ");
+                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_PURPLE_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + " ");
                     } else if (card.getFrontCornersContent()[3].equals(GameObject.QUILL)) {
-                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "Q" + ANSI_BLACK_BACKGROUND + "  ");
+                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "Q" + ANSI_BLACK_BACKGROUND + " ");
                     } else if (card.getFrontCornersContent()[3].equals(GameObject.INKWELL)) {
-                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + "  ");
+                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "I" + ANSI_BLACK_BACKGROUND + " ");
                     } else if (card.getFrontCornersContent()[3].equals(GameObject.MANUSCRIPT)) {
-                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "M" + ANSI_BLACK_BACKGROUND + "  ");
+                        SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_YELLOW_BACKGROUND + "M" + ANSI_BLACK_BACKGROUND + " ");
                     }
                 } else {
                     SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_BLACK_BACKGROUND + "  ");
                 }
                 if (card.getPlacementCondition() == null) {
-                    SafePrinter.print(ANSI_BLACK_BACKGROUND + "    ");
+                    SafePrinter.print(ANSI_BLACK_BACKGROUND + "     ");
                 } else if (card.getPlacementCondition() instanceof ItemsCondition) {
                     for (int j = 0; j < 5; j++) {
                         if (j < ((ItemsCondition) card.getPlacementCondition()).getNeededItems().size()) {
