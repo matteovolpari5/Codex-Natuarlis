@@ -181,6 +181,7 @@ public class SocketClient implements Client, PingSender {
                     pong = true;
                 }
             } catch (IOException | ClassNotFoundException e) {
+                System.err.println("read object");
                 closeConnection();
                 break;
             }
@@ -219,6 +220,7 @@ public class SocketClient implements Client, PingSender {
         try {
             myServer.setAndExecuteCommand(gameControllerCommand);
         } catch (IOException e) {
+            System.err.println("errore pong");
             closeConnection();
         }
     }

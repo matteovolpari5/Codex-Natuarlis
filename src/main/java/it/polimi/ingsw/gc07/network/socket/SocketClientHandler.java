@@ -94,6 +94,7 @@ public class SocketClientHandler implements VirtualView {
             try {
                 command = (GameControllerCommand) input.readObject();
             }catch (IOException | ClassNotFoundException e){
+                System.out.println(myClientNickname + "readObject errore");
                 closeConnection();
                 break;
             }
@@ -111,6 +112,7 @@ public class SocketClientHandler implements VirtualView {
 
     private synchronized void closeConnection(){
         while(!mySocket.isClosed()){
+            System.err.println("CHIUDO IL SOCKET DI : " + myClientNickname);
             try{
                 input.close(); //TODO se dall'altro lato è estato chiuso se qui viene chiuso lancia eccezione? dove informarsi?
                 output.close();
@@ -123,6 +125,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     private synchronized void receiveUpdate(Update update) throws RemoteException{
+
         if(!mySocket.isClosed()){
             try {
                 output.writeObject(update);
@@ -135,7 +138,7 @@ public class SocketClientHandler implements VirtualView {
                 throw new RemoteException();
             }
         }else{
-            System.out.println("2");
+            System.err.println(myClientNickname + "Socket già chiuso");
             throw new RemoteException();
         }
     }
