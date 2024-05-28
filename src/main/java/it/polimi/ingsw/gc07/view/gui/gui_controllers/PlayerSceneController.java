@@ -153,6 +153,7 @@ public class PlayerSceneController implements GuiController, Initializable {
             chatButton.setText("close chat");
             nickContainer.setVisible(false);
             ObservableList<String> possiblesReceivers = FXCollections.observableArrayList();
+            possiblesReceivers.add("everyone");
             for(Label nickname: nicknameLabels){
                 if(!nickname.getText().equals("Player") && !nickname.getText().equals(StageController.getNickname()) && !receiverSelector.getItems().contains(nickname.getText())) {
                     possiblesReceivers.add(nickname.getText());
