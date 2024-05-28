@@ -23,7 +23,7 @@ public class PlayerView implements Serializable {
     /**
      * Player's secret objective, it is an objective card.
      */
-    private ObjectiveCard secretObjective;
+    private List<ObjectiveCard> secretObjectives;
     /**
      * Boolean value representing if the player is connected.
      */
@@ -53,7 +53,7 @@ public class PlayerView implements Serializable {
         this.nickname = nickname;
         this.gameField = new GameFieldView();
         this.tokenColor = tokenColor;
-        this.secretObjective = null;
+        this.secretObjectives = new ArrayList<>();
         this.isConnected = true;
         this.currentHand = null;
         this.isStalled = false;
@@ -118,6 +118,7 @@ public class PlayerView implements Serializable {
             p.receiveStallUpdate(nickname, this.isStalled);
         }
     }
+
     /**
      * Setter for the method isConnected.
      * @param isConnected: true if the player is connected
@@ -128,16 +129,30 @@ public class PlayerView implements Serializable {
             p.receiveConnectionUpdate(nickname, this.isConnected);
         }
     }
+
+    /**
+     * Method used to set player's secret objectives.
+     * @param nickname nickname
+     * @param secretObjectives secret objectives
+     */
+    public void setSecretObjectives(String nickname, List<ObjectiveCard> secretObjectives) {
+        this.secretObjectives = secretObjectives;
+
+        for(PlayerViewListener l: playerViewListeners) {
+            l.receiveSecretObjectives(nickname, secretObjectives);
+        }
+    }
+
     /**
      * Method that allows to set the currentHand.
      * @param currentHand new current hand
      */
-    public void setCardHand(List<DrawableCard> currentHand, ObjectiveCard secretObjective) {
+    public void setCardHand(List<DrawableCard> currentHand, List<ObjectiveCard> secretObjectives) {
         this.currentHand = currentHand;
-        this.secretObjective = secretObjective;
+        this.secretObjectives = secretObjectives;
         // update listeners
         for(PlayerViewListener l: playerViewListeners) {
-            l.receiveCardHandUpdate(nickname, this.currentHand, this.secretObjective);
+            l.receiveCardHandUpdate(nickname, this.currentHand, this.secretObjectives);
         }
     }
 

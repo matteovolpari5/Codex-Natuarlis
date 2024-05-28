@@ -258,4 +258,14 @@ public class SocketClientHandler implements VirtualView {
     public void receiveFullGameFieldUpdate(FullGameFieldUpdate fullGameFieldUpdate) throws RemoteException {
         receiveUpdate(fullGameFieldUpdate);
     }
+
+    /**
+     * Method used to send a secret objectives update.
+     * @param secretObjectivesUpdate secret objectives update
+     * @throws RemoteException remote exception
+     */
+    @Override
+    public void receiveSecretObjectivesUpdate(SecretObjectivesUpdate secretObjectivesUpdate) throws RemoteException {
+        receiveUpdate(secretObjectivesUpdate);
+    }
 }

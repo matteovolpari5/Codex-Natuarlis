@@ -551,7 +551,10 @@ public class GameModel {
         newPlayer.addCardHand(drawResourceCard());
         newPlayer.addCardHand(drawGoldCard());
         // set secrete objective
-        newPlayer.setSecretObjective(drawObjectiveCard());
+        List<ObjectiveCard> secretObjectives = new ArrayList<>();
+        secretObjectives.add(drawObjectiveCard());
+        secretObjectives.add(drawObjectiveCard());
+        newPlayer.setSecretObjectives(secretObjectives);
         // set starter card
         newPlayer.setStarterCard(drawStarterCard());
     }
@@ -636,7 +639,7 @@ public class GameModel {
                 client.receiveFullGameFieldUpdate(new FullGameFieldUpdate(p.getNickname(), p.getStarterCard(), p.getGameField().getCardsContent(), p.getGameField().getCardsFace(), p.getGameField().getCardsOrder()));
 
                 // send current hand update
-                client.receiveCardHandUpdate(new CardHandUpdate(p.getNickname(), p.getCurrentHand(), p.getSecretObjective()));
+                client.receiveCardHandUpdate(new CardHandUpdate(p.getNickname(), p.getCurrentHand(), p.getSecretObjectives()));
 
                 // send starter card update
                 client.receiveStarterCardUpdate(new StarterCardUpdate(p.getNickname(), p.getStarterCard()));
@@ -764,9 +767,9 @@ public class GameModel {
             //points counter for the 2nd common objective
             deltaPoints += objectiveCard.getObjectiveScore(gameField);
 
-            realizedObjectives += players.get(i).getSecretObjective().numTimesScoringConditionMet(gameField);
+            realizedObjectives += players.get(i).getSecretObjectives().getFirst().numTimesScoringConditionMet(gameField);
             //points counter for the secret objective
-            deltaPoints += players.get(i).getSecretObjective().getObjectiveScore(gameField);
+            deltaPoints += players.get(i).getSecretObjectives().getFirst().getObjectiveScore(gameField);
             incrementScore(players.get(i).getNickname(), deltaPoints);
             if (max == board.getScore(players.get(i).getNickname())) {
                 if (realizedObjectives >= maxRealizedObjective) {

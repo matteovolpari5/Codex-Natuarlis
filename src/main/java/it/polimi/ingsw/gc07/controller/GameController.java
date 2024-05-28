@@ -216,12 +216,12 @@ public class GameController {
 
         if (isFull()) {
             setup();
-            gameModel.setState(GameState.PLACING_STARTER_CARDS);
+            gameModel.setState(GameState.SETTING_INITIAL_CARDS);
 
             // place starter card randomly to players disconnected during GAME_STARTING
             for(Player p: getPlayers()) {
                 if(!p.isConnected()) {
-                    placeStarterCardRandomly(p.getNickname());
+                    placeInitialCardRandomly(p.getNickname());
                 }
             }
         }
@@ -280,9 +280,9 @@ public class GameController {
             }
         }
 
-        // during PLACING_STARTER_CARDS, place starter card randomly
-        if(gameModel.getState().equals(GameState.PLACING_STARTER_CARDS)) {
-            placeStarterCardRandomly(nickname);
+        // during SETTING_INITIAL_CARDS, place starter card and choose objective randomly
+        if(gameModel.getState().equals(GameState.SETTING_INITIAL_CARDS)) {
+            placeInitialCardRandomly(nickname);
         }
         if(gameModel.getState().equals(GameState.PLAYING) || gameModel.getState().equals(GameState.WAITING_RECONNECTION) ) {
             changeGameState();
@@ -688,12 +688,16 @@ public class GameController {
      * Method used to place a starter card randomly when a player disconnects.
      * @param nickname nickname
      */
-    void placeStarterCardRandomly(String nickname) {
-        // compute way
+    void placeInitialCardRandomly(String nickname) {
+        // compute starter card way
         Random random = new Random();
-        boolean way = random.nextBoolean();
+        boolean starterCardWay = random.nextBoolean();
+
+        // compute secret objective
+        boolean secretObjective = random.nextBoolean();
+
         // place starter card
-        placeStarterCard(nickname, way);
+        placeStarterCard(nickname, starterCardWay, secretObjective);
     }
 
     /**

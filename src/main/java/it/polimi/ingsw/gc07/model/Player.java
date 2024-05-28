@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.updates.CardHandUpdate;
 import it.polimi.ingsw.gc07.updates.ConnectionUpdate;
+import it.polimi.ingsw.gc07.updates.SecretObjectivesUpdate;
 import it.polimi.ingsw.gc07.updates.StallUpdate;
 
 import java.rmi.RemoteException;
@@ -57,7 +58,7 @@ public class Player {
     /**
      * Player's secret objective, it is an objective card.
      */
-    private ObjectiveCard secretObjective;
+    private List<ObjectiveCard> secretObjectives;
     /**
      * Attribute telling if the player is stalled.
      */
@@ -81,7 +82,7 @@ public class Player {
         this.interfaceType = interfaceType;
         this.isConnected = true;
         this.currentHand = new ArrayList<>();
-        this.secretObjective = null;
+        this.secretObjectives = new ArrayList<>();
         this.isStalled = false;
         this.playerListeners = new ArrayList<>();
     }
@@ -263,7 +264,7 @@ public class Player {
     }
 
     private void sendCardHandUpdate() {
-        CardHandUpdate update = new CardHandUpdate(nickname, new ArrayList<>(currentHand), secretObjective);
+        CardHandUpdate update = new CardHandUpdate(nickname, new ArrayList<>(currentHand), new ArrayList<>(secretObjectives));
         for(PlayerListener l: playerListeners) {
             try {
                 l.receiveCardHandUpdate(update);
@@ -274,21 +275,30 @@ public class Player {
     }
 
     /**
-     * setter method for secretObjective attribute
-     * @param secretObjective card that has to be set
+     * Setter method for secretObjective attribute
+     * @param secretObjectives cards that have to be set
      */
-    public void setSecretObjective(ObjectiveCard secretObjective) {
-        this.secretObjective = secretObjective;
-        sendCardHandUpdate();
+    public void setSecretObjectives(List<ObjectiveCard> secretObjectives) {
+        this.secretObjectives = secretObjectives;
+
+        // send update
+        SecretObjectivesUpdate update = new SecretObjectivesUpdate(nickname, new ArrayList<>(secretObjectives));
+        for(PlayerListener l: playerListeners) {
+            try {
+                l.receiveSecretObjectivesUpdate(update);
+            } catch (RemoteException e) {
+                // will be detected by PingPongManager
+            }
+        }
     }
 
     /**
      * Getter for the secret objective card.
      * @return secret objective card
      */
-    public ObjectiveCard getSecretObjective() {
+    public List<ObjectiveCard> getSecretObjectives() {
         // card is immutable, I can return it
-        return secretObjective;
+        return new ArrayList<>(secretObjectives);
     }
 
     /**

@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.model_listeners;
 
 import it.polimi.ingsw.gc07.updates.CardHandUpdate;
 import it.polimi.ingsw.gc07.updates.ConnectionUpdate;
+import it.polimi.ingsw.gc07.updates.SecretObjectivesUpdate;
 import it.polimi.ingsw.gc07.updates.StallUpdate;
 
 import java.rmi.Remote;
@@ -25,4 +26,11 @@ public interface PlayerListener extends Remote {
      * @param cardHandUpdate card hand update
      */
     void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) throws RemoteException;
+
+    /**
+     * Method used to send a secret objectives update.
+     * @param secretObjectivesUpdate secret objectives update
+     * @throws RemoteException remote exception
+     */
+    void receiveSecretObjectivesUpdate(SecretObjectivesUpdate secretObjectivesUpdate) throws RemoteException;
 }

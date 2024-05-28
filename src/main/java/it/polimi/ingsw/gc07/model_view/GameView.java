@@ -292,6 +292,7 @@ public class GameView {
     /**
      * Method that allows to set the starter card for the owner of the game view.
      * Starter cards of other players will be visible once placed.
+     * @param nickname nickname
      * @param starterCard starter card
      */
     public void setStarterCard(String nickname, PlaceableCard starterCard) {
@@ -299,6 +300,22 @@ public class GameView {
             for(PlayerView playerView: playerViews) {
                 if(playerView.getNickname().equals(nickname)) {
                     playerView.setStarterCard(starterCard);
+                }
+            }
+        }
+        // else, don't save it
+    }
+
+    /**
+     * Method that allows to set the objective cards for the owner of the game view.
+     * @param nickname nickname
+     * @param objectiveCards objective cards
+     */
+    public void setSecretObjectives(String nickname, List<ObjectiveCard> objectiveCards) {
+        if(ownerNickname.equals(nickname)) {
+            for(PlayerView playerView: playerViews) {
+                if(playerView.getNickname().equals(nickname)) {
+                    playerView.setSecretObjectives(nickname, objectiveCards);
                 }
             }
         }
@@ -379,10 +396,10 @@ public class GameView {
      * @param nickname nickname
      * @param newHand card hand
      */
-    public void setCardHand(String nickname, List<DrawableCard> newHand, ObjectiveCard personalObjective) {
+    public void setCardHand(String nickname, List<DrawableCard> newHand, List<ObjectiveCard> personalObjectives) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
-                p.setCardHand(newHand, personalObjective);
+                p.setCardHand(newHand, personalObjectives);
             }
         }
     }

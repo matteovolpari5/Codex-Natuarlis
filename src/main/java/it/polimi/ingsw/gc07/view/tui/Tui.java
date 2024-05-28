@@ -12,7 +12,6 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameFieldView;
-import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
 
@@ -432,7 +431,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         break;
                     }
 
-                    client.setAndExecuteCommand(new PlaceStarterCardCommand(nickname, way));
+                    client.setAndExecuteCommand(new SetInitialCardsCommand(nickname, way));
                     break;
 
                 case "i":
@@ -574,24 +573,28 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      * Method used to show the player his new card hand.
      * @param nickname nickname
      * @param hand card hand
-     * @param personalObjective personal objective
+     * @param personalObjectives personal objectives
      */
     @Override
-    public void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, ObjectiveCard personalObjective) {
+    public void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, List<ObjectiveCard> personalObjectives) {
         if(!nickname.equals(client.getGameView().getOwnerNickname())) {
             return;
         }
-        if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjective == null))) {
+        if(personalObjectives.size() > 1) {
+            // don't print in initial phase
+            return;
+        }
+        if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjectives == null))) {
             System.out.println();
             System.out.println("--------------------------------------------------------");
             System.out.println("                  FRONT PLAYER HAND                     ");
             System.out.println("--------------------------------------------------------");
-            PlayerTui.printPlayerHand(hand, personalObjective,false);
+            PlayerTui.printPlayerHand(hand, personalObjectives,false);
             System.out.println();
             System.out.println("--------------------------------------------------------");
             System.out.println("                   BACK PLAYER HAND                     ");
             System.out.println("--------------------------------------------------------");
-            PlayerTui.printPlayerHand(hand, personalObjective,true);
+            PlayerTui.printPlayerHand(hand, personalObjectives,true);
         }
     }
 
@@ -780,5 +783,20 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
         // don't display
+    }
+
+    /**
+     * Method used to show secrete objectives.
+     * @param nickname nickname
+     * @param secretObjectives secreteObjectives
+     */
+    @Override
+    public void receiveSecretObjectives(String nickname, List<ObjectiveCard> secretObjectives) {
+        if(!nickname.equals(client.getGameView().getOwnerNickname())) {
+            return;
+        }
+        for(ObjectiveCard objectiveCard: secretObjectives) {
+            PlayerTui.printOnlyObjectiveCard(objectiveCard);
+        }
     }
 }

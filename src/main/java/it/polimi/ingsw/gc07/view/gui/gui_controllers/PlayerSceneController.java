@@ -5,7 +5,6 @@ import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.AddChatPrivateMessageCommand;
 import it.polimi.ingsw.gc07.game_commands.AddChatPublicMessageCommand;
-import it.polimi.ingsw.gc07.game_commands.PlaceStarterCardCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -27,7 +26,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.util.*;
 import java.util.ResourceBundle;
@@ -258,7 +256,7 @@ public class PlayerSceneController implements GuiController, Initializable {
                 break;
         }
         //TODO
-        //StageController.getClient().setAndExecuteCommand(new PlaceStarterCardCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
+        //StageController.getClient().setAndExecuteCommand(new SetInitialCardsCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
     }
 
     @Override
