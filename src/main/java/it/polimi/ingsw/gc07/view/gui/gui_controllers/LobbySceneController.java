@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
@@ -112,6 +113,12 @@ public class LobbySceneController implements Initializable, GuiController {
      * Map that contains the id game and the list of token color get.
      */
     public Map<Integer, List<TokenColor>> gettedTokenColor;
+
+    /**
+     * Attribute that represent the game image.
+     */
+    @FXML
+    public ImageView gameImage;
 
     /**
      * Action executed when the continue button is clicked.
@@ -285,6 +292,7 @@ public class LobbySceneController implements Initializable, GuiController {
      */
     @FXML
     public void selectJoin(MouseEvent mouseEvent) {
+        gameImage.setVisible(false);
         // TODO CHIEDERE: arriva update anche se un game esce dagli existing games? //
         boxTokenColor.getItems().clear();
         StageController.getClient().setAndExecuteCommand(new DisplayGamesCommand(StageController.getNickname()));
@@ -310,6 +318,7 @@ public class LobbySceneController implements Initializable, GuiController {
      */
     @FXML
     public void selectNew(MouseEvent mouseEvent) {
+        gameImage.setVisible(true);
         ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
         listColor.add(TokenColor.RED);
         listColor.add(TokenColor.GREEN);
@@ -348,34 +357,36 @@ public class LobbySceneController implements Initializable, GuiController {
         //update della lista di token color//
         boxTokenColor.getItems().clear();
         int i=0,numSize=0;
-        while(gameList.getSelectionModel().getSelectedItem().charAt(i) != ' ')
-        {
-            numSize++;
-            i++;
-        }
-        if(gameList.getSelectionModel().getSelectedItem().charAt(0) != 'G')
-        {
-            //calcolo idGame
-            idGame=0;
-            for(int j=0;j<numSize;j++)
+        if(gameList.getSelectionModel().getSelectedItem()!=null){
+            while(gameList.getSelectionModel().getSelectedItem().charAt(i) != ' ')
             {
-                if(gameList.getSelectionModel().getSelectedItem().charAt(j) != ' ')
-                {
-                    idGame += (int) (parseInt(String.valueOf(gameList.getSelectionModel().getSelectedItem().charAt(j)))*Math.pow(10,j));
-                }
+                numSize++;
+                i++;
             }
-            System.out.println(idGame);
-            ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
-            listColor.add(TokenColor.RED);
-            listColor.add(TokenColor.GREEN);
-            listColor.add(TokenColor.BLUE);
-            listColor.add(TokenColor.YELLOW);
-            // show the correct token colors //
-            for(TokenColor c : listColor)
+            if(gameList.getSelectionModel().getSelectedItem().charAt(0) != 'G')
             {
-                if(!gettedTokenColor.get(idGame).contains(c))
+                //calcolo idGame
+                idGame=0;
+                for(int j=0;j<numSize;j++)
                 {
-                    boxTokenColor.getItems().add(c);
+                    if(gameList.getSelectionModel().getSelectedItem().charAt(j) != ' ')
+                    {
+                        idGame += (int) (parseInt(String.valueOf(gameList.getSelectionModel().getSelectedItem().charAt(j)))*Math.pow(10,j));
+                    }
+                }
+                System.out.println(idGame);
+                ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
+                listColor.add(TokenColor.RED);
+                listColor.add(TokenColor.GREEN);
+                listColor.add(TokenColor.BLUE);
+                listColor.add(TokenColor.YELLOW);
+                // show the correct token colors //
+                for(TokenColor c : listColor)
+                {
+                    if(!gettedTokenColor.get(idGame).contains(c))
+                    {
+                        boxTokenColor.getItems().add(c);
+                    }
                 }
             }
         }
