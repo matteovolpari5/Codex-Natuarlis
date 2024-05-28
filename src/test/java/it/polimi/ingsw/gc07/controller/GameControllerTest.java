@@ -61,7 +61,7 @@ class GameControllerTest {
         gameController.getBoard().addPlayer("Player2");
         assertNotNull(myStarterCard2);
 
-        gameController.setState(GameState.PLACING_STARTER_CARDS);
+        gameController.setState(GameState.SETTING_INITIAL_CARDS);
         gameController.placeStarterCard("Player1", false);
         gameController.placeStarterCard("Player2", false);
         gameController.setState(GameState.PLAYING);
@@ -83,12 +83,17 @@ class GameControllerTest {
                 secondPlayer.addCardHand(g);
             }
         }
+        List<ObjectiveCard> secretObjectives = new ArrayList<>();
         for(ObjectiveCard o: gameController.getObjectiveCardsDeck().getContent()){
             if (o.getId()==97){
-                firstPlayer.setSecretObjective(o);
+                secretObjectives.clear();
+                secretObjectives.add(o);
+                firstPlayer.setSecretObjectives(secretObjectives);
             }
             if (o.getId()==95){
-                secondPlayer.setSecretObjective(o);
+                secretObjectives.clear();
+                secretObjectives.add(o);
+                secondPlayer.setSecretObjectives(secretObjectives);
             }
             if (o.getId()==90){
                 publicObjective.add(o);
@@ -431,7 +436,7 @@ class GameControllerTest {
             }
         }
         newPlayer.setStarterCard(myStarterCard3);
-        gameController.setState(GameState.PLACING_STARTER_CARDS);
+        gameController.setState(GameState.SETTING_INITIAL_CARDS);
         gameController.placeStarterCard("Player3",false);
         assertEquals(CommandResult.SUCCESS, gameController.getCommandResult());
     }
@@ -444,13 +449,13 @@ class GameControllerTest {
     }
     @Test
     void placeCardWrongPlayer(){
-        gameController.setState(GameState.PLACING_STARTER_CARDS);
+        gameController.setState(GameState.SETTING_INITIAL_CARDS);
         gameController.placeStarterCard("Player3",false);
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, gameController.getCommandResult());
     }
     @Test
     void alreadyPlaced(){
-        gameController.setState(GameState.PLACING_STARTER_CARDS);
+        gameController.setState(GameState.SETTING_INITIAL_CARDS);
         gameController.placeStarterCard("Player1",false);
         assertEquals(CommandResult.CARD_ALREADY_PRESENT, gameController.getCommandResult());
     }
@@ -468,8 +473,8 @@ class GameControllerTest {
         }
         newPlayer.setStarterCard(myStarterCard3);
 
-        gameController.setState(GameState.PLACING_STARTER_CARDS);
-        gameController.placeStarterCardRandomly("Player3");
+        gameController.setState(GameState.SETTING_INITIAL_CARDS);
+        gameController.placeInitialCardRandomly("Player3");
         assertEquals(CommandResult.SUCCESS, gameController.getCommandResult());
     }
 

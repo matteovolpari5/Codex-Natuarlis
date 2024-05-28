@@ -12,7 +12,6 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.GameFieldView;
-import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.view.Ui;
 
@@ -167,6 +166,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
             case "e":
                 // display existing games
+
+                // cancel timer
+                synchronized (this){
+                    timeout.cancel();
+                    timeout.purge();
+                }
+
                 client.setAndExecuteCommand(new DisplayGamesCommand(nickname));
                 break;
 
@@ -190,7 +196,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
             System.out.println("- r to draw a card from a deck");
             System.out.println("- t to draw a face up card");
             System.out.println("- y to place a card");
-            System.out.println("- u to place the starter card");
+            System.out.println("- u to set initial cards");
             System.out.println("- i to see another player's game field");
             System.out.println("- o to see the whole chat");
             System.out.print("> ");
@@ -412,20 +418,43 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         System.out.println("Insert a number.");
                         break;
                     }
+                    boolean startCardWay;
                     if(wayInput == 1) {
-                        way = true;
+                        startCardWay = true;
                     }else if(wayInput == 0) {
-                        way = false;
+                        startCardWay = false;
                     }else {
                         System.out.println("The provided value is not correct");
                         break;
                     }
-                    if(!client.getGameView().getGameState().equals(GameState.PLACING_STARTER_CARDS)) {
+
+                    System.out.println("Select 0 to choose the first secret objective, 1 to choose the second one: ");
+                    System.out.print("> ");
+                    boolean objectiveCard;
+                    int objectiveCardInt;
+                    try {
+                        objectiveCardInt = scan.nextInt();
+                        scan.nextLine();
+                    }catch(InputMismatchException e) {
+                        scan.nextLine();
+                        System.out.println("Insert a number.");
+                        break;
+                    }
+                    if(objectiveCardInt == 0) {
+                        objectiveCard = false;
+                    }else if(objectiveCardInt == 1) {
+                        objectiveCard = true;
+                    }else {
+                        System.out.println("The provided value is not correct");
+                        break;
+                    }
+
+                    if(!client.getGameView().getGameState().equals(GameState.SETTING_INITIAL_CARDS)) {
                         System.out.println("Wrong game state.");
                         break;
                     }
 
-                    client.setAndExecuteCommand(new PlaceStarterCardCommand(nickname, way));
+                    client.setAndExecuteCommand(new SetInitialCardsCommand(nickname, startCardWay, objectiveCard));
                     break;
 
                 case "i":
@@ -567,24 +596,24 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      * Method used to show the player his new card hand.
      * @param nickname nickname
      * @param hand card hand
-     * @param personalObjective personal objective
+     * @param personalObjectives personal objectives
      */
     @Override
-    public void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, ObjectiveCard personalObjective) {
+    public void receiveCardHandUpdate(String nickname, List<DrawableCard> hand, List<ObjectiveCard> personalObjectives) {
         if(!nickname.equals(client.getGameView().getOwnerNickname())) {
             return;
         }
-        if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjective == null))) {
+        if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjectives == null || personalObjectives.size() != 1))) {
             System.out.println();
             System.out.println("--------------------------------------------------------");
             System.out.println("                  FRONT PLAYER HAND                     ");
             System.out.println("--------------------------------------------------------");
-            PlayerTui.printPlayerHand(hand, personalObjective,false);
+            PlayerTui.printPlayerHand(hand, personalObjectives,false);
             System.out.println();
             System.out.println("--------------------------------------------------------");
             System.out.println("                   BACK PLAYER HAND                     ");
             System.out.println("--------------------------------------------------------");
-            PlayerTui.printPlayerHand(hand, personalObjective,true);
+            PlayerTui.printPlayerHand(hand, personalObjectives,true);
         }
     }
 
@@ -773,5 +802,24 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
         // don't display
+    }
+
+    /**
+     * Method used to show secrete objectives.
+     * @param nickname nickname
+     * @param secretObjectives secreteObjectives
+     */
+    @Override
+    public void receiveSecretObjectives(String nickname, List<ObjectiveCard> secretObjectives) {
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("                         SECRET OBJECTIVES                        ");
+        System.out.println("--------------------------------------------------------");
+        if(!nickname.equals(client.getGameView().getOwnerNickname())) {
+            return;
+        }
+        for(ObjectiveCard objectiveCard: secretObjectives) {
+            PlayerTui.printOnlyObjectiveCard(objectiveCard);
+        }
     }
 }

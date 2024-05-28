@@ -18,17 +18,17 @@ public class CardHandUpdate implements Update {
     /**
      * Personal objective card.
      */
-    private final ObjectiveCard personalObjective;
+    private final List<ObjectiveCard> personalObjectives;
 
     /**
      * Constructor of CardHandUpdate.
      * @param nickname nickname
      * @param cardHand card hand
      */
-    public CardHandUpdate(String nickname, List<DrawableCard> cardHand, ObjectiveCard personalObjective) {
+    public CardHandUpdate(String nickname, List<DrawableCard> cardHand, List<ObjectiveCard> personalObjectives) {
         this.nickname = nickname;
         this.cardHand = cardHand;
-        this.personalObjective = personalObjective;
+        this.personalObjectives = personalObjectives;
     }
 
     /**
@@ -37,6 +37,6 @@ public class CardHandUpdate implements Update {
      */
     @Override
     public void execute(GameView gameView) {
-        gameView.setCardHand(nickname, cardHand, personalObjective);
+        gameView.setCardHand(nickname, cardHand, personalObjectives);
     }
 }
