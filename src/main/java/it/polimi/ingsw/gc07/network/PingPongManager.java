@@ -43,7 +43,7 @@ public class PingPongManager {
         this.playersPing.put(nickname, true);
         this.playerVirtualViews.put(nickname, virtualView);
         new Thread(() -> {checkPing(nickname); System.out.println("Thread checkPong Morto Per: " + nickname);}).start();
-        new Thread(() -> {sendPong(nickname); System.out.println("Thread sendPong Morto Per: " + nickname);}).start();
+        new Thread(() -> {sendPong(nickname); System.out.println("Thread sendPing Morto Per: " + nickname);}).start();
     }
 
     /**

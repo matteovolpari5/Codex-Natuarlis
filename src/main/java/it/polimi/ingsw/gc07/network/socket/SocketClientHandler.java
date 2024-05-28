@@ -66,6 +66,7 @@ public class SocketClientHandler implements VirtualView {
                 manageGameCommand();
             }
         } catch (IOException | ClassNotFoundException e) {
+            System.out.println("manage setup - " + myClientNickname);
             closeConnection();
         }
     }
@@ -79,6 +80,7 @@ public class SocketClientHandler implements VirtualView {
                     break;
                 }
             } catch (IOException | ClassNotFoundException e){
+                System.out.println("manage games manager command - " + myClientNickname);
                 closeConnection();
                 break;
             }
@@ -94,15 +96,17 @@ public class SocketClientHandler implements VirtualView {
             try {
                 command = (GameControllerCommand) input.readObject();
             }catch (IOException | ClassNotFoundException e){
-                System.out.println(myClientNickname + "readObject errore");
+                System.out.println("manage game command 1 - " + myClientNickname);
                 closeConnection();
                 break;
             }
             synchronized (gameController) {
+                System.out.println(command.getClass());
                 gameController.setAndExecuteCommand(command);
                 CommandResult result = gameController.getCommandResult();
-                if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL)){
+                if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL) && !gameController.isPlayerConnected(myClientNickname)){
                     gameController.setCommandResult(myClientNickname, CommandResult.SUCCESS);
+                    System.out.println("manage game command 2 - " + myClientNickname);
                     closeConnection();
                     break;
                 }
@@ -125,7 +129,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     private synchronized void receiveUpdate(Update update) throws RemoteException{
-
+        System.out.println(update.getClass());
         if(!mySocket.isClosed()){
             try {
                 output.writeObject(update);
@@ -137,6 +141,7 @@ public class SocketClientHandler implements VirtualView {
             }catch(IOException e) {
                 System.out.println("1");
                 e.printStackTrace();
+                System.out.println("receive update - " +myClientNickname);
                 closeConnection();
                 throw new RemoteException();
             }
@@ -154,6 +159,7 @@ public class SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             } catch (IOException e) {
+                System.out.println("set server game - " + myClientNickname);
                 closeConnection();
                 throw new RemoteException();
             }
@@ -223,6 +229,7 @@ public class SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             } catch (IOException e) {
+                System.out.println("receive existing games update - " +myClientNickname);
                 closeConnection();
                 throw new RemoteException();
             }
@@ -236,6 +243,7 @@ public class SocketClientHandler implements VirtualView {
             output.reset();
             output.flush();
         } catch (IOException e) {
+            System.out.println("notify join not successful - "+myClientNickname);
             closeConnection();
             throw new RemoteException();
         }
