@@ -286,39 +286,6 @@ public class PlayerSceneController implements GuiController, Initializable {
         tokenColorsList.add(tokenColor3);
         tokenColorsList.add(tokenColor4);
 
-        /*
-        // TODO spostare sotto
-
-        nickname1.setText(nickname);
-        int numPlayersConnected = gameView.getPlayersTokenColors().size();
-        if (numPlayersConnected <= 3){
-            nickname4.setVisible(false);
-        }
-        if (numPlayersConnected <= 2){
-            nickname3.setVisible(false);
-        }
-        if (numPlayersConnected <= 1){
-            nickname2.setVisible(false);
-        }
-
-        // set stalled or disconnected
-        for (String s: gameView.getConnectionValues().keySet()) {
-            if (gameView.getConnectionValues().get(s)) {
-                if (s.equals(nickname4.getText())) {
-                    nickname1.setText(s + " [disconnected]");
-                    nickname1.setOpacity(70);
-                }
-                if (s.equals(nickname2.getText())) {
-                    nickname2.setText(s + " [disconnected]");
-                    nickname2.setOpacity(70);
-                }
-                if (s.equals(nickname3.getText())) {
-                    nickname3.setText(s + " [disconnected]");
-                    nickname3.setOpacity(70);
-                }
-            }
-        }
-        */
     }
 
     /**
