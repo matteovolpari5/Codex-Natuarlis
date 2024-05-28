@@ -170,7 +170,7 @@ public class SocketClient implements Client, PingSender {
         Update update;
         while (true){
             try {
-                update = (Update) input.readObject(); //TODO accesso a input anche in close ma stesso problema di prima
+                update = (Update) input.readObject();
                 update.execute(gameView);
                 synchronized (this){
                     pong = true;

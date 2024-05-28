@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketClient;
+import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.io.*;
 import java.net.Socket;
@@ -25,8 +26,8 @@ public class ClientMain {
 
         String ip;
         do {
-            System.out.println("Insert server IP, leave empty for localhost: ");
-            System.out.print("> ");
+            SafePrinter.println("Insert server IP, leave empty for localhost: ");
+            SafePrinter.print("> ");
             ip = scan.nextLine();
 
             if(ip == null || ip.isEmpty()) {
@@ -37,8 +38,8 @@ public class ClientMain {
         boolean wrongInput = true;
         boolean connectionType = false;
         while(wrongInput) {
-            System.out.println("Insert connection type (1 = Rmi, 0 = Socket)");
-            System.out.print("> ");
+            SafePrinter.println("Insert connection type (1 = Rmi, 0 = Socket)");
+            SafePrinter.print("> ");
             int connectionTypeInt;
             try {
                 connectionTypeInt = scan.nextInt();
@@ -51,7 +52,7 @@ public class ClientMain {
                     // connectionType is already false;
                 }else {
                     // wrong input already true
-                    System.out.println("No such connection type");
+                    SafePrinter.println("No such connection type");
                 }
             }catch(InputMismatchException e) {
                 scan.nextLine();
@@ -62,8 +63,8 @@ public class ClientMain {
         wrongInput = true;
         boolean interfaceType = false;
         while(wrongInput) {
-            System.out.println("Insert interface type(1 = Gui, 0 = Tui)");
-            System.out.print("> ");
+            SafePrinter.println("Insert interface type(1 = Gui, 0 = Tui)");
+            SafePrinter.print("> ");
             int interfaceTypeInt;
             try {
                 interfaceTypeInt = scan.nextInt();
@@ -76,7 +77,7 @@ public class ClientMain {
                     // interface type is already false
                 }else {
                     // wrong input already true
-                    System.out.println("No such interface type");
+                    SafePrinter.println("No such interface type");
                 }
             }catch(InputMismatchException e) {
                 scan.nextLine();
@@ -104,8 +105,8 @@ public class ClientMain {
                 String nickname;
                 NicknameCheck check;
                 do {
-                    System.out.println("Insert nickname: ");
-                    System.out.print("> ");
+                    SafePrinter.println("Insert nickname: ");
+                    SafePrinter.print("> ");
                     nickname = scan.nextLine();
                     check = rmiServerGamesManager.checkNickname(nickname);
                 } while (nickname == null || nickname.isEmpty() || check.equals(NicknameCheck.EXISTING_NICKNAME));
@@ -142,3 +143,4 @@ public class ClientMain {
         return matcher.matches();
     }
 }
+
