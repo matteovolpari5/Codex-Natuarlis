@@ -142,7 +142,7 @@ public class LobbySceneController implements Initializable, GuiController {
             }
         }
         else if(choice.isSelected()) {
-            if(boxTokenColor.getValue() != null)
+            if(boxTokenColor.getValue() != null && !gameList.getSelectionModel().getSelectedItems().isEmpty())
             {
                 TokenColor tokenColor = boxTokenColor.getValue();
                 if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))
@@ -303,6 +303,8 @@ public class LobbySceneController implements Initializable, GuiController {
         boxNumPlayers.setVisible(false);
         textInsertNumPlayers.setVisible(false);
 
+        textTokenColor.setFill(Paint.valueOf("#288a2f"));
+        next.setTextFill(Paint.valueOf("#288a2f"));
         joinPane.setVisible(true);
         newPane.setVisible(true);
         choice.setSelected(true);
@@ -336,6 +338,8 @@ public class LobbySceneController implements Initializable, GuiController {
         textInsertNumPlayers.setVisible(true);
         textNewGame.setOpacity(1);
         textJoinGame.setOpacity(0.4);
+        textTokenColor.setFill(Paint.valueOf("#d3251b"));
+        next.setTextFill(Paint.valueOf("#d3251b"));
 
         joinPane.setVisible(false);
         newPane.setVisible(true);
@@ -367,7 +371,6 @@ public class LobbySceneController implements Initializable, GuiController {
                         idGame += (int) (parseInt(String.valueOf(gameList.getSelectionModel().getSelectedItem().charAt(j)))*Math.pow(10,j));
                     }
                 }
-                System.out.println(idGame);
                 ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
                 listColor.add(TokenColor.RED);
                 listColor.add(TokenColor.GREEN);

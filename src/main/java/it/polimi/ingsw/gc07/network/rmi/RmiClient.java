@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.*;
 import it.polimi.ingsw.gc07.updates.*;
+import it.polimi.ingsw.gc07.utils.SafePrinter;
 import it.polimi.ingsw.gc07.view.Ui;
 import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.tui.Tui;
@@ -78,7 +79,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         this.updatesQueue = new LinkedBlockingDeque<>();
         startUpdateExecutor();
     }
-    
+
     /**
      * Getter method for isClientAlive.
      * @return value of isClientAlive
@@ -123,7 +124,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
             serverGamesManager.connect(nickname, this);
         }catch(RemoteException e) {
-            System.out.println("\nConnection failed. - connectToGamesManagerServer\n");
+            SafePrinter.println("\nConnection failed. - connectToGamesManagerServer\n");
             setClientAlive(false);
         }
     }
@@ -132,7 +133,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * Method used from RmiServerGamesManager to restart the cli if the joining was not successful.
      */
     public void notifyJoinNotSuccessful() throws RemoteException {
-        System.out.println("\nCould not add you to the game, retry.\n");
+        SafePrinter.println("\nCould not add you to the game, retry.\n");
         new Thread(this::runJoinGameInterface).start();
     }
 
@@ -146,8 +147,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         try {
             serverGamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(this, nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
-            System.out.println("\nConnection failed. - reconnectPlayer\n");
-             setClientAlive(false);
+            SafePrinter.println("\nConnection failed. - reconnectPlayer\n");
+            setClientAlive(false);
         }
     }
 
@@ -161,7 +162,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         try {
             this.serverGame = serverGamesManager.getGameServer(gameId);
         }catch(RemoteException e) {
-            System.out.println("\nConnection failed.- setServerGame\n");
+            SafePrinter.println("\nConnection failed.- setServerGame\n");
             setClientAlive(false);
         }
         // game joined
@@ -204,7 +205,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
         }catch(RemoteException e) {
             // if not already detected by ping
-            System.out.println("\nConnection failed. - setAndExecuteCommand\n");
+            SafePrinter.println("\nConnection failed. - setAndExecuteCommand\n");
             setClientAlive(false);  // setter is synchronized
             ui.runJoinGameInterface();
         }
@@ -220,7 +221,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             serverGame.setAndExecuteCommand(gameCommand);
         }catch(RemoteException e) {
             // if not already detected by ping
-            System.out.println("\nConnection failed.- setAndExecuteCommand\n");
+            SafePrinter.println("\nConnection failed.- setAndExecuteCommand\n");
             setClientAlive(false);  // setter is synchronized
         }
     }
@@ -238,7 +239,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                 serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
             }catch(RemoteException e) {
                 // connection failed
-                System.out.println("Connection failed. Press enter. - ping");
+                SafePrinter.println("Connection failed. Press enter. - ping");
                 setClientAlive(false);  // setter is synchronized
             }
             try {
@@ -274,7 +275,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                 }else {
                     missedPong ++;
                     if(missedPong >= maxMissedPongs) {
-                        System.out.println("\nConnection failed - missed pong.\n");
+                        SafePrinter.println("\nConnection failed - missed pong.\n");
                         setClientAlive(false);
                         break;
                     }
@@ -478,3 +479,4 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         receiveUpdate(secretObjectivesUpdate);
     }
 }
+
