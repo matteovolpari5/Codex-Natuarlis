@@ -351,15 +351,15 @@ public interface PlayerTui {
     /**
      * Method used to print the hand of a player.
      * @param hand list of card that the player has.
-     * @param personalObjective personal objective card.
+     * @param personalObjectives personal objective card.
      * @param cardway choice the face that we want to print.
      */
-    static void printPlayerHand(List<DrawableCard> hand, ObjectiveCard personalObjective, boolean cardway) {
+    static void printPlayerHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjectives, boolean cardway) {
         if (!cardway) {
             printFirstLastRow();
-            printSecondRow(hand, personalObjective);
-            printThirdRow(personalObjective);
-            printFourthRow(hand, personalObjective);
+            printSecondRow(hand, personalObjectives.getFirst());
+            printThirdRow(personalObjectives.getFirst());
+            printFourthRow(hand, personalObjectives.getFirst());
             printFirstLastRow();
         } else {
             printFirstLastRow();

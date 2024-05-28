@@ -35,4 +35,11 @@ public interface PlayerViewListener {
      * @param stall true if the player is stalled, false otherwise
      */
     void receiveStallUpdate(String nickname, boolean stall);
+
+    /**
+     * Method used to show secrete objectives.
+     * @param nickname nickname
+     * @param secretObjective secreteObjective
+     */
+    void receiveSecretObjectives(String nickname, List<ObjectiveCard> secretObjective);
 }

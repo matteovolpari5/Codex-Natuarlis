@@ -380,4 +380,14 @@ public  class Gui extends Application implements Ui {
             StageController.getController().receivePlayersUpdate(nicknames, connectionValues, stallValues);
         }
     }
+
+    /**
+     * Method used to show secrete objectives.
+     * @param nickname nickname
+     * @param secretObjective secreteObjective
+     */
+    @Override
+    public void receiveSecretObjectives(String nickname, List<ObjectiveCard> secretObjective) {
+        // don't send to anyone
+    }
 }

@@ -110,7 +110,7 @@ public class GameView {
      * Getter method for game state.
      * @return game state
      */
-    public GameState getGameState() {
+    public synchronized GameState getGameState() {
         return state;
     }
 
@@ -180,7 +180,7 @@ public class GameView {
      * Getter method for owner's messages.
      * @return owner's messages
      */
-    public List<ChatMessage> getOwnerMessages() {
+    public synchronized List<ChatMessage> getOwnerMessages() {
         return chatView.getMessages();
     }
 
@@ -292,13 +292,32 @@ public class GameView {
     /**
      * Method that allows to set the starter card for the owner of the game view.
      * Starter cards of other players will be visible once placed.
+     * @param nickname nickname
      * @param starterCard starter card
      */
     public void setStarterCard(String nickname, PlaceableCard starterCard) {
         if(ownerNickname.equals(nickname)) {
             for(PlayerView playerView: playerViews) {
                 if(playerView.getNickname().equals(nickname)) {
-                    playerView.setStarterCard(starterCard);
+                    synchronized (this){
+                        playerView.setStarterCard(starterCard);
+                    }
+                }
+            }
+        }
+        // else, don't save it
+    }
+
+    /**
+     * Method that allows to set the objective cards for the owner of the game view.
+     * @param nickname nickname
+     * @param objectiveCards objective cards
+     */
+    public void setSecretObjectives(String nickname, List<ObjectiveCard> objectiveCards) {
+        if(ownerNickname.equals(nickname)) {
+            for(PlayerView playerView: playerViews) {
+                if(playerView.getNickname().equals(nickname)) {
+                    playerView.setSecretObjectives(nickname, objectiveCards);
                 }
             }
         }
@@ -379,10 +398,10 @@ public class GameView {
      * @param nickname nickname
      * @param newHand card hand
      */
-    public void setCardHand(String nickname, List<DrawableCard> newHand, ObjectiveCard personalObjective) {
+    public void setCardHand(String nickname, List<DrawableCard> newHand, List<ObjectiveCard> personalObjectives) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
-                p.setCardHand(newHand, personalObjective);
+                p.setCardHand(newHand, personalObjectives);
             }
         }
     }
@@ -452,7 +471,7 @@ public class GameView {
      * @param nickname nickname
      * @return true if the player is in the game
      */
-    public boolean checkPlayerPresent(String nickname) {
+    public synchronized boolean checkPlayerPresent(String nickname) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 return true;
@@ -466,7 +485,7 @@ public class GameView {
      * @param nickname nickname
      * @return true if the player is the current one
      */
-    public boolean isCurrentPlayer(String nickname) {
+    public synchronized boolean isCurrentPlayer(String nickname) {
         if(currPlayer < 0)
             return false;
         for(int i = 0; i < playerViews.size(); i++) {
@@ -481,7 +500,7 @@ public class GameView {
      * @param cardType card type
      * @return number of face up cards
      */
-    public int getNumFaceUpCards(CardType cardType) {
+    public synchronized int getNumFaceUpCards(CardType cardType) {
         return deckView.getNumFaceUpCards(cardType);
     }
 
@@ -503,7 +522,7 @@ public class GameView {
      * Getter method for the owner's current hand size.
      * @return owner's current hand size
      */
-    public int getCurrHardHandSize() {
+    public synchronized int getCurrHandSize() {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(ownerNickname)) {
                 return p.getCurrHandSize();
@@ -516,7 +535,7 @@ public class GameView {
      * Getter method for game field dimension.
      * @return game field dimension
      */
-    public int getGameFieldDim() {
+    public synchronized int getGameFieldDim() {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(ownerNickname)) {
                 return p.getGameField().getDim();
@@ -530,7 +549,7 @@ public class GameView {
      * @param nickname nickname
      * @return game field
      */
-    public GameFieldView getGameField(String nickname) {
+    public synchronized GameFieldView getGameField(String nickname) {
         PlayerView player = null;
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
