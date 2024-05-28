@@ -8,8 +8,6 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
-import it.polimi.ingsw.gc07.model_view.ChatView;
-import it.polimi.ingsw.gc07.model_view.PlayerView;
 
 import java.util.List;
 import java.util.Map;

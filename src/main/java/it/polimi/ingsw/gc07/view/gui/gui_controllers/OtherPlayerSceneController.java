@@ -8,9 +8,6 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
-import it.polimi.ingsw.gc07.model_view.DeckView;
-import it.polimi.ingsw.gc07.model_view.GameFieldView;
-import it.polimi.ingsw.gc07.model_view.GameView;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -34,7 +31,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
-
+        // TODO
     }
 
     /**
@@ -43,7 +40,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void addMessage(ChatMessage chat) {
-
+        // TODO
     }
 
     /**
@@ -56,7 +53,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateDecks(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
-
+        // TODO
     }
 
     /**
@@ -80,7 +77,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateStarterCard(PlaceableCard starterCard) {
-
+        // TODO
     }
 
     /**
@@ -90,7 +87,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateCardHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjective) {
-
+        // TODO
     }
 
     /**
@@ -101,7 +98,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateGameInfo(GameState gameState, String currPlayer) {
-
+        // TODO
     }
 
     /**
@@ -109,7 +106,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void setPenultimateRound() {
-
+        // TODO
     }
 
     /**
@@ -117,7 +114,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void setAdditionalRound() {
-
+        // TODO
     }
 
     /**
@@ -126,7 +123,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateCommandResult(CommandResult commandResult) {
-
+        // TODO
     }
 
     /**
@@ -135,24 +132,18 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      * @param existingGamesTokenColor take token colors in existing games
      */
     @Override
-    public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
-
-    }
+    public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {}
 
     /**
      * Method used to display an update, containing winners.
      * @param winners winners
      */
     @Override
-    public void displayWinners(List<String> winners) {
-
-    }
+    public void displayWinners(List<String> winners) {}
 
     @Override
     public void setNickname(String nickname) {
         otherPlayerNickname = nickname;
-
-        // non serve richidere il game field, mandato dall'aggiornamento esterno
     }
 
     /**
@@ -160,9 +151,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      * @param chatMessages full chat content
      */
     @Override
-    public void setFullChat(List<ChatMessage> chatMessages) {
-
-    }
+    public void setFullChat(List<ChatMessage> chatMessages) {}
 
     /**
      * Method used to set the game id.
@@ -170,7 +159,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void setGameId(int gameId) {
-        // TODO lo usa
+        // TODO
     }
 
     /**
@@ -180,7 +169,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void receiveConnectionUpdate(String nickname, boolean value) {
-        // TODO la usa? altrimenti togliere da gui
+        // TODO
     }
 
     /**
@@ -190,7 +179,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void receiveStallUpdate(String nickname, boolean value) {
-        // TODO la usa? altrimenti togliere da gui
+        // TODO
     }
 
     /**
