@@ -330,7 +330,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                         System.out.println("Insert a number.");
                         break;
                     }
-                    if(cardPos < 0 || cardPos >= client.getGameView().getCurrHardHandSize()) {
+                    if(cardPos < 0 || cardPos >= client.getGameView().getCurrHandSize()) {
                         System.out.println("Wrong card hand position.");
                         break;
                     }
