@@ -17,6 +17,7 @@ import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
+import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -544,6 +545,7 @@ public class GamesManager {
         pendingPlayers.remove(player);
         playerVirtualViews.remove(nickname);
         playersTimers.remove(nickname);
-        System.out.println("Player removed from pending.");
+        SafePrinter.println("Player removed from pending.");
     }
 }
+

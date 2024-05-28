@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.network;
 
 import it.polimi.ingsw.gc07.controller.GameController;
+import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -88,7 +89,7 @@ public class PingPongManager {
                 }else {
                     missedPing ++;
                     if(missedPing >= maxMissedPings) {
-                        System.out.println("CP> Disconnection detected " + nickname);
+                        SafePrinter.println("CP> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname);
                         break;
                     }
@@ -117,7 +118,7 @@ public class PingPongManager {
             try {
                 virtualView.sendPong();
             } catch (RemoteException e) {
-                System.out.println("SP> Disconnection detected " + nickname);
+                SafePrinter.println("SP> Disconnection detected " + nickname);
                 gameController.disconnectPlayer(nickname);
                 break;
             }
@@ -129,3 +130,4 @@ public class PingPongManager {
         }
     }
 }
+

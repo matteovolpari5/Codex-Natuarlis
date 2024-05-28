@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.main;
 
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketServer;
+import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -28,7 +29,7 @@ public class ServerMain {
         } catch (RemoteException e) {
             System.exit(-1);
         }
-        System.out.println("RMI Server running");
+        SafePrinter.println("RMI Server running");
 
         // create Socket server for gamesManager
         int socketPort = Integer.parseInt(args[2]);
@@ -36,10 +37,10 @@ public class ServerMain {
         try{
             sc = new ServerSocket(socketPort);
         } catch (IOException e){
-            System.out.println("Unable to start the main server: unavailable port");
+            SafePrinter.println("Unable to start the main server: unavailable port");
             throw new RuntimeException();
         }
-        System.out.println("Main Socket server ready");
+        SafePrinter.println("Main Socket server ready");
         SocketServer socketServer= SocketServer.getSocketServer();
         socketServer.initializeSocketServer(sc);
         try {
@@ -49,3 +50,4 @@ public class ServerMain {
         }
     }
 }
+

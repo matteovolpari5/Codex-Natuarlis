@@ -17,6 +17,7 @@ import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_view.PlayerView;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
+import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -100,7 +101,7 @@ public class GameModel {
      */
     public GameModel(int id, int playersNumber, DrawableDeck<DrawableCard> resourceCardsDeck,
                      DrawableDeck<GoldCard> goldCardsDeck, PlayingDeck<ObjectiveCard> objectiveCardsDeck,
-                Deck<PlaceableCard> starterCardsDeck) {
+                     Deck<PlaceableCard> starterCardsDeck) {
         this.id = id;
         assert(playersNumber >= 2 && playersNumber <= 4): "Wrong players number";
         this.playersNumber = playersNumber;
@@ -603,7 +604,7 @@ public class GameModel {
         // update listeners
         sendPlayersUpdate();
 
-        System.out.println("Number of listeners: " + gameListeners.size());
+        SafePrinter.println("Number of listeners: " + gameListeners.size());
     }
 
     /**
@@ -667,7 +668,7 @@ public class GameModel {
             p.getGameField().removeListener(client);
         }
 
-        System.out.println("Number of listeners: " + gameListeners.size());
+        SafePrinter.println("Number of listeners: " + gameListeners.size());
     }
 
     /**
@@ -830,3 +831,4 @@ public class GameModel {
         }
     }
 }
+
