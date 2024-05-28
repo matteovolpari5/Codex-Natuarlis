@@ -167,6 +167,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
             case "e":
                 // display existing games
+
+                // cancel timer
+                synchronized (this){
+                    timeout.cancel();
+                    timeout.purge();
+                }
+
                 client.setAndExecuteCommand(new DisplayGamesCommand(nickname));
                 break;
 
