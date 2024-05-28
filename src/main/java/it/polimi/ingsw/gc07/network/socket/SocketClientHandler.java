@@ -129,8 +129,11 @@ public class SocketClientHandler implements VirtualView {
         if(!mySocket.isClosed()){
             try {
                 output.writeObject(update);
+                System.out.println("A");
                 output.reset();
+                System.out.println("B");
                 output.flush();
+                System.out.println("C");
             }catch(IOException e) {
                 System.out.println("1");
                 e.printStackTrace();
