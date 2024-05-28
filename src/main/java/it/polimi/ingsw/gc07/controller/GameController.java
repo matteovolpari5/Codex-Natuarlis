@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.network.PingPongManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
+import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -267,7 +268,7 @@ public class GameController {
         // set player disconnected
         player.setIsConnected(false);
         pingPongManager.notifyPlayerDisconnected(nickname);
-        System.out.println("Disconnected " + nickname);
+        SafePrinter.println("Disconnected " + nickname);
 
         // if the player is the current one
         if(gameModel.getState().equals(GameState.PLAYING) && gameModel.getPlayers().get(gameModel.getCurrPlayer()).getNickname().equals(nickname)) {
@@ -351,11 +352,11 @@ public class GameController {
         int numPlayersConnected = gameModel.getNumPlayersConnected();
         if(numPlayersConnected == 0) {
             gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
-            System.out.println("timeout 0");
+            SafePrinter.println("timeout 0");
             startTimeoutGameEnd();
         }else if(numPlayersConnected == 1) {
             gameModel.setState(GameState.WAITING_RECONNECTION);
-            System.out.println("timeout 1");
+            SafePrinter.println("timeout 1");
             startTimeoutGameEnd();
         }else {
             gameModel.setState(GameState.PLAYING);
@@ -673,7 +674,7 @@ public class GameController {
         Player player = getPlayerByNickname(nickname);
         assert(player != null);
         if( player.getGameField().isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2) ||
-            player.getSecretObjectives().size() == 1) {
+                player.getSecretObjectives().size() == 1) {
             gameModel.setCommandResult(nickname, CommandResult.CARD_ALREADY_PRESENT);
             return;
         }
@@ -691,7 +692,7 @@ public class GameController {
         boolean changeState = true;
         for(Player p: getPlayers()) {
             if(!p.getGameField().isCardPresent((GameField.getDim()-1)/2, (GameField.getDim()-1)/2) ||
-                p.getSecretObjectives().size() == 2) {
+                    p.getSecretObjectives().size() == 2) {
                 // someone has to place the starter card
                 changeState = false;
             }
@@ -740,7 +741,7 @@ public class GameController {
         return gameModel.hasPlayerWithTokenColor(tokenColor);
     }
 
-     Player getPlayerByNickname(String nickname) {
+    Player getPlayerByNickname(String nickname) {
         for(Player p: gameModel.getPlayers()) {
             if(p.getNickname().equals(nickname)) {
                 return p;
@@ -755,7 +756,7 @@ public class GameController {
      * if a player is disconnect from the game he loses the turn,
      * if a player is stalled he will be skipped.
      */
-     void changeCurrPlayer() {
+    void changeCurrPlayer() {
         assert(gameModel.getState().equals(GameState.PLAYING)): "Method changeCurrentPlayer called in a wrong state";
         if(gameModel.getCurrPlayer() == getPlayers().size()-1)
             gameModel.setCurrPlayer(0);
@@ -852,3 +853,4 @@ public class GameController {
         gameModel.addPoints(player, x, y);
     }
 }
+

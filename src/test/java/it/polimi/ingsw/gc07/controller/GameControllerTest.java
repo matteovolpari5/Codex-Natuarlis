@@ -305,11 +305,8 @@ class GameControllerTest {
         gameController.placeCard("Player1", 0, 39, 39, true);
 
         int id = gameController.getResourceCardsDeck().revealTopCard().getId();
-        System.out.println(gameController.getResourceCardsDeck().drawFaceUpCard(0));
         gameController.drawFaceUpCard("Player1", CardType.RESOURCE_CARD, 0);
         int id2 = gameController.getResourceCardsDeck().revealTopCard().getId();
-        System.out.println(id);
-        System.out.println(id2);
         assertEquals(gameController.getCommandResult(), CommandResult.SUCCESS);
         assertNotEquals(id, id2);
 
