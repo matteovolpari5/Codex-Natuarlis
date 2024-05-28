@@ -130,6 +130,26 @@ public class GamesManager {
      * @param gamesManagerCommand games manager command
      */
     public synchronized void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
+        if(playersTimers.containsKey(gamesManagerCommand.getNickname())){
+            playersTimers.get(gamesManagerCommand.getNickname()).cancel();
+            playersTimers.get(gamesManagerCommand.getNickname()).purge();
+            playersTimers.remove(gamesManagerCommand.getNickname());
+            new Thread(()->{
+                Timer timeout = new Timer();
+                synchronized (this) {
+                    playersTimers.remove(gamesManagerCommand.getNickname());
+                    playersTimers.put(gamesManagerCommand.getNickname(), timeout);
+                }
+                timeout.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        synchronized (this){
+                            removePlayer(gamesManagerCommand.getNickname());
+                        }
+                    }
+                }, 5 * 60 * 1000); //timer of 5 minute
+            }).start();
+        }
         gamesManagerCommand.execute(this);
     }
 
