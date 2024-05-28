@@ -7,6 +7,7 @@ import it.polimi.ingsw.gc07.network.Client;
 import it.polimi.ingsw.gc07.network.PingSender;
 import it.polimi.ingsw.gc07.network.SocketCommunication;
 import it.polimi.ingsw.gc07.updates.*;
+import it.polimi.ingsw.gc07.utils.SafePrinter;
 import it.polimi.ingsw.gc07.view.Ui;
 import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.tui.Tui;
@@ -59,8 +60,8 @@ public class SocketClient implements Client, PingSender {
         String nickname;
         NicknameCheck check = null;
         do{
-            System.out.println("Insert nickname: ");
-            System.out.print("> ");
+            SafePrinter.println("Insert nickname: ");
+            SafePrinter.print("> ");
             nickname = scan.nextLine();
             try {
                 output.writeObject(nickname);
@@ -71,6 +72,7 @@ public class SocketClient implements Client, PingSender {
             try {
                 check = (NicknameCheck) input.readObject();
             } catch (IOException | ClassNotFoundException e) {
+                System.out.println("read object");
                 closeConnection();
                 break;
             }
@@ -146,7 +148,7 @@ public class SocketClient implements Client, PingSender {
                             ui.runJoinGameInterface();
                         }
                     }else{
-                        System.out.println("\nCould not add you to the game, retry.\n");
+                        SafePrinter.println("\nCould not add you to the game, retry.\n");
                         ui.runJoinGameInterface();
                         runJoinGameInterface();
                     }
@@ -195,7 +197,7 @@ public class SocketClient implements Client, PingSender {
                     //throw new RuntimeException();
                 }
             }
-            System.out.println("you lost the connection");
+            SafePrinter.println("you lost the connection");
             this.clientAlive = false;
         }
     }
@@ -241,6 +243,7 @@ public class SocketClient implements Client, PingSender {
                 try {
                     myServer.setAndExecuteCommand(new SendPingCommand(nickname));
                 } catch (IOException e) {
+                    System.out.println("send ping");
                     closeConnection();
                 }
             }
@@ -267,6 +270,7 @@ public class SocketClient implements Client, PingSender {
                 }else {
                     missedPong ++;
                     if(missedPong >= maxMissedPongs) {
+                        System.out.println("Check pong");
                         closeConnection();
                         break;
                     }

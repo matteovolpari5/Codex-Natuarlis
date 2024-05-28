@@ -34,10 +34,10 @@ import java.util.ResourceBundle;
 public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected ListView<String> myChat;
-    private ObservableList<String> chatItem;
+    private ObservableList<String> chatItem= FXCollections.observableArrayList();
     @FXML
     protected ListView<String> myUpdates;
-    private ObservableList<String> updatesItem;
+    private final ObservableList<String> updatesItem = FXCollections.observableArrayList();
     @FXML
     protected Button chatButton;
     @FXML
@@ -63,11 +63,11 @@ public class PlayerSceneController implements GuiController, Initializable {
     /**
      * List of labels containing the connection/stall status of the player.
      */
-    private List<Label> statusLabels;
+    private final List<Label> statusLabels = new ArrayList<>();
     /**
      * List of labels containing nicknames.
      */
-    private List<Label> nicknameLabels;
+    private final List<Label> nicknameLabels = new ArrayList<>();
     @FXML
     protected ImageView myStarterCard;
     @FXML
@@ -136,7 +136,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected ImageView tokenColor3;
     @FXML
     protected ImageView tokenColor4;
-    private List<ImageView> tokenColorsList;
+    private final List<ImageView> tokenColorsList = new ArrayList<>();
     @FXML
     protected TextField messageContent;
     @FXML
@@ -197,6 +197,7 @@ public class PlayerSceneController implements GuiController, Initializable {
             str1Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             str2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             startingPhaseController.setText("1");
+            System.out.println("selezionata1");
         });
     }
     @FXML
@@ -205,6 +206,7 @@ public class PlayerSceneController implements GuiController, Initializable {
             str1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             str2Pane.setStyle(" -fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             startingPhaseController.setText("2");
+            System.out.println("selezionata2");
         });
     }
     @FXML
@@ -239,14 +241,16 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected void onContinueButtonClick(){
         Platform.runLater(() -> {
-            option1Label.setText("Option 1");
-            option2Label.setText("Option 2");
-            str1Pane.setVisible(false);
-            str2Pane.setVisible(false);
-            obj1Pane.setVisible(true);
-            obj2Pane.setVisible(true);
-            continueButton.setVisible(false);
-            sendCommandButton.setVisible(true);
+            if(startingPhaseController.getText().equals("1")||startingPhaseController.getText().equals("2")) {
+                option1Label.setText("Option 1");
+                option2Label.setText("Option 2");
+                str1Pane.setVisible(false);
+                str2Pane.setVisible(false);
+                obj1Pane.setVisible(true);
+                obj2Pane.setVisible(true);
+                continueButton.setVisible(false);
+                sendCommandButton.setVisible(true);
+            }
         });
     }
     @FXML
@@ -282,10 +286,8 @@ public class PlayerSceneController implements GuiController, Initializable {
         Platform.runLater(() -> {
             chatItem = FXCollections.observableArrayList();
             myChat.setItems(chatItem);
-            updatesItem = FXCollections.observableArrayList();
+
             myUpdates.setItems(updatesItem);
-            nicknameLabels = new ArrayList<>();
-            statusLabels = new ArrayList<>();
             nicknameLabels.add(nickname1);
             nicknameLabels.add(nickname2);
             nicknameLabels.add(nickname3);
@@ -293,10 +295,8 @@ public class PlayerSceneController implements GuiController, Initializable {
             statusLabels.add(nickStatus1);
             statusLabels.add(nickStatus2);
             statusLabels.add(nickStatus3);
-            nicknameLabels.add(nickname4);
-            nicknameLabels.add(nickStatus4);
+            statusLabels.add(nickStatus4);
             startingPhaseLabel.setText("Select the placing way of your starter card");
-            tokenColorsList = new ArrayList<>();
             tokenColorsList.add(tokenColor1);
             tokenColorsList.add(tokenColor2);
             tokenColorsList.add(tokenColor3);
@@ -321,6 +321,9 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void addMessage(ChatMessage chat) {
         chatItem.add(chat.getSender() + ": " + chat.getContent());
+        if(!chatContainer.isVisible()) {
+            chatNotification.setVisible(true);
+        }
     }
 
     /**
@@ -335,29 +338,37 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void updateDecks(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
         // set decks data
         // set top decks
-        int topDeckId = topResourceDeck.getId();
-        topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId +".png")).toExternalForm()));
-        topDeckId = topGoldDeck.getId();
-        topDeckGold.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId +".png")).toExternalForm()));
-
+        int topDeckId;
+        if(topDeckResource!=null) {
+            topDeckId = topResourceDeck.getId();
+            topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId + ".png")).toExternalForm()));
+        }
+        if(topGoldDeck!=null) {
+            topDeckId = topGoldDeck.getId();
+            topDeckGold.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId + ".png")).toExternalForm()));
+        }
         // TODO
-        if (!faceUpGoldCard.isEmpty()){
-            revealedGold1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.getFirst().getId() +".png")).toExternalForm()));
+        if(faceUpGoldCard!= null) {
+            if (!faceUpGoldCard.isEmpty()) {
+                revealedGold1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.getFirst().getId() + ".png")).toExternalForm()));
+            }
+            if (faceUpGoldCard.size() == 2) {
+                revealedGold2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.get(1).getId() + ".png")).toExternalForm()));
+            }
         }
-        if(faceUpGoldCard.size()==2){
-            revealedGold2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.get(1).getId() +".png")).toExternalForm()));
+        if(faceUpResourceCard!=null) {
+            if (!faceUpResourceCard.isEmpty()) {
+                revealedResource1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.getFirst().getId() + ".png")).toExternalForm()));
+            }
+            if (faceUpResourceCard.size() == 2) {
+                revealedResource2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.get(1).getId() + ".png")).toExternalForm()));
+            }
         }
-
-        if (!faceUpResourceCard.isEmpty()){
-            revealedResource1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.getFirst().getId() +".png")).toExternalForm()));
-        }
-        if(faceUpResourceCard.size()==2){
-            revealedResource2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.get(1).getId() +".png")).toExternalForm()));
-        }
-
-        if(!commonObjective.isEmpty()){
-            commonObjective1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(0).getId() +".png")).toExternalForm()));
-            commonObjective2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(1).getId() +".png")).toExternalForm()));
+        if(commonObjective!=null) {
+            if (!commonObjective.isEmpty()) {
+                commonObjective1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(0).getId() + ".png")).toExternalForm()));
+                commonObjective2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(1).getId() + ".png")).toExternalForm()));
+            }
         }
     }
 
@@ -396,18 +407,32 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void updateCardHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjective) {
         // set current hand data
         int imageId;
-        imageId = hand.getFirst().getId();
-        handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-        imageId = hand.get(1).getId();
-        handCard2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-        imageId = hand.get(2).getId();
-        handCard3.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-
+        if(hand.size()==3) {
+            imageId = hand.getFirst().getId();
+            handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            imageId = hand.get(1).getId();
+            handCard2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            imageId = hand.get(2).getId();
+            handCard3.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+        } else if (hand.size()==2) {
+            imageId = hand.getFirst().getId();
+            handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            imageId = hand.get(1).getId();
+            handCard2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+        } else if (hand.size()==1) {
+            imageId = hand.getFirst().getId();
+            handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+        }
         // TODO
-        imageId = personalObjective.getFirst().getId();
-        option1Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
-        imageId = personalObjective.get(1).getId();
-        option2Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId +".png")).toExternalForm()));
+        if(personalObjective.size()==2) {
+            imageId = personalObjective.getFirst().getId();
+            option1Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            imageId = personalObjective.get(1).getId();
+            option2Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+        } else if (personalObjective.size()==1) {
+            imageId = personalObjective.getFirst().getId();
+            secretObjective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+        }
     }
 
     /**
@@ -454,7 +479,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void updateCommandResult(CommandResult commandResult) {
         if(!commandResult.equals(CommandResult.SUCCESS)){
             updatesItem.add(commandResult.getResultMessage());
-            chatNotification.setVisible(true);
+
         }
     }
 
@@ -554,30 +579,27 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void receivePlayersUpdate(Map<String, TokenColor> tokenColors, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
         boolean found = false;
         for(String newNickname: tokenColors.keySet()){
-            for(int i = 0; i < nicknameLabels.size(); i++){
-
-                if(nicknameLabels.get(i).getText().equals(newNickname)){
+            for(int i = 0; i < nicknameLabels.size(); i++) {
+                if (nicknameLabels.get(i).getText().equals(newNickname)) {
                     // the nickname is already present
                     nicknameLabels.get(i).setVisible(true);
                     // set disconnected/stalled visible attribute
-                    if(connectionValues.get(newNickname)){
+                    if (connectionValues.get(newNickname)) {
                         statusLabels.get(i).setText("[disconnected]");
                         statusLabels.get(i).setVisible(true);
                         nicknameLabels.get(i).setOpacity(0.8);
-                    }
-                    else if(stallValues.get(newNickname)){
+                    } else if (stallValues.get(newNickname)) {
                         statusLabels.get(i).setVisible(true);
                         statusLabels.get(i).setText("[stalled]");
                         nicknameLabels.get(i).setOpacity(0.8);
-                    }
-                    else{
+                    } else {
                         nicknameLabels.get(i).setOpacity(1);
                         statusLabels.get(i).setVisible(false);
                     }
                     found = true;
                     tokenColorsList.get(i).setVisible(true);
                     // set token color image
-                    switch(tokenColors.get(newNickname)){
+                    switch (tokenColors.get(newNickname)) {
                         case GREEN:
                             tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/green.png")).toExternalForm()));
                             break;
@@ -593,45 +615,45 @@ public class PlayerSceneController implements GuiController, Initializable {
                     }
                     break;
                 }
-                if(!found){
-                    // insert the nickname in the first free label
-                    for(int j = 0; j < nicknameLabels.size(); j++){
-                        if(nicknameLabels.get(j).getText().equals("Player")){
-                            nicknameLabels.get(j).setText(newNickname);
-                            nicknameLabels.get(j).setVisible(true);
-                            // set token color image
-                            switch(tokenColors.get(newNickname)){
-                                case GREEN:
-                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/green.png")).toExternalForm()));
-                                    break;
-                                case RED:
-                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/red.png")).toExternalForm()));
-                                    break;
-                                case BLUE:
-                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/blue.png")).toExternalForm()));
-                                    break;
-                                case YELLOW:
-                                    tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/yellow.png")).toExternalForm()));
-                                    break;
-                            }
-                            tokenColorsList.get(j).setVisible(true);
-                            // set disconnected/stalled visible attribute
-                            if(connectionValues.get(newNickname)){
-                                statusLabels.get(j).setText("[disconnected]");
-                                statusLabels.get(j).setVisible(true);
-                                nicknameLabels.get(j).setOpacity(0.8);
-                            }
-                            else if(stallValues.get(newNickname)){
-                                statusLabels.get(j).setText("[stalled]");
-                                statusLabels.get(j).setVisible(true);
-                                nicknameLabels.get(j).setOpacity(0.8);
-                            }
-                            else{
-                                nicknameLabels.get(j).setOpacity(1);
-                                statusLabels.get(j).setVisible(false);
-                            }
-                            break;
+            }
+            if(!found){
+                // insert the nickname in the first free label
+                for(int j = 0; j < nicknameLabels.size(); j++){
+                    if(nicknameLabels.get(j).getText().equals("Player")){
+                        nicknameLabels.get(j).setText(newNickname);
+                        nicknameLabels.get(j).setVisible(true);
+                        // set token color image
+                        switch(tokenColors.get(newNickname)){
+                            case GREEN:
+                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/green.png")).toExternalForm()));
+                                break;
+                            case RED:
+                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/red.png")).toExternalForm()));
+                                break;
+                            case BLUE:
+                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/blue.png")).toExternalForm()));
+                                break;
+                            case YELLOW:
+                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/yellow.png")).toExternalForm()));
+                                break;
                         }
+                        tokenColorsList.get(j).setVisible(true);
+                        // set disconnected/stalled visible attribute
+                        if(!connectionValues.get(newNickname)){
+                            statusLabels.get(j).setText("[disconnected]");
+                            statusLabels.get(j).setVisible(true);
+                            nicknameLabels.get(j).setOpacity(0.8);
+                        }
+                        else if(stallValues.get(newNickname)){
+                            statusLabels.get(j).setText("[stalled]");
+                            statusLabels.get(j).setVisible(true);
+                            nicknameLabels.get(j).setOpacity(0.8);
+                        }
+                        else{
+                            nicknameLabels.get(j).setOpacity(1);
+                            statusLabels.get(j).setVisible(false);
+                        }
+                        break;
                     }
                 }
             }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc07.network.socket;
 
+import it.polimi.ingsw.gc07.utils.SafePrinter;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -26,11 +28,12 @@ public class SocketServer {
     }
 
     public void runServer() throws IOException {
-        System.out.println("Socket server running");
+        SafePrinter.println("Socket server running");
         Socket clientSocket;
         while((clientSocket = this.mySocket.accept()) != null){
-            System.out.println("Received client socket connection");
+            SafePrinter.println("Received client socket connection");
             new SocketClientHandler(clientSocket);
         }
     }
 }
+
