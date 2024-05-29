@@ -667,8 +667,8 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         GameState state = client.getGameView().getGameState();
         String currPlayerNickname = client.getGameView().getCurrentPlayerNickname();
         String ownerNickname = client.getGameView().getOwnerNickname();
-        DrawableCard topResourceDeck = client.getGameView().getTopResourceDeck();
-        GoldCard topGoldDeck = client.getGameView().getTopGoldDeck();
+        DrawableCard topResourceDeck = client.getGameView().getTopResourceDeck(); //
+        GoldCard topGoldDeck = client.getGameView().getTopGoldDeck(); //
         List<DrawableCard> faceUpResourceCard = client.getGameView().getFaceUpResourceCard();
         List<GoldCard> faceUpGoldCard = client.getGameView().getFaceUpGoldCard();
         List<ObjectiveCard> commonObjective = client.getGameView().getCommonObjective();

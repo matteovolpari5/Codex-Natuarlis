@@ -148,7 +148,7 @@ public class GameView {
      * Getter method for top resource card.
      * @return top resource card
      */
-    public DrawableCard getTopResourceDeck() {
+    public DrawableCard getTopResourceDeck() { //
         return deckView.getTopResourceDeck();
     }
 
@@ -156,7 +156,7 @@ public class GameView {
      * Getter method for top gold card.
      * @return top gold card
      */
-    public GoldCard getTopGoldDeck() {
+    public GoldCard getTopGoldDeck() { //
         return deckView.getTopGoldDeck();
     }
 
@@ -164,7 +164,7 @@ public class GameView {
      * Getter method for face up resource cards.
      * @return face up resource cards
      */
-    public List<DrawableCard> getFaceUpResourceCard() {
+    public List<DrawableCard> getFaceUpResourceCard() { //
         return deckView.getFaceUpResourceCard();
     }
 
@@ -192,7 +192,7 @@ public class GameView {
      * @param penultimateRound twentyPointsReached
      * @param additionalRound additionalRound
      */
-    public void setGameModel(int id, GameState state, int currPlayer, boolean penultimateRound, boolean additionalRound) {
+    public synchronized void setGameModel(int id, GameState state, int currPlayer, boolean penultimateRound, boolean additionalRound) {
         this.id = id;
         for(GameViewListener l: gameViewListeners) {
             l.receiveGameIdUpdate(this.id);
