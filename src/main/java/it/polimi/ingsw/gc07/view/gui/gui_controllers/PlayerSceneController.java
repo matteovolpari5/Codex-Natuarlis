@@ -25,6 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -32,6 +33,7 @@ import java.util.*;
 import java.util.ResourceBundle;
 
 public class PlayerSceneController implements GuiController, Initializable {
+    private final int BOARD_SIZE = 80;
     @FXML
     protected ListView<String> myChat;
     private ObservableList<String> chatItem= FXCollections.observableArrayList();
@@ -42,6 +44,8 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected Button chatButton;
     @FXML
     protected Label currentPlayer;
+    @FXML
+    protected Label gameState;
     @FXML
     protected Label gameId;
     @FXML
@@ -143,6 +147,8 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected HBox nickContainer;
     @FXML
     protected ChoiceBox<String> receiverSelector;
+    @FXML
+    protected GridPane gridPaneBoard;
 
     @FXML
     protected void onChatButtonClick(){
@@ -185,10 +191,13 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected void onStarterCardClick(){
         Platform.runLater(() -> {
-            startingPhaseBox.setVisible(true);
-            option1Label.setText("Front");
-            option2Label.setText("Back");
-            startingPhaseController.setText("");
+
+            if(gameState.getText().equals("Game state: SETTING_INITIAL_CARDS")) {
+                startingPhaseBox.setVisible(true);
+                option1Label.setText("Front");
+                option2Label.setText("Back");
+                startingPhaseController.setText("");
+            }
         });
     }
     @FXML
@@ -197,7 +206,6 @@ public class PlayerSceneController implements GuiController, Initializable {
             str1Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             str2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             startingPhaseController.setText("1");
-            System.out.println("selezionata1");
         });
     }
     @FXML
@@ -206,7 +214,6 @@ public class PlayerSceneController implements GuiController, Initializable {
             str1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             str2Pane.setStyle(" -fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             startingPhaseController.setText("2");
-            System.out.println("selezionata2");
         });
     }
     @FXML
@@ -244,6 +251,7 @@ public class PlayerSceneController implements GuiController, Initializable {
             if(startingPhaseController.getText().equals("1")||startingPhaseController.getText().equals("2")) {
                 option1Label.setText("Option 1");
                 option2Label.setText("Option 2");
+                startingPhaseLabel.setText("Select an objective card");
                 str1Pane.setVisible(false);
                 str2Pane.setVisible(false);
                 obj1Pane.setVisible(true);
@@ -256,21 +264,31 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected void onSendCommandButtonClick(){
         Platform.runLater(() -> {
-            startingPhaseLabel.setVisible(false);
+            startingPhaseLabel.setText("Select the placing way of your starter card");
+            obj2Pane.setVisible(false);
+            obj1Pane.setVisible(false);
+            str1Pane.setVisible(true);
+            str2Pane.setVisible(true);
+            obj1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            obj2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            str1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            str2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+            sendCommandButton.setVisible(false);
+            continueButton.setVisible(true);
+            startingPhaseBox.setVisible(false);
+            option1Label.setText("Front");
+            option2Label.setText("Back");
+
             boolean starterCardWay = false;
             boolean objectiveCardSelected = false;
             switch (startingPhaseController.getText()) {
                 case "11":
-                    starterCardWay = false;
-                    objectiveCardSelected = false;
                     break;
                 case "12":
-                    starterCardWay = false;
                     objectiveCardSelected = true;
                     break;
                 case "21":
                     starterCardWay = true;
-                    objectiveCardSelected = false;
                     break;
                 case "22":
                     starterCardWay = true;
@@ -301,6 +319,13 @@ public class PlayerSceneController implements GuiController, Initializable {
             tokenColorsList.add(tokenColor2);
             tokenColorsList.add(tokenColor3);
             tokenColorsList.add(tokenColor4);
+            for(int row = 0; row < BOARD_SIZE; row++) {
+                for (int col = 0; col < BOARD_SIZE; col++) {
+                    ImageView gridImage = new ImageView();
+                    gridPaneBoard.add(gridImage, row, col);
+                }
+            }
+            System.out.println(gridPaneBoard.getRowCount());
         });
     }
 
@@ -443,7 +468,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void updateGameInfo(GameState gameState, String currPlayer) {
         // game state
-        updatesItem.add("New game state: " + gameState.name());
+        this.gameState.setText("Game state: "+ gameState);
         GameView gameView = StageController.getGameView();
         // current player
         if (gameView.getCurrentPlayerNickname() != null){
@@ -479,7 +504,6 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void updateCommandResult(CommandResult commandResult) {
         if(!commandResult.equals(CommandResult.SUCCESS)){
             updatesItem.add(commandResult.getResultMessage());
-
         }
     }
 
@@ -534,7 +558,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void receiveConnectionUpdate(String nickname, boolean value) {
         for(int i = 0; i < nicknameLabels.size(); i++){
             if(nicknameLabels.get(i).getText().equals(nickname)){
-                if(value){
+                if(!value){
                     statusLabels.get(i).setText("[disconnected]");
                     statusLabels.get(i).setVisible(true);
                     nicknameLabels.get(i).setOpacity(0.8);
