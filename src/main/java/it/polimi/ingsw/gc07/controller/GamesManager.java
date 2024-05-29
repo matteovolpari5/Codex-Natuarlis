@@ -445,6 +445,10 @@ public class GamesManager {
         GameController gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
         gameControllers.add(gameController);
 
+        for(String nickname: playerVirtualViews.keySet()) {
+            displayExistingGames(nickname);
+        }
+
         return id;
     }
 

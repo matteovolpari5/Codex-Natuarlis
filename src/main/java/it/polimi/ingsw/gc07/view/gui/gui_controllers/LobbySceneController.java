@@ -351,7 +351,7 @@ public class LobbySceneController implements Initializable, GuiController {
      */
     @FXML
     public void clickedGame(MouseEvent mouseEvent) {
-        //update della lista di token color//
+        //update della lista di token color
         boxTokenColor.getItems().clear();
         int i=0,numSize=0;
         if(gameList.getSelectionModel().getSelectedItem()!=null){
