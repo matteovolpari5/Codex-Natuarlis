@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -150,6 +151,8 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected GridPane gridPaneBoard;
 
+    private final ImageView[][] imageViews = new ImageView[BOARD_SIZE][BOARD_SIZE];
+
     @FXML
     protected void onChatButtonClick(){
         Platform.runLater(() -> {
@@ -185,6 +188,7 @@ public class PlayerSceneController implements GuiController, Initializable {
                 else{
                     StageController.getClient().setAndExecuteCommand(new AddChatPrivateMessageCommand(content, StageController.getNickname(), receiverSelector.getValue()));
                 }
+                messageContent.setText("");
             }
         });
     }
@@ -319,13 +323,15 @@ public class PlayerSceneController implements GuiController, Initializable {
             tokenColorsList.add(tokenColor2);
             tokenColorsList.add(tokenColor3);
             tokenColorsList.add(tokenColor4);
-            for(int row = 0; row < BOARD_SIZE; row++) {
+            for (int row = 0; row < BOARD_SIZE; row++) {
                 for (int col = 0; col < BOARD_SIZE; col++) {
                     ImageView gridImage = new ImageView();
+                    gridImage.setFitWidth(198);
+                    gridImage.setFitHeight(132);
                     gridPaneBoard.add(gridImage, row, col);
+                    imageViews[row][col] = gridImage;
                 }
             }
-            System.out.println(gridPaneBoard.getRowCount());
         });
     }
 
@@ -408,7 +414,44 @@ public class PlayerSceneController implements GuiController, Initializable {
     public void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         // no need to check nickname, already checked by Gui method
 
-        // TODO
+        List<Integer> xPosition = new ArrayList<>();
+        List<Integer> yPosition = new ArrayList<>();
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if(cardsOrder[i][j]!=0) {
+                    while (xPosition.size() < cardsOrder[i][j]) {
+                        xPosition.add(-1);
+                        yPosition.add(-1);
+                    }
+                    xPosition.set(cardsOrder[i][j]-1, i);
+                    yPosition.set(cardsOrder[i][j]-1, j);
+                }
+            }
+        }
+        //todo serve platform.runlater?
+        Platform.runLater(() -> {
+            int imageId;
+            for (int i = 0; i < xPosition.size(); i++) {
+                imageId = cardsContent[xPosition.get(i)][yPosition.get(i)].getId();
+                // starter cards have flipped front and back
+                if(xPosition.get(i) == 40 && yPosition.get(i) == 40){
+                    if(!cardsFace[xPosition.get(i)][yPosition.get(i)]){
+                        imageViews[xPosition.get(i)][yPosition.get(i)].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + imageId +".png")).toExternalForm()));
+                    }
+                    else{
+                        imageViews[xPosition.get(i)][yPosition.get(i)].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+                    }
+                }
+                else {
+                    if (!cardsFace[xPosition.get(i)][yPosition.get(i)]) {
+                        imageViews[xPosition.get(i)][yPosition.get(i)].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+                    } else {
+                        imageViews[xPosition.get(i)][yPosition.get(i)].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + imageId + ".png")).toExternalForm()));
+                    }
+                }
+            }
+        });
+
     }
 
     /**
@@ -608,7 +651,7 @@ public class PlayerSceneController implements GuiController, Initializable {
                     // the nickname is already present
                     nicknameLabels.get(i).setVisible(true);
                     // set disconnected/stalled visible attribute
-                    if (connectionValues.get(newNickname)) {
+                    if (!connectionValues.get(newNickname)) {
                         statusLabels.get(i).setText("[disconnected]");
                         statusLabels.get(i).setVisible(true);
                         nicknameLabels.get(i).setOpacity(0.8);

@@ -9,10 +9,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -22,16 +20,17 @@
         <HBox prefHeight="22.0" prefWidth="1202.0" style="-fx-background-color: #98777b;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <children>
                 <Label prefHeight="18.0" prefWidth="114.0" text="  Codex Naturalis" textFill="#f8f8f8" />
-                <Label fx:id="currentPlayer" prefHeight="18.0" prefWidth="100.0" text="Current player" textFill="WHITE" />
-                <Label fx:id="gameState" prefHeight="18.0" prefWidth="91.0" text="GameState" textFill="WHITE" />
-            <Label fx:id="PlayerIndication" prefHeight="18.0" prefWidth="810.0" text="Hint for player" textAlignment="CENTER" textFill="WHITE" />
+                <Label fx:id="currentPlayer" alignment="CENTER" prefHeight="18.0" prefWidth="239.0" text="Current player" textFill="WHITE" />
+                <Label fx:id="gameState" alignment="CENTER" prefHeight="18.0" prefWidth="261.0" text="GameState" textFill="WHITE" />
+            <Label fx:id="PlayerIndication" alignment="CENTER" prefHeight="18.0" prefWidth="500.0" text="Hint for player" textAlignment="CENTER" textFill="WHITE" />
 
-                <Label fx:id="gameId" alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="gameId" textFill="WHITE" />
+                <Label fx:id="gameId" alignment="CENTER" contentDisplay="RIGHT" prefHeight="18.0" prefWidth="41.0" text="gameId" textAlignment="CENTER" textFill="WHITE" />
             </children>
         </HBox>
-        <ScrollPane fx:id="scrollPane" layoutX="5.0" layoutY="26.0" prefHeight="593.0" prefWidth="889.0" style="-fx-background-color: #98777b; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="26.0">
+        <ScrollPane hvalue="0.515" layoutX="5.0" layoutY="26.0" pannable="true" prefHeight="593.0" prefWidth="889.0" style="-fx-background-color: #98777b; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" vvalue="0.515" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="26.0">
          <content>
-            <GridPane fx:id="gridPaneBoard" gridLinesVisible="true">
+            <GridPane fx:id="gridPaneBoard" gridLinesVisible="true" maxHeight="190.0" maxWidth="50.0">
+
             </GridPane>
          </content></ScrollPane>
         <ImageView fx:id="revealedGold2" fitHeight="62.0" fitWidth="128.0" layoutX="267.0" layoutY="715.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
@@ -140,7 +139,7 @@
                 <Image url="@../graphic_resources/notificationIcon.png" />
             </image>
         </ImageView>
-        <AnchorPane fx:id="startingPhaseBox" layoutX="237.0" layoutY="167.0" prefHeight="402.0" prefWidth="658.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-width: 5;">
+        <AnchorPane fx:id="startingPhaseBox" layoutX="237.0" layoutY="167.0" prefHeight="402.0" prefWidth="658.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-width: 5;" visible="false">
             <children>
                 <StackPane fx:id="str1Pane" layoutX="102.0" layoutY="87.0" onMouseClicked="#onStarter1CardClick">
                     <children>
