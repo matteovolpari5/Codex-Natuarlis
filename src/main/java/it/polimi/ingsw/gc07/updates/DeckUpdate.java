@@ -50,10 +50,12 @@ public class DeckUpdate implements Update {
      */
     @Override
     public void execute(GameView gameView) {
-        gameView.setTopResourceCard(topResourceCard);
-        gameView.setTopGoldCard(topGoldCard);
-        gameView.setResourceFaceUpCards(resourceFaceUpCards);
-        gameView.setGoldFaceUpCards(goldFaceUpCards);
-        gameView.setCommonObjective(commonObjective);
+        synchronized (gameView){
+            gameView.setTopResourceCard(topResourceCard);
+            gameView.setTopGoldCard(topGoldCard);
+            gameView.setResourceFaceUpCards(resourceFaceUpCards);
+            gameView.setGoldFaceUpCards(goldFaceUpCards);
+            gameView.setCommonObjective(commonObjective);
+        }
     }
 }

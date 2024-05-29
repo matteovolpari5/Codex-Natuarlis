@@ -118,7 +118,7 @@ public class GameView {
      * Getter method for the current player.
      * @return current player nickname
      */
-    public String getCurrentPlayerNickname() {
+    public synchronized String getCurrentPlayerNickname() {
         String currPlayerNickname;
         if(currPlayer >= 0 && currPlayer < playerViews.size()) {
             currPlayerNickname = playerViews.get(currPlayer).getNickname();
@@ -140,6 +140,7 @@ public class GameView {
      * Getter method for common objective.
      * @return common objective cards
      */
+    //TODO solo da TUI da Update
     public List<ObjectiveCard> getCommonObjective() {
         return deckView.getCommonObjective();
     }
@@ -148,7 +149,8 @@ public class GameView {
      * Getter method for top resource card.
      * @return top resource card
      */
-    public DrawableCard getTopResourceDeck() { //
+    //TODO solo da TUI da Update
+    public DrawableCard getTopResourceDeck() {
         return deckView.getTopResourceDeck();
     }
 
@@ -156,7 +158,8 @@ public class GameView {
      * Getter method for top gold card.
      * @return top gold card
      */
-    public GoldCard getTopGoldDeck() { //
+    //TODO solo da TUI da Update
+    public GoldCard getTopGoldDeck() {
         return deckView.getTopGoldDeck();
     }
 
@@ -164,6 +167,7 @@ public class GameView {
      * Getter method for face up resource cards.
      * @return face up resource cards
      */
+    //TODO solo da TUI da Update
     public List<DrawableCard> getFaceUpResourceCard() { //
         return deckView.getFaceUpResourceCard();
     }
@@ -172,6 +176,7 @@ public class GameView {
      * Getter method for face up gold cards.
      * @return face up gold cards
      */
+    //TODO solo da TUI da Update
     public List<GoldCard> getFaceUpGoldCard() {
         return deckView.getFaceUpGoldCard();
     }
@@ -192,6 +197,7 @@ public class GameView {
      * @param penultimateRound twentyPointsReached
      * @param additionalRound additionalRound
      */
+    //TODO SOLO COMMAND
     public synchronized void setGameModel(int id, GameState state, int currPlayer, boolean penultimateRound, boolean additionalRound) {
         this.id = id;
         for(GameViewListener l: gameViewListeners) {
@@ -235,7 +241,7 @@ public class GameView {
      * Method that adds a new chat message to the ChatView.
      * @param chatMessage new chat message
      */
-    public void addMessage(ChatMessage chatMessage) {
+    public synchronized void addMessage(ChatMessage chatMessage) {
         if(chatMessage.getIsPublic() || chatMessage.isForReceiver(ownerNickname)) {
             chatView.addMessage(chatMessage);
         }
@@ -245,7 +251,7 @@ public class GameView {
      * Method used to set the full chat content after a reconnection.
      * @param chatMessages full chat content
      */
-    public void setChatMessages(List<ChatMessage> chatMessages) {
+    public synchronized void setChatMessages(List<ChatMessage> chatMessages) {
         chatView.setChatMessages(chatMessages);
     }
 
@@ -253,6 +259,7 @@ public class GameView {
      * Method that allows to set the common objective.
      * @param commonObjective common objective
      */
+    //TODO SOLO COMMAND
     public void setCommonObjective(List<ObjectiveCard> commonObjective) {
         deckView.setCommonObjective(commonObjective);
     }
@@ -261,6 +268,7 @@ public class GameView {
      * Method that allows to set the card on top of resource cards deck.
      * @param topResourceDeck card on top of resource card deck
      */
+    //TODO SOLO COMMAND
     public void setTopResourceCard(DrawableCard topResourceDeck) {
         deckView.setTopResourceDeck(topResourceDeck);
     }
@@ -269,6 +277,7 @@ public class GameView {
      * Method that allows to set the card on top of gold cards deck.
      * @param topGoldDeck card on top of gold cards deck
      */
+    //TODO SOLO COMMAND
     public void setTopGoldCard(GoldCard topGoldDeck) {
         deckView.setTopGoldDeck(topGoldDeck);
     }
@@ -277,6 +286,7 @@ public class GameView {
      * Method that allows to set the revealed resource cards.
      * @param faceUpResourceCard revealed resource cards
      */
+    //TODO SOLO COMMAND
     public void setResourceFaceUpCards(List<DrawableCard> faceUpResourceCard) {
         deckView.setFaceUpResourceCard(faceUpResourceCard);
     }
@@ -285,6 +295,7 @@ public class GameView {
      * Method that allows to set the revealed gold cards.
      * @param faceUpGoldCard revealed gold cards
      */
+    //TODO SOLO COMMAND
     public void setGoldFaceUpCards(List<GoldCard> faceUpGoldCard) {
         deckView.setFaceUpGoldCard(faceUpGoldCard);
     }
@@ -372,7 +383,7 @@ public class GameView {
      * @param nickname nickname
      * @param isStalled isStalled value
      */
-    public void setIsStalled(String nickname, boolean isStalled) {
+    public synchronized void setIsStalled(String nickname, boolean isStalled) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setIsStalled(isStalled);
@@ -385,7 +396,7 @@ public class GameView {
      * @param nickname nickname
      * @param isConnected isConnected value
      */
-    public void setIsConnected(String nickname, boolean isConnected) {
+    public synchronized void setIsConnected(String nickname, boolean isConnected) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setIsConnected(isConnected);
@@ -410,7 +421,7 @@ public class GameView {
      * Method that allows to add a new player view.
      * @param newPlayerViews new list of player views
      */
-    public void setPlayerViews(List<PlayerView> newPlayerViews) {
+    public synchronized void setPlayerViews(List<PlayerView> newPlayerViews) {
         for(PlayerView playerView: newPlayerViews) {
             boolean found = false;
             for(PlayerView myPlayerView: this.playerViews) {
