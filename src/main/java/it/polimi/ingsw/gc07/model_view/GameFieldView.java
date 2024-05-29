@@ -108,6 +108,7 @@ public class GameFieldView implements Serializable {
                 this.cardsOrder[i][j] = cardsOrder[i][j];
             }
         }
+        //TODO no listener?
     }
 
     /**
