@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.AddChatPrivateMessageCommand;
 import it.polimi.ingsw.gc07.game_commands.AddChatPublicMessageCommand;
+import it.polimi.ingsw.gc07.game_commands.PlaceCardCommand;
 import it.polimi.ingsw.gc07.game_commands.SetInitialCardsCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
@@ -19,18 +20,22 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
 import java.util.*;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PlayerSceneController implements GuiController, Initializable {
@@ -302,13 +307,73 @@ public class PlayerSceneController implements GuiController, Initializable {
             StageController.getClient().setAndExecuteCommand(new SetInitialCardsCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
         });
     }
+    @FXML
+    protected void onDoubleClickCardHand(MouseEvent e) {
+        if (e.getClickCount() == 2) {
+            ImageView card;
+            if (e.getSource().equals(handCard1)) {
+                card = handCard1;
+            } else if (e.getSource().equals(handCard2)) {
+                card = handCard2;
+            } else if (e.getSource().equals(handCard3)) {
+                card = handCard3;
+            }
+            else{
+                return;
+            }
+            int cardId = getCardId(card);
+            if (getCardWay(card)){
+                card.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + cardId + ".png")).toExternalForm()));
+            }
+            else {
+                card.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + cardId + ".png")).toExternalForm()));
+            }
+        }
+    }
+    /**
+     * Method to get the card id by the url of the image.
+     * @param image imageView containing the image
+     * @return id of the card in the image
+     */
+    private int getCardId (ImageView image) {
+        String idString;
+        int firstIndex = image.getImage().getUrl().lastIndexOf("/") + 1;
+        int stringLength = image.getImage().getUrl().length();
+        idString = image.getImage().getUrl().substring(firstIndex, stringLength-4);
+        return Integer.parseInt(idString);
+    }
+
+    /**
+     * Method to get the card way by the url of the image.
+     * @param image imageView containing the image
+     * @return boolean representing the way of the card
+     */
+    private boolean getCardWay (ImageView image) {
+        return image.getImage().getUrl().contains("Front");
+    }
+
+    private void setDragAndDrop(ImageView card) {
+        card.setOnDragDetected(event -> {
+            Dragboard db = card.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(card.getImage());
+            db.setContent(content);
+            event.consume();
+        });
+
+        card.setOnDragDone(event -> {
+            if (event.getTransferMode() == TransferMode.MOVE) {
+                card.setVisible(true);
+            }
+            event.consume();
+        });
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> {
             chatItem = FXCollections.observableArrayList();
             myChat.setItems(chatItem);
-
             myUpdates.setItems(updatesItem);
             nicknameLabels.add(nickname1);
             nicknameLabels.add(nickname2);
@@ -326,12 +391,47 @@ public class PlayerSceneController implements GuiController, Initializable {
             for (int row = 0; row < BOARD_SIZE; row++) {
                 for (int col = 0; col < BOARD_SIZE; col++) {
                     ImageView gridImage = new ImageView();
-                    gridImage.setFitWidth(198);
-                    gridImage.setFitHeight(132);
+                    gridImage.setFitHeight(132.0);
+                    gridImage.setFitWidth(198.0);
+                    Rectangle imageClip = new Rectangle(gridImage.getFitWidth(), gridImage.getFitHeight());
+                    imageClip.setArcHeight(20);
+                    imageClip.setArcWidth(20);
+                    gridImage.setClip(imageClip);
+                    Insets imageInset = new Insets(-30);
                     gridPaneBoard.add(gridImage, row, col);
+                    GridPane.setMargin(gridImage, imageInset);
                     imageViews[row][col] = gridImage;
+                    gridImage.setOnDragOver(event -> {
+                        if (event.getGestureSource() != gridImage) {
+                            event.acceptTransferModes(TransferMode.MOVE);
+                        }
+                        event.consume();
+                    });
+
+                    gridImage.setOnDragEntered(event -> {
+                        if (event.getGestureSource() != gridImage) {
+                            gridImage.setOpacity(0.7);
+                        }
+                    });
+
+                    gridImage.setOnDragExited(event -> {
+                        gridImage.setOpacity(1);
+                    });
+                    int finalCol = col;
+                    int finalRow = row;
+                    gridImage.setOnDragDropped(event -> {
+                        ImageView card = (ImageView) event.getGestureSource();
+                        boolean way = getCardWay(card);
+                        int cardPos = Integer.parseInt(card.getId().substring(card.getId().length()-1))-1;
+                        StageController.getClient().setAndExecuteCommand(new PlaceCardCommand(StageController.getNickname(), cardPos, finalRow, finalCol, way));
+                        event.setDropCompleted(true);
+                        event.consume();
+                    });
                 }
             }
+            setDragAndDrop(handCard1);
+            setDragAndDrop(handCard2);
+            setDragAndDrop(handCard3);
         });
     }
 
@@ -478,18 +578,27 @@ public class PlayerSceneController implements GuiController, Initializable {
         if(hand.size()==3) {
             imageId = hand.getFirst().getId();
             handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            handCard1.setVisible(true);
             imageId = hand.get(1).getId();
             handCard2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            handCard2.setVisible(true);
             imageId = hand.get(2).getId();
             handCard3.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            handCard3.setVisible(true);
         } else if (hand.size()==2) {
             imageId = hand.getFirst().getId();
             handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            handCard1.setVisible(true);
             imageId = hand.get(1).getId();
             handCard2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            handCard2.setVisible(true);
+            handCard3.setVisible(false);
         } else if (hand.size()==1) {
             imageId = hand.getFirst().getId();
             handCard1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+            handCard1.setVisible(true);
+            handCard2.setVisible(false);
+            handCard3.setVisible(false);
         }
         // TODO
         if(personalObjective.size()==2) {

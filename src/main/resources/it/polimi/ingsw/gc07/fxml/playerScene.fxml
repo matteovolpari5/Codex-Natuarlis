@@ -27,9 +27,9 @@
                 <Label fx:id="gameId" alignment="CENTER" contentDisplay="RIGHT" prefHeight="18.0" prefWidth="41.0" text="gameId" textAlignment="CENTER" textFill="WHITE" />
             </children>
         </HBox>
-        <ScrollPane hvalue="0.515" layoutX="5.0" layoutY="26.0" pannable="true" prefHeight="593.0" prefWidth="889.0" style="-fx-background-color: #98777b; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" vvalue="0.515" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="26.0">
+        <ScrollPane hvalue="0.505" layoutX="5.0" layoutY="26.0" pannable="true" prefHeight="593.0" prefWidth="889.0" style="-fx-background-color: #98777b; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" vvalue="0.505" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="26.0">
          <content>
-            <GridPane fx:id="gridPaneBoard" gridLinesVisible="true" maxHeight="190.0" maxWidth="50.0">
+            <GridPane fx:id="gridPaneBoard" style="-fx-background-color: #98777b" gridLinesVisible="true">
 
             </GridPane>
          </content></ScrollPane>
@@ -99,13 +99,13 @@
                 </VBox>
             </children>
         </HBox>
-        <ImageView fx:id="handCard2" fitHeight="62.0" fitWidth="128.0" layoutX="672.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
+        <ImageView fx:id="handCard2" onMouseClicked="#onDoubleClickCardHand" fitHeight="62.0" fitWidth="128.0" layoutX="672.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
         <ImageView fx:id="commonObjective2" fitHeight="62.0" fitWidth="128.0" layoutX="402.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
-        <ImageView fx:id="handCard1" fitHeight="62.0" fitWidth="128.0" layoutX="549.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
+        <ImageView fx:id="handCard1" onMouseClicked="#onDoubleClickCardHand" fitHeight="62.0" fitWidth="128.0" layoutX="549.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
         <ImageView fx:id="myStarterCard" fitHeight="62.0" fitWidth="128.0" layoutX="671.0" layoutY="638.0" onMouseClicked="#onStarterCardClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0" />
         <ImageView fx:id="commonObjective1" fitHeight="62.0" fitWidth="128.0" layoutX="401.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0" />
         <ImageView fx:id="secretObjective" fitHeight="62.0" fitWidth="128.0" layoutX="549.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0" />
-        <ImageView fx:id="handCard3" fitHeight="62.0" fitWidth="128.0" layoutX="791.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
+        <ImageView fx:id="handCard3" onMouseClicked="#onDoubleClickCardHand" fitHeight="62.0" fitWidth="128.0" layoutX="791.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" />
         <StackPane layoutX="925.0" layoutY="26.0" prefHeight="303.0" prefWidth="200.0" style="-fx-background-radius: 5; -fx-padding: 5; -fx-background-color: #98777b;" AnchorPane.rightAnchor="32.0">
             <children>
                 <ImageView id="ScoreTrack" fitHeight="466.0" fitWidth="261.0" pickOnBounds="true" preserveRatio="true">
