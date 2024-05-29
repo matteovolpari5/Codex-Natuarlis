@@ -3,6 +3,8 @@ package it.polimi.ingsw.gc07.controller;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.game_commands.AddPlayerToPendingCommand;
+import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -436,8 +438,16 @@ class GamesManagerTest {
         // disconnect player
         gc.disconnectPlayer("player1");
 
-        // check that the game end
+        // check game ended
         Thread.sleep(5 * 1000);
         assertNull(gm.getGameById(0));
+    }
+
+    @Test
+    public void testSetAndExecuteCommand() throws RemoteException, InterruptedException {
+        RmiClient player1VirtualView = new RmiClient("player1", false, serverGamesManager);
+        gm.addPlayerToPending("player1", true, false);
+        gm.addVirtualView("player1", player1VirtualView);
+        gm.setAndExecuteCommand(new JoinNewGameCommand("player1", TokenColor.RED, 2));
     }
 }

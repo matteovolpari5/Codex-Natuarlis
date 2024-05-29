@@ -87,7 +87,7 @@ public class GamesManager {
      * @param nickname nickname
      * @return virtual view
      */
-    public synchronized VirtualView getVirtualView(String nickname) {
+    private synchronized VirtualView getVirtualView(String nickname) {
         assert(playerVirtualViews.containsKey(nickname));
         return playerVirtualViews.get(nickname);
     }
@@ -194,9 +194,9 @@ public class GamesManager {
 
         Player newPlayer = new Player(nickname, connectionType, interfaceType);
         pendingPlayers.add(newPlayer);
-        new Thread(()->{
-            Timer timeout = new Timer();
-            playersTimers.put(nickname, timeout);
+        Timer timeout = new Timer();
+        playersTimers.put(nickname, timeout);
+        new Thread(() -> {
             timeout.schedule(new TimerTask() {
                 @Override
                 public void run() {
