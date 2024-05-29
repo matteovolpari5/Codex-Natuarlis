@@ -230,6 +230,7 @@ public class GameView {
      * Setter method for winners.
      * @param winners winners
      */
+    //TODO discutere se necessario in futuro sincronizzare
     public void setWinners(List<String> winners) {
         this.winners = winners;
         for(GameViewListener l: gameViewListeners) {
@@ -306,13 +307,11 @@ public class GameView {
      * @param nickname nickname
      * @param starterCard starter card
      */
-    public void setStarterCard(String nickname, PlaceableCard starterCard) {
+    public synchronized void setStarterCard(String nickname, PlaceableCard starterCard) {
         if(ownerNickname.equals(nickname)) {
             for(PlayerView playerView: playerViews) {
                 if(playerView.getNickname().equals(nickname)) {
-                    synchronized (this){
-                        playerView.setStarterCard(starterCard);
-                    }
+                    playerView.setStarterCard(starterCard);
                 }
             }
         }
@@ -324,7 +323,8 @@ public class GameView {
      * @param nickname nickname
      * @param objectiveCards objective cards
      */
-    public void setSecretObjectives(String nickname, List<ObjectiveCard> objectiveCards) {
+    //TODO non sicuro sulla sincronizzazione
+    public synchronized void setSecretObjectives(String nickname, List<ObjectiveCard> objectiveCards) {
         if(ownerNickname.equals(nickname)) {
             for(PlayerView playerView: playerViews) {
                 if(playerView.getNickname().equals(nickname)) {
@@ -344,7 +344,7 @@ public class GameView {
      * @param way way
      * @param orderPosition order position
      */
-    public void addCard(String nickname, PlaceableCard card, int x, int y, boolean way, int orderPosition) {
+    public synchronized void addCard(String nickname, PlaceableCard card, int x, int y, boolean way, int orderPosition) {
         // add the card to the specified game field view specified
         for(PlayerView playerView: playerViews) {
             if(playerView.getNickname().equals(nickname)) {
@@ -409,7 +409,7 @@ public class GameView {
      * @param nickname nickname
      * @param newHand card hand
      */
-    public void setCardHand(String nickname, List<DrawableCard> newHand, List<ObjectiveCard> personalObjectives) {
+    public synchronized void setCardHand(String nickname, List<DrawableCard> newHand, List<ObjectiveCard> personalObjectives) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setCardHand(newHand, personalObjectives);

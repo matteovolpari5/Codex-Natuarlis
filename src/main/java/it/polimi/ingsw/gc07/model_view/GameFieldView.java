@@ -159,12 +159,31 @@ public class GameFieldView implements Serializable {
      * @param way way
      * @param orderPosition order position
      */
+    //TODO discutere
     public void addCard(String nickname, PlaceableCard card, int x, int y, boolean way, int orderPosition) {
         cardsContent[x][y] = card;
         cardsFace[x][y] = way;
         cardsOrder[x][y] = orderPosition;
+        PlaceableCard[][] cardsContentCopy = new PlaceableCard[dim][dim];
+        for(int i=0; i < dim; i++){
+            for(int j=0; j < dim; j++){
+                cardsContentCopy[i][j] = cardsContent[i][j];
+            }
+        }
+        Boolean[][] cardsFaceCopy = new Boolean[dim][dim];
+        for(int i = 0; i < dim; i++){
+            for(int j = 0; j < dim; j++){
+                cardsFaceCopy[i][j] = cardsFace[i][j];
+            }
+        }
+        int [][] cardsOrderCopy = new int[dim][dim];
+        for(int i=0; i < dim; i++){
+            for(int j=0; j < dim; j++){
+                cardsOrderCopy[i][j] = cardsOrder[i][j];
+            }
+        }
         for(GameFieldViewListener l: gameFieldViewListeners) {
-            l.receiveGameFieldUpdate(nickname, cardsContent, cardsFace, cardsOrder);
+            l.receiveGameFieldUpdate(nickname, cardsContentCopy, cardsFaceCopy, cardsOrderCopy);
         }
     }
 
