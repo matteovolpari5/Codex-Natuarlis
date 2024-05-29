@@ -156,12 +156,25 @@ public class LobbySceneController implements Initializable, GuiController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
+        listColor.add(TokenColor.RED);
+        listColor.add(TokenColor.GREEN);
+        listColor.add(TokenColor.BLUE);
+        listColor.add(TokenColor.YELLOW);
+        boxTokenColor.getItems().clear();
+        boxTokenColor.setItems(listColor);
+
+        ObservableList<Integer> listNumPlayer = FXCollections.observableArrayList();
+        listNumPlayer.add(2);
+        listNumPlayer.add(3);
+        listNumPlayer.add(4);
+        boxNumPlayers.setItems(listNumPlayer);
     }
 
     /**
      * Method used to display a user existing and free games.
      * @param existingGamesPlayerNumber players number in existing games
-     * @param existingGamesTokenColor take token colors in existing games
+     * @param existingGamesTokenColor taken token colors in existing games
      */
     @Override
     public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
@@ -351,7 +364,7 @@ public class LobbySceneController implements Initializable, GuiController {
      */
     @FXML
     public void clickedGame(MouseEvent mouseEvent) {
-        //update della lista di token color//
+        //update della lista di token color
         boxTokenColor.getItems().clear();
         int i=0,numSize=0;
         if(gameList.getSelectionModel().getSelectedItem()!=null){
