@@ -156,6 +156,19 @@ public class LobbySceneController implements Initializable, GuiController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
+        listColor.add(TokenColor.RED);
+        listColor.add(TokenColor.GREEN);
+        listColor.add(TokenColor.BLUE);
+        listColor.add(TokenColor.YELLOW);
+        boxTokenColor.getItems().clear();
+        boxTokenColor.setItems(listColor);
+
+        ObservableList<Integer> listNumPlayer = FXCollections.observableArrayList();
+        listNumPlayer.add(2);
+        listNumPlayer.add(3);
+        listNumPlayer.add(4);
+        boxNumPlayers.setItems(listNumPlayer);
     }
 
     /**
