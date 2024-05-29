@@ -174,7 +174,7 @@ public class LobbySceneController implements Initializable, GuiController {
     /**
      * Method used to display a user existing and free games.
      * @param existingGamesPlayerNumber players number in existing games
-     * @param existingGamesTokenColor take token colors in existing games
+     * @param existingGamesTokenColor taken token colors in existing games
      */
     @Override
     public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {

@@ -509,12 +509,12 @@ public class PlayerSceneController implements GuiController, Initializable {
      * @param currPlayer current player
      */
     @Override
-    public void updateGameInfo(GameState gameState, String currPlayer) {
+    public void updateGameInfo(GameState gameState, String currPlayer) { //TODO perché non utilizza il parametro?
         // game state
         this.gameState.setText("Game state: "+ gameState);
         GameView gameView = StageController.getGameView();
         // current player
-        if (gameView.getCurrentPlayerNickname() != null){
+        if (gameView.getCurrentPlayerNickname() != null){ //TODO il metodo getCurrentPlayerNickname è sincronizzato su GameView, al posto di invocarlo due volte non si potrebbe prima dell'if " String p = metodo" e fare il resto con p ?
             currentPlayer.setText("Current player: " + gameView.getCurrentPlayerNickname());
             currentPlayer.setVisible(true);
         }

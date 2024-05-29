@@ -71,9 +71,11 @@ public class BoardView {
     /**
      * Private method used to send updates to listeners.
      */
-    public void updateListeners() {
+    public void updateListeners() { //TODO discutere, le mappe vengono modificate, a differenza delle liste di carte in DeckWiew
+        Map<String, Integer> playerScoresCopy = new HashMap<>(playerScores);
+        Map<String, TokenColor> playerTokenColorsCopy = new HashMap<>(playerTokenColors);
         for(BoardViewListener l: boardViewListeners) {
-            l.receiveScoreUpdate(playerScores, playerTokenColors);
+            l.receiveScoreUpdate(playerScoresCopy, playerTokenColorsCopy);
         }
     }
 
