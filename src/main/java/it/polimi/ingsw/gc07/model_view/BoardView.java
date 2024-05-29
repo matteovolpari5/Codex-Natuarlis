@@ -89,6 +89,7 @@ public class BoardView {
             playersScoresCopy.put(nickname, playerScores.get(nickname));
         }
         return playersScoresCopy;
+        //TODO perché non "Map<String, Integer> playersScoresCopy = new HashMap<>(playerScores);" al posto del for?
     }
 
     /**

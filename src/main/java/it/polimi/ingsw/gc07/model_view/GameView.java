@@ -168,7 +168,7 @@ public class GameView {
      * @return face up resource cards
      */
     //TODO solo da TUI da Update
-    public List<DrawableCard> getFaceUpResourceCard() { //
+    public List<DrawableCard> getFaceUpResourceCard() {
         return deckView.getFaceUpResourceCard();
     }
 
@@ -197,7 +197,6 @@ public class GameView {
      * @param penultimateRound twentyPointsReached
      * @param additionalRound additionalRound
      */
-    //TODO SOLO COMMAND
     public synchronized void setGameModel(int id, GameState state, int currPlayer, boolean penultimateRound, boolean additionalRound) {
         this.id = id;
         for(GameViewListener l: gameViewListeners) {
@@ -230,6 +229,7 @@ public class GameView {
      * Setter method for winners.
      * @param winners winners
      */
+    //TODO discutere se necessario in futuro sincronizzare
     public void setWinners(List<String> winners) {
         this.winners = winners;
         for(GameViewListener l: gameViewListeners) {
@@ -259,7 +259,6 @@ public class GameView {
      * Method that allows to set the common objective.
      * @param commonObjective common objective
      */
-    //TODO SOLO COMMAND
     public void setCommonObjective(List<ObjectiveCard> commonObjective) {
         deckView.setCommonObjective(commonObjective);
     }
@@ -268,7 +267,6 @@ public class GameView {
      * Method that allows to set the card on top of resource cards deck.
      * @param topResourceDeck card on top of resource card deck
      */
-    //TODO SOLO COMMAND
     public void setTopResourceCard(DrawableCard topResourceDeck) {
         deckView.setTopResourceDeck(topResourceDeck);
     }
@@ -277,7 +275,6 @@ public class GameView {
      * Method that allows to set the card on top of gold cards deck.
      * @param topGoldDeck card on top of gold cards deck
      */
-    //TODO SOLO COMMAND
     public void setTopGoldCard(GoldCard topGoldDeck) {
         deckView.setTopGoldDeck(topGoldDeck);
     }
@@ -286,7 +283,6 @@ public class GameView {
      * Method that allows to set the revealed resource cards.
      * @param faceUpResourceCard revealed resource cards
      */
-    //TODO SOLO COMMAND
     public void setResourceFaceUpCards(List<DrawableCard> faceUpResourceCard) {
         deckView.setFaceUpResourceCard(faceUpResourceCard);
     }
@@ -295,7 +291,6 @@ public class GameView {
      * Method that allows to set the revealed gold cards.
      * @param faceUpGoldCard revealed gold cards
      */
-    //TODO SOLO COMMAND
     public void setGoldFaceUpCards(List<GoldCard> faceUpGoldCard) {
         deckView.setFaceUpGoldCard(faceUpGoldCard);
     }
@@ -306,13 +301,11 @@ public class GameView {
      * @param nickname nickname
      * @param starterCard starter card
      */
-    public void setStarterCard(String nickname, PlaceableCard starterCard) {
+    public synchronized void setStarterCard(String nickname, PlaceableCard starterCard) {
         if(ownerNickname.equals(nickname)) {
             for(PlayerView playerView: playerViews) {
                 if(playerView.getNickname().equals(nickname)) {
-                    synchronized (this){
-                        playerView.setStarterCard(starterCard);
-                    }
+                    playerView.setStarterCard(starterCard);
                 }
             }
         }
@@ -324,7 +317,8 @@ public class GameView {
      * @param nickname nickname
      * @param objectiveCards objective cards
      */
-    public void setSecretObjectives(String nickname, List<ObjectiveCard> objectiveCards) {
+    //TODO non sicuro sulla sincronizzazione
+    public synchronized void setSecretObjectives(String nickname, List<ObjectiveCard> objectiveCards) {
         if(ownerNickname.equals(nickname)) {
             for(PlayerView playerView: playerViews) {
                 if(playerView.getNickname().equals(nickname)) {
@@ -344,7 +338,7 @@ public class GameView {
      * @param way way
      * @param orderPosition order position
      */
-    public void addCard(String nickname, PlaceableCard card, int x, int y, boolean way, int orderPosition) {
+    public synchronized void addCard(String nickname, PlaceableCard card, int x, int y, boolean way, int orderPosition) {
         // add the card to the specified game field view specified
         for(PlayerView playerView: playerViews) {
             if(playerView.getNickname().equals(nickname)) {
@@ -361,7 +355,8 @@ public class GameView {
      * @param cardsFace cards face matrix
      * @param cardsOrder cards order matrix
      */
-    public void receiveFullGameFieldUpdate(String nickname, PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+    //TODO discutere se necessario dato che è in contesto di riconnessione
+    public synchronized void receiveFullGameFieldUpdate(String nickname, PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         for(PlayerView playerView: playerViews) {
             if(playerView.getNickname().equals(nickname)) {
                 playerView.setFullGameField(starterCard, cardsContent, cardsFace, cardsOrder);
@@ -383,7 +378,7 @@ public class GameView {
      * @param nickname nickname
      * @param isStalled isStalled value
      */
-    public synchronized void setIsStalled(String nickname, boolean isStalled) {
+    public synchronized void setIsStalled(String nickname, boolean isStalled) { //TODO non dovrebbe esseri un metodo che accede a isStalled ma non so se accesso concorrente si ha anche se accedono allo stesso oggetto in attributi diversi
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setIsStalled(isStalled);
@@ -396,7 +391,7 @@ public class GameView {
      * @param nickname nickname
      * @param isConnected isConnected value
      */
-    public synchronized void setIsConnected(String nickname, boolean isConnected) {
+    public synchronized void setIsConnected(String nickname, boolean isConnected) { //TODO come sopra
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setIsConnected(isConnected);
@@ -409,7 +404,7 @@ public class GameView {
      * @param nickname nickname
      * @param newHand card hand
      */
-    public void setCardHand(String nickname, List<DrawableCard> newHand, List<ObjectiveCard> personalObjectives) {
+    public synchronized void setCardHand(String nickname, List<DrawableCard> newHand, List<ObjectiveCard> personalObjectives) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setCardHand(newHand, personalObjectives);
@@ -583,7 +578,7 @@ public class GameView {
      * Getter method for players' scores.
      * @return players' scores
      */
-    public Map<String, Integer> getPlayersScores() {
+    public Map<String, Integer> getPlayersScores() { //TODO se usati bisogna rivedere sincronizzazione da ScoreUpdate
         return boardView.getPlayerScores();
     }
 
@@ -591,7 +586,7 @@ public class GameView {
      * Getter method for players' token colors.
      * @return players' token colors
      */
-    public Map<String, TokenColor> getPlayersTokenColors() {
+    public Map<String, TokenColor> getPlayersTokenColors() {//TODO come sopra
         return boardView.getPlayerTokenColors();
     }
 

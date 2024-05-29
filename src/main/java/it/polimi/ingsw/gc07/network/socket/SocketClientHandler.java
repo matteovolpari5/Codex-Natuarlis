@@ -86,7 +86,7 @@ public class SocketClientHandler implements VirtualView {
                 break;
             }
         }
-        if(!mySocket.isClosed()){
+        if(!mySocket.isClosed()){ //TODO corretto? provare
             manageGameCommand();
         }
     }
