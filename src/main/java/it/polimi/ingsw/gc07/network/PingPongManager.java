@@ -42,8 +42,8 @@ public class PingPongManager {
         System.out.println("adding player: " + nickname);
         this.playersPing.put(nickname, true);
         this.playerVirtualViews.put(nickname, virtualView);
-        new Thread(() -> {checkPing(nickname); System.out.println("Thread checkPong Morto Per: " + nickname);}).start();
-        new Thread(() -> {sendPong(nickname); System.out.println("Thread sendPing Morto Per: " + nickname);}).start();
+        new Thread(() -> {checkPing(nickname); SafePrinter.println("Thread checkPong Morto Per: " + nickname);}).start();
+        new Thread(() -> {sendPong(nickname); SafePrinter.println("Thread sendPing Morto Per: " + nickname);}).start();
     }
 
     /**
@@ -90,7 +90,7 @@ public class PingPongManager {
                 }else {
                     missedPing ++;
                     if(missedPing >= maxMissedPings) {
-                        SafePrinter.println("CP> Disconnection detected " + nickname);
+                        //SafePrinter.println("CP> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname);
                         //TODO closeConnection
                         break;
@@ -118,12 +118,12 @@ public class PingPongManager {
             }
             VirtualView virtualView = getVirtualView(nickname);
             try {
-                System.out.println("sending pong to: " + nickname);
+                //SafePrinter.println("sending pong to: " + nickname);
                 virtualView.sendPong();
             } catch (RemoteException e) {
-                SafePrinter.println("SP> Disconnection detected " + nickname);
+                //SafePrinter.println("SP> Disconnection detected " + nickname);
                 gameController.disconnectPlayer(nickname);
-                System.out.println("before break: " + nickname);
+                //SafePrinter.println("before break: " + nickname);
                 break;
             }
             try {
@@ -132,7 +132,7 @@ public class PingPongManager {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("out of while true: " + nickname);
+        //SafePrinter.println("out of while true: " + nickname);
     }
 }
 
