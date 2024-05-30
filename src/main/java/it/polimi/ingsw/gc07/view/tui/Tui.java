@@ -68,7 +68,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
                 public void run() {
                     System.exit(0);
                 }
-            }, 60*1000); //timer of 1 minute
+            }, 5 * 60 * 1000); //timer of 1 minute
         }).start();
 
         Scanner scan = new Scanner(System.in);
