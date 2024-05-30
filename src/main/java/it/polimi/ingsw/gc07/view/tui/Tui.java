@@ -541,7 +541,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     private void printGameField(String nickname) {
         GameFieldView gameField = client.getGameView().getGameField(nickname);
-        receiveGameFieldUpdate(nickname, gameField.getCardsContent(), gameField.getCardsFace(), gameField.getCardsOrder());
+        GameFieldTui.printGameField(gameField.getCardsContent(), gameField.getCardsFace(), gameField.getCardsOrder());
     }
 
     /**

@@ -81,7 +81,7 @@ public class GameFieldView implements Serializable {
                 this.cardsOrder[i][j] = gameFieldView.cardsOrder[i][j];
             }
         }
-        this.gameFieldViewListeners = new ArrayList<>(gameFieldView.gameFieldViewListeners);
+        this.gameFieldViewListeners = new ArrayList<>();
     }
 
     /**
@@ -160,11 +160,12 @@ public class GameFieldView implements Serializable {
      * @param way way
      * @param orderPosition order position
      */
-    //TODO discutere
     public void addCard(String nickname, PlaceableCard card, int x, int y, boolean way, int orderPosition) {
         cardsContent[x][y] = card;
         cardsFace[x][y] = way;
         cardsOrder[x][y] = orderPosition;
+
+        // create copy for update
         PlaceableCard[][] cardsContentCopy = new PlaceableCard[dim][dim];
         for(int i=0; i < dim; i++){
             for(int j=0; j < dim; j++){
