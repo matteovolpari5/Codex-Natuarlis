@@ -207,8 +207,8 @@ public class PlayerView implements Serializable {
     /**
      * Setter method for player's game field.
      */
-    public void setFullGameField(PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
-        gameField.setFullGameField(starterCard, cardsContent, cardsFace, cardsOrder);
+    public void setFullGameField(String nickname,PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        gameField.setFullGameField(nickname,starterCard, cardsContent, cardsFace, cardsOrder);
     }
 }
 

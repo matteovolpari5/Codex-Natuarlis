@@ -317,7 +317,7 @@ public class GameView {
      * @param nickname nickname
      * @param objectiveCards objective cards
      */
-    //TODO non sicuro sulla sincronizzazione
+    //TODO non sicuro sulla sincronizzazione: nessuno accede in lettura a secret objective ma come riga 381
     public synchronized void setSecretObjectives(String nickname, List<ObjectiveCard> objectiveCards) {
         if(ownerNickname.equals(nickname)) {
             for(PlayerView playerView: playerViews) {
@@ -359,7 +359,7 @@ public class GameView {
     public synchronized void receiveFullGameFieldUpdate(String nickname, PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         for(PlayerView playerView: playerViews) {
             if(playerView.getNickname().equals(nickname)) {
-                playerView.setFullGameField(starterCard, cardsContent, cardsFace, cardsOrder);
+                playerView.setFullGameField(nickname,starterCard, cardsContent, cardsFace, cardsOrder);
             }
         }
     }
