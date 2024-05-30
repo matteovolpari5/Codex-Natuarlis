@@ -31,11 +31,11 @@ public class GameModelUpdate implements Update {
      * @param state state
      * @param currPlayer current player
      */
-    public GameModelUpdate(int id, GameState state, int currPlayer, boolean twentyPointsReached, boolean additionalRound) {
+    public GameModelUpdate(int id, GameState state, int currPlayer, boolean penultimateRound, boolean additionalRound) {
         this.id = id;
         this.state = state;
         this.currPlayer = currPlayer;
-        this.penultimateRound = twentyPointsReached;
+        this.penultimateRound = penultimateRound;
         this.additionalRound = additionalRound;
     }
 
