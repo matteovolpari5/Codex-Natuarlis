@@ -502,7 +502,6 @@ public class GamesManager {
         }catch(RemoteException e) {
             // player disconnected, remove player from pending
             removePlayer(nickname);
-            throw new RuntimeException(); //TODO da togliere?
         }
     }
 
