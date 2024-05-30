@@ -28,6 +28,7 @@ public  class Gui extends Application implements Ui {
      */
     private String nickname;
 
+
     /**
      * Init method, called at application launch.
      * Sets the value of gui instance, created ad launch.
@@ -38,6 +39,7 @@ public  class Gui extends Application implements Ui {
             guiInstance = this;
             Gui.class.notifyAll();
         }
+        System.out.println("init done");
     }
 
     /**
@@ -46,9 +48,9 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void start(Stage stage) {
-        Platform.runLater(() -> {
+        //Platform.runLater(() -> {
             StageController.setup(stage);
-        });
+        //});
     }
 
     /**
@@ -93,6 +95,9 @@ public  class Gui extends Application implements Ui {
     @Override
     public void runJoinGameInterface() {
         // launch has already started interface
+        Platform.runLater(() -> {
+            StageController.setScene(SceneType.LOBBY_SCENE);
+        });
     }
 
     /**

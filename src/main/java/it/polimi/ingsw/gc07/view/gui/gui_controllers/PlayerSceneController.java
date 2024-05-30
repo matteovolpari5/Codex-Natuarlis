@@ -200,7 +200,6 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected void onStarterCardClick(){
         Platform.runLater(() -> {
-
             if(gameState.getText().equals("Game state: SETTING_INITIAL_CARDS")) {
                 startingPhaseBox.setVisible(true);
                 option1Label.setText("Front");
@@ -309,32 +308,35 @@ public class PlayerSceneController implements GuiController, Initializable {
     }
     @FXML
     protected void onDoubleClickCardHand(MouseEvent e) {
-        if (e.getClickCount() == 2) {
-            ImageView card;
-            if (e.getSource().equals(handCard1)) {
-                card = handCard1;
-            } else if (e.getSource().equals(handCard2)) {
-                card = handCard2;
-            } else if (e.getSource().equals(handCard3)) {
-                card = handCard3;
+        Platform.runLater(() -> {
+            if (e.getClickCount() == 2) {
+                ImageView card;
+                if (e.getSource().equals(handCard1)) {
+                    card = handCard1;
+                } else if (e.getSource().equals(handCard2)) {
+                    card = handCard2;
+                } else if (e.getSource().equals(handCard3)) {
+                    card = handCard3;
+                }
+                else{
+                    return;
+                }
+                int cardId = getCardId(card);
+                if (getCardWay(card)){
+                    card.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + cardId + ".png")).toExternalForm()));
+                }
+                else {
+                    card.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + cardId + ".png")).toExternalForm()));
+                }
             }
-            else{
-                return;
-            }
-            int cardId = getCardId(card);
-            if (getCardWay(card)){
-                card.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + cardId + ".png")).toExternalForm()));
-            }
-            else {
-                card.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + cardId + ".png")).toExternalForm()));
-            }
-        }
+        });
     }
     /**
      * Method to get the card id by the url of the image.
      * @param image imageView containing the image
      * @return id of the card in the image
      */
+    // TODO platform?
     private int getCardId (ImageView image) {
         String idString;
         int firstIndex = image.getImage().getUrl().lastIndexOf("/") + 1;
@@ -348,10 +350,12 @@ public class PlayerSceneController implements GuiController, Initializable {
      * @param image imageView containing the image
      * @return boolean representing the way of the card
      */
+    // TODO platform?
     private boolean getCardWay (ImageView image) {
         return image.getImage().getUrl().contains("Front");
     }
 
+    // TODO platform?
     private void setDragAndDrop(ImageView card) {
         card.setOnDragDetected(event -> {
             Dragboard db = card.startDragAndDrop(TransferMode.MOVE);

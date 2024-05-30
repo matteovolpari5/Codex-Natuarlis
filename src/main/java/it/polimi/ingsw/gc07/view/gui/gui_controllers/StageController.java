@@ -79,7 +79,9 @@ public abstract class StageController {
      * Method used to set up the stage once the Gui is started.
      * @param stage primary stage
      */
-    public static void setup(Stage stage) {
+    // TODO lasciare synchronized???
+    public synchronized static void setup(Stage stage) {
+        System.out.println("entered setup");
         // set stage
         currentStage = stage;
         // create scene loader
@@ -99,13 +101,34 @@ public abstract class StageController {
         currentStage.setScene(currentScene);
         currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
         currentStage.show();
+
+
+
+        System.out.println("start done");
+
+        // TODO lasciare???
+        StageController.class.notifyAll();
     }
 
     /**
      * Method used to set a scene, except for OTHER_PLAYER_SCENE.
      * @param sceneType scene type
      */
-    public static void setScene(SceneType sceneType) {
+    // TODO lasciare synchronized???
+    public synchronized static void setScene(SceneType sceneType) {
+
+        // TODO lasciare???
+        while(currentScene == null) {
+            try {
+                StageController.class.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        System.out.println("in set scene");
+
         assert(sceneType != SceneType.OTHER_PLAYER_SCENE);
         // create scene loader
         currentSceneType = sceneType;
