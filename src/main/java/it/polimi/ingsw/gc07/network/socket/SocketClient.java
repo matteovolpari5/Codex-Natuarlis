@@ -123,7 +123,8 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
-    private void runJoinGameInterface() {
+    @Override
+    public void runJoinGameInterface() {
         if(isClientAlive()){
             SocketCommunication result;
             try {
@@ -167,6 +168,7 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
+    @Override
     public void runGameInterface() {
         assert(ui != null);
         ui.runGameInterface();

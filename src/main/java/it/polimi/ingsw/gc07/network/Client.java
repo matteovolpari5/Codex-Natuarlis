@@ -34,4 +34,14 @@ public interface Client {
      * @return player's game view
      */
     GameView getGameView();
+
+    /**
+     * Method used to run the lobby ui.
+     */
+    public void runJoinGameInterface();
+
+    /**
+     * Method used to run the game ui.
+     */
+    public void runGameInterface();
 }
