@@ -21,15 +21,15 @@ public class DeckView {
     /**
      * Attribute that represents the revealed resource cards.
      */
-    private List<DrawableCard> faceUpResourceCard;
+    private List<DrawableCard> faceUpResourceCards;
     /**
      * Attribute that represents the revealed gold cards.
      */
-    private List<GoldCard> faceUpGoldCard;
+    private List<GoldCard> faceUpGoldCards;
     /**
      * Attribute that represents common objective cards.
      */
-    private List<ObjectiveCard> commonObjective;
+    private List<ObjectiveCard> commonObjectives;
     /**
      * List of deck view listeners.
      */
@@ -41,9 +41,9 @@ public class DeckView {
     public DeckView() {
         this.topResourceDeck = null;
         this.topGoldDeck = null;
-        this.faceUpResourceCard = null;
-        this.faceUpGoldCard = null;
-        this.commonObjective = null;
+        this.faceUpResourceCards = null;
+        this.faceUpGoldCards = null;
+        this.commonObjectives = null;
         this.deckViewListeners = new ArrayList<>();
     }
 
@@ -54,9 +54,9 @@ public class DeckView {
     public DeckView(DeckView deckView) {
         this.topResourceDeck = deckView.topResourceDeck;
         this.topGoldDeck = deckView.topGoldDeck;
-        this.faceUpResourceCard = new ArrayList<>(deckView.faceUpResourceCard);
-        this.faceUpGoldCard = new ArrayList<>(deckView.faceUpGoldCard);
-        this.commonObjective = deckView.commonObjective;
+        this.faceUpResourceCards = new ArrayList<>(deckView.faceUpResourceCards);
+        this.faceUpGoldCards = new ArrayList<>(deckView.faceUpGoldCards);
+        this.commonObjectives = deckView.commonObjectives;
         this.deckViewListeners = new ArrayList<>(); // don't copy listeners
     }
 
@@ -72,8 +72,21 @@ public class DeckView {
      * Method used to send a deck update.
      */
     private void sendDecksUpdate() {
+        List<DrawableCard> faceUpResourceCardsCopy = null;
+        List<GoldCard> faceUpGoldCardsCopy = null;
+        List<ObjectiveCard> commonObjectivesCopy = null;
+        if(faceUpResourceCards != null) {
+            faceUpResourceCardsCopy = new ArrayList<>(faceUpResourceCards);
+        }
+        if(faceUpGoldCards != null) {
+            faceUpGoldCardsCopy = new ArrayList<>(faceUpGoldCards);
+        }
+        if(commonObjectives != null) {
+            commonObjectivesCopy = new ArrayList<>(commonObjectives);
+        }
+
         for(DeckViewListener l: deckViewListeners) {
-            l.receiveDecksUpdate(topResourceDeck, topGoldDeck, new ArrayList<>(faceUpResourceCard), new ArrayList<>(faceUpGoldCard), new ArrayList<>(commonObjective));
+            l.receiveDecksUpdate(topResourceDeck, topGoldDeck, faceUpResourceCardsCopy,faceUpGoldCardsCopy, commonObjectivesCopy);
         }
     }
 
@@ -100,7 +113,7 @@ public class DeckView {
      * @param faceUpResourceCard new face up cards
      */
     public void setFaceUpResourceCard(List<DrawableCard> faceUpResourceCard) {
-        this.faceUpResourceCard = faceUpResourceCard;
+        this.faceUpResourceCards = faceUpResourceCard;
         sendDecksUpdate();
     }
 
@@ -109,7 +122,7 @@ public class DeckView {
      * @param faceUpGoldCard new face up cards
      */
     public void setFaceUpGoldCard(List<GoldCard> faceUpGoldCard) {
-        this.faceUpGoldCard = faceUpGoldCard;
+        this.faceUpGoldCards = faceUpGoldCard;
         sendDecksUpdate();
     }
 
@@ -118,7 +131,7 @@ public class DeckView {
      * @param commonObjective common objective cards
      */
     public void setCommonObjective(List<ObjectiveCard> commonObjective) {
-        this.commonObjective = commonObjective;
+        this.commonObjectives = commonObjective;
         sendDecksUpdate();
     }
 
@@ -143,7 +156,7 @@ public class DeckView {
      * @return face up resource cards deck
      */
     public List<DrawableCard> getFaceUpResourceCard() {
-        return faceUpResourceCard;
+        return faceUpResourceCards;
     }
 
     /**
@@ -151,7 +164,7 @@ public class DeckView {
      * @return face up gold cards deck
      */
     public List<GoldCard> getFaceUpGoldCard() {
-        return faceUpGoldCard;
+        return faceUpGoldCards;
     }
 
     /**
@@ -159,7 +172,7 @@ public class DeckView {
      * @return common objectives
      */
     public List<ObjectiveCard> getCommonObjective() {
-        return commonObjective;
+        return commonObjectives;
     }
 
     /**
@@ -170,9 +183,9 @@ public class DeckView {
      */
     public int getNumFaceUpCards(CardType cardType) {
         if(cardType.equals(CardType.RESOURCE_CARD))
-            return faceUpResourceCard.size();
+            return faceUpResourceCards.size();
         else if(cardType.equals(CardType.GOLD_CARD))
-            return faceUpGoldCard.size();
+            return faceUpGoldCards.size();
         return -1;
     }
 }
