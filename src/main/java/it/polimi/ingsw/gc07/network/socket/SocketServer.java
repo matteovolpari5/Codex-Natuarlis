@@ -30,9 +30,13 @@ public class SocketServer {
     public void runServer() throws IOException {
         SafePrinter.println("Socket server running");
         Socket clientSocket;
-        while((clientSocket = this.mySocket.accept()) != null){
+        while((clientSocket = this.mySocket.accept()) != null){ //TODO mail cugola
             SafePrinter.println("Received client socket connection");
-            new SocketClientHandler(clientSocket); //TODO se errore nella creazione viene fatto system exit su server main
+            try{
+                new SocketClientHandler(clientSocket);
+            } catch (IOException e){
+                //TODO eventuale stampa
+            }
         }
     }
 }

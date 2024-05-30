@@ -605,18 +605,24 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         if(!nickname.equals(client.getGameView().getOwnerNickname())) {
             return;
         }
-        if(!(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && (hand.size() < 3 || personalObjectives == null || personalObjectives.size() != 1))) {
-            SafePrinter.println("");
-            SafePrinter.println("--------------------------------------------------------");
-            SafePrinter.println("                  FRONT PLAYER HAND                     ");
-            SafePrinter.println("--------------------------------------------------------");
-            PlayerTui.printPlayerHand(hand, personalObjectives,false);
-            SafePrinter.println("");
-            SafePrinter.println("--------------------------------------------------------");
-            SafePrinter.println("                   BACK PLAYER HAND                     ");
-            SafePrinter.println("--------------------------------------------------------");
-            PlayerTui.printPlayerHand(hand, personalObjectives,true);
+        if(client.getGameView().getGameState().equals(GameState.GAME_STARTING) && hand.size() < 3) {
+            // will receive another update
+            return;
         }
+        if(personalObjectives == null || personalObjectives.size() != 1 || personalObjectives.getFirst() == null) {
+            return;
+        }
+
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                  FRONT PLAYER HAND                     ");
+        SafePrinter.println("--------------------------------------------------------");
+        PlayerTui.printPlayerHand(hand, personalObjectives,false);
+        SafePrinter.println("");
+        SafePrinter.println("--------------------------------------------------------");
+        SafePrinter.println("                   BACK PLAYER HAND                     ");
+        SafePrinter.println("--------------------------------------------------------");
+        PlayerTui.printPlayerHand(hand, personalObjectives,true);
     }
 
     /**

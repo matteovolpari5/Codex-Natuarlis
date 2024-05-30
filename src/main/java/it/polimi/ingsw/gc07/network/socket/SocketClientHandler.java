@@ -86,7 +86,11 @@ public class SocketClientHandler implements VirtualView {
                 break;
             }
         }
-        if(!mySocket.isClosed()){ //TODO corretto? provare
+        boolean isSocketClosed;
+        synchronized (this){
+            isSocketClosed = mySocket.isClosed();
+        }
+        if(!isSocketClosed){
             manageGameCommand();
         }
     }
@@ -117,6 +121,8 @@ public class SocketClientHandler implements VirtualView {
 
     private synchronized void closeConnection(){
         while(!mySocket.isClosed()){
+            SafePrinter.println("DISCONNECTED: " + myClientNickname);
+            Thread.dumpStack();
             //System.err.println("CHIUDO IL SOCKET DI : " + myClientNickname);
             try{
                 input.close();

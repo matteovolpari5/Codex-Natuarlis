@@ -124,8 +124,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
             serverGamesManager.connect(nickname, this);
         }catch(RemoteException e) {
-            SafePrinter.println("\nConnection failed. - connectToGamesManagerServer\n");
-            setClientAlive(false);
+            System.exit(-1);
         }
     }
 
@@ -169,14 +168,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         new Thread(this::startGamePing).start();
         new Thread(this::checkPong).start();
         new Thread(this::runGameInterface).start();
-    }
-
-    /**
-     * Method used to start the user interface.
-     */
-    public void startInterface() { //TODO perché due metodi uguali? mi sembra che possano essere invocati nello stesso modo
-        assert(ui != null);
-        ui.runJoinGameInterface();
     }
 
     /**

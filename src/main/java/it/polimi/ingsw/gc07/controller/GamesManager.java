@@ -138,14 +138,18 @@ public class GamesManager {
             Timer timeout = new Timer();
             playersTimers.put(gamesManagerCommand.getNickname(), timeout);
             new Thread(()->{
-                timeout.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        synchronized (this){
-                            removePlayer(gamesManagerCommand.getNickname());
+                try {
+                    timeout.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            synchronized (this){
+                                removePlayer(gamesManagerCommand.getNickname());
+                            }
                         }
-                    }
-                }, 5 * 60 * 1000); //timer of 5 minute
+                    }, 5 * 60 * 1000); //timer of 5 minute
+                }catch(IllegalStateException e) {
+                    // another timer already started
+                }
             }).start();
         }
         gamesManagerCommand.execute(this);
@@ -197,14 +201,18 @@ public class GamesManager {
         Timer timeout = new Timer();
         playersTimers.put(nickname, timeout);
         new Thread(() -> {
-            timeout.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    synchronized (this){
-                        removePlayer(nickname);
+            try {
+                timeout.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        synchronized (this){
+                            removePlayer(nickname);
+                        }
                     }
-                }
-            }, 5 * 60 * 1000); //timer of 5 minute
+                }, 5 * 60 * 1000); //timer of 5 minute
+            }catch(IllegalStateException e) {
+                // another timer already started
+            }
         }).start();
         commandResult = CommandResult.SUCCESS;
     }
