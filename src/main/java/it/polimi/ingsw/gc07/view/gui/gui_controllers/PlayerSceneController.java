@@ -1,18 +1,15 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
 import it.polimi.ingsw.gc07.controller.GameState;
+import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.game_commands.AddChatPrivateMessageCommand;
-import it.polimi.ingsw.gc07.game_commands.AddChatPublicMessageCommand;
-import it.polimi.ingsw.gc07.game_commands.PlaceCardCommand;
-import it.polimi.ingsw.gc07.game_commands.SetInitialCardsCommand;
+import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
-import it.polimi.ingsw.gc07.model_view.GameView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
@@ -20,7 +17,7 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,11 +25,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 import java.util.*;
 import java.util.List;
@@ -309,26 +304,26 @@ public class PlayerSceneController implements GuiController, Initializable {
     }
     @FXML
     protected void onDoubleClickCardHand(MouseEvent e) {
-        if (e.getClickCount() == 2) {
-            ImageView card;
-            if (e.getSource().equals(handCard1)) {
-                card = handCard1;
-            } else if (e.getSource().equals(handCard2)) {
-                card = handCard2;
-            } else if (e.getSource().equals(handCard3)) {
-                card = handCard3;
+        Platform.runLater(() -> {
+            if (e.getClickCount() == 2) {
+                ImageView card;
+                if (e.getSource().equals(handCard1)) {
+                    card = handCard1;
+                } else if (e.getSource().equals(handCard2)) {
+                    card = handCard2;
+                } else if (e.getSource().equals(handCard3)) {
+                    card = handCard3;
+                } else {
+                    return;
+                }
+                int cardId = getCardId(card);
+                if (!getCardWay(card)) {
+                    card.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + cardId + ".png")).toExternalForm()));
+                } else {
+                    card.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + cardId + ".png")).toExternalForm()));
+                }
             }
-            else{
-                return;
-            }
-            int cardId = getCardId(card);
-            if (getCardWay(card)){
-                card.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + cardId + ".png")).toExternalForm()));
-            }
-            else {
-                card.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + cardId + ".png")).toExternalForm()));
-            }
-        }
+        });
     }
     /**
      * Method to get the card id by the url of the image.
@@ -349,7 +344,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      * @return boolean representing the way of the card
      */
     private boolean getCardWay (ImageView image) {
-        return image.getImage().getUrl().contains("Front");
+        return image.getImage().getUrl().contains("Back");
     }
 
     private void setDragAndDrop(ImageView card) {
@@ -372,6 +367,38 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    @FXML
+    protected void onDeckCardDraw(MouseEvent e){
+        Platform.runLater(() -> {
+            CardType type;
+            if (e.getSource().equals(topDeckResource)) {
+                type = CardType.RESOURCE_CARD;
+            } else {
+                type = CardType.GOLD_CARD;
+            }
+            StageController.getClient().setAndExecuteCommand(new DrawDeckCardCommand(StageController.getNickname(), type));
+        });
+    }
+
+    @FXML
+    protected void onCardRevealedDraw(MouseEvent e){
+        Platform.runLater(() -> {
+            CardType type;
+            if (e.getSource().equals(revealedResource1) || e.getSource().equals(revealedResource2)) {
+                type = CardType.RESOURCE_CARD;
+            } else {
+                type = CardType.GOLD_CARD;
+            }
+            int pos;
+            if (e.getSource().equals(revealedGold1) || e.getSource().equals(revealedResource1)) {
+                pos = 0;
+            } else {
+                pos = 1;
+            }
+            StageController.getClient().setAndExecuteCommand(new DrawFaceUpCardCommand(StageController.getNickname(), type, pos));
+        });
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> {
@@ -391,18 +418,23 @@ public class PlayerSceneController implements GuiController, Initializable {
             tokenColorsList.add(tokenColor2);
             tokenColorsList.add(tokenColor3);
             tokenColorsList.add(tokenColor4);
+            Image blank = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/1.png")).toExternalForm());
             for (int row = 0; row < BOARD_SIZE; row++) {
+                gridPaneBoard.getRowConstraints().add(new RowConstraints(69));
+                gridPaneBoard.getColumnConstraints().add(new ColumnConstraints(133));
                 for (int col = 0; col < BOARD_SIZE; col++) {
                     ImageView gridImage = new ImageView();
-                    gridImage.setFitHeight(132.0);
-                    gridImage.setFitWidth(198.0);
+                    gridImage.setFitHeight(114.0);
+                    gridImage.setFitWidth(171.0);
+                    gridImage.setImage(blank);
+                    gridImage.setOpacity(0);
                     Rectangle imageClip = new Rectangle(gridImage.getFitWidth(), gridImage.getFitHeight());
                     imageClip.setArcHeight(20);
                     imageClip.setArcWidth(20);
                     gridImage.setClip(imageClip);
-                    Insets imageInset = new Insets(-30);
                     gridPaneBoard.add(gridImage, row, col);
-                    GridPane.setMargin(gridImage, imageInset);
+                    GridPane.setHalignment(gridImage, Pos.CENTER.getHpos());
+                    GridPane.setValignment(gridImage, Pos.CENTER.getVpos());
                     imageViews[row][col] = gridImage;
                     gridImage.setOnDragOver(event -> {
                         if (event.getGestureSource() != gridImage) {
@@ -410,22 +442,18 @@ public class PlayerSceneController implements GuiController, Initializable {
                         }
                         event.consume();
                     });
-
-                    gridImage.setOnDragEntered(event -> {
-                        if (event.getGestureSource() != gridImage) {
-                            gridImage.setOpacity(0.7);
-                        }
-                    });
-
-                    gridImage.setOnDragExited(event -> gridImage.setOpacity(1));
                     int finalCol = col;
                     int finalRow = row;
+                    gridImage.setOnDragEntered(event -> {
+                        if (event.getGestureSource() != gridImage) {
+
+                        }
+                    });
                     gridImage.setOnDragDropped(event -> {
                         ImageView card = (ImageView) event.getGestureSource();
                         boolean way = getCardWay(card);
                         int cardPos = Integer.parseInt(card.getId().substring(card.getId().length()-1))-1;
-                        System.out.println("carta posizionata in cella: "+ finalRow+", "+ finalCol);
-                        StageController.getClient().setAndExecuteCommand(new PlaceCardCommand(StageController.getNickname(), cardPos, finalRow, finalCol, way));
+                        StageController.getClient().setAndExecuteCommand(new PlaceCardCommand(StageController.getNickname(), cardPos, finalCol, finalRow, way));
                         event.setDropCompleted(true);
                         event.consume();
                     });
@@ -529,30 +557,29 @@ public class PlayerSceneController implements GuiController, Initializable {
                 }
             }
         }
-        //todo serve platform.runlater?
-        Platform.runLater(() -> {
             int imageId;
-            for (int i = 0; i < xPosition.size(); i++) {
+            for (int i = 0; i < xPosition.size() ; i++) {
                 imageId = cardsContent[xPosition.get(i)][yPosition.get(i)].getId();
+                ImageView gridImage = imageViews[yPosition.get(i)][xPosition.get(i)];
+                gridImage.setOpacity(1);
+                gridImage.toFront();
                 // starter cards have flipped front and back
                 if(xPosition.get(i) == 40 && yPosition.get(i) == 40){
                     if(!cardsFace[xPosition.get(i)][yPosition.get(i)]){
-                        imageViews[xPosition.get(i)][yPosition.get(i)].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + imageId +".png")).toExternalForm()));
+                        gridImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + imageId +".png")).toExternalForm()));
                     }
                     else{
-                        imageViews[xPosition.get(i)][yPosition.get(i)].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+                        gridImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
                     }
                 }
                 else {
                     if (!cardsFace[xPosition.get(i)][yPosition.get(i)]) {
-                        imageViews[xPosition.get(i)][yPosition.get(i)].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+                        gridImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
                     } else {
-                        imageViews[xPosition.get(i)][yPosition.get(i)].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + imageId + ".png")).toExternalForm()));
+                        gridImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + imageId + ".png")).toExternalForm()));
                     }
                 }
             }
-        });
-
     }
 
     /**
@@ -622,12 +649,11 @@ public class PlayerSceneController implements GuiController, Initializable {
      * @param currPlayer current player
      */
     @Override
-    public void updateGameInfo(GameState gameState, String currPlayer) { //TODO perché non utilizza il parametro?
+    public void updateGameInfo(GameState gameState, String currPlayer) {
         // game state
         this.gameState.setText("Game state: "+ gameState);
-        GameView gameView = StageController.getGameView();
         // current player
-        if (currPlayer != null){ //TODO il metodo getCurrentPlayerNickname è sincronizzato su GameView, al posto di invocarlo due volte non si potrebbe prima dell'if " String p = metodo" e fare il resto con p ?
+        if (currPlayer != null){
             currentPlayer.setText("Current player: " + currPlayer);
             currentPlayer.setVisible(true);
         }

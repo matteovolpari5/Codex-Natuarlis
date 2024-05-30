@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public  class Gui extends Application implements Ui {
     /**
@@ -27,6 +29,8 @@ public  class Gui extends Application implements Ui {
      * Nickname of Gui's owner.
      */
     private String nickname;
+
+    private Timer timeout;
 
     /**
      * Init method, called at application launch.
@@ -46,6 +50,15 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void start(Stage stage) {
+        timeout = new Timer();
+        new Thread(()-> {
+            timeout.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    System.exit(0);
+                }
+            }, 5 * 60 * 1000); //timer of 5 minutes
+        }).start();
         Platform.runLater(() -> {
             StageController.setup(stage);
         });
@@ -100,6 +113,10 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void runGameInterface() {
+        synchronized (this){
+            timeout.cancel();
+            timeout.purge();
+        }
         Platform.runLater(() -> {
             // change scene to PlayerScene
             StageController.setScene(SceneType.PLAYER_SCENE);
