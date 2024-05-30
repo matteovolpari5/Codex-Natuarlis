@@ -358,6 +358,9 @@ public class PlayerSceneController implements GuiController, Initializable {
             ClipboardContent content = new ClipboardContent();
             content.putImage(card.getImage());
             db.setContent(content);
+            //card.setVisible(false);
+            Image dragImage = new Image(card.getImage().getUrl(), 100, 100, true, true);
+            db.setDragView(dragImage);
             event.consume();
         });
 
@@ -414,15 +417,14 @@ public class PlayerSceneController implements GuiController, Initializable {
                         }
                     });
 
-                    gridImage.setOnDragExited(event -> {
-                        gridImage.setOpacity(1);
-                    });
+                    gridImage.setOnDragExited(event -> gridImage.setOpacity(1));
                     int finalCol = col;
                     int finalRow = row;
                     gridImage.setOnDragDropped(event -> {
                         ImageView card = (ImageView) event.getGestureSource();
                         boolean way = getCardWay(card);
                         int cardPos = Integer.parseInt(card.getId().substring(card.getId().length()-1))-1;
+                        System.out.println("carta posizionata in cella: "+ finalRow+", "+ finalCol);
                         StageController.getClient().setAndExecuteCommand(new PlaceCardCommand(StageController.getNickname(), cardPos, finalRow, finalCol, way));
                         event.setDropCompleted(true);
                         event.consume();
@@ -513,7 +515,6 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         // no need to check nickname, already checked by Gui method
-
         List<Integer> xPosition = new ArrayList<>();
         List<Integer> yPosition = new ArrayList<>();
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -610,6 +611,9 @@ public class PlayerSceneController implements GuiController, Initializable {
             imageId = personalObjective.getFirst().getId();
             secretObjective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
         }
+        setDragAndDrop(handCard1);
+        setDragAndDrop(handCard2);
+        setDragAndDrop(handCard3);
     }
 
     /**
@@ -623,8 +627,8 @@ public class PlayerSceneController implements GuiController, Initializable {
         this.gameState.setText("Game state: "+ gameState);
         GameView gameView = StageController.getGameView();
         // current player
-        if (gameView.getCurrentPlayerNickname() != null){ //TODO il metodo getCurrentPlayerNickname è sincronizzato su GameView, al posto di invocarlo due volte non si potrebbe prima dell'if " String p = metodo" e fare il resto con p ?
-            currentPlayer.setText("Current player: " + gameView.getCurrentPlayerNickname());
+        if (currPlayer != null){ //TODO il metodo getCurrentPlayerNickname è sincronizzato su GameView, al posto di invocarlo due volte non si potrebbe prima dell'if " String p = metodo" e fare il resto con p ?
+            currentPlayer.setText("Current player: " + currPlayer);
             currentPlayer.setVisible(true);
         }
         else{
