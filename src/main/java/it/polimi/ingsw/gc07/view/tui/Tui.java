@@ -772,7 +772,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveGameIdUpdate(int gameId) {
-        // TODO vogliamo stampare
+        // don't display
     }
 
     /**
@@ -782,7 +782,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveConnectionUpdate(String nickname, boolean connection) {
-        // TODO vogliamo stampare
+        if(!connection) {
+            SafePrinter.println("");
+            SafePrinter.println("--------------------------------------------------------");
+            SafePrinter.println("                         CONNECTION UPDATE                        ");
+            SafePrinter.println("--------------------------------------------------------");
+            SafePrinter.println("Player " + nickname + " lost connection.");
+        }
     }
 
     /**
@@ -792,7 +798,13 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveStallUpdate(String nickname, boolean stall) {
-        // TODO vogliamo stampare
+        if(stall) {
+            SafePrinter.println("");
+            SafePrinter.println("--------------------------------------------------------");
+            SafePrinter.println("                         STALL UPDATE                        ");
+            SafePrinter.println("--------------------------------------------------------");
+            SafePrinter.println("Player " + nickname + "is stalled.");
+        }
     }
 
     /**
