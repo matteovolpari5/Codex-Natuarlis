@@ -71,36 +71,11 @@ public class BoardView {
     /**
      * Private method used to send updates to listeners.
      */
-    public void updateListeners() { //TODO discutere, le mappe vengono modificate, a differenza delle liste di carte in DeckWiew
+    public void updateListeners() {
         Map<String, Integer> playerScoresCopy = new HashMap<>(playerScores);
         Map<String, TokenColor> playerTokenColorsCopy = new HashMap<>(playerTokenColors);
         for(BoardViewListener l: boardViewListeners) {
             l.receiveScoreUpdate(playerScoresCopy, playerTokenColorsCopy);
         }
-    }
-
-    /**
-     * Method used to get players' scores.
-     * @return map containing players' scores
-     */
-    public Map<String, Integer> getPlayerScores() {
-        Map<String, Integer> playersScoresCopy = new HashMap<>();
-        for(String nickname: playerScores.keySet()) {
-            playersScoresCopy.put(nickname, playerScores.get(nickname));
-        }
-        return playersScoresCopy;
-        //TODO perché non "Map<String, Integer> playersScoresCopy = new HashMap<>(playerScores);" al posto del for?
-    }
-
-    /**
-     * Method used to get players' token colors.
-     * @return map containing players' token colors
-     */
-    public Map<String, TokenColor> getPlayerTokenColors() {
-        Map<String, TokenColor> playersColorsCopy = new HashMap<>();
-        for(String nickname: playerTokenColors.keySet()) {
-            playersColorsCopy.put(nickname, playerTokenColors.get(nickname));
-        }
-        return playersColorsCopy;
     }
 }

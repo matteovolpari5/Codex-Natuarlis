@@ -140,7 +140,6 @@ public class GameView {
      * Getter method for common objective.
      * @return common objective cards
      */
-    //TODO solo da TUI da Update
     public List<ObjectiveCard> getCommonObjective() {
         return deckView.getCommonObjective();
     }
@@ -149,7 +148,6 @@ public class GameView {
      * Getter method for top resource card.
      * @return top resource card
      */
-    //TODO solo da TUI da Update
     public DrawableCard getTopResourceDeck() {
         return deckView.getTopResourceDeck();
     }
@@ -158,7 +156,6 @@ public class GameView {
      * Getter method for top gold card.
      * @return top gold card
      */
-    //TODO solo da TUI da Update
     public GoldCard getTopGoldDeck() {
         return deckView.getTopGoldDeck();
     }
@@ -167,7 +164,6 @@ public class GameView {
      * Getter method for face up resource cards.
      * @return face up resource cards
      */
-    //TODO solo da TUI da Update
     public List<DrawableCard> getFaceUpResourceCard() {
         return deckView.getFaceUpResourceCard();
     }
@@ -176,7 +172,6 @@ public class GameView {
      * Getter method for face up gold cards.
      * @return face up gold cards
      */
-    //TODO solo da TUI da Update
     public List<GoldCard> getFaceUpGoldCard() {
         return deckView.getFaceUpGoldCard();
     }
@@ -229,8 +224,7 @@ public class GameView {
      * Setter method for winners.
      * @param winners winners
      */
-    //TODO discutere se necessario in futuro sincronizzare
-    public void setWinners(List<String> winners) {
+    public synchronized void setWinners(List<String> winners) {
         this.winners = winners;
         for(GameViewListener l: gameViewListeners) {
             l.receiveWinnersUpdate(winners);
@@ -256,43 +250,19 @@ public class GameView {
     }
 
     /**
-     * Method that allows to set the common objective.
+     * Method used to save a new deck update
+     * @param topResourceCard top resource card
+     * @param topGoldCard top gold card
+     * @param resourceFaceUpCards face up resource cards
+     * @param goldFaceUpCards face up gold cards
      * @param commonObjective common objective
      */
-    public void setCommonObjective(List<ObjectiveCard> commonObjective) {
+    public synchronized void setDeck(DrawableCard topResourceCard, GoldCard topGoldCard, List<DrawableCard> resourceFaceUpCards, List<GoldCard> goldFaceUpCards, List<ObjectiveCard> commonObjective) {
+        deckView.setTopResourceDeck(topResourceCard);
+        deckView.setTopGoldDeck(topGoldCard);
+        deckView.setFaceUpResourceCard(resourceFaceUpCards);
+        deckView.setFaceUpGoldCard(goldFaceUpCards);
         deckView.setCommonObjective(commonObjective);
-    }
-
-    /**
-     * Method that allows to set the card on top of resource cards deck.
-     * @param topResourceDeck card on top of resource card deck
-     */
-    public void setTopResourceCard(DrawableCard topResourceDeck) {
-        deckView.setTopResourceDeck(topResourceDeck);
-    }
-
-    /**
-     * Method that allows to set the card on top of gold cards deck.
-     * @param topGoldDeck card on top of gold cards deck
-     */
-    public void setTopGoldCard(GoldCard topGoldDeck) {
-        deckView.setTopGoldDeck(topGoldDeck);
-    }
-
-    /**
-     * Method that allows to set the revealed resource cards.
-     * @param faceUpResourceCard revealed resource cards
-     */
-    public void setResourceFaceUpCards(List<DrawableCard> faceUpResourceCard) {
-        deckView.setFaceUpResourceCard(faceUpResourceCard);
-    }
-
-    /**
-     * Method that allows to set the revealed gold cards.
-     * @param faceUpGoldCard revealed gold cards
-     */
-    public void setGoldFaceUpCards(List<GoldCard> faceUpGoldCard) {
-        deckView.setFaceUpGoldCard(faceUpGoldCard);
     }
 
     /**
@@ -317,7 +287,6 @@ public class GameView {
      * @param nickname nickname
      * @param objectiveCards objective cards
      */
-    //TODO non sicuro sulla sincronizzazione: nessuno accede in lettura a secret objective ma come riga 381
     public synchronized void setSecretObjectives(String nickname, List<ObjectiveCard> objectiveCards) {
         if(ownerNickname.equals(nickname)) {
             for(PlayerView playerView: playerViews) {
@@ -355,7 +324,6 @@ public class GameView {
      * @param cardsFace cards face matrix
      * @param cardsOrder cards order matrix
      */
-    //TODO discutere se necessario dato che è in contesto di riconnessione
     public synchronized void receiveFullGameFieldUpdate(String nickname, PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         for(PlayerView playerView: playerViews) {
             if(playerView.getNickname().equals(nickname)) {
@@ -378,7 +346,7 @@ public class GameView {
      * @param nickname nickname
      * @param isStalled isStalled value
      */
-    public synchronized void setIsStalled(String nickname, boolean isStalled) { //TODO non dovrebbe esseri un metodo che accede a isStalled ma non so se accesso concorrente si ha anche se accedono allo stesso oggetto in attributi diversi
+    public synchronized void setIsStalled(String nickname, boolean isStalled) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setIsStalled(isStalled);
@@ -391,7 +359,7 @@ public class GameView {
      * @param nickname nickname
      * @param isConnected isConnected value
      */
-    public synchronized void setIsConnected(String nickname, boolean isConnected) { //TODO come sopra
+    public synchronized void setIsConnected(String nickname, boolean isConnected) {
         for(PlayerView p: playerViews) {
             if(p.getNickname().equals(nickname)) {
                 p.setIsConnected(isConnected);
@@ -422,6 +390,7 @@ public class GameView {
             for(PlayerView myPlayerView: this.playerViews) {
                 if(playerView.getNickname().equals(myPlayerView.getNickname())) {
                     found = true;
+                    break;
                 }
             }
             if(!found) {
@@ -511,20 +480,6 @@ public class GameView {
     }
 
     /**
-     * Getter method for the owner's current hand.
-     * @return owner's current hand
-     */
-    public List<DrawableCard> getCurrentHand() {
-        for(PlayerView p: playerViews) {
-            if(p.getNickname().equals(ownerNickname)) {
-                // already returns a copy
-                return p.getCurrentHand();
-            }
-        }
-        return null;
-    }
-
-    /**
      * Getter method for the owner's current hand size.
      * @return owner's current hand size
      */
@@ -564,59 +519,5 @@ public class GameView {
         }
         assert(player != null);
         return player.getGameField();
-    }
-
-    /**
-     * Getter method for the deck view.
-     * @return deck view
-     */
-    public DeckView getDeckView() {
-        return new DeckView(deckView);
-    }
-
-
-    /**
-     * Getter method for players' token colors.
-     * @return players' token colors
-     */
-    public Map<String, TokenColor> getPlayersTokenColors() {//TODO come sopra
-        return boardView.getPlayerTokenColors();
-    }
-
-    /**
-     * Getter method for owner's starter card.
-     * @return owner's starter card
-     */
-    public PlaceableCard getStarterCard() {
-        for(PlayerView p: playerViews) {
-            if(p.getNickname().equals(ownerNickname)) {
-                return p.getGameField().getStarterCard();
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Getter method for players' connection values.
-     * @return map containing connection values
-     */
-    public Map<String, Boolean> getConnectionValues() {
-        Map<String, Boolean> connectionValues = new HashMap<>();
-        for(PlayerView p: playerViews) {
-            connectionValues.put(p.getNickname(), p.isConnected());
-        }
-        return connectionValues;
-    }
-
-    /**
-     * Getter method for players' stall values.
-     * @return map containing stall values
-     */
-    public Map<String, Boolean> getStallValues() {
-        Map<String, Boolean> stallValues = new HashMap<>();
-        for(PlayerView p: playerViews) {
-            stallValues.put(p.getNickname(), p.isStalled());
-        }
-        return stallValues;
     }
 }

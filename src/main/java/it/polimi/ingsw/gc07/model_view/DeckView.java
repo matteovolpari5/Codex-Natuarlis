@@ -73,7 +73,7 @@ public class DeckView {
      */
     private void sendDecksUpdate() {
         for(DeckViewListener l: deckViewListeners) {
-            l.receiveDecksUpdate(topResourceDeck, topGoldDeck, faceUpResourceCard, faceUpGoldCard, commonObjective);
+            l.receiveDecksUpdate(topResourceDeck, topGoldDeck, new ArrayList<>(faceUpResourceCard), new ArrayList<>(faceUpGoldCard), new ArrayList<>(commonObjective));
         }
     }
 

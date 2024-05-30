@@ -181,14 +181,6 @@ public class PlayerView implements Serializable {
     }
 
     /**
-     * Getter for player's current hand.
-     * @return current hand
-     */
-    public List<DrawableCard> getCurrentHand() {
-        return new ArrayList<>(currentHand);
-    }
-
-    /**
      * Getter for player's current hand size.
      * @return current hand size
      */
