@@ -574,13 +574,6 @@ public class GameView {
         return new DeckView(deckView);
     }
 
-    /**
-     * Getter method for players' scores.
-     * @return players' scores
-     */
-    public Map<String, Integer> getPlayersScores() { //TODO se usati bisogna rivedere sincronizzazione da ScoreUpdate
-        return boardView.getPlayerScores();
-    }
 
     /**
      * Getter method for players' token colors.
