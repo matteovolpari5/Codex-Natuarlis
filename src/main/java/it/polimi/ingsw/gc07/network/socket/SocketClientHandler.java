@@ -18,7 +18,8 @@ import java.rmi.RemoteException;
 /**
  * Class that manages the whole communication with a specific client
  */
-public class SocketClientHandler implements VirtualView {
+public class
+SocketClientHandler implements VirtualView {
     private final GamesManager gamesManager;
     private GameController gameController;
     private final Socket mySocket;

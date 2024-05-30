@@ -131,6 +131,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     /**
      * Method used from RmiServerGamesManager to restart the cli if the joining was not successful.
      */
+    @Override
     public void notifyJoinNotSuccessful() throws RemoteException {
         SafePrinter.println("\nCould not add you to the game, retry.\n");
         new Thread(this::runJoinGameInterface).start();
@@ -173,6 +174,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     /**
      * Method used to run the lobby ui.
      */
+    @Override
     public void runJoinGameInterface() {
         assert(ui != null);
         ui.runJoinGameInterface();
@@ -181,6 +183,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     /**
      * Method used to run the game ui.
      */
+    @Override
     public void runGameInterface() {
         assert(ui != null);
         ui.runGameInterface();
