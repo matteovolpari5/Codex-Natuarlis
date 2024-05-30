@@ -84,6 +84,7 @@ public class SocketClient implements Client, PingSender {
             this.gameView = new GameView(nickname);
             //this.myServer = new VirtualSocketServer(output);
             if(interfaceType) {
+                // run application on new thread
                 new Thread(() -> Application.launch(Gui.class)).start();
                 this.ui = Gui.getGuiInstance();
                 this.ui.setNickname(nickname);
