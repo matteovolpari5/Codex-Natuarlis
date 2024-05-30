@@ -27,7 +27,7 @@ public class SocketClientHandler implements VirtualView {
     private  String myClientNickname;
     private boolean isReconnected;
 
-    public SocketClientHandler(Socket mySocket) throws IOException { //TODO
+    public SocketClientHandler(Socket mySocket) throws IOException {
         InputStream temp_input;
         OutputStream temp_output;
 

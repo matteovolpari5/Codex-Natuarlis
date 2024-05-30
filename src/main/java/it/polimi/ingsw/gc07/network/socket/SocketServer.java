@@ -32,7 +32,7 @@ public class SocketServer {
         Socket clientSocket;
         while((clientSocket = this.mySocket.accept()) != null){
             SafePrinter.println("Received client socket connection");
-            new SocketClientHandler(clientSocket);
+            new SocketClientHandler(clientSocket); //TODO se errore nella creazione viene fatto system exit su server main
         }
     }
 }

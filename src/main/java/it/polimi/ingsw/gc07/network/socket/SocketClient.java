@@ -28,7 +28,7 @@ public class SocketClient implements Client, PingSender {
     private Ui ui;
     private static final int maxMissedPongs = 3;
     private boolean pong;
-    public SocketClient(Socket mySocket, boolean interfaceType) throws IOException {//TODO
+    public SocketClient(Socket mySocket, boolean interfaceType) throws IOException {
         InputStream temp_input;
         OutputStream temp_output;
 
@@ -45,6 +45,8 @@ public class SocketClient implements Client, PingSender {
 
         this.clientAlive = true;
         this.pong = true;
+
+        this.myServer = new VirtualSocketServer(output);
 
         manageSetUp(output, interfaceType);
 
@@ -80,7 +82,7 @@ public class SocketClient implements Client, PingSender {
         if(isClientAlive()){
             this.nickname = nickname;
             this.gameView = new GameView(nickname);
-            this.myServer = new VirtualSocketServer(output);
+            //this.myServer = new VirtualSocketServer(output);
             if(interfaceType) {
                 new Thread(() -> Application.launch(Gui.class));
                 this.ui = Gui.getGuiInstance();
@@ -94,7 +96,9 @@ public class SocketClient implements Client, PingSender {
                 try {
                     myServer.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, false, interfaceType));
                 } catch (IOException e) {
+                    //Network error during the initial communication for the set-up
                     closeConnection();
+                    System.exit(-1);//TODO
                 }
                 ui.runJoinGameInterface();
                 runJoinGameInterface();
