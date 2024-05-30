@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CardType;
+import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.*;
@@ -195,7 +196,6 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected void onStarterCardClick(){
         Platform.runLater(() -> {
-
             if(gameState.getText().equals("Game state: SETTING_INITIAL_CARDS")) {
                 startingPhaseBox.setVisible(true);
                 option1Label.setText("Front");
@@ -330,6 +330,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      * @param image imageView containing the image
      * @return id of the card in the image
      */
+    // TODO platform?
     private int getCardId (ImageView image) {
         String idString;
         int firstIndex = image.getImage().getUrl().lastIndexOf("/") + 1;
@@ -343,10 +344,12 @@ public class PlayerSceneController implements GuiController, Initializable {
      * @param image imageView containing the image
      * @return boolean representing the way of the card
      */
+    // TODO platform?
     private boolean getCardWay (ImageView image) {
         return image.getImage().getUrl().contains("Back");
     }
 
+    // TODO platform?
     private void setDragAndDrop(ImageView card) {
         card.setOnDragDetected(event -> {
             Dragboard db = card.startDragAndDrop(TransferMode.MOVE);

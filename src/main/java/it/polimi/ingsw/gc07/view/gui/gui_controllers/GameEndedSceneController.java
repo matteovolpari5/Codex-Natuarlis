@@ -242,7 +242,7 @@ public class GameEndedSceneController implements GuiController {
     public void endGame(ActionEvent actionEvent) {
         Platform.runLater(() -> {
             StageController.getClient().setClientAlive(false);
-            //TODO: close the window without closing the client //
+            //TODO: close the window without closing the client
         });
     }
 }

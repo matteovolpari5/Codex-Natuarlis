@@ -42,6 +42,7 @@ public  class Gui extends Application implements Ui {
             guiInstance = this;
             Gui.class.notifyAll();
         }
+        System.out.println("init done");
     }
 
     /**
@@ -50,6 +51,7 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void start(Stage stage) {
+        //Platform.runLater(() -> {
         timeout = new Timer();
         new Thread(()-> {
             timeout.schedule(new TimerTask() {
@@ -59,9 +61,9 @@ public  class Gui extends Application implements Ui {
                 }
             }, 5 * 60 * 1000); //timer of 5 minutes
         }).start();
-        Platform.runLater(() -> {
+        //Platform.runLater(() -> {
             StageController.setup(stage);
-        });
+        //});
     }
 
     /**
@@ -106,6 +108,9 @@ public  class Gui extends Application implements Ui {
     @Override
     public void runJoinGameInterface() {
         // launch has already started interface
+        Platform.runLater(() -> {
+            StageController.setScene(SceneType.LOBBY_SCENE);
+        });
     }
 
     /**
@@ -113,11 +118,11 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void runGameInterface() {
-        synchronized (this){
-            timeout.cancel();
-            timeout.purge();
-        }
         Platform.runLater(() -> {
+            synchronized (this){
+                timeout.cancel();
+                timeout.purge();
+                }
             // change scene to PlayerScene
             StageController.setScene(SceneType.PLAYER_SCENE);
         });
