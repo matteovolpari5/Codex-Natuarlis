@@ -124,8 +124,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             serverGamesManager.setAndExecuteCommand(new AddPlayerToPendingCommand(nickname, connectionType, interfaceType));
             serverGamesManager.connect(nickname, this);
         }catch(RemoteException e) {
-            SafePrinter.println("\nConnection failed. - connectToGamesManagerServer\n");
-            setClientAlive(false);
+            System.exit(-1);
         }
     }
 
