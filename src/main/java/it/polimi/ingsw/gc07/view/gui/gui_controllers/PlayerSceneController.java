@@ -169,7 +169,7 @@ public class PlayerSceneController implements GuiController, Initializable {
                 ObservableList<String> possiblesReceivers = FXCollections.observableArrayList();
                 possiblesReceivers.add("everyone");
                 for(Label nickname: nicknameLabels){
-                    if(!nickname.getText().equals("Player") && !nickname.getText().equals(StageController.getNickname()) && !receiverSelector.getItems().contains(nickname.getText())) {
+                    if(!nickname.getText().equals("Player") && !nickname.getText().equals(StageController.getNickname())) {
                         possiblesReceivers.add(nickname.getText());
                     }
                 }
@@ -179,7 +179,6 @@ public class PlayerSceneController implements GuiController, Initializable {
                 chatContainer.setVisible(false);
                 nickContainer.setOpacity(1);
                 chatButton.setText("show chat");
-                nickContainer.setVisible(true);
             }
         });
     }
@@ -858,8 +857,9 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> tokenColors, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
-        boolean found = false;
+        boolean found;
         for(String newNickname: tokenColors.keySet()){
+            found = false;
             for(int i = 0; i < nicknameLabels.size(); i++) {
                 if (nicknameLabels.get(i).getText().equals(newNickname)) {
                     // the nickname is already present
@@ -881,6 +881,7 @@ public class PlayerSceneController implements GuiController, Initializable {
                     tokenColorsList.get(i).setVisible(true);
                     // set token color image
                     tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + tokenColors.get(newNickname).toString().toLowerCase() + ".png")).toExternalForm()));
+                    break;
                 }
             }
             if(!found){
