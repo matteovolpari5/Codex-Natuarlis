@@ -200,22 +200,24 @@ public class PlayerSceneController implements GuiController, Initializable {
             }
         });
     }
+
     @FXML
     protected void goToOtherGameField(MouseEvent e){
-        String otherGameFieldNickname;
-        if (e.getSource().equals(nickname1)){
-            otherGameFieldNickname = nickname1.getText();
-        } else if (e.getSource().equals(nickname2)) {
-            otherGameFieldNickname = nickname2.getText();
-        } else if (e.getSource().equals(nickname3)) {
-            otherGameFieldNickname = nickname3.getText();
-        } else if (e.getSource().equals(nickname4)) {
-            otherGameFieldNickname = nickname4.getText();
-        }
-        else{
-            return;
-        }
-        StageController.setOtherPlayerScene(otherGameFieldNickname);
+        Platform.runLater(() -> {
+            String otherGameFieldNickname;
+            if (e.getSource().equals(nickname1)) {
+                otherGameFieldNickname = nickname1.getText();
+            } else if (e.getSource().equals(nickname2)) {
+                otherGameFieldNickname = nickname2.getText();
+            } else if (e.getSource().equals(nickname3)) {
+                otherGameFieldNickname = nickname3.getText();
+            } else if (e.getSource().equals(nickname4)) {
+                otherGameFieldNickname = nickname4.getText();
+            } else {
+                return;
+            }
+            StageController.setOtherPlayerScene(otherGameFieldNickname);
+        });
     }
     @FXML
     protected void onStarterCardClick(){
@@ -582,7 +584,6 @@ public class PlayerSceneController implements GuiController, Initializable {
             topDeckId = topGoldDeck.getId();
             topDeckGold.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId + ".png")).toExternalForm()));
         }
-        // TODO
         if(faceUpGoldCard!= null) {
             if (!faceUpGoldCard.isEmpty()) {
                 revealedGold1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.getFirst().getId() + ".png")).toExternalForm()));

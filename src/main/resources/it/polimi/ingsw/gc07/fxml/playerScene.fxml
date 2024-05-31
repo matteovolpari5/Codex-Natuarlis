@@ -68,22 +68,22 @@
                 </VBox>
                 <VBox maxWidth="300.0" prefHeight="148.0" style="-fx-background-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;">
                     <children>
-                        <Label fx:id="nickname1" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname1" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname2" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname2" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname3" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname3" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname4" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname4" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>
@@ -92,22 +92,22 @@
                 </VBox>
                 <VBox prefHeight="148.0" style="-fx-background-color: #fff8dc; -fx-background-radius: 15; -fx-padding: 10;">
                     <children>
-                        <Label fx:id="nickStatus1" onMouseClicked="#goToOtherGameField" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus1" prefHeight="30.0" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickStatus2" onMouseClicked="#goToOtherGameField" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus2" prefHeight="30.0" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickStatus3" onMouseClicked="#goToOtherGameField" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus3" prefHeight="30.0" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickStatus4" onMouseClicked="#goToOtherGameField" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus4" prefHeight="30.0" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>

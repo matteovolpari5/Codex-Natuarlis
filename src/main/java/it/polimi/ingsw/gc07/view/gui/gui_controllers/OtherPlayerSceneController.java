@@ -8,22 +8,26 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.view.gui.SceneType;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class OtherPlayerSceneController implements GuiController, Initializable {
 
@@ -101,25 +105,88 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
 
     @FXML
     protected void goToOtherGameField(MouseEvent e){
-        String otherGameFieldNickname;
-        if (e.getSource().equals(nickname1)){
-            otherGameFieldNickname = nickname1.getText();
-        } else if (e.getSource().equals(nickname2)) {
-            otherGameFieldNickname = nickname2.getText();
-        } else if (e.getSource().equals(nickname3)) {
-            otherGameFieldNickname = nickname3.getText();
-        } else if (e.getSource().equals(nickname4)) {
-            otherGameFieldNickname = nickname4.getText();
-        }
-        else{
-            return;
-        }
-        StageController.setOtherPlayerScene(otherGameFieldNickname);
+        Platform.runLater(() -> {
+            String otherGameFieldNickname;
+            if (e.getSource().equals(nickname1)) {
+                otherGameFieldNickname = nickname1.getText();
+            } else if (e.getSource().equals(nickname2)) {
+                otherGameFieldNickname = nickname2.getText();
+            } else if (e.getSource().equals(nickname3)) {
+                otherGameFieldNickname = nickname3.getText();
+            } else if (e.getSource().equals(nickname4)) {
+                otherGameFieldNickname = nickname4.getText();
+            } else {
+                return;
+            }
+            StageController.setOtherPlayerScene(otherGameFieldNickname);
+        });
     }
+    @FXML
+    protected void onGoBackButtonClick(){
+        Platform.runLater(() -> {
+            StageController.setScene(SceneType.PLAYER_SCENE);
+        });
+    }
+
+    /**
+     * Method to round the corners of the cards.
+     * @param card image of the card to be rounded
+     */
+    private void setRoundedCorners(ImageView card) {
+        Rectangle imageClip = new Rectangle(card.getFitWidth(), card.getFitHeight());
+        imageClip.setArcHeight(20);
+        imageClip.setArcWidth(20);
+        card.setClip(imageClip);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // TODO come per player scene, richiedere l'aggiornamento da fuori
-
+        myUpdates.setItems(updatesItem);
+        nicknameLabels.add(nickname1);
+        nicknameLabels.add(nickname2);
+        nicknameLabels.add(nickname3);
+        nicknameLabels.add(nickname4);
+        statusLabels.add(nickStatus1);
+        statusLabels.add(nickStatus2);
+        statusLabels.add(nickStatus3);
+        statusLabels.add(nickStatus4);
+        tokenColorsList.add(tokenColor1);
+        tokenColorsList.add(tokenColor2);
+        tokenColorsList.add(tokenColor3);
+        tokenColorsList.add(tokenColor4);
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            gridPaneBoard.getRowConstraints().add(new RowConstraints(69));
+            gridPaneBoard.getColumnConstraints().add(new ColumnConstraints(133));
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                ImageView gridImage = new ImageView();
+                gridImage.setFitHeight(114.0);
+                gridImage.setFitWidth(171.0);
+                setRoundedCorners(gridImage);
+                gridPaneBoard.add(gridImage, row, col);
+                GridPane.setHalignment(gridImage, Pos.CENTER.getHpos());
+                GridPane.setValignment(gridImage, Pos.CENTER.getVpos());
+                imageViews[row][col] = gridImage;
+            }
+        }
+        setRoundedCorners(commonObjective1);
+        setRoundedCorners(commonObjective2);
+        setRoundedCorners(revealedGold1);
+        setRoundedCorners(revealedGold2);
+        setRoundedCorners(revealedResource1);
+        setRoundedCorners(revealedResource2);
+        setRoundedCorners(topDeckGold);
+        setRoundedCorners(topDeckResource);
+        for(int i = 0; i < scoreGrid.getRowCount(); i++){
+            for (int j = 0; j < scoreGrid.getColumnCount(); j++){
+                ImageView pointsImage = new ImageView();
+                pointsImage.setFitWidth(30);
+                pointsImage.setFitHeight(30);
+                scoreGrid.add(pointsImage, j, i);
+                scoreImages[i][j] = pointsImage;
+                GridPane.setHalignment(scoreImages[i][j], Pos.CENTER.getHpos());
+                GridPane.setValignment(scoreImages[i][j], Pos.CENTER.getVpos());
+            }
+        }
     }
 
     /**
@@ -129,7 +196,19 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
-        // TODO
+        for (int i = 0; i < scoreGrid.getRowCount(); i++){
+            for(int j = 0; j < scoreGrid.getColumnCount(); j++){
+                scoreImages[i][j].setVisible(false);
+            }
+        }
+        int x,y;
+        for (String nickname: playerScore.keySet()){
+            x = ScoreBoardGridLayout.valueOf(playerTokenColor.get(nickname)+ "_"+ playerScore.get(nickname)).getX();
+            y = ScoreBoardGridLayout.valueOf(playerTokenColor.get(nickname)+"_" +playerScore.get(nickname)).getY();
+
+            scoreImages[x][y].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + playerTokenColor.get(nickname).toString().toLowerCase() + ".png")).toExternalForm()));
+            scoreImages[x][y].setVisible(true);
+        }
     }
 
     /**
@@ -149,7 +228,37 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateDecks(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
-        //TODO
+        int topDeckId;
+        if(topDeckResource!=null) {
+            topDeckId = topResourceDeck.getId();
+            topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId + ".png")).toExternalForm()));
+        }
+        if(topGoldDeck!=null) {
+            topDeckId = topGoldDeck.getId();
+            topDeckGold.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId + ".png")).toExternalForm()));
+        }
+        if(faceUpGoldCard!= null) {
+            if (!faceUpGoldCard.isEmpty()) {
+                revealedGold1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.getFirst().getId() + ".png")).toExternalForm()));
+            }
+            if (faceUpGoldCard.size() == 2) {
+                revealedGold2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpGoldCard.get(1).getId() + ".png")).toExternalForm()));
+            }
+        }
+        if(faceUpResourceCard!=null) {
+            if (!faceUpResourceCard.isEmpty()) {
+                revealedResource1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.getFirst().getId() + ".png")).toExternalForm()));
+            }
+            if (faceUpResourceCard.size() == 2) {
+                revealedResource2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + faceUpResourceCard.get(1).getId() + ".png")).toExternalForm()));
+            }
+        }
+        if(commonObjective!=null) {
+            if (!commonObjective.isEmpty()) {
+                commonObjective1.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(0).getId() + ".png")).toExternalForm()));
+                commonObjective2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + commonObjective.get(1).getId() + ".png")).toExternalForm()));
+            }
+        }
     }
 
     /**
@@ -162,7 +271,43 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     @Override
     public void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         if(otherPlayerNickname != null && otherPlayerNickname.equals(nickname)) {
-            // TODO update game field
+            List<Integer> xPosition = new ArrayList<>();
+            List<Integer> yPosition = new ArrayList<>();
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
+                    if(cardsOrder[i][j]!=0) {
+                        while (xPosition.size() < cardsOrder[i][j]) {
+                            xPosition.add(-1);
+                            yPosition.add(-1);
+                        }
+                        xPosition.set(cardsOrder[i][j]-1, i);
+                        yPosition.set(cardsOrder[i][j]-1, j);
+                    }
+                }
+            }
+            int imageId;
+            for (int i = 0; i < xPosition.size() ; i++) {
+                imageId = cardsContent[xPosition.get(i)][yPosition.get(i)].getId();
+                ImageView gridImage = imageViews[yPosition.get(i)][xPosition.get(i)];
+                gridImage.setOpacity(1);
+                gridImage.toFront();
+                // starter cards have flipped front and back
+                if(xPosition.get(i) == 40 && yPosition.get(i) == 40){
+                    if(!cardsFace[xPosition.get(i)][yPosition.get(i)]){
+                        gridImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + imageId +".png")).toExternalForm()));
+                    }
+                    else{
+                        gridImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+                    }
+                }
+                else {
+                    if (!cardsFace[xPosition.get(i)][yPosition.get(i)]) {
+                        gridImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
+                    } else {
+                        gridImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + imageId + ".png")).toExternalForm()));
+                    }
+                }
+            }
         }
     }
 
@@ -189,7 +334,16 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateGameInfo(GameState gameState, String currPlayer) {
-        // TODO
+        // game state
+        this.gameState.setText("Game state: "+ gameState);
+        // current player
+        if (currPlayer != null){
+            currentPlayer.setText("Current player: " + currPlayer);
+            currentPlayer.setVisible(true);
+        }
+        else{
+            currentPlayer.setVisible(false);
+        }
     }
 
     /**
@@ -197,7 +351,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void setPenultimateRound() {
-        // TODO
+        updatesItem.add("This is the penultimate round");
     }
 
     /**
@@ -205,7 +359,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void setAdditionalRound() {
-        // TODO
+        updatesItem.add("There will be an additional turn");
     }
 
     /**
@@ -214,7 +368,9 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateCommandResult(CommandResult commandResult) {
-        // TODO
+        if(!commandResult.equals(CommandResult.SUCCESS)){
+            updatesItem.add(commandResult.getResultMessage());
+        }
     }
 
     /**
@@ -249,9 +405,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      * @param gameId game id
      */
     @Override
-    public void setGameId(int gameId) {
-        // TODO
-    }
+    public void setGameId(int gameId) {}
 
     /**
      * Method used to display a new connection value.
@@ -260,7 +414,19 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void receiveConnectionUpdate(String nickname, boolean value) {
-        // TODO
+        for(int i = 0; i < nicknameLabels.size(); i++){
+            if(nicknameLabels.get(i).getText().equals(nickname)){
+                if(!value){
+                    statusLabels.get(i).setText("[disconnected]");
+                    statusLabels.get(i).setVisible(true);
+                    nicknameLabels.get(i).setOpacity(0.8);
+                }
+                else{
+                    nicknameLabels.get(i).setOpacity(1);
+                    statusLabels.get(i).setVisible(false);
+                }
+            }
+        }
     }
 
     /**
@@ -270,17 +436,82 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void receiveStallUpdate(String nickname, boolean value) {
-        // TODO
+        for(int i = 0; i < nicknameLabels.size(); i++){
+            if(nicknameLabels.get(i).getText().equals(nickname)){
+                if(value){
+                    statusLabels.get(i).setText("[stalled]");
+                    statusLabels.get(i).setVisible(true);
+                    nicknameLabels.get(i).setOpacity(0.8);
+                }
+                else{
+                    nicknameLabels.get(i).setOpacity(1);
+                    statusLabels.get(i).setVisible(false);
+                }
+            }
+        }
     }
 
     /**
      * Method used to display players in the game.
-     * @param nicknames nicknames
+     * @param tokenColors token colors
      * @param connectionValues connection values
      * @param stallValues stall values
      */
     @Override
-    public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
-        // TODO
+    public void receivePlayersUpdate(Map<String, TokenColor> tokenColors, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
+        boolean found = false;
+        for(String newNickname: tokenColors.keySet()){
+            for(int i = 0; i < nicknameLabels.size(); i++) {
+                if (nicknameLabels.get(i).getText().equals(newNickname)) {
+                    // the nickname is already present
+                    nicknameLabels.get(i).setVisible(true);
+                    // set disconnected/stalled visible attribute
+                    if (!connectionValues.get(newNickname)) {
+                        statusLabels.get(i).setText("[disconnected]");
+                        statusLabels.get(i).setVisible(true);
+                        nicknameLabels.get(i).setOpacity(0.8);
+                    } else if (stallValues.get(newNickname)) {
+                        statusLabels.get(i).setVisible(true);
+                        statusLabels.get(i).setText("[stalled]");
+                        nicknameLabels.get(i).setOpacity(0.8);
+                    } else {
+                        nicknameLabels.get(i).setOpacity(1);
+                        statusLabels.get(i).setVisible(false);
+                    }
+                    found = true;
+                    tokenColorsList.get(i).setVisible(true);
+                    // set token color image
+                    tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + tokenColors.get(newNickname).toString().toLowerCase() + ".png")).toExternalForm()));
+                }
+            }
+            if(!found){
+                // insert the nickname in the first free label
+                for(int j = 0; j < nicknameLabels.size(); j++){
+                    if(nicknameLabels.get(j).getText().equals("Player")){
+                        nicknameLabels.get(j).setText(newNickname);
+                        nicknameLabels.get(j).setVisible(true);
+                        // set token color image
+                        tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + tokenColors.get(newNickname).toString().toLowerCase() + ".png")).toExternalForm()));
+                        tokenColorsList.get(j).setVisible(true);
+                        // set disconnected/stalled visible attribute
+                        if(!connectionValues.get(newNickname)){
+                            statusLabels.get(j).setText("[disconnected]");
+                            statusLabels.get(j).setVisible(true);
+                            nicknameLabels.get(j).setOpacity(0.8);
+                        }
+                        else if(stallValues.get(newNickname)){
+                            statusLabels.get(j).setText("[stalled]");
+                            statusLabels.get(j).setVisible(true);
+                            nicknameLabels.get(j).setOpacity(0.8);
+                        }
+                        else{
+                            nicknameLabels.get(j).setOpacity(1);
+                            statusLabels.get(j).setVisible(false);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

@@ -81,22 +81,22 @@
                 </VBox>
                 <VBox maxWidth="300.0" prefHeight="148.0" style="-fx-background-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;">
                     <children>
-                        <Label fx:id="nickname1" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname1" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname2" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname2" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname3" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname3" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname4" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname4" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
                                 <Font name="Comic Sans MS" size="20.0" />
                             </font>
@@ -185,7 +185,7 @@
             </children>
         </StackPane>
         <ListView fx:id="myUpdates" layoutX="904.0" layoutY="512.0" prefHeight="130.0" prefWidth="284.0" style="-fx-border-color: #98777b; -fx-border-radius: 5; -fx-border-width: 5; -fx-padding: 5; -fx-background-radius: 20;" AnchorPane.bottomAnchor="158.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="512.0" />
-      <Button layoutX="33.0" layoutY="684.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="113.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="GO BACK" textFill="WHITE" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="33.0">
+      <Button onMouseClicked="#onGoBackButtonClick" layoutX="33.0" layoutY="684.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="113.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="GO BACK" textFill="WHITE" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="33.0">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
