@@ -164,7 +164,7 @@ public class PlayerSceneController implements GuiController, Initializable {
             if(!chatContainer.isVisible()) {
                 chatContainer.setVisible(true);
                 chatButton.setText("close chat");
-                nickContainer.setVisible(false);
+                nickContainer.setOpacity(0.7);
                 ObservableList<String> possiblesReceivers = FXCollections.observableArrayList();
                 possiblesReceivers.add("everyone");
                 for(Label nickname: nicknameLabels){
@@ -176,6 +176,7 @@ public class PlayerSceneController implements GuiController, Initializable {
             }
             else{
                 chatContainer.setVisible(false);
+                nickContainer.setOpacity(1);
                 chatButton.setText("show chat");
                 nickContainer.setVisible(true);
             }
@@ -184,15 +185,17 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected void onSendMessage(KeyEvent e){
         Platform.runLater(() -> {
-            if(e.getCode().equals(KeyCode.ENTER)){
-                String content = messageContent.getText();
-                if(receiverSelector.getValue() == null ||receiverSelector.getValue().equals("everyone")){
-                    StageController.getClient().setAndExecuteCommand(new AddChatPublicMessageCommand(content, StageController.getNickname()));
+            if(e.getCode().equals(KeyCode.ENTER)) {
+                // content control client side
+                if (!messageContent.getText().isEmpty() && messageContent.getText()!=null) {
+                    String content = messageContent.getText();
+                    if (receiverSelector.getValue() == null || receiverSelector.getValue().equals("everyone") || receiverSelector.getValue().isEmpty()) {
+                        StageController.getClient().setAndExecuteCommand(new AddChatPublicMessageCommand(content, StageController.getNickname()));
+                    } else {
+                        StageController.getClient().setAndExecuteCommand(new AddChatPrivateMessageCommand(content, StageController.getNickname(), receiverSelector.getValue()));
+                    }
+                    messageContent.setText("");
                 }
-                else{
-                    StageController.getClient().setAndExecuteCommand(new AddChatPrivateMessageCommand(content, StageController.getNickname(), receiverSelector.getValue()));
-                }
-                messageContent.setText("");
             }
         });
     }
@@ -328,6 +331,41 @@ public class PlayerSceneController implements GuiController, Initializable {
             }
         });
     }
+    @FXML
+    protected void onDeckCardDraw(MouseEvent e){
+        Platform.runLater(() -> {
+            if (currentPlayer.getText().equals("Current player: " + StageController.getNickname())) {
+                CardType type;
+                if (e.getSource().equals(topDeckResource)) {
+                    type = CardType.RESOURCE_CARD;
+                } else {
+                    type = CardType.GOLD_CARD;
+                }
+                StageController.getClient().setAndExecuteCommand(new DrawDeckCardCommand(StageController.getNickname(), type));
+            }
+        });
+    }
+
+    @FXML
+    protected void onCardRevealedDraw(MouseEvent e){
+        Platform.runLater(() -> {
+            if (currentPlayer.getText().equals("Current player: " + StageController.getNickname())) {
+                CardType type;
+                if (e.getSource().equals(revealedResource1) || e.getSource().equals(revealedResource2)) {
+                    type = CardType.RESOURCE_CARD;
+                } else {
+                    type = CardType.GOLD_CARD;
+                }
+                int pos;
+                if (e.getSource().equals(revealedGold1) || e.getSource().equals(revealedResource1)) {
+                    pos = 0;
+                } else {
+                    pos = 1;
+                }
+                StageController.getClient().setAndExecuteCommand(new DrawFaceUpCardCommand(StageController.getNickname(), type, pos));
+            }
+        });
+    }
     /**
      * Method to get the card id by the url of the image.
      * @param image imageView containing the image
@@ -352,14 +390,16 @@ public class PlayerSceneController implements GuiController, Initializable {
         return image.getImage().getUrl().contains("Back");
     }
 
-    // TODO platform?
+    /**
+     * Method to enable the DragAndDrop functionality on the hand cards.
+     * @param card target image of the drag and drop functionality
+     */
     private void setDragAndDrop(ImageView card) {
         card.setOnDragDetected(event -> {
             Dragboard db = card.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
             content.putImage(card.getImage());
             db.setContent(content);
-            //card.setVisible(false);
             Image dragImage = new Image(card.getImage().getUrl(), 100, 100, true, true);
             db.setDragView(dragImage);
             event.consume();
@@ -373,41 +413,19 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
-    @FXML
-    protected void onDeckCardDraw(MouseEvent e){
-        Platform.runLater(() -> {
-            CardType type;
-            if (e.getSource().equals(topDeckResource)) {
-                type = CardType.RESOURCE_CARD;
-            } else {
-                type = CardType.GOLD_CARD;
-            }
-            StageController.getClient().setAndExecuteCommand(new DrawDeckCardCommand(StageController.getNickname(), type));
-        });
-    }
-
-    @FXML
-    protected void onCardRevealedDraw(MouseEvent e){
-        Platform.runLater(() -> {
-            CardType type;
-            if (e.getSource().equals(revealedResource1) || e.getSource().equals(revealedResource2)) {
-                type = CardType.RESOURCE_CARD;
-            } else {
-                type = CardType.GOLD_CARD;
-            }
-            int pos;
-            if (e.getSource().equals(revealedGold1) || e.getSource().equals(revealedResource1)) {
-                pos = 0;
-            } else {
-                pos = 1;
-            }
-            StageController.getClient().setAndExecuteCommand(new DrawFaceUpCardCommand(StageController.getNickname(), type, pos));
-        });
+    /**
+     * Method to round the corners of the cards.
+     * @param card image of the card to be rounded
+     */
+    private void setRoundedCorners(ImageView card) {
+        Rectangle imageClip = new Rectangle(card.getFitWidth(), card.getFitHeight());
+        imageClip.setArcHeight(20);
+        imageClip.setArcWidth(20);
+        card.setClip(imageClip);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-            System.out.println("entro initialize");
             chatItem = FXCollections.observableArrayList();
             myChat.setItems(chatItem);
             myUpdates.setItems(updatesItem);
@@ -434,10 +452,7 @@ public class PlayerSceneController implements GuiController, Initializable {
                     gridImage.setFitWidth(171.0);
                     gridImage.setImage(blank);
                     gridImage.setOpacity(0);
-                    Rectangle imageClip = new Rectangle(gridImage.getFitWidth(), gridImage.getFitHeight());
-                    imageClip.setArcHeight(20);
-                    imageClip.setArcWidth(20);
-                    gridImage.setClip(imageClip);
+                    setRoundedCorners(gridImage);
                     gridPaneBoard.add(gridImage, row, col);
                     GridPane.setHalignment(gridImage, Pos.CENTER.getHpos());
                     GridPane.setValignment(gridImage, Pos.CENTER.getVpos());
@@ -468,11 +483,24 @@ public class PlayerSceneController implements GuiController, Initializable {
             setDragAndDrop(handCard1);
             setDragAndDrop(handCard2);
             setDragAndDrop(handCard3);
+            setRoundedCorners(handCard1);
+            setRoundedCorners(handCard2);
+            setRoundedCorners(handCard3);
+            setRoundedCorners(commonObjective1);
+            setRoundedCorners(commonObjective2);
+            setRoundedCorners(secretObjective);
+            setRoundedCorners(myStarterCard);
+            setRoundedCorners(revealedGold1);
+            setRoundedCorners(revealedGold2);
+            setRoundedCorners(revealedResource1);
+            setRoundedCorners(revealedResource2);
+            setRoundedCorners(topDeckGold);
+            setRoundedCorners(topDeckResource);
             for(int i = 0; i < scoreGrid.getRowCount(); i++){
                 for (int j = 0; j < scoreGrid.getColumnCount(); j++){
                     ImageView pointsImage = new ImageView();
-                    pointsImage.setFitWidth(20);
-                    pointsImage.setFitHeight(20);
+                    pointsImage.setFitWidth(30);
+                    pointsImage.setFitHeight(30);
                     scoreGrid.add(pointsImage, j, i);
                     scoreImages[i][j] = pointsImage;
                     GridPane.setHalignment(scoreImages[i][j], Pos.CENTER.getHpos());

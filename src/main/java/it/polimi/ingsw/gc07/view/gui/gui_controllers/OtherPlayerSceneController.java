@@ -40,9 +40,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      * @param chat new chat message
      */
     @Override
-    public void addMessage(ChatMessage chat) {
-        // TODO
-    }
+    public void addMessage(ChatMessage chat) {}
 
     /**
      * Method used to display a deck update, containing cards a player can draw or see.
@@ -54,7 +52,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateDecks(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
-        // TODO
+        //TODO
     }
 
     /**
@@ -69,7 +67,6 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
         if(otherPlayerNickname != null && otherPlayerNickname.equals(nickname)) {
             // TODO update game field
         }
-        // else wrong player, don't print
     }
 
     /**
@@ -77,9 +74,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      * @param starterCard starter card
      */
     @Override
-    public void updateStarterCard(PlaceableCard starterCard) {
-        // TODO
-    }
+    public void updateStarterCard(PlaceableCard starterCard) {}
 
     /**
      * Method used to display the new card hand.
@@ -87,9 +82,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      * @param personalObjective personal objective
      */
     @Override
-    public void updateCardHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjective) {
-        // TODO
-    }
+    public void updateCardHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjective) {}
 
     /**
      * Method used to display updated game infos.

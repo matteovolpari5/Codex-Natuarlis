@@ -1,14 +1,194 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.OtherPlayerSceneController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #e6bd9f;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.OtherPlayerSceneController">
+    <children>
+        <AnchorPane maxWidth="1.7976931348623157E308" prefWidth="1204.0" style="-fx-background-color: #98777b;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <children>
+                <Label maxHeight="1.7976931348623157E308" prefHeight="18.0" prefWidth="114.0" style="-fx-padding: 2;" text="  Codex Naturalis" textFill="#f8f8f8" AnchorPane.leftAnchor="0.0">
+                    <font>
+                        <Font name="Arial Bold" size="13.0" />
+                    </font>
+                </Label>
+                <Label fx:id="currentPlayer" alignment="CENTER" layoutX="123.0" maxHeight="1.7976931348623157E308" prefHeight="18.0" prefWidth="239.0" style="-fx-padding: 2;" text="Current player" textFill="WHITE" AnchorPane.leftAnchor="123.0">
+                    <font>
+                        <Font name="Arial Bold" size="13.0" />
+                    </font>
+                </Label>
+                <Label fx:id="gamefieldPossessor" alignment="CENTER" layoutX="345.0" maxHeight="1.7976931348623157E308" prefHeight="18.0" prefWidth="500.0" style="-fx-padding: 2;" text="Game field of" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="345.0" AnchorPane.rightAnchor="359.0">
+                    <font>
+                        <Font name="Arial Bold" size="13.0" />
+                    </font>
+                </Label>
+                <Label fx:id="gameState" alignment="CENTER_RIGHT" layoutX="841.5" maxHeight="1.7976931348623157E308" prefHeight="18.0" prefWidth="238.0" style="-fx-padding: 2;" text="GameState" textFill="WHITE" AnchorPane.rightAnchor="126.0">
+                    <font>
+                        <Font name="Arial Bold" size="13.0" />
+                    </font>
+                </Label>
 
+                <Label fx:id="gameId" alignment="CENTER" contentDisplay="RIGHT" layoutX="1099.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="105.0" style="-fx-padding: 2;" text="gameId" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="0.0">
+                    <font>
+                        <Font name="Arial Bold" size="13.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+        <ScrollPane hvalue="0.505" layoutX="5.0" layoutY="26.0" pannable="true" prefHeight="570.0" prefWidth="889.0" style="-fx-background-color: #98777b; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" vvalue="0.505" AnchorPane.bottomAnchor="204.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="26.0">
+            <content>
+                <GridPane fx:id="gridPaneBoard" gridLinesVisible="true" style="-fx-background-color: #98777b">
+
+                </GridPane>
+            </content></ScrollPane>
+      <Pane layoutX="299.0" layoutY="612.0" prefHeight="180.0" prefWidth="383.0" style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="8.0">
+         <children>
+              <ImageView fx:id="revealedGold2" fitHeight="62.0" fitWidth="93.0" layoutX="275.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+              <ImageView fx:id="topDeckGold" fitHeight="62.0" fitWidth="93.0" layoutX="15.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+              <ImageView fx:id="revealedGold1" fitHeight="62.0" fitWidth="93.0" layoutX="145.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+              <ImageView fx:id="revealedResource2" fitHeight="62.0" fitWidth="93.0" layoutX="275.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
+              <ImageView fx:id="topDeckResource" fitHeight="62.0" fitWidth="93.0" layoutX="15.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
+              <ImageView fx:id="revealedResource1" fitHeight="62.0" fitWidth="93.0" layoutX="145.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
+            <Label layoutX="15.0" layoutY="10.0" text="Decks">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+        <HBox fx:id="nickContainer" layoutX="976.5" layoutY="650.0" prefHeight="120.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5; -fx-background-radius: 15;" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="76.0">
+            <children>
+                <VBox style="-fx-padding: 5;">
+                    <children>
+                        <ImageView fx:id="tokenColor1" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                        <ImageView fx:id="tokenColor2" fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                        <ImageView fx:id="tokenColor3" fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                        <ImageView fx:id="tokenColor4" fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                    </children>
+                </VBox>
+                <VBox maxWidth="300.0" prefHeight="148.0" style="-fx-background-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;">
+                    <children>
+                        <Label fx:id="nickname1" prefHeight="30.0" text="Player" visible="false">
+                            <font>
+                                <Font name="Comic Sans MS" size="20.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="nickname2" prefHeight="30.0" text="Player" visible="false">
+                            <font>
+                                <Font name="Comic Sans MS" size="20.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="nickname3" prefHeight="30.0" text="Player" visible="false">
+                            <font>
+                                <Font name="Comic Sans MS" size="20.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="nickname4" prefHeight="30.0" text="Player" visible="false">
+                            <font>
+                                <Font name="Comic Sans MS" size="20.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox prefHeight="148.0" style="-fx-background-color: #fff8dc; -fx-background-radius: 15; -fx-padding: 10;">
+                    <children>
+                        <Label fx:id="nickStatus1" prefHeight="30.0" visible="false">
+                            <font>
+                                <Font name="Comic Sans MS" size="20.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="nickStatus2" prefHeight="30.0" visible="false">
+                            <font>
+                                <Font name="Comic Sans MS" size="20.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="nickStatus3" prefHeight="30.0" visible="false">
+                            <font>
+                                <Font name="Comic Sans MS" size="20.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="nickStatus4" prefHeight="30.0" visible="false">
+                            <font>
+                                <Font name="Comic Sans MS" size="20.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+      <Pane layoutX="730.0" layoutY="612.0" prefHeight="180.0" prefWidth="110.0" style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-padding: 2; -fx-border-radius: 5;" AnchorPane.bottomAnchor="8.0">
+         <children>
+              <ImageView fx:id="commonObjective2" fitHeight="62.0" fitWidth="93.0" layoutX="8.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+              <ImageView fx:id="commonObjective1" fitHeight="62.0" fitWidth="93.0" layoutX="8.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
+            <Label layoutX="8.0" layoutY="10.0" text="Objectives">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+        <StackPane layoutX="925.0" layoutY="26.0" prefHeight="303.0" prefWidth="200.0" style="-fx-background-radius: 5; -fx-padding: 5; -fx-background-color: #98777b;" AnchorPane.rightAnchor="32.0">
+            <children>
+                <ImageView id="ScoreTrack" fitHeight="466.0" fitWidth="261.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../graphic_resources/board/plateau.png" />
+                    </image>
+                </ImageView>
+                <GridPane fx:id="scoreGrid" prefHeight="445.0" prefWidth="226.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                </GridPane>
+            </children>
+        </StackPane>
+        <ListView fx:id="myUpdates" layoutX="904.0" layoutY="512.0" prefHeight="130.0" prefWidth="284.0" style="-fx-border-color: #98777b; -fx-border-radius: 5; -fx-border-width: 5; -fx-padding: 5; -fx-background-radius: 20;" AnchorPane.bottomAnchor="158.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="512.0" />
+      <Button layoutX="33.0" layoutY="684.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="113.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="GO BACK" textFill="WHITE" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="33.0">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Button>
+    </children>
 </AnchorPane>

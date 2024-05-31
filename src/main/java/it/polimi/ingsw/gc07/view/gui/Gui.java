@@ -136,7 +136,6 @@ public  class Gui extends Application implements Ui {
     @Override
     public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
         Platform.runLater(() -> {
-            System.out.println("entro update score");
             if(StageController.getController() == null) {
                 // starting phase
                 return;
