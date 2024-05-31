@@ -475,6 +475,8 @@ public class PlayerSceneController implements GuiController, Initializable {
                     pointsImage.setFitHeight(20);
                     scoreGrid.add(pointsImage, j, i);
                     scoreImages[i][j] = pointsImage;
+                    GridPane.setHalignment(scoreImages[i][j], Pos.CENTER.getHpos());
+                    GridPane.setValignment(scoreImages[i][j], Pos.CENTER.getVpos());
                 }
             }
     }
