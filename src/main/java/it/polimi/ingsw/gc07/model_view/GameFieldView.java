@@ -189,9 +189,14 @@ public class GameFieldView implements Serializable {
                 cardsOrderCopy[i][j] = cardsOrder[i][j];
             }
         }
+        //TODO
+        for(int i = 0; i < gameFieldViewListeners.size(); i++){
+            gameFieldViewListeners.get(i).receiveGameFieldUpdate(nickname, cardsContentCopy, cardsFaceCopy, cardsOrderCopy);
+        }
+        /*
         for(GameFieldViewListener l: gameFieldViewListeners) {
             l.receiveGameFieldUpdate(nickname, cardsContentCopy, cardsFaceCopy, cardsOrderCopy);
-        }
+        }*/
     }
     /**
      * Getter method for dimension.
