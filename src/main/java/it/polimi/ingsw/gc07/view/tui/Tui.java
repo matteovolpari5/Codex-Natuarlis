@@ -815,9 +815,9 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
 
     /**
      * Method used to display game players.
-     * @param nicknames        map containing players and their token colors
+     * @param nicknames map containing players and their token colors
      * @param connectionValues map containing players and their connection values
-     * @param stallValues      map containing players and their stall values
+     * @param stallValues map containing players and their stall values
      */
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {

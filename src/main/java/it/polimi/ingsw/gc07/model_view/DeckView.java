@@ -156,7 +156,11 @@ public class DeckView {
      * @return face up resource cards deck
      */
     public List<DrawableCard> getFaceUpResourceCard() {
-        return faceUpResourceCards;
+        try {
+            return new ArrayList<>(faceUpResourceCards);
+        }catch(NullPointerException e) {
+            return null;
+        }
     }
 
     /**
@@ -164,7 +168,11 @@ public class DeckView {
      * @return face up gold cards deck
      */
     public List<GoldCard> getFaceUpGoldCard() {
-        return faceUpGoldCards;
+        try {
+            return new ArrayList<>(faceUpGoldCards);
+        }catch(NullPointerException e) {
+            return null;
+        }
     }
 
     /**

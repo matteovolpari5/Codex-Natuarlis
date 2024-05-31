@@ -62,9 +62,11 @@ public class SocketClient implements Client, PingSender {
         String nickname;
         NicknameCheck check = null;
         do{
-            SafePrinter.println("Insert nickname: ");
-            SafePrinter.print("> ");
-            nickname = scan.nextLine();
+            do {
+                SafePrinter.println("Insert nickname: ");
+                SafePrinter.print("> ");
+                nickname = scan.nextLine();
+            }while(nickname == null || nickname.isEmpty());
             try {
                 output.writeObject(nickname);
             } catch (IOException e) {

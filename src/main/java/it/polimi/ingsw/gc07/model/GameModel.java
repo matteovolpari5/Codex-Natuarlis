@@ -365,8 +365,8 @@ public class GameModel {
      */
     private void sendDeckUpdate() {
         DeckUpdate update = new DeckUpdate(resourceCardsDeck.revealTopCard(), goldCardsDeck.revealTopCard(),
-                resourceCardsDeck.getFaceUpCards(), goldCardsDeck.getFaceUpCards(),
-                objectiveCardsDeck.getFaceUpCards());
+                new ArrayList<>(resourceCardsDeck.getFaceUpCards()), new ArrayList<>(goldCardsDeck.getFaceUpCards()),
+                new ArrayList<>(objectiveCardsDeck.getFaceUpCards()));
         for(GameListener l: gameListeners) {
             try {
                 l.receiveDeckUpdate(update);

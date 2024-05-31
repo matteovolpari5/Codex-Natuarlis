@@ -142,11 +142,13 @@ public class PlayerView implements Serializable {
         this.secretObjectives = secretObjectives;
 
         //TODO
+        /*
         for(int i = 0; i < playerViewListeners.size(); i++){
             playerViewListeners.get(i).receiveSecretObjectives(nickname, secretObjectives);
         }
+        */
         for(PlayerViewListener l: playerViewListeners) {
-            l.receiveSecretObjectives(nickname, secretObjectives);
+            l.receiveSecretObjectives(nickname, new ArrayList<>(secretObjectives));
         }
     }
 
@@ -159,11 +161,13 @@ public class PlayerView implements Serializable {
         this.secretObjectives = secretObjectives;
         // update listeners
         //TODO
+        /*
         for(int i = 0; i < playerViewListeners.size(); i++){
             playerViewListeners.get(i).receiveCardHandUpdate(nickname, this.currentHand, this.secretObjectives);
         }
+        */
         for(PlayerViewListener l: playerViewListeners) {
-            l.receiveCardHandUpdate(nickname, this.currentHand, this.secretObjectives);
+            l.receiveCardHandUpdate(nickname, new ArrayList<>(this.currentHand), new ArrayList<>(this.secretObjectives));
         }
     }
 
@@ -175,9 +179,11 @@ public class PlayerView implements Serializable {
         gameField.setStarterCard(starterCard);
         // update listeners
         //TODO
+        /*
         for(int i = 0; i < playerViewListeners.size(); i++){
             playerViewListeners.get(i).receiveStarterCardUpdate(nickname, starterCard);
         }
+        */
         for(PlayerViewListener l: playerViewListeners) {
             l.receiveStarterCardUpdate(nickname, starterCard);
         }
