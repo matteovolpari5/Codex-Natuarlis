@@ -151,8 +151,11 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected ChoiceBox<String> receiverSelector;
     @FXML
     protected GridPane gridPaneBoard;
+    @FXML
+    protected GridPane scoreGrid;
 
     private final ImageView[][] imageViews = new ImageView[BOARD_SIZE][BOARD_SIZE];
+    private final ImageView [][] scoreImages = new ImageView[21][8];
 
     @FXML
     protected void onChatButtonClick(){
@@ -405,6 +408,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> {
+            System.out.println("entro initialize");
             chatItem = FXCollections.observableArrayList();
             myChat.setItems(chatItem);
             myUpdates.setItems(updatesItem);
@@ -465,6 +469,15 @@ public class PlayerSceneController implements GuiController, Initializable {
             setDragAndDrop(handCard1);
             setDragAndDrop(handCard2);
             setDragAndDrop(handCard3);
+            for(int i = 0; i < scoreGrid.getRowCount(); i++){
+                for (int j = 0; j < scoreGrid.getColumnCount(); j++){
+                    ImageView pointsImage = new ImageView();
+                    pointsImage.setFitWidth(10);
+                    pointsImage.setFitHeight(10);
+                    scoreGrid.add(pointsImage, j, i);
+                    scoreImages[i][j] = pointsImage;
+                }
+            }
         });
     }
 
@@ -475,7 +488,18 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
-        // TODO
+        for (int i = 0; i < scoreGrid.getRowCount(); i++){
+            for(int j = 0; j < scoreGrid.getColumnCount(); j++){
+                scoreImages[i][j].setVisible(false);
+            }
+        }
+        int x,y;
+        for (String nickname: playerScore.keySet()){
+            x = ScoreBoardGridLayout.valueOf(playerTokenColor.get(nickname)+ "_"+ playerScore.get(nickname)).getX();
+            y = ScoreBoardGridLayout.valueOf(playerTokenColor.get(nickname)+"_" +playerScore.get(nickname)).getY();
+
+            scoreImages[x][y].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + playerTokenColor.get(nickname).toString().toLowerCase() + ".png")).toExternalForm()));
+        }
     }
 
     /**
@@ -808,21 +832,7 @@ public class PlayerSceneController implements GuiController, Initializable {
                     found = true;
                     tokenColorsList.get(i).setVisible(true);
                     // set token color image
-                    switch (tokenColors.get(newNickname)) {
-                        case GREEN:
-                            tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/green.png")).toExternalForm()));
-                            break;
-                        case RED:
-                            tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/red.png")).toExternalForm()));
-                            break;
-                        case BLUE:
-                            tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/blue.png")).toExternalForm()));
-                            break;
-                        case YELLOW:
-                            tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/yellow.png")).toExternalForm()));
-                            break;
-                    }
-                    break;
+                    tokenColorsList.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + tokenColors.get(newNickname).toString().toLowerCase() + ".png")).toExternalForm()));
                 }
             }
             if(!found){
@@ -832,20 +842,7 @@ public class PlayerSceneController implements GuiController, Initializable {
                         nicknameLabels.get(j).setText(newNickname);
                         nicknameLabels.get(j).setVisible(true);
                         // set token color image
-                        switch(tokenColors.get(newNickname)){
-                            case GREEN:
-                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/green.png")).toExternalForm()));
-                                break;
-                            case RED:
-                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/red.png")).toExternalForm()));
-                                break;
-                            case BLUE:
-                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/blue.png")).toExternalForm()));
-                                break;
-                            case YELLOW:
-                                tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/yellow.png")).toExternalForm()));
-                                break;
-                        }
+                        tokenColorsList.get(j).setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + tokenColors.get(newNickname).toString().toLowerCase() + ".png")).toExternalForm()));
                         tokenColorsList.get(j).setVisible(true);
                         // set disconnected/stalled visible attribute
                         if(!connectionValues.get(newNickname)){

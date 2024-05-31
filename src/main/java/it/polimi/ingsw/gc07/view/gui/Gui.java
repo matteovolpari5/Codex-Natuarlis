@@ -119,10 +119,10 @@ public  class Gui extends Application implements Ui {
     @Override
     public void runGameInterface() {
         Platform.runLater(() -> {
-            synchronized (this){
+            synchronized (this) {
                 timeout.cancel();
                 timeout.purge();
-                }
+            }
             // change scene to PlayerScene
             StageController.setScene(SceneType.PLAYER_SCENE);
         });
@@ -136,6 +136,7 @@ public  class Gui extends Application implements Ui {
     @Override
     public void receiveScoreUpdate(Map<String, Integer> playerScores, Map<String, TokenColor> playerTokenColors) {
         Platform.runLater(() -> {
+            System.out.println("entro update score");
             if(StageController.getController() == null) {
                 // starting phase
                 return;
