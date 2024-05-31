@@ -407,7 +407,6 @@ public class PlayerSceneController implements GuiController, Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Platform.runLater(() -> {
             System.out.println("entro initialize");
             chatItem = FXCollections.observableArrayList();
             myChat.setItems(chatItem);
@@ -472,13 +471,12 @@ public class PlayerSceneController implements GuiController, Initializable {
             for(int i = 0; i < scoreGrid.getRowCount(); i++){
                 for (int j = 0; j < scoreGrid.getColumnCount(); j++){
                     ImageView pointsImage = new ImageView();
-                    pointsImage.setFitWidth(10);
-                    pointsImage.setFitHeight(10);
+                    pointsImage.setFitWidth(20);
+                    pointsImage.setFitHeight(20);
                     scoreGrid.add(pointsImage, j, i);
                     scoreImages[i][j] = pointsImage;
                 }
             }
-        });
     }
 
     /**
@@ -499,6 +497,7 @@ public class PlayerSceneController implements GuiController, Initializable {
             y = ScoreBoardGridLayout.valueOf(playerTokenColor.get(nickname)+"_" +playerScore.get(nickname)).getY();
 
             scoreImages[x][y].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + playerTokenColor.get(nickname).toString().toLowerCase() + ".png")).toExternalForm()));
+            scoreImages[x][y].setVisible(true);
         }
     }
 

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
-import it.polimi.ingsw.gc07.enumerations.TokenColor;
-
 public enum ScoreBoardGridLayout {
     RED_0(20, 1),
     GREEN_0(20,2),
