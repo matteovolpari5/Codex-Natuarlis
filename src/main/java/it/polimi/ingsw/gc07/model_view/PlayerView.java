@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.model_view;
 
+import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -144,10 +145,9 @@ public class PlayerView implements Serializable {
         for(int i = 0; i < playerViewListeners.size(); i++){
             playerViewListeners.get(i).receiveSecretObjectives(nickname, secretObjectives);
         }
-        /*
         for(PlayerViewListener l: playerViewListeners) {
             l.receiveSecretObjectives(nickname, secretObjectives);
-        }*/
+        }
     }
 
     /**
@@ -162,10 +162,9 @@ public class PlayerView implements Serializable {
         for(int i = 0; i < playerViewListeners.size(); i++){
             playerViewListeners.get(i).receiveCardHandUpdate(nickname, this.currentHand, this.secretObjectives);
         }
-        /*
         for(PlayerViewListener l: playerViewListeners) {
             l.receiveCardHandUpdate(nickname, this.currentHand, this.secretObjectives);
-        }*/
+        }
     }
 
     /**
@@ -179,10 +178,9 @@ public class PlayerView implements Serializable {
         for(int i = 0; i < playerViewListeners.size(); i++){
             playerViewListeners.get(i).receiveStarterCardUpdate(nickname, starterCard);
         }
-        /*
         for(PlayerViewListener l: playerViewListeners) {
             l.receiveStarterCardUpdate(nickname, starterCard);
-        }*/
+        }
     }
 
     /**
