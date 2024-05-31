@@ -22,6 +22,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // TODO come per player scene, richiedere l'aggiornamento da fuori
+        // no runlater
     }
 
     /**

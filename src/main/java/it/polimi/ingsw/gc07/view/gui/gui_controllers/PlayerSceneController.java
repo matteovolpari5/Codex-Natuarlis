@@ -407,78 +407,76 @@ public class PlayerSceneController implements GuiController, Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Platform.runLater(() -> {
-            System.out.println("entro initialize");
-            chatItem = FXCollections.observableArrayList();
-            myChat.setItems(chatItem);
-            myUpdates.setItems(updatesItem);
-            nicknameLabels.add(nickname1);
-            nicknameLabels.add(nickname2);
-            nicknameLabels.add(nickname3);
-            nicknameLabels.add(nickname4);
-            statusLabels.add(nickStatus1);
-            statusLabels.add(nickStatus2);
-            statusLabels.add(nickStatus3);
-            statusLabels.add(nickStatus4);
-            startingPhaseLabel.setText("Select the placing way of your starter card");
-            tokenColorsList.add(tokenColor1);
-            tokenColorsList.add(tokenColor2);
-            tokenColorsList.add(tokenColor3);
-            tokenColorsList.add(tokenColor4);
-            Image blank = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/1.png")).toExternalForm());
-            for (int row = 0; row < BOARD_SIZE; row++) {
-                gridPaneBoard.getRowConstraints().add(new RowConstraints(69));
-                gridPaneBoard.getColumnConstraints().add(new ColumnConstraints(133));
-                for (int col = 0; col < BOARD_SIZE; col++) {
-                    ImageView gridImage = new ImageView();
-                    gridImage.setFitHeight(114.0);
-                    gridImage.setFitWidth(171.0);
-                    gridImage.setImage(blank);
-                    gridImage.setOpacity(0);
-                    Rectangle imageClip = new Rectangle(gridImage.getFitWidth(), gridImage.getFitHeight());
-                    imageClip.setArcHeight(20);
-                    imageClip.setArcWidth(20);
-                    gridImage.setClip(imageClip);
-                    gridPaneBoard.add(gridImage, row, col);
-                    GridPane.setHalignment(gridImage, Pos.CENTER.getHpos());
-                    GridPane.setValignment(gridImage, Pos.CENTER.getVpos());
-                    imageViews[row][col] = gridImage;
-                    gridImage.setOnDragOver(event -> {
-                        if (event.getGestureSource() != gridImage) {
-                            event.acceptTransferModes(TransferMode.MOVE);
-                        }
-                        event.consume();
-                    });
-                    int finalCol = col;
-                    int finalRow = row;
-                    gridImage.setOnDragEntered(event -> {
-                        if (event.getGestureSource() != gridImage) {
+        System.out.println("entro initialize");
+        chatItem = FXCollections.observableArrayList();
+        myChat.setItems(chatItem);
+        myUpdates.setItems(updatesItem);
+        nicknameLabels.add(nickname1);
+        nicknameLabels.add(nickname2);
+        nicknameLabels.add(nickname3);
+        nicknameLabels.add(nickname4);
+        statusLabels.add(nickStatus1);
+        statusLabels.add(nickStatus2);
+        statusLabels.add(nickStatus3);
+        statusLabels.add(nickStatus4);
+        startingPhaseLabel.setText("Select the placing way of your starter card");
+        tokenColorsList.add(tokenColor1);
+        tokenColorsList.add(tokenColor2);
+        tokenColorsList.add(tokenColor3);
+        tokenColorsList.add(tokenColor4);
+        Image blank = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/1.png")).toExternalForm());
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            gridPaneBoard.getRowConstraints().add(new RowConstraints(69));
+            gridPaneBoard.getColumnConstraints().add(new ColumnConstraints(133));
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                ImageView gridImage = new ImageView();
+                gridImage.setFitHeight(114.0);
+                gridImage.setFitWidth(171.0);
+                gridImage.setImage(blank);
+                gridImage.setOpacity(0);
+                Rectangle imageClip = new Rectangle(gridImage.getFitWidth(), gridImage.getFitHeight());
+                imageClip.setArcHeight(20);
+                imageClip.setArcWidth(20);
+                gridImage.setClip(imageClip);
+                gridPaneBoard.add(gridImage, row, col);
+                GridPane.setHalignment(gridImage, Pos.CENTER.getHpos());
+                GridPane.setValignment(gridImage, Pos.CENTER.getVpos());
+                imageViews[row][col] = gridImage;
+                gridImage.setOnDragOver(event -> {
+                    if (event.getGestureSource() != gridImage) {
+                        event.acceptTransferModes(TransferMode.MOVE);
+                    }
+                    event.consume();
+                });
+                int finalCol = col;
+                int finalRow = row;
+                gridImage.setOnDragEntered(event -> {
+                    if (event.getGestureSource() != gridImage) {
 
-                        }
-                    });
-                    gridImage.setOnDragDropped(event -> {
-                        ImageView card = (ImageView) event.getGestureSource();
-                        boolean way = getCardWay(card);
-                        int cardPos = Integer.parseInt(card.getId().substring(card.getId().length()-1))-1;
-                        StageController.getClient().setAndExecuteCommand(new PlaceCardCommand(StageController.getNickname(), cardPos, finalCol, finalRow, way));
-                        event.setDropCompleted(true);
-                        event.consume();
-                    });
-                }
+                    }
+                });
+                gridImage.setOnDragDropped(event -> {
+                    ImageView card = (ImageView) event.getGestureSource();
+                    boolean way = getCardWay(card);
+                    int cardPos = Integer.parseInt(card.getId().substring(card.getId().length()-1))-1;
+                    StageController.getClient().setAndExecuteCommand(new PlaceCardCommand(StageController.getNickname(), cardPos, finalCol, finalRow, way));
+                    event.setDropCompleted(true);
+                    event.consume();
+                });
             }
-            setDragAndDrop(handCard1);
-            setDragAndDrop(handCard2);
-            setDragAndDrop(handCard3);
-            for(int i = 0; i < scoreGrid.getRowCount(); i++){
-                for (int j = 0; j < scoreGrid.getColumnCount(); j++){
-                    ImageView pointsImage = new ImageView();
-                    pointsImage.setFitWidth(10);
-                    pointsImage.setFitHeight(10);
-                    scoreGrid.add(pointsImage, j, i);
-                    scoreImages[i][j] = pointsImage;
-                }
+        }
+        setDragAndDrop(handCard1);
+        setDragAndDrop(handCard2);
+        setDragAndDrop(handCard3);
+        for(int i = 0; i < scoreGrid.getRowCount(); i++){
+            for (int j = 0; j < scoreGrid.getColumnCount(); j++){
+                ImageView pointsImage = new ImageView();
+                pointsImage.setFitWidth(10);
+                pointsImage.setFitHeight(10);
+                scoreGrid.add(pointsImage, j, i);
+                scoreImages[i][j] = pointsImage;
             }
-        });
+        }
     }
 
     /**
