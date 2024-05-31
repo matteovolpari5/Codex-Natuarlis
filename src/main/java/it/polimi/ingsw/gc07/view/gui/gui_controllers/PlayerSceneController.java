@@ -11,6 +11,7 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.view.gui.SceneType;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
@@ -198,6 +199,23 @@ public class PlayerSceneController implements GuiController, Initializable {
                 }
             }
         });
+    }
+    @FXML
+    protected void goToOtherGameField(MouseEvent e){
+        String otherGameFieldNickname;
+        if (e.getSource().equals(nickname1)){
+            otherGameFieldNickname = nickname1.getText();
+        } else if (e.getSource().equals(nickname2)) {
+            otherGameFieldNickname = nickname2.getText();
+        } else if (e.getSource().equals(nickname3)) {
+            otherGameFieldNickname = nickname3.getText();
+        } else if (e.getSource().equals(nickname4)) {
+            otherGameFieldNickname = nickname4.getText();
+        }
+        else{
+            return;
+        }
+        StageController.setOtherPlayerScene(otherGameFieldNickname);
     }
     @FXML
     protected void onStarterCardClick(){

@@ -8,9 +8,19 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -18,11 +28,98 @@ import java.util.ResourceBundle;
 public class OtherPlayerSceneController implements GuiController, Initializable {
 
     String otherPlayerNickname;
+    private final int BOARD_SIZE = 80;
+    @FXML
+    protected ListView<String> myUpdates;
+    private final ObservableList<String> updatesItem = FXCollections.observableArrayList();
+    @FXML
+    protected Label currentPlayer;
+    @FXML
+    protected Label gameState;
+    @FXML
+    protected Label gameId;
+    @FXML
+    protected Label nickname1;
+    @FXML
+    protected Label nickname2;
+    @FXML
+    protected Label nickname3;
+    @FXML
+    protected Label nickname4;
+    @FXML
+    protected Label nickStatus1;
+    @FXML
+    protected Label nickStatus2;
+    @FXML
+    protected Label nickStatus3;
+    @FXML
+    protected Label nickStatus4;
+    @FXML
+    protected ImageView commonObjective1;
+    @FXML
+    protected ImageView commonObjective2;
+    @FXML
+    protected ImageView topDeckResource;
+    @FXML
+    protected ImageView topDeckGold;
+    @FXML
+    protected ImageView revealedGold1;
+    @FXML
+    protected ImageView revealedGold2;
+    @FXML
+    protected ImageView revealedResource1;
+    @FXML
+    protected ImageView revealedResource2;
+    @FXML
+    protected ImageView tokenColor1;
+    @FXML
+    protected ImageView tokenColor2;
+    @FXML
+    protected ImageView tokenColor3;
+    @FXML
+    protected ImageView tokenColor4;
+    @FXML
+    protected HBox nickContainer;
+    @FXML
+    protected GridPane gridPaneBoard;
+    @FXML
+    protected GridPane scoreGrid;
+    private final ImageView[][] imageViews = new ImageView[BOARD_SIZE][BOARD_SIZE];
+    private final ImageView [][] scoreImages = new ImageView[21][8];
+    /**
+     * List of images containing the tokenColor of players.
+     */
+    private final List<ImageView> tokenColorsList = new ArrayList<>();
+    /**
+     * List of labels containing the connection/stall status of players.
+     */
+    private final List<Label> statusLabels = new ArrayList<>();
+    /**
+     * List of labels containing nicknames.
+     */
+    private final List<Label> nicknameLabels = new ArrayList<>();
 
+    @FXML
+    protected void goToOtherGameField(MouseEvent e){
+        String otherGameFieldNickname;
+        if (e.getSource().equals(nickname1)){
+            otherGameFieldNickname = nickname1.getText();
+        } else if (e.getSource().equals(nickname2)) {
+            otherGameFieldNickname = nickname2.getText();
+        } else if (e.getSource().equals(nickname3)) {
+            otherGameFieldNickname = nickname3.getText();
+        } else if (e.getSource().equals(nickname4)) {
+            otherGameFieldNickname = nickname4.getText();
+        }
+        else{
+            return;
+        }
+        StageController.setOtherPlayerScene(otherGameFieldNickname);
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // TODO come per player scene, richiedere l'aggiornamento da fuori
-        // no runlater
+
     }
 
     /**
