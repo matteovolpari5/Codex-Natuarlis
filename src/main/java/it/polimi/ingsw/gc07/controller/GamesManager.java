@@ -335,6 +335,7 @@ public class GamesManager {
                 }catch (RemoteException ex) {
                     // player disconnected, remove player from pending
                     removePlayer(nickname);
+                    //TODO
                 }
                 gameController.addPlayer(player, playerVirtualViews.get(nickname));
             }
@@ -398,6 +399,7 @@ public class GamesManager {
                     } catch (RemoteException ex) {
                         // player disconnected, remove player from pending
                         removePlayer(nickname);
+                        //TODO
                     }
                     gameController.addPlayer(player, playerVirtualView);
                 }catch(RemoteException e) {

@@ -68,13 +68,19 @@ SocketClientHandler implements VirtualView {
                 manageGameCommand();
             }
         } catch (IOException | ClassNotFoundException e) {
-            //System.out.println("manage setup - " + myClientNickname);
             closeConnection();
         }
     }
     private void manageGamesManagerCommand(){
         GamesManagerCommand command;
+        boolean isSocketClosed;
         while(true) {
+            synchronized (this){
+                isSocketClosed = mySocket.isClosed();
+            }
+            if(isSocketClosed){
+                return;
+            }
             try {
                 command = (GamesManagerCommand) input.readObject();
                 gamesManager.setAndExecuteCommand(command);
@@ -82,12 +88,10 @@ SocketClientHandler implements VirtualView {
                     break;
                 }
             } catch (IOException | ClassNotFoundException e){
-                //System.out.println("manage games manager command - " + myClientNickname);
                 closeConnection();
                 break;
             }
         }
-        boolean isSocketClosed;
         synchronized (this){
             isSocketClosed = mySocket.isClosed();
         }
@@ -122,9 +126,6 @@ SocketClientHandler implements VirtualView {
 
     private synchronized void closeConnection(){
         while(!mySocket.isClosed()){
-            SafePrinter.println("DISCONNECTED: " + myClientNickname);
-            Thread.dumpStack();
-            //System.err.println("CHIUDO IL SOCKET DI : " + myClientNickname);
             try{
                 input.close();
                 output.close();
@@ -137,24 +138,16 @@ SocketClientHandler implements VirtualView {
     }
 
     private synchronized void receiveUpdate(Update update) throws RemoteException{
-        //System.out.println(update.getClass());
         if(!mySocket.isClosed()){
             try {
                 output.writeObject(update);
-                //System.out.println("A");
                 output.reset();
-                //System.out.println("B");
                 output.flush();
-                //System.out.println("C");
             }catch(IOException e) {
-                //System.out.println("1");
-                //e.printStackTrace(); da togliere
-                //System.out.println("receive update - " +myClientNickname);
                 closeConnection();
                 throw new RemoteException();
             }
         }else{
-            //System.err.println(myClientNickname + "Socket già chiuso");
             throw new RemoteException();
         }
     }
@@ -167,7 +160,6 @@ SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             } catch (IOException e) {
-                //System.out.println("set server game - " + myClientNickname);
                 closeConnection();
                 throw new RemoteException();
             }
@@ -237,7 +229,6 @@ SocketClientHandler implements VirtualView {
                 output.reset();
                 output.flush();
             } catch (IOException e) {
-                //System.out.println("receive existing games update - " +myClientNickname);
                 closeConnection();
                 throw new RemoteException();
             }
@@ -251,7 +242,6 @@ SocketClientHandler implements VirtualView {
             output.reset();
             output.flush();
         } catch (IOException e) {
-            //System.out.println("notify join not successful - "+myClientNickname);
             closeConnection();
             throw new RemoteException();
         }
