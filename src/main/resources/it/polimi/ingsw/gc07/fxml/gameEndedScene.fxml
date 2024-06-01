@@ -8,42 +8,42 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.GameEndedSceneController">
-   <ImageView fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="0.0">
+   <ImageView fitHeight="800.0" fitWidth="1600.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <Image url="@../graphic_resources/fireworks.gif" />
    </ImageView>
-   <ImageView fitHeight="800.0" fitWidth="1200.0" opacity="0.21" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+   <ImageView fitHeight="800.0" fitWidth="1600.0" opacity="0.21" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <Image url="@../graphic_resources/Rulebook_IT/01.png" />
    </ImageView>
-   <AnchorPane layoutY="126.0" prefHeight="110.0" prefWidth="1200.0" style="-fx-background-color: black; -fx-border-color: yellow; -fx-border-radius: 10;" AnchorPane.bottomAnchor="564.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="126.0">
+   <AnchorPane style="-fx-background-color: black; -fx-border-color: yellow; -fx-border-radius: 10;" AnchorPane.bottomAnchor="564.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="126.0">
       <Text fx:id="generalText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="AND THE WINNERS ARE..." textAlignment="CENTER" wrappingWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font name="Comic Sans MS Bold" size="80.0" />
          </font>
       </Text>
    </AnchorPane>
-   <AnchorPane layoutX="399.0" layoutY="235.0" style="-fx-background-color: black; -fx-border-color: yellow; -fx-border-radius: 10;" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="399.0" AnchorPane.rightAnchor="398.6" AnchorPane.topAnchor="250.0">
-      <Text fx:id="winner1" fill="#fdff00" layoutX="1.0" layoutY="79.1435546875" strokeType="OUTSIDE" strokeWidth="0.0" text="WINNER1" textAlignment="CENTER" wrappingWidth="400.0" AnchorPane.bottomAnchor="245.451171875" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.3999999999999773" AnchorPane.topAnchor="2.0">
+   <AnchorPane style="-fx-background-color: black; -fx-border-color: yellow; -fx-border-radius: 10;" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="399.0" AnchorPane.rightAnchor="398.6" AnchorPane.topAnchor="250.0">
+      <Text fx:id="winner1" fill="#fdff00" strokeType="OUTSIDE" strokeWidth="0.0" text="WINNER1" textAlignment="CENTER" wrappingWidth="400.0" AnchorPane.bottomAnchor="241.451171875" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font name="Comic Sans MS Bold" size="70.0" />
          </font>
       </Text>
-      <Text fx:id="winner2" fill="#fdff00" strokeType="OUTSIDE" strokeWidth="0.0" text="WINNER2" textAlignment="CENTER" wrappingWidth="400.0" AnchorPane.bottomAnchor="244.05117187500002" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+      <Text fx:id="winner2" fill="#fdff00" strokeType="OUTSIDE" strokeWidth="0.0" text="WINNER2" textAlignment="CENTER" wrappingWidth="400.0" AnchorPane.bottomAnchor="241.451171875" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
          <font>
             <Font name="Comic Sans MS Bold" size="70.0" />
          </font>
       </Text>
-      <Text fx:id="winner3" fill="#fdff00" strokeType="OUTSIDE" strokeWidth="0.0" text="WINNER3" textAlignment="CENTER" wrappingWidth="400.0" AnchorPane.bottomAnchor="244.05117187500002" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="160.0">
+      <Text fx:id="winner3" fill="#fdff00" strokeType="OUTSIDE" strokeWidth="0.0" text="WINNER3" textAlignment="CENTER" wrappingWidth="400.0" AnchorPane.bottomAnchor="241.451171875" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="160.0">
          <font>
             <Font name="Comic Sans MS Bold" size="70.0" />
          </font>
       </Text>
-      <Text fx:id="winner4" fill="#fdff00" strokeType="OUTSIDE" strokeWidth="0.0" text="WINNER4" textAlignment="CENTER" wrappingWidth="401.0" AnchorPane.bottomAnchor="244.05117187500002" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="240.0">
+      <Text fx:id="winner4" fill="#fdff00" strokeType="OUTSIDE" strokeWidth="0.0" text="WINNER4" textAlignment="CENTER" wrappingWidth="401.0" AnchorPane.bottomAnchor="241.451171875" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="240.0">
          <font>
             <Font name="Comic Sans MS Bold" size="70.0" />
          </font>
       </Text>
    </AnchorPane>
-   <Button fx:id="exitGame" layoutX="954.0" layoutY="734.0" mnemonicParsing="false" onAction="#endGame" style="-fx-background-color: black; -fx-border-color: yellow; -fx-border-radius: 10;" text="CONTINUE" textFill="#fdff00" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="954.0" AnchorPane.rightAnchor="14.800000000000011" AnchorPane.topAnchor="734.0">
+   <Button fx:id="exitGame" mnemonicParsing="false" onAction="#endGame" style="-fx-background-color: black; -fx-border-color: yellow; -fx-border-radius: 10;" text="CONTINUE" textFill="#fdff00" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="954.0" AnchorPane.rightAnchor="14.800000000000011" AnchorPane.topAnchor="734.0">
       <font>
          <Font name="Comic Sans MS" size="23.0" />
       </font>
