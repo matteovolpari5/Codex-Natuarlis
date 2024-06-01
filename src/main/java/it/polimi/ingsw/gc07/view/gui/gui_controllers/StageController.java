@@ -81,7 +81,6 @@ public abstract class StageController {
      */
     // TODO lasciare synchronized???
     public synchronized static void setup(Stage stage) {
-        System.out.println("entered setup");
         // set stage
         currentStage = stage;
         // create scene loader
@@ -102,10 +101,6 @@ public abstract class StageController {
         currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
         currentStage.show();
 
-
-
-        System.out.println("start done");
-
         // TODO lasciare???
         StageController.class.notifyAll();
     }
@@ -114,10 +109,7 @@ public abstract class StageController {
      * Method used to set a scene, except for OTHER_PLAYER_SCENE.
      * @param sceneType scene type
      */
-    // TODO lasciare synchronized???
     public synchronized static void setScene(SceneType sceneType) {
-
-        // TODO lasciare???
         while(currentScene == null) {
             try {
                 StageController.class.wait();
@@ -125,10 +117,6 @@ public abstract class StageController {
                 throw new RuntimeException(e);
             }
         }
-
-
-        System.out.println("in set scene");
-
         assert(sceneType != SceneType.OTHER_PLAYER_SCENE);
         // create scene loader
         currentSceneType = sceneType;
@@ -172,6 +160,6 @@ public abstract class StageController {
         currentStage.setTitle(currentSceneType.getTitle());
 
         // scene type is OTHER_PLAYER_SCENE
-        client.setAndExecuteCommand(new RefreshGameViewCommand(nickname));
+        client.setAndExecuteCommand(new RefreshGameViewCommand(StageController.nickname));
     }
 }

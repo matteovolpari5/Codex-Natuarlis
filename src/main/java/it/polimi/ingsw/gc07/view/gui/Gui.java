@@ -42,7 +42,6 @@ public  class Gui extends Application implements Ui {
             guiInstance = this;
             Gui.class.notifyAll();
         }
-        System.out.println("init done");
     }
 
     /**
@@ -59,10 +58,10 @@ public  class Gui extends Application implements Ui {
                 public void run() {
                     System.exit(0);
                 }
-            }, 5 * 60 * 1000); //timer of 5 minutes
+            }, 5 * 60 * 1000); // timer of 5 minutes
         }).start();
         //Platform.runLater(() -> {
-            StageController.setup(stage);
+        StageController.setup(stage);
         //});
     }
 

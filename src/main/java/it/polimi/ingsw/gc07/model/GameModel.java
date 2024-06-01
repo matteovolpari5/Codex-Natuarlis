@@ -647,7 +647,6 @@ public class GameModel {
 
                 // send score update
                 client.receiveScoreUpdate(new ScoreUpdate(p.getNickname(), board.getScore(p.getNickname())));
-
             }
 
         }catch(RemoteException e) {
