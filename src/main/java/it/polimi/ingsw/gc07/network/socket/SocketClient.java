@@ -138,8 +138,8 @@ public class SocketClient implements Client, PingSender {
             }
             if(result!=null){
                 if(result.equals(SocketCommunication.GAME_JOINED)){
-                    new Thread(this::manageReceivedUpdate).start();
                     // game joined
+                    new Thread(this::manageReceivedUpdate).start();
                     new Thread(this::startGamePing).start();
                     new Thread(this::checkPong).start();
                     runGameInterface();
