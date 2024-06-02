@@ -96,9 +96,7 @@ public  class Gui extends Application implements Ui {
      * @param client client
      */
     public void setClient(Client client) {
-        Platform.runLater(() -> {
-            StageController.setClient(client);
-        });
+        Platform.runLater(() -> StageController.setClient(client));
     }
 
     /**
@@ -107,9 +105,7 @@ public  class Gui extends Application implements Ui {
     @Override
     public void runJoinGameInterface() {
         // launch has already started interface
-        Platform.runLater(() -> {
-            StageController.setScene(SceneType.LOBBY_SCENE);
-        });
+        Platform.runLater(() -> StageController.setScene(SceneType.LOBBY_SCENE));
     }
 
     /**

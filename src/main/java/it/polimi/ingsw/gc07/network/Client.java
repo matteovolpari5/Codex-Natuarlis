@@ -38,10 +38,10 @@ public interface Client {
     /**
      * Method used to run the lobby ui.
      */
-    public void runJoinGameInterface();
+    void runJoinGameInterface();
 
     /**
      * Method used to run the game ui.
      */
-    public void runGameInterface();
+    void runGameInterface();
 }

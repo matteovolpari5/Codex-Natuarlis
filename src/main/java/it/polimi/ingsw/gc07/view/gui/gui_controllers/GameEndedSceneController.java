@@ -27,27 +27,27 @@ public class GameEndedSceneController implements GuiController {
     @FXML
     public Text generalText;
     /**
-     * Attribute that represents the first winner
+     * Attribute that represents the first winner.
      */
     @FXML
     public Text winner1;
     /**
-     * Attribute that represents the second winner
+     * Attribute that represents the second winner.
      */
     @FXML
     public Text winner2;
     /**
-     * Attribute that represents the third winner
+     * Attribute that represents the third winner.
      */
     @FXML
     public Text winner3;
     /**
-     * Attribute that represents the fourth winner
+     * Attribute that represents the fourth winner.
      */
     @FXML
     public Text winner4;
     /**
-     * Attribute that exit button
+     * Attribute that exit button.
      */
     @FXML
     public Button exitGame;
@@ -242,7 +242,7 @@ public class GameEndedSceneController implements GuiController {
     public void endGame(ActionEvent actionEvent) {
         Platform.runLater(() -> {
             StageController.getClient().setClientAlive(false);
-            //TODO: close the window without closing the client
+            Platform.exit();
         });
     }
 }

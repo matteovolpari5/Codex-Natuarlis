@@ -79,7 +79,6 @@ public abstract class StageController {
      * Method used to set up the stage once the Gui is started.
      * @param stage primary stage
      */
-    // TODO lasciare synchronized???
     public synchronized static void setup(Stage stage) {
         // set stage
         currentStage = stage;
@@ -90,7 +89,6 @@ public abstract class StageController {
         try {
             currentScene = new Scene(sceneLoader.load());
         } catch (IOException e) {
-            // TODO gestire
             throw new RuntimeException(e);
         }
         // set controller
@@ -98,10 +96,9 @@ public abstract class StageController {
         // set stage
         currentStage.setTitle(currentSceneType.getTitle());
         currentStage.setScene(currentScene);
-        currentStage.setOnCloseRequest(event -> System.exit(0));    // TODO platform.exit?
+        currentStage.setOnCloseRequest(event -> System.exit(0));
         currentStage.show();
 
-        // TODO lasciare???
         StageController.class.notifyAll();
     }
 
@@ -125,7 +122,6 @@ public abstract class StageController {
         try {
             currentScene.setRoot(sceneLoader.load());
         } catch (IOException e) {
-            // TODO gestire
             throw new RuntimeException(e);
         }
         // set controller
@@ -150,7 +146,6 @@ public abstract class StageController {
         try {
             currentScene.setRoot(sceneLoader.load());
         } catch (IOException e) {
-            // TODO gestire
             throw new RuntimeException(e);
         }
         // set controller

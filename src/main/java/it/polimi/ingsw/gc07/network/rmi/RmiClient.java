@@ -67,7 +67,12 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         this.clientAlive = true;
         if(interfaceType) {
             // run application on new thread
-            new Thread(() -> Application.launch(Gui.class)).start();
+            new Thread(() -> {
+                Application.launch(Gui.class);
+                if(!isClientAlive()) {
+                    Tui.askForReconnection();
+                }
+            }).start();
             this.ui = Gui.getGuiInstance();
             this.ui.setNickname(nickname);
             this.ui.setClient(this);

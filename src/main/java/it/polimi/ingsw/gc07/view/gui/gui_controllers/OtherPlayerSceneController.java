@@ -30,7 +30,6 @@ import java.net.URL;
 import java.util.*;
 
 public class OtherPlayerSceneController implements GuiController, Initializable {
-
     String otherPlayerNickname;
     private final int BOARD_SIZE = 80;
     @FXML
@@ -203,8 +202,8 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
         }
         int x,y;
         for (String nickname: playerScore.keySet()){
-            x = ScoreBoardGridLayout.valueOf(playerTokenColor.get(nickname)+ "_"+ playerScore.get(nickname)).getX();
-            y = ScoreBoardGridLayout.valueOf(playerTokenColor.get(nickname)+"_" +playerScore.get(nickname)).getY();
+            x = BoardGridLayout.valueOf(playerTokenColor.get(nickname)+ "_"+ playerScore.get(nickname)).getX();
+            y = BoardGridLayout.valueOf(playerTokenColor.get(nickname)+"_" +playerScore.get(nickname)).getY();
 
             scoreImages[x][y].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + playerTokenColor.get(nickname).toString().toLowerCase() + ".png")).toExternalForm()));
             scoreImages[x][y].setVisible(true);

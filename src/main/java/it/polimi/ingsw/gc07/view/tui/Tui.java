@@ -496,7 +496,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     /**
      * Method used to ask for reconnection to a player.
      */
-    public void askForReconnection() {
+    public static void askForReconnection() {
         Scanner scan = new Scanner(System.in);
         SafePrinter.println("\n\nDo you want to reconnect (1 = yes, other = no)?");
         SafePrinter.print("> ");

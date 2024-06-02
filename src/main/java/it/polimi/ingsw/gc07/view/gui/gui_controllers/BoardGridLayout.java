@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
-public enum ScoreBoardGridLayout {
+public enum BoardGridLayout {
     RED_0(20, 1),
     GREEN_0(20,2),
     YELLOW_0(19, 1),
@@ -121,25 +121,39 @@ public enum ScoreBoardGridLayout {
     GREEN_29(4,4),
     YELLOW_29(3, 3),
     BLUE_29(3,4);
+
     /**
-     * Int representing x coordinate in ScoreBoard grid.
+     * Integer value representing x coordinate in ScoreBoard grid.
      */
     private final int x;
     /**
-     * Int representing y coordinate in ScoreBoard grid.
+     * Integer representing y coordinate in ScoreBoard grid.
      */
     private final int y;
 
-    ScoreBoardGridLayout (int x, int y) {
+    /**
+     * Constructor of BoardGridLayout.
+     * @param x x coordinate
+     * @param y y coordinate
+     */
+    BoardGridLayout(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    public int getX(){
+
+    /**
+     * Getter for x coordinate.
+     * @return value for x coordinate
+     */
+    public int getX() {
         return this.x;
     }
-    public int getY(){
 
+    /**
+     * Getter for y coordinate.
+     * @return value for y coordinate
+     */
+    public int getY(){
         return this.y;
     }
-
 }

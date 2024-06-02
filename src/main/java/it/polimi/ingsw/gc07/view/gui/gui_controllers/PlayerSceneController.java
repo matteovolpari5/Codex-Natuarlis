@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
 import it.polimi.ingsw.gc07.controller.GameState;
 import it.polimi.ingsw.gc07.enumerations.CardType;
-import it.polimi.ingsw.gc07.enumerations.CardType;
 import it.polimi.ingsw.gc07.enumerations.CommandResult;
 import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.*;
@@ -11,7 +10,6 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
-import it.polimi.ingsw.gc07.view.gui.SceneType;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
@@ -29,7 +27,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 
 import java.util.*;
 import java.util.List;
@@ -39,7 +36,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     private final int BOARD_SIZE = 80;
     @FXML
     protected ListView<String> myChat;
-    private ObservableList<String> chatItem= FXCollections.observableArrayList();
+    private ObservableList<String> chatItem = FXCollections.observableArrayList();
     @FXML
     protected ListView<String> myUpdates;
     private final ObservableList<String> updatesItem = FXCollections.observableArrayList();
@@ -154,12 +151,11 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected GridPane gridPaneBoard;
     @FXML
     protected GridPane scoreGrid;
-
     private final ImageView[][] imageViews = new ImageView[BOARD_SIZE][BOARD_SIZE];
     private final ImageView [][] scoreImages = new ImageView[21][8];
 
     @FXML
-    protected void onChatButtonClick(){
+    protected void onChatButtonClick() {
         Platform.runLater(() -> {
             chatNotification.setVisible(false);
             if(!chatContainer.isVisible()) {
@@ -182,8 +178,9 @@ public class PlayerSceneController implements GuiController, Initializable {
             }
         });
     }
+
     @FXML
-    protected void onSendMessage(KeyEvent e){
+    protected void onSendMessage(KeyEvent e) {
         Platform.runLater(() -> {
             if(e.getCode().equals(KeyCode.ENTER)) {
                 // content control client side
@@ -218,8 +215,9 @@ public class PlayerSceneController implements GuiController, Initializable {
             StageController.setOtherPlayerScene(otherGameFieldNickname);
         });
     }
+
     @FXML
-    protected void onStarterCardClick(){
+    protected void onStarterCardClick() {
         Platform.runLater(() -> {
             if(gameState.getText().equals("Game state: SETTING_INITIAL_CARDS")) {
                 startingPhaseBox.setVisible(true);
@@ -229,24 +227,27 @@ public class PlayerSceneController implements GuiController, Initializable {
             }
         });
     }
+
     @FXML
-    protected void onStarter1CardClick(){
+    protected void onStarter1CardClick() {
         Platform.runLater(() -> {
             str1Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             str2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             startingPhaseController.setText("1");
         });
     }
+
     @FXML
-    protected void onStarter2CardClick(){
+    protected void onStarter2CardClick() {
         Platform.runLater(() -> {
             str1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             str2Pane.setStyle(" -fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             startingPhaseController.setText("2");
         });
     }
+
     @FXML
-    protected void onObjective1CardClick(){
+    protected void onObjective1CardClick() {
         Platform.runLater(() -> {
             obj1Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             obj2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
@@ -260,7 +261,7 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
     @FXML
-    protected void onObjective2CardClick(){
+    protected void onObjective2CardClick() {
         Platform.runLater(() -> {
             obj1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
             obj2Pane.setStyle("-fx-border-color: #0000ff; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
@@ -275,7 +276,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     }
 
     @FXML
-    protected void onContinueButtonClick(){
+    protected void onContinueButtonClick() {
         Platform.runLater(() -> {
             if(startingPhaseController.getText().equals("1")||startingPhaseController.getText().equals("2")) {
                 option1Label.setText("Option 1");
@@ -290,8 +291,9 @@ public class PlayerSceneController implements GuiController, Initializable {
             }
         });
     }
+
     @FXML
-    protected void onSendCommandButtonClick(){
+    protected void onSendCommandButtonClick() {
         Platform.runLater(() -> {
             startingPhaseLabel.setText("Select the placing way of your starter card");
             obj2Pane.setVisible(false);
@@ -327,6 +329,7 @@ public class PlayerSceneController implements GuiController, Initializable {
             StageController.getClient().setAndExecuteCommand(new SetInitialCardsCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
         });
     }
+
     @FXML
     protected void onDoubleClickCardHand(MouseEvent e) {
         Platform.runLater(() -> {
@@ -350,8 +353,9 @@ public class PlayerSceneController implements GuiController, Initializable {
             }
         });
     }
+
     @FXML
-    protected void onDeckCardDraw(MouseEvent e){
+    protected void onDeckCardDraw(MouseEvent e) {
         Platform.runLater(() -> {
             if (currentPlayer.getText().equals("Current player: " + StageController.getNickname())) {
                 CardType type;
@@ -366,7 +370,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     }
 
     @FXML
-    protected void onCardRevealedDraw(MouseEvent e){
+    protected void onCardRevealedDraw(MouseEvent e) {
         Platform.runLater(() -> {
             if (currentPlayer.getText().equals("Current player: " + StageController.getNickname())) {
                 CardType type;
@@ -385,12 +389,12 @@ public class PlayerSceneController implements GuiController, Initializable {
             }
         });
     }
+
     /**
      * Method to get the card id by the url of the image.
      * @param image imageView containing the image
      * @return id of the card in the image
      */
-    // TODO platform?
     private int getCardId (ImageView image) {
         String idString;
         int firstIndex = image.getImage().getUrl().lastIndexOf("/") + 1;
@@ -542,8 +546,8 @@ public class PlayerSceneController implements GuiController, Initializable {
         }
         int x,y;
         for (String nickname: playerScore.keySet()){
-            x = ScoreBoardGridLayout.valueOf(playerTokenColor.get(nickname)+ "_"+ playerScore.get(nickname)).getX();
-            y = ScoreBoardGridLayout.valueOf(playerTokenColor.get(nickname)+"_" +playerScore.get(nickname)).getY();
+            x = BoardGridLayout.valueOf(playerTokenColor.get(nickname)+ "_"+ playerScore.get(nickname)).getX();
+            y = BoardGridLayout.valueOf(playerTokenColor.get(nickname)+"_" +playerScore.get(nickname)).getY();
 
             scoreImages[x][y].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + playerTokenColor.get(nickname).toString().toLowerCase() + ".png")).toExternalForm()));
             scoreImages[x][y].setVisible(true);
