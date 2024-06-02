@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc07.model_view;
 
-import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -81,7 +80,7 @@ public class PlayerView implements Serializable {
      * Method used to register a new listener.
      * @param playerViewListener player view listener
      */
-    public void addListener(PlayerViewListener playerViewListener) {
+    public synchronized void addListener(PlayerViewListener playerViewListener) {
         playerViewListeners.add(playerViewListener);
     }
 
@@ -114,7 +113,7 @@ public class PlayerView implements Serializable {
      * @param isStalled boolean value for isStalled
      */
     //TODO modificare for
-    public void setIsStalled(boolean isStalled) {
+    public synchronized void setIsStalled(boolean isStalled) {
         this.isStalled = isStalled;
         for(PlayerViewListener p: playerViewListeners) {
             p.receiveStallUpdate(nickname, this.isStalled);
@@ -126,7 +125,7 @@ public class PlayerView implements Serializable {
      * @param isConnected: true if the player is connected
      */
     //TODO modificare for
-    public void setIsConnected(boolean isConnected) {
+    public synchronized void setIsConnected(boolean isConnected) {
         this.isConnected = isConnected;
         for(PlayerViewListener p: playerViewListeners) {
             p.receiveConnectionUpdate(nickname, this.isConnected);
@@ -138,7 +137,7 @@ public class PlayerView implements Serializable {
      * @param nickname nickname
      * @param secretObjectives secret objectives
      */
-    public void setSecretObjectives(String nickname, List<ObjectiveCard> secretObjectives) {
+    public synchronized void setSecretObjectives(String nickname, List<ObjectiveCard> secretObjectives) {
         this.secretObjectives = secretObjectives;
 
         //TODO
@@ -156,7 +155,7 @@ public class PlayerView implements Serializable {
      * Method that allows to set the currentHand.
      * @param currentHand new current hand
      */
-    public void setCardHand(List<DrawableCard> currentHand, List<ObjectiveCard> secretObjectives) {
+    public synchronized void setCardHand(List<DrawableCard> currentHand, List<ObjectiveCard> secretObjectives) {
         this.currentHand = currentHand;
         this.secretObjectives = secretObjectives;
         // update listeners
@@ -175,7 +174,7 @@ public class PlayerView implements Serializable {
      * Setter method for player's starter card.
      * @param starterCard starter card
      */
-    public void setStarterCard(PlaceableCard starterCard) {
+    public synchronized void setStarterCard(PlaceableCard starterCard) {
         gameField.setStarterCard(starterCard);
         // update listeners
         //TODO

@@ -102,7 +102,7 @@ public class GameFieldView implements Serializable {
      * Method to register a game field view listener.
      * @param gameFieldViewListener game field view listener
      */
-    public void addListener(GameFieldViewListener gameFieldViewListener) {
+    public synchronized void addListener(GameFieldViewListener gameFieldViewListener) {
         gameFieldViewListeners.add(gameFieldViewListener);
     }
 
@@ -174,7 +174,7 @@ public class GameFieldView implements Serializable {
         notifyListeners(nickname);
     }
 
-    private void notifyListeners(String nickname){
+    private synchronized void notifyListeners(String nickname){
         PlaceableCard[][] cardsContentCopy = getCardsContent();
         Boolean[][] cardsFaceCopy = getCardsFace();
         int [][] cardsOrderCopy = getCardsOrder();

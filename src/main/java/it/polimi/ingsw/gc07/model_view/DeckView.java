@@ -128,10 +128,10 @@ public class DeckView {
 
     /**
      * Setter for attribute commonObjective.
-     * @param commonObjective common objective cards
+     * @param commonObjectives common objective cards
      */
-    public void setCommonObjective(List<ObjectiveCard> commonObjective) {
-        this.commonObjectives = commonObjective;
+    public void setCommonObjective(List<ObjectiveCard> commonObjectives) {
+        this.commonObjectives = commonObjectives;
         sendDecksUpdate();
     }
 
@@ -180,7 +180,11 @@ public class DeckView {
      * @return common objectives
      */
     public List<ObjectiveCard> getCommonObjective() {
-        return commonObjectives;
+        try {
+            return new ArrayList<>(commonObjectives);
+        }catch(NullPointerException e) {
+            return null;
+        }
     }
 
     /**
