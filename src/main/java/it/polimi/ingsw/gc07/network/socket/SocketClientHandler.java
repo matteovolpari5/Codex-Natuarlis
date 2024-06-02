@@ -102,21 +102,25 @@ SocketClientHandler implements VirtualView {
 
     private void manageGameCommand(){
         GameControllerCommand command;
+        boolean isSocketClosed;
         while(true){
+            synchronized (this){
+                isSocketClosed = mySocket.isClosed();
+            }
+            if(isSocketClosed){
+                break;
+            }
             try {
                 command = (GameControllerCommand) input.readObject();
             }catch (IOException | ClassNotFoundException e){
-                //System.out.println("manage game command 1 - " + myClientNickname);
                 closeConnection();
                 break;
             }
             synchronized (gameController) {
-                //System.out.println(command.getClass());
                 gameController.setAndExecuteCommand(command);
                 CommandResult result = gameController.getCommandResult();
                 if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL) && !gameController.isPlayerConnected(myClientNickname)){
                     gameController.setCommandResult(myClientNickname, CommandResult.SUCCESS);
-                    //System.out.println("manage game command 2 - " + myClientNickname);
                     closeConnection();
                     break;
                 }

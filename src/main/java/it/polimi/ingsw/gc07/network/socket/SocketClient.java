@@ -180,17 +180,16 @@ public class SocketClient implements Client, PingSender {
     private void manageReceivedUpdate() {
         Update update;
         while (true){
+            if(!isClientAlive()){
+                break;
+            }
             try {
                 update = (Update) input.readObject();
-                //if(update instanceof PongUpdate){
-                    //System.err.println("arrivato pong");
-                //}
                 update.execute(gameView);
                 synchronized (this){
                     pong = true;
                 }
             } catch (IOException | ClassNotFoundException e) {
-                //System.err.println("read object");
                 closeConnection();
                 break;
             }
@@ -229,7 +228,6 @@ public class SocketClient implements Client, PingSender {
         try {
             myServer.setAndExecuteCommand(gameControllerCommand);
         } catch (IOException e) {
-            //System.err.println("errore pong");
             closeConnection();
         }
     }
@@ -257,7 +255,6 @@ public class SocketClient implements Client, PingSender {
                 try {
                     myServer.setAndExecuteCommand(new SendPingCommand(nickname));
                 } catch (IOException e) {
-                    //System.out.println("send ping");
                     closeConnection();
                 }
             }
@@ -284,7 +281,6 @@ public class SocketClient implements Client, PingSender {
                 }else {
                     missedPong ++;
                     if(missedPong >= maxMissedPongs) {
-                        //System.out.println("Check pong");
                         closeConnection();
                         break;
                     }
