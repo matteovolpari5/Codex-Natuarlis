@@ -408,7 +408,6 @@ public class PlayerSceneController implements GuiController, Initializable {
      * @param image imageView containing the image
      * @return boolean representing the way of the card
      */
-    // TODO platform?
     private boolean getCardWay (ImageView image) {
         return image.getImage().getUrl().contains("Back");
     }
@@ -488,11 +487,6 @@ public class PlayerSceneController implements GuiController, Initializable {
                     });
                     int finalCol = col;
                     int finalRow = row;
-                    gridImage.setOnDragEntered(event -> {
-                        if (event.getGestureSource() != gridImage) {
-
-                        }
-                    });
                     gridImage.setOnDragDropped(event -> {
                         ImageView card = (ImageView) event.getGestureSource();
                         boolean way = getCardWay(card);
@@ -706,7 +700,6 @@ public class PlayerSceneController implements GuiController, Initializable {
             handCard2.setVisible(false);
             handCard3.setVisible(false);
         }
-        // TODO
         if(personalObjective.size()==2) {
             imageId = personalObjective.getFirst().getId();
             option1Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));

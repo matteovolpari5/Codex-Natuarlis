@@ -9,16 +9,12 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 public class GameEndedSceneController implements GuiController {
     /**
@@ -153,7 +149,7 @@ public class GameEndedSceneController implements GuiController {
         }
         int size = winners.size();
         if(size==1){
-            winner1.setText(winners.get(0));
+            winner1.setText(winners.getFirst());
             winner1.setVisible(true);
             winner2.setVisible(false);
             winner3.setVisible(false);
@@ -227,19 +223,18 @@ public class GameEndedSceneController implements GuiController {
 
     /**
      * Method used to display players in the game.
-     * @param nicknames        nicknames
+     * @param nicknames nicknames
      * @param connectionValues connection values
-     * @param stallValues      stall values
+     * @param stallValues stall values
      */
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {}
 
     /**
      * Method used to redirect the client.
-     * @param actionEvent action event
      */
     @FXML
-    public void endGame(ActionEvent actionEvent) {
+    public void endGame() {
         Platform.runLater(() -> {
             StageController.getClient().setClientAlive(false);
             Platform.exit();
