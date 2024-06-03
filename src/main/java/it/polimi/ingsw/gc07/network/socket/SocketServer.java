@@ -27,15 +27,17 @@ public class SocketServer {
         this.mySocket = mySocket;
     }
 
-    public void runServer() throws IOException {
+    public void runServer() {
         SafePrinter.println("Socket server running");
         Socket clientSocket;
-        while((clientSocket = this.mySocket.accept()) != null){ //TODO mail cugola
-            SafePrinter.println("Received client socket connection");
-            try{
+        while(true){
+            SafePrinter.println("attesa nuove connessioni...");
+            try {
+                clientSocket = this.mySocket.accept();
+                SafePrinter.println("Received client socket connection");
                 new SocketClientHandler(clientSocket);
-            } catch (IOException e){
-                //TODO eventuale stampa
+            } catch (IOException e) {
+                SafePrinter.println("An error occured while creating the connection with a client");
             }
         }
     }
