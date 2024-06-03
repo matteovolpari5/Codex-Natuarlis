@@ -963,6 +963,7 @@ public class PlayerSceneController implements GuiController, Initializable {
             // TODO
             // se clicca un bottone, fa Platform.exit,
             // all'uscita verrà fatta System.exit
+            System.exit(0);
         });
     }
 }
