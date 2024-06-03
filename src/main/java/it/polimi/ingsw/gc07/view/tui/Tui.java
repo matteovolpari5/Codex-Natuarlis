@@ -53,6 +53,14 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     }
 
     /**
+     * Method used to stop the ui when a disconnection occurred.
+     */
+    @Override
+    public void stopUi() {
+        // checked every time a command is inserted
+    }
+
+    /**
      * Method used to run the starting interface.
      */
     @Override
@@ -496,7 +504,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     /**
      * Method used to ask for reconnection to a player.
      */
-    public static void askForReconnection() {
+    public void askForReconnection() {
         Scanner scan = new Scanner(System.in);
         SafePrinter.println("\n\nDo you want to reconnect (1 = yes, other = no)?");
         SafePrinter.print("> ");

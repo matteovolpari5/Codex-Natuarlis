@@ -276,6 +276,12 @@ public class LobbySceneController implements Initializable, GuiController {
     public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {}
 
     /**
+     * Method used to display that a disconnection occurred and the Ui has to stop.
+     */
+    @Override
+    public void displayDisconnection() {}
+
+    /**
      * Action executed when the continue button is clicked.
      * It's checked which choice is made, then there is a little client check on the info submitted and then the command is set and executed.
      */

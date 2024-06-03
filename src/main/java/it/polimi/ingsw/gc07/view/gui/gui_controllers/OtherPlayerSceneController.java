@@ -513,4 +513,16 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
             }
         }
     }
+
+    /**
+     * Method used to display that a disconnection occurred and the Ui has to stop.
+     */
+    @Override
+    public void displayDisconnection() {
+        Platform.runLater(() -> {
+            // TODO
+            // se clicca un bottone, fa Platform.exit,
+            // all'uscita verrà fatta System.exit
+        });
+    }
 }

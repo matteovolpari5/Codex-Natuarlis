@@ -49,6 +49,17 @@ public class GameEndedSceneController implements GuiController {
     public Button exitGame;
 
     /**
+     * Method used to redirect the client.
+     */
+    @FXML
+    public void endGame() {
+        Platform.runLater(() -> {
+            StageController.getClient().setClientAlive(false);
+            Platform.exit();
+        });
+    }
+
+    /**
      * Method used to display a score update.
      * @param playerScore map containing players' scores
      * @param playerTokenColor map containing players' token colors
@@ -231,13 +242,8 @@ public class GameEndedSceneController implements GuiController {
     public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {}
 
     /**
-     * Method used to redirect the client.
+     * Method used to display that a disconnection occurred and the Ui has to stop.
      */
-    @FXML
-    public void endGame() {
-        Platform.runLater(() -> {
-            StageController.getClient().setClientAlive(false);
-            Platform.exit();
-        });
-    }
+    @Override
+    public void displayDisconnection() {}
 }
