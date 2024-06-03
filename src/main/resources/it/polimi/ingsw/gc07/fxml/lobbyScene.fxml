@@ -2,67 +2,55 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="699.0" prefWidth="1200.0" style="-fx-background-color: #98777b;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.LobbySceneController">
-    <AnchorPane fx:id="screenPane" layoutX="10.0" layoutY="10.0" prefHeight="843.0" prefWidth="1200.0" style="-fx-background-color: #fff8dc;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-
-        <AnchorPane fx:id="joinPane" layoutY="228.0" prefHeight="441.0" prefWidth="521.0" style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 10;" visible="false" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="654.0" AnchorPane.topAnchor="228.0">
-            <Text fill="#288a2f" text="LIST OF EXISTING GAMES:" AnchorPane.bottomAnchor="480.767578125" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="72.42578125" AnchorPane.topAnchor="10.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-image: url(&quot;background.png&quot;); -fx-background-size: cover; -fx-background-position: center center;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.LobbySceneController">
+   <AnchorPane layoutX="341.0" layoutY="358.0" style="-fx-background-color: rgba(230, 204, 179, .4); -fx-background-radius: 10; -fx-padding: 5;" AnchorPane.bottomAnchor="228.0" AnchorPane.rightAnchor="324.0">
+      <children>
+      
+            <Text fx:id="textTokenColor" fill="#3c251a" layoutX="12.0" layoutY="195.0" text="INSERT THE TOKEN COLOR:">
                 <font>
-                    <Font name="Comic Sans MS Bold" size="26.0" />
+                    <Font name="Comic Sans MS Bold" size="24.0" />
                 </font>
             </Text>
-            <ListView fx:id="gameList" layoutX="-280.0" layoutY="78.0" onMouseClicked="#clickedGame" prefHeight="440.0" prefWidth="440.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
-        </AnchorPane>
-
-        <AnchorPane fx:id="newPane" layoutX="590.0" layoutY="229.0" prefHeight="287.0" prefWidth="549.0" style="-fx-border-radius: 10; -fx-border-color: #98777b; -fx-border-width: 5;" AnchorPane.rightAnchor="61.0">
-
-            <Text fx:id="textTokenColor" fill="#d3251b" layoutX="14.0" layoutY="180.0" text="INSERT THE TOKEN COLOR:">
+            <ChoiceBox fx:id="boxTokenColor" layoutX="396.0" layoutY="168.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="36.0" prefWidth="70.0" style="-fx-background-color: #98777b; -fx-background-radius: 15; -fx-border-radius: 10;" />
+            <Text fx:id="textInsertNumPlayers" fill="#3c251a" layoutX="12.0" layoutY="87.0" text="INSERT THE NUMBER OF PLAYERS:">
                 <font>
-                    <Font name="Comic Sans MS Bold" size="26.0" />
+                    <Font name="Comic Sans MS Bold" size="24.0" />
                 </font>
             </Text>
-            <ChoiceBox fx:id="boxTokenColor" layoutX="15.0" layoutY="212.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="36.0" prefWidth="271.0" style="-fx-background-color: #98777b; -fx-background-radius: 15; -fx-border-radius: 10;" />
-            <Text fx:id="textInsertNumPlayers" fill="#d3251b" layoutX="19.0" layoutY="58.0" text="INSERT THE NUMBER OF PLAYERS:" wrappingWidth="509.0767822265625">
+            <ChoiceBox fx:id="boxNumPlayers" layoutX="470.0" layoutY="59.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="36.0" prefWidth="55.0" style="-fx-background-color: #98777b; -fx-background-radius: 15; -fx-border-radius: 10;" />
+          <ListView fx:id="gameList" layoutX="62.0" layoutY="51.0" onMouseClicked="#clickedGame" prefHeight="107.0" prefWidth="232.0" visible="false" />
+            <Text fx:id="listExistingGameText" fill="#3c251a" layoutX="12.0" layoutY="40.0" text="LIST OF EXISTING GAMES:" visible="false">
                 <font>
-                    <Font name="Comic Sans MS Bold" size="26.0" />
+                    <Font name="Comic Sans MS Bold" size="24.0" />
                 </font>
             </Text>
-            <ChoiceBox fx:id="boxNumPlayers" layoutX="14.0" layoutY="81.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="36.0" prefWidth="271.0" style="-fx-background-color: #98777b; -fx-background-radius: 15; -fx-border-radius: 10;" />
-        </AnchorPane>
+      </children>
+   </AnchorPane>
 
 
-        <Button fx:id="next" layoutX="959.0" layoutY="609.0" mnemonicParsing="false" onAction="#onContinueButtonClick" prefHeight="66.0" prefWidth="215.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-border-radius: 10; -fx-border-color: #98777b; -fx-border-width: 5;" text="CONTINUE" textFill="RED" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="26.0">
-            <font>
-                <Font name="System Bold" size="30.0" />
-            </font>
-        </Button>
-        <AnchorPane layoutX="43.0" layoutY="122.0" style="-fx-background-color: white; -fx-border-color: #98777b; -fx-border-radius: 20; -fx-background-radius: 25; -fx-border-width: 5; -fx-padding: 5;">
-            <children>
-                <Text fx:id="textJoinGame" fill="#288a2f" layoutX="186.0" layoutY="52.0" onMouseClicked="#selectJoin" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="JOIN GAME">
-                    <font>
-                        <Font name="Comic Sans MS Bold" size="28.0" />
-                    </font>
-                </Text>
-                <Text fx:id="textNewGame" fill="#d3251b" layoutX="11.0" layoutY="52.0" onMouseClicked="#selectNew" strokeType="OUTSIDE" strokeWidth="0.0" text="NEW GAME">
-                    <font>
-                        <Font name="Comic Sans MS Bold" size="28.0" />
-                    </font>
-                </Text>
-                <ToggleButton fx:id="choice" mnemonicParsing="false" prefHeight="26.0" prefWidth="33.0" visible="false" />
-            </children>
-        </AnchorPane>
-        <Label layoutX="565.0" layoutY="24.0" text="Lobby" AnchorPane.topAnchor="24.0">
-            <font>
-                <Font name="Copperplate Gothic Bold" size="58.0" />
-            </font>
-        </Label>
-
-    </AnchorPane>
+     <Button fx:id="next" layoutX="959.0" layoutY="609.0" mnemonicParsing="false" onAction="#onContinueButtonClick" style="-fx-background-color: #98777b; -fx-background-radius: 15; -fx-border-radius: 10; -fx-border-color: #98777b; -fx-border-width: 5;" text="CONTINUE" textFill="WHITE" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="26.0">
+         <font>
+             <Font name="Arial Bold" size="30.0" />
+         </font>
+     </Button>
+   <VBox alignment="TOP_CENTER" layoutX="-15.0" layoutY="277.0" prefHeight="89.0" prefWidth="223.0" style="-fx-padding: 10; -fx-background-radius: 5; -fx-background-color: rgba(230, 204, 179, 0.5);" AnchorPane.leftAnchor="-15.0" AnchorPane.topAnchor="277.0">
+      <children>
+             <Text fx:id="textNewGame" fill="#3c251a" onMouseClicked="#selectNew" strokeType="OUTSIDE" strokeWidth="0.0" text="NEW GAME" wrappingWidth="179.546875">
+                 <font>
+                     <Font name="Arial Bold" size="32.0" />
+                 </font>
+             </Text>
+             <Text fx:id="textJoinGame" fill="#3c251a" onMouseClicked="#selectJoin" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="JOIN GAME" wrappingWidth="179.578125">
+                 <font>
+                     <Font name="Arial Bold" size="32.0" />
+                 </font>
+             </Text>
+      </children>
+   </VBox>
 </AnchorPane>
