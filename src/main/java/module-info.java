@@ -34,5 +34,6 @@ module it.polimi.ingsw.gc07 {
     exports it.polimi.ingsw.gc07.view.gui to javafx.graphics;
     exports it.polimi.ingsw.gc07.utils;
     opens it.polimi.ingsw.gc07.utils to javafx.fxml;
+    opens it.polimi.ingsw.gc07.view.gui to javafx.fxml;
 
 }

@@ -81,6 +81,7 @@ public abstract class StageController {
      */
     public synchronized static void setup(Stage stage) {
         // set stage
+        stage.setMaximized(true);
         currentStage = stage;
         // create scene loader
         currentSceneType = SceneType.LOBBY_SCENE;

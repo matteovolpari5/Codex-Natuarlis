@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.view.gui.BoardGridLayout;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
@@ -326,6 +327,12 @@ public class PlayerSceneController implements GuiController, Initializable {
                     objectiveCardSelected = true;
                     break;
             }
+
+            if(!StageController.getGameView().getGameState().equals(GameState.SETTING_INITIAL_CARDS)) {
+                updatesItem.add("Wrong game state.");
+                return;
+            }
+
             StageController.getClient().setAndExecuteCommand(new SetInitialCardsCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
         });
     }
@@ -364,6 +371,18 @@ public class PlayerSceneController implements GuiController, Initializable {
                 } else {
                     type = CardType.GOLD_CARD;
                 }
+
+                // check game state
+                if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
+                    updatesItem.add("Wrong game state.");
+                    return;
+                }
+                // check current player
+                if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
+                    updatesItem.add("This is not your turn, try later.");
+                    return;
+                }
+
                 StageController.getClient().setAndExecuteCommand(new DrawDeckCardCommand(StageController.getNickname(), type));
             }
         });
@@ -385,6 +404,18 @@ public class PlayerSceneController implements GuiController, Initializable {
                 } else {
                     pos = 1;
                 }
+
+                // check game state
+                if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
+                    updatesItem.add("Wrong game state.");
+                    return;
+                }
+                // check current player
+                if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
+                    updatesItem.add("This is not your turn, try later.");
+                    return;
+                }
+
                 StageController.getClient().setAndExecuteCommand(new DrawFaceUpCardCommand(StageController.getNickname(), type, pos));
             }
         });
@@ -491,6 +522,17 @@ public class PlayerSceneController implements GuiController, Initializable {
                         ImageView card = (ImageView) event.getGestureSource();
                         boolean way = getCardWay(card);
                         int cardPos = Integer.parseInt(card.getId().substring(card.getId().length()-1))-1;
+
+                        // check game state
+                        if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
+                            updatesItem.add("Wrong game state.");
+                            return;
+                        }
+                        // check current player
+                        if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
+                            updatesItem.add("This is not your turn, try later.");
+                            return;
+                        }
                         StageController.getClient().setAndExecuteCommand(new PlaceCardCommand(StageController.getNickname(), cardPos, finalCol, finalRow, way));
                         event.setDropCompleted(true);
                         event.consume();

@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.view.gui.BoardGridLayout;
 import it.polimi.ingsw.gc07.view.gui.SceneType;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

@@ -289,26 +289,20 @@ public class LobbySceneController implements Initializable, GuiController {
     protected void onContinueButtonClick() {
         Platform.runLater(() -> {
             if(!choice.isSelected()){
-                if(boxNumPlayers.getValue() != null && boxTokenColor.getValue() != null)
-                {
+                if(boxNumPlayers.getValue() != null && boxTokenColor.getValue() != null) {
                     int numPlayers = boxNumPlayers.getValue();
                     TokenColor tokenColor = boxTokenColor.getValue();
-                    if(boxNumPlayers.getValue() > 0 && boxNumPlayers.getValue() < 5)
-                    {
-                        if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))
-                        {
+                    if(boxNumPlayers.getValue() > 0 && boxNumPlayers.getValue() < 5) {
+                        if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW)) {
                             StageController.getClient().setAndExecuteCommand(new JoinNewGameCommand(StageController.getNickname(),tokenColor,numPlayers));
                             screenPane.setVisible(false);
                         }
                     }
                 }
-            }
-            else if(choice.isSelected()) {
-                if(boxTokenColor.getValue() != null && !gameList.getSelectionModel().getSelectedItems().isEmpty())
-                {
+            } else if(choice.isSelected()) {
+                if(boxTokenColor.getValue() != null && !gameList.getSelectionModel().getSelectedItems().isEmpty()) {
                     TokenColor tokenColor = boxTokenColor.getValue();
-                    if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))
-                    {
+                    if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW)) {
                         StageController.getClient().setAndExecuteCommand(new JoinExistingGameCommand(StageController.getNickname(),tokenColor,idGame));
                         screenPane.setVisible(false);
                     }
