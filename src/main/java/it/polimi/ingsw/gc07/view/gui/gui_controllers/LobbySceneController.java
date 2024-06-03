@@ -117,7 +117,7 @@ public class LobbySceneController implements Initializable, GuiController {
             ObservableList<String> listViewComponent = FXCollections.observableArrayList();
             listViewComponent.add("GAMEID           NUM OF PLAYERS");
             for(Integer id : existingGamesPlayerNumber.keySet()){
-                String newLine = "        "+id+"                                     "+existingGamesPlayerNumber.get(id);
+                String newLine = id+"                                     "+existingGamesPlayerNumber.get(id);
                 listViewComponent.add(newLine);
             }
             gameList.setItems(listViewComponent);
