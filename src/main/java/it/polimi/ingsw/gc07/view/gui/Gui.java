@@ -29,7 +29,9 @@ public  class Gui extends Application implements Ui {
      * Nickname of Gui's owner.
      */
     private String nickname;
-
+    /**
+     * Starting phase timeout.
+     */
     private Timer timeout;
 
     /**
@@ -446,5 +448,18 @@ public  class Gui extends Application implements Ui {
     @Override
     public void receiveSecretObjectives(String nickname, List<ObjectiveCard> secretObjective) {
         // don't send to anyone
+    }
+
+    /**
+     * Method used to stop the ui when a disconnection occurred.
+     */
+    @Override
+    public void stopUi() {
+        Platform.runLater(() -> {
+            if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
+                    StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+                StageController.getController().displayDisconnection();
+            }
+        });
     }
 }

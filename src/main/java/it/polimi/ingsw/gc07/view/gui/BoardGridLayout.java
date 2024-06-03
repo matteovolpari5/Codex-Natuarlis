@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.view.gui.gui_controllers;
+package it.polimi.ingsw.gc07.view.gui;
 
 public enum BoardGridLayout {
     RED_0(20, 1),

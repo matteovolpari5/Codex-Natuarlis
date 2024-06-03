@@ -32,6 +32,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     public Tui(String nickname, Client client) {
         this.nickname = nickname;
         this.client = client;
+        printGameTitle();
     }
 
     /**
@@ -50,6 +51,14 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     @Override
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    /**
+     * Method used to stop the ui when a disconnection occurred.
+     */
+    @Override
+    public void stopUi() {
+        // checked every time a command is inserted
     }
 
     /**
@@ -496,7 +505,7 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
     /**
      * Method used to ask for reconnection to a player.
      */
-    public static void askForReconnection() {
+    public void askForReconnection() {
         Scanner scan = new Scanner(System.in);
         SafePrinter.println("\n\nDo you want to reconnect (1 = yes, other = no)?");
         SafePrinter.print("> ");
@@ -841,6 +850,59 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
         for(ObjectiveCard objectiveCard: secretObjectives) {
             PlayerTui.printOnlyObjectiveCard(objectiveCard);
         }
+    }
+
+    /**
+     * Method used to print an ascii art of the game title.
+     */
+    private void printGameTitle() {
+        System.out.println("                                                                                                                                                                              \n" +
+                "                                                                                                                                                                              \n" +
+                "                                                          " +
+                "                                                                                                                    \n" +
+                "                                                            @@      @                   @@                                                                                    \n" +
+                "                                                     @@  @@@@@@@%*@#                    @@@                                                                                   \n" +
+                "                                                  @@@  @  @@@@@@@@                      @@@@@@                                                                                \n" +
+                "                                                @@@@  @@      =                         *@@@@@@@@                                                                             \n" +
+                "                                              .@@@@  @@@@     =               @@           @@@@@@@@           @@@       @@     @  :                                           \n" +
+                "                                              @@@@@  @@@@@+   =            @@@@@@@       .@@  @@@@@@        @@@@@@    @@@@@@  @@@@                                            \n" +
+                "                                             @@@@@-  @@@@@@@  =         %@@  @@@@@@.    @@@@   @@@@@     .@@- @@@@% @  #@@@@@@@@*                                             \n" +
+                "                                             @@@@@@   @@@@@@: =        @@@@    @@@@@   *@@@@    @@@@=   @@@@=  @@@.     %@@@@.                                                \n" +
+                "                                             @@@@@@    @@@@@@ =        @@@@    +@@@@   @@@@@    @@@@=   @@@@=  @@@       @@@@..@                                              \n" +
+                "                                             @@@@@@:    -@@@. =        @@@@    -@@@@   @@@@@    @@@@=   @@@@+  @      @@@@@@@@@                                               \n" +
+                "                                              @@@@@@      @@  =        @@@@    -@@@@   @@@@@    @@@@:   @@@@+ :          @@@@.                                                \n" +
+                "                                              @@@@@@@:-@# -   =        @@@@@   -@@@@   +@@@@@   @@@@    @@@@@            @@@@@                                                \n" +
+                "                                               @@@@@@@@=      =   +*   @@@@@@  -@@@     @@@@@@  @@@     @@@@@@        @@@@@@@@@  +                                            \n" +
+                "                                              @  @@@@@@@@@@@#*@@@@      %@@@@@@=@.       @@@@@@@%        @@@@@@@*   @@@@  @@@@@@+                                             \n" +
+                "                                             @     %@@@@@@@@@@@.          .@@@.            %@@            .@@@     @  @     @@@                                               \n" +
+                "                                             @                                                                                                                                \n" +
+                "                                              @               *                                                                                                               \n" +
+                "                                               @@.         =@                                                                                                                 \n" +
+                "                                                  .@@@@@@:                                                                                                                    \n" +
+                "                                                                                                                                                                              \n" +
+                "                                                                                                                                                                              \n" +
+                "              @                                                                                                                                                               \n" +
+                "              @@@@@@@@@@@@@@@@    @@@@@@@@@=@                         @@                                                        @@@ @@@                                       \n" +
+                "              *@@@@@@@@@@@@@@@@% @@@@@@@@@@.                        @@@                                                       #@@@@ @@@= @@@@                                 \n" +
+                "                @@@@@@@@@@@@@@@@*    @@@@ :@                       @@@@                                                       @@@@@      @@@@                                 \n" +
+                "                           @@@@@@       @@@                       #@@@@                                                       @@@@@                                           \n" +
+                "                            @@@@@      @@@@            @@@      @@@@@@@@@:   .@=      @@.       @@+   @  %         @@+        @@@@@      .@@            @@   @                \n" +
+                "                      ..     @@@@     @@@@@          @@@@@@@  @   @@@@@    @@@@@@   @@@@@@@   @@@@@@.@@@@@      .@@@@@@@  =   @@@@@    =@@@@@ *      %@@@@@@@                 \n" +
+                "                    @@@@@@   @@@@    %@@@@@       @@@ @@@@@@@     @@@@@     @@@@@    @@@@@     @@@@@@@@@-     @@@ @@@@@@@     @@@@@     @@@@@     .@@@ .@@@                   \n" +
+                "                    @@@@@@   @@@     @@@@@@      @@@@   @@@@@     @@@@@      @@@@    @@@@@     :@@@@        .@@@@   @@@@@     @@@@@     .@@@@    +@@@@                        \n" +
+                "                    @@@@@.  @@+      @@@@@@     @@@@@   #@@@@     @@@@@      @@@@    @@@@@     :@@@@        @@@@@   @@@@@     @@@@@     .@@@@    @@@@@   :@@@                 \n" +
+                "                     :%   @@.        @@@@@@     @@@@@   *@@@@     @@@@@      @@@@    @@@@@     :@@@@        @@@@@   @@@@@     @@@@@     .@@@@     @@@@@@ @@@@@                \n" +
+                "                                     @@@@@@     @@@@@   *@@@@     @@@@@      @@@@    @@@@@     :@@@@        @@@@@   @@@@@     @@@@@     .@@@@             @@@@@               \n" +
+                "                      @@@@@@@@@      @@@@@@     @@@@@   *@@@@     @@@@@      @@@@    @@@@@     :@@@@        @@@@@   @@@@@     @@@@@     .@@@@             @@@@@               \n" +
+                "                    @@@@@@@@@@@@@@    @@@@@@. * @@@@@   #@@@@#.   @@@@@      @@@@   .@@@@@     @@@@@@   :   @@@@@   @@@@@.+   @@@@@     .@@@@       +@@%  @@@@                \n" +
+                "                  #-     .@@@@@@       @@@@@+    @@@@@@= @@@@@   #.@@@@@@  .:@@@@@@. :@@@@@  .. @@@@@@:      @@@@@@. @@@@@   @#@@@@@@.   @@@@@@   @@@@@@@@@:                  \n" +
+                "                  .         @@          @@.       =@@:    @@        @@@       @@@      @@.       .@@.         @@@.    @@       .@@@       @@@    .    @@                      \n" +
+                "                  -                                                                                                                                                           \n" +
+                "                   @              @                                                                                                                                           \n" +
+                "                     @@@-....@@@*                                                                                                                                             \n" +
+                "                         -#-                                                                                                                                                  \n" +
+                "                                                                                                                                                                              \n" +
+                "                                                                                                                                                                              ");
     }
 }
 

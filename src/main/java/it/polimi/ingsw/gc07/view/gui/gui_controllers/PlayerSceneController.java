@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.view.gui.BoardGridLayout;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
@@ -326,6 +327,12 @@ public class PlayerSceneController implements GuiController, Initializable {
                     objectiveCardSelected = true;
                     break;
             }
+
+            if(!StageController.getGameView().getGameState().equals(GameState.SETTING_INITIAL_CARDS)) {
+                updatesItem.add("Wrong game state.");
+                return;
+            }
+
             StageController.getClient().setAndExecuteCommand(new SetInitialCardsCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
         });
     }
@@ -364,6 +371,18 @@ public class PlayerSceneController implements GuiController, Initializable {
                 } else {
                     type = CardType.GOLD_CARD;
                 }
+
+                // check game state
+                if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
+                    updatesItem.add("Wrong game state.");
+                    return;
+                }
+                // check current player
+                if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
+                    updatesItem.add("This is not your turn, try later.");
+                    return;
+                }
+
                 StageController.getClient().setAndExecuteCommand(new DrawDeckCardCommand(StageController.getNickname(), type));
             }
         });
@@ -385,6 +404,18 @@ public class PlayerSceneController implements GuiController, Initializable {
                 } else {
                     pos = 1;
                 }
+
+                // check game state
+                if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
+                    updatesItem.add("Wrong game state.");
+                    return;
+                }
+                // check current player
+                if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
+                    updatesItem.add("This is not your turn, try later.");
+                    return;
+                }
+
                 StageController.getClient().setAndExecuteCommand(new DrawFaceUpCardCommand(StageController.getNickname(), type, pos));
             }
         });
@@ -408,7 +439,6 @@ public class PlayerSceneController implements GuiController, Initializable {
      * @param image imageView containing the image
      * @return boolean representing the way of the card
      */
-    // TODO platform?
     private boolean getCardWay (ImageView image) {
         return image.getImage().getUrl().contains("Back");
     }
@@ -488,15 +518,21 @@ public class PlayerSceneController implements GuiController, Initializable {
                     });
                     int finalCol = col;
                     int finalRow = row;
-                    gridImage.setOnDragEntered(event -> {
-                        if (event.getGestureSource() != gridImage) {
-
-                        }
-                    });
                     gridImage.setOnDragDropped(event -> {
                         ImageView card = (ImageView) event.getGestureSource();
                         boolean way = getCardWay(card);
                         int cardPos = Integer.parseInt(card.getId().substring(card.getId().length()-1))-1;
+
+                        // check game state
+                        if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
+                            updatesItem.add("Wrong game state.");
+                            return;
+                        }
+                        // check current player
+                        if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
+                            updatesItem.add("This is not your turn, try later.");
+                            return;
+                        }
                         StageController.getClient().setAndExecuteCommand(new PlaceCardCommand(StageController.getNickname(), cardPos, finalCol, finalRow, way));
                         event.setDropCompleted(true);
                         event.consume();
@@ -706,7 +742,6 @@ public class PlayerSceneController implements GuiController, Initializable {
             handCard2.setVisible(false);
             handCard3.setVisible(false);
         }
-        // TODO
         if(personalObjective.size()==2) {
             imageId = personalObjective.getFirst().getId();
             option1Objective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
@@ -917,5 +952,18 @@ public class PlayerSceneController implements GuiController, Initializable {
                 }
             }
         }
+    }
+
+    /**
+     * Method used to display that a disconnection occurred and the Ui has to stop.
+     */
+    @Override
+    public void displayDisconnection() {
+        Platform.runLater(() -> {
+            // TODO
+            // se clicca un bottone, fa Platform.exit,
+            // all'uscita verrà fatta System.exit
+            System.exit(0);
+        });
     }
 }

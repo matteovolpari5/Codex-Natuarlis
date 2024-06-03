@@ -43,11 +43,7 @@ public class ServerMain {
         SafePrinter.println("Main Socket server ready");
         SocketServer socketServer= SocketServer.getSocketServer();
         socketServer.initializeSocketServer(sc);
-        try {
-            socketServer.runServer();
-        } catch (IOException e) {
-            System.exit(-1);
-        }
+        socketServer.runServer();
     }
 }
 

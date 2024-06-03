@@ -17,12 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -263,6 +258,12 @@ public class LobbySceneController implements Initializable, GuiController {
     public void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {}
 
     /**
+     * Method used to display that a disconnection occurred and the Ui has to stop.
+     */
+    @Override
+    public void displayDisconnection() {}
+
+    /**
      * Action executed when the continue button is clicked.
      * It's checked which choice is made, then there is a little client check on the info submitted and then the command is set and executed.
      */
@@ -274,10 +275,8 @@ public class LobbySceneController implements Initializable, GuiController {
                 {
                     int numPlayers = boxNumPlayers.getValue();
                     TokenColor tokenColor = boxTokenColor.getValue();
-                    if(boxNumPlayers.getValue() > 0 && boxNumPlayers.getValue() < 5)
-                    {
-                        if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW))
-                        {
+                    if(boxNumPlayers.getValue() > 0 && boxNumPlayers.getValue() < 5) {
+                        if(boxTokenColor.getValue().equals(TokenColor.GREEN)||boxTokenColor.getValue().equals(TokenColor.BLUE)||boxTokenColor.getValue().equals(TokenColor.RED)||boxTokenColor.getValue().equals(TokenColor.YELLOW)) {
                             StageController.getClient().setAndExecuteCommand(new JoinNewGameCommand(StageController.getNickname(),tokenColor,numPlayers));
                         }
                     }
