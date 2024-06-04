@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
 import it.polimi.ingsw.gc07.controller.GameState;
-import it.polimi.ingsw.gc07.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.controller.CommandResult;
+import it.polimi.ingsw.gc07.model.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.DisplayGamesCommand;
 import it.polimi.ingsw.gc07.game_commands.JoinExistingGameCommand;
 import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;

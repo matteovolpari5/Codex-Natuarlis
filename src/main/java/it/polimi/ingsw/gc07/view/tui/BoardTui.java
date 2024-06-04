@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.view.tui;
 
-import it.polimi.ingsw.gc07.enumerations.TokenColor;
+import it.polimi.ingsw.gc07.model.TokenColor;
 import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.util.ArrayList;

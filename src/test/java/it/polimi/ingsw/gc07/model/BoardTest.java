@@ -1,10 +1,7 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.enumerations.TokenColor;
 import it.polimi.ingsw.gc07.model_listeners.BoardListener;
-import it.polimi.ingsw.gc07.model_listeners.ChatListener;
 import it.polimi.ingsw.gc07.model_view.BoardView;
-import it.polimi.ingsw.gc07.model_view_listeners.BoardViewListener;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

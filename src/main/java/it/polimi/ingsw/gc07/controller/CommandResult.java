@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc07.enumerations;
+package it.polimi.ingsw.gc07.controller;
 
 /**
  * Enum class representing all the possible results of an action performed by a player.

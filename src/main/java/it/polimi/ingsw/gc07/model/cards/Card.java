@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model.cards;
 
-import it.polimi.ingsw.gc07.enumerations.CardType;
+import it.polimi.ingsw.gc07.model.CardType;
 
 import java.io.Serializable;
 

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
-import it.polimi.ingsw.gc07.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
-import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.game_commands.AddPlayerToPendingCommand;
+import it.polimi.ingsw.gc07.model.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;

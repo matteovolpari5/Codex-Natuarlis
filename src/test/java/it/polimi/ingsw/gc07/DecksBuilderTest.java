@@ -7,8 +7,8 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
-import it.polimi.ingsw.gc07.enumerations.GameObject;
-import it.polimi.ingsw.gc07.enumerations.GameResource;
+import it.polimi.ingsw.gc07.model.GameObject;
+import it.polimi.ingsw.gc07.model.GameResource;
 import it.polimi.ingsw.gc07.utils.DecksBuilder;
 import org.junit.jupiter.api.Test;
 

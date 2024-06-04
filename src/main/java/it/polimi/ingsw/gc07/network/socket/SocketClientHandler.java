@@ -2,9 +2,9 @@ package it.polimi.ingsw.gc07.network.socket;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.controller.GamesManager;
-import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
+import it.polimi.ingsw.gc07.controller.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.*;
-import it.polimi.ingsw.gc07.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.controller.CommandResult;
 import it.polimi.ingsw.gc07.network.SocketCommunication;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
@@ -12,7 +12,6 @@ import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.rmi.RemoteException;
 
 /**

@@ -4,7 +4,7 @@ import it.polimi.ingsw.gc07.utils.DecksBuilder;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.conditions.ItemsCondition;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
-import it.polimi.ingsw.gc07.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.controller.CommandResult;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

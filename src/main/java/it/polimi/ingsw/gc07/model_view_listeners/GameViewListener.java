@@ -1,9 +1,8 @@
 package it.polimi.ingsw.gc07.model_view_listeners;
 
 import it.polimi.ingsw.gc07.controller.GameState;
-import it.polimi.ingsw.gc07.enumerations.CommandResult;
-import it.polimi.ingsw.gc07.enumerations.TokenColor;
-import it.polimi.ingsw.gc07.model_view.PlayerView;
+import it.polimi.ingsw.gc07.controller.CommandResult;
+import it.polimi.ingsw.gc07.model.TokenColor;
 
 import java.util.List;
 import java.util.Map;

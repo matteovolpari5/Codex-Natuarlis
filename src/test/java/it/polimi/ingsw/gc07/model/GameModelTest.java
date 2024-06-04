@@ -2,7 +2,7 @@ package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.utils.DecksBuilder;
 import it.polimi.ingsw.gc07.controller.GameState;
-import it.polimi.ingsw.gc07.enumerations.CommandResult;
+import it.polimi.ingsw.gc07.controller.CommandResult;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;

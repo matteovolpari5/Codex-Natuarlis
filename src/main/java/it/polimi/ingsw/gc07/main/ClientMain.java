@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.main;
 
-import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
+import it.polimi.ingsw.gc07.controller.NicknameCheck;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.socket.SocketClient;

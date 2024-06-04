@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model_view;
 
-import it.polimi.ingsw.gc07.enumerations.CardType;
+import it.polimi.ingsw.gc07.model.CardType;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;

@@ -9,8 +9,8 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
-import it.polimi.ingsw.gc07.enumerations.GameObject;
-import it.polimi.ingsw.gc07.enumerations.GameResource;
+import it.polimi.ingsw.gc07.model.GameObject;
+import it.polimi.ingsw.gc07.model.GameResource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

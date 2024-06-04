@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.network.socket;
 
-import it.polimi.ingsw.gc07.enumerations.NicknameCheck;
+import it.polimi.ingsw.gc07.controller.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.Client;
@@ -15,7 +15,6 @@ import javafx.application.Application;
 
 import java.io.*;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class SocketClient implements Client, PingSender {
