@@ -31,7 +31,6 @@ public class SocketServer {
         SafePrinter.println("Socket server running");
         Socket clientSocket;
         while(true){
-            SafePrinter.println("attesa nuove connessioni...");
             try {
                 clientSocket = this.mySocket.accept();
                 SafePrinter.println("Received client socket connection");
