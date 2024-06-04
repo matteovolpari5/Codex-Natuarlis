@@ -166,7 +166,7 @@ public class GameController {
     }
 
     /**
-     * Method used to know if the current round is the penultimate one.
+     * Method used to set the current round as the penultimate one.
      */
     // used in tests
     void setPenultimateRound() {
@@ -325,6 +325,7 @@ public class GameController {
             client.setServerGame(getId());
         } catch (RemoteException e) {
             disconnectPlayer(nickname);
+            //TODO
         }
         gameModel.addListener(client);
         gameModel.sendModelViewUpdate(nickname, client);
@@ -526,7 +527,7 @@ public class GameController {
      * Method used to draw a face up card.
      * @param nickname nickname
      * @param type card type
-     * @param pos position between the starter cards list
+     * @param pos position between the starter cards list //TODO
      */
     public void drawFaceUpCard(String nickname, CardType type, int pos) {
         if(!gameModel.getState().equals(GameState.PLAYING)) {
@@ -556,7 +557,7 @@ public class GameController {
                 return;
             } else{
                 getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
-                // check if the card has been replaced or replace
+                // check if the card has been replaced or replace //TODO
                 if(gameModel.revealFaceUpResourceCard(1) == null) {
                     GoldCard newFaceUpCard = gameModel.drawGoldCard();
                     if(newFaceUpCard != null) {
@@ -573,7 +574,7 @@ public class GameController {
             }
             else{
                 getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
-                // check if the card has been replaced or replace
+                // check if the card has been replaced or replace //TODO
                 if(gameModel.revealFaceUpGoldCard(1) == null) {
                     DrawableCard newFaceUpCard = gameModel.drawResourceCard();
                     if(newFaceUpCard != null) {
@@ -798,7 +799,7 @@ public class GameController {
     }
 
     /**
-     * Method that starts a timer when the game is ended, when the timer expires
+     * Method that starts a timer when the game is ended, when the timer expires //TODO
      * it deletes the game from GamesManager.
      */
     private void endGame(){
@@ -822,7 +823,7 @@ public class GameController {
      * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
      */
     private void setup() {
-        assert(gameModel.getState().equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS";
+        assert(gameModel.getState().equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS"; //TODO
         // choose randomly the first player
         Random random = new Random();
         gameModel.setCurrPlayer(random.nextInt(gameModel.getPlayersNumber()));
