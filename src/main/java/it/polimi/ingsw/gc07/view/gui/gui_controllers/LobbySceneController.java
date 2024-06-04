@@ -32,57 +32,47 @@ public class LobbySceneController implements Initializable, GuiController {
      */
     @FXML
     protected Text textJoinGame;
-
     /**
      * Attribute that represent the text "New game".
      */
     @FXML
     protected Text textNewGame;
-
     @FXML
     protected Text listExistingGameText;
-
     /**
      * Attribute that represent the list of existing games.
      */
     @FXML
     protected ListView<String> gameList;
-
     /**
      * Attribute that represent the box where a player choice the number of players.
      */
     @FXML
     protected ChoiceBox<Integer> boxNumPlayers;
-
     /**
      * Attribute that represent the text "Insert the token color:".
      */
     @FXML
     protected Text textTokenColor;
-
     /**
      * Attribute that represent the button used to confirm the entry info.
      */
     @FXML
     protected Button next;
-
     /**
      * Attribute that represent the box where a player choice the token color.
      */
     @FXML
     protected ChoiceBox<TokenColor> boxTokenColor;
-
     /**
      * Attribute that represent the text "Insert the number of players:".
      */
     @FXML
     protected Text textInsertNumPlayers;
-
     /**
      * Id of the game selected.
      */
     private int idGame;
-
     /**
      * Map that contains the id game and the list of token color get.
      */
