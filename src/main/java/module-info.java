@@ -1,9 +1,10 @@
 module it.polimi.ingsw.gc07 {
-    requires javafx.controls;
-    requires javafx.fxml;
     requires com.google.gson;
     requires java.rmi;
     requires java.desktop;
+    requires javafx.fxml;
+    requires javafx.graphics;
+    requires javafx.controls;
 
     exports it.polimi.ingsw.gc07.model;
     opens it.polimi.ingsw.gc07.model to javafx.fxml;
@@ -34,5 +35,5 @@ module it.polimi.ingsw.gc07 {
     exports it.polimi.ingsw.gc07.view.gui to javafx.graphics;
     exports it.polimi.ingsw.gc07.utils;
     opens it.polimi.ingsw.gc07.utils to javafx.fxml;
-
+    opens it.polimi.ingsw.gc07.view.gui to javafx.fxml;
 }

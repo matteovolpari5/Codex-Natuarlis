@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
+import it.polimi.ingsw.gc07.view.gui.BoardGridLayout;
 import it.polimi.ingsw.gc07.view.gui.SceneType;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -512,5 +513,18 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
                 }
             }
         }
+    }
+
+    /**
+     * Method used to display that a disconnection occurred and the Ui has to stop.
+     */
+    @Override
+    public void displayDisconnection() {
+        Platform.runLater(() -> {
+            // TODO
+            // se clicca un bottone, fa Platform.exit,
+            // all'uscita verrà fatta System.exit
+            System.exit(0);
+        });
     }
 }

@@ -133,4 +133,9 @@ public interface GuiController {
      * @param stallValues stall values
      */
     void receivePlayersUpdate(Map<String, TokenColor> nicknames, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues);
+
+    /**
+     * Method used to display that a disconnection occurred and the Ui has to stop.
+     */
+    void displayDisconnection();
 }

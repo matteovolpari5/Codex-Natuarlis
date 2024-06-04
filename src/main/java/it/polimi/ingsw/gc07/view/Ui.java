@@ -25,4 +25,9 @@ public interface Ui extends GameViewListener, ChatViewListener, DeckViewListener
      * Method used to run game interface.
      */
     void runGameInterface();
+
+    /**
+     * Method used to stop the ui when a disconnection occurred.
+     */
+    void stopUi();
 }
