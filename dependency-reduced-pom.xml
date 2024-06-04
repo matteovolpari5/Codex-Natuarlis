@@ -36,23 +36,8 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.5.2</version>
+        <version>3.5.3</version>
         <executions>
-          <execution>
-            <id>Server</id>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <finalName>CodexNaturalis-Server</finalName>
-              <transformers>
-                <transformer>
-                  <mainClass>it.polimi.ingsw.gc07.main.ServerMain</mainClass>
-                </transformer>
-              </transformers>
-            </configuration>
-          </execution>
           <execution>
             <id>Client</id>
             <phase>package</phase>
@@ -73,6 +58,13 @@
     </plugins>
   </build>
   <dependencies>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx</artifactId>
+      <version>21.0.1</version>
+      <type>pom</type>
+      <scope>compile</scope>
+    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
