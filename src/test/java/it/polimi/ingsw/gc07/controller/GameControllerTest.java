@@ -61,6 +61,10 @@ class GameControllerTest {
         assertNotNull(myStarterCard2);
         gameController.setState(GameState.SETTING_INITIAL_CARDS);
 
+        assertEquals(2, gameController.getTakenTokenColors().size());
+        assertTrue(gameController.getTakenTokenColors().contains(TokenColor.BLUE));
+        assertTrue(gameController.getTakenTokenColors().contains(TokenColor.GREEN));
+
         List<ObjectiveCard> publicObjective = new ArrayList<>();
         for (DrawableCard c: gameController.getResourceCardsDeck().getContent()){
             if (c.getId() ==1){
@@ -406,6 +410,7 @@ class GameControllerTest {
         gameController.placeCard("Player1",0,41,41,true);
         assertEquals(CommandResult.WRONG_STATE, gameController.getCommandResult());
     }
+
     @Test
     void cardPlaceCardWrongPlayer(){
         String nick = gameController.getPlayers().get(gameController.getCurrPlayer()).getNickname();
@@ -413,6 +418,7 @@ class GameControllerTest {
         gameController.placeCard(nick,0,41,41,true);
         assertEquals(CommandResult.WRONG_PLAYER, gameController.getCommandResult());
     }
+
     @Test
     void cardAlreadyPlaced(){
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
@@ -421,12 +427,14 @@ class GameControllerTest {
         gameController.placeCard(currPlayer.getNickname(),0,42,42,true);
         assertEquals(CommandResult.CARD_ALREADY_PLACED, gameController.getCommandResult());
     }
+
     @Test
     void outOfHandBound(){
         Player currPlayer = gameController.getPlayers().get(gameController.getCurrPlayer());
         gameController.placeCard(currPlayer.getNickname(),4,41,41,true);
         assertEquals(CommandResult.CARD_NOT_PRESENT, gameController.getCommandResult());
     }
+
     @Test
     void PlaceStarterCardSuccess() {
         Player newPlayer = new Player("Player3", true, false);
@@ -454,18 +462,21 @@ class GameControllerTest {
         gameController.setInitialCards("Player1",false, false);
         assertEquals(CommandResult.WRONG_STATE, gameController.getCommandResult());
     }
+
     @Test
     void placeCardWrongPlayer(){
         gameController.setState(GameState.SETTING_INITIAL_CARDS);
         gameController.setInitialCards("Player3",false, false);
         assertEquals(CommandResult.PLAYER_NOT_PRESENT, gameController.getCommandResult());
     }
+
     @Test
     void alreadyPlaced(){
         gameController.setState(GameState.SETTING_INITIAL_CARDS);
         gameController.setInitialCards("Player1",false, false);
         assertEquals(CommandResult.CARD_ALREADY_PRESENT, gameController.getCommandResult());
     }
+
     @Test
     void placeRandomly()
     {
@@ -822,6 +833,7 @@ class GameControllerTest {
             gameController.changeCurrPlayer();
         }
     }
+
     @Test
     void changeCurrPlayerAllStalled(){
         firstPlayer.setFirst();
