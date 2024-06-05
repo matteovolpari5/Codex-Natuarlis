@@ -155,6 +155,8 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected GridPane gridPaneBoard;
     @FXML
     protected GridPane scoreGrid;
+    @FXML
+    protected Pane errorMessage;
     private final ImageView[][] imageViews = new ImageView[BOARD_SIZE][BOARD_SIZE];
     private final ImageView [][] scoreImages = new ImageView[21][8];
 
@@ -421,6 +423,14 @@ public class PlayerSceneController implements GuiController, Initializable {
 
                 StageController.getClient().setAndExecuteCommand(new DrawFaceUpCardCommand(StageController.getNickname(), type, pos));
             }
+        });
+    }
+
+    @FXML
+    protected void onExitButtonClick() {
+        Platform.runLater(() -> {
+            errorMessage.setVisible(false);
+            System.exit(0);
         });
     }
 
@@ -963,10 +973,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void displayDisconnection() {
         Platform.runLater(() -> {
-            // TODO
-            // se clicca un bottone, fa Platform.exit,
-            // all'uscita verrà fatta System.exit
-            System.exit(0);
+            errorMessage.setVisible(true);
         });
     }
 }

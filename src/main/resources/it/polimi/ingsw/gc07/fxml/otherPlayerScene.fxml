@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.text.Text?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #e6bd9f;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.OtherPlayerSceneController">
     <children>
         <AnchorPane maxWidth="1.7976931348623157E308" prefWidth="1204.0" style="-fx-background-color: #98777b;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -190,5 +191,32 @@
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Button>
+        <Pane fx:id="errorMessage" layoutX="-5.0" layoutY="17.0" prefHeight="781.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 0, 0, .7);" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
+            <children>
+                <Pane layoutX="401.0" layoutY="220.0" prefHeight="200.0" prefWidth="554.0" style="-fx-background-color: #f8f8d9; -fx-background-radius: 10;">
+                    <children>
+                        <Text layoutX="101.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You lost the connection " textAlignment="CENTER">
+                            <font>
+                                <Font name="Arial Bold" size="30.0" />
+                            </font>
+                        </Text>
+                        <ImageView fitHeight="56.0" fitWidth="101.0" layoutX="426.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../graphic_resources/Skull-Emoji.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="56.0" fitWidth="101.0" layoutX="19.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../graphic_resources/Skull-Emoji.png" />
+                            </image>
+                        </ImageView>
+                        <Button layoutX="416.0" layoutY="139.0" mnemonicParsing="false" onMouseClicked="#onExitButtonClick" prefHeight="43.0" prefWidth="125.0" style="-fx-background-color: #98777b; -fx-background-radius: 5" text="EXIT" textFill="white">
+                            <font>
+                                <Font name="Arial Bold" size="20.0" />
+                            </font></Button>
+                    </children>
+                </Pane>
+            </children>
+        </Pane>
     </children>
 </AnchorPane>

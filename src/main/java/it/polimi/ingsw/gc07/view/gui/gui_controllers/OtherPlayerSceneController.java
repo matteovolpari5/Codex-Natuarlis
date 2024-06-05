@@ -21,10 +21,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
@@ -91,6 +88,8 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     protected GridPane gridPaneBoard;
     @FXML
     protected GridPane scoreGrid;
+    @FXML
+    protected Pane errorMessage;
     private final ImageView[][] imageViews = new ImageView[BOARD_SIZE][BOARD_SIZE];
     private final ImageView [][] scoreImages = new ImageView[21][8];
     /**
@@ -128,6 +127,14 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     protected void onGoBackButtonClick(){
         Platform.runLater(() -> {
             StageController.setScene(SceneType.PLAYER_SCENE);
+        });
+    }
+
+    @FXML
+    protected void onExitButtonClick() {
+        Platform.runLater(() -> {
+            errorMessage.setVisible(false);
+            System.exit(0);
         });
     }
 
@@ -524,10 +531,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     @Override
     public void displayDisconnection() {
         Platform.runLater(() -> {
-            // TODO
-            // se clicca un bottone, fa Platform.exit,
-            // all'uscita verrà fatta System.exit
-            System.exit(0);
+            errorMessage.setVisible(true);
         });
     }
 }
