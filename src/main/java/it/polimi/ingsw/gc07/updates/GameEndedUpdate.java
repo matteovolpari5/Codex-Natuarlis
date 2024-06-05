@@ -4,6 +4,9 @@ import it.polimi.ingsw.gc07.model_view.GameView;
 
 import java.util.List;
 
+/**
+ * Update used to notify the game is ended.
+ */
 public class GameEndedUpdate implements Update {
     /**
      * List of winners.

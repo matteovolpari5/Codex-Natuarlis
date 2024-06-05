@@ -6,6 +6,9 @@ import it.polimi.ingsw.gc07.model_view.GameView;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Update used to show games that have available places.
+ */
 public class ExistingGamesUpdate implements Update {
     /**
      * Map containing existing games.

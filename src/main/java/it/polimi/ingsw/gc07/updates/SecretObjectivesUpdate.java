@@ -5,6 +5,9 @@ import it.polimi.ingsw.gc07.model_view.GameView;
 
 import java.util.List;
 
+/**
+ * Update used to notify a player of his secret objectives cards.
+ */
 public class SecretObjectivesUpdate implements Update {
     /**
      * Player's nickname.

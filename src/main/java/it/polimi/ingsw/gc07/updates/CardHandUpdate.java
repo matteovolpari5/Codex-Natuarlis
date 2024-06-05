@@ -6,6 +6,9 @@ import it.polimi.ingsw.gc07.model_view.GameView;
 
 import java.util.List;
 
+/**
+ * Update used to show new card hand.
+ */
 public class CardHandUpdate implements Update {
     /**
      * Player's nickname.

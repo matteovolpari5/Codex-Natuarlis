@@ -3,6 +3,9 @@ package it.polimi.ingsw.gc07.updates;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model_view.GameView;
 
+/**
+ * Update used to show a new card has been placed in the game field.
+ */
 public class PlacedCardUpdate implements Update {
     /**
      * Nickname of the player who placed the card.

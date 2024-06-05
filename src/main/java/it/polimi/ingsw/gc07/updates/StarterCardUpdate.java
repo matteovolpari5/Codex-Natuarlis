@@ -3,6 +3,9 @@ package it.polimi.ingsw.gc07.updates;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model_view.GameView;
 
+/**
+ * Update used to show a player his starter card.
+ */
 public class StarterCardUpdate implements Update {
     /**
      * Player's nickname.

@@ -2,6 +2,9 @@ package it.polimi.ingsw.gc07.updates;
 
 import it.polimi.ingsw.gc07.model_view.GameView;
 
+/**
+ * Update used to notify the new score of a certain player in the same game.
+ */
 public class ScoreUpdate implements Update {
     /**
      * Player's nickname.

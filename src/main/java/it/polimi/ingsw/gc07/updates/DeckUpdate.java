@@ -7,6 +7,9 @@ import it.polimi.ingsw.gc07.model_view.GameView;
 
 import java.util.List;
 
+/**
+ * Update used to show new decks' available cards.
+ */
 public class DeckUpdate implements Update {
     /**
      * Card on top of resource cards deck.

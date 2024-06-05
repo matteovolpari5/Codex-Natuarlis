@@ -5,6 +5,9 @@ import it.polimi.ingsw.gc07.model_view.GameView;
 
 import java.util.List;
 
+/**
+ * Update used to send the full chat content, used, for example, after a disconnection.
+ */
 public class FullChatUpdate implements Update {
     /**
      * Full chat content.

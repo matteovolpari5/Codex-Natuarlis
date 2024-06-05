@@ -2,6 +2,9 @@ package it.polimi.ingsw.gc07.updates;
 
 import it.polimi.ingsw.gc07.model_view.GameView;
 
+/**
+ * Update sent to notify a player has stalled.
+ */
 public class StallUpdate implements Update {
     /**
      * Player's nickname.

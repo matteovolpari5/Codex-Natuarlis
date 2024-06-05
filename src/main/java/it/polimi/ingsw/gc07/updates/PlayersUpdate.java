@@ -5,6 +5,9 @@ import it.polimi.ingsw.gc07.model_view.PlayerView;
 
 import java.util.List;
 
+/**
+ * Update used to show the list of players in the game has changed: used when players join.
+ */
 public class PlayersUpdate implements Update {
     /**
      * List of player views.

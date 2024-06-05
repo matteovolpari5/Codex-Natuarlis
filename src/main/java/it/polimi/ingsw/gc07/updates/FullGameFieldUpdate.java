@@ -3,6 +3,9 @@ package it.polimi.ingsw.gc07.updates;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model_view.GameView;
 
+/**
+ * Update containing the full game field content.
+ */
 public class FullGameFieldUpdate implements Update {
     /**
      * Player's nickname.
