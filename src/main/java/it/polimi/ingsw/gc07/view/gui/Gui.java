@@ -52,19 +52,17 @@ public  class Gui extends Application implements Ui {
      */
     @Override
     public void start(Stage stage) {
-        //Platform.runLater(() -> {
         timeout = new Timer();
         new Thread(()-> {
+            // timer of 5 minutes
             timeout.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     System.exit(0);
                 }
-            }, 5 * 60 * 1000); // timer of 5 minutes
+            }, 5 * 60 * 1000);
         }).start();
-        //Platform.runLater(() -> {
         StageController.setup(stage);
-        //});
     }
 
     /**
