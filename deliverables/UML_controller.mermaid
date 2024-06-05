@@ -99,22 +99,20 @@ classDiagram
         EXISTING_NICKNAME
     }
 
+    GamesCommand <|-- GamesManagerCommand
     GamesManagerCommand <|-- DisplayGamesCommand
     GamesManagerCommand <|-- JoinExistingGameCommand
     GamesManagerCommand <|-- JoinNewGameCommand
     GamesManagerCommand <|-- AddPlayerToPendingCommand
     GamesManagerCommand <|-- ReconnectPlayerCommand
 
-    GameCommand <|-- SendPingCommand
-    GameCommand <|-- AddChatPublicMessageCommand
-    GameCommand <|-- DisconnectPlayerCommand
-    GameCommand <|-- DrawDeckCardCommand
-    GameCommand <|-- DrawFaceUpCardCommand
-    GameCommand <|-- AddChatPrivateMessageCommand
-    GameCommand <|-- PlaceCardCommand
-    GameCommand <|-- PlaceStarterCardCommand
-
-    GameControllerCommand <|-- GameCommand
+    GameCommand <|-- GameControllerCommand
+    GameControllerCommand <|-- AddChatPublicMessageCommand
+    GameControllerCommand <|-- DisconnectPlayerCommand
+    GameControllerCommand <|-- DrawDeckCardCommand
+    GameControllerCommand <|-- DrawFaceUpCardCommand
+    GameControllerCommand <|-- AddChatPrivateMessageCommand
+    GameControllerCommand <|-- PlaceCardCommand
     GameControllerCommand <|-- RefreshGameViewCommand
     GameControllerCommand <|-- SendPingCommand
     GameControllerCommand <|-- SetInitialCardsCardCommand
