@@ -11,6 +11,7 @@ import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 import java.util.List;
@@ -24,38 +25,58 @@ public class GameEndedSceneController implements GuiController {
      * Attribute that represents the general text.
      */
     @FXML
-    public Text generalText;
+    protected Text generalText;
     /**
      * Attribute that represents the first winner.
      */
     @FXML
-    public Text winner1;
+    protected Text winner1;
     /**
      * Attribute that represents the second winner.
      */
     @FXML
-    public Text winner2;
+    protected Text winner2;
     /**
      * Attribute that represents the third winner.
      */
     @FXML
-    public Text winner3;
+    protected Text winner3;
     /**
      * Attribute that represents the fourth winner.
      */
     @FXML
-    public Text winner4;
+    protected Text winner4;
+    /**
+     * Attribute that represents the first winner's box.
+     */
+    @FXML
+    protected HBox winnerBox1;
+    /**
+     * Attribute that represents the second winner's box.
+     */
+    @FXML
+    protected HBox winnerBox2;
+    /**
+     * Attribute that represents the third winner's box.
+     */
+    @FXML
+    protected HBox winnerBox3;
+    /**
+     * Attribute that represents the fourth winner's box.
+     */
+    @FXML
+    protected HBox winnerBox4;
     /**
      * Attribute that exit button.
      */
     @FXML
-    public Button exitGame;
+    protected Button exitGame;
 
     /**
      * Method used to redirect the client.
      */
     @FXML
-    public void endGame() {
+    protected void endGame() {
         Platform.runLater(() -> {
             StageController.getClient().setClientAlive(false);
             Platform.exit();
@@ -164,37 +185,37 @@ public class GameEndedSceneController implements GuiController {
         int size = winners.size();
         if(size==1){
             winner1.setText(winners.getFirst());
-            winner1.setVisible(true);
-            winner2.setVisible(false);
-            winner3.setVisible(false);
-            winner4.setVisible(false);
+            winnerBox1.setVisible(true);
+            winnerBox2.setVisible(false);
+            winnerBox3.setVisible(false);
+            winnerBox4.setVisible(false);
         }
         else if(size==2){
             winner1.setText(winners.get(0));
-            winner1.setVisible(true);
+            winnerBox1.setVisible(true);
             winner2.setText(winners.get(1));
-            winner2.setVisible(true);
-            winner3.setVisible(false);
-            winner4.setVisible(false);
+            winnerBox2.setVisible(true);
+            winnerBox3.setVisible(false);
+            winnerBox4.setVisible(false);
         }
         else if(size==3){
             winner1.setText(winners.get(0));
-            winner1.setVisible(true);
+            winnerBox1.setVisible(true);
             winner2.setText(winners.get(1));
-            winner2.setVisible(true);
+            winnerBox2.setVisible(true);
             winner3.setText(winners.get(2));
-            winner3.setVisible(true);
-            winner4.setVisible(false);
+            winnerBox3.setVisible(true);
+            winnerBox4.setVisible(false);
         }
         else if(size==4){
             winner1.setText(winners.get(0));
-            winner1.setVisible(true);
+            winnerBox1.setVisible(true);
             winner2.setText(winners.get(1));
-            winner2.setVisible(true);
+            winnerBox2.setVisible(true);
             winner3.setText(winners.get(2));
-            winner3.setVisible(true);
+            winnerBox3.setVisible(true);
             winner4.setText(winners.get(3));
-            winner4.setVisible(true);
+            winnerBox4.setVisible(true);
         }
     }
 
