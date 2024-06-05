@@ -406,60 +406,52 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected void onDeckCardDraw(MouseEvent e) {
         Platform.runLater(() -> {
-            if (currentPlayer.getText().equals("Current player: " + StageController.getNickname())) {
-                CardType type;
-                if (e.getSource().equals(topDeckResource)) {
-                    type = CardType.RESOURCE_CARD;
-                } else {
-                    type = CardType.GOLD_CARD;
-                }
-
-                // check game state
-                if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
-                    updatesItem.add("Wrong game state.");
-                    return;
-                }
-                // check current player
-                if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
-                    updatesItem.add("This is not your turn, try later.");
-                    return;
-                }
-
-                StageController.getClient().setAndExecuteCommand(new DrawDeckCardCommand(StageController.getNickname(), type));
+            CardType type;
+            if (e.getSource().equals(topDeckResource)) {
+                type = CardType.RESOURCE_CARD;
+            } else {
+                type = CardType.GOLD_CARD;
             }
+            // check game state
+            if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
+                updatesItem.add("Wrong game state.");
+                return;
+            }
+            // check current player
+            if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
+                updatesItem.add("This is not your turn, try later.");
+                return;
+            }
+            StageController.getClient().setAndExecuteCommand(new DrawDeckCardCommand(StageController.getNickname(), type));
         });
     }
 
     @FXML
     protected void onCardRevealedDraw(MouseEvent e) {
         Platform.runLater(() -> {
-            if (currentPlayer.getText().equals("Current player: " + StageController.getNickname())) {
-                CardType type;
-                if (e.getSource().equals(revealedResource1) || e.getSource().equals(revealedResource2)) {
-                    type = CardType.RESOURCE_CARD;
-                } else {
-                    type = CardType.GOLD_CARD;
-                }
-                int pos;
-                if (e.getSource().equals(revealedGold1) || e.getSource().equals(revealedResource1)) {
-                    pos = 0;
-                } else {
-                    pos = 1;
-                }
-
-                // check game state
-                if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
-                    updatesItem.add("Wrong game state.");
-                    return;
-                }
-                // check current player
-                if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
-                    updatesItem.add("This is not your turn, try later.");
-                    return;
-                }
-
-                StageController.getClient().setAndExecuteCommand(new DrawFaceUpCardCommand(StageController.getNickname(), type, pos));
+            CardType type;
+            if (e.getSource().equals(revealedResource1) || e.getSource().equals(revealedResource2)) {
+                type = CardType.RESOURCE_CARD;
+            } else {
+                type = CardType.GOLD_CARD;
             }
+            int pos;
+            if (e.getSource().equals(revealedGold1) || e.getSource().equals(revealedResource1)) {
+                pos = 0;
+            } else {
+                pos = 1;
+            }
+            // check game state
+            if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
+                updatesItem.add("Wrong game state.");
+                return;
+            }
+            // check current player
+            if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
+                updatesItem.add("This is not your turn, try later.");
+                return;
+            }
+            StageController.getClient().setAndExecuteCommand(new DrawFaceUpCardCommand(StageController.getNickname(), type, pos));
         });
     }
 
