@@ -79,6 +79,14 @@ public abstract class StageController {
     }
 
     /**
+     * Getter method fot the application stage.
+     * @return stage
+     */
+    public static Stage getStage() {
+        return currentStage;
+    }
+
+    /**
      * Method used to set up the stage once the Gui is started.
      * @param stage primary stage
      */
@@ -100,7 +108,11 @@ public abstract class StageController {
         // set stage
         currentStage.setTitle(currentSceneType.getTitle());
         currentStage.setScene(currentScene);
-        currentStage.setOnCloseRequest(event -> System.exit(0));
+        currentStage.setOnCloseRequest(event -> {
+            if(StageController.getStage() != null) {
+                StageController.getStage().close();
+            }
+        });
         currentStage.show();
 
         StageController.class.notifyAll();

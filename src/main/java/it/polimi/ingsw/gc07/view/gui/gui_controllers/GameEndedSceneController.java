@@ -79,7 +79,9 @@ public class GameEndedSceneController implements GuiController {
     protected void endGame() {
         Platform.runLater(() -> {
             StageController.getClient().setClientAlive(false);
-            Platform.exit();
+            if(StageController.getStage() != null) {
+                StageController.getStage().close();
+            }
         });
     }
 
