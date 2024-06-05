@@ -19,14 +19,40 @@ import java.rmi.RemoteException;
  */
 public class
 SocketClientHandler implements VirtualView {
+    /**
+     * Reference to games manager.
+     */
     private final GamesManager gamesManager;
+    /**
+     * Reference to game controller.
+     */
     private GameController gameController;
+    /**
+     * Socket used for communication.
+     */
     private final Socket mySocket;
+    /**
+     * input channel used for communication.
+     */
     private final ObjectInputStream input;
+    /**
+     * Output channel used for communication.
+     */
     private final ObjectOutputStream output;
+    /**
+     * Name of the client associated.
+     */
     private  String myClientNickname;
+    /**
+     * Boolean that is true if the client comes from a disconnection.
+     */
     private boolean isReconnected;
 
+    /**
+     * Constructor of SocketClientHandler
+     * @param mySocket socket connected to the client
+     * @throws IOException I/O exception
+     */
     public SocketClientHandler(Socket mySocket) throws IOException {
         InputStream temp_input;
         OutputStream temp_output;
@@ -45,6 +71,9 @@ SocketClientHandler implements VirtualView {
         new Thread(this::manageSetUp).start();
     }
 
+    /**
+     * Method used to finalize the setup of the SocketClientHandler
+     */
     private void manageSetUp(){
         NicknameCheck check;
         try {
@@ -70,6 +99,10 @@ SocketClientHandler implements VirtualView {
             closeConnection();
         }
     }
+
+    /**
+     * Method used to receive and execute games manager command from the client
+     */
     private void manageGamesManagerCommand(){
         GamesManagerCommand command;
         boolean isSocketClosed;
@@ -99,6 +132,9 @@ SocketClientHandler implements VirtualView {
         }
     }
 
+    /**
+     * Method used to receive and execute game command from the client
+     */
     private void manageGameCommand(){
         GameControllerCommand command;
         boolean isSocketClosed;
@@ -127,6 +163,9 @@ SocketClientHandler implements VirtualView {
         }
     }
 
+    /**
+     * Method used to close the socket connection when a disconnection is detected
+     */
     private synchronized void closeConnection(){
         while(!mySocket.isClosed()){
             try{
@@ -140,6 +179,11 @@ SocketClientHandler implements VirtualView {
         }
     }
 
+    /**
+     * Method that sends updates to the client
+     * @param update update to be sent
+     * @throws RemoteException remote exception
+     */
     private synchronized void receiveUpdate(Update update) throws RemoteException{
         if(!mySocket.isClosed()){
             try {
@@ -155,6 +199,11 @@ SocketClientHandler implements VirtualView {
         }
     }
 
+    /**
+     * Method used to set the game controller
+     * @param gameId game id
+     * @throws RemoteException remote exception
+     */
     @Override
     public void setServerGame(int gameId) throws RemoteException {
         if(!isReconnected){
@@ -170,61 +219,121 @@ SocketClientHandler implements VirtualView {
         this.gameController = gamesManager.getGameById(gameId);
     }
 
+    /**
+     * Method used to send an update to notify the player he has received a new chat chatMessage.
+     * @param chatMessageUpdate chat message update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) throws RemoteException {
         receiveUpdate(chatMessageUpdate);
     }
 
+    /**
+     * Method used to send to the client a deck update.
+     * @param deckUpdate deck update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException {
         receiveUpdate(deckUpdate);
     }
 
+    /**
+     * Method used to send to the client his starter card.
+     * @param starterCardUpdate starter card update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) throws RemoteException {
         receiveUpdate(starterCardUpdate);
     }
 
+    /**
+     * Method used to notify the player that a card has been placed.
+     * @param placedCardUpdate placed card update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) throws RemoteException {
         receiveUpdate(placedCardUpdate);
     }
 
+    /**
+     * Method used to send a game model update.
+     * @param gameModelUpdate game model update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) throws RemoteException {
         receiveUpdate(gameModelUpdate);
     }
 
+    /**
+     * Method used to send a player joined update.
+     * @param playerJoinedUpate player joined update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receivePlayersUpdate(PlayersUpdate playerJoinedUpate) throws RemoteException {
         receiveUpdate(playerJoinedUpate);
     }
 
+    /**
+     * Method used to send a command result update.
+     * @param commandResultUpdate command result update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) throws RemoteException {
         receiveUpdate(commandResultUpdate);
     }
 
+    /**
+     * Method used to send a stall update.
+     * @param stallUpdate stall update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receiveStallUpdate(StallUpdate stallUpdate) throws RemoteException {
         receiveUpdate(stallUpdate);
     }
 
+    /**
+     * Method used to send a connection update.
+     * @param connectionUpdate connection update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) throws RemoteException {
         receiveUpdate(connectionUpdate);
     }
 
+    /**
+     * Method used to send a card hand update.
+     * @param cardHandUpdate card hand update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) throws RemoteException {
         receiveUpdate(cardHandUpdate);
     }
 
+    /**
+     * Method used to send to the client an updated score.
+     * @param scoreUpdate score update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receiveScoreUpdate(ScoreUpdate scoreUpdate) throws RemoteException {
         receiveUpdate(scoreUpdate);
     }
 
+    /**
+     * Method used to send to the client existing games.
+     * @param existingGamesUpdate existing games update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException {
             try {
@@ -238,6 +347,10 @@ SocketClientHandler implements VirtualView {
         receiveUpdate(existingGamesUpdate);
     }
 
+    /**
+     * Method used notify the client that the joining was not successful.
+     * @throws RemoteException remote exception
+     */
     @Override
     public void notifyJoinNotSuccessful() throws RemoteException {
         try {
@@ -250,19 +363,29 @@ SocketClientHandler implements VirtualView {
         }
     }
 
+    /**
+     * Method used to send to the client an update telling the game is ended and containing winners.
+     * @param gameEndedUpdate game ended update to be sent
+     * @throws RemoteException remote exception
+     */
     @Override
     public void receiveGameEndedUpdate(GameEndedUpdate gameEndedUpdate) throws RemoteException {
         receiveUpdate(gameEndedUpdate);
     }
 
+    /**
+     * Method used to send a pong to the client.
+     * @throws RemoteException remote exception
+     */
     @Override
     public void sendPong() throws RemoteException {
         receiveUpdate(new PongUpdate());
     }
 
     /**
-     * Method used to notify the player the full content of the chat after a reconnection.
-     * @param fullChatUpdate full message update
+     * Method used to send to the player the full content of the chat after a reconnection.
+     * @param fullChatUpdate full message update to be sent
+     * @throws RemoteException remote exception
      */
     @Override
     public void receiveFullChatUpdate(FullChatUpdate fullChatUpdate) throws RemoteException {
@@ -270,8 +393,9 @@ SocketClientHandler implements VirtualView {
     }
 
     /**
-     * Method used to notify players the full game field after a reconnection.
-     * @param fullGameFieldUpdate full game field content
+     * Method used to send to the player the full game field after a reconnection.
+     * @param fullGameFieldUpdate full game field content to be sent
+     * @throws RemoteException remote exception
      */
     @Override
     public void receiveFullGameFieldUpdate(FullGameFieldUpdate fullGameFieldUpdate) throws RemoteException {
@@ -280,7 +404,7 @@ SocketClientHandler implements VirtualView {
 
     /**
      * Method used to send a secret objectives update.
-     * @param secretObjectivesUpdate secret objectives update
+     * @param secretObjectivesUpdate secret objectives update to be sent
      * @throws RemoteException remote exception
      */
     @Override

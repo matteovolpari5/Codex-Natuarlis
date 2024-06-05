@@ -41,7 +41,7 @@ public class Player {
      */
     private boolean connectionType;
     /**
-     * Player's connection type.
+     * Player's interface type.
      * true: GUI
      * false: Tui
      */

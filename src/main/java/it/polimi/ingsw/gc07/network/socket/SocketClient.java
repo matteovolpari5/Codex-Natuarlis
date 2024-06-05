@@ -21,15 +21,49 @@ import java.util.Scanner;
  * Class representing a client using Socket.
  */
 public class SocketClient implements Client, PingSender {
+    /**
+     * Nickname of the player associated to the SocketClient.
+     */
     private String nickname;
+    /**
+     * Socket used for communication.
+     */
     private final Socket mySocket;
+    /**
+     * Player's local copy of the game model.
+     */
     private GameView gameView;
+    /**
+     * Input channel used for communication.
+     */
     private final ObjectInputStream input;
+    /**
+     * Abstraction of the server used in communication.
+     */
     private VirtualSocketServer myServer;
+    /**
+     * Boolean that is true if the client connection is functioning.
+     */
     private boolean clientAlive;
+    /**
+     * Player's ui.
+     */
     private Ui ui;
+    /**
+     * Number of missed pongs to detect a disconnection.
+     */
     private static final int maxMissedPongs = 3;
+    /**
+     * Boolean that is true if the server is on.
+     */
     private boolean pong;
+
+    /**
+     * Constructor of SocketClient
+     * @param mySocket socket connected to the server
+     * @param interfaceType player's interface type
+     * @throws IOException I/O exception
+     */
     public SocketClient(Socket mySocket, boolean interfaceType) throws IOException {
         InputStream temp_input;
         OutputStream temp_output;
@@ -54,11 +88,20 @@ public class SocketClient implements Client, PingSender {
 
     }
 
+    /**
+     * Getter method for gameView.
+     * @return client's game views
+     */
     @Override
     public GameView getGameView() {
         return gameView;
     }
 
+    /**
+     * Method used to finalize the setup of the SocketClient
+     * @param output output channel used for communication
+     * @param interfaceType player's interface type
+     */
     private void manageSetUp(ObjectOutputStream output, boolean interfaceType){
         Scanner scan = new Scanner(System.in);
         String nickname;
@@ -78,7 +121,6 @@ public class SocketClient implements Client, PingSender {
             try {
                 check = (NicknameCheck) input.readObject();
             } catch (IOException | ClassNotFoundException e) {
-                //System.out.println("read object");
                 closeConnection();
                 break;
             }
@@ -86,7 +128,6 @@ public class SocketClient implements Client, PingSender {
         if(isClientAlive()){
             this.nickname = nickname;
             this.gameView = new GameView(nickname);
-            //this.myServer = new VirtualSocketServer(output);
             if(interfaceType) {
                 // run application on new thread
                 new Thread(() -> {
@@ -131,6 +172,9 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
+    /**
+     * Method used to run the lobby ui.
+     */
     @Override
     public void runJoinGameInterface() {
         if(isClientAlive()){
@@ -176,12 +220,18 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
+    /**
+     * Method used to run the game ui.
+     */
     @Override
     public void runGameInterface() {
         assert(ui != null);
         ui.runGameInterface();
     }
 
+    /**
+     * Method used to receive and execute updates form the server
+     */
     private void manageReceivedUpdate() {
         Update update;
         while (true){
@@ -201,6 +251,9 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
+    /**
+     * Method used to close the socket connection when a disconnection is detected
+     */
     //TODO se la ui aspetta il comando e cade la connessione il client rimane vivo perché la ui sta ancora spettando l'input
     private synchronized void closeConnection(){
         if(isClientAlive()){
@@ -222,6 +275,10 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
+    /**
+     * Method to execute a games manager command.
+     * @param gamesManagerCommand command to execute
+     */
     @Override
     public void setAndExecuteCommand(GamesManagerCommand gamesManagerCommand) {
         try {
@@ -231,6 +288,10 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
+    /**
+     * Method to execute a game command.
+     * @param gameControllerCommand command to execute
+     */
     @Override
     public void setAndExecuteCommand(GameControllerCommand gameControllerCommand) {
         try {
@@ -240,6 +301,10 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
+    /**
+     * Setter method for clientAlive.
+     * @param isAlive value of clientAlive
+     */
     @Override
     public synchronized void setClientAlive(boolean isAlive) {
         if(isAlive){
@@ -249,11 +314,18 @@ public class SocketClient implements Client, PingSender {
         }
     }
 
+    /**
+     * Getter method for clientAlive.
+     * @return value of clientAlive
+     */
     @Override
     public synchronized boolean isClientAlive() {
         return clientAlive;
     }
 
+    /**
+     * Method used to periodically send pings to the server.
+     */
     @Override
     public void startGamePing() {
         while(true) {
@@ -275,7 +347,7 @@ public class SocketClient implements Client, PingSender {
     }
 
     /**
-     * Method that checks if the client is receiving pongs from server.
+     * Method that periodically checks if the client is receiving pongs from server.
      */
     private void checkPong() {
         int missedPong = 0;

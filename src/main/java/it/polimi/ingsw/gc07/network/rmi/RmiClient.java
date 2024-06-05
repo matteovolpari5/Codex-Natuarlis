@@ -24,7 +24,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     private final String nickname;
     /**
-     * Send ping attribute.
+     * Send ping attribute. //TODO
      */
     private boolean clientAlive;
     /**
@@ -48,7 +48,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     private final Ui ui;
     /**
-     * Boolean that is true if the server is on
+     * Boolean that is true if the server is on.
      */
     private boolean pong;
     /**
@@ -60,6 +60,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * Constructor of RmiClient.
      * @param serverGamesManager general server
      * @param nickname nickname
+     * @param interfaceType player's interface type
      * @throws RemoteException remote exception
      */
     public RmiClient(String nickname, boolean interfaceType, VirtualServerGamesManager serverGamesManager) throws RemoteException {
@@ -87,8 +88,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     /**
-     * Getter method for isClientAlive.
-     * @return value of isClientAlive
+     * Getter method for clientAlive.
+     * @return value of clientAlive
      */
     @Override
     public synchronized boolean isClientAlive() {
@@ -96,8 +97,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     /**
-     * Setter method for isClientAlive.
-     * @param isAlive value of isClientAlive
+     * Setter method for clientAlive.
+     * @param isAlive value of clientAlive
      */
     @Override
     public synchronized void setClientAlive(boolean isAlive) {
@@ -141,6 +142,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
 
     /**
      * Method used from RmiServerGamesManager to restart the cli if the joining was not successful.
+     * @throws RemoteException remote exception
      */
     @Override
     public void notifyJoinNotSuccessful() throws RemoteException {
@@ -459,6 +461,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     /**
      * Method used to notify the player the full content of the chat after a reconnection.
      * @param fullChatUpdate full message update
+     * @throws RemoteException remote exception
      */
     @Override
     public void receiveFullChatUpdate(FullChatUpdate fullChatUpdate) throws RemoteException {
@@ -468,6 +471,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     /**
      * Method used to notify players the full game field after a reconnection.
      * @param fullGameFieldUpdate full game field content
+     * @throws RemoteException remote exception
      */
     @Override
     public void receiveFullGameFieldUpdate(FullGameFieldUpdate fullGameFieldUpdate) throws RemoteException {

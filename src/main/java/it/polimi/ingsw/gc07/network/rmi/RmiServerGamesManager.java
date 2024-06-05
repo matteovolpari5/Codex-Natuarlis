@@ -33,6 +33,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
 
     /**
      * Constructor of class RmiServerGamesManager.
+     * @throws RemoteException remote exception
      */
     private RmiServerGamesManager() throws RemoteException {
         this.rmiServerGames = new HashMap<>();
@@ -40,6 +41,10 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
         startCommandExecutor();
     }
 
+    /**
+     * Method used to reset the RmiServerGamesManager
+     */
+    // used in tests
     public void reset() {
         this.rmiServerGames = new HashMap<>();
     }
@@ -132,6 +137,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     /**
      * Method that allows to create a new RmiServerGame, used when the player joins a new game.
      * @param gameId game id
+     * @throws RemoteException remote exception
      */
     public void createServerGame(int gameId) throws RemoteException {
         assert(!rmiServerGames.containsKey(gameId));
