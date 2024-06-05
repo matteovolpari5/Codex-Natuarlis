@@ -8,6 +8,9 @@ import it.polimi.ingsw.gc07.updates.StallUpdate;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Listener of the model Player.
+ */
 public interface PlayerListener extends Remote {
     /**
      * Method used to send a stall update.

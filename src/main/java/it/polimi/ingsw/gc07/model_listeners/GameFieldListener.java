@@ -7,6 +7,9 @@ import it.polimi.ingsw.gc07.updates.StarterCardUpdate;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Listener of the model GameField.
+ */
 public interface GameFieldListener extends Remote {
     /**
      * Method used to show the client his starter card.

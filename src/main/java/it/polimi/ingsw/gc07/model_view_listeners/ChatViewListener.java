@@ -4,6 +4,9 @@ import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 
 import java.util.List;
 
+/**
+ * Listener of the client's Chat copy.
+ */
 public interface ChatViewListener {
     /**
      * Method used to notify the player he has received a new chat chatMessage.

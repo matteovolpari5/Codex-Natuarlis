@@ -4,6 +4,9 @@ import it.polimi.ingsw.gc07.model.TokenColor;
 
 import java.util.Map;
 
+/**
+ * Listener of the client's Board copy.
+ */
 public interface BoardViewListener {
     /**
      * Method used to show the client an updated score.

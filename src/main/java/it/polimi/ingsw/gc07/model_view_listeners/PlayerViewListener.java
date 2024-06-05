@@ -6,6 +6,9 @@ import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 
 import java.util.List;
 
+/**
+ * Listener of the client's Player copy.
+ */
 public interface PlayerViewListener {
     /**
      * Method used to show the player of his starter card.

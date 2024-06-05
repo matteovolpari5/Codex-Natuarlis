@@ -3,6 +3,9 @@ package it.polimi.ingsw.gc07.game_commands;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
+/**
+ * Concrete command used to reconnect a player to a game.
+ */
 public class ReconnectPlayerCommand implements GamesManagerCommand {
     /**
      * Virtual view associated to a client.

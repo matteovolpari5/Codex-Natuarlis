@@ -11,6 +11,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Client's copy of model Player.
+ */
 public class PlayerView implements Serializable {
     /**
      * Player's nickname.

@@ -20,6 +20,10 @@ import it.polimi.ingsw.gc07.utils.SafePrinter;
 import java.rmi.RemoteException;
 import java.util.*;
 
+/**
+ * Class representing the lobby controller, manager creation of games,
+ * adds players to games and deletes games.
+ */
 public class GamesManager {
     /**
      * Instance of GamesManager.
@@ -452,12 +456,6 @@ public class GamesManager {
         // create gameController
         GameController gameController = new GameController(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardDeck, starterCardsDeck);
         gameControllers.add(gameController);
-
-        /*
-        for(String nickname: playerVirtualViews.keySet()) {
-            displayExistingGames(nickname);
-        }
-        */
 
         return id;
     }

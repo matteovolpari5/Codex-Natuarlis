@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller that manages the stage by changing scenes.
+ */
 public abstract class StageController {
     private static Stage currentStage;
     private static Scene currentScene;

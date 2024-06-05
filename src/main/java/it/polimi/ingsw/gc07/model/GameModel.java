@@ -21,6 +21,9 @@ import it.polimi.ingsw.gc07.utils.SafePrinter;
 import java.rmi.RemoteException;
 import java.util.*;
 
+/**
+ * Class representing the model of a single game.
+ */
 public class GameModel {
     /**
      * ID of the game.
@@ -654,7 +657,7 @@ public class GameModel {
     }
 
     /**
-     * Method used to remove a listener to a player.
+     * Method used to remove a listener once a disconnection occurs.
      * @param client client of the player to which the listener will be removed.
      */
     public void removeListener(VirtualView client) {

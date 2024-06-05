@@ -33,6 +33,9 @@ import java.util.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller of PLAYER_SCENE.
+ */
 public class PlayerSceneController implements GuiController, Initializable {
     private final int BOARD_SIZE = 80;
     @FXML

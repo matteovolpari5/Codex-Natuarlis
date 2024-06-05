@@ -2,6 +2,9 @@ package it.polimi.ingsw.gc07.game_commands;
 
 import it.polimi.ingsw.gc07.controller.GamesManager;
 
+/**
+ * Concrete command used to receive a list of existing games when choosing a game to join.
+ */
 public class DisplayGamesCommand implements GamesManagerCommand {
     /**
      * Player's nickname.

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc07.view.gui;
 
+/**
+ * Enumerated class containing relative coordinates for players' token colors on the board.
+ */
 public enum BoardGridLayout {
     RED_0(20, 1),
     GREEN_0(20,2),

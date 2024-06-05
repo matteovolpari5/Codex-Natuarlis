@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Client's copy of model Board.
+ */
 public class BoardView {
     /**
      * Map containing players' scores.

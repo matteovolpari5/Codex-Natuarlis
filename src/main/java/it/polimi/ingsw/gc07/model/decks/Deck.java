@@ -6,6 +6,7 @@ import java.util.*;
 /**
  * Class representing a collection of cards.
  * Starter cards deck is a Deck object.
+ * @param <T> type of cards the deck is made of
  */
 public class Deck<T> {
     /**

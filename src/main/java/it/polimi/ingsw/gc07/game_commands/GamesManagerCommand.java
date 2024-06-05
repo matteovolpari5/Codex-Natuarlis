@@ -15,6 +15,7 @@ public interface GamesManagerCommand extends GameCommand {
 
     /**
      * Method to execute the game command.
+     * @param gamesManager games manager
      */
     void execute(GamesManager gamesManager);
 }

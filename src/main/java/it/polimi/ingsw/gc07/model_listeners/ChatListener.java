@@ -6,6 +6,9 @@ import it.polimi.ingsw.gc07.updates.FullChatUpdate;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Listener of the model Chat.
+ */
 public interface ChatListener extends Remote {
     /**
      * Method used to notify the player he has received a new chat chatMessage.

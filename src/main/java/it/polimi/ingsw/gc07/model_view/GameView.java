@@ -16,6 +16,10 @@ import it.polimi.ingsw.gc07.view.Ui;
 
 import java.util.*;
 
+/**
+ * General client's copy of the game model, contains general info about the game and
+ * the reference to other model view elements.
+ */
 public class GameView {
     /**
      * Nickname of the owner of the game view.

@@ -2,6 +2,10 @@ package it.polimi.ingsw.gc07.game_commands;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 
+/**
+ * Concrete command used from clients to send a ping to their ping receiver in the game controller.
+ * Used for detecting disconnections and monitor network state.
+ */
 public class SendPingCommand implements GameControllerCommand {
     /**
      * Nickname of the player that sends the ping.

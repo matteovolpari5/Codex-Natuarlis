@@ -17,6 +17,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Class representing a client using Socket.
+ */
 public class SocketClient implements Client, PingSender {
     private String nickname;
     private final Socket mySocket;
@@ -239,6 +242,9 @@ public class SocketClient implements Client, PingSender {
         if(isAlive){
             this.clientAlive = isAlive;
         }else{
+            // stop the Ui
+            ui.stopUi();
+
             closeConnection();
         }
     }

@@ -6,6 +6,9 @@ import it.polimi.ingsw.gc07.model_view_listeners.ChatViewListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Client's copy of model Chat.
+ */
 public class ChatView {
     /**
      * List containing chatMessages received by a player.

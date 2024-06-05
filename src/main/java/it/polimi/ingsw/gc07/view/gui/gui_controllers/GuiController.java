@@ -12,6 +12,9 @@ import it.polimi.ingsw.gc07.model.chat.ChatMessage;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class representing the gui controller of a scene.
+ */
 public interface GuiController {
     /**
      * Method used to display a score update.

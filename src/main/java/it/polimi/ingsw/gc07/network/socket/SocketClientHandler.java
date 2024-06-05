@@ -15,7 +15,7 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 
 /**
- * Class that manages the whole communication with a specific client
+ * Class that manages the whole communication with a specific client.
  */
 public class
 SocketClientHandler implements VirtualView {

@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Client's copy of model GameField.
+ */
 public class GameFieldView implements Serializable {
     /**
      * Player's starter card.

@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.lang.Thread;
 
+/**
+ * Class used by the game controller to manage connections and disconnections in the game.
+ */
 public class PingPongManager {
     /**
      * Game Controller.
@@ -90,7 +93,6 @@ public class PingPongManager {
                 }else {
                     missedPing ++;
                     if(missedPing >= maxMissedPings) {
-                        //SafePrinter.println("CP> Disconnection detected " + nickname);
                         gameController.disconnectPlayer(nickname);
                         //TODO closeConnection
                         break;
@@ -99,7 +101,8 @@ public class PingPongManager {
                 playersPing.put(nickname, false);
             }
             try {
-                Thread.sleep(1000); // wait one second between two pings
+                Thread.sleep(1000);
+                // wait one second between two pings
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -118,21 +121,18 @@ public class PingPongManager {
             }
             VirtualView virtualView = getVirtualView(nickname);
             try {
-                //SafePrinter.println("sending pong to: " + nickname);
                 virtualView.sendPong();
             } catch (RemoteException e) {
-                //SafePrinter.println("SP> Disconnection detected " + nickname);
                 gameController.disconnectPlayer(nickname);
-                //SafePrinter.println("before break: " + nickname);
                 break;
             }
             try {
-                Thread.sleep(1000); // wait one second between two pong
+                Thread.sleep(1000);
+                // wait one second between two pongs
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-        //SafePrinter.println("out of while true: " + nickname);
     }
 }
 

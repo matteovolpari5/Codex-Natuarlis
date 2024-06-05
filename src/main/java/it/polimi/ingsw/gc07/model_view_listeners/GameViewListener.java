@@ -7,6 +7,9 @@ import it.polimi.ingsw.gc07.model.TokenColor;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Listener of class GameView, used to send general update to Ui.
+ */
 public interface GameViewListener {
     /**
      * Method used to show the game id.

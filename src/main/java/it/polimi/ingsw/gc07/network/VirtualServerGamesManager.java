@@ -6,6 +6,9 @@ import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Virtual server of the lobby server.
+ */
 public interface VirtualServerGamesManager extends Remote {
     /**
      * Method to connect a new client.

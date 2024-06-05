@@ -28,7 +28,7 @@ import java.util.Stack;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Class used to parse decks' JSON files.
+ * Class used to parse decks' JSON files and build game decks.
  */
 public abstract class DecksBuilder {
 

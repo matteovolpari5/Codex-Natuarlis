@@ -9,6 +9,9 @@ import it.polimi.ingsw.gc07.model_view_listeners.DeckViewListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Client's copy of model decks, contains only cards the player can use at the moment.
+ */
 public class DeckView {
     /**
      * Attribute that represents the card on top of the resource deck.

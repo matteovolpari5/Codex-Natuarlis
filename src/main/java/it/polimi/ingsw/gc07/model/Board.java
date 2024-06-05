@@ -38,6 +38,10 @@ public class Board {
         boardListeners.add(boardListener);
     }
 
+    /**
+     * Method used to remove a listener once a disconnection occurs.
+     * @param boardListener listener to remove
+     */
     public void removeListener(BoardListener boardListener) {
         boardListeners.remove(boardListener);
     }

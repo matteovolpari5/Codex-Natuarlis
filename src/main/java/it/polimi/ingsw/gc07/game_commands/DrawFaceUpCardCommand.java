@@ -4,7 +4,7 @@ import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.model.CardType;
 
 /**
- * Concrete command to draw one of two faceUp cards of a given type.
+ * Concrete command to draw one of the two faceUp cards of a given type.
  */
 public class DrawFaceUpCardCommand implements GameControllerCommand {
     /**

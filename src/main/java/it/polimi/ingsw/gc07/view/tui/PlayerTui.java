@@ -12,6 +12,9 @@ import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.util.List;
 
+/**
+ * Interface containing methods to print Player's card hand and personal cards.
+ */
 public interface PlayerTui {
     String ANSI_BLACK_BACKGROUND = "\u001B[40m";
     String ANSI_RED_BACKGROUND = "\u001B[41m";

@@ -25,7 +25,9 @@ import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
-
+/**
+ * Controller of LOBBY_SCENE.
+ */
 public class LobbySceneController implements Initializable, GuiController {
     /**
      * Attribute that represent the text "Join game".

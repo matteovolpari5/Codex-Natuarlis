@@ -6,6 +6,9 @@ import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Interface representing the virtual client.
+ */
 public interface VirtualView extends Remote, ChatListener, GameFieldListener, GameListener, PlayerListener, BoardListener {
     /**
      * Method to the set the game server and controller.

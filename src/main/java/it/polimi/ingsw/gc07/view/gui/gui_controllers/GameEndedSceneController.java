@@ -16,6 +16,9 @@ import javafx.scene.text.Text;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller of GAME_ENDED_SCENE.
+ */
 public class GameEndedSceneController implements GuiController {
     /**
      * Attribute that represents the general text.

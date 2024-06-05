@@ -15,6 +15,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
+/**
+ * Class representing a client using Rmi.
+ */
 public class RmiClient extends UnicastRemoteObject implements Client, VirtualView, PingSender {
     /**
      * Nickname of the player associated to the RmiClient.
@@ -99,6 +102,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public synchronized void setClientAlive(boolean isAlive) {
         this.clientAlive = isAlive;
+
+        // stop ui
+        if(!isAlive) {
+            ui.stopUi();
+        }
     }
 
     /**

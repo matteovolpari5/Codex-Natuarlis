@@ -6,6 +6,9 @@ import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 
 import java.util.List;
 
+/**
+ * Listener of the client's decks copy.
+ */
 public interface DeckViewListener {
     /**
      * Method used to display the deck view, i.e. the cards the player can draw or see.

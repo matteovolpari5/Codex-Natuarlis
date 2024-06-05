@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 /**
- * Enum class representing all the possible results of an action performed by a player.
+ * Enumeration class representing all the possible results of an action performed by a player.
  */
 public enum CommandResult {
     SUCCESS("Command successful"),

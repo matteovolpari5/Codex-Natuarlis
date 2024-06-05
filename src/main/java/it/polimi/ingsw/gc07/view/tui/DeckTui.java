@@ -11,6 +11,9 @@ import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.util.List;
 
+/**
+ * Interface containing methods to print usable deck cards.
+ */
 public interface DeckTui {
     String ANSI_BLACK_BACKGROUND = "\u001B[40m";
     String ANSI_RED_BACKGROUND = "\u001B[41m";

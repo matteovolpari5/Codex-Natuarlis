@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interface containing methods to print Board.
+ */
 public interface BoardTui {
     /**
      * Method used to print in the console the complete track board.

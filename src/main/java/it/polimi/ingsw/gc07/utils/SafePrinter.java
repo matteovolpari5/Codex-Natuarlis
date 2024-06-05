@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc07.utils;
 
+/**
+ * Class used to implement safe (synchronized) print methods.
+ */
 public abstract class SafePrinter {
     /**
      * Method used to print a string on the same line.

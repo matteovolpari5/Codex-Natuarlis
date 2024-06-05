@@ -30,6 +30,9 @@ import javafx.scene.shape.Rectangle;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * Controller of OTHER_PLAYER_SCENE.
+ */
 public class OtherPlayerSceneController implements GuiController, Initializable {
     String otherPlayerNickname;
     private final int BOARD_SIZE = 80;

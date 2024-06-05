@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 /**
- * Class used to abstract the network from the client side, this class manages the communication from client to server
+ * Class used to abstract the network from the client side, this class manages the communication from client to server.
  */
 public class VirtualSocketServer {
     private final ObjectOutputStream output;

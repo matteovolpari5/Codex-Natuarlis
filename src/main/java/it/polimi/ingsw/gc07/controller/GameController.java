@@ -14,6 +14,10 @@ import it.polimi.ingsw.gc07.utils.SafePrinter;
 import java.rmi.RemoteException;
 import java.util.*;
 
+/**
+ * Class representing the controller of a single game.
+ * Manages 2 to 4 players and all the actions they can perform during a game.
+ */
 public class GameController {
     /**
      * Reference to game model.

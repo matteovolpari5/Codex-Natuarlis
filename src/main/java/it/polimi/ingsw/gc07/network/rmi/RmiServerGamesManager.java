@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
+/**
+ * Class representing the Rmi server of the lobby.
+ */
 public class RmiServerGamesManager extends UnicastRemoteObject implements VirtualServerGamesManager {
     /**
      * Instance of RmiServerGamesManager.

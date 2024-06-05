@@ -5,6 +5,9 @@ import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.util.List;
 
+/**
+ * Interface containing methods to print Chat.
+ */
 public interface ChatTui {
     /**
      * Method used to print the whole chat.

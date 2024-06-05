@@ -5,6 +5,10 @@ import it.polimi.ingsw.gc07.updates.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Listener of the general GameModel, used to send updates regarding
+ * general info about the game.
+ */
 public interface GameListener extends Remote {
     /**
      * Method used to notify a game model update.

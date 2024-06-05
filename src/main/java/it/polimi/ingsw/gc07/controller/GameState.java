@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
 /**
- * Enum representing the possible states of a game.
+ * Enumeration representing the possible states of a game.
  */
 public enum GameState {
     GAME_STARTING,    // before the game has started

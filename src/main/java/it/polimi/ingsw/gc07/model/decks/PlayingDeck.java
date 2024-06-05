@@ -8,6 +8,7 @@ import java.util.Stack;
 /**
  * Class representing decks used during the whole game.
  * Objective cards deck is PlayingDeck object.
+ * @param <T> type of cards the deck is made of
  */
 public class PlayingDeck<T> extends Deck<T> {
     /**

@@ -9,6 +9,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
+/**
+ * Class representing the Rmi server of a single game.
+ */
 public class RmiServerGame extends UnicastRemoteObject implements VirtualServerGame {
     /**
      * Game controller of the server.
