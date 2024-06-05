@@ -40,7 +40,7 @@ public class GameController {
                           Deck<PlaceableCard> starterCardsDeck) {
         this.gameModel = new GameModel(id, playersNumber, resourceCardsDeck, goldCardsDeck, objectiveCardsDeck, starterCardsDeck);
         this.pingPongManager = new PingPongManager(this);
-        this.maxReconnectionTime = 5 * 60;
+        this.maxReconnectionTime = 60;
     }
 
 

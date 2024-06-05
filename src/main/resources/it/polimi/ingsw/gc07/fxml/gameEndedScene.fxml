@@ -5,17 +5,22 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-image: url('background.png'); -fx-background-size: cover; -fx-background-position: center center;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.GameEndedSceneController">
-   <Text fx:id="generalText" fill="WHITE" layoutX="104.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: center;" text="AND THE WINNERS ARE..." textAlignment="CENTER" wrappingWidth="982.645263671875" AnchorPane.bottomAnchor="465.7421875" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="113.354736328125" AnchorPane.topAnchor="253.8203125">
-      <font>
-         <Font name="Arial Bold" size="72.0" />
-      </font>
-   </Text>
-   <VBox layoutX="366.0" layoutY="399.0">
+   <Pane layoutX="302.0" layoutY="261.8203125" style="-fx-background-color: rgba(230, 204, 179, .4); -fx-background-radius: 10;">
+      <children>
+         <Text fx:id="generalText" fill="#3c251a" layoutX="2.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: center;" text="AND THE WINNERS ARE..." textAlignment="CENTER" wrappingWidth="982.645263671875">
+            <font>
+               <Font name="Arial Bold" size="72.0" />
+            </font>
+         </Text>
+      </children>
+   </Pane>
+   <VBox layoutX="475.0" layoutY="382.0" style="-fx-background-color: rgba(230, 204, 179, 0.5);; -fx-background-radius: 10; -fx-padding: 10;" AnchorPane.leftAnchor="475.0">
       <children>
          <HBox fx:id="winnerBox1">
             <children>
@@ -75,7 +80,7 @@
          </HBox>
       </children>
    </VBox>
-   <Button fx:id="exitGame" alignment="CENTER" layoutX="940.0" layoutY="716.0" mnemonicParsing="false" onAction="#endGame" prefHeight="70.0" prefWidth="245.0" style="-fx-background-color: #3c251a; -fx-background-radius: 15;" text="CONTINUE" textFill="white">
+   <Button fx:id="exitGame" alignment="CENTER" layoutX="940.0" layoutY="716.0" mnemonicParsing="false" onAction="#endGame" prefHeight="70.0" prefWidth="245.0" style="-fx-background-color: #3c251a; -fx-background-radius: 15;" text="CONTINUE" textFill="white" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="15.0">
       <font>
          <Font name="Arial Bold" size="23.0" />
       </font>
