@@ -231,7 +231,9 @@ public class PlayerSceneController implements GuiController, Initializable {
             } else {
                 return;
             }
-            StageController.setOtherPlayerScene(otherGameFieldNickname);
+            if (!otherGameFieldNickname.equals(StageController.getNickname())) {
+                StageController.setOtherPlayerScene(otherGameFieldNickname);
+            }
         });
     }
 
@@ -310,6 +312,10 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Method used when the player clicks on continue button after the starter card way choice.
+     * It shows the choice of the objective card.
+     */
     @FXML
     protected void onContinueButtonClick() {
         Platform.runLater(() -> {
@@ -327,6 +333,10 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Method used when the player clicks continue after the choice of the objective card;
+     * It sends a command to set the initial cards of the player.
+     */
     @FXML
     protected void onSendCommandButtonClick() {
         Platform.runLater(() -> {
@@ -426,6 +436,10 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Method used when a player clicks on a revealed card to draw that card.
+     * @param e mouse event
+     */
     @FXML
     protected void onCardRevealedDraw(MouseEvent e) {
         Platform.runLater(() -> {

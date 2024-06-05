@@ -96,6 +96,11 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     private final List<Label> statusLabels = new ArrayList<>();
     private final List<Label> nicknameLabels = new ArrayList<>();
 
+    /**
+     * Method used when a player clicks on the name of some player, changes scene
+     * to OTHER_PLAYER_SCENE, showing the game field of the other player.
+     * @param e mouse event
+     */
     @FXML
     protected void goToOtherGameField(MouseEvent e){
         Platform.runLater(() -> {
@@ -111,7 +116,9 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
             } else {
                 return;
             }
-            StageController.setOtherPlayerScene(otherGameFieldNickname);
+            if (!otherGameFieldNickname.equals(StageController.getNickname())) {
+                StageController.setOtherPlayerScene(otherGameFieldNickname);
+            }
         });
     }
 
