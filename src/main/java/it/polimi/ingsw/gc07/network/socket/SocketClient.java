@@ -215,7 +215,7 @@ public class SocketClient implements Client, PingSender {
                 }
             }
             SafePrinter.println("you lost the connection");
-            this.clientAlive = false;
+            setClientAlive(false);
         }
     }
 
@@ -246,6 +246,8 @@ public class SocketClient implements Client, PingSender {
             ui.stopUi();
 
             closeConnection();
+
+            // TODO perchè non modifico valore?
         }
     }
 
