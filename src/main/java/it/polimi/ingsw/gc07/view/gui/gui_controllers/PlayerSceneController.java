@@ -225,7 +225,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected void onStarterCardClick() {
         Platform.runLater(() -> {
-            if(gameState.getText().equals("Game state: SETTING_INITIAL_CARDS")) {
+            if(gameState.getText().equals("Game state: SETTING_INITIAL_CARDS") && imageViews[40][40].getOpacity()==0) {
                 startingPhaseBox.setVisible(true);
                 option1Label.setText("Front");
                 option2Label.setText("Back");
