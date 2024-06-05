@@ -21,59 +21,29 @@ import java.util.Map;
  * Controller of GAME_ENDED_SCENE.
  */
 public class GameEndedSceneController implements GuiController {
-    /**
-     * Attribute that represents the general text.
-     */
     @FXML
     protected Text generalText;
-    /**
-     * Attribute that represents the first winner.
-     */
     @FXML
     protected Text winner1;
-    /**
-     * Attribute that represents the second winner.
-     */
     @FXML
     protected Text winner2;
-    /**
-     * Attribute that represents the third winner.
-     */
     @FXML
     protected Text winner3;
-    /**
-     * Attribute that represents the fourth winner.
-     */
     @FXML
     protected Text winner4;
-    /**
-     * Attribute that represents the first winner's box.
-     */
     @FXML
     protected HBox winnerBox1;
-    /**
-     * Attribute that represents the second winner's box.
-     */
     @FXML
     protected HBox winnerBox2;
-    /**
-     * Attribute that represents the third winner's box.
-     */
     @FXML
     protected HBox winnerBox3;
-    /**
-     * Attribute that represents the fourth winner's box.
-     */
     @FXML
     protected HBox winnerBox4;
-    /**
-     * Attribute that exit button.
-     */
     @FXML
     protected Button exitGame;
 
     /**
-     * Method used to redirect the client.
+     * Method used to close the Gui once the game is ended.
      */
     @FXML
     protected void endGame() {

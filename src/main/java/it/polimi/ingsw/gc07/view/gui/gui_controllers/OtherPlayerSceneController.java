@@ -92,17 +92,8 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     protected Pane errorMessage;
     private final ImageView[][] imageViews = new ImageView[BOARD_SIZE][BOARD_SIZE];
     private final ImageView [][] scoreImages = new ImageView[21][8];
-    /**
-     * List of images containing the tokenColor of players.
-     */
     private final List<ImageView> tokenColorsList = new ArrayList<>();
-    /**
-     * List of labels containing the connection/stall status of players.
-     */
     private final List<Label> statusLabels = new ArrayList<>();
-    /**
-     * List of labels containing nicknames.
-     */
     private final List<Label> nicknameLabels = new ArrayList<>();
 
     @FXML
@@ -123,18 +114,24 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
             StageController.setOtherPlayerScene(otherGameFieldNickname);
         });
     }
+
+    /**
+     * Method fired when the player clicks the go back button, allows the player
+     * to go back to his scene.
+     */
     @FXML
     protected void onGoBackButtonClick(){
-        Platform.runLater(() -> {
-            StageController.setScene(SceneType.PLAYER_SCENE);
-        });
+        Platform.runLater(() -> StageController.setScene(SceneType.PLAYER_SCENE));
     }
 
+    /**
+     * Method used when the player clicks on exit button, used to close the Gui.
+     */
     @FXML
     protected void onExitButtonClick() {
         Platform.runLater(() -> {
             errorMessage.setVisible(false);
-            System.exit(0);
+            StageController.getStage().close();
         });
     }
 
@@ -530,8 +527,6 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void displayDisconnection() {
-        Platform.runLater(() -> {
-            errorMessage.setVisible(true);
-        });
+        Platform.runLater(() -> errorMessage.setVisible(true));
     }
 }

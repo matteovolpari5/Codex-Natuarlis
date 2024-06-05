@@ -160,6 +160,9 @@ public class PlayerSceneController implements GuiController, Initializable {
     private final ImageView[][] imageViews = new ImageView[BOARD_SIZE][BOARD_SIZE];
     private final ImageView [][] scoreImages = new ImageView[21][8];
 
+    /**
+     * Method used when a player clicks on the chat button, shows the chat.
+     */
     @FXML
     protected void onChatButtonClick() {
         Platform.runLater(() -> {
@@ -185,6 +188,11 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Method used when the player clicks on the send message button: creates a command
+     * and sends it to the server.
+     * @param e key event
+     */
     @FXML
     protected void onSendMessage(KeyEvent e) {
         Platform.runLater(() -> {
@@ -203,6 +211,11 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Method used when a player clicks on the name of some player, changes scene
+     * to OTHER_PLAYER_SCENE, showing the game field of the other player.
+     * @param e mouse event
+     */
     @FXML
     protected void goToOtherGameField(MouseEvent e){
         Platform.runLater(() -> {
@@ -222,6 +235,9 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Method used when a player clicks on his starter card, allows him to choose his initial cards.
+     */
     @FXML
     protected void onStarterCardClick() {
         Platform.runLater(() -> {
@@ -234,6 +250,9 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Used when a player clicks on the first starter card, introduces a border.
+     */
     @FXML
     protected void onStarter1CardClick() {
         Platform.runLater(() -> {
@@ -243,6 +262,9 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Used when a player clicks on the second starter card, introduces a border.
+     */
     @FXML
     protected void onStarter2CardClick() {
         Platform.runLater(() -> {
@@ -252,6 +274,9 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Used when a player clicks on the first objective card, introduces a border.
+     */
     @FXML
     protected void onObjective1CardClick() {
         Platform.runLater(() -> {
@@ -266,6 +291,10 @@ public class PlayerSceneController implements GuiController, Initializable {
             }
         });
     }
+
+    /**
+     * Used when a player clicks on the second objective card, introduces a border.
+     */
     @FXML
     protected void onObjective2CardClick() {
         Platform.runLater(() -> {
@@ -342,6 +371,10 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Method used when a player double-clicks on a card, flips the card, showing the other side.
+     * @param e mouse event
+     */
     @FXML
     protected void onDoubleClickCardHand(MouseEvent e) {
         Platform.runLater(() -> {
@@ -366,6 +399,10 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Method used when a player clicks on a card to draw that card.
+     * @param e mouse event
+     */
     @FXML
     protected void onDeckCardDraw(MouseEvent e) {
         Platform.runLater(() -> {
@@ -426,11 +463,14 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Method used when the player clicks on exit button, used to close the Gui.
+     */
     @FXML
     protected void onExitButtonClick() {
         Platform.runLater(() -> {
             errorMessage.setVisible(false);
-            System.exit(0);
+            StageController.getStage().close();
         });
     }
 
@@ -972,8 +1012,6 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void displayDisconnection() {
-        Platform.runLater(() -> {
-            errorMessage.setVisible(true);
-        });
+        Platform.runLater(() -> errorMessage.setVisible(true));
     }
 }

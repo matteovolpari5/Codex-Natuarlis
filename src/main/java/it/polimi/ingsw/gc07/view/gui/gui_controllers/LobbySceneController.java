@@ -17,7 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -29,56 +28,127 @@ import static java.lang.Integer.parseInt;
  * Controller of LOBBY_SCENE.
  */
 public class LobbySceneController implements Initializable, GuiController {
-    /**
-     * Attribute that represent the text "Join game".
-     */
     @FXML
     protected Text textJoinGame;
-    /**
-     * Attribute that represent the text "New game".
-     */
     @FXML
     protected Text textNewGame;
     @FXML
     protected Text listExistingGameText;
-    /**
-     * Attribute that represent the list of existing games.
-     */
     @FXML
     protected ListView<String> gameList;
-    /**
-     * Attribute that represent the box where a player choice the number of players.
-     */
     @FXML
     protected ChoiceBox<Integer> boxNumPlayers;
-    /**
-     * Attribute that represent the text "Insert the token color:".
-     */
     @FXML
     protected Text textTokenColor;
-    /**
-     * Attribute that represent the button used to confirm the entry info.
-     */
     @FXML
     protected Button next;
-    /**
-     * Attribute that represent the box where a player choice the token color.
-     */
     @FXML
     protected ChoiceBox<TokenColor> boxTokenColor;
-    /**
-     * Attribute that represent the text "Insert the number of players:".
-     */
     @FXML
     protected Text textInsertNumPlayers;
-    /**
-     * Id of the game selected.
-     */
     private int idGame;
+    public Map<Integer, List<TokenColor>> gottenTokenColors;
+
     /**
-     * Map that contains the id game and the list of token color get.
+     * Method executed after that the text "Join game" is clicked.
+     * The "newPane" is set invisible, the text "New game" is blurred, the "joinPane" is set visible.
      */
-    public Map<Integer, List<TokenColor>> gettedTokenColor;
+    @FXML
+    public void selectJoin() {
+        Platform.runLater(() -> {
+            boxTokenColor.getItems().clear();
+            StageController.getClient().setAndExecuteCommand(new DisplayGamesCommand(StageController.getNickname()));
+            next.setVisible(true);
+            boxTokenColor.setVisible(true);
+            textTokenColor.setVisible(true);
+            listExistingGameText.setVisible(true);
+
+            textNewGame.setOpacity(0.4);
+            textJoinGame.setOpacity(1);
+            boxNumPlayers.setVisible(false);
+            textInsertNumPlayers.setVisible(false);
+
+            gameList.setVisible(true);
+        });
+    }
+
+    /**
+     * Method executed after that the text "New game" is clicked.
+     * The ExistingGameList is set invisible, the text "Join game" is blurred.
+     */
+    @FXML
+    public void selectNew() {
+        Platform.runLater(() -> {
+            ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
+            listColor.add(TokenColor.RED);
+            listColor.add(TokenColor.GREEN);
+            listColor.add(TokenColor.BLUE);
+            listColor.add(TokenColor.YELLOW);
+            boxTokenColor.getItems().clear();
+            boxTokenColor.setItems(listColor);
+
+            ObservableList<Integer> listNumPlayer = FXCollections.observableArrayList();
+            listNumPlayer.add(2);
+            listNumPlayer.add(3);
+            listNumPlayer.add(4);
+            boxNumPlayers.setItems(listNumPlayer);
+
+            next.setVisible(true);
+            boxTokenColor.setVisible(true);
+            textTokenColor.setVisible(true);
+            listExistingGameText.setVisible(false);
+            boxNumPlayers.setVisible(true);
+            textInsertNumPlayers.setVisible(true);
+            textNewGame.setOpacity(1);
+            textJoinGame.setOpacity(0.4);
+            gameList.setVisible(false);
+        });
+    }
+
+    /**
+     * Method executed after the player clicks a row in the list of existing game,
+     * i.e. after the player chooses a game to join.
+     */
+    @FXML
+    public void clickedGame() {
+        Platform.runLater(() -> {
+            //update the list of existing games
+            boxTokenColor.getItems().clear();
+            int i=0,numSize=0;
+            if(gameList.getSelectionModel().getSelectedItem()!=null){
+                while(gameList.getSelectionModel().getSelectedItem().charAt(i) != ' ')
+                {
+                    numSize++;
+                    i++;
+                }
+                if(gameList.getSelectionModel().getSelectedItem().charAt(0) != 'G')
+                {
+                    //compute idGame
+                    idGame=0;
+                    for(int j=0;j<numSize;j++)
+                    {
+                        if(gameList.getSelectionModel().getSelectedItem().charAt(j) != ' ')
+                        {
+                            idGame += (int) (parseInt(String.valueOf(gameList.getSelectionModel().getSelectedItem().charAt(j)))*Math.pow(10,j));
+                        }
+                    }
+                    ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
+                    listColor.add(TokenColor.RED);
+                    listColor.add(TokenColor.GREEN);
+                    listColor.add(TokenColor.BLUE);
+                    listColor.add(TokenColor.YELLOW);
+                    // show the correct token colors //
+                    for(TokenColor c : listColor)
+                    {
+                        if(!gottenTokenColors.get(idGame).contains(c))
+                        {
+                            boxTokenColor.getItems().add(c);
+                        }
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -113,7 +183,7 @@ public class LobbySceneController implements Initializable, GuiController {
                 listViewComponent.add(newLine);
             }
             gameList.setItems(listViewComponent);
-            gettedTokenColor=existingGamesTokenColor;
+            gottenTokenColors = existingGamesTokenColor;
         });
     }
 
@@ -286,106 +356,5 @@ public class LobbySceneController implements Initializable, GuiController {
         }
         });
     }
-
-    /**
-     * Method executed after that the text "Join game" is clicked.
-     * The "newPane" is set invisible, the text "New game" is blurred, the "joinPane" is set visible.
-     */
-    @FXML
-    public void selectJoin(MouseEvent mouseEvent) {
-        Platform.runLater(() -> {
-            boxTokenColor.getItems().clear();
-            StageController.getClient().setAndExecuteCommand(new DisplayGamesCommand(StageController.getNickname()));
-            next.setVisible(true);
-            boxTokenColor.setVisible(true);
-            textTokenColor.setVisible(true);
-            listExistingGameText.setVisible(true);
-
-            textNewGame.setOpacity(0.4);
-            textJoinGame.setOpacity(1);
-            boxNumPlayers.setVisible(false);
-            textInsertNumPlayers.setVisible(false);
-
-            gameList.setVisible(true);
-        });
-    }
-
-    /**
-     * Method executed after that the text "New game" is clicked.
-     * The ExistingGameList is set invisible, the text "Join game" is blurred.
-     */
-    @FXML
-    public void selectNew(MouseEvent mouseEvent) {
-        Platform.runLater(() -> {
-            ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
-            listColor.add(TokenColor.RED);
-            listColor.add(TokenColor.GREEN);
-            listColor.add(TokenColor.BLUE);
-            listColor.add(TokenColor.YELLOW);
-            boxTokenColor.getItems().clear();
-            boxTokenColor.setItems(listColor);
-
-            ObservableList<Integer> listNumPlayer = FXCollections.observableArrayList();
-            listNumPlayer.add(2);
-            listNumPlayer.add(3);
-            listNumPlayer.add(4);
-            boxNumPlayers.setItems(listNumPlayer);
-
-            next.setVisible(true);
-            boxTokenColor.setVisible(true);
-            textTokenColor.setVisible(true);
-            listExistingGameText.setVisible(false);
-            boxNumPlayers.setVisible(true);
-            textInsertNumPlayers.setVisible(true);
-            textNewGame.setOpacity(1);
-            textJoinGame.setOpacity(0.4);
-            gameList.setVisible(false);
-        });
-    }
-
-    /**
-     * Method executed after the player click (choice) a row in the list of existing game.
-     */
-    @FXML
-    public void clickedGame(MouseEvent mouseEvent) {
-        Platform.runLater(() -> {
-            //update the list of existing games
-            boxTokenColor.getItems().clear();
-            int i=0,numSize=0;
-            if(gameList.getSelectionModel().getSelectedItem()!=null){
-                while(gameList.getSelectionModel().getSelectedItem().charAt(i) != ' ')
-                {
-                    numSize++;
-                    i++;
-                }
-                if(gameList.getSelectionModel().getSelectedItem().charAt(0) != 'G')
-                {
-                    //compute idGame
-                    idGame=0;
-                    for(int j=0;j<numSize;j++)
-                    {
-                        if(gameList.getSelectionModel().getSelectedItem().charAt(j) != ' ')
-                        {
-                            idGame += (int) (parseInt(String.valueOf(gameList.getSelectionModel().getSelectedItem().charAt(j)))*Math.pow(10,j));
-                        }
-                    }
-                    ObservableList<TokenColor> listColor = FXCollections.observableArrayList();
-                    listColor.add(TokenColor.RED);
-                    listColor.add(TokenColor.GREEN);
-                    listColor.add(TokenColor.BLUE);
-                    listColor.add(TokenColor.YELLOW);
-                    // show the correct token colors //
-                    for(TokenColor c : listColor)
-                    {
-                        if(!gettedTokenColor.get(idGame).contains(c))
-                        {
-                            boxTokenColor.getItems().add(c);
-                        }
-                    }
-                }
-            }
-        });
-    }
-
 }
 
