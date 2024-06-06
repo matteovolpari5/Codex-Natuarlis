@@ -24,7 +24,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      */
     private final String nickname;
     /**
-     * Send ping attribute. //TODO
+     * Boolean value that is true if the client is connected to the server.
+     * When this value is false, a disconnection occurred.
      */
     private boolean clientAlive;
     /**

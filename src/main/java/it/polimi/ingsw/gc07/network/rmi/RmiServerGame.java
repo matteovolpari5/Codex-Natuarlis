@@ -41,7 +41,7 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
     private void startCommandExecutor() {
         new Thread(() -> {
             while(true) {
-                GameControllerCommand command = null;
+                GameControllerCommand command;
                 try {
                     command = commandsQueue.take();
                 } catch (InterruptedException e) {

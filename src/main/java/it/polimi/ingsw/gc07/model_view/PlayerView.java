@@ -115,7 +115,6 @@ public class PlayerView implements Serializable {
      * Setter for attribute isStalled.
      * @param isStalled boolean value for isStalled
      */
-    //TODO modificare for
     public synchronized void setIsStalled(boolean isStalled) {
         this.isStalled = isStalled;
         for(PlayerViewListener p: playerViewListeners) {
@@ -127,7 +126,6 @@ public class PlayerView implements Serializable {
      * Setter for the method isConnected.
      * @param isConnected: true if the player is connected
      */
-    //TODO modificare for
     public synchronized void setIsConnected(boolean isConnected) {
         this.isConnected = isConnected;
         for(PlayerViewListener p: playerViewListeners) {
@@ -142,13 +140,6 @@ public class PlayerView implements Serializable {
      */
     public synchronized void setSecretObjectives(String nickname, List<ObjectiveCard> secretObjectives) {
         this.secretObjectives = secretObjectives;
-
-        //TODO
-        /*
-        for(int i = 0; i < playerViewListeners.size(); i++){
-            playerViewListeners.get(i).receiveSecretObjectives(nickname, secretObjectives);
-        }
-        */
         for(PlayerViewListener l: playerViewListeners) {
             l.receiveSecretObjectives(nickname, new ArrayList<>(secretObjectives));
         }
@@ -162,12 +153,6 @@ public class PlayerView implements Serializable {
         this.currentHand = currentHand;
         this.secretObjectives = secretObjectives;
         // update listeners
-        //TODO
-        /*
-        for(int i = 0; i < playerViewListeners.size(); i++){
-            playerViewListeners.get(i).receiveCardHandUpdate(nickname, this.currentHand, this.secretObjectives);
-        }
-        */
         for(PlayerViewListener l: playerViewListeners) {
             l.receiveCardHandUpdate(nickname, new ArrayList<>(this.currentHand), new ArrayList<>(this.secretObjectives));
         }
@@ -180,12 +165,6 @@ public class PlayerView implements Serializable {
     public synchronized void setStarterCard(PlaceableCard starterCard) {
         gameField.setStarterCard(starterCard);
         // update listeners
-        //TODO
-        /*
-        for(int i = 0; i < playerViewListeners.size(); i++){
-            playerViewListeners.get(i).receiveStarterCardUpdate(nickname, starterCard);
-        }
-        */
         for(PlayerViewListener l: playerViewListeners) {
             l.receiveStarterCardUpdate(nickname, starterCard);
         }

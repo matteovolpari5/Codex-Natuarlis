@@ -115,8 +115,8 @@ public class GameFieldView implements Serializable {
      */
     public PlaceableCard[][] getCardsContent() {
         PlaceableCard[][] cardsContentCopy = new PlaceableCard[dim][dim];
-        for(int i=0; i < dim; i++){
-            for(int j=0; j < dim; j++){
+        for(int i = 0; i < dim; i++){
+            for(int j = 0; j < dim; j++){
                 cardsContentCopy[i][j] = cardsContent[i][j];
             }
         }
@@ -143,8 +143,8 @@ public class GameFieldView implements Serializable {
      */
     public int[][] getCardsOrder() {
         int [][] cardsOrderCopy = new int[dim][dim];
-        for(int i=0; i < dim; i++){
-            for(int j=0; j < dim; j++){
+        for(int i = 0; i < dim; i++){
+            for(int j = 0; j < dim; j++){
                 cardsOrderCopy[i][j] = cardsOrder[i][j];
             }
         }
@@ -181,12 +181,6 @@ public class GameFieldView implements Serializable {
         PlaceableCard[][] cardsContentCopy = getCardsContent();
         Boolean[][] cardsFaceCopy = getCardsFace();
         int [][] cardsOrderCopy = getCardsOrder();
-        //TODO
-        /*
-        for(int i = 0; i < gameFieldViewListeners.size(); i++){
-            gameFieldViewListeners.get(i).receiveGameFieldUpdate(nickname, cardsContentCopy, cardsFaceCopy, cardsOrderCopy);
-        }
-        */
         for(GameFieldViewListener l: gameFieldViewListeners) {
             l.receiveGameFieldUpdate(nickname, cardsContentCopy, cardsFaceCopy, cardsOrderCopy);
         }
