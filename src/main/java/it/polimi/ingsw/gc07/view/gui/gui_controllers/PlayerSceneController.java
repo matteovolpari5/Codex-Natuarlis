@@ -45,7 +45,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected ListView<String> myUpdates;
     private final ObservableList<String> updatesItem = FXCollections.observableArrayList();
     @FXML
-    protected Button chatButton;
+    protected Pane openChatButton;
     @FXML
     protected Label currentPlayer;
     @FXML
@@ -161,15 +161,14 @@ public class PlayerSceneController implements GuiController, Initializable {
     private final ImageView [][] scoreImages = new ImageView[21][8];
 
     /**
-     * Method used when a player clicks on the chat button, shows the chat.
+     * Method used when a player clicks on the open-chat button, shows the chat.
      */
     @FXML
-    protected void onChatButtonClick() {
+    protected void onOpenChatButtonClick() {
         Platform.runLater(() -> {
             chatNotification.setVisible(false);
             if(!chatContainer.isVisible()) {
                 chatContainer.setVisible(true);
-                chatButton.setText("close chat");
                 nickContainer.setOpacity(0.7);
                 ObservableList<String> possiblesReceivers = FXCollections.observableArrayList();
                 possiblesReceivers.add("everyone");
@@ -180,11 +179,20 @@ public class PlayerSceneController implements GuiController, Initializable {
                 }
                 receiverSelector.setItems(possiblesReceivers);
             }
-            else{
-                chatContainer.setVisible(false);
-                nickContainer.setOpacity(1);
-                chatButton.setText("show chat");
-            }
+            openChatButton.setVisible(false);
+        });
+    }
+
+    /**
+     * Method used when a player clicks on the close-chat button, hides the chat.
+     */
+    @FXML
+    protected void onCloseChatButtonClick() {
+        Platform.runLater(() -> {
+            chatContainer.setVisible(false);
+            nickContainer.setOpacity(1);
+            openChatButton.setVisible(true);
+
         });
     }
 
