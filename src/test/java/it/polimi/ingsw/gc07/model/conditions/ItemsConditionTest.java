@@ -11,6 +11,7 @@ import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.GameObject;
 import it.polimi.ingsw.gc07.model.GameResource;
+import it.polimi.ingsw.gc07.view.tui.GameFieldTui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -441,6 +442,7 @@ class ItemsConditionTest {
         condition = new ItemsCondition(neededItems);
         assertEquals(1, condition.numTimesMet(p.getGameField()));
     }
+
     @Test
     public void NoTimesMet() {
         PlaceableCard myStarterCard = null;
@@ -458,5 +460,91 @@ class ItemsConditionTest {
         neededItems.add(GameResource.FUNGI);
         condition = new ItemsCondition(neededItems);
         assertEquals(0, condition.numTimesMet(p.getGameField()));
+    }
+
+    @Test
+    public void testOneTimeMet() {
+        PlaceableCard myStarterCard = null;
+        for(PlaceableCard c: starterCardsDeck.getContent()){
+            if(c.getId() == 81){
+                myStarterCard = c;
+            }
+        }
+        p.setStarterCard(myStarterCard);
+        p.placeCard(myStarterCard, (GameField.getDim()-1)/2, (GameField.getDim()-1)/2, false);
+
+        PlaceableCard card = null;
+        for(PlaceableCard c: goldCardsDeck.getContent()){
+            if(c.getId() == 59){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 41, 39, true);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 20){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 42, 38, false);
+
+        card = null;
+        for(PlaceableCard c: resourceCardsDeck.getContent()){
+            if(c.getId() == 40){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 39, 41, true);
+
+        card = null;
+        for(PlaceableCard c: goldCardsDeck.getContent()){
+            if(c.getId() == 75){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 39, 39, true);
+
+        card = null;
+        for(PlaceableCard c: goldCardsDeck.getContent()){
+            if(c.getId() == 69){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 38, 40, true);
+
+        card = null;
+        for(PlaceableCard c: goldCardsDeck.getContent()){
+            if(c.getId() == 51){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 38, 38, true);
+
+
+        neededItems = new ArrayList<>();
+        neededItems.add(GameResource.PLANT);
+        neededItems.add(GameResource.PLANT);
+        neededItems.add(GameResource.PLANT);
+        neededItems.add(GameResource.ANIMAL);
+        condition = new ItemsCondition(neededItems);
+        assertEquals(1, condition.numTimesMet(p.getGameField()));
+
+        card = null;
+        for(PlaceableCard c: goldCardsDeck.getContent()){
+            if(c.getId() == 55){
+                card = c;
+            }
+        }
+        assertNotNull(card);
+        p.placeCard(card, 41, 41, false);
+
+        GameFieldTui.printGameField(p.getGameField().getCardsContent(), p.getGameField().getCardsFace(), p.getGameField().getCardsOrder());
     }
 }
