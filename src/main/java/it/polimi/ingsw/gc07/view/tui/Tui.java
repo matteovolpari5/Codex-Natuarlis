@@ -559,6 +559,9 @@ public class Tui implements Ui, ChatTui, DeckTui, GameFieldTui, PlayerTui, Board
      */
     @Override
     public void receiveMessageUpdate(ChatMessage chatMessage) {
+        if(chatMessage.getReceiver() != null && !chatMessage.getReceiver().equals(nickname)) {
+            return;
+        }
         SafePrinter.println("");
         SafePrinter.println("--------------------------------------------------------");
         SafePrinter.println("                      GAME CHAT                         ");

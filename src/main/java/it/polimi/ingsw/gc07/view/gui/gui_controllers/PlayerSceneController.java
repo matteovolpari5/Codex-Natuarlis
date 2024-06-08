@@ -659,13 +659,25 @@ public class PlayerSceneController implements GuiController, Initializable {
 
     /**
      * Method used to display a new chat message.
-     * @param chat new chat message
+     * @param message new chat message
      */
     @Override
-    public void addMessage(ChatMessage chat) {
-        chatItem.add(chat.getSender() + ": " + chat.getContent());
-        if(!chatContainer.isVisible()) {
-            chatNotification.setVisible(true);
+    public void addMessage(ChatMessage message) {
+        if(message.getIsPublic()) {
+            // public message
+            chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to all> : " + message.getContent());
+            if(!chatContainer.isVisible()) {
+                chatNotification.setVisible(true);
+            }
+        }else if(message.getReceiver() != null && message.getReceiver().equals(StageController.getNickname())) {
+            // private message received
+            chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to you> : " + message.getContent());
+            if(!chatContainer.isVisible()) {
+                chatNotification.setVisible(true);
+            }
+        }else {
+            // private message sent
+            chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to " + message.getReceiver() + "> : " + message.getContent());
         }
     }
 
@@ -897,8 +909,8 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void setFullChat(List<ChatMessage> chatMessages) {
         // set full chat
-        for (ChatMessage c: chatMessages){
-            chatItem.add(c.getSender() + ": " + c.getContent());
+        for (ChatMessage c: chatMessages) {
+            addMessage(c);
         }
     }
 

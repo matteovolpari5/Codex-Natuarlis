@@ -24,9 +24,10 @@ public interface ChatTui {
      * @param m chat message
      */
     static void printMessage(ChatMessage m) {
-        if(m.getIsPublic())
-            SafePrinter.println("["+m.getDateTime().getHours()+":"+m.getDateTime().getMinutes()+"] " + "<"+ m.getSender()+"> :"+  m.getContent());
-        else
-            SafePrinter.println("["+m.getDateTime().getHours()+":"+m.getDateTime().getMinutes()+"] " + "<"+ m.getSender()+ " to you> :"+  m.getContent());
+        if(m.getIsPublic()) {
+            SafePrinter.println("[" + m.getDateTime().getHours() + ":" + m.getDateTime().getMinutes() + "] " + "<" + m.getSender() + " to all> : " + m.getContent());
+        }else {
+            SafePrinter.println("[" + m.getDateTime().getHours() + ":" + m.getDateTime().getMinutes() + "] " + "<" + m.getSender() + " to you> : " + m.getContent());
+        }
     }
 }
