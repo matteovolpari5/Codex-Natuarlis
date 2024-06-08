@@ -154,6 +154,8 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected GridPane gridPaneBoard;
     @FXML
+    protected ScrollPane gameFieldContainer;
+    @FXML
     protected GridPane scoreGrid;
     @FXML
     protected Pane errorMessage;
@@ -251,7 +253,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected void onStarterCardClick() {
         Platform.runLater(() -> {
-            if(gameState.getText().equals("Game state: SETTING_INITIAL_CARDS") && imageViews[40][40].getOpacity()==0) {
+            if(gameState.getText().equals("Game state: SETTING_INITIAL_CARDS") && imageViews[40][40].getOpacity()==0 && !startingPhaseBox.isVisible()) {
                 startingPhaseBox.setVisible(true);
                 option1Label.setText("Front");
                 option2Label.setText("Back");
@@ -485,6 +487,14 @@ public class PlayerSceneController implements GuiController, Initializable {
         Platform.runLater(() -> {
             errorMessage.setVisible(false);
             StageController.getStage().close();
+        });
+    }
+
+    @FXML
+    protected void onReCenterButtonClick() {
+        Platform.runLater(() -> {
+            gameFieldContainer.setHvalue(0.505);
+            gameFieldContainer.setVvalue(0.505);
         });
     }
 
