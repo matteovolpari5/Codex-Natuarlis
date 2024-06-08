@@ -240,7 +240,7 @@ public class GameView {
      * @param chatMessage new chat message
      */
     public synchronized void addMessage(ChatMessage chatMessage) {
-        if(chatMessage.getIsPublic() || chatMessage.isForReceiver(ownerNickname)) {
+        if(chatMessage.getIsPublic() || chatMessage.isForReceiver(ownerNickname) || chatMessage.getSender().equals(ownerNickname)) {
             chatView.addMessage(chatMessage);
         }
     }

@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #e6bd9f;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.PlayerSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #cdbda7;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.PlayerSceneController">
     <children>
       <AnchorPane maxWidth="1.7976931348623157E308" prefWidth="1204.0" style="-fx-background-color: #98777b;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -117,7 +117,7 @@
                 </VBox>
             </children>
         </HBox>
-      <Pane layoutX="527.0" layoutY="615.0" prefHeight="180.0" prefWidth="345.0" style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="5.0">
+      <Pane layoutX="527.0" layoutY="615.0" prefHeight="180.0" prefWidth="345.0" style="-fx-border-color: #2e586b; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="5.0">
          <children>
               <ImageView fx:id="handCard2" fitHeight="62.0" fitWidth="93.0" layoutX="124.0" layoutY="105.0" onMouseClicked="#onDoubleClickCardHand" pickOnBounds="true" preserveRatio="true" />
               <ImageView fx:id="handCard1" fitHeight="62.0" fitWidth="93.0" layoutX="8.0" layoutY="105.0" onMouseClicked="#onDoubleClickCardHand" pickOnBounds="true" preserveRatio="true" />

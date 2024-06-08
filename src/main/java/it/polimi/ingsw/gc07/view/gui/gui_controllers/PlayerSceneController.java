@@ -669,14 +669,35 @@ public class PlayerSceneController implements GuiController, Initializable {
 
     /**
      * Method used to display a new chat message.
-     * @param chat new chat message
+     * @param message new chat message
      */
     @Override
-    public void addMessage(ChatMessage chat) {
-        chatItem.add(chat.getSender() + ": " + chat.getContent());
-        if(!chatContainer.isVisible()) {
-            chatNotification.setVisible(true);
+    public void addMessage(ChatMessage message) {
+        if(message.getIsPublic()) {
+            addPublicMessage(message);
+            if(!chatContainer.isVisible()) {
+                chatNotification.setVisible(true);
+            }
+        }else if(message.getReceiver() != null && message.getReceiver().equals(StageController.getNickname())) {
+            addPrivateMessageReceived(message);
+            if(!chatContainer.isVisible()) {
+                chatNotification.setVisible(true);
+            }
+        }else {
+            addPrivateMessageSent(message);
         }
+    }
+
+    private void addPrivateMessageSent(ChatMessage message) {
+        chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to " + message.getReceiver() + "> : " + message.getContent());
+    }
+
+    private void addPrivateMessageReceived(ChatMessage message) {
+        chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to you> : " + message.getContent());
+    }
+
+    private void addPublicMessage(ChatMessage message) {
+        chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to all> : " + message.getContent());
     }
 
     /**
@@ -907,8 +928,14 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void setFullChat(List<ChatMessage> chatMessages) {
         // set full chat
-        for (ChatMessage c: chatMessages){
-            chatItem.add(c.getSender() + ": " + c.getContent());
+        for (ChatMessage message: chatMessages) {
+            if(message.getIsPublic()) {
+                addPublicMessage(message);
+            }else if(message.getReceiver() != null && message.getReceiver().equals(StageController.getNickname())) {
+                addPrivateMessageReceived(message);
+            }else {
+                addPrivateMessageSent(message);
+            }
         }
     }
 

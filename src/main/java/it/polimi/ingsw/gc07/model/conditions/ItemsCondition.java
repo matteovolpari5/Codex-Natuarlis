@@ -59,7 +59,7 @@ public class ItemsCondition implements Condition {
                                 (i>0 && j<dim-1 && !gameField.isCardPresent(i-1,j+1)) ||
                                 (i>0 && j<dim-1 && gameField.isCardPresent(i-1,j+1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i-1][j+1])) {
                             // uncovered top right corner
-                            if(frontCorners[1] && frontCornersContent[1] != null)
+                            if(frontCornersContent[1] != null && frontCorners[1])
                                 foundItems.add(frontCornersContent[1]);
                         }
                         // check position (i+1,j+1)
@@ -67,7 +67,7 @@ public class ItemsCondition implements Condition {
                                 (i<dim-1 && j<dim-1 && !gameField.isCardPresent(i+1,j+1)) ||
                                 (i<dim-1 && j<dim-1 && gameField.isCardPresent(i+1,j+1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i+1][j+1])) {
                             // uncovered bottom right corner
-                            if(frontCorners[2] && frontCornersContent[2] != null)
+                            if(frontCornersContent[2] != null && frontCorners[2])
                                 foundItems.add(frontCornersContent[2]);
                         }
                         // check position (i+1,j-1)
@@ -75,7 +75,7 @@ public class ItemsCondition implements Condition {
                                 (i<dim-1 && j>0 && !gameField.isCardPresent(i+1,j-1)) ||
                                 (i<dim-1 && j>0 && gameField.isCardPresent(i+1,j-1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i+1][j-1])) {
                             // uncovered bottom left corner
-                            if(frontCorners[3] && frontCornersContent[3] != null)
+                            if(frontCornersContent[3] != null && frontCorners[3])
                                 foundItems.add(frontCornersContent[3]);
                         }
                         // check position (i-1,j-1)
@@ -83,7 +83,7 @@ public class ItemsCondition implements Condition {
                                 (i>0 && j>0 && !gameField.isCardPresent(i-1,j-1)) ||
                                 (i>0 && j>0 && gameField.isCardPresent(i-1,j-1) && gameField.getCardsOrder()[i][j]>gameField.getCardsOrder()[i-1][j-1])) {
                             // uncovered top left corner
-                            if(frontCorners[0] && frontCornersContent[0] != null)
+                            if(frontCornersContent[0] != null && frontCorners[0])
                                 foundItems.add(frontCornersContent[0]);
                         }
                     }
