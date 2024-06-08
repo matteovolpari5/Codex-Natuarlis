@@ -664,21 +664,30 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void addMessage(ChatMessage message) {
         if(message.getIsPublic()) {
-            // public message
-            chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to all> : " + message.getContent());
+            addPublicMessage(message);
             if(!chatContainer.isVisible()) {
                 chatNotification.setVisible(true);
             }
         }else if(message.getReceiver() != null && message.getReceiver().equals(StageController.getNickname())) {
-            // private message received
-            chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to you> : " + message.getContent());
+            addPrivateMessageReceived(message);
             if(!chatContainer.isVisible()) {
                 chatNotification.setVisible(true);
             }
         }else {
-            // private message sent
-            chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to " + message.getReceiver() + "> : " + message.getContent());
+            addPrivateMessageSent(message);
         }
+    }
+
+    private void addPrivateMessageSent(ChatMessage message) {
+        chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to " + message.getReceiver() + "> : " + message.getContent());
+    }
+
+    private void addPrivateMessageReceived(ChatMessage message) {
+        chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to you> : " + message.getContent());
+    }
+
+    private void addPublicMessage(ChatMessage message) {
+        chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to all> : " + message.getContent());
     }
 
     /**
@@ -909,8 +918,14 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void setFullChat(List<ChatMessage> chatMessages) {
         // set full chat
-        for (ChatMessage c: chatMessages) {
-            addMessage(c);
+        for (ChatMessage message: chatMessages) {
+            if(message.getIsPublic()) {
+                addPublicMessage(message);
+            }else if(message.getReceiver() != null && message.getReceiver().equals(StageController.getNickname())) {
+                addPrivateMessageReceived(message);
+            }else {
+                addPrivateMessageSent(message);
+            }
         }
     }
 
