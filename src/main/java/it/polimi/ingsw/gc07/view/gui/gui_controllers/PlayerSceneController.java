@@ -843,9 +843,6 @@ public class PlayerSceneController implements GuiController, Initializable {
             imageId = personalObjective.getFirst().getId();
             secretObjective.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/" + imageId + ".png")).toExternalForm()));
         }
-        setDragAndDrop(handCard1);
-        setDragAndDrop(handCard2);
-        setDragAndDrop(handCard3);
     }
 
     /**
