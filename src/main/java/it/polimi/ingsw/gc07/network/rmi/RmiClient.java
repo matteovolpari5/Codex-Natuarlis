@@ -161,7 +161,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         try {
             serverGamesManager.setAndExecuteCommand(new ReconnectPlayerCommand(this, nickname, connectionType, interfaceType));
         } catch (RemoteException e) {
-            SafePrinter.println("\nConnection failed. - reconnectPlayer\n");
+            SafePrinter.println("\nConnection failed.\n");
             setClientAlive(false);
         }
     }
@@ -176,7 +176,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         try {
             this.serverGame = serverGamesManager.getGameServer(gameId);
         }catch(RemoteException e) {
-            SafePrinter.println("\nConnection failed.- setServerGame\n");
+            SafePrinter.println("\nConnection failed.\n");
             setClientAlive(false);
         }
         // game joined
@@ -213,7 +213,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             serverGamesManager.setAndExecuteCommand(gamesManagerCommand);
         }catch(RemoteException e) {
             // if not already detected by ping
-            SafePrinter.println("\nConnection failed. - setAndExecuteCommand\n");
+            SafePrinter.println("\nConnection failed.\n");
             setClientAlive(false);  // setter is synchronized
             ui.runJoinGameInterface();
         }
@@ -229,7 +229,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             serverGame.setAndExecuteCommand(gameCommand);
         }catch(RemoteException e) {
             // if not already detected by ping
-            SafePrinter.println("\nConnection failed.- setAndExecuteCommand\n");
+            SafePrinter.println("\nConnection failed.\n");
             setClientAlive(false);  // setter is synchronized
         }
     }
@@ -247,7 +247,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                 serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
             }catch(RemoteException e) {
                 // connection failed
-                SafePrinter.println("Connection failed. Press enter. - ping");
+                SafePrinter.println("Connection failed.");
                 setClientAlive(false);  // setter is synchronized
             }
             try {
@@ -283,7 +283,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                 }else {
                     missedPong ++;
                     if(missedPong >= maxMissedPongs) {
-                        SafePrinter.println("\nConnection failed - missed pong.\n");
+                        SafePrinter.println("\nConnection failed.\n");
                         setClientAlive(false);
                         break;
                     }

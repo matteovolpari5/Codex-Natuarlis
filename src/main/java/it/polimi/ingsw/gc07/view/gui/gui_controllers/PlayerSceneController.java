@@ -484,6 +484,9 @@ public class PlayerSceneController implements GuiController, Initializable {
         });
     }
 
+    /**
+     * Method used to center the game field view.
+     */
     @FXML
     protected void onReCenterButtonClick() {
         Platform.runLater(() -> {
@@ -682,14 +685,26 @@ public class PlayerSceneController implements GuiController, Initializable {
         }
     }
 
+    /**
+     * Method used to add a private message the player has sent to another player.
+     * @param message message to add to the chat
+     */
     private void addPrivateMessageSent(ChatMessage message) {
         chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to " + message.getReceiver() + "> : " + message.getContent());
     }
 
+    /**
+     * Method used to add a private message the player has received by another client.
+     * @param message message to add to the chat
+     */
     private void addPrivateMessageReceived(ChatMessage message) {
         chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to you> : " + message.getContent());
     }
 
+    /**
+     * Method used to add a public message.
+     * @param message message to add to the chat
+     */
     private void addPublicMessage(ChatMessage message) {
         chatItem.add("["+message.getDateTime().getHours()+":"+message.getDateTime().getMinutes()+"] " + "<" + message.getSender() + " to all> : " + message.getContent());
     }

@@ -802,8 +802,7 @@ public class GameController {
     }
 
     /**
-     * Method that starts a timer when the game is ended, when the timer expires //TODO
-     * it deletes the game from GamesManager.
+     * Method that deletes the game from the lobby controller.
      */
     private void endGame(){
         synchronized(this) {
@@ -826,7 +825,7 @@ public class GameController {
      * Method to set up the game: the first player is chosen and 4 cards (2 gold and 2 resource) are revealed.
      */
     private void setup() {
-        assert(gameModel.getState().equals(GameState.GAME_STARTING)): "The state is not WAITING_PLAYERS"; //TODO
+        assert(gameModel.getState().equals(GameState.GAME_STARTING)): "The state is not GAME_STARTING";
         // choose randomly the first player
         Random random = new Random();
         gameModel.setCurrPlayer(random.nextInt(gameModel.getPlayersNumber()));

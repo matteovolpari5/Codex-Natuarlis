@@ -37,6 +37,10 @@ public class Chat {
         chatListeners.add(chatListener);
     }
 
+    /**
+     * Method used to remove a listener when a player looses connection.
+     * @param chatListener listener to remove
+     */
     public void removeListener(ChatListener chatListener) {
         chatListeners.remove(chatListener);
     }

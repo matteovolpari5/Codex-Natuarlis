@@ -94,6 +94,10 @@ public class Player {
         playerListeners.add(playerListener);
     }
 
+    /**
+     * Method used to remove a player listener after a disconnection.
+     * @param playerListener player listener to remove
+     */
     public void removeListener(PlayerListener playerListener) {
         playerListeners.remove(playerListener);
     }
@@ -161,6 +165,10 @@ public class Player {
         return isFirst;
     }
 
+    /**
+     * Setter method for attribute connection type.
+     * @param connectionType boolean value of connection type: true = Rmi, false = Socket
+     */
     public void setConnectionType(boolean connectionType) {
         this.connectionType = connectionType;
     }
@@ -173,6 +181,10 @@ public class Player {
         return this.connectionType;
     }
 
+    /**
+     * Setter method for attribute connection type.
+     * @param interfaceType boolean value of interface type: true = Gui, false = Tui
+     */
     public void setInterfaceType(boolean interfaceType) {
         this.interfaceType = interfaceType;
     }
@@ -234,6 +246,7 @@ public class Player {
             }
         }
     }
+
     /**
      * Getter for cards in player's hand.
      * @return currentHand current card in player's hand
@@ -262,6 +275,9 @@ public class Player {
         sendCardHandUpdate();
     }
 
+    /**
+     * Private method used to send a card hand update.
+     */
     private void sendCardHandUpdate() {
         CardHandUpdate update = new CardHandUpdate(nickname, new ArrayList<>(currentHand), new ArrayList<>(secretObjectives));
         for(PlayerListener l: playerListeners) {

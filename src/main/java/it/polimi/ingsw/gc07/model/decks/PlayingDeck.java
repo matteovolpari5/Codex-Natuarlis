@@ -48,6 +48,10 @@ public class PlayingDeck<T> extends Deck<T> {
         this.faceUpCards = new ArrayList<>(faceUpCards);
     }
 
+    /**
+     * Getter method for face up cards.
+     * @return face up cards of the deck
+     */
     public List<T> getFaceUpCards() {
         return new ArrayList<>(faceUpCards);
     }

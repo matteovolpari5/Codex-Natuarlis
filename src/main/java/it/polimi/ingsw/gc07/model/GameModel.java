@@ -426,7 +426,6 @@ public class GameModel {
         goldCardsDeck.setUpDeck();
         // update listeners
         sendDeckUpdate();
-
     }
 
     /**
