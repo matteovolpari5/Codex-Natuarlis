@@ -68,13 +68,7 @@ public class PlayerSceneController implements GuiController, Initializable {
     protected Label nickStatus3;
     @FXML
     protected Label nickStatus4;
-    /**
-     * List of labels containing the connection/stall status of the player.
-     */
     private final List<Label> statusLabels = new ArrayList<>();
-    /**
-     * List of labels containing nicknames.
-     */
     private final List<Label> nicknameLabels = new ArrayList<>();
     @FXML
     protected ImageView myStarterCard;
@@ -556,93 +550,93 @@ public class PlayerSceneController implements GuiController, Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-            chatItem = FXCollections.observableArrayList();
-            myChat.setItems(chatItem);
-            myUpdates.setItems(updatesItem);
-            nicknameLabels.add(nickname1);
-            nicknameLabels.add(nickname2);
-            nicknameLabels.add(nickname3);
-            nicknameLabels.add(nickname4);
-            statusLabels.add(nickStatus1);
-            statusLabels.add(nickStatus2);
-            statusLabels.add(nickStatus3);
-            statusLabels.add(nickStatus4);
-            startingPhaseLabel.setText("Select the placing way of your starter card");
-            tokenColorsList.add(tokenColor1);
-            tokenColorsList.add(tokenColor2);
-            tokenColorsList.add(tokenColor3);
-            tokenColorsList.add(tokenColor4);
-            Image blank = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/1.png")).toExternalForm());
-            for (int row = 0; row < BOARD_SIZE; row++) {
-                gridPaneBoard.getRowConstraints().add(new RowConstraints(69));
-                gridPaneBoard.getColumnConstraints().add(new ColumnConstraints(133));
-                for (int col = 0; col < BOARD_SIZE; col++) {
-                    ImageView gridImage = new ImageView();
-                    gridImage.setFitHeight(114.0);
-                    gridImage.setFitWidth(171.0);
-                    gridImage.setImage(blank);
-                    gridImage.setOpacity(0);
-                    setRoundedCorners(gridImage);
-                    gridPaneBoard.add(gridImage, row, col);
-                    GridPane.setHalignment(gridImage, Pos.CENTER.getHpos());
-                    GridPane.setValignment(gridImage, Pos.CENTER.getVpos());
-                    imageViews[row][col] = gridImage;
-                    gridImage.setOnDragOver(event -> {
-                        if (event.getGestureSource() != gridImage) {
-                            event.acceptTransferModes(TransferMode.MOVE);
-                        }
-                        event.consume();
-                    });
-                    int finalCol = col;
-                    int finalRow = row;
-                    gridImage.setOnDragDropped(event -> {
-                        ImageView card = (ImageView) event.getGestureSource();
-                        boolean way = getCardWay(card);
-                        int cardPos = Integer.parseInt(card.getId().substring(card.getId().length()-1))-1;
+        chatItem = FXCollections.observableArrayList();
+        myChat.setItems(chatItem);
+        myUpdates.setItems(updatesItem);
+        nicknameLabels.add(nickname1);
+        nicknameLabels.add(nickname2);
+        nicknameLabels.add(nickname3);
+        nicknameLabels.add(nickname4);
+        statusLabels.add(nickStatus1);
+        statusLabels.add(nickStatus2);
+        statusLabels.add(nickStatus3);
+        statusLabels.add(nickStatus4);
+        startingPhaseLabel.setText("Select the placing way of your starter card");
+        tokenColorsList.add(tokenColor1);
+        tokenColorsList.add(tokenColor2);
+        tokenColorsList.add(tokenColor3);
+        tokenColorsList.add(tokenColor4);
+        Image blank = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Front/1.png")).toExternalForm());
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            gridPaneBoard.getRowConstraints().add(new RowConstraints(69));
+            gridPaneBoard.getColumnConstraints().add(new ColumnConstraints(133));
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                ImageView gridImage = new ImageView();
+                gridImage.setFitHeight(114.0);
+                gridImage.setFitWidth(171.0);
+                gridImage.setImage(blank);
+                gridImage.setOpacity(0);
+                setRoundedCorners(gridImage);
+                gridPaneBoard.add(gridImage, row, col);
+                GridPane.setHalignment(gridImage, Pos.CENTER.getHpos());
+                GridPane.setValignment(gridImage, Pos.CENTER.getVpos());
+                imageViews[row][col] = gridImage;
+                gridImage.setOnDragOver(event -> {
+                    if (event.getGestureSource() != gridImage) {
+                        event.acceptTransferModes(TransferMode.MOVE);
+                    }
+                    event.consume();
+                });
+                int finalCol = col;
+                int finalRow = row;
+                gridImage.setOnDragDropped(event -> {
+                    ImageView card = (ImageView) event.getGestureSource();
+                    boolean way = getCardWay(card);
+                    int cardPos = Integer.parseInt(card.getId().substring(card.getId().length()-1))-1;
 
-                        // check game state
-                        if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
-                            updatesItem.add("Wrong game state.");
-                            return;
-                        }
-                        // check current player
-                        if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
-                            updatesItem.add("This is not your turn, try later.");
-                            return;
-                        }
-                        StageController.getClient().setAndExecuteCommand(new PlaceCardCommand(StageController.getNickname(), cardPos, finalCol, finalRow, way));
-                        event.setDropCompleted(true);
-                        event.consume();
-                    });
-                }
+                    // check game state
+                    if(!StageController.getGameView().getGameState().equals(GameState.PLAYING)) {
+                        updatesItem.add("Wrong game state.");
+                        return;
+                    }
+                    // check current player
+                    if(!StageController.getGameView().isCurrentPlayer(StageController.getNickname())) {
+                        updatesItem.add("This is not your turn, try later.");
+                        return;
+                    }
+                    StageController.getClient().setAndExecuteCommand(new PlaceCardCommand(StageController.getNickname(), cardPos, finalCol, finalRow, way));
+                    event.setDropCompleted(true);
+                    event.consume();
+                });
             }
-            setDragAndDrop(handCard1);
-            setDragAndDrop(handCard2);
-            setDragAndDrop(handCard3);
-            setRoundedCorners(handCard1);
-            setRoundedCorners(handCard2);
-            setRoundedCorners(handCard3);
-            setRoundedCorners(commonObjective1);
-            setRoundedCorners(commonObjective2);
-            setRoundedCorners(secretObjective);
-            setRoundedCorners(myStarterCard);
-            setRoundedCorners(revealedGold1);
-            setRoundedCorners(revealedGold2);
-            setRoundedCorners(revealedResource1);
-            setRoundedCorners(revealedResource2);
-            setRoundedCorners(topDeckGold);
-            setRoundedCorners(topDeckResource);
-            for(int i = 0; i < scoreGrid.getRowCount(); i++){
-                for (int j = 0; j < scoreGrid.getColumnCount(); j++){
-                    ImageView pointsImage = new ImageView();
-                    pointsImage.setFitWidth(30);
-                    pointsImage.setFitHeight(30);
-                    scoreGrid.add(pointsImage, j, i);
-                    scoreImages[i][j] = pointsImage;
-                    GridPane.setHalignment(scoreImages[i][j], Pos.CENTER.getHpos());
-                    GridPane.setValignment(scoreImages[i][j], Pos.CENTER.getVpos());
-                }
+        }
+        setDragAndDrop(handCard1);
+        setDragAndDrop(handCard2);
+        setDragAndDrop(handCard3);
+        setRoundedCorners(handCard1);
+        setRoundedCorners(handCard2);
+        setRoundedCorners(handCard3);
+        setRoundedCorners(commonObjective1);
+        setRoundedCorners(commonObjective2);
+        setRoundedCorners(secretObjective);
+        setRoundedCorners(myStarterCard);
+        setRoundedCorners(revealedGold1);
+        setRoundedCorners(revealedGold2);
+        setRoundedCorners(revealedResource1);
+        setRoundedCorners(revealedResource2);
+        setRoundedCorners(topDeckGold);
+        setRoundedCorners(topDeckResource);
+        for(int i = 0; i < scoreGrid.getRowCount(); i++){
+            for (int j = 0; j < scoreGrid.getColumnCount(); j++){
+                ImageView pointsImage = new ImageView();
+                pointsImage.setFitWidth(30);
+                pointsImage.setFitHeight(30);
+                scoreGrid.add(pointsImage, j, i);
+                scoreImages[i][j] = pointsImage;
+                GridPane.setHalignment(scoreImages[i][j], Pos.CENTER.getHpos());
+                GridPane.setValignment(scoreImages[i][j], Pos.CENTER.getVpos());
             }
+        }
     }
 
     /**

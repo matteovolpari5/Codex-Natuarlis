@@ -530,7 +530,7 @@ public class GameController {
      * Method used to draw a face up card.
      * @param nickname nickname
      * @param type card type
-     * @param pos position between the starter cards list //TODO
+     * @param pos position in the starter cards list
      */
     public void drawFaceUpCard(String nickname, CardType type, int pos) {
         if(!gameModel.getState().equals(GameState.PLAYING)) {
