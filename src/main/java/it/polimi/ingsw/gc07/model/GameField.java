@@ -116,6 +116,10 @@ public class GameField {
         gameFieldListeners.add(gameFieldListener);
     }
 
+    /**
+     * Method used to remove a game field listener when a player looses connection.
+     * @param gameFieldListener listener to remove
+     */
     public void removeListener(GameFieldListener gameFieldListener) {
         gameFieldListeners.remove(gameFieldListener);
     }

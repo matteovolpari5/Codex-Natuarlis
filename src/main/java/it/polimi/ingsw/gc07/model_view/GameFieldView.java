@@ -64,6 +64,9 @@ public class GameFieldView implements Serializable {
         this.gameFieldViewListeners = new ArrayList<>();
     }
 
+    /**
+     * Copy constructor of the game field view.
+     */
     public GameFieldView(GameFieldView gameFieldView){
         this.starterCard = gameFieldView.starterCard;
         // getters return a copy
@@ -177,6 +180,10 @@ public class GameFieldView implements Serializable {
         notifyListeners(nickname);
     }
 
+    /**
+     * Private method used to notify all game field listeners (util).
+     * @param nickname game field owner's nickname
+     */
     private synchronized void notifyListeners(String nickname){
         PlaceableCard[][] cardsContentCopy = getCardsContent();
         Boolean[][] cardsFaceCopy = getCardsFace();

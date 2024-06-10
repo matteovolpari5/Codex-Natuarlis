@@ -85,7 +85,6 @@ public class SocketClient implements Client, PingSender {
         this.myServer = new VirtualSocketServer(output);
 
         manageSetUp(output, interfaceType);
-
     }
 
     /**

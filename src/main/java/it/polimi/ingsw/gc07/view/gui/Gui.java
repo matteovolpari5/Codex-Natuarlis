@@ -153,8 +153,7 @@ public  class Gui extends Application implements Ui {
                 // starting phase
                 return;
             }
-            if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
-                    StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+            if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
                 StageController.getController().addMessage(chatMessage);
             }
         });
@@ -221,8 +220,7 @@ public  class Gui extends Application implements Ui {
             if(!nickname.equals(this.nickname)) {
                 return;
             }
-            if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
-                    StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+            if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
                 StageController.getController().updateStarterCard(starterCard);
             }
         });
@@ -244,8 +242,7 @@ public  class Gui extends Application implements Ui {
             if(!nickname.equals(this.nickname)) {
                 return;
             }
-            if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE) ||
-                    StageController.getCurrentSceneType().equals(SceneType.OTHER_PLAYER_SCENE)) {
+            if(StageController.getCurrentSceneType().equals(SceneType.PLAYER_SCENE)) {
                 StageController.getController().updateCardHand(hand, personalObjective);
             }
         });

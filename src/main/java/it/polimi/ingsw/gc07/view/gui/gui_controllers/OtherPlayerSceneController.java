@@ -43,6 +43,8 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     @FXML
     protected Label gameId;
     @FXML
+    protected Label gameFieldPossessor;
+    @FXML
     protected Label nickname1;
     @FXML
     protected Label nickname2;
@@ -405,6 +407,7 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     @Override
     public void setNickname(String nickname) {
         otherPlayerNickname = nickname;
+        gameFieldPossessor.setText("Game Field of: "+ nickname);
     }
 
     /**
