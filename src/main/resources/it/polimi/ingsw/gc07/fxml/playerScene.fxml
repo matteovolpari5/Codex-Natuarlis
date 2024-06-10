@@ -33,7 +33,7 @@
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </Label>
-                <Label fx:id="gameState" alignment="CENTER_RIGHT" layoutX="743.0" maxHeight="1.7976931348623157E308" prefHeight="25.0" prefWidth="378.0" style="-fx-padding: 2;" text="GameState" textFill="WHITE" AnchorPane.rightAnchor="130.0">
+                <Label fx:id="gameState" alignment="CENTER_RIGHT" layoutX="743.0" maxHeight="1.7976931348623157E308" prefHeight="25.0" prefWidth="451.0" style="-fx-padding: 2;" text="GameState" textFill="WHITE" AnchorPane.rightAnchor="130.0">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font>
@@ -207,7 +207,7 @@
             </Pane>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="startingPhaseBox" layoutX="237.0" layoutY="167.0" prefHeight="402.0" prefWidth="658.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-width: 5;" visible="false">
+        <AnchorPane fx:id="startingPhaseBox" layoutX="237.0" layoutY="167.0" prefHeight="402.0" prefWidth="658.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-border-radius: 15; -fx-background-radius: 20; -fx-border-width: 5; -fx-padding: 10;" visible="false">
             <children>
                 <StackPane fx:id="str1Pane" layoutX="102.0" layoutY="87.0" onMouseClicked="#onStarter1CardClick">
                     <children>
@@ -245,11 +245,15 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Button fx:id="continueButton" layoutX="593.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#onContinueButtonClick" prefHeight="41.0" prefWidth="103.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" textFill="WHITE">
+                <Button fx:id="continueButton" layoutX="612.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#onContinueButtonClick" prefHeight="41.0" prefWidth="103.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font></Button>
-                <Button fx:id="sendCommandButton" layoutX="621.0" layoutY="355.0" mnemonicParsing="false" onAction="#onSendCommandButtonClick" prefHeight="37.0" prefWidth="82.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" visible="false" />
+            <Button fx:id="sendCommandButton" layoutX="613.0" layoutY="343.0" mnemonicParsing="false" onAction="#onSendCommandButtonClick" onMouseClicked="#onContinueButtonClick" prefHeight="41.0" prefWidth="103.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Button>
             </children>
         </AnchorPane>
       <Pane layoutX="5.0" layoutY="615.0" maxWidth="-Infinity" prefHeight="202.0" prefWidth="430.0" style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="5.0">

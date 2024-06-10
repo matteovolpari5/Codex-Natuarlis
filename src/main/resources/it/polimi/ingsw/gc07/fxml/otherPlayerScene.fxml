@@ -31,12 +31,12 @@
                         <Font name="Arial Bold" size="18.0" />
                     </font>
                 </Label>
-                <Label fx:id="gameFieldPossessor" alignment="CENTER" layoutX="345.0" maxHeight="1.7976931348623157E308" prefHeight="25.0" prefWidth="432.0" style="-fx-padding: 2;" text="Game field of" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="345.0" AnchorPane.rightAnchor="423.0">
+                <Label fx:id="gameFieldPossessor" alignment="CENTER" layoutX="345.0" maxHeight="1.7976931348623157E308" prefHeight="25.0" prefWidth="343.0" style="-fx-padding: 2;" text="Game field of" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="345.0" AnchorPane.rightAnchor="512.0">
                     <font>
                         <Font name="Arial Bold" size="18.0" />
                     </font>
                 </Label>
-                <Label fx:id="gameState" alignment="CENTER_RIGHT" layoutX="841.5" maxHeight="1.7976931348623157E308" prefHeight="25.0" prefWidth="271.0" style="-fx-padding: 2;" text="GameState" textFill="WHITE" AnchorPane.rightAnchor="126.0">
+                <Label fx:id="gameState" alignment="CENTER_RIGHT" layoutX="841.5" maxHeight="1.7976931348623157E308" prefHeight="25.0" prefWidth="393.0" style="-fx-padding: 2;" text="GameState" textFill="WHITE" AnchorPane.rightAnchor="126.0">
                     <font>
                         <Font name="Arial Bold" size="18.0" />
                     </font>
@@ -49,12 +49,17 @@
                 </Label>
             </children>
         </AnchorPane>
-        <ScrollPane hvalue="0.505" layoutX="5.0" layoutY="36.0" pannable="true" prefHeight="555.0" prefWidth="889.0" style="-fx-background-color: #98777b; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" vvalue="0.505" AnchorPane.bottomAnchor="209.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="36.0">
+        <ScrollPane fx:id="gameFieldContainer" hvalue="0.505" layoutX="5.0" layoutY="36.0" pannable="true" prefHeight="555.0" prefWidth="889.0" style="-fx-background-color: #98777b; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" vvalue="0.505" AnchorPane.bottomAnchor="209.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="36.0">
             <content>
                 <GridPane fx:id="gridPaneBoard" gridLinesVisible="true" style="-fx-background-color: #98777b">
 
                 </GridPane>
             </content></ScrollPane>
+        <ImageView fitHeight="41.0" fitWidth="38.0" layoutX="836.0" layoutY="534.0" onMouseClicked="#onReCenterButtonClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="228.0" AnchorPane.rightAnchor="326.0">
+            <image>
+                <Image url="@../graphic_resources/re-center.png" />
+            </image>
+        </ImageView>
       <Pane layoutX="299.0" layoutY="612.0" prefHeight="180.0" prefWidth="383.0" style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="8.0">
          <children>
               <ImageView fx:id="revealedGold2" fitHeight="62.0" fitWidth="93.0" layoutX="275.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />

@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -89,6 +90,8 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
     @FXML
     protected GridPane gridPaneBoard;
     @FXML
+    protected ScrollPane gameFieldContainer;
+    @FXML
     protected GridPane scoreGrid;
     @FXML
     protected Pane errorMessage;
@@ -141,6 +144,16 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
         Platform.runLater(() -> {
             errorMessage.setVisible(false);
             StageController.getStage().close();
+        });
+    }
+    /**
+     * Method used to center the game field view.
+     */
+    @FXML
+    protected void onReCenterButtonClick() {
+        Platform.runLater(() -> {
+            gameFieldContainer.setHvalue(0.505);
+            gameFieldContainer.setVvalue(0.505);
         });
     }
 
