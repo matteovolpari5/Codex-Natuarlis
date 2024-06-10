@@ -96,7 +96,11 @@ SocketClientHandler implements VirtualView {
                 manageGameCommand();
             }
         } catch (IOException | ClassNotFoundException e) {
-            closeConnection();
+            try {
+                closeConnection();
+            } catch (RemoteException ex) {
+                // exception can never be thrown
+            }
         }
     }
 
@@ -120,7 +124,11 @@ SocketClientHandler implements VirtualView {
                     break;
                 }
             } catch (IOException | ClassNotFoundException e){
-                closeConnection();
+                try {
+                    closeConnection();
+                } catch (RemoteException ex) {
+                    // exception can never be thrown
+                }
                 break;
             }
         }
@@ -148,7 +156,11 @@ SocketClientHandler implements VirtualView {
             try {
                 command = (GameControllerCommand) input.readObject();
             }catch (IOException | ClassNotFoundException e){
-                closeConnection();
+                try {
+                    closeConnection();
+                } catch (RemoteException ex) {
+                    // exception can never be thrown
+                }
                 break;
             }
             synchronized (gameController) {
@@ -156,7 +168,11 @@ SocketClientHandler implements VirtualView {
                 CommandResult result = gameController.getCommandResult();
                 if(result != null && result.equals(CommandResult.DISCONNECTION_SUCCESSFUL) && !gameController.isPlayerConnected(myClientNickname)){
                     gameController.setCommandResult(myClientNickname, CommandResult.SUCCESS);
-                    closeConnection();
+                    try {
+                        closeConnection();
+                    } catch (RemoteException e) {
+                        // exception can never be thrown
+                    }
                     break;
                 }
             }
@@ -166,7 +182,7 @@ SocketClientHandler implements VirtualView {
     /**
      * Method used to close the socket connection when a disconnection is detected
      */
-    private synchronized void closeConnection(){
+    public synchronized void closeConnection() throws RemoteException{
         while(!mySocket.isClosed()){
             try{
                 input.close();

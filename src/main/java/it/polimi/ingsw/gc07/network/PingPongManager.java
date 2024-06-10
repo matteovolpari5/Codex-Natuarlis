@@ -94,7 +94,12 @@ public class PingPongManager {
                     missedPing ++;
                     if(missedPing >= maxMissedPings) {
                         gameController.disconnectPlayer(nickname);
-                        //TODO closeConnection
+                        VirtualView virtualView = getVirtualView(nickname);
+                        try {
+                            virtualView.closeConnection();
+                        } catch (RemoteException e) {
+                            // it is not necessary to manage the RMI exception
+                        }
                         break;
                     }
                 }

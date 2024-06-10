@@ -268,6 +268,13 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     }
 
     /**
+     * Method used to close the connection when a disconnection is detected
+     */
+    @Override
+    public void closeConnection() throws RemoteException {
+    }
+
+    /**
      * Method that periodically checks if the client is receiving pongs from the server.
      */
     private void checkPong() {

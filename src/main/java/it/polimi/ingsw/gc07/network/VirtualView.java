@@ -33,4 +33,9 @@ public interface VirtualView extends Remote, ChatListener, GameFieldListener, Ga
      * @throws RemoteException remote exception
      */
     void sendPong() throws RemoteException;
+
+    /**
+     * Method used to close the connection when a disconnection is detected
+     */
+    void closeConnection() throws RemoteException;
 }
