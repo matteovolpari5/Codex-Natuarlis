@@ -253,7 +253,6 @@ public class SocketClient implements Client, PingSender {
     /**
      * Method used to close the socket connection when a disconnection is detected
      */
-    //TODO se la ui aspetta il comando e cade la connessione il client rimane vivo perché la ui sta ancora spettando l'input
     private synchronized void closeConnection(){
         if(isClientAlive()){
             while(!mySocket.isClosed()){

@@ -328,7 +328,7 @@ public class GameController {
             client.setServerGame(getId());
         } catch (RemoteException e) {
             disconnectPlayer(nickname);
-            //TODO
+            return;
         }
         gameModel.addListener(client);
         gameModel.sendModelViewUpdate(nickname, client);
@@ -560,7 +560,8 @@ public class GameController {
                 return;
             } else{
                 getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
-                // check if the card has been replaced or replace //TODO
+                // check if the deck is empty
+                // if it is, draw a card from the other deck
                 if(gameModel.revealFaceUpResourceCard(1) == null) {
                     GoldCard newFaceUpCard = gameModel.drawGoldCard();
                     if(newFaceUpCard != null) {
@@ -577,7 +578,8 @@ public class GameController {
             }
             else{
                 getPlayers().get(gameModel.getCurrPlayer()).addCardHand(card);
-                // check if the card has been replaced or replace //TODO
+                // check if the deck is empty
+                // if it is, draw a card from the other deck
                 if(gameModel.revealFaceUpGoldCard(1) == null) {
                     DrawableCard newFaceUpCard = gameModel.drawResourceCard();
                     if(newFaceUpCard != null) {
