@@ -761,7 +761,7 @@ public interface DeckTui {
         SafePrinter.print(ANSI_BLACK_BACKGROUND + "             ");
         // print first gold card
         if(goldCard1!=null) {
-            if (!goldCard1.getBackCorners()[0])
+            if (goldCard1.getBackCorners()[0])
             {
                 if (goldCard1.getBackCornersContent()[0] == null) {
                     SafePrinter.print(ANSI_BLACK_BACKGROUND + "|" + ANSI_WHITE_BACKGROUND + " " + ANSI_BLACK_BACKGROUND + "  ");
