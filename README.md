@@ -1,5 +1,5 @@
 # Codex Naturalis
-<h2>Software Engineering Project - Politecnico di Milano</h2>
+### Software Engineering Project - Politecnico di Milano
 
 ## Implemented features
 | Feature                        | Implemented |
