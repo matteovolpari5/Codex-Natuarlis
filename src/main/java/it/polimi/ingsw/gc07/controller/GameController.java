@@ -356,11 +356,9 @@ public class GameController {
         int numPlayersConnected = gameModel.getNumPlayersConnected();
         if(numPlayersConnected == 0) {
             gameModel.setState(GameState.NO_PLAYERS_CONNECTED);
-            SafePrinter.println("timeout 0");
             startTimeoutGameEnd();
         }else if(numPlayersConnected == 1) {
             gameModel.setState(GameState.WAITING_RECONNECTION);
-            SafePrinter.println("timeout 1");
             startTimeoutGameEnd();
         }else {
             gameModel.setState(GameState.PLAYING);

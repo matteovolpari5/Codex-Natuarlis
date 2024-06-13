@@ -83,28 +83,36 @@ public class PingPongManager {
      */
     public void checkPing(String nickname) {
         int missedPing = 0;
+        boolean pingReceived;
         while(true) {
             if(!gameController.isPlayerConnected(nickname)) {
                 break;
             }
             synchronized(this) {
-                if(playersPing.get(nickname)) {
+                if (playersPing.get(nickname)) {
                     missedPing = 0;
-                }else {
-                    missedPing ++;
-                    if(missedPing >= maxMissedPings) {
-                        gameController.disconnectPlayer(nickname);
-                        VirtualView virtualView = getVirtualView(nickname);
-                        try {
-                            virtualView.closeConnection();
-                        } catch (RemoteException e) {
-                            // it is not necessary to manage the RMI exception
-                        }
-                        break;
-                    }
+                    pingReceived = true;
+                } else {
+                    pingReceived = false;
                 }
-                playersPing.put(nickname, false);
             }
+            if(!pingReceived){
+                missedPing ++;
+                if(missedPing >= maxMissedPings) {
+                    VirtualView virtualView;
+                    synchronized (this) {
+                        gameController.disconnectPlayer(nickname);
+                        virtualView = getVirtualView(nickname);
+                    }
+                    try {
+                        virtualView.closeConnection();
+                    } catch (RemoteException e) {
+                        // it is not necessary to manage the RMI exception
+                    }
+                    break;
+                }
+            }
+            playersPing.put(nickname, false);
             try {
                 Thread.sleep(1000);
                 // wait one second between two pings

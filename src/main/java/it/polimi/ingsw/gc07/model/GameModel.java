@@ -803,6 +803,7 @@ public class GameModel {
      * @param nickname nickname of the winner that has to be added to the winners.
      */
     public void setWinner(String nickname){
+        winners.clear();
         winners.add(nickname);
         // update listeners
         sendWinnersUpdate();
