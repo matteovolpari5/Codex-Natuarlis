@@ -1,5 +1,11 @@
 # Codex Naturalis
-### Software Engineering Project - Politecnico di Milano
+
+## Software Engineering Project - Politecnico di Milano
+Members:
+* Kevin Ziroldi
+* Matteo Volpari
+* Samuele Villa
+* Tommaso Uberti Foppa
 
 ## Implemented features
 | Feature                        | Implemented |
