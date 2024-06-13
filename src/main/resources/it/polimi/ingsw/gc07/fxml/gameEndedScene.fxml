@@ -80,7 +80,7 @@
          </HBox>
       </children>
    </VBox>
-   <Button fx:id="exitGame" alignment="CENTER" layoutX="940.0" layoutY="716.0" mnemonicParsing="false" onAction="#endGame" prefHeight="70.0" prefWidth="245.0" style="-fx-background-color: #3c251a; -fx-background-radius: 15;" text="CONTINUE" textFill="white" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="15.0">
+   <Button fx:id="exitGame" alignment="CENTER" layoutX="940.0" layoutY="716.0" mnemonicParsing="false" onAction="#endGame" prefHeight="70.0" prefWidth="245.0" style="-fx-background-color: #744f38; -fx-background-radius: 15; -fx-border-color: #3c251a; -fx-border-width: 5; -fx-border-radius: 10;" text="CONTINUE" textFill="white" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="15.0">
       <font>
          <Font name="Arial Bold" size="23.0" />
       </font>

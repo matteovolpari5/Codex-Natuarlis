@@ -34,7 +34,7 @@
     </AnchorPane>
 
 
-    <Button fx:id="next" layoutX="959.0" layoutY="609.0" mnemonicParsing="false" onAction="#onContinueButtonClick" style="-fx-background-color: #98777b; -fx-background-radius: 15; -fx-border-radius: 10; -fx-border-color: #98777b; -fx-border-width: 5;" text="CONTINUE" textFill="WHITE" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="26.0">
+    <Button fx:id="next" layoutX="959.0" layoutY="609.0" mnemonicParsing="false" onAction="#onContinueButtonClick" style="-fx-background-color: #744f38; -fx-background-radius: 15; -fx-border-radius: 10; -fx-border-color: #3c251a; -fx-border-width: 5;" text="CONTINUE" textFill="WHITE" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="26.0">
         <font>
             <Font name="Arial Bold" size="30.0" />
         </font>

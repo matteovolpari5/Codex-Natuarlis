@@ -17,9 +17,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #e6bd9f;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.OtherPlayerSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #e8d1ac;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.OtherPlayerSceneController">
     <children>
-        <AnchorPane maxWidth="1.7976931348623157E308" prefWidth="1204.0" style="-fx-background-color: #98777b;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <AnchorPane maxWidth="1.7976931348623157E308" prefWidth="1204.0" style="-fx-background-color:  #633e27 ;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <children>
                 <Label maxHeight="1.7976931348623157E308" prefHeight="25.0" style="-fx-padding: 2;" text="  Codex Naturalis" textFill="#f8f8f8" AnchorPane.leftAnchor="0.0">
                     <font>
@@ -49,9 +49,9 @@
                 </Label>
             </children>
         </AnchorPane>
-        <ScrollPane fx:id="gameFieldContainer" hvalue="0.505" layoutX="5.0" layoutY="36.0" pannable="true" prefHeight="555.0" prefWidth="889.0" style="-fx-background-color: #98777b; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" vvalue="0.505" AnchorPane.bottomAnchor="209.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="36.0">
+        <ScrollPane fx:id="gameFieldContainer" hvalue="0.505" layoutX="5.0" layoutY="36.0" pannable="true" prefHeight="555.0" prefWidth="889.0" style="-fx-background-color:  #633e27 ; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" vvalue="0.505" AnchorPane.bottomAnchor="209.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="36.0">
             <content>
-                <GridPane fx:id="gridPaneBoard" gridLinesVisible="true" style="-fx-background-color: #98777b">
+                <GridPane fx:id="gridPaneBoard" gridLinesVisible="true" style="-fx-background-color:   #fff8dc">
 
                 </GridPane>
             </content></ScrollPane>
@@ -60,7 +60,7 @@
                 <Image url="@../graphic_resources/re-center.png" />
             </image>
         </ImageView>
-      <Pane layoutX="299.0" layoutY="612.0" prefHeight="180.0" prefWidth="383.0" style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="8.0">
+      <Pane layoutX="291.0" layoutY="612.0" prefHeight="180.0" prefWidth="383.0" style="-fx-border-color:  #633e27 ; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="8.0">
          <children>
               <ImageView fx:id="revealedGold2" fitHeight="62.0" fitWidth="93.0" layoutX="275.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
               <ImageView fx:id="topDeckGold" fitHeight="62.0" fitWidth="93.0" layoutX="15.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
@@ -75,7 +75,7 @@
             </Label>
          </children>
       </Pane>
-        <HBox fx:id="nickContainer" layoutX="976.5" layoutY="650.0" prefHeight="120.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5; -fx-background-radius: 15;" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="76.0">
+        <HBox fx:id="nickContainer" layoutX="976.5" layoutY="650.0" prefHeight="120.0" style="-fx-background-color: #fff8dc; -fx-border-color:  #633e27 ; -fx-border-width: 5; -fx-border-radius: 5; -fx-background-radius: 15;" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="76.0">
             <children>
                 <VBox style="-fx-padding: 5;">
                     <children>
@@ -87,66 +87,66 @@
                 </VBox>
                 <VBox maxWidth="300.0" prefHeight="148.0" style="-fx-background-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;">
                     <children>
-                        <Label fx:id="nickname1" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname1" alignment="TOP_LEFT" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial Bold" size="22.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname2" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname2" alignment="TOP_LEFT" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial Bold" size="22.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname3" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname3" alignment="TOP_LEFT" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial Bold" size="22.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname4" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname4" alignment="TOP_LEFT" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial Bold" size="22.0" />
                             </font>
                         </Label>
                     </children>
                 </VBox>
                 <VBox prefHeight="148.0" style="-fx-background-color: #fff8dc; -fx-background-radius: 15; -fx-padding: 10;">
                     <children>
-                        <Label fx:id="nickStatus1" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus1" alignment="TOP_LEFT" prefHeight="30.0" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickStatus2" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus2" alignment="TOP_LEFT" prefHeight="30.0" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickStatus3" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus3" alignment="TOP_LEFT" prefHeight="30.0" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickStatus4" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus4" alignment="TOP_LEFT" prefHeight="30.0" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial" size="20.0" />
                             </font>
                         </Label>
                     </children>
                 </VBox>
             </children>
         </HBox>
-      <Pane layoutX="730.0" layoutY="612.0" prefHeight="180.0" prefWidth="110.0" style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-padding: 2; -fx-border-radius: 5;" AnchorPane.bottomAnchor="8.0">
+      <Pane layoutX="730.0" layoutY="612.0" prefHeight="180.0" prefWidth="146.0" style="-fx-border-color:  #633e27 ; -fx-border-width: 5; -fx-padding: 2; -fx-border-radius: 5;" AnchorPane.bottomAnchor="8.0">
          <children>
-              <ImageView fx:id="commonObjective2" fitHeight="62.0" fitWidth="93.0" layoutX="8.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
-              <ImageView fx:id="commonObjective1" fitHeight="62.0" fitWidth="93.0" layoutX="8.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
-            <Label layoutX="8.0" layoutY="10.0" text="Objectives">
+              <ImageView fx:id="commonObjective2" fitHeight="62.0" fitWidth="93.0" layoutX="27.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+              <ImageView fx:id="commonObjective1" fitHeight="62.0" fitWidth="93.0" layoutX="27.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
+            <Label layoutX="15.0" layoutY="10.0" text="Objectives">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </Label>
          </children>
       </Pane>
-        <StackPane layoutX="925.0" layoutY="36.0" prefHeight="303.0" prefWidth="200.0" style="-fx-background-radius: 5; -fx-padding: 5; -fx-background-color: #98777b;" AnchorPane.rightAnchor="32.0">
+        <StackPane layoutX="925.0" layoutY="36.0" prefHeight="303.0" prefWidth="200.0" style="-fx-background-radius: 5; -fx-padding: 5; -fx-background-color:  #633e27 ;" AnchorPane.rightAnchor="32.0">
             <children>
                 <ImageView id="ScoreTrack" fitHeight="466.0" fitWidth="261.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -190,8 +190,8 @@
                 </GridPane>
             </children>
         </StackPane>
-        <ListView fx:id="myUpdates" layoutX="904.0" layoutY="518.0" prefHeight="124.0" prefWidth="284.0" style="-fx-border-color: #98777b; -fx-border-radius: 5; -fx-border-width: 5; -fx-padding: 5; -fx-background-radius: 20;" AnchorPane.bottomAnchor="158.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="518.0" />
-      <Button layoutX="34.0" layoutY="679.0" mnemonicParsing="false" onMouseClicked="#onGoBackButtonClick" prefHeight="53.0" prefWidth="161.0" style="-fx-background-color: #98777b; -fx-background-radius: 10;" text="GO BACK" textFill="WHITE" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="34.0">
+        <ListView fx:id="myUpdates" layoutX="904.0" layoutY="518.0" prefHeight="124.0" prefWidth="284.0" style="-fx-border-color:  #633e27 ; -fx-border-radius: 5; -fx-border-width: 5; -fx-padding: 5; -fx-background-radius: 20;" AnchorPane.bottomAnchor="158.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="518.0" />
+      <Button layoutX="34.0" layoutY="679.0" mnemonicParsing="false" onMouseClicked="#onGoBackButtonClick" prefHeight="53.0" prefWidth="161.0" style="-fx-background-color:  #633e27 ; -fx-background-radius: 10;" text="GO BACK" textFill="WHITE" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="34.0">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
@@ -215,7 +215,7 @@
                                 <Image url="@../graphic_resources/Skull-Emoji.png" />
                             </image>
                         </ImageView>
-                        <Button layoutX="416.0" layoutY="139.0" mnemonicParsing="false" onMouseClicked="#onExitButtonClick" prefHeight="43.0" prefWidth="125.0" style="-fx-background-color: #98777b; -fx-background-radius: 5" text="EXIT" textFill="white">
+                        <Button layoutX="416.0" layoutY="139.0" mnemonicParsing="false" onMouseClicked="#onExitButtonClick" prefHeight="43.0" prefWidth="125.0" style="-fx-background-color:  #633e27 ; -fx-background-radius: 5" text="EXIT" textFill="white">
                             <font>
                                 <Font name="Arial Bold" size="20.0" />
                             </font></Button>

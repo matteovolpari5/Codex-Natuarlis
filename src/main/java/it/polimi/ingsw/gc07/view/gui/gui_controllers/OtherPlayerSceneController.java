@@ -435,7 +435,9 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      * @param gameId game id
      */
     @Override
-    public void setGameId(int gameId) {}
+    public void setGameId(int gameId) {
+        this.gameId.setText("game Id: " + gameId);
+    }
 
     /**
      * Method used to display a new connection value.

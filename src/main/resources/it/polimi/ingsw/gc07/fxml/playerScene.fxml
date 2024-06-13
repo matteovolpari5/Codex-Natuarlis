@@ -19,9 +19,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #cdbda7;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.PlayerSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #e8d1ac;" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc07.view.gui.gui_controllers.PlayerSceneController">
     <children>
-      <AnchorPane maxWidth="1.7976931348623157E308" prefWidth="1204.0" style="-fx-background-color: #98777b;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane maxWidth="1.7976931348623157E308" prefWidth="1204.0" style="-fx-background-color: #633e27;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
                 <Label maxHeight="1.7976931348623157E308" prefHeight="20.0" prefWidth="154.0" style="-fx-padding: 2;" text="  Codex Naturalis" textFill="#f8f8f8" AnchorPane.leftAnchor="0.0">
                <font>
@@ -46,9 +46,9 @@
             </Label>
          </children>
       </AnchorPane>
-        <ScrollPane fx:id="gameFieldContainer" hvalue="0.505" layoutX="5.0" layoutY="33.0" pannable="true" prefHeight="552.0" prefWidth="861.0" style="-fx-background-color: #98777b; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" vvalue="0.505" AnchorPane.bottomAnchor="215.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="334.0" AnchorPane.topAnchor="33.0">
+        <ScrollPane fx:id="gameFieldContainer" hvalue="0.505" layoutX="5.0" layoutY="33.0" pannable="true" prefHeight="552.0" prefWidth="861.0" style="-fx-background-color: #633e27; -fx-pannable: true; -fx-padding: 5; -fx-background-radius: 5;" vvalue="0.505" AnchorPane.bottomAnchor="215.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="334.0" AnchorPane.topAnchor="33.0">
          <content>
-            <GridPane fx:id="gridPaneBoard" gridLinesVisible="true" style="-fx-background-color: #98777b">
+            <GridPane fx:id="gridPaneBoard" gridLinesVisible="true" style="-fx-background-color: #fff8dc;">
 
             </GridPane>
          </content></ScrollPane>
@@ -57,7 +57,7 @@
                 <Image url="@../graphic_resources/re-center.png" />
             </image>
         </ImageView>
-        <HBox fx:id="nickContainer" layoutX="886.0" layoutY="652.0" prefHeight="140.0" prefWidth="305.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5; -fx-background-radius: 15;" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="12.0">
+        <HBox fx:id="nickContainer" layoutX="886.0" layoutY="652.0" prefHeight="140.0" prefWidth="305.0" style="-fx-background-color: #fff8dc; -fx-border-color: #633e27; -fx-border-width: 5; -fx-border-radius: 5; -fx-background-radius: 15;" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="12.0">
             <children>
                 <VBox style="-fx-padding: 5;">
                     <children>
@@ -69,69 +69,69 @@
                 </VBox>
                 <VBox prefHeight="148.0" style="-fx-background-color: #fff8dc; -fx-padding: 8; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;">
                     <children>
-                        <Label fx:id="nickname1" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname1" alignment="TOP_LEFT" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial Bold" size="22.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname2" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname2" alignment="TOP_LEFT" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial Bold" size="22.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname3" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname3" alignment="TOP_LEFT" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial Bold" size="22.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickname4" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
+                        <Label fx:id="nickname4" alignment="TOP_LEFT" onMouseClicked="#goToOtherGameField" prefHeight="30.0" text="Player" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial Bold" size="22.0" />
                             </font>
                         </Label>
                     </children>
                 </VBox>
                 <VBox prefHeight="148.0" style="-fx-background-color: #fff8dc; -fx-background-radius: 15; -fx-padding: 8;">
                     <children>
-                        <Label fx:id="nickStatus1" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus1" alignment="TOP_LEFT" prefHeight="30.0" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickStatus2" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus2" alignment="TOP_LEFT" prefHeight="30.0" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickStatus3" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus3" alignment="TOP_LEFT" prefHeight="30.0" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial" size="20.0" />
                             </font>
                         </Label>
-                        <Label fx:id="nickStatus4" prefHeight="30.0" visible="false">
+                        <Label fx:id="nickStatus4" alignment="TOP_LEFT" prefHeight="30.0" visible="false">
                             <font>
-                                <Font name="Comic Sans MS" size="20.0" />
+                                <Font name="Arial" size="20.0" />
                             </font>
                         </Label>
                     </children>
                 </VBox>
             </children>
         </HBox>
-      <Pane layoutX="656.0" layoutY="593.0" maxWidth="-Infinity" prefHeight="202.0" prefWidth="390.0" style="-fx-border-color: #2e586b; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="5.0">
+      <Pane layoutX="656.0" layoutY="593.0" maxWidth="-Infinity" prefHeight="202.0" prefWidth="390.0" style="-fx-border-color: #633e27; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="5.0">
          <children>
               <ImageView fx:id="handCard2" fitHeight="70.0" fitWidth="105.0" layoutX="142.0" layoutY="117.0" onMouseClicked="#onDoubleClickCardHand" pickOnBounds="true" preserveRatio="true" />
               <ImageView fx:id="handCard1" fitHeight="70.0" fitWidth="105.0" layoutX="17.0" layoutY="117.0" onMouseClicked="#onDoubleClickCardHand" pickOnBounds="true" preserveRatio="true" />
               <ImageView fx:id="myStarterCard" fitHeight="70.0" fitWidth="105.0" layoutX="142.0" layoutY="36.0" onMouseClicked="#onStarterCardClick" pickOnBounds="true" preserveRatio="true" />
               <ImageView fx:id="secretObjective" fitHeight="70.0" fitWidth="105.0" layoutX="17.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
               <ImageView fx:id="handCard3" fitHeight="70.0" fitWidth="105.0" layoutX="267.0" layoutY="117.0" onMouseClicked="#onDoubleClickCardHand" pickOnBounds="true" preserveRatio="true" />
-            <Label layoutX="9.0" layoutY="10.0" text="Hand">
+            <Label layoutX="15.0" layoutY="10.0" text="Hand">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </Label>
          </children>
       </Pane>
-        <StackPane layoutX="885.0" layoutY="33.0" prefHeight="303.0" prefWidth="200.0" style="-fx-background-radius: 5; -fx-padding: 5; -fx-background-color: #98777b;" AnchorPane.rightAnchor="72.0">
+        <StackPane layoutX="885.0" layoutY="33.0" prefHeight="303.0" prefWidth="200.0" style="-fx-background-radius: 5; -fx-padding: 5; -fx-background-color: #633e27;" AnchorPane.rightAnchor="72.0">
             <children>
                 <ImageView id="ScoreTrack" fitHeight="466.0" fitWidth="261.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -175,23 +175,23 @@
             </GridPane>
             </children>
         </StackPane>
-        <ListView fx:id="myUpdates" layoutX="883.0" layoutY="520.0" prefHeight="114.0" prefWidth="305.0" style="-fx-border-color: #98777b; -fx-border-radius: 5; -fx-border-width: 5; -fx-padding: 5; -fx-background-radius: 20;" AnchorPane.bottomAnchor="166.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="520.0" />
-        <AnchorPane fx:id="chatContainer" layoutX="744.0" layoutY="25.0" prefHeight="777.0" prefWidth="456.0" style="-fx-background-color: #e6bd9f; -fx-background-radius: 15; -fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+        <ListView fx:id="myUpdates" layoutX="883.0" layoutY="520.0" prefHeight="114.0" prefWidth="305.0" style="-fx-border-color: #633e27; -fx-border-radius: 5; -fx-border-width: 5; -fx-padding: 5; -fx-background-radius: 20;" AnchorPane.bottomAnchor="166.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="520.0" />
+        <AnchorPane fx:id="chatContainer" layoutX="744.0" layoutY="25.0" prefHeight="777.0" prefWidth="456.0" style="-fx-background-color: #e8d1ac; -fx-background-radius: 15; -fx-border-color:   #633e27; -fx-border-width: 5; -fx-border-radius: 5;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
             <children>
-                <ListView fx:id="myChat" layoutX="13.0" layoutY="51.0" prefHeight="621.0" prefWidth="432.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5; -fx-padding: 5; -fx-background-radius: 15;" AnchorPane.bottomAnchor="108.0" AnchorPane.topAnchor="46.0" />
-                <Label layoutX="16.0" layoutY="15.0" text="CHAT" textFill="CORNSILK">
+                <ListView fx:id="myChat" layoutX="13.0" layoutY="51.0" prefHeight="621.0" prefWidth="432.0" style="-fx-background-color: #fff8dc; -fx-border-color:   #633e27; -fx-border-width: 5; -fx-border-radius: 5; -fx-padding: 5; -fx-background-radius: 15;" AnchorPane.bottomAnchor="108.0" AnchorPane.topAnchor="46.0" />
+                <Label layoutX="16.0" layoutY="15.0" text="CHAT">
                     <font>
                         <Font name="Arial Bold" size="28.0" />
                     </font>
                 </Label>
-                <TextField fx:id="messageContent" layoutX="14.0" layoutY="632.0" onKeyPressed="#onSendMessage" prefHeight="41.0" prefWidth="432.0" promptText="Digit a Comment..." style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5; -fx-padding: 5; -fx-background-color: #fff8dc; -fx-background-radius: 15;" AnchorPane.bottomAnchor="13.0" />
-                <Label layoutX="20.0" layoutY="593.0" text="Choose the receiver:" textFill="CORNSILK" AnchorPane.bottomAnchor="70.0">
+                <TextField fx:id="messageContent" layoutX="14.0" layoutY="632.0" onKeyPressed="#onSendMessage" prefHeight="41.0" prefWidth="432.0" promptText="Digit a Comment..." style="-fx-border-color:   #633e27; -fx-border-width: 5; -fx-border-radius: 5; -fx-padding: 5; -fx-background-color: #fff8dc; -fx-background-radius: 15;" AnchorPane.bottomAnchor="13.0" />
+                <Label layoutX="20.0" layoutY="593.0" text="Choose the receiver:" AnchorPane.bottomAnchor="70.0">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <ChoiceBox fx:id="receiverSelector" layoutX="192.0" layoutY="676.0" prefHeight="28.0" prefWidth="132.0" style="-fx-background-color: #98777b;-fx-background-radius: 15;-fx-font-size: 18px;-fx-text-fill: #fff8dc;" AnchorPane.bottomAnchor="64.0" AnchorPane.rightAnchor="132.0" />
-            <Pane layoutX="-46.0" layoutY="2.0" onMouseClicked="#onCloseChatButtonClick" prefHeight="95.0" prefWidth="50.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-background-radius: 15; -fx-border-radius: 10; -fx-border-width: 3;">
+                <ChoiceBox fx:id="receiverSelector" layoutX="192.0" layoutY="676.0" prefHeight="28.0" prefWidth="132.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-font-size: 18px; -fx-text-fill: #fff8dc;" AnchorPane.bottomAnchor="64.0" AnchorPane.rightAnchor="132.0" />
+            <Pane layoutX="-46.0" layoutY="2.0" onMouseClicked="#onCloseChatButtonClick" prefHeight="95.0" prefWidth="50.0" style="-fx-background-color: #fff8dc; -fx-border-color:   #633e27; -fx-background-radius: 15; -fx-border-radius: 10; -fx-border-width: 3;">
                <children>
                   <ImageView fitHeight="37.0" fitWidth="30.0" layoutX="11.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" rotate="-180.0">
                      <image>
@@ -207,7 +207,7 @@
             </Pane>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="startingPhaseBox" layoutX="237.0" layoutY="167.0" prefHeight="402.0" prefWidth="658.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-border-radius: 15; -fx-background-radius: 20; -fx-border-width: 5; -fx-padding: 10;" visible="false">
+        <AnchorPane fx:id="startingPhaseBox" layoutX="237.0" layoutY="167.0" prefHeight="402.0" prefWidth="658.0" style="-fx-background-color: #fff8dc; -fx-border-color:    #633e27; -fx-border-radius: 15; -fx-background-radius: 20; -fx-border-width: 5; -fx-padding: 10;" visible="false">
             <children>
                 <StackPane fx:id="str1Pane" layoutX="102.0" layoutY="87.0" onMouseClicked="#onStarter1CardClick">
                     <children>
@@ -245,18 +245,18 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Button fx:id="continueButton" layoutX="612.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#onContinueButtonClick" prefHeight="41.0" prefWidth="103.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" textFill="WHITE">
+                <Button fx:id="continueButton" layoutX="612.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#onContinueButtonClick" prefHeight="41.0" prefWidth="103.0" style="-fx-background-color:    #633e27; -fx-background-radius: 5;" text="Continue" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font></Button>
-            <Button fx:id="sendCommandButton" layoutX="613.0" layoutY="343.0" mnemonicParsing="false" onAction="#onSendCommandButtonClick" onMouseClicked="#onContinueButtonClick" prefHeight="41.0" prefWidth="103.0" style="-fx-background-color: #98777b; -fx-background-radius: 5;" text="Continue" textFill="WHITE" visible="false">
+            <Button fx:id="sendCommandButton" layoutX="613.0" layoutY="343.0" mnemonicParsing="false" onAction="#onSendCommandButtonClick" onMouseClicked="#onContinueButtonClick" prefHeight="41.0" prefWidth="103.0" style="-fx-background-color:    #633e27; -fx-background-radius: 5;" text="Continue" textFill="WHITE" visible="false">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </Button>
             </children>
         </AnchorPane>
-      <Pane layoutX="5.0" layoutY="615.0" maxWidth="-Infinity" prefHeight="202.0" prefWidth="430.0" style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="5.0">
+      <Pane layoutX="5.0" layoutY="615.0" maxWidth="-Infinity" prefHeight="202.0" prefWidth="430.0" style="-fx-border-color: #633e27; -fx-border-width: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="5.0">
          <children>
             <ImageView fx:id="revealedGold2" fitHeight="70.0" fitWidth="105.0" layoutX="309.0" layoutY="117.0" onMouseClicked="#onCardRevealedDraw" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="topDeckGold" fitHeight="70.0" fitWidth="105.0" layoutX="15.0" layoutY="117.0" onMouseClicked="#onDeckCardDraw" pickOnBounds="true" preserveRatio="true" />
@@ -271,18 +271,18 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="473.0" layoutY="593.0" prefHeight="202.0" prefWidth="142.0" style="-fx-border-color: #98777b; -fx-border-width: 5; -fx-padding: 2; -fx-border-radius: 5;" AnchorPane.bottomAnchor="5.0">
+      <Pane layoutX="473.0" layoutY="593.0" prefHeight="202.0" prefWidth="142.0" style="-fx-border-color: #633e27; -fx-border-width: 5; -fx-padding: 2; -fx-border-radius: 5;" AnchorPane.bottomAnchor="5.0">
          <children>
             <ImageView fx:id="commonObjective2" fitHeight="70.0" fitWidth="105.0" layoutX="19.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="commonObjective1" fitHeight="70.0" fitWidth="105.0" layoutX="19.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
-            <Label layoutX="8.0" layoutY="10.0" text="Objectives">
+            <Label layoutX="15.0" layoutY="10.0" text="Objectives">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="openChatButton" layoutX="1165.0" layoutY="55.0" onMouseClicked="#onOpenChatButtonClick" prefHeight="90.0" prefWidth="58.0" style="-fx-background-color: #fff8dc; -fx-border-color: #98777b; -fx-border-radius: 10; -fx-background-radius: 15; -fx-border-width: 3;" AnchorPane.rightAnchor="-10.0">
+      <Pane fx:id="openChatButton" layoutX="1165.0" layoutY="55.0" onMouseClicked="#onOpenChatButtonClick" prefHeight="90.0" prefWidth="58.0" style="-fx-background-color: #fff8dc; -fx-border-color:   #633e27; -fx-border-radius: 10; -fx-background-radius: 15; -fx-border-width: 3;" AnchorPane.rightAnchor="-10.0">
          <children>
             <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="12.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -320,7 +320,7 @@
                         <Image url="@../graphic_resources/Skull-Emoji.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="416.0" layoutY="139.0" mnemonicParsing="false" onMouseClicked="#onExitButtonClick" prefHeight="43.0" prefWidth="125.0" style="-fx-background-color: #98777b; -fx-background-radius: 5" text="EXIT" textFill="white">
+                  <Button layoutX="416.0" layoutY="139.0" mnemonicParsing="false" onMouseClicked="#onExitButtonClick" prefHeight="43.0" prefWidth="125.0" style="-fx-background-color:    #633e27; -fx-background-radius: 5" text="EXIT" textFill="white">
                      <font>
                         <Font name="Arial Bold" size="20.0" />
                      </font></Button>
