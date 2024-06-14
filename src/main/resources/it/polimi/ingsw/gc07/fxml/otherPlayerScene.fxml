@@ -31,7 +31,7 @@
                         <Font name="Arial Bold" size="18.0" />
                     </font>
                 </Label>
-                <Label fx:id="gameFieldPossessor" alignment="CENTER" layoutX="345.0" maxHeight="1.7976931348623157E308" prefHeight="25.0" prefWidth="343.0" style="-fx-padding: 2;" text="Game field of" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="345.0" AnchorPane.rightAnchor="512.0">
+                <Label fx:id="gameFieldPossessor" alignment="CENTER" layoutX="418.0" maxHeight="1.7976931348623157E308" prefHeight="25.0" style="-fx-padding: 2;" text="Game field of" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="418.0" AnchorPane.rightAnchor="439.0">
                     <font>
                         <Font name="Arial Bold" size="18.0" />
                     </font>
