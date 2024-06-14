@@ -655,12 +655,14 @@ public class PlayerSceneController implements GuiController, Initializable {
             }
         }
         int x,y;
-        for (String nickname: playerScore.keySet()){
-            x = BoardGridLayout.valueOf(playerTokenColor.get(nickname)+ "_"+ playerScore.get(nickname)).getX();
-            y = BoardGridLayout.valueOf(playerTokenColor.get(nickname)+"_" +playerScore.get(nickname)).getY();
+        for (String nickname: playerScore.keySet()) {
+            if (playerScore.get(nickname) <= 29) {
+                x = BoardGridLayout.valueOf(playerTokenColor.get(nickname) + "_" + playerScore.get(nickname)).getX();
+                y = BoardGridLayout.valueOf(playerTokenColor.get(nickname) + "_" + playerScore.get(nickname)).getY();
 
-            scoreImages[x][y].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + playerTokenColor.get(nickname).toString().toLowerCase() + ".png")).toExternalForm()));
-            scoreImages[x][y].setVisible(true);
+                scoreImages[x][y].setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/" + playerTokenColor.get(nickname).toString().toLowerCase() + ".png")).toExternalForm()));
+                scoreImages[x][y].setVisible(true);
+            }
         }
     }
 
