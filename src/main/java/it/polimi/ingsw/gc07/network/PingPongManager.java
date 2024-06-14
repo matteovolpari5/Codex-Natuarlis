@@ -102,7 +102,7 @@ public class PingPongManager {
                     gameController.disconnectPlayer(nickname);
 
                     // close connection with socket client
-                    if(gameController.getPlayerConnection(nickname)) {
+                    if(!gameController.getPlayerConnection(nickname)) {
                         VirtualView virtualView = getVirtualView(nickname);
                         try {
                             virtualView.closeConnection();
