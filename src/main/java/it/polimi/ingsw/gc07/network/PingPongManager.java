@@ -41,6 +41,11 @@ public class PingPongManager {
         this.playerVirtualViews = new HashMap<>();
     }
 
+    /**
+     * Method used to add a ping sender to the PingPongManager.
+     * @param nickname ping sender's nickname
+     * @param virtualView ping sender's virtual view
+     */
     public synchronized void addPingSender(String nickname, VirtualView virtualView) {
         System.out.println("Adding player: " + nickname);
         this.playersPing.put(nickname, true);
@@ -59,6 +64,11 @@ public class PingPongManager {
         }
     }
 
+    /**
+     * Getter method for the virtual view associated to the nickname.
+     * @param nickname player's nickname
+     * @return player's virtual view
+     */
     public synchronized VirtualView getVirtualView(String nickname) {
         assert (playerVirtualViews.containsKey(nickname));
         return playerVirtualViews.get(nickname);
@@ -78,7 +88,6 @@ public class PingPongManager {
      * Method that runs for every player and periodically checks if the
      * player sent a ping. After a certain number of pings not sent in a row,
      * detects a disconnection.
-     *
      * @param nickname nickname
      */
     public void checkPing(String nickname) {
@@ -124,7 +133,8 @@ public class PingPongManager {
     /**
      * Method used to send a pong update to the player, in order
      * to make it aware connection is stable.
-     * @param nickname nickname
+     * @param nickname client's nickname
+     * @param virtualView client's virtualView
      */
     private void sendPong(String nickname, VirtualView virtualView) {
         while (true){
