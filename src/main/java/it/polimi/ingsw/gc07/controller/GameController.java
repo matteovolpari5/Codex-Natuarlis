@@ -412,6 +412,9 @@ public class GameController {
                     }
                     if (gameModel.getNumPlayersConnected() > 1) {
                         gameModel.setState(GameState.PLAYING);
+                        if (!gameModel.getPlayers().get(getCurrPlayer()).isConnected()){
+                            changeCurrPlayer();
+                        }
                         gameEnd = false;
                     }
                 }

@@ -23,17 +23,17 @@
     <children>
       <AnchorPane maxWidth="1.7976931348623157E308" prefWidth="1204.0" style="-fx-background-color: #633e27;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-                <Label maxHeight="1.7976931348623157E308" prefHeight="20.0" prefWidth="154.0" style="-fx-padding: 2;" text="  Codex Naturalis" textFill="#f8f8f8" AnchorPane.leftAnchor="0.0">
+                <Label layoutX="-4.0" maxHeight="1.7976931348623157E308" prefHeight="25.0" style="-fx-padding: 2;" text="  Codex Naturalis" textFill="#f8f8f8">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </Label>
-                <Label fx:id="currentPlayer" layoutX="206.0" maxHeight="1.7976931348623157E308" prefHeight="25.0" prefWidth="368.0" style="-fx-padding: 2;" text="Current player" textFill="WHITE" AnchorPane.leftAnchor="206.0">
+                <Label fx:id="currentPlayer" alignment="CENTER" layoutX="536.0" maxHeight="1.7976931348623157E308" prefHeight="25.0" style="-fx-padding: 2;" text="Current player" textFill="WHITE" AnchorPane.leftAnchor="536.0" AnchorPane.rightAnchor="536.5">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </Label>
-                <Label fx:id="gameState" alignment="CENTER_RIGHT" layoutX="743.0" maxHeight="1.7976931348623157E308" prefHeight="25.0" prefWidth="451.0" style="-fx-padding: 2;" text="GameState" textFill="WHITE" AnchorPane.rightAnchor="130.0">
+                <Label fx:id="gameState" alignment="CENTER_RIGHT" layoutX="743.0" maxHeight="1.7976931348623157E308" prefHeight="25.0" prefWidth="454.0" style="-fx-padding: 2;" text="GameState" textFill="WHITE" AnchorPane.rightAnchor="130.0">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font>
