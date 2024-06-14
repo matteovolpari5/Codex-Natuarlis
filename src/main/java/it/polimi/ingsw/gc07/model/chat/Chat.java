@@ -1,9 +1,9 @@
 package it.polimi.ingsw.gc07.model.chat;
 
 import it.polimi.ingsw.gc07.model_listeners.ChatListener;
-import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.updates.ChatMessageUpdate;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,9 +56,12 @@ public class Chat {
         chatMessages.add(newMessage);
 
         // inform listeners
-        ChatMessageUpdate update = new ChatMessageUpdate(newMessage);
         for(ChatListener l: chatListeners) {
-            UpdateSender.receiveChatMessageUpdate(l, update);
+            try {
+                l.receiveChatMessageUpdate(new ChatMessageUpdate(newMessage));
+            }catch(RemoteException e) {
+                // will be detected by PingPongManager
+            }
         }
     }
 
@@ -76,7 +79,11 @@ public class Chat {
         // inform listeners
         ChatMessageUpdate update = new ChatMessageUpdate(newMessage);
         for(ChatListener l: chatListeners) {
-            UpdateSender.receiveChatMessageUpdate(l, update);
+            try {
+                l.receiveChatMessageUpdate(update);
+            }catch(RemoteException e) {
+                // will be detected by PingPongManager
+            }
         }
     }
 

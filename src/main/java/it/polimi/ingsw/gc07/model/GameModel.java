@@ -14,11 +14,11 @@ import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
 import it.polimi.ingsw.gc07.model.decks.PlayingDeck;
 import it.polimi.ingsw.gc07.controller.CommandResult;
 import it.polimi.ingsw.gc07.model_view.PlayerView;
-import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
 import it.polimi.ingsw.gc07.utils.SafePrinter;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 /**
@@ -316,7 +316,11 @@ public class GameModel {
         // update listeners
         CommandResultUpdate update = new CommandResultUpdate(nickname, commandResult);
         for(GameListener l: gameListeners) {
-            UpdateSender.receiveCommandResultUpdate(l, update);
+            try {
+                l.receiveCommandResultUpdate(update);
+            }catch(RemoteException e) {
+                // will be detected by PingPongManager
+            }
         }
     }
 
@@ -350,7 +354,11 @@ public class GameModel {
     private void sendGameModelUpdate() {
         GameModelUpdate update = new GameModelUpdate(id, state, currPlayer, penultimateRound, additionalRound);
         for(GameListener l: gameListeners) {
-            UpdateSender.receiveGameModelUpdate(l, update);
+            try {
+                l.receiveGameModelUpdate(update);
+            }catch(RemoteException e) {
+                // will be detected by PingPongManager
+            }
         }
     }
 
@@ -362,7 +370,11 @@ public class GameModel {
                 new ArrayList<>(resourceCardsDeck.getFaceUpCards()), new ArrayList<>(goldCardsDeck.getFaceUpCards()),
                 new ArrayList<>(objectiveCardsDeck.getFaceUpCards()));
         for(GameListener l: gameListeners) {
-            UpdateSender.receiveDeckUpdate(l, update);
+            try {
+                l.receiveDeckUpdate(update);
+            }catch(RemoteException e) {
+                // will be detected by PingPongManager
+            }
         }
     }
 
@@ -377,7 +389,11 @@ public class GameModel {
         }
         PlayersUpdate playersUpdate = new PlayersUpdate(playerViews);
         for(GameListener l: gameListeners) {
-            UpdateSender.receivePlayersUpdate(l, playersUpdate);
+            try {
+                l.receivePlayersUpdate(playersUpdate);
+            }catch(RemoteException e) {
+                // will be detected by PingPongManager
+            }
         }
     }
 
@@ -385,9 +401,12 @@ public class GameModel {
      * Method used to send a winners update.
      */
     private void sendWinnersUpdate() {
-        GameEndedUpdate update = new GameEndedUpdate(new ArrayList<>(winners));
         for(GameListener l: gameListeners) {
-            UpdateSender.receiveGameEndedUpdate(l, update);
+            try {
+                l.receiveGameEndedUpdate(new GameEndedUpdate(new ArrayList<>(winners)));
+            } catch (RemoteException e) {
+                // will be detected by PingPongManager
+            }
         }
     }
 
@@ -595,47 +614,44 @@ public class GameModel {
      * @param client client of the player to which the update will be sent.
      */
     public void sendModelViewUpdate(String nickname, VirtualView client) {
-        // create game model update
-        GameModelUpdate update = new GameModelUpdate(id, state, currPlayer, penultimateRound, additionalRound);
-        // create players update
-        List<PlayerView> playerViews = new ArrayList<>();
-        for(Player p: players) {
-            playerViews.add(new PlayerView(p.getNickname(), p.getTokenColor()));
-        }
-        PlayersUpdate playersUpdate = new PlayersUpdate(playerViews);
-        // create deck update
-        DeckUpdate deckUpdate = new DeckUpdate(resourceCardsDeck.revealTopCard(), goldCardsDeck.revealTopCard(),
-                new ArrayList<>(resourceCardsDeck.getFaceUpCards()), new ArrayList<>(goldCardsDeck.getFaceUpCards()),
-                new ArrayList<>(objectiveCardsDeck.getFaceUpCards()));
-        // create full chat update
-        FullChatUpdate fullChatUpdate = new FullChatUpdate(new ArrayList<>(chat.getContent(nickname)));
+        try {
+            // send game model update
+            sendGameModelUpdate();
+            // send players update
+            sendPlayersUpdate();
+            // send deck update
+            sendDeckUpdate();
+            // send full chat update
+            client.receiveFullChatUpdate(new FullChatUpdate(new ArrayList<>(chat.getContent(nickname))));
 
-        // TODO send
+            // when the player view is created, isConnected = true and isStalled = false
+            // if not default, send update
+            for(Player p : players) {
+                // if not default value, send connection update
+                if(!p.isConnected()) {
+                    client.receiveConnectionUpdate(new ConnectionUpdate(p.getNickname(), false));
+                }
 
-        // when the player view is created, isConnected = true and isStalled = false
-        // if not default, send update
-        for(Player p : players) {
-            // if not default value, send connection update
-            if(!p.isConnected()) {
-                UpdateSender.receiveConnectionUpdate(client, new ConnectionUpdate(p.getNickname(), false));
+                // if not default value, send stall update
+                if(p.getIsStalled()) {
+                    client.receiveStallUpdate(new StallUpdate(p.getNickname(), true));
+                }
+
+                // send full game field update
+                client.receiveFullGameFieldUpdate(new FullGameFieldUpdate(p.getNickname(), p.getStarterCard(), p.getGameField().getCardsContent(), p.getGameField().getCardsFace(), p.getGameField().getCardsOrder()));
+
+                // send current hand update
+                client.receiveCardHandUpdate(new CardHandUpdate(p.getNickname(), p.getCurrentHand(), p.getSecretObjectives()));
+
+                // send starter card update
+                client.receiveStarterCardUpdate(new StarterCardUpdate(p.getNickname(), p.getStarterCard()));
+
+                // send score update
+                client.receiveScoreUpdate(new ScoreUpdate(p.getNickname(), board.getScore(p.getNickname())));
             }
 
-            // if not default value, send stall update
-            if(p.getIsStalled()) {
-                UpdateSender.receiveStallUpdate(client, new StallUpdate(p.getNickname(), true));
-            }
-
-            // send full game field update
-            UpdateSender.receiveFullGameFieldUpdate(client, new FullGameFieldUpdate(p.getNickname(), p.getStarterCard(), p.getGameField().getCardsContent(), p.getGameField().getCardsFace(), p.getGameField().getCardsOrder()));
-
-            // send current hand update
-            UpdateSender.receiveCardHandUpdate(client, new CardHandUpdate(p.getNickname(), p.getCurrentHand(), p.getSecretObjectives()));
-
-            // send starter card update
-            UpdateSender.receiveStarterCardUpdate(client, new StarterCardUpdate(p.getNickname(), p.getStarterCard()));
-
-            // send score update
-            UpdateSender.receiveScoreUpdate(client, new ScoreUpdate(p.getNickname(), board.getScore(p.getNickname())));
+        }catch(RemoteException e) {
+            // will be detected by PingPongManager
         }
     }
 

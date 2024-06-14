@@ -1,9 +1,9 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.model_listeners.BoardListener;
-import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.updates.ScoreUpdate;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +78,11 @@ public class Board {
         // send update
         ScoreUpdate update = new ScoreUpdate(nickname, newScore);
         for(BoardListener l: boardListeners) {
-            UpdateSender.receiveScoreUpdate(l, update);
+            try {
+                l.receiveScoreUpdate(update);
+            }catch(RemoteException e) {
+                // will be detected by PingPongManager
+            }
         }
     }
 
