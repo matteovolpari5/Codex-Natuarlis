@@ -98,6 +98,23 @@ public class GameController {
     }
 
     /**
+     * Method used to get a player's connection type.
+     * @param nickname player's nickname
+     * @return player's connection type
+     */
+    public synchronized boolean getPlayerConnection(String nickname) {
+        assert(gameModel.getPlayerNicknames().contains(nickname));
+        for(Player p: gameModel.getPlayers()) {
+            if(p.getNickname().equals(nickname)) {
+                return p.getConnectionType();
+            }
+        }
+
+        // will never happen
+        return false;
+    }
+
+    /**
      * Method used to get the taken token colors.
      * @return taken token colors
      */
@@ -214,7 +231,6 @@ public class GameController {
     public synchronized CommandResult getCommandResult() {
         return gameModel.getCommandResult();
     }
-
 
     // player management methods
 

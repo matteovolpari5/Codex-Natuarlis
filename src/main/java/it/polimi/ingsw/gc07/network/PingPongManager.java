@@ -99,16 +99,18 @@ public class PingPongManager {
             if(!pingReceived){
                 missedPing ++;
                 if(missedPing >= maxMissedPings) {
-                    VirtualView virtualView;
-                    synchronized (this) {
-                        gameController.disconnectPlayer(nickname);
-                        virtualView = getVirtualView(nickname);
+                    gameController.disconnectPlayer(nickname);
+
+                    // close connection with socket client
+                    if(gameController.getPlayerConnection(nickname)) {
+                        VirtualView virtualView = getVirtualView(nickname);
+                        try {
+                            virtualView.closeConnection();
+                        } catch (RemoteException e) {
+                            // it is not necessary to manage the RMI exception
+                        }
                     }
-                    try {
-                        virtualView.closeConnection();
-                    } catch (RemoteException e) {
-                        // it is not necessary to manage the RMI exception
-                    }
+
                     break;
                 }
             }
