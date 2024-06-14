@@ -42,11 +42,11 @@ public class PingPongManager {
     }
 
     public synchronized void addPingSender(String nickname, VirtualView virtualView) {
-        System.out.println("adding player: " + nickname);
+        System.out.println("Adding player: " + nickname);
         this.playersPing.put(nickname, true);
         this.playerVirtualViews.put(nickname, virtualView);
         new Thread(() -> {checkPing(nickname); SafePrinter.println("Thread checkPing Morto Per: " + nickname);}).start();
-        new Thread(() -> {sendPong(nickname); SafePrinter.println("Thread sendPong Morto Per: " + nickname);}).start();
+        new Thread(() -> {sendPong(nickname, virtualView); SafePrinter.println("Thread sendPong Morto Per: " + nickname);}).start();
     }
 
     /**
@@ -83,43 +83,35 @@ public class PingPongManager {
      */
     public void checkPing(String nickname) {
         int missedPing = 0;
-        boolean pingReceived;
         while(true) {
             // check player connected
             if(!gameController.isPlayerConnected(nickname)) {
                 break;
             }
-
-            // check and clean received ping value
             synchronized(this) {
-                if (playersPing.get(nickname)) {
+                // check and clean received ping value
+                if(playersPing.get(nickname)) {
                     missedPing = 0;
-                    pingReceived = true;
-                } else {
-                    pingReceived = false;
+                }else {
+                    missedPing ++;
+                    if(missedPing >= maxMissedPings) {
+                        // disconnect player
+                        gameController.disconnectPlayer(nickname);
+
+                        // close connection with socket client
+                        if(!gameController.getPlayerConnection(nickname)) {
+                            VirtualView virtualView = getVirtualView(nickname);
+                            try {
+                                virtualView.closeConnection();
+                            } catch (RemoteException e) {
+                                // it is not necessary to manage the RMI exception
+                            }
+                        }
+                        break;
+                    }
                 }
                 playersPing.put(nickname, false);
             }
-            if(!pingReceived){
-                missedPing ++;
-                if(missedPing >= maxMissedPings) {
-                    // disconnect player
-                    gameController.disconnectPlayer(nickname);
-
-                    // close connection with socket client
-                    if(!gameController.getPlayerConnection(nickname)) {
-                        VirtualView virtualView = getVirtualView(nickname);
-                        try {
-                            virtualView.closeConnection();
-                        } catch (RemoteException e) {
-                            // it is not necessary to manage the RMI exception
-                        }
-                    }
-
-                    break;
-                }
-            }
-
             try {
                 Thread.sleep(1000);
                 // wait one second between two pings
@@ -134,17 +126,19 @@ public class PingPongManager {
      * to make it aware connection is stable.
      * @param nickname nickname
      */
-    private void sendPong(String nickname) {
+    private void sendPong(String nickname, VirtualView virtualView) {
         while (true){
             if(!gameController.isPlayerConnected(nickname)) {
                 break;
             }
-            VirtualView virtualView = getVirtualView(nickname);
 
             try {
                 virtualView.sendPong();
-            } catch (RemoteException e) {
-                gameController.disconnectPlayer(nickname);
+            }catch(RemoteException e) {
+                if(virtualView.equals(getVirtualView(nickname))) {
+                    // if the client has not reconnected
+                    gameController.disconnectPlayer(nickname);
+                }
                 break;
             }
 
