@@ -5,12 +5,9 @@ import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.controller.CommandResult;
-import it.polimi.ingsw.gc07.updates.CardHandUpdate;
-import it.polimi.ingsw.gc07.updates.ConnectionUpdate;
-import it.polimi.ingsw.gc07.updates.SecretObjectivesUpdate;
-import it.polimi.ingsw.gc07.updates.StallUpdate;
+import it.polimi.ingsw.gc07.network.UpdateSender;
+import it.polimi.ingsw.gc07.updates.*;
 
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -213,11 +210,7 @@ public class Player {
         // send update
         StallUpdate update = new StallUpdate(nickname, isStalled);
         for(PlayerListener l: playerListeners) {
-            try {
-                l.receiveStallUpdate(update);
-            } catch (RemoteException e) {
-                // will be detected by PingPongManager
-            }
+            UpdateSender.receiveStallUpdate(l, update);
         }
     }
 
@@ -239,11 +232,7 @@ public class Player {
         // send update
         ConnectionUpdate update = new ConnectionUpdate(nickname, isConnected);
         for(PlayerListener l: playerListeners) {
-            try {
-                l.receiveConnectionUpdate(update);
-            }catch(RemoteException e) {
-                // will be detected by PingPongManager
-            }
+            UpdateSender.receiveConnectionUpdate(l, update);
         }
     }
 
@@ -281,11 +270,7 @@ public class Player {
     private void sendCardHandUpdate() {
         CardHandUpdate update = new CardHandUpdate(nickname, new ArrayList<>(currentHand), new ArrayList<>(secretObjectives));
         for(PlayerListener l: playerListeners) {
-            try {
-                l.receiveCardHandUpdate(update);
-            }catch(RemoteException e) {
-                // will be detected by PingPongManager
-            }
+            UpdateSender.receiveCardHandUpdate(l, update);
         }
     }
 
@@ -299,11 +284,7 @@ public class Player {
         // send update
         SecretObjectivesUpdate update = new SecretObjectivesUpdate(nickname, new ArrayList<>(secretObjectives));
         for(PlayerListener l: playerListeners) {
-            try {
-                l.receiveSecretObjectivesUpdate(update);
-            } catch (RemoteException e) {
-                // will be detected by PingPongManager
-            }
+            UpdateSender.receiveSecretObjectiveUpdate(l, update);
         }
     }
 

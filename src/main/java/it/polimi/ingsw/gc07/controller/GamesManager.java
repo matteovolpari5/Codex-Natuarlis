@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 import it.polimi.ingsw.gc07.utils.DecksBuilder;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
@@ -60,6 +61,8 @@ public class GamesManager {
         this.commandResult = null;
         this.playerVirtualViews = new HashMap<>();
         this.playersTimers = new HashMap<>();
+        // build update sender singleton
+        UpdateSender.getUpdateSender();
     }
 
     /**
