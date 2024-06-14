@@ -45,8 +45,8 @@ public class PingPongManager {
         System.out.println("adding player: " + nickname);
         this.playersPing.put(nickname, true);
         this.playerVirtualViews.put(nickname, virtualView);
-        new Thread(() -> {checkPing(nickname); SafePrinter.println("Thread checkPong Morto Per: " + nickname);}).start();
-        new Thread(() -> {sendPong(nickname); SafePrinter.println("Thread sendPing Morto Per: " + nickname);}).start();
+        new Thread(() -> {checkPing(nickname); SafePrinter.println("Thread checkPing Morto Per: " + nickname);}).start();
+        new Thread(() -> {sendPong(nickname); SafePrinter.println("Thread sendPong Morto Per: " + nickname);}).start();
     }
 
     /**
@@ -85,9 +85,12 @@ public class PingPongManager {
         int missedPing = 0;
         boolean pingReceived;
         while(true) {
+            // check player connected
             if(!gameController.isPlayerConnected(nickname)) {
                 break;
             }
+
+            // check and clean received ping value
             synchronized(this) {
                 if (playersPing.get(nickname)) {
                     missedPing = 0;
@@ -95,10 +98,12 @@ public class PingPongManager {
                 } else {
                     pingReceived = false;
                 }
+                playersPing.put(nickname, false);
             }
             if(!pingReceived){
                 missedPing ++;
                 if(missedPing >= maxMissedPings) {
+                    // disconnect player
                     gameController.disconnectPlayer(nickname);
 
                     // close connection with socket client
@@ -114,7 +119,7 @@ public class PingPongManager {
                     break;
                 }
             }
-            playersPing.put(nickname, false);
+
             try {
                 Thread.sleep(1000);
                 // wait one second between two pings
@@ -135,12 +140,14 @@ public class PingPongManager {
                 break;
             }
             VirtualView virtualView = getVirtualView(nickname);
+
             try {
                 virtualView.sendPong();
             } catch (RemoteException e) {
                 gameController.disconnectPlayer(nickname);
                 break;
             }
+
             try {
                 Thread.sleep(1000);
                 // wait one second between two pongs
