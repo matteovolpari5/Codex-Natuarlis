@@ -16,23 +16,18 @@ public class ServerMain {
      */
     public static void main(String[] args) {
 
+        System.setProperty("sun.rmi.transport.tcp.responseTimeout", "1000");
+        System.setProperty("sun.rmi.transport.tcp.readTimeout", "1000");
+        System.setProperty("sun.rmi.dgc.ackTimeout", "1000");
+        System.setProperty("sun.rmi.transport.connectionTimeout", "1000");
+        System.setProperty("java.rmi.server.disableHttp", "true");
+
+
         // create Rmi server
         String name = "VirtualServerGamesManager";
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
         String serverIp = args[0];
         System.setProperty("java.rmi.server.hostname", serverIp);
-
-        System.setProperty("sun.rmi.transport.tcp.responseTimeout", "1000");
-        System.setProperty("sun.rmi.transport.tcp.readTimeout", "1000");
-        System.setProperty("sun.rmi.dgc.ackTimeout", "1000");
-        System.setProperty("sun.rmi.transport.connectionTimeout", "1000");
-
-        SafePrinter.println("RMI properties set: ");
-        SafePrinter.println("sun.rmi.transport.tcp.responseTimeout = " + System.getProperty("sun.rmi.transport.tcp.responseTimeout"));
-        SafePrinter.println("sun.rmi.transport.tcp.readTimeout = " + System.getProperty("sun.rmi.transport.tcp.readTimeout"));
-        SafePrinter.println("sun.rmi.dgc.ackTimeout = " + System.getProperty("sun.rmi.dgc.ackTimeout"));
-        SafePrinter.println("sun.rmi.transport.connectionTimeout = " + System.getProperty("sun.rmi.transport.connectionTimeout"));
-
 
         int rmiPort = Integer.parseInt(args[1]);
         Registry registry;
