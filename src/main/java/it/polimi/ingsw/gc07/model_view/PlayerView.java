@@ -92,6 +92,9 @@ public class PlayerView implements Serializable {
      * @param gameFieldViewListener game field view listener
      */
     public void addGameFieldListener(GameFieldViewListener gameFieldViewListener) {
+        if (gameFieldViewListener == null) {
+            return;
+        }
         gameField.addListener(gameFieldViewListener);
     }
 
@@ -139,6 +142,9 @@ public class PlayerView implements Serializable {
      * @param secretObjectives secret objectives
      */
     public synchronized void setSecretObjectives(String nickname, List<ObjectiveCard> secretObjectives) {
+        if (nickname == null || secretObjectives == null) {
+            return;
+        }
         this.secretObjectives = secretObjectives;
         for(PlayerViewListener l: playerViewListeners) {
             l.receiveSecretObjectives(nickname, new ArrayList<>(secretObjectives));
@@ -150,6 +156,9 @@ public class PlayerView implements Serializable {
      * @param currentHand new current hand
      */
     public synchronized void setCardHand(List<DrawableCard> currentHand, List<ObjectiveCard> secretObjectives) {
+        if (currentHand == null || secretObjectives == null) {
+            return;
+        }
         this.currentHand = currentHand;
         this.secretObjectives = secretObjectives;
         // update listeners
@@ -201,7 +210,7 @@ public class PlayerView implements Serializable {
     /**
      * Setter method for player's game field.
      */
-    public void setFullGameField(String nickname,PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+    public void setFullGameField(String nickname, PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
         gameField.setFullGameField(nickname,starterCard, cardsContent, cardsFace, cardsOrder);
     }
 }

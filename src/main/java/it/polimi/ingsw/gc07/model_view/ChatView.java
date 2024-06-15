@@ -41,7 +41,9 @@ public class ChatView {
      */
     public void addMessage(ChatMessage chatMessage) {
         chatMessages.add(chatMessage);
-
+        if (chatMessage == null) {
+            return;
+        }
         for(ChatViewListener chatViewListener: chatViewListeners) {
             chatViewListener.receiveMessageUpdate(chatMessage);
         }
@@ -52,8 +54,10 @@ public class ChatView {
      * @param chatMessages full chat content
      */
     public void setChatMessages(List<ChatMessage> chatMessages) {
+        if (chatMessages == null) {
+            return;
+        }
         this.chatMessages.addAll(chatMessages);
-
         for(ChatViewListener chatViewListener: chatViewListeners) {
             chatViewListener.receiveFullChatUpdate(chatMessages);
         }

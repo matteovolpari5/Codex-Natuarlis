@@ -54,6 +54,9 @@ public class BoardView {
     public void addPlayerToBoard(String nickname, TokenColor tokenColor) {
         assert(!playerScores.containsKey(nickname)): "The player is already present";
         assert(!playerTokenColors.containsKey(nickname));
+        if (nickname == null) {
+            return;
+        }
         playerScores.put(nickname, 0);
         playerTokenColors.put(nickname, tokenColor);
     }
@@ -66,6 +69,9 @@ public class BoardView {
     public void setNewScore(String nickname, int newScore) {
         assert(playerScores.containsKey(nickname)): "The player is not present";
         assert(playerTokenColors.containsKey(nickname));
+        if (nickname == null) {
+            return;
+        }
         playerScores.put(nickname, newScore);
 
         updateListeners();
