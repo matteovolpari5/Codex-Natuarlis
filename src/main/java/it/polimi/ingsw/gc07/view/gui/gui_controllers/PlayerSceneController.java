@@ -649,7 +649,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
-        if (playerScore == null || playerTokenColor == null) {
+        if (playerScore == null || playerTokenColor == null || playerTokenColor.containsKey(null) || playerScore.containsKey(null)) {
             return;
         }
 
@@ -660,9 +660,6 @@ public class PlayerSceneController implements GuiController, Initializable {
         }
         int x,y;
         for (String nickname: playerScore.keySet()) {
-            if (nickname == null) {
-                continue;
-            }
             if (playerScore.get(nickname) <= 29) {
                 x = BoardGridLayout.valueOf(playerTokenColor.get(nickname) + "_" + playerScore.get(nickname)).getX();
                 y = BoardGridLayout.valueOf(playerTokenColor.get(nickname) + "_" + playerScore.get(nickname)).getY();
@@ -731,16 +728,10 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateDecks(DrawableCard topResourceDeck, GoldCard topGoldDeck, List<DrawableCard> faceUpResourceCard, List<GoldCard> faceUpGoldCard, List<ObjectiveCard> commonObjective) {
-        if (topGoldDeck == null || topResourceDeck == null || faceUpGoldCard == null || faceUpResourceCard == null || commonObjective == null){
-            return;
-        }
-        if (faceUpGoldCard.contains(null) || faceUpResourceCard.contains(null) || commonObjective.contains(null)) {
-            return;
-        }
         // set decks data
         // set top decks
         int topDeckId;
-        if(topDeckResource!=null) {
+        if(topResourceDeck!=null) {
             topDeckId = topResourceDeck.getId();
             topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId + ".png")).toExternalForm()));
         }
@@ -894,7 +885,7 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateGameInfo(GameState gameState, String currPlayer) {
-        if (gameState == null || currPlayer == null) {
+        if (gameState == null) {
             return;
         }
         // game state
