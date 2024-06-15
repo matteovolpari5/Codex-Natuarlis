@@ -103,7 +103,9 @@ public class PingPongManager {
                     missedPing = 0;
                 }else {
                     missedPing ++;
+                    System.out.println("missed ping for " + nickname);
                     if(missedPing >= maxMissedPings) {
+                        System.out.println("disconnecting " + nickname + " for check ping");
                         // disconnect player
                         gameController.disconnectPlayer(nickname);
 
@@ -143,9 +145,12 @@ public class PingPongManager {
             }
 
             try {
+                System.out.println("try to send pong " + nickname);
                 virtualView.sendPong();
+                System.out.println("end send pong " + nickname);
             }catch(RemoteException e) {
                 if(virtualView.equals(getVirtualView(nickname))) {
+                    System.out.println("disconnecting " + nickname + " for send pong");
                     // if the client has not reconnected
                     gameController.disconnectPlayer(nickname);
                 }

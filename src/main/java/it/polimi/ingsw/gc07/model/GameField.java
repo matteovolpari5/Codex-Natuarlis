@@ -188,6 +188,7 @@ public class GameField {
                 try {
                     l.receivePlacedCardUpdate(update);
                 }catch(RemoteException e) {
+                    System.out.println("exception thrown");
                     // will be detected by PingPongManager
                 }
             }
