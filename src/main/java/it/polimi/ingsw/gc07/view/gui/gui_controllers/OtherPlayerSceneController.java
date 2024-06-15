@@ -225,6 +225,9 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
+        if (playerScore == null || playerTokenColor == null || playerTokenColor.containsKey(null) || playerScore.containsKey(null)) {
+            return;
+        }
         for (int i = 0; i < scoreGrid.getRowCount(); i++){
             for(int j = 0; j < scoreGrid.getColumnCount(); j++){
                 scoreImages[i][j].setVisible(false);
@@ -299,6 +302,9 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        if (nickname == null || cardsContent == null || cardsFace == null || cardsOrder == null) {
+            return;
+        }
         if(otherPlayerNickname != null && otherPlayerNickname.equals(nickname)) {
             List<Integer> xPosition = new ArrayList<>();
             List<Integer> yPosition = new ArrayList<>();
@@ -363,6 +369,9 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateGameInfo(GameState gameState, String currPlayer) {
+        if (gameState == null) {
+            return;
+        }
         // game state
         this.gameState.setText("Game state: "+ gameState);
         // current player
@@ -397,6 +406,9 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void updateCommandResult(CommandResult commandResult) {
+        if (commandResult == null) {
+            return;
+        }
         if(!commandResult.equals(CommandResult.SUCCESS)){
             updatesItem.add(commandResult.getResultMessage());
         }
@@ -446,6 +458,9 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void receiveConnectionUpdate(String nickname, boolean value) {
+        if (nickname == null) {
+            return;
+        }
         for(int i = 0; i < nicknameLabels.size(); i++){
             if(nicknameLabels.get(i).getText().equals(nickname)){
                 if(!value){
@@ -468,6 +483,9 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void receiveStallUpdate(String nickname, boolean value) {
+        if (nickname == null) {
+            return;
+        }
         for(int i = 0; i < nicknameLabels.size(); i++){
             if(nicknameLabels.get(i).getText().equals(nickname)){
                 if(value){
@@ -491,6 +509,9 @@ public class OtherPlayerSceneController implements GuiController, Initializable 
      */
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> tokenColors, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
+        if (tokenColors == null || connectionValues == null || tokenColors.containsKey(null) || stallValues == null || connectionValues.containsKey(null) || stallValues.containsKey(null)) {
+            return;
+        }
         boolean found = false;
         for(String newNickname: tokenColors.keySet()){
             for(int i = 0; i < nicknameLabels.size(); i++) {

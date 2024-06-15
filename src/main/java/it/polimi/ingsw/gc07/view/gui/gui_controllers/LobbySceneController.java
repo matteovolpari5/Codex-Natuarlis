@@ -175,6 +175,9 @@ public class LobbySceneController implements Initializable, GuiController {
     @Override
     public void displayExistingGames(Map<Integer, Integer> existingGamesPlayerNumber, Map<Integer, List<TokenColor>> existingGamesTokenColor) {
         Platform.runLater(() -> {
+            if (existingGamesPlayerNumber == null || existingGamesTokenColor == null) {
+                return;
+            }
             gameList.getItems().clear();
             ObservableList<String> listViewComponent = FXCollections.observableArrayList();
             listViewComponent.add("GAMEID           NUM OF PLAYERS");

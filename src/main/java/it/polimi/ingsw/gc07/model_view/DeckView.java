@@ -98,6 +98,9 @@ public class DeckView {
      * @param topResourceDeck new top card of the resource deck
      */
     public void setTopResourceDeck(DrawableCard topResourceDeck) {
+        if (topResourceDeck == null){
+            return;
+        }
         this.topResourceDeck = topResourceDeck;
         sendDecksUpdate();
     }
@@ -107,6 +110,9 @@ public class DeckView {
      * @param topGoldDeck new top card of the gold deck
      */
     public void setTopGoldDeck(GoldCard topGoldDeck) {
+        if (topGoldDeck == null) {
+            return;
+        }
         this.topGoldDeck = topGoldDeck;
         sendDecksUpdate();
     }
@@ -116,6 +122,9 @@ public class DeckView {
      * @param faceUpResourceCard new face up cards
      */
     public void setFaceUpResourceCard(List<DrawableCard> faceUpResourceCard) {
+        if(faceUpResourceCard == null) {
+            return;
+        }
         this.faceUpResourceCards = faceUpResourceCard;
         sendDecksUpdate();
     }
@@ -125,6 +134,9 @@ public class DeckView {
      * @param faceUpGoldCard new face up cards
      */
     public void setFaceUpGoldCard(List<GoldCard> faceUpGoldCard) {
+        if(faceUpGoldCard == null) {
+            return;
+        }
         this.faceUpGoldCards = faceUpGoldCard;
         sendDecksUpdate();
     }

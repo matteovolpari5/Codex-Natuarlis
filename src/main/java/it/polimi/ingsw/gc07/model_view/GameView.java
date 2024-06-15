@@ -229,6 +229,9 @@ public class GameView {
      * @param winners winners
      */
     public synchronized void setWinners(List<String> winners) {
+        if (winners == null) {
+            return;
+        }
         this.winners = winners;
         for(GameViewListener l: gameViewListeners) {
             l.receiveWinnersUpdate(winners);
@@ -468,6 +471,9 @@ public class GameView {
         if(currPlayer < 0)
             return false;
         for(int i = 0; i < playerViews.size(); i++) {
+            if (playerViews.get(i) == null) {
+                continue;
+            }
             if(playerViews.get(i).getNickname().equals(nickname) && i == currPlayer)
                 return true;
         }

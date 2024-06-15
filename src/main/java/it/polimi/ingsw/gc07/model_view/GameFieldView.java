@@ -85,6 +85,9 @@ public class GameFieldView implements Serializable {
      * @param cardsOrder card order matrix
      */
     public void setFullGameField(String nickname, PlaceableCard starterCard, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        if (nickname == null || starterCard == null || cardsContent == null || cardsFace == null || cardsOrder == null) {
+            return;
+        }
         this.starterCard = starterCard;
         for(int i=0; i < dim; i++){
             for(int j=0; j < dim; j++){
@@ -172,6 +175,9 @@ public class GameFieldView implements Serializable {
      * @param orderPosition order position
      */
     public void addCard(String nickname, PlaceableCard card, int x, int y, boolean way, int orderPosition) {
+        if (nickname == null || card == null) {
+            return;
+        }
         cardsContent[x][y] = card;
         cardsFace[x][y] = way;
         cardsOrder[x][y] = orderPosition;

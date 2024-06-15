@@ -148,6 +148,9 @@ public class GameEndedSceneController implements GuiController {
     @Override
     public void displayWinners(List<String> winners) {
         // already on Platform.runLater
+        if (winners == null || winners.contains(null)) {
+            return;
+        }
         if(winners.size()==1){
             generalText.setText("AND THE WINNER IS...");
         }

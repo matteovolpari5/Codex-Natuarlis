@@ -649,6 +649,10 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateScore(Map<String, Integer> playerScore, Map<String, TokenColor> playerTokenColor) {
+        if (playerScore == null || playerTokenColor == null || playerTokenColor.containsKey(null) || playerScore.containsKey(null)) {
+            return;
+        }
+
         for (int i = 0; i < scoreGrid.getRowCount(); i++){
             for(int j = 0; j < scoreGrid.getColumnCount(); j++){
                 scoreImages[i][j].setVisible(false);
@@ -672,6 +676,9 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void addMessage(ChatMessage message) {
+        if (message == null) {
+            return;
+        }
         if(message.getIsPublic()) {
             addPublicMessage(message);
             if(!chatContainer.isVisible()) {
@@ -724,7 +731,7 @@ public class PlayerSceneController implements GuiController, Initializable {
         // set decks data
         // set top decks
         int topDeckId;
-        if(topDeckResource!=null) {
+        if(topResourceDeck!=null) {
             topDeckId = topResourceDeck.getId();
             topDeckResource.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + topDeckId + ".png")).toExternalForm()));
         }
@@ -765,6 +772,9 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateGameField(String nickname, PlaceableCard[][] cardsContent, Boolean[][] cardsFace, int[][] cardsOrder) {
+        if (nickname == null || cardsContent == null || cardsFace == null || cardsOrder == null) {
+            return;
+        }
         // no need to check nickname, already checked by Gui method
         List<Integer> xPosition = new ArrayList<>();
         List<Integer> yPosition = new ArrayList<>();
@@ -811,6 +821,9 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateStarterCard(PlaceableCard starterCard) {
+        if (starterCard == null) {
+            return;
+        }
         int id = starterCard.getId();
         myStarterCard.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
         option1Starter.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/gc07/graphic_resources/Card/Back/" + id +".png")).toExternalForm()));
@@ -824,6 +837,9 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateCardHand(List<DrawableCard> hand, List<ObjectiveCard> personalObjective) {
+        if (hand == null || hand.contains(null) || personalObjective == null || personalObjective.contains(null)){
+            return;
+        }
         // set current hand data
         int imageId;
         if(hand.size()==3) {
@@ -869,6 +885,9 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateGameInfo(GameState gameState, String currPlayer) {
+        if (gameState == null) {
+            return;
+        }
         // game state
         this.gameState.setText("Game state: "+ gameState);
         // current player
@@ -903,6 +922,9 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void updateCommandResult(CommandResult commandResult) {
+        if (commandResult == null) {
+            return;
+        }
         if(!commandResult.equals(CommandResult.SUCCESS)){
             updatesItem.add(commandResult.getResultMessage());
         }
@@ -936,6 +958,9 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void setFullChat(List<ChatMessage> chatMessages) {
         // set full chat
+        if (chatMessages== null || chatMessages.contains(null)) {
+            return;
+        }
         for (ChatMessage message: chatMessages) {
             if(message.getIsPublic()) {
                 addPublicMessage(message);
@@ -963,6 +988,9 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void receiveConnectionUpdate(String nickname, boolean value) {
+        if (nickname == null) {
+            return;
+        }
         for(int i = 0; i < nicknameLabels.size(); i++){
             if(nicknameLabels.get(i).getText().equals(nickname)){
                 if(!value){
@@ -985,6 +1013,9 @@ public class PlayerSceneController implements GuiController, Initializable {
      */
     @Override
     public void receiveStallUpdate(String nickname, boolean value) {
+        if (nickname == null) {
+            return;
+        }
         for(int i = 0; i < nicknameLabels.size(); i++){
             if(nicknameLabels.get(i).getText().equals(nickname)){
                 if(value){
@@ -1009,6 +1040,9 @@ public class PlayerSceneController implements GuiController, Initializable {
     @Override
     public void receivePlayersUpdate(Map<String, TokenColor> tokenColors, Map<String, Boolean> connectionValues, Map<String, Boolean> stallValues) {
         boolean found;
+        if (tokenColors == null || connectionValues == null || tokenColors.containsKey(null) || stallValues == null || connectionValues.containsKey(null) || stallValues.containsKey(null)) {
+            return;
+        }
         for(String newNickname: tokenColors.keySet()){
             found = false;
             for(int i = 0; i < nicknameLabels.size(); i++) {
