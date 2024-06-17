@@ -344,44 +344,46 @@ public class PlayerSceneController implements GuiController, Initializable {
     @FXML
     protected void onSendCommandButtonClick() {
         Platform.runLater(() -> {
-            startingPhaseLabel.setText("Select the placing way of your starter card");
-            obj2Pane.setVisible(false);
-            obj1Pane.setVisible(false);
-            str1Pane.setVisible(true);
-            str2Pane.setVisible(true);
-            obj1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-            obj2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-            str1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-            str2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
-            sendCommandButton.setVisible(false);
-            continueButton.setVisible(true);
-            startingPhaseBox.setVisible(false);
-            option1Label.setText("Front");
-            option2Label.setText("Back");
+            if(!(startingPhaseController.getText().equals("1")||startingPhaseController.getText().equals("2"))) {
+                startingPhaseLabel.setText("Select the placing way of your starter card");
+                obj2Pane.setVisible(false);
+                obj1Pane.setVisible(false);
+                str1Pane.setVisible(true);
+                str2Pane.setVisible(true);
+                obj1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+                obj2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+                str1Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+                str2Pane.setStyle("-fx-border-color: #fff8dc; -fx-padding: 10; -fx-background-radius: 15; -fx-border-radius: 5; -fx-border-width: 5;");
+                sendCommandButton.setVisible(false);
+                continueButton.setVisible(true);
+                startingPhaseBox.setVisible(false);
+                option1Label.setText("Front");
+                option2Label.setText("Back");
 
-            boolean starterCardWay = false;
-            boolean objectiveCardSelected = false;
-            switch (startingPhaseController.getText()) {
-                case "11":
-                    break;
-                case "12":
-                    objectiveCardSelected = true;
-                    break;
-                case "21":
-                    starterCardWay = true;
-                    break;
-                case "22":
-                    starterCardWay = true;
-                    objectiveCardSelected = true;
-                    break;
+                boolean starterCardWay = false;
+                boolean objectiveCardSelected = false;
+                switch (startingPhaseController.getText()) {
+                    case "11":
+                        break;
+                    case "12":
+                        objectiveCardSelected = true;
+                        break;
+                    case "21":
+                        starterCardWay = true;
+                        break;
+                    case "22":
+                        starterCardWay = true;
+                        objectiveCardSelected = true;
+                        break;
+                }
+
+                if (!StageController.getGameView().getGameState().equals(GameState.SETTING_INITIAL_CARDS)) {
+                    updatesItem.add("Wrong game state.");
+                    return;
+                }
+
+                StageController.getClient().setAndExecuteCommand(new SetInitialCardsCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
             }
-
-            if(!StageController.getGameView().getGameState().equals(GameState.SETTING_INITIAL_CARDS)) {
-                updatesItem.add("Wrong game state.");
-                return;
-            }
-
-            StageController.getClient().setAndExecuteCommand(new SetInitialCardsCommand(StageController.getNickname(), starterCardWay, objectiveCardSelected));
         });
     }
 
