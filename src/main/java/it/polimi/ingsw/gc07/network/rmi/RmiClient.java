@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc07.view.gui.Gui;
 import it.polimi.ingsw.gc07.view.tui.Tui;
 import javafx.application.Application;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.BlockingQueue;
@@ -265,6 +266,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void sendPong() throws RemoteException {
         setPong();
+        System.out.println("pong received");
     }
 
     /**
@@ -309,7 +311,13 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * Method that manages received updates by inserting them in a blocking queue.
      * @param update received update
      */
-    public void receiveUpdate(Update update) {
+    @Override
+    public void receiveUpdate(Update update) throws RemoteException {
+
+        System.out.println("UPDATE RECEIVED " + update.getClass());
+
+
+
         try {
             // blocking queues are thread safe
             updatesQueue.put(update);

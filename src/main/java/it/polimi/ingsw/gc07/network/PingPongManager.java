@@ -147,9 +147,7 @@ public class PingPongManager {
             }
 
             try {
-                System.out.println("try to send pong " + nickname);
                 virtualView.sendPong();
-                System.out.println("end send pong " + nickname);
             }catch(RemoteException e) {
                 if(virtualView.equals(getVirtualView(nickname))) {
                     System.out.println("disconnecting " + nickname + " for send pong");

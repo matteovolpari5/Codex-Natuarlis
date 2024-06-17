@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class UpdateSender {
     /**
@@ -43,6 +44,9 @@ public class UpdateSender {
      */
     public synchronized void addListenerQueue(ModelListener listener) {
         assert(listener != null && !listenerQueues.containsKey(listener));
+
+        System.out.println("Added listener to map");
+
         // create queue
         listenerQueues.put(listener, new LinkedBlockingQueue<>());
         // start thread
@@ -77,6 +81,9 @@ public class UpdateSender {
      * @param listener client owner of the queue
      */
     private void sendListenerUpdates(ModelListener listener) {
+
+        System.out.println("starter update sender thread");
+
         while(true) {
             // get client's update queue
             BlockingQueue<Update> updatesQueue = getUpdatesQueue(listener);
@@ -86,14 +93,27 @@ public class UpdateSender {
             }
             Update update;
             try {
-                update = updatesQueue.take();
+                // wait for an update for 60 seconds
+                // else return null
+                update = updatesQueue.poll(60, TimeUnit.SECONDS);
+
+                System.out.println(update.getClass());
+
+
             }catch(InterruptedException e) {
                 throw new RuntimeException();
             }
-            try {
-                listener.receiveUpdate(update);
-            } catch (RemoteException e) {
-                // will be detected by PingPongManager
+            if(update != null) {
+
+                System.out.println("sending an update");
+
+
+                try {
+                    listener.receiveUpdate(update);
+                } catch (RemoteException e) {
+                    System.out.println("exception");
+                    // will be detected by PingPongManager
+                }
             }
         }
     }

@@ -199,7 +199,8 @@ public class SocketClientHandler implements VirtualView {
      * @param update update to be sent
      * @throws RemoteException remote exception
      */
-    public synchronized void receiveUpdate(Update update) throws RemoteException{
+    @Override
+    public synchronized void receiveUpdate(Update update) throws RemoteException {
         if(!mySocket.isClosed()){
             try {
                 output.writeObject(update);

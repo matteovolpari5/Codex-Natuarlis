@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc07.network;
 
 import it.polimi.ingsw.gc07.ModelListener;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
+import it.polimi.ingsw.gc07.updates.Update;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -16,12 +17,14 @@ public interface VirtualView extends Remote, ModelListener {
      * @throws RemoteException remote exception
      */
     void setServerGame(int gameId) throws RemoteException;
+
     /**
      * Method to receive existing games update.
      * @param existingGamesUpdate existing games update
      * @throws RemoteException remote exception
      */
     void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException;
+
     /**
      * Method to notify the client if the game joining was successful.
      * @throws RemoteException remote exception
