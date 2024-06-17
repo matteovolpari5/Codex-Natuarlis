@@ -3,10 +3,10 @@ package it.polimi.ingsw.gc07.model;
 import it.polimi.ingsw.gc07.model_listeners.GameFieldListener;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.controller.CommandResult;
+import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.updates.PlacedCardUpdate;
 import it.polimi.ingsw.gc07.updates.StarterCardUpdate;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,11 +149,7 @@ public class GameField {
         // send update
         StarterCardUpdate update = new StarterCardUpdate(nickname, starterCard);
         for(GameFieldListener l: gameFieldListeners) {
-            try {
-                l.receiveStarterCardUpdate(update);
-            }catch(RemoteException e) {
-                // will be detected by PingPongManager
-            }
+            UpdateSender.receiveStarterCardUpdate(l, update);
         }
     }
 
@@ -185,12 +181,7 @@ public class GameField {
             // send update
             PlacedCardUpdate update = new PlacedCardUpdate(nickname, card, x, y, way, numPlayedCards);
             for(GameFieldListener l: gameFieldListeners) {
-                try {
-                    l.receivePlacedCardUpdate(update);
-                }catch(RemoteException e) {
-                    System.out.println("exception thrown");
-                    // will be detected by PingPongManager
-                }
+                UpdateSender.receivePlacedCardUpdate(l, update);
             }
         }
 
