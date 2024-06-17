@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gc07.view.gui.gui_controllers;
 
-import it.polimi.ingsw.gc07.controller.GameState;
+import it.polimi.ingsw.gc07.model.GameState;
 import it.polimi.ingsw.gc07.model.CardType;
-import it.polimi.ingsw.gc07.controller.CommandResult;
+import it.polimi.ingsw.gc07.model.CommandResult;
 import it.polimi.ingsw.gc07.model.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;

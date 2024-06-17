@@ -4,7 +4,6 @@ import it.polimi.ingsw.gc07.controller.NicknameCheck;
 import it.polimi.ingsw.gc07.game_commands.*;
 import it.polimi.ingsw.gc07.model_view.GameView;
 import it.polimi.ingsw.gc07.network.Client;
-import it.polimi.ingsw.gc07.network.PingSender;
 import it.polimi.ingsw.gc07.network.SocketCommunication;
 import it.polimi.ingsw.gc07.updates.*;
 import it.polimi.ingsw.gc07.utils.SafePrinter;
@@ -20,7 +19,7 @@ import java.util.Scanner;
 /**
  * Class representing a client using Socket.
  */
-public class SocketClient implements Client, PingSender {
+public class SocketClient implements Client {
     /**
      * Nickname of the player associated to the SocketClient.
      */

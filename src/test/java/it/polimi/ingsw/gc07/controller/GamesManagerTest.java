@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.model.CommandResult;
+import it.polimi.ingsw.gc07.model.GameState;
 import it.polimi.ingsw.gc07.model.TokenColor;
 import it.polimi.ingsw.gc07.game_commands.JoinNewGameCommand;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;

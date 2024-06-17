@@ -10,7 +10,6 @@ import it.polimi.ingsw.gc07.network.PingPongManager;
 import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
-import it.polimi.ingsw.gc07.updates.Update;
 import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.rmi.RemoteException;

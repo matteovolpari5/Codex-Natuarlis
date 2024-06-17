@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc07.controller;
 
+import it.polimi.ingsw.gc07.model.CommandResult;
+import it.polimi.ingsw.gc07.model.GameState;
 import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 import it.polimi.ingsw.gc07.utils.DecksBuilder;

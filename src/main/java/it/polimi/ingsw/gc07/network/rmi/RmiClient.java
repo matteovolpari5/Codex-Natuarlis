@@ -18,7 +18,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Class representing a client using Rmi.
  */
-public class RmiClient extends UnicastRemoteObject implements Client, VirtualView, PingSender {
+public class RmiClient extends UnicastRemoteObject implements Client, VirtualView {
     /**
      * Nickname of the player associated to the RmiClient.
      */

@@ -3,8 +3,6 @@ package it.polimi.ingsw.gc07.network.rmi;
 import it.polimi.ingsw.gc07.controller.NicknameCheck;
 import it.polimi.ingsw.gc07.controller.GamesManager;
 import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
-import it.polimi.ingsw.gc07.network.VirtualServerGame;
-import it.polimi.ingsw.gc07.network.VirtualServerGamesManager;
 import it.polimi.ingsw.gc07.network.VirtualView;
 
 import java.rmi.RemoteException;

@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.network.rmi;
 
 import it.polimi.ingsw.gc07.controller.GameController;
 import it.polimi.ingsw.gc07.game_commands.GameControllerCommand;
-import it.polimi.ingsw.gc07.network.VirtualServerGame;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

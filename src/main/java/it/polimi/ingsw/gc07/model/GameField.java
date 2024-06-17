@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.ModelListener;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
-import it.polimi.ingsw.gc07.controller.CommandResult;
 import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.updates.PlacedCardUpdate;
 import it.polimi.ingsw.gc07.updates.StarterCardUpdate;

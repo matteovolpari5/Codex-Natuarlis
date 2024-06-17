@@ -35,4 +35,5 @@ module it.polimi.ingsw.gc07 {
     opens it.polimi.ingsw.gc07.view.gui to javafx.fxml;
     exports it.polimi.ingsw.gc07;
     opens it.polimi.ingsw.gc07 to javafx.fxml;
+    exports it.polimi.ingsw.gc07.network.rmi;
 }

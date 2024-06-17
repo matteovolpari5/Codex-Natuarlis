@@ -47,4 +47,9 @@ public interface Client {
      * Method used to run the game ui.
      */
     void runGameInterface();
+
+    /**
+     * Method used from a client to send a ping to the server.
+     */
+    void startGamePing();
 }

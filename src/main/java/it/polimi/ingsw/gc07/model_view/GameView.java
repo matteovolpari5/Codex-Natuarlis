@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model_view;
 
-import it.polimi.ingsw.gc07.controller.GameState;
+import it.polimi.ingsw.gc07.model.GameState;
 import it.polimi.ingsw.gc07.model.CardType;
 import it.polimi.ingsw.gc07.model.TokenColor;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
@@ -8,7 +8,7 @@ import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.chat.ChatMessage;
-import it.polimi.ingsw.gc07.controller.CommandResult;
+import it.polimi.ingsw.gc07.model.CommandResult;
 import it.polimi.ingsw.gc07.model_view_listeners.GameFieldViewListener;
 import it.polimi.ingsw.gc07.model_view_listeners.GameViewListener;
 import it.polimi.ingsw.gc07.model_view_listeners.PlayerViewListener;

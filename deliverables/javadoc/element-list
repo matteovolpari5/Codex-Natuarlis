@@ -1,10 +1,10 @@
 module:it.polimi.ingsw.gc07
+it.polimi.ingsw.gc07
 it.polimi.ingsw.gc07.controller
 it.polimi.ingsw.gc07.exceptions
 it.polimi.ingsw.gc07.game_commands
 it.polimi.ingsw.gc07.main
 it.polimi.ingsw.gc07.model
-it.polimi.ingsw.gc07.model_listeners
 it.polimi.ingsw.gc07.model_view
 it.polimi.ingsw.gc07.model_view_listeners
 it.polimi.ingsw.gc07.model.cards
