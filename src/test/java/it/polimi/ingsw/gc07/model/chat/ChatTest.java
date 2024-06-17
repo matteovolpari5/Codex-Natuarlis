@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model.chat;
 
-import it.polimi.ingsw.gc07.model_listeners.ChatListener;
+import it.polimi.ingsw.gc07.ModelListener;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,13 +71,13 @@ class ChatTest {
 
     @Test
     public void testListener() {
-        ChatListener listener1;
+        ModelListener listener1;
         try {
             listener1 = new RmiClient("P1", false,null);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        ChatListener listener2;
+        ModelListener listener2;
         try {
             listener2 = new RmiClient("P2", false, null);
         } catch (RemoteException e) {

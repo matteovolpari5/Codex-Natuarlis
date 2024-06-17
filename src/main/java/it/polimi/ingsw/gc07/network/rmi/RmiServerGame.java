@@ -6,8 +6,8 @@ import it.polimi.ingsw.gc07.network.VirtualServerGame;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Class representing the Rmi server of a single game.
@@ -20,7 +20,7 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
     /**
      * Queue containing commands to execute.
      */
-    private final BlockingDeque<GameControllerCommand> commandsQueue;
+    private final BlockingQueue<GameControllerCommand> commandsQueue;
 
     /**
      * Constructor of RmiServerGame.
@@ -29,7 +29,7 @@ public class RmiServerGame extends UnicastRemoteObject implements VirtualServerG
      */
     public RmiServerGame(GameController gameController) throws RemoteException {
         this.gameController = gameController;
-        this.commandsQueue = new LinkedBlockingDeque<>();
+        this.commandsQueue = new LinkedBlockingQueue<>();
         startCommandExecutor();
     }
 

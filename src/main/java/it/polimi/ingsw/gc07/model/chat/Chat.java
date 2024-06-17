@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model.chat;
 
-import it.polimi.ingsw.gc07.model_listeners.ChatListener;
+import it.polimi.ingsw.gc07.ModelListener;
 import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.updates.ChatMessageUpdate;
 
@@ -19,7 +19,7 @@ public class Chat {
     /**
      * List of chat listeners.
      */
-    private final List<ChatListener> chatListeners;
+    private final List<ModelListener> chatListeners;
 
     /**
      * Constructor method for Chat.
@@ -33,7 +33,7 @@ public class Chat {
      * Method to add a chat listener.
      * @param chatListener new chat lister
      */
-    public void addListener(ChatListener chatListener) {
+    public void addListener(ModelListener chatListener) {
         chatListeners.add(chatListener);
     }
 
@@ -41,7 +41,7 @@ public class Chat {
      * Method used to remove a listener when a player looses connection.
      * @param chatListener listener to remove
      */
-    public void removeListener(ChatListener chatListener) {
+    public void removeListener(ModelListener chatListener) {
         chatListeners.remove(chatListener);
     }
 
@@ -57,8 +57,8 @@ public class Chat {
 
         // inform listeners
         ChatMessageUpdate update = new ChatMessageUpdate(newMessage);
-        for(ChatListener l: chatListeners) {
-            UpdateSender.receiveChatMessageUpdate(l, update);
+        for(ModelListener l: chatListeners) {
+            UpdateSender.getUpdateSender().receiveUpdate(l, update);
         }
     }
 
@@ -75,8 +75,8 @@ public class Chat {
 
         // inform listeners
         ChatMessageUpdate update = new ChatMessageUpdate(newMessage);
-        for(ChatListener l: chatListeners) {
-            UpdateSender.receiveChatMessageUpdate(l, update);
+        for(ModelListener l: chatListeners) {
+            UpdateSender.getUpdateSender().receiveUpdate(l, update);
         }
     }
 

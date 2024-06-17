@@ -12,8 +12,8 @@ import javafx.application.Application;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Class representing a client using Rmi.
@@ -39,7 +39,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     /**
      * Blocking queue containing received updates.
      */
-    private final BlockingDeque<Update> updatesQueue;
+    private final BlockingQueue<Update> updatesQueue;
     /**
      * Player's local copy of the game model.
      */
@@ -84,7 +84,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
         }
         this.gameView.addViewListener(ui);
         this.pong = true;
-        this.updatesQueue = new LinkedBlockingDeque<>();
+        this.updatesQueue = new LinkedBlockingQueue<>();
         startUpdateExecutor();
     }
 
@@ -309,7 +309,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
      * Method that manages received updates by inserting them in a blocking queue.
      * @param update received update
      */
-    private void receiveUpdate(Update update) {
+    public void receiveUpdate(Update update) {
         try {
             // blocking queues are thread safe
             updatesQueue.put(update);
@@ -317,6 +317,16 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
             throw new RuntimeException();
         }
         setPong();
+    }
+
+    /**
+     * Method used to show the client existing games.
+     * @param existingGamesUpdate existing games update
+     * @throws RemoteException remote exception
+     */
+    @Override
+    public synchronized void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException {
+        receiveUpdate(existingGamesUpdate);
     }
 
     /**
@@ -334,166 +344,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                 update.execute(gameView);
             }
         }).start();
-    }
-
-    /**
-     * Method used to notify the player he has received a new chat chatMessage.
-     * @param chatMessageUpdate chat message update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) throws RemoteException {
-        receiveUpdate(chatMessageUpdate);
-    }
-
-    /**
-     * Method used to show the client his starter card.
-     * @param starterCardUpdate starter card update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) throws RemoteException {
-        receiveUpdate(starterCardUpdate);
-    }
-
-    /**
-     * Method used to notify players that a card has been placed.
-     * @param placedCardUpdate placed card update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) throws RemoteException {
-        receiveUpdate(placedCardUpdate);
-    }
-
-    /**
-     * Method used to notify a game model update.
-     * @param gameModelUpdate game model update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) throws RemoteException {
-        receiveUpdate(gameModelUpdate);
-    }
-
-    /**
-     * Method used to notify a player joined update.
-     * @param playersUpdate player joined update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receivePlayersUpdate(PlayersUpdate playersUpdate) throws RemoteException {
-        receiveUpdate(playersUpdate);
-    }
-
-    /**
-     * Method used to notify a command result update.
-     * @param commandResultUpdate command result update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) throws RemoteException {
-        receiveUpdate(commandResultUpdate);
-    }
-
-    /**
-     * Method used to send a stall update.
-     * @param stallUpdate stall update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveStallUpdate(StallUpdate stallUpdate) throws RemoteException {
-        receiveUpdate(stallUpdate);
-    }
-
-    /**
-     * Method used to send a connection update.
-     * @param connectionUpdate connection update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) throws RemoteException {
-        receiveUpdate(connectionUpdate);
-    }
-
-    /**
-     * Method used to send a card hand update.
-     * @param cardHandUpdate card hand update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) throws RemoteException {
-        receiveUpdate(cardHandUpdate);
-    }
-
-    /**
-     * Method used to show the client an updated score.
-     * @param scoreUpdate score update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveScoreUpdate(ScoreUpdate scoreUpdate) throws RemoteException {
-        receiveUpdate(scoreUpdate);
-    }
-
-    /**
-     * Method used to show the client existing games.
-     * @param existingGamesUpdate existing games update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public synchronized void receiveExistingGamesUpdate(ExistingGamesUpdate existingGamesUpdate) throws RemoteException {
-        receiveUpdate(existingGamesUpdate);
-    }
-
-    /**
-     * Method used to show the client a deck update.
-     * @param deckUpdate deck update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException {
-        receiveUpdate(deckUpdate);
-    }
-
-    /**
-     * Method used to show the client an update telling the game is ended and containing winners.
-     * @param gameEndedUpdate game ended update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveGameEndedUpdate(GameEndedUpdate gameEndedUpdate) throws RemoteException {
-        receiveUpdate(gameEndedUpdate);
-    }
-
-    /**
-     * Method used to notify the player the full content of the chat after a reconnection.
-     * @param fullChatUpdate full message update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveFullChatUpdate(FullChatUpdate fullChatUpdate) throws RemoteException {
-        receiveUpdate(fullChatUpdate);
-    }
-
-    /**
-     * Method used to notify players the full game field after a reconnection.
-     * @param fullGameFieldUpdate full game field content
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveFullGameFieldUpdate(FullGameFieldUpdate fullGameFieldUpdate) throws RemoteException {
-        receiveUpdate(fullGameFieldUpdate);
-    }
-
-    /**
-     * Method used to send a secret objectives update.
-     * @param secretObjectivesUpdate secret objectives update
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveSecretObjectivesUpdate(SecretObjectivesUpdate secretObjectivesUpdate) throws RemoteException {
-        receiveUpdate(secretObjectivesUpdate);
     }
 }
 

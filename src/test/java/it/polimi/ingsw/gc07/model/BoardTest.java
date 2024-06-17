@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.model_listeners.BoardListener;
+import it.polimi.ingsw.gc07.ModelListener;
 import it.polimi.ingsw.gc07.model_view.BoardView;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,13 +47,13 @@ class BoardTest {
     }
     @Test
     public void testListener() {
-        BoardListener listener1;
+        ModelListener listener1;
         try {
             listener1 = new RmiClient("MyPlayer", false,null);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        BoardListener listener2;
+        ModelListener listener2;
         try {
             listener2 = new RmiClient("P2", false, null);
         } catch (RemoteException e) {

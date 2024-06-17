@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.model_listeners.BoardListener;
+import it.polimi.ingsw.gc07.ModelListener;
 import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.updates.ScoreUpdate;
 
@@ -20,7 +20,7 @@ public class Board {
     /**
      * List of score track board listeners.
      */
-    private final List<BoardListener> boardListeners;
+    private final List<ModelListener> boardListeners;
 
     /**
      * Constructor method for an empty Board.
@@ -34,7 +34,7 @@ public class Board {
      * Method to add a new score track board listener.
      * @param boardListener new score track board listener
      */
-    public void addListener(BoardListener boardListener) {
+    public void addListener(ModelListener boardListener) {
         boardListeners.add(boardListener);
     }
 
@@ -42,7 +42,7 @@ public class Board {
      * Method used to remove a listener once a disconnection occurs.
      * @param boardListener listener to remove
      */
-    public void removeListener(BoardListener boardListener) {
+    public void removeListener(ModelListener boardListener) {
         boardListeners.remove(boardListener);
     }
 
@@ -77,8 +77,8 @@ public class Board {
 
         // send update
         ScoreUpdate update = new ScoreUpdate(nickname, newScore);
-        for(BoardListener l: boardListeners) {
-            UpdateSender.receiveScoreUpdate(l, update);
+        for(ModelListener l: boardListeners) {
+            UpdateSender.getUpdateSender().receiveUpdate(l, update);
         }
     }
 

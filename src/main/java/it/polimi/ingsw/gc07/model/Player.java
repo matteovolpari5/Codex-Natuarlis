@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.model_listeners.PlayerListener;
+import it.polimi.ingsw.gc07.ModelListener;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -62,7 +62,7 @@ public class Player {
     /**
      * List of player listeners.
      */
-    private final List<PlayerListener> playerListeners;
+    private final List<ModelListener> playerListeners;
 
     /**
      * Constructor of class player
@@ -87,7 +87,7 @@ public class Player {
      * Method to add a player listener.
      * @param playerListener new player listener
      */
-    public void addListener(PlayerListener playerListener) {
+    public void addListener(ModelListener playerListener) {
         playerListeners.add(playerListener);
     }
 
@@ -95,7 +95,7 @@ public class Player {
      * Method used to remove a player listener after a disconnection.
      * @param playerListener player listener to remove
      */
-    public void removeListener(PlayerListener playerListener) {
+    public void removeListener(ModelListener playerListener) {
         playerListeners.remove(playerListener);
     }
 
@@ -103,7 +103,7 @@ public class Player {
      * Getter method for playerListeners.
      * @return list of player listeners
      */
-    public List<PlayerListener> getListeners() {
+    public List<ModelListener> getListeners() {
         return this.playerListeners;
     }
 
@@ -209,8 +209,8 @@ public class Player {
 
         // send update
         StallUpdate update = new StallUpdate(nickname, isStalled);
-        for(PlayerListener l: playerListeners) {
-            UpdateSender.receiveStallUpdate(l, update);
+        for(ModelListener l: playerListeners) {
+            UpdateSender.getUpdateSender().receiveUpdate(l, update);
         }
     }
 
@@ -231,8 +231,8 @@ public class Player {
 
         // send update
         ConnectionUpdate update = new ConnectionUpdate(nickname, isConnected);
-        for(PlayerListener l: playerListeners) {
-            UpdateSender.receiveConnectionUpdate(l, update);
+        for(ModelListener l: playerListeners) {
+            UpdateSender.getUpdateSender().receiveUpdate(l, update);
         }
     }
 
@@ -269,8 +269,8 @@ public class Player {
      */
     private void sendCardHandUpdate() {
         CardHandUpdate update = new CardHandUpdate(nickname, new ArrayList<>(currentHand), new ArrayList<>(secretObjectives));
-        for(PlayerListener l: playerListeners) {
-            UpdateSender.receiveCardHandUpdate(l, update);
+        for(ModelListener l: playerListeners) {
+            UpdateSender.getUpdateSender().receiveUpdate(l, update);
         }
     }
 
@@ -283,8 +283,8 @@ public class Player {
 
         // send update
         SecretObjectivesUpdate update = new SecretObjectivesUpdate(nickname, new ArrayList<>(secretObjectives));
-        for(PlayerListener l: playerListeners) {
-            UpdateSender.receiveSecretObjectiveUpdate(l, update);
+        for(ModelListener l: playerListeners) {
+            UpdateSender.getUpdateSender().receiveUpdate(l, update);
         }
     }
 

@@ -199,7 +199,7 @@ public class SocketClientHandler implements VirtualView {
      * @param update update to be sent
      * @throws RemoteException remote exception
      */
-    private synchronized void receiveUpdate(Update update) throws RemoteException{
+    public synchronized void receiveUpdate(Update update) throws RemoteException{
         if(!mySocket.isClosed()){
             try {
                 output.writeObject(update);
@@ -232,116 +232,6 @@ public class SocketClientHandler implements VirtualView {
             }
         }
         this.gameController = gamesManager.getGameById(gameId);
-    }
-
-    /**
-     * Method used to send an update to notify the player he has received a new chat chatMessage.
-     * @param chatMessageUpdate chat message update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveChatMessageUpdate(ChatMessageUpdate chatMessageUpdate) throws RemoteException {
-        receiveUpdate(chatMessageUpdate);
-    }
-
-    /**
-     * Method used to send to the client a deck update.
-     * @param deckUpdate deck update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveDeckUpdate(DeckUpdate deckUpdate) throws RemoteException {
-        receiveUpdate(deckUpdate);
-    }
-
-    /**
-     * Method used to send to the client his starter card.
-     * @param starterCardUpdate starter card update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveStarterCardUpdate(StarterCardUpdate starterCardUpdate) throws RemoteException {
-        receiveUpdate(starterCardUpdate);
-    }
-
-    /**
-     * Method used to notify the player that a card has been placed.
-     * @param placedCardUpdate placed card update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receivePlacedCardUpdate(PlacedCardUpdate placedCardUpdate) throws RemoteException {
-        receiveUpdate(placedCardUpdate);
-    }
-
-    /**
-     * Method used to send a game model update.
-     * @param gameModelUpdate game model update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveGameModelUpdate(GameModelUpdate gameModelUpdate) throws RemoteException {
-        receiveUpdate(gameModelUpdate);
-    }
-
-    /**
-     * Method used to send a player joined update.
-     * @param playerJoinedUpate player joined update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receivePlayersUpdate(PlayersUpdate playerJoinedUpate) throws RemoteException {
-        receiveUpdate(playerJoinedUpate);
-    }
-
-    /**
-     * Method used to send a command result update.
-     * @param commandResultUpdate command result update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveCommandResultUpdate(CommandResultUpdate commandResultUpdate) throws RemoteException {
-        receiveUpdate(commandResultUpdate);
-    }
-
-    /**
-     * Method used to send a stall update.
-     * @param stallUpdate stall update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveStallUpdate(StallUpdate stallUpdate) throws RemoteException {
-        receiveUpdate(stallUpdate);
-    }
-
-    /**
-     * Method used to send a connection update.
-     * @param connectionUpdate connection update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveConnectionUpdate(ConnectionUpdate connectionUpdate) throws RemoteException {
-        receiveUpdate(connectionUpdate);
-    }
-
-    /**
-     * Method used to send a card hand update.
-     * @param cardHandUpdate card hand update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveCardHandUpdate(CardHandUpdate cardHandUpdate) throws RemoteException {
-        receiveUpdate(cardHandUpdate);
-    }
-
-    /**
-     * Method used to send to the client an updated score.
-     * @param scoreUpdate score update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveScoreUpdate(ScoreUpdate scoreUpdate) throws RemoteException {
-        receiveUpdate(scoreUpdate);
     }
 
     /**
@@ -379,51 +269,11 @@ public class SocketClientHandler implements VirtualView {
     }
 
     /**
-     * Method used to send to the client an update telling the game is ended and containing winners.
-     * @param gameEndedUpdate game ended update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveGameEndedUpdate(GameEndedUpdate gameEndedUpdate) throws RemoteException {
-        receiveUpdate(gameEndedUpdate);
-    }
-
-    /**
      * Method used to send a pong to the client.
      * @throws RemoteException remote exception
      */
     @Override
     public void sendPong() throws RemoteException {
         receiveUpdate(new PongUpdate());
-    }
-
-    /**
-     * Method used to send to the player the full content of the chat after a reconnection.
-     * @param fullChatUpdate full message update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveFullChatUpdate(FullChatUpdate fullChatUpdate) throws RemoteException {
-        receiveUpdate(fullChatUpdate);
-    }
-
-    /**
-     * Method used to send to the player the full game field after a reconnection.
-     * @param fullGameFieldUpdate full game field content to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveFullGameFieldUpdate(FullGameFieldUpdate fullGameFieldUpdate) throws RemoteException {
-        receiveUpdate(fullGameFieldUpdate);
-    }
-
-    /**
-     * Method used to send a secret objectives update.
-     * @param secretObjectivesUpdate secret objectives update to be sent
-     * @throws RemoteException remote exception
-     */
-    @Override
-    public void receiveSecretObjectivesUpdate(SecretObjectivesUpdate secretObjectivesUpdate) throws RemoteException {
-        receiveUpdate(secretObjectivesUpdate);
     }
 }

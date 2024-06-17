@@ -11,8 +11,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Class representing the Rmi server of the lobby.
@@ -29,7 +29,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
     /**
      * Queue containing commands to execute.
      */
-    private final BlockingDeque<GamesManagerCommand> commandsQueue;
+    private final BlockingQueue<GamesManagerCommand> commandsQueue;
 
     /**
      * Constructor of class RmiServerGamesManager.
@@ -37,7 +37,7 @@ public class RmiServerGamesManager extends UnicastRemoteObject implements Virtua
      */
     private RmiServerGamesManager() throws RemoteException {
         this.rmiServerGames = new HashMap<>();
-        this.commandsQueue = new LinkedBlockingDeque<>();
+        this.commandsQueue = new LinkedBlockingQueue<>();
         startCommandExecutor();
     }
 

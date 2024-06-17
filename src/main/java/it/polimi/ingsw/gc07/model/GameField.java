@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.model;
 
-import it.polimi.ingsw.gc07.model_listeners.GameFieldListener;
+import it.polimi.ingsw.gc07.ModelListener;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.controller.CommandResult;
 import it.polimi.ingsw.gc07.network.UpdateSender;
@@ -52,7 +52,7 @@ public class GameField {
     /**
      * List of game field listeners.
      */
-    private final List<GameFieldListener> gameFieldListeners;
+    private final List<ModelListener> gameFieldListeners;
 
     /**
      * Constructor of the game field: builds an empty game field.
@@ -112,7 +112,7 @@ public class GameField {
      * Method to add a game field listener.
      * @param gameFieldListener new game field listener
      */
-    public void addListener(GameFieldListener gameFieldListener) {
+    public void addListener(ModelListener gameFieldListener) {
         gameFieldListeners.add(gameFieldListener);
     }
 
@@ -120,7 +120,7 @@ public class GameField {
      * Method used to remove a game field listener when a player looses connection.
      * @param gameFieldListener listener to remove
      */
-    public void removeListener(GameFieldListener gameFieldListener) {
+    public void removeListener(ModelListener gameFieldListener) {
         gameFieldListeners.remove(gameFieldListener);
     }
 
@@ -128,7 +128,7 @@ public class GameField {
      * Getter method for playerListeners.
      * @return list of player listeners
      */
-    public List<GameFieldListener> getListeners() {
+    public List<ModelListener> getListeners() {
         return this.gameFieldListeners;
     }
 
@@ -148,8 +148,8 @@ public class GameField {
 
         // send update
         StarterCardUpdate update = new StarterCardUpdate(nickname, starterCard);
-        for(GameFieldListener l: gameFieldListeners) {
-            UpdateSender.receiveStarterCardUpdate(l, update);
+        for(ModelListener l: gameFieldListeners) {
+            UpdateSender.getUpdateSender().receiveUpdate(l, update);
         }
     }
 
@@ -180,8 +180,8 @@ public class GameField {
 
             // send update
             PlacedCardUpdate update = new PlacedCardUpdate(nickname, card, x, y, way, numPlayedCards);
-            for(GameFieldListener l: gameFieldListeners) {
-                UpdateSender.receivePlacedCardUpdate(l, update);
+            for(ModelListener l: gameFieldListeners) {
+                UpdateSender.getUpdateSender().receiveUpdate(l, update);
             }
         }
 

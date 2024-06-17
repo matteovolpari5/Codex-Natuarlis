@@ -1,12 +1,12 @@
 package it.polimi.ingsw.gc07.model;
 
+import it.polimi.ingsw.gc07.ModelListener;
 import it.polimi.ingsw.gc07.utils.DecksBuilder;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
 import it.polimi.ingsw.gc07.model.decks.Deck;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
-import it.polimi.ingsw.gc07.model_listeners.GameFieldListener;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -175,7 +175,7 @@ class GameFieldTest {
     }
     @Test
     public void testListener() {
-        GameFieldListener listener1;
+        ModelListener listener1;
         try {
             listener1 = new RmiClient("P1", false,null);
         } catch (RemoteException e) {

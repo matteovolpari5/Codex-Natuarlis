@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc07.network;
 
-import it.polimi.ingsw.gc07.model_listeners.*;
+import it.polimi.ingsw.gc07.ModelListener;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
 
 import java.rmi.Remote;
@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 /**
  * Interface representing the virtual client.
  */
-public interface VirtualView extends Remote, ChatListener, GameFieldListener, GameListener, PlayerListener, BoardListener {
+public interface VirtualView extends Remote, ModelListener {
     /**
      * Method to the set the game server and controller.
      * @param gameId game id
