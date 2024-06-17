@@ -265,7 +265,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
     @Override
     public void sendPong() throws RemoteException {
         setPong();
-        System.out.println("pong received");
     }
 
     /**
