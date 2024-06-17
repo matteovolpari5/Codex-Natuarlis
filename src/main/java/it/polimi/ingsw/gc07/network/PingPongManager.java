@@ -140,8 +140,6 @@ public class PingPongManager {
      */
     private void sendPong(String nickname, VirtualView virtualView) {
         while (true){
-            // TODO send pong si blocca qua, se il controller è bloccato,
-            // il client non riceve ping e cade la connessione
             if(!gameController.isPlayerConnected(nickname)) {
                 break;
             }

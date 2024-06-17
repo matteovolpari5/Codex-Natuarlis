@@ -96,18 +96,10 @@ public class UpdateSender {
                 // wait for an update for 60 seconds
                 // else return null
                 update = updatesQueue.poll(60, TimeUnit.SECONDS);
-
-                System.out.println(update.getClass());
-
-
             }catch(InterruptedException e) {
                 throw new RuntimeException();
             }
             if(update != null) {
-
-                System.out.println("sending an update");
-
-
                 try {
                     listener.receiveUpdate(update);
                 } catch (RemoteException e) {

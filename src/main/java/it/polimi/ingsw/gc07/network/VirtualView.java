@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc07.network;
 
 import it.polimi.ingsw.gc07.ModelListener;
 import it.polimi.ingsw.gc07.updates.ExistingGamesUpdate;
-import it.polimi.ingsw.gc07.updates.Update;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
