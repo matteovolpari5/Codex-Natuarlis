@@ -15,15 +15,6 @@ public class ServerMain {
      * Main method of the server
      */
     public static void main(String[] args) {
-
-        System.setProperty("sun.rmi.transport.tcp.responseTimeout", "1000");
-        System.setProperty("sun.rmi.transport.tcp.readTimeout", "1000");
-        System.setProperty("sun.rmi.dgc.ackTimeout", "1000");
-        System.setProperty("sun.rmi.transport.connectionTimeout", "1000");
-        System.setProperty("java.rmi.server.disableHttp", "true");
-        System.setProperty("java.rmi.dgc.leaseValue", "1000");
-        System.setProperty("sun.rmi.dgc.checkInterval", "500");
-
         // create Rmi server
         String name = "VirtualServerGamesManager";
         RmiServerGamesManager serverGamesManager = RmiServerGamesManager.getRmiServerGamesManager();
