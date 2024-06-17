@@ -7,8 +7,10 @@ import it.polimi.ingsw.gc07.model.decks.*;
 import it.polimi.ingsw.gc07.model.CardType;
 import it.polimi.ingsw.gc07.model.TokenColor;
 import it.polimi.ingsw.gc07.network.PingPongManager;
+import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.network.rmi.RmiServerGamesManager;
+import it.polimi.ingsw.gc07.updates.Update;
 import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.rmi.RemoteException;
@@ -243,6 +245,7 @@ public class GameController {
         assert(gameModel.getState().equals(GameState.GAME_STARTING)): "Wrong state";
         assert(!gameModel.getPlayerNicknames().contains(newPlayer.getNickname())): "Player already present";
 
+        UpdateSender.getUpdateSender().addListenerQueue(client);
         gameModel.addPlayer(newPlayer);
         gameModel.addListener(client);
         gameModel.setUpPlayerHand(newPlayer);
@@ -283,6 +286,7 @@ public class GameController {
         VirtualView virtualView = pingPongManager.getVirtualView(nickname);
 
         gameModel.removeListener(virtualView);
+        UpdateSender.getUpdateSender().removeListenerQueue(virtualView);
 
         // set player disconnected
         player.setIsConnected(false);
@@ -338,6 +342,9 @@ public class GameController {
         player = getPlayerByNickname(nickname);
         assert(player != null);
         assert(!player.isConnected()): "Player already connected";
+
+        UpdateSender.getUpdateSender().addListenerQueue(client);
+
         player.setConnectionType(connectionType);
         player.setInterfaceType(interfaceType);
         try {

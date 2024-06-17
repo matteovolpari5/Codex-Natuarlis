@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model.chat;
 
 import it.polimi.ingsw.gc07.ModelListener;
+import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.network.rmi.RmiClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -83,6 +84,8 @@ class ChatTest {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
+        UpdateSender.getUpdateSender().addListenerQueue(listener1);
+        UpdateSender.getUpdateSender().addListenerQueue(listener2);
         chat.addListener(listener1);
         chat.addListener(listener2);
         chat.addPublicMessage("content", "Player1");

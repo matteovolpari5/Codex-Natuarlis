@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc07.model;
 
 import it.polimi.ingsw.gc07.ModelListener;
+import it.polimi.ingsw.gc07.network.UpdateSender;
 import it.polimi.ingsw.gc07.utils.DecksBuilder;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
@@ -102,6 +103,7 @@ class PlayerTest {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
+        UpdateSender.getUpdateSender().addListenerQueue(listener1);
         player.addListener(listener1);
         assertNotNull(player.getListeners());
         DrawableDeck<DrawableCard> resourceCardsDeck = DecksBuilder.buildResourceCardsDeck();

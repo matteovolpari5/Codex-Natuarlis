@@ -98,6 +98,11 @@ public class UpdateSender {
         }
     }
 
+    /**
+     * Method used to add an update to a listener's queue.
+     * @param listener listener
+     * @param update update
+     */
     public synchronized void receiveUpdate(ModelListener listener, Update update) {
         assert(listener != null && update != null && listenerQueues.containsKey(listener));
         try {
