@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc07.network;
 
 import it.polimi.ingsw.gc07.controller.GameController;
-import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -47,11 +46,10 @@ public class PingPongManager {
      * @param virtualView ping sender's virtual view
      */
     public synchronized void addPingSender(String nickname, VirtualView virtualView) {
-        System.out.println("Adding player: " + nickname);
         this.playersPing.put(nickname, true);
         this.playerVirtualViews.put(nickname, virtualView);
-        new Thread(() -> {checkPing(nickname); SafePrinter.println("Thread checkPing Morto Per: " + nickname);}).start();
-        new Thread(() -> {sendPong(nickname, virtualView); SafePrinter.println("Thread sendPong Morto Per: " + nickname);}).start();
+        new Thread(() -> checkPing(nickname)).start();
+        new Thread(() -> sendPong(nickname, virtualView)).start();
     }
 
     /**
@@ -103,9 +101,7 @@ public class PingPongManager {
                     missedPing = 0;
                 }else {
                     missedPing ++;
-                    System.out.println("missed ping for " + nickname);
                     if(missedPing >= maxMissedPings) {
-                        System.out.println("disconnecting " + nickname + " for check ping");
                         // disconnect player
                         gameController.disconnectPlayer(nickname);
 
@@ -148,7 +144,6 @@ public class PingPongManager {
                 virtualView.sendPong();
             }catch(RemoteException e) {
                 if(virtualView.equals(getVirtualView(nickname))) {
-                    System.out.println("disconnecting " + nickname + " for send pong");
                     // if the client has not reconnected
                     gameController.disconnectPlayer(nickname);
                 }

@@ -247,7 +247,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, VirtualVie
                 serverGame.setAndExecuteCommand(new SendPingCommand(nickname));
             }catch(RemoteException e) {
                 // connection failed
-                SafePrinter.println("Connection failed.");
+                SafePrinter.println("\nConnection failed.\n");
                 setClientAlive(false);  // setter is synchronized
             }
             try {

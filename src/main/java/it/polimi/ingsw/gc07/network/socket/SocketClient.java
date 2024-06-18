@@ -39,7 +39,7 @@ public class SocketClient implements Client {
     /**
      * Abstraction of the server used in communication.
      */
-    private VirtualSocketServer myServer;
+    private final VirtualSocketServer myServer;
     /**
      * Boolean that is true if the client connection is functioning.
      */
@@ -260,11 +260,11 @@ public class SocketClient implements Client {
                     myServer.closeConnection();
                     mySocket.close();
                 }catch (IOException e){
-                    e.printStackTrace(); //TODO da togliere prima della consegna
-                    //throw new RuntimeException();
+                    // error closing connection
+                    // the client will be killed anyway
                 }
             }
-            SafePrinter.println("you lost the connection");
+            SafePrinter.println("Connection failed.");
             this.clientAlive = false;
 
             // stop the Ui

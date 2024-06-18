@@ -10,6 +10,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class used by the model to send updates to clients on separate threads.
+ * Every client has its own updates queue and thread in order not to block the model in case of disconnection.
+ */
 public class UpdateSender {
     /**
      * UpdateSender singleton instance.
@@ -31,6 +35,8 @@ public class UpdateSender {
      * Getter method for UpdateSender singleton instance.
      * @return UpdateSender instance
      */
+    // no need to make it synchronized, because it is created by GamesManager
+    // before any model thread can use this method
     public static UpdateSender getUpdateSender() {
         if(updateSender == null) {
             updateSender = new UpdateSender();
@@ -44,8 +50,6 @@ public class UpdateSender {
      */
     public synchronized void addListenerQueue(ModelListener listener) {
         assert(listener != null && !listenerQueues.containsKey(listener));
-
-        System.out.println("Added listener to map");
 
         // create queue
         listenerQueues.put(listener, new LinkedBlockingQueue<>());
@@ -81,9 +85,6 @@ public class UpdateSender {
      * @param listener client owner of the queue
      */
     private void sendListenerUpdates(ModelListener listener) {
-
-        System.out.println("starter update sender thread");
-
         while(true) {
             // get client's update queue
             BlockingQueue<Update> updatesQueue = getUpdatesQueue(listener);
@@ -103,7 +104,6 @@ public class UpdateSender {
                 try {
                     listener.receiveUpdate(update);
                 } catch (RemoteException e) {
-                    System.out.println("exception");
                     // will be detected by PingPongManager
                 }
             }

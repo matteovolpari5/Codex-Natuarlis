@@ -40,8 +40,8 @@ public class ServerMain {
             SafePrinter.println("Unable to start the main server: unavailable port");
             throw new RuntimeException();
         }
-        SafePrinter.println("Main Socket server ready");
-        SocketServer socketServer= SocketServer.getSocketServer();
+        SafePrinter.println("Socket Server running");
+        SocketServer socketServer = SocketServer.getSocketServer();
         socketServer.initializeSocketServer(sc);
         socketServer.runServer();
     }

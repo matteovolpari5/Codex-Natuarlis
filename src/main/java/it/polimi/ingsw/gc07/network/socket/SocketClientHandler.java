@@ -8,7 +8,6 @@ import it.polimi.ingsw.gc07.model.CommandResult;
 import it.polimi.ingsw.gc07.network.SocketCommunication;
 import it.polimi.ingsw.gc07.network.VirtualView;
 import it.polimi.ingsw.gc07.updates.*;
-import it.polimi.ingsw.gc07.utils.SafePrinter;
 
 import java.io.*;
 import java.net.Socket;
@@ -86,7 +85,6 @@ public class SocketClientHandler implements VirtualView {
             if(check.equals(NicknameCheck.NEW_NICKNAME)){
                 isReconnected = false;
                 GamesManager.getGamesManager().addVirtualView(myClientNickname, this);
-                SafePrinter.println("New client connected");
                 manageGamesManagerCommand();
             }else{
                 isReconnected = true;
@@ -188,8 +186,7 @@ public class SocketClientHandler implements VirtualView {
                 output.close();
                 mySocket.close();
             }catch (IOException e){
-                e.printStackTrace();
-                //throw new RuntimeException();
+                // don't stop the whole server
             }
         }
     }

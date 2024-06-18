@@ -581,8 +581,6 @@ public class GameModel {
 
         // update listeners
         sendPlayersUpdate();
-
-        SafePrinter.println("Number of listeners: " + gameListeners.size());
     }
 
     /**
@@ -649,8 +647,6 @@ public class GameModel {
             p.removeListener(client);
             p.getGameField().removeListener(client);
         }
-
-        SafePrinter.println("Number of listeners: " + gameListeners.size());
     }
 
     /**

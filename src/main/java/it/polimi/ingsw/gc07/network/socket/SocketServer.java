@@ -48,15 +48,14 @@ public class SocketServer {
      * Method used to accept new connections
      */
     public void runServer() {
-        SafePrinter.println("Socket server running");
         Socket clientSocket;
         while(true){
             try {
                 clientSocket = this.mySocket.accept();
-                SafePrinter.println("Received client socket connection");
+                System.err.println("New Socket client connected");
                 new SocketClientHandler(clientSocket);
             } catch (IOException e) {
-                SafePrinter.println("An error occured while creating the connection with a client");
+                SafePrinter.println("An error occurred while creating the connection with a client");
             }
         }
     }

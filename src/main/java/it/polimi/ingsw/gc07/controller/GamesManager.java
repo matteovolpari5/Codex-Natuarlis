@@ -561,7 +561,7 @@ public class GamesManager {
         pendingPlayers.remove(player);
         playerVirtualViews.remove(nickname);
         playersTimers.remove(nickname);
-        SafePrinter.println("Player removed from pending.");
+        SafePrinter.println("Player removed from pending");
     }
 }
 
