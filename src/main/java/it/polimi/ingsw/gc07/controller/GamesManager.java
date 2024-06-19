@@ -9,7 +9,6 @@ import it.polimi.ingsw.gc07.game_commands.GamesManagerCommand;
 import it.polimi.ingsw.gc07.model.cards.DrawableCard;
 import it.polimi.ingsw.gc07.model.cards.GoldCard;
 import it.polimi.ingsw.gc07.model.decks.DrawableDeck;
-import it.polimi.ingsw.gc07.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.gc07.model.Player;
 import it.polimi.ingsw.gc07.model.cards.ObjectiveCard;
 import it.polimi.ingsw.gc07.model.cards.PlaceableCard;
@@ -383,9 +382,8 @@ public class GamesManager {
         assert(playerVirtualView != null);
         // create game controller
         int gameId;
-        try {
-            gameId = createGame(playersNumber);
-        }catch(WrongNumberOfPlayersException e) {
+        gameId = createGame(playersNumber);
+        if(gameId == -1){
             commandResult = CommandResult.WRONG_PLAYERS_NUMBER;
             try {
                 playerVirtualView.notifyJoinNotSuccessful();
@@ -439,10 +437,11 @@ public class GamesManager {
      * Method that creates a new GameController and adds it to the list gameControllers.
      * @param playersNumber number of player of the new game, decided by the first player to join.
      */
-    private int createGame(int playersNumber) throws WrongNumberOfPlayersException {
+    private int createGame(int playersNumber) {
         // check players number
         if(playersNumber < 2 || playersNumber > 4){
-            throw new WrongNumberOfPlayersException();
+            // wrong number of players
+            return -1;
         }
 
         // find first free id
