@@ -8,18 +8,18 @@ Members:
 * Tommaso Uberti Foppa
 
 ## Implemented features
-| Feature                        | Implemented |
-|--------------------------------|-------------|
-| Regole semplificate            | ✅           |
-| Regole complete                | ✅           |
-| Socket                         | ✅           |
-| RMI                            | ✅           |
-| TUI                            | ✅           |
-| GUI                            | ✅           |
-| Partite Multiple               | ✅           |
-| Persistenza                    | ❌           | 
-| Resilienza alle disconnessioni | ✅           |
-| Chat                           | ✅           |
+| Feature                      | Implemented |
+|------------------------------|-------------|
+| Simplified rules             | ✅           |
+| Complete rules               | ✅           |
+| Socket                       | ✅           |
+| RMI                          | ✅           |
+| TUI                          | ✅           |
+| GUI                          | ✅           |
+| Multiple games               | ✅           |
+| Persistence                  | ❌           | 
+| Resilience to disconnections | ✅           |
+| Chat                         | ✅           |
 
 ## How to install and run the project
 In the deliverables folder, you can find two jar files:
