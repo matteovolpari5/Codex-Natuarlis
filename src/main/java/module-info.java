@@ -16,7 +16,6 @@ module it.polimi.ingsw.gc07 {
     opens it.polimi.ingsw.gc07.model.conditions to javafx.fxml;
     exports it.polimi.ingsw.gc07.model.chat;
     opens it.polimi.ingsw.gc07.model.chat to javafx.fxml;
-    exports it.polimi.ingsw.gc07.exceptions;
     exports it.polimi.ingsw.gc07.controller;
     opens it.polimi.ingsw.gc07.controller to javafx.fxml;
     opens it.polimi.ingsw.gc07.network.rmi to java.rmi;
