@@ -1,7 +1,5 @@
 # Codex Naturalis
 
-<img src="https://github.com/kevinziroldi/ing-sw-2024-ziroldi-volpari-villa-uberti_foppa/blob/main/deliverables/codex_naturalis_image.jpg">
-
 ## Software Engineering Project - Politecnico di Milano
 Members:
 * Kevin Ziroldi
