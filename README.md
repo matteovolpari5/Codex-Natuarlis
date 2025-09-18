@@ -10,8 +10,8 @@ Members:
 ## Description
 Final project created for the Software Engineering course at Politecnico di Milano.
 The project represents a distributed version of the game Codex Naturalis, by Cranio Creations.  
-Project requirements can be found [here](https://github.com/kevinziroldi/ing-sw-2024-ziroldi-volpari-villa-uberti_foppa/blob/main/deliverables/requirements.pdf).  
-The rulebook can be found [here](https://github.com/kevinziroldi/ing-sw-2024-ziroldi-volpari-villa-uberti_foppa/blob/main/deliverables/codex_naturalis_rulebook.pdf).  
+Project requirements can be found [here](https://github.com/matteovolpari5/Codex-Naturalis/blob/main/deliverables/requirements.pdf).  
+The rulebook can be found [here](https://github.com/matteovolpari5/Codex-Naturalis/blob/main/deliverables/codex_naturalis_rulebook.pdf).  
 The official website can be found [here](https://www.craniocreations.it/prodotto/codex-naturalis).
 
 ## Implemented features
